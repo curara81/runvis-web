@@ -21,7 +21,7 @@
   body{
     background:var(--bg); color:var(--text);
     font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
-    line-height:1.65; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+    line-height:1.65; -webkit-font-smoothing:antialiased; overflow-x:clip;
   }
   a{color:inherit;text-decoration:none}
   .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
@@ -38,7 +38,7 @@
   .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line);box-shadow:none}
   .btn.ghost:hover{border-color:var(--green);box-shadow:none}
   .eyebrow{color:var(--green);font-weight:700;font-size:14px;letter-spacing:1.5px;text-transform:uppercase}
-  section{padding:88px 0;border-top:1px solid var(--line)}
+  section{padding:88px 0;border-top:1px solid var(--line);scroll-margin-top:72px}
   h2{font-size:clamp(28px,4.5vw,42px);font-weight:800;letter-spacing:-.02em;line-height:1.2}
   .sub{color:var(--dim);font-size:18px;margin-top:14px;max-width:640px}
   .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
@@ -553,6 +553,19 @@ document.querySelectorAll('.vchip').forEach(c=>c.addEventListener('click',()=>{
   u.onend=()=>c.classList.remove('playing');
   speechSynthesis.speak(u);
 }));
+
+// --- in-page anchor navigation (robust: scrolls the real scroll container) ---
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const id=a.getAttribute('href');
+    if(!id||id.length<2){e.preventDefault();return;}   // footer placeholders "#": no jump
+    const el=document.querySelector(id);
+    if(!el)return;
+    e.preventDefault();
+    el.scrollIntoView({behavior:'smooth',block:'start'});
+    history.pushState(null,'',id);
+  });
+});
 
 // --- inject real app SVG screens ---
 document.getElementById('shotPace') && (document.getElementById('shotPace').innerHTML = '<svg viewBox="0 0 330 400" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Helvetica,Arial,sans-serif"><defs><linearGradient id="pbz" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a3a3d"/><stop offset=".5" stop-color="#1c1c1e"/><stop offset="1" stop-color="#2c2c2e"/></linearGradient><linearGradient id="ppb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a3d2e"/><stop offset="1" stop-color="#000"/></linearGradient></defs><rect x="8" y="8" width="314" height="384" rx="60" fill="url(#pbz)"/><rect x="18" y="18" width="294" height="364" rx="52" fill="url(#ppb)"/><text x="165" y="86" fill="#a7d8c4" font-size="15" font-weight="600" letter-spacing="1.2" text-anchor="middle">현재 페이스</text><text x="165" y="210" fill="#3DDC84" font-size="104" font-weight="800" text-anchor="middle" style="font-variant-numeric:tabular-nums">5:24</text><line x1="70" y1="248" x2="260" y2="248" stroke="#fff" stroke-opacity=".12" stroke-width="1.5"/><text x="165" y="292" fill="#8a8a8e" font-size="17" text-anchor="middle">평균 <tspan fill="#fff" font-size="30" font-weight="700">5:25</tspan> /km</text><text x="165" y="340" fill="#8a8a8e" font-size="15" text-anchor="middle">거리 <tspan fill="#fff" font-size="24" font-weight="700">4.82</tspan> km</text></svg>');
