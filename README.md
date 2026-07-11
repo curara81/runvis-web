@@ -26,3 +26,9 @@ python3 -m http.server 8000
 - [ ] /privacy · /terms 서브 페이지
 - [ ] 실기기 스크린샷으로 SVG 목업 교체
 - [ ] App Store 버튼 (출시 후)
+
+## 실사/영상 에셋 슬롯 (저작권 프리 채우기)
+지금은 CSS 시네마틱 배경 + SVG 목업으로 채워둠. 나중에 교체할 자리:
+- **히어로 배경**: `.hero-bg` div → 저작권 프리 러닝 영상(Pexels·Coverr·Mixkit, 상업적 무료·출처표기 불필요) mp4를 다운받아 `hero.mp4`로 넣고 `<video>` 배경으로. 또는 3D 워치 렌더 영상.
+- **워치 3-up / iPhone 프레임**: 현재 SVG → 실기기 스크린샷 PNG로 교체 가능(프레임 CSS는 그대로).
+- 저작권 프리 영상 소스: pexels.com/videos, coverr.co, mixkit.co (전부 상업적 무료). 핫링크 말고 다운로드해서 저장소에 두는 게 안정적.
