@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Runvis — 달리는 순간, 필요한 말만 해주는 러닝 코치</title>
+<title>Runvis — 달리는 순간, 나와 함께하는 러닝 코치</title>
 <meta name="description" content="Apple Watch에서 페이스, 심박, 오르막을 읽고 지금 당장 필요한 안내만 전하는 러닝 코치. 계정도 서버도 없이, 모든 분석은 기기 안에서.">
 <meta property="og:title" content="Runvis — Apple Watch 러닝 코치">
-<meta property="og:description" content="달리는 순간, 필요한 말만 해주는 러닝 코치.">
+<meta property="og:description" content="준비운동부터 결승선까지 함께하는 Apple Watch 러닝 코치.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏃</text></svg>">
 <style>
@@ -181,15 +181,30 @@
 <header class="hero">
   <div class="wrap">
     <div class="eyebrow reveal">Apple Watch 러닝 코치</div>
-    <h1 class="reveal">달리는 순간,<br><span class="grad-text">필요한 말만</span> 해주는 러닝 코치</h1>
-    <p class="sub reveal">Apple Watch에서 페이스, 심박, 오르막을 읽고 지금 당장 필요한 안내만 전합니다.<br>수다스럽지 않게, 정확한 순간에.</p>
+    <h1 class="reveal">달리는 순간,<br><span class="grad-text">나와 함께하는</span> 러닝 코치 Runvis</h1>
+    <p class="sub reveal">준비운동부터 결승선까지. Apple Watch에서 날씨·페이스·심박·언덕을 읽고,<br>옆에서 코치가 함께 뛰는 것처럼 안내합니다.</p>
     <div class="cta reveal">
       <a href="#beta" class="btn">TestFlight 베타 신청</a>
       <a href="#how" class="btn ghost">작동 방식 보기</a>
     </div>
     <p class="note reveal">계정 없음 · 서버 없음 · 신발 신고 3초면 시작</p>
 
-    <!-- 워치 목업 + 타이핑 자막 (히어로 영상 자리 — 지금은 라이브 목업) -->
+    <!-- ============================================================
+         히어로 영상 자리 — Apple Watch 3D 렌더링(AI 제작) 영상을 넣을 곳.
+         영상이 준비되면 아래 <div class="stage"> 통째로 다음으로 교체:
+
+           <div class="stage reveal">
+             <video class="watch" autoplay muted loop playsinline
+                    poster="hero-poster.jpg" style="border-radius:52px">
+               <source src="hero.webm" type="video/webm">
+               <source src="hero.mp4"  type="video/mp4">
+             </video>
+             <div class="caption"><span class="mic">🔊</span><span class="txt" id="heroCaption"></span></div>
+           </div>
+
+         (자막 타이핑 루프는 그대로 유지 — heroCaption id만 남기면 됨.)
+         지금은 라이브 SVG 워치 목업으로 대체 중.
+    ============================================================= -->
     <div class="stage reveal">
       <svg class="watch" viewBox="0 0 330 400" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Helvetica,Arial,sans-serif">
         <defs>
@@ -231,12 +246,17 @@
 <!-- FEATURES: 상황 중심 -->
 <section id="features">
   <div class="wrap">
-    <div class="eyebrow reveal">상황별 코칭</div>
-    <h2 class="reveal">러너가 실제로 겪는 순간들</h2>
+    <div class="eyebrow reveal">Runvis가 특별한 이유</div>
+    <h2 class="reveal">준비운동부터 결승선까지, 함께</h2>
     <div class="cards">
-      <div class="card reveal"><div class="ic">⛰️</div><h3>오르막 진입 전</h3><p>GPX 코스를 미리 읽고, 언덕이 시작되기 전에 페이스 조절을 안내합니다. "300m 앞, 1.2km 오르막, 평균 4%."</p></div>
-      <div class="card reveal"><div class="ic">📉</div><h3>페이스가 떨어질 때</h3><p>케이던스와 지면접촉이 무너지는 신호를 포착해, 왜 보폭을 줄여야 하는지까지 설명합니다.</p></div>
-      <div class="card reveal"><div class="ic">🏁</div><h3>장거리 레이스</h3><p>같은 페이스에서 심박이 오르는 드리프트를 감지해 후반 체력 안배를 돕습니다.</p></div>
+      <div class="card reveal"><div class="ic">🌤️</div><h3>준비운동부터 함께하는 코치</h3><p>"운동 시작"을 누르면 그날의 <b>기온·습도를 음성으로 브리핑</b>하고, 날씨에 맞춰 준비운동을 시켜줍니다. 추운 날엔 더 길게, 습한 날엔 수분 조언까지 — 밖에 나와 코치와 함께 몸을 풉니다.</p></div>
+      <div class="card reveal"><div class="ic">🏃</div><h3>자동으로 러닝을 인식</h3><p>준비운동이 끝나고 <b>달리기 시작하면 자동으로 러닝을 인식</b>해 코칭이 시작됩니다. 버튼을 다시 누를 필요 없이, 몸을 풀고 그대로 출발하면 됩니다.</p></div>
+      <div class="card reveal"><div class="ic">🏔️</div><h3>대회 코스를 미리 아는 코치</h3><p>대회 GPX를 올리면 <b>어디서 오르막·내리막이 나올지 런비스가 먼저 압니다.</b> 처음 뛰는 코스여도 오버페이스 없이, 출발선부터 결승선까지 목표 시간에 맞춰 완주하도록 안내합니다.</p></div>
+    </div>
+    <div class="cards" style="margin-top:20px">
+      <div class="card reveal"><div class="ic">🔊</div><h3>실시간 음성 코칭</h3><p>자세가 무너지는 순간, 언덕이 다가오는 순간, 회복이 필요한 순간 — 필요할 때만 정확히 안내합니다. 수다스럽지 않게.</p></div>
+      <div class="card reveal"><div class="ic">🤖</div><h3>내 러닝을 내 AI로 분석</h3><p>운동 상세에서 한 번의 탭으로 <b>AI 분석용 프롬프트를 내보내기</b>. ChatGPT·Gemini·Claude 등 내가 쓰는 AI에 붙여넣으면 즉시 심층 분석을 받습니다.</p></div>
+      <div class="card reveal"><div class="ic">📊</div><h3>전문가 수준 훈련 분석</h3><p>훈련 준비도·부하·회복까지, 공개된 스포츠 과학 공식으로 계산한 숫자. 각 지표를 탭하면 초보자도 알기 쉽게 설명합니다.</p></div>
     </div>
   </div>
 </section>
@@ -245,13 +265,13 @@
 <section id="screens">
   <div class="wrap">
     <div class="eyebrow reveal">실제 화면</div>
-    <h2 class="reveal">가민급 분석을 Apple Watch에서</h2>
+    <h2 class="reveal">전문가 수준 분석을 Apple Watch에서</h2>
 
     <div class="shots reveal">
       <div class="svgwrap" id="shotHR"></div>
       <div class="desc">
         <h3>심박존 아크</h3>
-        <p>270° 가민식 아크에 5개 카라보넨 심박존. 현재 존에 맞춰 큰 숫자 색이 바뀌고, 마커가 아크 위를 움직입니다.</p>
+        <p>270° 아크에 5개 카라보넨 심박존. 현재 존에 맞춰 큰 숫자 색이 바뀌고, 마커가 아크 위를 움직입니다.</p>
         <ul>
           <li>존 유지 알림 — 존2 지방연소 세션에 최적</li>
           <li>안정시·최대 심박이 내 체력에 맞춰 자동 갱신</li>
@@ -315,7 +335,7 @@
 <section id="price">
   <div class="wrap">
     <div class="eyebrow reveal">가격</div>
-    <h2 class="reveal">기록은 영원히 무료</h2>
+    <h2 class="reveal">기록은 영원히 무료, 코칭은 커피 한 잔 값</h2>
     <div class="price">
       <div class="plan reveal">
         <div class="name">기본 — 무료</div>
@@ -336,7 +356,7 @@
         </ul>
       </div>
     </div>
-    <p class="note" style="text-align:center;color:var(--dim2);margin-top:20px;font-size:14px">GPS 기록·Apple Health 저장·러닝 히스토리 분석은 영구 무료입니다. 실시간 음성 코칭은 월 3,900원, 첫 1개월 무료 체험.</p>
+    <p class="note" style="text-align:center;color:var(--dim2);margin-top:20px;font-size:14px">무료 버전만으로도 충분한 러닝 기록·분석. 코칭이 필요할 땐 <b style="color:var(--text)">커피 한 잔 값으로 한 달 동안 나만을 위한 러닝 코치</b>가 함께합니다. 1개월 무료 체험으로 충분히 써보고 판단하세요.</p>
   </div>
 </section>
 
@@ -349,7 +369,7 @@
     <div class="log">
       <div class="item reveal"><h4>3시간 LSD에서 음성 빈도를 줄인 이유</h4><p>긴 러닝일수록 코치는 조용해야 합니다. 실제로 뛰어보고 개입 간격을 다시 설계한 기록.</p></div>
       <div class="item reveal"><h4>Apple Watch가 손목을 내렸을 때도 랩 기록이 틀어지지 않게 고친 과정</h4><p>백그라운드에서 타이머가 눌리는 문제를 찾아 실제 경과 시간 기준으로 재구성한 이야기.</p></div>
-      <div class="item reveal"><h4>버스를 타도 페이스가 폭주하지 않게 — 차량 속도 감지</h4><p>사람이 낼 수 없는 속도를 걸러내 자동 일시정지하도록. 실측 피드백에서 나온 수정.</p></div>
+      <div class="item reveal"><h4>날씨에 따라 준비운동 시간을 다르게 하는 코치</h4><p>추운 날 근육이 굳는다는 걸 알기에, 기온이 낮으면 준비운동을 더 길게. 밖에 나온 러너를 진짜 코치처럼 챙기고 싶었습니다.</p></div>
     </div>
   </div>
 </section>
@@ -393,7 +413,7 @@ const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting)e.tar
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
 // --- hero caption typing loop ---
-const heroLines=["300m 앞, 오르막입니다. 보폭을 줄이세요.","심박이 존 3까지 내려왔어요. 조금만 더요.","자세가 바로 잡혔어요. 이대로 가세요."];
+const heroLines=["현재 기온 8도, 습도 60퍼센트. 준비운동을 조금 길게 할게요.","300m 앞, 오르막입니다. 보폭을 줄이세요.","심박이 존 3까지 내려왔어요. 조금만 더요.","반환점입니다. 여기서부터 조금씩 올려도 좋습니다."];
 const capEl=document.getElementById('heroCaption');
 let hl=0;
 function typeLine(text,cb){let i=0;capEl.textContent="";const iv=setInterval(()=>{capEl.textContent=text.slice(0,++i);if(i>=text.length){clearInterval(iv);setTimeout(cb,2200)}},45)}
@@ -437,7 +457,7 @@ document.querySelectorAll('.vchip').forEach(c=>c.addEventListener('click',()=>{
 }));
 
 // --- inject real app SVG screens ---
-document.getElementById('shotHR').innerHTML = '<svg viewBox="0 0 330 400" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, Helvetica, Arial, sans-serif">\n  <defs>\n    <linearGradient id="bezel" x1="0" y1="0" x2="1" y2="1">\n      <stop offset="0" stop-color="#3a3a3d"/>\n      <stop offset="0.5" stop-color="#1c1c1e"/>\n      <stop offset="1" stop-color="#2c2c2e"/>\n    </linearGradient>\n  </defs>\n  <!-- Ultra-style titanium frame -->\n  <rect x="8" y="8" width="314" height="384" rx="60" fill="url(#bezel)"/>\n  <rect x="18" y="18" width="294" height="364" rx="52" fill="#000"/>\n\n  <!-- header -->\n  <text x="165" y="52" fill="#8a8a8e" font-size="15" font-weight="600" letter-spacing="1.2" text-anchor="middle">HEART RATE</text>\n\n  <!-- 270° zone arc, bottom gap, Garmin standard palette -->\n  <g fill="none" stroke-width="22" stroke-linecap="butt">\n    <path d="M 78.6 268.4 A 118 118 0 0 1 45.5 166.5"  stroke="#9AA0A6" opacity="0.35"/>\n    <path d="M 45.5 166.5 A 118 118 0 0 1 108.4 79.9"  stroke="#3E97DD" opacity="0.35"/>\n    <path d="M 108.4 79.9 A 118 118 0 0 1 215.6 79.9"  stroke="#5DBB4A" opacity="0.35"/>\n    <path d="M 215.6 79.9 A 118 118 0 0 1 278.5 166.6" stroke="#F5A623" opacity="1"/>\n    <path d="M 278.5 166.6 A 118 118 0 0 1 245.4 268.4" stroke="#E5483F" opacity="0.35"/>\n  </g>\n\n  <!-- marker dot riding the arc at current HR (zone 4) -->\n  <circle cx="244" cy="100" r="13" fill="#fff" stroke="#000" stroke-opacity="0.5" stroke-width="2.5"/>\n\n  <!-- center readout -->\n  <text x="165" y="196" fill="#F5A623" font-size="76" font-weight="800" text-anchor="middle" style="font-variant-numeric:tabular-nums">158</text>\n  <text x="165" y="224" fill="#8a8a8e" font-size="16" font-weight="600" text-anchor="middle">BPM</text>\n  <rect x="128" y="238" width="74" height="26" rx="13" fill="#F5A623" fill-opacity="0.18"/>\n  <text x="165" y="256" fill="#F5A623" font-size="14" font-weight="700" text-anchor="middle">ZONE 4</text>\n\n  <!-- avg chip -->\n  <text x="165" y="316" fill="#8a8a8e" font-size="13" text-anchor="middle">avg 146 · time in zone 12:40</text>\n</svg>';
+document.getElementById('shotHR').innerHTML = '<svg viewBox="0 0 330 400" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, Helvetica, Arial, sans-serif">\n  <defs>\n    <linearGradient id="bezel" x1="0" y1="0" x2="1" y2="1">\n      <stop offset="0" stop-color="#3a3a3d"/>\n      <stop offset="0.5" stop-color="#1c1c1e"/>\n      <stop offset="1" stop-color="#2c2c2e"/>\n    </linearGradient>\n  </defs>\n  <!-- Ultra-style titanium frame -->\n  <rect x="8" y="8" width="314" height="384" rx="60" fill="url(#bezel)"/>\n  <rect x="18" y="18" width="294" height="364" rx="52" fill="#000"/>\n\n  <!-- header -->\n  <text x="165" y="52" fill="#8a8a8e" font-size="15" font-weight="600" letter-spacing="1.2" text-anchor="middle">HEART RATE</text>\n\n  <!-- 270° zone arc, bottom gap, zone palette -->\n  <g fill="none" stroke-width="22" stroke-linecap="butt">\n    <path d="M 78.6 268.4 A 118 118 0 0 1 45.5 166.5"  stroke="#9AA0A6" opacity="0.35"/>\n    <path d="M 45.5 166.5 A 118 118 0 0 1 108.4 79.9"  stroke="#3E97DD" opacity="0.35"/>\n    <path d="M 108.4 79.9 A 118 118 0 0 1 215.6 79.9"  stroke="#5DBB4A" opacity="0.35"/>\n    <path d="M 215.6 79.9 A 118 118 0 0 1 278.5 166.6" stroke="#F5A623" opacity="1"/>\n    <path d="M 278.5 166.6 A 118 118 0 0 1 245.4 268.4" stroke="#E5483F" opacity="0.35"/>\n  </g>\n\n  <!-- marker dot riding the arc at current HR (zone 4) -->\n  <circle cx="244" cy="100" r="13" fill="#fff" stroke="#000" stroke-opacity="0.5" stroke-width="2.5"/>\n\n  <!-- center readout -->\n  <text x="165" y="196" fill="#F5A623" font-size="76" font-weight="800" text-anchor="middle" style="font-variant-numeric:tabular-nums">158</text>\n  <text x="165" y="224" fill="#8a8a8e" font-size="16" font-weight="600" text-anchor="middle">BPM</text>\n  <rect x="128" y="238" width="74" height="26" rx="13" fill="#F5A623" fill-opacity="0.18"/>\n  <text x="165" y="256" fill="#F5A623" font-size="14" font-weight="700" text-anchor="middle">ZONE 4</text>\n\n  <!-- avg chip -->\n  <text x="165" y="316" fill="#8a8a8e" font-size="13" text-anchor="middle">avg 146 · time in zone 12:40</text>\n</svg>';
 document.getElementById('shotDash').innerHTML = '<svg viewBox="0 0 300 620" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, Helvetica, Arial, sans-serif">\n  <defs>\n    <linearGradient id="pbezel" x1="0" y1="0" x2="1" y2="1">\n      <stop offset="0" stop-color="#3a3a3d"/><stop offset="1" stop-color="#1c1c1e"/>\n    </linearGradient>\n    <linearGradient id="ready" x1="0" y1="0" x2="1" y2="1">\n      <stop offset="0" stop-color="#E5483F"/><stop offset="0.4" stop-color="#F5A623"/>\n      <stop offset="0.75" stop-color="#5DBB4A"/><stop offset="1" stop-color="#1EEAEF"/>\n    </linearGradient>\n    <clipPath id="pscreen"><rect x="12" y="12" width="276" height="596" rx="42"/></clipPath>\n  </defs>\n  <rect x="4" y="4" width="292" height="612" rx="50" fill="url(#pbezel)"/>\n  <g clip-path="url(#pscreen)">\n    <rect x="12" y="12" width="276" height="596" fill="#0D0F12"/>\n    <!-- notch -->\n    <rect x="112" y="20" width="76" height="22" rx="11" fill="#000"/>\n\n    <text x="34" y="80" fill="#fff" font-size="24" font-weight="800">오늘</text>\n    <text x="34" y="102" fill="#6a6a70" font-size="13">7월 6일 월요일</text>\n\n    <!-- readiness card -->\n    <rect x="24" y="120" width="252" height="150" rx="18" fill="#1C1E24"/>\n    <text x="42" y="146" fill="#8a8a8e" font-size="12" font-weight="600" letter-spacing="0.6">오늘의 준비도</text>\n    <!-- ring -->\n    <g transform="translate(90 205)">\n      <path d="M -38 27 A 47 47 0 1 1 38 27" fill="none" stroke="#ffffff" stroke-opacity="0.10" stroke-width="10" stroke-linecap="round"/>\n      <path d="M -38 27 A 47 47 0 1 1 34 33" fill="none" stroke="url(#ready)" stroke-width="10" stroke-linecap="round"/>\n      <text x="0" y="6" fill="#fff" font-size="34" font-weight="800" text-anchor="middle">82</text>\n      <text x="0" y="26" fill="#5DBB4A" font-size="11" font-weight="600" text-anchor="middle">양호</text>\n    </g>\n    <g font-size="12">\n      <text x="168" y="182" fill="#8a8a8e">수면</text><text x="256" y="182" fill="#5DBB4A" font-weight="700" text-anchor="end">7.4h</text>\n      <text x="168" y="212" fill="#8a8a8e">HRV</text><text x="256" y="212" fill="#F5A623" font-weight="700" text-anchor="end">48ms</text>\n      <text x="168" y="242" fill="#8a8a8e">안정 심박</text><text x="256" y="242" fill="#5DBB4A" font-weight="700" text-anchor="end">52</text>\n    </g>\n\n    <!-- training balance card -->\n    <rect x="24" y="286" width="252" height="150" rx="18" fill="#1C1E24"/>\n    <text x="42" y="312" fill="#8a8a8e" font-size="12" font-weight="600">트레이닝 밸런스 (CTL/ATL/TSB)</text>\n    <!-- mini chart -->\n    <g transform="translate(42 328)">\n      <line x1="0" y1="80" x2="216" y2="80" stroke="#2a2c32" stroke-width="1"/>\n      <line x1="0" y1="45" x2="216" y2="45" stroke="#2a2c32" stroke-width="1" stroke-dasharray="3 3"/>\n      <polyline points="0,60 36,56 72,52 108,50 144,46 180,44 216,42" fill="none" stroke="#3E97DD" stroke-width="2.5"/>\n      <polyline points="0,68 36,50 72,62 108,44 144,58 180,40 216,52" fill="none" stroke="#F5A623" stroke-width="2.5"/>\n      <polyline points="0,20 36,26 72,18 108,30 144,22 180,34 216,26" fill="none" stroke="#5DBB4A" stroke-width="2.5"/>\n    </g>\n    <g font-size="10">\n      <circle cx="46" cy="424" r="4" fill="#3E97DD"/><text x="54" y="428" fill="#8a8a8e">피트니스</text>\n      <circle cx="126" cy="424" r="4" fill="#F5A623"/><text x="134" y="428" fill="#8a8a8e">피로</text>\n      <circle cx="186" cy="424" r="4" fill="#5DBB4A"/><text x="194" y="428" fill="#8a8a8e">폼</text>\n    </g>\n\n    <!-- recovery card -->\n    <rect x="24" y="452" width="252" height="80" rx="18" fill="#1C1E24"/>\n    <text x="42" y="478" fill="#8a8a8e" font-size="12" font-weight="600">회복</text>\n    <text x="42" y="512" fill="#5DBB4A" font-size="22" font-weight="800">회복 완료 — 운동 가능</text>\n\n    <!-- tab bar -->\n    <rect x="12" y="560" width="276" height="48" fill="#15171C"/>\n    <g text-anchor="middle" font-size="10">\n      <text x="80" y="590" fill="#0A84FF" font-weight="700">홈</text>\n      <text x="150" y="590" fill="#6a6a70">캘린더</text>\n      <text x="220" y="590" fill="#6a6a70">더보기</text>\n    </g>\n  </g>\n</svg>';
 document.getElementById('shotMap').innerHTML = '<svg viewBox="0 0 330 400" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, Helvetica, Arial, sans-serif">\n  <defs>\n    <linearGradient id="bezel3" x1="0" y1="0" x2="1" y2="1">\n      <stop offset="0" stop-color="#3a3a3d"/><stop offset="0.5" stop-color="#1c1c1e"/><stop offset="1" stop-color="#2c2c2e"/>\n    </linearGradient>\n    <clipPath id="screen3"><rect x="18" y="18" width="294" height="364" rx="52"/></clipPath>\n  </defs>\n  <rect x="8" y="8" width="314" height="384" rx="60" fill="url(#bezel3)"/>\n  <g clip-path="url(#screen3)">\n    <rect x="18" y="18" width="294" height="364" fill="#12161b"/>\n    <!-- faux map blocks -->\n    <g fill="#1b2129">\n      <rect x="30" y="40" width="90" height="70" rx="6"/><rect x="150" y="30" width="120" height="90" rx="6"/>\n      <rect x="40" y="150" width="110" height="80" rx="6"/><rect x="190" y="150" width="100" height="120" rx="6"/>\n      <rect x="30" y="270" width="120" height="90" rx="6"/><rect x="180" y="300" width="120" height="70" rx="6"/>\n    </g>\n    <g stroke="#2a3038" stroke-width="6">\n      <line x1="18" y1="132" x2="312" y2="132"/><line x1="165" y1="18" x2="165" y2="382"/><line x1="18" y1="285" x2="312" y2="285"/>\n    </g>\n    <!-- route polyline -->\n    <path d="M 80 330 C 90 270 60 220 120 200 S 210 180 200 130 S 150 90 210 70" fill="none" stroke="#0A84FF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>\n    <!-- current position -->\n    <circle cx="210" cy="70" r="12" fill="#0A84FF"/><circle cx="210" cy="70" r="12" fill="none" stroke="#fff" stroke-width="3"/>\n    <!-- start pin -->\n    <circle cx="80" cy="330" r="7" fill="#3DDC84" stroke="#000" stroke-width="2"/>\n  </g>\n  <!-- metric overlay bar -->\n  <g>\n    <rect x="34" y="320" width="262" height="48" rx="14" fill="#000" fill-opacity="0.72"/>\n    <text x="70" y="342" fill="#8a8a8e" font-size="10" text-anchor="middle">거리</text>\n    <text x="70" y="360" fill="#fff" font-size="17" font-weight="700" text-anchor="middle">4.82</text>\n    <text x="165" y="342" fill="#8a8a8e" font-size="10" text-anchor="middle">시간</text>\n    <text x="165" y="360" fill="#fff" font-size="17" font-weight="700" text-anchor="middle">26:08</text>\n    <text x="258" y="342" fill="#8a8a8e" font-size="10" text-anchor="middle">페이스</text>\n    <text x="258" y="360" fill="#3DDC84" font-size="17" font-weight="700" text-anchor="middle">5:24</text>\n  </g>\n</svg>';
 
