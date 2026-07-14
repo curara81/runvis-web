@@ -154,8 +154,9 @@
   @media(max-width:820px){.phone-desc ul{text-align:left;display:inline-block}}
 
   /* VOICE */
-  .voice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
-  @media(max-width:820px){.voice-grid{grid-template-columns:1fr}}
+  .voice-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:36px}
+  @media(max-width:1000px){.voice-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.voice-grid{grid-template-columns:1fr}}
   .vchip{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;cursor:pointer;transition:border-color .2s}
   .vchip:hover{border-color:var(--green)}
   .vchip .play{display:inline-flex;align-items:center;gap:8px;color:var(--green);font-weight:700;font-size:14px;margin-bottom:10px}
@@ -289,7 +290,7 @@
       <div class="why-item"><div class="k">🏃</div><div><b>자동 러닝 인식</b><span>몸 풀고 달리기 시작하면 버튼 없이 자동으로 코칭 개시.</span></div></div>
       <div class="why-item"><div class="k">🏔️</div><div><b>대회 코스를 미리 아는 코치</b><span>대회 GPX를 올리면 어디서 오르막·내리막이 나올지 먼저 알려줘 오버페이스를 막습니다. (가민 최상위에만 있던 기능)</span></div></div>
       <div class="why-item"><div class="k">🗣️</div><div><b>자세가 무너지면 "왜"까지 설명</b><span>케이던스·접지·수직진폭이 흐트러지면 숫자만이 아니라 무릎에 왜 부담이 가는지, 어떻게 고치는지 안내.</span></div></div>
-      <div class="why-item"><div class="k">🇰🇷</div><div><b>한국어 실시간 음성 코칭</b><span>영어가 아닌 자연스러운 한국어로. 음악은 부드럽게 낮아졌다 원래대로.</span></div></div>
+      <div class="why-item"><div class="k">🇰🇷</div><div><b>한국어 실시간 음성 코칭</b><span>영어가 아닌 자연스러운 한국어로. 조용한 구간엔 잔소리 대신 러닝 상식 한 마디도. 음악은 부드럽게 낮아졌다 원래대로.</span></div></div>
       <div class="why-item"><div class="k">🤖</div><div><b>내 러닝을 내 AI로 분석</b><span>한 번의 탭으로 분석 프롬프트 내보내기 → ChatGPT·Gemini·Claude에 붙여넣으면 즉시 심층 분석.</span></div></div>
       <div class="why-item"><div class="k">📅</div><div><b>몸 상태를 아는 훈련 플랜</b><span>어젯밤 수면이 부족하거나 안정심박이 높으면 오늘 강도를 자동으로 낮추고 이유를 알려줍니다.</span></div></div>
       <div class="why-item"><div class="k">🚴</div><div><b>실내 스마트 트레이너 제어</b><span>Wahoo KICKR 저항을 자동 제어하는 8종 구조화 워크아웃. 지방연소 구간은 심박에 맞춰 저항 자동 조절.</span></div></div>
@@ -418,6 +419,7 @@
       <div class="vchip" data-say="자세가 바로 잡혔어요. 좋습니다, 이대로 가세요."><div class="play">▶ 자세 회복</div><div class="line">"자세가 바로 잡혔어요. 좋습니다, 이대로 가세요."</div></div>
       <div class="vchip" data-say="300미터 앞, 1.2킬로미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="play">▶ 언덕 예고</div><div class="line">"300m 앞, 1.2km 오르막이 시작됩니다. 평균 경사 4%. 보폭을 줄이고 리듬을 유지하세요."</div></div>
       <div class="vchip" data-say="심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="play">▶ 회복 격려</div><div class="line">"심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."</div></div>
+      <div class="vchip" data-say="잠깐 상식 하나. 편한 페이스에선 코로만 숨 쉬어도 충분해요. 입이 벌어지기 시작하면, 그게 강도가 올라갔다는 신호예요."><div class="play">▶ 러닝 상식</div><div class="line">"잠깐 상식 하나. 편한 페이스에선 코로만 숨 쉬어도 충분해요. 입이 벌어지기 시작하면, 그게 강도가 올라갔다는 신호예요."</div></div>
     </div>
   </div>
 </section>
