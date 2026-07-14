@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RUN SESSION — 런비스와 5km | Runvis</title>
+<meta name="description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요.">
+<style>
+  :root{
+    --bg:#000; --panel:#0b0e0c; --line:rgba(61,220,132,.14); --line2:rgba(255,255,255,.08);
+    --green:#3DDC84; --cyan:#4CCBD9; --orange:#FFA633; --red:#FF5B4D;
+    --text:#EDF2EE; --dim:#9BA8A0; --dim2:#5E6B64;
+    --mono:'SF Mono',ui-monospace,'JetBrains Mono',Menlo,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
+    line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:clip;
+    word-break:keep-all;
+  }
+  a{color:inherit;text-decoration:none}
+  ::selection{background:rgba(61,220,132,.3)}
+
+  /* ---------- HUD frame (fixed chrome) ---------- */
+  .hud-top{
+    position:fixed;inset:0 0 auto 0;z-index:60;height:52px;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 20px;background:linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,0));
+    font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--dim);
+  }
+  .hud-top .brand{display:flex;align-items:center;gap:10px;color:var(--text);font-weight:700}
+  .hud-top .brand .sq{width:18px;height:18px;border:1px solid var(--green);display:grid;place-items:center;color:var(--green);font-size:10px}
+  .hud-top .status{display:flex;align-items:center;gap:8px}
+  .hud-top .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
+  @keyframes pulse{50%{opacity:.35}}
+  .hud-top .exit{border:1px solid var(--line2);padding:6px 14px;color:var(--dim);transition:.2s}
+  .hud-top .exit:hover{border-color:var(--green);color:var(--green)}
+
+  /* live metrics bar */
+  .hud-metrics{
+    position:fixed;left:0;right:0;bottom:0;z-index:60;height:56px;
+    display:flex;align-items:stretch;justify-content:center;gap:0;
+    background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.92) 40%);
+    font-family:var(--mono);
+  }
+  .hud-metrics .m{
+    min-width:110px;padding:10px 18px 8px;text-align:center;border-left:1px solid var(--line2);
+  }
+  .hud-metrics .m:first-child{border-left:none}
+  .hud-metrics .m .k{font-size:9px;letter-spacing:.22em;color:var(--dim2)}
+  .hud-metrics .m .v{font-size:20px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
+  .hud-metrics .m .v em{font-style:normal;font-size:11px;color:var(--dim);margin-left:2px}
+  .hud-metrics .m .v.gr{color:var(--green)} .hud-metrics .m .v.or{color:var(--orange)}
+
+  /* progress rail (right) */
+  .rail{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:60;display:flex;flex-direction:column;gap:14px;font-family:var(--mono)}
+  .rail a{display:flex;align-items:center;gap:8px;color:var(--dim2);font-size:10px;letter-spacing:.12em;transition:.2s}
+  .rail a .tick{width:14px;height:1px;background:var(--dim2);transition:.2s}
+  .rail a.on{color:var(--green)} .rail a.on .tick{background:var(--green);width:22px;box-shadow:0 0 6px var(--green)}
+  .rail a span.lbl{opacity:0;transform:translateX(4px);transition:.2s}
+  .rail a.on span.lbl,.rail a:hover span.lbl{opacity:1;transform:none}
+  @media(max-width:900px){.rail{display:none}}
+
+  /* scroll progress line */
+  .progress{position:fixed;left:0;top:0;height:2px;background:linear-gradient(90deg,var(--green),var(--cyan));width:0;z-index:70;box-shadow:0 0 10px rgba(61,220,132,.6)}
+
+  /* ---------- sections ---------- */
+  section{min-height:100vh;display:flex;align-items:center;position:relative;padding:110px 24px}
+  .wrap{max-width:1060px;margin:0 auto;width:100%}
+  .tag{font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--green);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+  .tag::before{content:"";width:26px;height:1px;background:var(--green)}
+  h1,h2{font-weight:800;letter-spacing:-.02em;line-height:1.12}
+  h1{font-size:clamp(44px,8.5vw,96px)}
+  h2{font-size:clamp(32px,5.5vw,60px)}
+  .outline{color:transparent;-webkit-text-stroke:1.5px rgba(237,242,238,.55)}
+  .grad{background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lead{color:var(--dim);font-size:clamp(15px,1.6vw,18px);max-width:560px;margin-top:22px}
+  .lead b{color:var(--text)}
+
+  /* voice bubble — 런비스 개입 순간 */
+  .voice{
+    margin-top:30px;max-width:520px;border:1px solid var(--line);
+    background:linear-gradient(160deg,rgba(61,220,132,.07),rgba(0,0,0,.4));
+    padding:18px 20px;border-radius:2px;position:relative;
+  }
+  .voice::before{content:"RUNVIS // VOICE";position:absolute;top:-9px;left:14px;background:var(--bg);padding:0 8px;font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--green)}
+  .voice p{font-size:15.5px;color:var(--text);line-height:1.7}
+  .voice .why{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line2);font-family:var(--mono);font-size:11px;color:var(--dim2);letter-spacing:.04em}
+  .voice .why b{color:var(--cyan);font-weight:600}
+
+  .datastrip{display:flex;gap:26px;margin-top:26px;font-family:var(--mono);flex-wrap:wrap}
+  .datastrip .d .k{font-size:9px;letter-spacing:.22em;color:var(--dim2)}
+  .datastrip .d .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+  .datastrip .d .v.gr{color:var(--green)} .datastrip .d .v.or{color:var(--orange)} .datastrip .d .v.rd{color:var(--red)} .datastrip .d .v.cy{color:var(--cyan)}
+
+  /* corner deco */
+  .corner{position:absolute;width:22px;height:22px;border:1px solid rgba(61,220,132,.35);pointer-events:none}
+  .c-tl{top:84px;left:20px;border-right:none;border-bottom:none}
+  .c-br{bottom:76px;right:20px;border-left:none;border-top:none}
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
+  .rv.in{opacity:1;transform:none}
+
+  /* hero */
+  #s0{flex-direction:column;justify-content:center;text-align:left}
+  #s0 .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+  @media(max-width:900px){#s0 .wrap{grid-template-columns:1fr}}
+  .scroll-cue{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--dim2);animation:bob 2.2s infinite}
+  @keyframes bob{50%{transform:translate(-50%,8px)}}
+
+  /* watch mock in hero */
+  .heroWatch{width:min(300px,70vw);margin:0 auto;filter:drop-shadow(0 30px 60px rgba(61,220,132,.14))}
+
+  /* elevation chart */
+  .elev{margin-top:30px;border:1px solid var(--line2);background:rgba(255,255,255,.02);padding:16px}
+  .elev .cap{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--dim2);display:flex;justify-content:space-between;margin-bottom:8px}
+  .elev svg{width:100%;height:auto;display:block}
+
+  /* zone ladder (recovery) */
+  .zones{display:flex;flex-direction:column;gap:6px;margin-top:26px;max-width:340px;font-family:var(--mono)}
+  .zone{display:flex;align-items:center;gap:12px;padding:9px 14px;border:1px solid var(--line2);font-size:12px;letter-spacing:.08em;color:var(--dim2);transition:.4s}
+  .zone .bar{height:6px;flex:1;background:rgba(255,255,255,.06)}
+  .zone.hot{border-color:rgba(255,91,77,.5);color:var(--red)} .zone.hot .bar{background:linear-gradient(90deg,rgba(255,91,77,.7),rgba(255,91,77,.15))}
+  .zone.mid{border-color:rgba(255,166,51,.5);color:var(--orange)} .zone.mid .bar{background:linear-gradient(90deg,rgba(255,166,51,.7),rgba(255,166,51,.15))}
+  .zone.ok{border-color:rgba(61,220,132,.6);color:var(--green)} .zone.ok .bar{background:linear-gradient(90deg,rgba(61,220,132,.8),rgba(61,220,132,.15))}
+
+  /* finish card */
+  .finish{margin-top:30px;border:1px solid var(--line);padding:26px;background:linear-gradient(160deg,rgba(61,220,132,.05),transparent);max-width:560px}
+  .finish .row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line2);font-size:14px}
+  .finish .row:last-child{border:none}
+  .finish .row .k{color:var(--dim)}
+  .finish .row .v{font-family:var(--mono);font-weight:700;font-variant-numeric:tabular-nums}
+  .btns{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;padding:15px 28px;font-weight:800;font-size:16px;
+    background:linear-gradient(120deg,var(--green),var(--cyan));color:#04120c;border-radius:2px;
+    transition:transform .15s,box-shadow .15s;box-shadow:0 8px 30px rgba(61,220,132,.22)
+  }
+  .btn:hover{transform:translateY(-2px)}
+  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line2);box-shadow:none}
+  .btn.ghost:hover{border-color:var(--green)}
+
+  .footnote{font-family:var(--mono);font-size:10px;color:var(--dim2);letter-spacing:.06em;margin-top:40px;line-height:1.8}
+
+  @media(prefers-reduced-motion:reduce){
+    .rv{opacity:1!important;transform:none!important;transition:none}
+    html{scroll-behavior:auto}
+    .hud-top .dot,.scroll-cue{animation:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="prog"></div>
+
+<header class="hud-top">
+  <div class="brand"><span class="sq">R</span> RUN SESSION // 01</div>
+  <div class="status"><span class="dot"></span> COACH LINK CONNECTED</div>
+  <a class="exit" href="index.html">EXIT ↗</a>
+</header>
+
+<nav class="rail" id="rail">
+  <a href="#s0" data-s="s0"><span class="lbl">START</span><span class="tick"></span></a>
+  <a href="#s1" data-s="s1"><span class="lbl">브리핑</span><span class="tick"></span></a>
+  <a href="#s2" data-s="s2"><span class="lbl">출발</span><span class="tick"></span></a>
+  <a href="#s3" data-s="s3"><span class="lbl">언덕</span><span class="tick"></span></a>
+  <a href="#s4" data-s="s4"><span class="lbl">고비</span><span class="tick"></span></a>
+  <a href="#s5" data-s="s5"><span class="lbl">회복</span><span class="lbl"></span><span class="tick"></span></a>
+  <a href="#s6" data-s="s6"><span class="lbl">피니시</span><span class="tick"></span></a>
+</nav>
+
+<!-- ============ 00 HERO ============ -->
+<section id="s0" data-km="0" data-pace="--:--" data-hr="62" data-z="—">
+  <span class="corner c-tl"></span><span class="corner c-br"></span>
+  <div class="wrap">
+    <div>
+      <div class="tag rv">RUNVIS // LIVE COACHING DEMO</div>
+      <h1 class="rv">오늘의 러닝에<br><span class="outline">코치가 탑승</span>합니다.</h1>
+      <p class="lead rv">지금부터 <b>스크롤이 곧 러닝</b>입니다. 아래로 내리면 5km 러닝이 시작되고,
+      하단의 거리·페이스·심박이 함께 움직입니다. 런비스가 <b>언제, 왜 말을 거는지</b> — 그리고 언제 조용히 있는지 직접 확인하세요.</p>
+      <p class="footnote rv">화면 속 수치는 시연용 예시 데이터입니다 · 실제 앱은 Apple Watch 센서로 동작합니다</p>
+    </div>
+    <div class="rv">
+      <svg class="heroWatch" viewBox="0 0 330 400" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Helvetica,sans-serif">
+        <defs>
+          <linearGradient id="hbz" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a3a3d"/><stop offset=".5" stop-color="#1c1c1e"/><stop offset="1" stop-color="#2c2c2e"/></linearGradient>
+        </defs>
+        <rect x="316" y="118" width="12" height="50" rx="6" fill="url(#hbz)"/>
+        <rect x="317" y="186" width="9" height="64" rx="4.5" fill="url(#hbz)"/>
+        <rect x="8" y="8" width="314" height="384" rx="60" fill="url(#hbz)"/>
+        <rect x="18" y="18" width="294" height="364" rx="52" fill="#000"/>
+        <text x="165" y="70" fill="#5E6B64" font-size="13" letter-spacing="2" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">READY</text>
+        <text x="165" y="190" fill="#3DDC84" font-size="72" font-weight="800" text-anchor="middle">5.0</text>
+        <text x="165" y="220" fill="#9BA8A0" font-size="15" text-anchor="middle">킬로미터 · 오늘의 목표</text>
+        <text x="165" y="300" fill="#EDF2EE" font-size="17" font-weight="700" text-anchor="middle">런비스와 달리기</text>
+        <rect x="70" y="272" width="190" height="44" rx="22" fill="none" stroke="#3DDC84" stroke-opacity=".5"/>
+        <text x="165" y="345" fill="#5E6B64" font-size="11" text-anchor="middle">브리핑 · 준비운동 · 코칭</text>
+      </svg>
+    </div>
+  </div>
+  <div class="scroll-cue">SCROLL TO START ▾</div>
+</section>
+
+<!-- ============ 01 브리핑+준비운동 ============ -->
+<section id="s1" data-km="0" data-pace="--:--" data-hr="71" data-z="—">
+  <span class="corner c-tl"></span><span class="corner c-br"></span>
+  <div class="wrap">
+    <div class="tag rv">SEGMENT 00 — 현관 앞 · 05:52 AM</div>
+    <h2 class="rv">뛰기 전에,<br><span class="grad">코치가 먼저 말을 겁니다</span></h2>
+    <p class="lead rv">시작 버튼 하나로 <b>날씨 브리핑 → 준비운동</b>이 이어집니다. 서버 없이, 워치 안에서.</p>
+    <div class="voice rv">
+      <p>"안녕하세요, 런비스입니다. 현재 기온 19도, 습도 78퍼센트. 덥고 습해서 땀이 많이 나는 날이에요 — 중간에 수분 꼭 챙기세요. 준비운동 시작할게요. 목 돌리기, 20초."</p>
+      <div class="why">WHY · <b>Open-Meteo 실시간 기상</b> + 기온·습도 규칙 → 준비운동 길이 자동 조절 (추운 날 ×1.5)</div>
+    </div>
+    <div class="datastrip rv">
+      <div class="d"><div class="k">WEATHER</div><div class="v cy">19°C</div></div>
+      <div class="d"><div class="k">HUMIDITY</div><div class="v cy">78%</div></div>
+      <div class="d"><div class="k">WARM-UP</div><div class="v gr">6 STEPS</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 출발 ============ -->
+<section id="s2" data-km="0.4" data-pace="5:41" data-hr="128" data-z="Z2">
+  <span class="corner c-tl"></span><span class="corner c-br"></span>
+  <div class="wrap">
+    <div class="tag rv">SEGMENT 01 — 0.0 → 1.0 KM</div>
+    <h2 class="rv">버튼은 안 눌러도 됩니다.<br><span class="outline">달리면, 압니다</span></h2>
+    <p class="lead rv">준비운동을 마치고 그냥 달리기 시작하면 — 런비스가 <b>러닝을 자동 인식</b>하고 기록과 코칭을 시작합니다.</p>
+    <div class="voice rv">
+      <p>"달리기 시작하셨네요. 기록 시작합니다. 오늘의 컨디션 브리핑 — 어젯밤 수면 7시간 24분, 안정 심박은 평소 수준입니다. 좋은 날이에요."</p>
+      <div class="why">WHY · 모션+페이스 패턴으로 <b>러닝 자동 감지</b> · HealthKit 수면·안정심박으로 오늘 강도 제안</div>
+    </div>
+    <div class="datastrip rv">
+      <div class="d"><div class="k">AUTO-DETECT</div><div class="v gr">RUN ✓</div></div>
+      <div class="d"><div class="k">SLEEP</div><div class="v gr">7.4h</div></div>
+      <div class="d"><div class="k">CONDITION</div><div class="v gr">+3</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 언덕 ============ -->
+<section id="s3" data-km="1.8" data-pace="6:05" data-hr="148" data-z="Z3">
+  <span class="corner c-tl"></span><span class="corner c-br"></span>
+  <div class="wrap">
+    <div class="tag rv">SEGMENT 02 — 1.0 → 2.5 KM · 오르막</div>
+    <h2 class="rv">언덕은 <span class="grad">미리 알고</span> 만나야<br>무섭지 않습니다</h2>
+    <p class="lead rv">대회 GPX 코스를 넣어두면, 런비스는 <b>아직 보이지 않는 오르막</b>을 먼저 알려줍니다.</p>
+    <div class="elev rv">
+      <div class="cap"><span>ELEVATION PROFILE — AHEAD 1.5 KM</span><span>▲ +34 m</span></div>
+      <svg viewBox="0 0 600 120" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="eg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3DDC84" stop-opacity=".5"/><stop offset="1" stop-color="#3DDC84" stop-opacity="0"/></linearGradient></defs>
+        <path d="M0,95 L80,93 L150,88 L220,62 L300,38 L370,34 L430,52 L520,80 L600,84 L600,120 L0,120 Z" fill="url(#eg)"/>
+        <path d="M0,95 L80,93 L150,88 L220,62 L300,38 L370,34 L430,52 L520,80 L600,84" fill="none" stroke="#3DDC84" stroke-width="2"/>
+        <circle cx="130" cy="89" r="5" fill="#fff"/>
+        <text x="130" y="75" fill="#EDF2EE" font-size="11" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">YOU</text>
+        <line x1="220" y1="20" x2="220" y2="110" stroke="#FFA633" stroke-dasharray="3 4" stroke-width="1"/>
+        <text x="228" y="28" fill="#FFA633" font-size="10" font-family="ui-monospace,Menlo,monospace">CLIMB +300m</text>
+      </svg>
+    </div>
+    <div class="voice rv">
+      <p>"300미터 앞, 1.2킬로미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요. 페이스가 느려지는 건 당연합니다 — 경사를 감안하면 지금 평지 5분 40초 페이스로 잘 뛰고 있어요."</p>
+      <div class="why">WHY · GPX 전방 스캔 + <b>Minetti 경사보정페이스(GAP)</b> — 오르막에서 조급해지지 않게</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 고비(폼) ============ -->
+<section id="s4" data-km="3.4" data-pace="5:58" data-hr="164" data-z="Z4">
+  <span class="corner c-tl"></span><span class="corner c-br"></span>
+  <div class="wrap">
+    <div class="tag rv">SEGMENT 03 — 3.0 → 4.0 KM · 피로 누적</div>
+    <h2 class="rv">힘들어지는 순간,<br><span class="outline">근거를 갖고</span> 개입합니다</h2>
+    <p class="lead rv">"자세가 나쁘다"가 아니라 — <b>무엇이, 얼마나</b> 변했는지 말해주는 코치.</p>
+    <div class="voice rv">
+      <p>"시작할 때보다 발걸음이 5퍼센트 느려지고 접지가 길어졌어요. 보폭을 줄이면 회전이 살아나면서 자세가 돌아옵니다."</p>
+      <div class="why">WHY · 케이던스·접지시간·수직진폭 <b>3개 신호 중 2개 동시 이탈</b>일 때만 경고 — 오탐 억제</div>
+    </div>
+    <div class="voice rv" style="border-color:rgba(61,220,132,.4)">
+      <p>"좋아요, 자세가 돌아오고 있어요. 그 느낌 그대로 조금만 더요."</p>
+      <div class="why">WHY · 잔소리 코치가 아니라 <b>회복을 알아보는 코치</b> — 개선 추세 감지 시 격려</div>
+    </div>
+    <div class="datastrip rv">
+      <div class="d"><div class="k">CADENCE</div><div class="v or">166→174</div></div>
+      <div class="d"><div class="k">CONTACT</div><div class="v or">252ms</div></div>
+      <div class="d"><div class="k">FORM</div><div class="v gr">RECOVERING</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 회복 ============ -->
+<section id="s5" data-km="4.2" data-pace="8:50" data-hr="151" data-z="Z3">
+  <span class="corner c-tl"></span><span class="corner c-br"></span>
+  <div class="wrap">
+    <div class="tag rv">SEGMENT 04 — 4.0 → 4.5 KM · 걷기 전환</div>
+    <h2 class="rv">걷는 것도<br><span class="grad">훈련의 일부</span>입니다</h2>
+    <p class="lead rv">지치면 걸어도 됩니다. 런비스는 멈췄다고 하지 않고, <b>회복을 함께</b> 합니다.</p>
+    <div class="voice rv">
+      <p>"걷기 시작하셨네요. 완전히 걷는 것보다 아주 천천히 뛰는 게 회복이 빨라요. 심박이 존 2에 들어오면 알려드릴게요."</p>
+      <div class="why">WHY · 페이스 밴드로 <b>걷기 전환 감지</b> → 심박 회복 추적 시작</div>
+    </div>
+    <div class="zones rv">
+      <div class="zone hot"><span>Z4</span><span class="bar"></span><span>164</span></div>
+      <div class="zone mid"><span>Z3</span><span class="bar"></span><span>151 ← 지금</span></div>
+      <div class="zone ok"><span>Z2</span><span class="bar"></span><span>대기 중…</span></div>
+    </div>
+    <div class="voice rv" style="border-color:rgba(61,220,132,.4)">
+      <p>"심박이 존 2까지 내려왔어요. 충분히 회복됐습니다. 다시 천천히 뛰어볼까요?"</p>
+      <div class="why">WHY · 존을 한 칸 내려올 때마다 진행을 알림 — <b>회복의 과정</b>이 들립니다</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 피니시 ============ -->
+<section id="s6" data-km="5.0" data-pace="5:52" data-hr="142" data-z="Z2">
+  <span class="corner c-tl"></span><span class="corner c-br"></span>
+  <div class="wrap">
+    <div class="tag rv">FINISH — 5.0 KM · MISSION COMPLETE</div>
+    <h2 class="rv">달리기는 끝났지만,<br>코칭은 <span class="grad">이제 반환점</span>입니다</h2>
+    <p class="lead rv">기록이 저장되는 순간 — 심박 존, 훈련 부하, 폼 분석과 함께 <b>다음 러닝을 위한 진단</b>이 도착합니다. 원하면 한 번의 탭으로 내 AI에게 심층 분석을 맡길 수도.</p>
+    <div class="finish rv">
+      <div class="row"><span class="k">거리 · 시간</span><span class="v">5.00 km · 29:24</span></div>
+      <div class="row"><span class="k">평균 페이스 · 심박</span><span class="v">5:52 /km · 145 bpm</span></div>
+      <div class="row"><span class="k">운동 부하</span><span class="v">TRIMP 54 · 드리프트 +1.8%</span></div>
+      <div class="row"><span class="k">코치 진단</span><span class="v" style="color:var(--green)">고른 페이스 · 좋은 폼</span></div>
+      <div class="row"><span class="k">내보내기</span><span class="v">✨ AI 분석용 · GPX</span></div>
+    </div>
+    <div class="btns rv">
+      <a class="btn" href="index.html#beta">TestFlight 베타 신청</a>
+      <a class="btn ghost" href="index.html">기능 전체 보기</a>
+    </div>
+    <p class="footnote rv">본 페이지의 수치·대사는 실제 앱 동작 방식을 보여주는 시연용 예시입니다. 모든 지표와 안내는 일반적인 운동과학 공식에 기반한 참고 정보이며, 의학적 진단·치료가 아닙니다.<br>© 2026 Runvis · Apple Watch는 Apple Inc.의 상표입니다</p>
+  </div>
+</section>
+
+<footer style="height:56px"></footer>
+
+<div class="hud-metrics">
+  <div class="m"><div class="k">DIST</div><div class="v gr"><span id="hKm">0.00</span><em>KM</em></div></div>
+  <div class="m"><div class="k">PACE</div><div class="v" id="hPace">--:--</div></div>
+  <div class="m"><div class="k">HR</div><div class="v or"><span id="hHr">62</span><em>BPM</em></div></div>
+  <div class="m"><div class="k">ZONE</div><div class="v" id="hZ">—</div></div>
+</div>
+
+<script>
+// ---------- scroll progress ----------
+const prog = document.getElementById('prog');
+addEventListener('scroll', () => {
+  const h = document.documentElement;
+  prog.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+}, {passive:true});
+
+// ---------- reveal ----------
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) e.target.classList.add('in');
+}), {threshold:.18});
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+// ---------- live HUD: interpolate metrics between section anchors ----------
+const secs = [...document.querySelectorAll('section')];
+const hKm = document.getElementById('hKm'), hPace = document.getElementById('hPace'),
+      hHr = document.getElementById('hHr'), hZ = document.getElementById('hZ');
+const paceToSec = p => { if (!p || p.includes('-')) return 0; const [m, s] = p.split(':').map(Number); return m * 60 + s; };
+const secToPace = s => s <= 0 ? '--:--' : `${Math.floor(s/60)}:${String(Math.round(s%60)).padStart(2,'0')}`;
+
+function hudTick() {
+  const mid = innerHeight * .55;
+  let a = secs[0], b = secs[0], t = 0;
+  for (let i = 0; i < secs.length; i++) {
+    const r = secs[i].getBoundingClientRect();
+    if (r.top <= mid) { a = secs[i]; b = secs[i+1] || secs[i];
+      const span = r.height || 1;
+      t = Math.min(Math.max((mid - r.top) / span, 0), 1);
+    }
+  }
+  const km = (+a.dataset.km) + ((+b.dataset.km) - (+a.dataset.km)) * t;
+  hKm.textContent = km.toFixed(2);
+  const pa = paceToSec(a.dataset.pace), pb = paceToSec(b.dataset.pace);
+  hPace.textContent = (pa && pb) ? secToPace(pa + (pb - pa) * t) : (t > .5 ? b.dataset.pace : a.dataset.pace);
+  hHr.textContent = Math.round((+a.dataset.hr) + ((+b.dataset.hr) - (+a.dataset.hr)) * t);
+  const z = t > .5 ? b.dataset.z : a.dataset.z;
+  hZ.textContent = z;
+  hZ.style.color = z === 'Z4' ? 'var(--red)' : z === 'Z3' ? 'var(--orange)' : z === 'Z2' ? 'var(--green)' : 'var(--dim)';
+  requestAnimationFrame(hudTick);
+}
+requestAnimationFrame(hudTick);
+
+// ---------- rail highlight ----------
+const rail = [...document.querySelectorAll('.rail a')];
+const io2 = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) {
+    rail.forEach(a => a.classList.toggle('on', a.dataset.s === e.target.id));
+  }
+}), {threshold:.5});
+secs.forEach(s => io2.observe(s));
+
+// ---------- robust in-page anchors (same fix as index) ----------
+document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+  const el = document.querySelector(a.getAttribute('href'));
+  if (!el) return;
+  e.preventDefault();
+  el.scrollIntoView({behavior:'smooth', block:'start'});
+}));
+</script>
+</body>
+</html>
