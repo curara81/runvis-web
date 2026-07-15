@@ -154,6 +154,31 @@
   /* Apple 공식 iPhone 17 베젤 합성 이미지 — CSS 가짜 베젤 불필요 */
   .phone-frame{width:280px;flex-shrink:0;filter:drop-shadow(0 30px 60px rgba(0,0,0,.55))}
   .phone-frame img{width:100%;height:auto;display:block}
+  /* AI export showcase */
+  .ai-export h3{font-size:clamp(22px,3.4vw,30px);font-weight:800;text-align:center}
+  .ai-sub{color:var(--dim);font-size:15.5px;text-align:center;max-width:620px;margin:12px auto 0}
+  .ai-flow{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:stretch;margin-top:30px}
+  @media(max-width:900px){.ai-flow{grid-template-columns:1fr}.ai-arrow{transform:rotate(90deg);justify-self:center;padding:4px 0}}
+  .ai-report,.ai-answer{background:var(--bg1);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+  .ai-cardhead{display:flex;align-items:center;gap:7px;padding:11px 16px;border-bottom:1px solid var(--line);
+    font-size:12.5px;color:var(--dim);font-family:ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.04em}
+  .ai-cardhead .dot{width:10px;height:10px;border-radius:50%}
+  .dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+  .ai-cardhead.ai-chat{font-family:inherit;font-size:13.5px;font-weight:700;color:var(--text)}
+  .ai-report pre{
+    margin:0;padding:18px 20px;font-family:ui-monospace,'SF Mono',Menlo,monospace;
+    font-size:12px;line-height:1.75;color:#c9d4cd;white-space:pre-wrap;word-break:keep-all;
+    background:linear-gradient(180deg,rgba(61,220,132,.045),transparent 30%);flex:1
+  }
+  .ai-arrow{align-self:center;text-align:center;color:var(--green);font-size:26px;font-weight:800}
+  .ai-arrow span{display:block;font-size:11.5px;color:var(--dim);font-weight:600;line-height:1.4;margin-top:4px}
+  .ai-bubble{padding:18px 20px;flex:1}
+  .ai-bubble p{color:#dfe3e7;font-size:14px;line-height:1.7;margin-bottom:12px;
+    background:var(--card);border:1px solid var(--line);border-radius:4px 14px 14px 14px;padding:12px 14px}
+  .ai-bubble p:last-child{margin-bottom:0}
+  .ai-bubble b{color:var(--green)}
+  .ai-note{padding:0 20px 16px;font-size:11.5px;color:var(--dim2)}
+
   .phone-desc h3{font-size:24px;font-weight:800;margin-bottom:12px}
   .phone-desc p{color:var(--dim);font-size:16px;margin-bottom:12px}
   .phone-desc li{color:var(--dim);font-size:15px;margin:7px 0 7px 18px}
@@ -373,6 +398,56 @@
         </ul>
       </div>
       <div class="phone-frame"><img src="assets/framed-phone-detail.png" alt="iPhone 운동 상세 분석 화면" loading="lazy"></div>
+    </div>
+
+    <!-- AI 분석용 내보내기: 실제 앱이 뽑는 리포트 형식 + AI 답변 예시 -->
+    <div class="ai-export reveal" style="margin-top:56px">
+      <h3>✨ 한 번의 탭 — 내 러닝이 <span class="grad-text">AI가 읽는 리포트</span>가 됩니다</h3>
+      <p class="ai-sub">[AI 분석용 내보내기]를 누르면 아래 형식의 리포트가 생성됩니다. ChatGPT·Gemini·Claude 어디든 붙여넣으면 즉시 심층 분석 — 실제 앱이 만드는 형식 그대로입니다.</p>
+      <div class="ai-flow">
+        <div class="ai-report">
+          <div class="ai-cardhead"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>내보낸 리포트.md</div>
+          <pre># 러닝 기록 리포트
+
+- 종목: 러닝 · 일시: 2026-07-06 (월) 06:04
+- 시간: 42:18 · 거리: 7.4 km · 평균 페이스: 5:43 /km
+
+## 심박 &amp; 부하
+- 평균 심박: 142 bpm · 최대: 172 bpm
+- 심박 드리프트(전·후반 효율 변화): +2.1%
+- TRIMP(운동 부하): 72
+
+## 심박 존 분포 (Karvonen)
+| 존 | 시간   | 비율 |
+| Z2 | 28:06 | 66% |
+| Z3 | 10:24 | 25% |
+
+## 러닝 다이내믹스 (평균)
+- 케이던스: 174 spm · 보폭: 1.01 m
+- 수직진폭: 8.1 cm · 지면접촉: 244 ms
+
+## 심박 시계열 (분 단위)
+0,118  1,131  2,138  3,141 …
+
+---
+위는 러닝 워치로 기록한 실측 데이터입니다.
+다음 관점으로 분석해 주세요:
+1) 페이스 배분과 심박 반응의 관계
+2) 유산소 능력 상태 3) 러닝 폼 개선점
+4) 다음 2주 훈련 제안</pre>
+        </div>
+        <div class="ai-arrow">→<span>내 AI에<br>붙여넣기</span></div>
+        <div class="ai-answer">
+          <div class="ai-cardhead ai-chat">🤖 내 AI의 분석 (예시)</div>
+          <div class="ai-bubble">
+            <p><b>페이스 배분</b> — 심박 드리프트 +2.1%는 훌륭합니다. 42분 내내 같은 효율을 유지했다는 뜻이라, 이 페이스(5:43)는 몸에 잘 맞는 이지런입니다.</p>
+            <p><b>유산소 상태</b> — Z2에 66%를 머문 훌륭한 베이스 훈련이었어요. 이런 러닝을 주 2~3회 쌓으면 같은 심박에서 페이스가 점점 빨라집니다.</p>
+            <p><b>폼</b> — 케이던스 174는 부상 위험이 낮은 구간이고, 접지 244ms·수직진폭 8.1cm 모두 안정적입니다. 지금 폼을 유지하세요.</p>
+            <p><b>다음 2주</b> — 주 3회: 이지런 2회(오늘 페이스) + 언덕 스트라이드 1회. 3주 차에 템포런을 추가해볼 만한 상태입니다.</p>
+          </div>
+          <p class="ai-note">답변은 사용 중인 AI가 생성 — 데이터가 정형화돼 있어 어떤 AI든 깊게 읽습니다</p>
+        </div>
+      </div>
     </div>
 
     <!-- 주간 훈련 플랜 (코치 = 계획을 짜준다) -->
