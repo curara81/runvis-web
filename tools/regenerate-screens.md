@@ -21,3 +21,9 @@
 
 주의: Apple 베젤은 "무수정 사용" 조건 — 앱 화면을 스크린 영역에 넣는 것은 허용된 용도,
 회전·기울임·색변경 금지. https://developer.apple.com/app-store/marketing/guidelines/
+
+## 지도 화면 (shotMap) 별도 파이프라인
+GPS 지도 화면은 SVG가 아니라 실지도 합성: `tools/fetch_map.py`(OSM 타일 25장
+스티치+다크 처리, 여의도 한강공원 — 개인 위치 아님) → `tools/draw_route.py`
+(강변 경로+시작핀+현위치+메트릭바+© OpenStreetMap 표기) → composite_bezels.py.
+OSM 타일은 ODbL — 저작자 표기 필수(이미지에 포함됨), 대량 다운로드 금지(1회 25장 OK).
