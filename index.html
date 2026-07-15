@@ -88,6 +88,14 @@
   /* WATCH FRAME + typing caption */
   .stage{margin:52px auto 0;position:relative;width:300px}
   .watch{width:300px;height:auto;display:block;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6))}
+  /* hero screen rotation: first image sets the layout height, the rest stack on top */
+  .watch-stack{position:relative}
+  .watch-stack .watch{opacity:0;transition:opacity .9s ease}
+  .watch-stack .watch.on{opacity:1}
+  .watch-stack .watch:not(:first-child){position:absolute;top:0;left:0}
+  @media(prefers-reduced-motion:reduce){
+    .watch-stack .watch{transition:none}
+  }
   .caption{
     margin:22px auto 0;max-width:360px;min-height:52px;
     background:var(--card);border:1px solid var(--line);border-radius:14px;
@@ -256,7 +264,12 @@
          지금은 라이브 SVG 워치 목업으로 대체 중.
     ============================================================= -->
     <div class="stage reveal">
-      <img class="watch" src="assets/framed-watch-hero.png" alt="Apple Watch Ultra에 표시된 Runvis 현재 페이스 화면">
+      <!-- 같은 베젤에 화면만 다른 3장 → 크로스페이드 로테이션 -->
+      <div class="watch-stack" id="watchStack">
+        <img class="watch on" src="assets/framed-watch-hero.png" alt="Apple Watch Ultra에 표시된 Runvis 현재 페이스 화면">
+        <img class="watch" src="assets/framed-watch-hr.png" alt="Runvis 심박존 아크 화면">
+        <img class="watch" src="assets/framed-watch-map.png" alt="Runvis 실시간 GPS 지도 화면">
+      </div>
       <div class="caption"><span class="mic">🔊</span><span class="txt" id="heroCaption"></span></div>
     </div>
   </div>
@@ -546,6 +559,19 @@ document.querySelectorAll('.vchip').forEach(c=>c.addEventListener('click',()=>{
   u.onend=()=>c.classList.remove('playing');
   speechSynthesis.speak(u);
 }));
+
+// --- hero watch screen rotation (pace → HR zones → GPS map) ---
+(() => {
+  const slides = document.querySelectorAll('#watchStack .watch');
+  if (slides.length < 2) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let i = 0;
+  setInterval(() => {
+    slides[i].classList.remove('on');
+    i = (i + 1) % slides.length;
+    slides[i].classList.add('on');
+  }, 3800);
+})();
 
 // --- beta signup → Formspree (AJAX, no page navigation) ---
 const betaForm = document.getElementById('betaForm');
