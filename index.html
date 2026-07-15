@@ -469,14 +469,17 @@
     <h2 class="reveal">가장 먼저 달려보세요</h2>
     <div class="signup reveal">
       <p class="sub" style="margin:0 auto">TestFlight 베타가 열리면 가장 먼저 초대장을 보내드립니다.</p>
-      <form onsubmit="event.preventDefault();alert('폼 연동 예정 — Tally/Formspree 등록 후 실제 수집됩니다.');">
-        <input type="email" placeholder="이메일 주소" required>
-        <button class="btn" type="submit">베타 초대 받기</button>
+      <!-- Formspree: 폼 ID 발급 후 아래 action의 YOUR_FORM_ID만 교체하면 활성화.
+           ID 미설정 상태에서는 제출 시 안내 문구만 표시(오발송 없음). -->
+      <form id="betaForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <input type="email" name="email" placeholder="이메일 주소" required>
+        <button class="btn" type="submit" id="betaSubmit">베타 초대 받기</button>
       </form>
+      <p id="betaStatus" style="display:none;margin-top:14px;font-size:15px;font-weight:600"></p>
       <div class="consent">
         <div>· <b>수집 목적</b>: TestFlight 베타 초대장 발송</div>
         <div>· <b>보관 기간</b>: 베타 종료 또는 수신 동의 철회 시까지</div>
-        <label><input type="checkbox"> (선택) 출시 소식·업데이트 등 마케팅 정보 수신에 동의합니다.</label>
+        <label><input type="checkbox" name="marketing_consent" value="yes" form="betaForm"> (선택) 출시 소식·업데이트 등 마케팅 정보 수신에 동의합니다.</label>
       </div>
     </div>
   </div>
@@ -543,6 +546,46 @@ document.querySelectorAll('.vchip').forEach(c=>c.addEventListener('click',()=>{
   u.onend=()=>c.classList.remove('playing');
   speechSynthesis.speak(u);
 }));
+
+// --- beta signup → Formspree (AJAX, no page navigation) ---
+const betaForm = document.getElementById('betaForm');
+if (betaForm) betaForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  const status = document.getElementById('betaStatus');
+  const btn = document.getElementById('betaSubmit');
+  const show = (msg, ok) => {
+    status.style.display = 'block';
+    status.style.color = ok ? 'var(--green)' : 'var(--red)';
+    status.textContent = msg;
+  };
+  // Not wired to a real Formspree form yet → explain instead of firing a dud request.
+  if (betaForm.action.includes('YOUR_FORM_ID')) {
+    show('신청 접수 준비 중입니다. 조금만 기다려 주세요!', false);
+    return;
+  }
+  btn.disabled = true;
+  const original = btn.textContent;
+  btn.textContent = '전송 중…';
+  try {
+    const res = await fetch(betaForm.action, {
+      method: 'POST',
+      body: new FormData(betaForm),
+      headers: { Accept: 'application/json' }
+    });
+    if (res.ok) {
+      show('신청 완료! 베타가 열리면 가장 먼저 초대장을 보내드릴게요. 🏃', true);
+      betaForm.reset();
+    } else {
+      const d = await res.json().catch(() => null);
+      show(d?.errors?.[0]?.message || '전송에 실패했어요. 잠시 후 다시 시도해 주세요.', false);
+    }
+  } catch {
+    show('네트워크 오류예요. 잠시 후 다시 시도해 주세요.', false);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = original;
+  }
+});
 
 // --- in-page anchor navigation (robust: scrolls the real scroll container) ---
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
