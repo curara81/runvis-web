@@ -13,7 +13,7 @@
    - https://devimages-cdn.apple.com/design/resources/download/Bezel-Apple-Watch-Ultra-3-2025.dmg
    - https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg
    - 마운트: `yes Y | hdiutil attach -nobrowse <dmg>` (EULA 자동 동의)
-   - 사용 파일: `PNG/Trail Loop/AW Ultra 3 - Black + Trail Loop Black Charcoal.png` → `bezel-ultra.png`
+   - 사용 파일: `PNG/Ocean Band/AW Ultra 3 - Natural + Ocean Band Neon Green.png` → `bezel-ultra.png`
      `PNG/iPhone 17/iPhone 17 - Black - Portrait.png` → `bezel-iphone.png`
 4. **합성**: `python3 tools/composite_bezels.py` (베젤 경로는 스크립트 상단 SP 변수 참조)
    — 알파 채널에서 스크린 구멍을 자동 검출(라운드 코너·다이내믹 아일랜드 보정 포함)해
