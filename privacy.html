@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>개인정보 처리방침 — Runvis</title>
+<style>
+  :root{
+    --green:#3DDC84; --bg:#000; --card:#16191e; --line:#24282e;
+    --text:#f2f3f5; --dim:#9aa0a6; --dim2:#6a6f76;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
+    line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}
+  a{color:var(--green);text-decoration:none}
+  h1{font-size:1.7rem;margin-bottom:6px}
+  .updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}
+  h2{font-size:1.15rem;margin:36px 0 12px;color:var(--green)}
+  p,li{color:var(--dim);font-size:.95rem}
+  ul{padding-left:20px;margin:10px 0}
+  li{margin:6px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0}
+  .card b{color:var(--text)}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9rem}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--dim)}
+  th{color:var(--text);font-weight:600}
+  .back{display:inline-block;margin-bottom:28px;color:var(--dim);font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← Runvis 홈으로</a>
+  <h1>개인정보 처리방침</h1>
+  <p class="updated">시행일: 2026년 7월 18일 · 버전 1.0</p>
+
+  <div class="card">
+    <p><b>한 문단 요약</b> — Runvis는 러닝·건강 데이터를 <b>당신의 기기 안에서만</b> 처리합니다.
+    Runvis가 운영하는 서버는 없고, 계정도 없으며, 당신의 운동·건강 데이터를 개발자를 포함한
+    누구에게도 전송·판매·공유하지 않습니다. 아래에 그 예외 세 가지(날씨 조회, 애플 결제,
+    지도 경로 생성)를 숨김없이 설명합니다.</p>
+  </div>
+
+  <h2>1. 수집·처리하는 데이터</h2>
+  <p>Runvis는 다음 데이터를 <b>기기 내에서</b> 읽고 처리합니다. 모두 앱 기능 제공 목적이며,
+  기기 밖으로 나가지 않습니다.</p>
+  <ul>
+    <li><b>운동 데이터</b>: 심박수, 페이스, 거리, GPS 경로, 고도, 케이던스, 러닝 파워·보폭·접지시간·수직진폭(지원 기기), 칼로리 — Apple HealthKit을 통해 읽고 저장</li>
+    <li><b>건강 데이터</b>: 수면(시간·단계), 심박변이도(HRV), 안정시 심박, VO₂max, 손목 온도 기반 지표, (선택 시) 월경 주기 — 훈련 준비도·회복 분석에 사용</li>
+    <li><b>모션 데이터</b>: 손목 가속도(러닝 자동 시작 감지), (착용 시) AirPods 머리 모션 — 폼 신호 참고용</li>
+    <li><b>입력 데이터</b>: 목표 대회·기록, 코치 성향, 신발 정보, 운동 후 체크인(강도·통증·수분)</li>
+    <li><b>Bluetooth 센서</b>: (연결 시) 심박 밴드, 사이클링 파워미터·스마트 트레이너의 실시간 측정값</li>
+  </ul>
+
+  <h2>2. 데이터가 저장되는 곳</h2>
+  <ul>
+    <li>운동 기록·경로는 <b>Apple 건강(HealthKit)</b>에 저장됩니다 — 소유자는 당신이며, iCloud 건강 동기화 여부는 iOS 설정을 따릅니다</li>
+    <li>앱 설정·플랜·코스·배지 계산 결과는 <b>기기 내 앱 저장공간</b>에만 저장됩니다</li>
+    <li>Runvis는 자체 서버·데이터베이스·계정 시스템을 운영하지 않습니다</li>
+  </ul>
+
+  <h2>3. 기기 밖으로 나가는 유일한 예외 3가지</h2>
+  <table>
+    <tr><th>예외</th><th>전송되는 것</th><th>받는 곳</th></tr>
+    <tr><td>날씨 브리핑</td><td>현재 위치의 대략적 좌표(도시 수준 정밀도)와 시각 — 요청 순간에만, 저장·식별자 없음</td><td>Open-Meteo(무료 기상 API)</td></tr>
+    <tr><td>구독 결제</td><td>결제 처리 전부 — Runvis는 카드·결제 정보를 보지도, 저장하지도 못합니다</td><td>Apple App Store</td></tr>
+    <tr><td>코스 자동 생성</td><td>경로 계산용 출발 좌표 — 생성 요청 순간에만</td><td>Apple 지도(MapKit)</td></tr>
+  </table>
+  <p>위 세 경우 모두 이름·이메일 등 식별 정보는 포함되지 않으며, Runvis가 별도로 기록하지 않습니다.</p>
+
+  <h2>4. 권한 사용 목적</h2>
+  <ul>
+    <li><b>건강(HealthKit)</b>: 운동 기록 저장·과거 기록 분석</li>
+    <li><b>위치</b>: 러닝 경로 기록, 날씨 브리핑, 코스 안내</li>
+    <li><b>모션</b>: 달리기 시작 자동 감지, 준비운동 안내</li>
+    <li><b>Bluetooth</b>: 외부 센서(심박 밴드·파워미터) 연결</li>
+    <li><b>캘린더</b>(선택): 훈련 플랜 일정 추가</li>
+    <li><b>사진</b>(선택): 경로 플라이오버 영상 저장</li>
+  </ul>
+  <p>모든 권한은 거부해도 해당 기능 외의 앱 사용에는 지장이 없습니다.</p>
+
+  <h2>5. 제3자 제공·광고·추적</h2>
+  <ul>
+    <li>제3자 제공: <b>없음</b></li>
+    <li>광고 SDK·분석 SDK·추적 도구: <b>없음</b></li>
+    <li>데이터 판매: <b>없음</b></li>
+  </ul>
+
+  <h2>6. 데이터 삭제</h2>
+  <p>앱을 삭제하면 앱 저장공간의 데이터가 삭제됩니다. HealthKit에 저장된 운동 기록은
+  당신 소유이므로 앱 삭제 후에도 건강 앱에 남으며, 건강 앱에서 직접 삭제할 수 있습니다.</p>
+
+  <h2>7. 아동</h2>
+  <p>Runvis는 만 14세 미만을 대상으로 하지 않으며, 연령 관련 정보를 수집하지 않습니다.
+  가족 공유 구독으로 자녀가 사용하는 경우 보호자의 지도가 필요합니다.</p>
+
+  <h2>8. 의료 면책</h2>
+  <p>Runvis의 모든 수치와 안내는 공개된 운동과학 공식에 기반한 <b>참고용 추정치</b>이며,
+  의학적 진단·치료·처방이 아닙니다. 흉통·어지럼 등 이상 증상이 있으면 즉시 운동을 중단하고
+  전문가와 상담하세요.</p>
+
+  <h2>9. 변경 및 문의</h2>
+  <p>방침이 바뀌면 이 페이지의 시행일을 갱신합니다. 문의:
+  <a href="mailto:curara@naver.com">curara@naver.com</a></p>
+</div>
+</body>
+</html>
