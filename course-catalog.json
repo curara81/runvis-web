@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "courses": [
+    {
+      "name": "여의도 한강공원 순환",
+      "region": "서울",
+      "country": "KR",
+      "km": 5.0,
+      "ascentM": 0,
+      "note": "평지 강변 순환 · 초보 친화",
+      "file": "gpx/seoul-hangang-yeouido-5k.gpx"
+    }
+  ]
+}
