@@ -1,5 +1,6 @@
 {
   "version": 1,
+  "attribution": "코스 경로=Runvis 자체 제작. 고도=Copernicus DEM(Open-Meteo)·SRTM(OpenTopoData). 공개 재배포 가능 데이터만 사용.",
   "courses": [
     {
       "name": "여의도 한강공원 순환",
@@ -9,6 +10,114 @@
       "ascentM": 0,
       "note": "평지 강변 순환 · 초보 친화",
       "file": "gpx/seoul-hangang-yeouido-5k.gpx"
+    },
+    {
+      "name": "남산 순환로",
+      "region": "서울",
+      "country": "KR",
+      "km": 4.6,
+      "ascentM": 353,
+      "note": "남측 소월로 오르막 + 북측순환로 · 정상 N서울타워",
+      "file": "gpx/seoul-namsan-loop.gpx"
+    },
+    {
+      "name": "북악스카이웨이",
+      "region": "서울",
+      "country": "KR",
+      "km": 9.5,
+      "ascentM": 322,
+      "note": "창의문→북악팔각정 왕복 · 롱 힐런",
+      "file": "gpx/seoul-bukak-skyway.gpx"
+    },
+    {
+      "name": "안산 자락길",
+      "region": "서울",
+      "country": "KR",
+      "km": 3.0,
+      "ascentM": 182,
+      "note": "무장애 순환 데크길 · 봉수대",
+      "file": "gpx/seoul-ansan-jarak.gpx"
+    },
+    {
+      "name": "응봉산 계단",
+      "region": "서울",
+      "country": "KR",
+      "km": 1.7,
+      "ascentM": 61,
+      "note": "가파른 계단 인터벌 · 한강 조망",
+      "file": "gpx/seoul-eungbong.gpx"
+    },
+    {
+      "name": "낙산공원 한양도성길",
+      "region": "서울",
+      "country": "KR",
+      "km": 2.1,
+      "ascentM": 68,
+      "note": "성곽 오르막 · 도심 야경",
+      "file": "gpx/seoul-naksan.gpx"
+    },
+    {
+      "name": "인왕산 자락길",
+      "region": "서울",
+      "country": "KR",
+      "km": 2.5,
+      "ascentM": 214,
+      "note": "수성동계곡→성곽 급경사",
+      "file": "gpx/seoul-inwangsan.gpx"
+    },
+    {
+      "name": "도림천",
+      "region": "서울",
+      "country": "KR",
+      "km": 7.4,
+      "ascentM": 29,
+      "note": "평지 하천 산책로",
+      "file": "gpx/seoul-dorimcheon.gpx"
+    },
+    {
+      "name": "반포 한강공원",
+      "region": "서울",
+      "country": "KR",
+      "km": 5.1,
+      "ascentM": 9,
+      "note": "평지 강변 · 세빛섬",
+      "file": "gpx/seoul-banpo-hangang.gpx"
+    },
+    {
+      "name": "탄천",
+      "region": "서울",
+      "country": "KR",
+      "km": 6.0,
+      "ascentM": 26,
+      "note": "평지 하천 · 한강 합수부",
+      "file": "gpx/seoul-tancheon.gpx"
+    },
+    {
+      "name": "양재천",
+      "region": "서울",
+      "country": "KR",
+      "km": 4.6,
+      "ascentM": 29,
+      "note": "평지 하천 · 시민의숲",
+      "file": "gpx/seoul-yangjaecheon.gpx"
+    },
+    {
+      "name": "청계천",
+      "region": "서울",
+      "country": "KR",
+      "km": 5.1,
+      "ascentM": 21,
+      "note": "도심 평지 물길",
+      "file": "gpx/seoul-cheonggyecheon.gpx"
+    },
+    {
+      "name": "서울숲 순환",
+      "region": "서울",
+      "country": "KR",
+      "km": 3.1,
+      "ascentM": 15,
+      "note": "평지 공원 순환",
+      "file": "gpx/seoul-seoulsup.gpx"
     }
   ]
 }
