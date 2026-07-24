@@ -269,6 +269,15 @@
   footer a{color:var(--dim)}
   footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
   .disclaimer{max-width:640px;margin:20px auto 0;font-size:12px;color:var(--dim2);line-height:1.7}
+  /* MANIFESTO band — the "you already own the watch" pitch, framed by category */
+  #own{background:linear-gradient(180deg,rgba(61,220,132,.06),rgba(34,211,238,.05));
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  #own .manifesto{max-width:720px;margin:24px auto 28px;text-align:left}
+  #own .manifesto p{font-size:16px;line-height:1.85;color:#d4dae0;margin:0 0 16px}
+  #own .manifesto p:last-child{margin-bottom:0}
+  #own .manifesto b{color:var(--text);font-weight:700}
+  @media(max-width:640px){#own .manifesto p{font-size:15px}}
+
   /* language switcher */
   .langsel{position:relative;display:inline-block;margin-left:14px}
   .langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);
@@ -613,6 +622,20 @@
 <div class="big">계정도, 자체 서버도 없습니다.<br/>모든 러닝 기록과 분석은 <span class="grad-text" data-i18n="t137">기기 내부</span>에서만 처리됩니다.</div>
 <p class="note" data-i18n="t138">단, 워밍업 날씨 안내를 위해 Open-Meteo로 대략적인 위치 정보가 전송될 수 있습니다.</p>
 </div>
+</div>
+</section>
+<!-- MANIFESTO: 이미 가진 애플워치로 충분 (브랜드명 없이 카테고리 프레임) -->
+<section id="own">
+<div class="wrap">
+<div class="eyebrow reveal" data-i18n="m0">이미 가진 애플워치</div>
+<h2 class="reveal" data-i18n="m1">분석 하나 때문에,<br/><span class="grad-text">시계를 하나 더</span> 살 필요는 없어요</h2>
+<p class="sub reveal" data-i18n="m2">이미 손목에 있는 Apple Watch, 그거면 충분합니다.</p>
+<div class="manifesto reveal">
+<p data-i18n="m3">훈련 부하, 회복 시간, 부상 위험, 컨디션 점수 — 제대로 된 러닝 분석을 보려면 으레 수십만 원짜리 <b>전용 러닝 워치를 하나 더</b> 장만해야 한다고들 하죠. 그 숫자들은 오랫동안 특정 브랜드의 기기와 그 회사 클라우드 안에서만 볼 수 있었으니까요.</p>
+<p data-i18n="m4">그런데 그 지표들의 계산식은 대부분 <b>공개된 스포츠 과학 공식</b>이에요. 필요한 센서 — 심박, GPS, 케이던스, 고도 — 는 이미 당신 손목 위 Apple Watch에 전부 들어 있고요. 그동안 없던 건 하드웨어가 아니라, 그 데이터를 읽고 코치해 줄 사람이었을 뿐입니다.</p>
+<p data-i18n="m5"><b>Runvis가 그 코치예요.</b> 새 기기도, 브랜드 클라우드 가입도 없이 — 이미 쓰던 Apple Watch 하나로 실시간 코칭부터 깊이 있는 훈련 분석까지 전부. 모든 계산은 기기 안에서 이뤄지고, 데이터는 특정 회사 서버에 묶이지 않습니다. 손목에 이미 있는 시계를, 이제 제대로 깨울 시간이에요.</p>
+</div>
+<a href="#price" class="btn reveal" data-i18n="m6" style="margin-top:8px">가격 보기 · 1개월 무료</a>
 </div>
 </section>
 <!-- PRICING -->
