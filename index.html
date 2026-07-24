@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Runvis — 달리는 순간, 나와 함께하는 러닝 코치</title>
-<meta name="description" content="Apple Watch에서 페이스, 심박, 오르막을 읽고 지금 당장 필요한 안내만 전하는 러닝 코치. 계정도 서버도 없이, 모든 분석은 기기 안에서.">
-<meta property="og:title" content="Runvis — Apple Watch 러닝 코치">
-<meta property="og:description" content="준비운동부터 결승선까지 함께하는 Apple Watch 러닝 코치.">
-<meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏃</text></svg>">
+<meta content="Apple Watch에서 페이스, 심박, 오르막을 읽고 지금 당장 필요한 안내만 전하는 러닝 코치. 계정도 서버도 없이, 모든 분석은 기기 안에서." name="description"/>
+<meta content="Runvis — Apple Watch 러닝 코치" property="og:title"/>
+<meta content="준비운동부터 결승선까지 함께하는 Apple Watch 러닝 코치." property="og:description"/>
+<meta content="website" property="og:type"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🏃&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
 <style>
   :root{
     --green:#3DDC84; --green-d:#27b368; --cyan:#4CCBD9; --orange:#FFA633;
@@ -85,8 +86,29 @@
   .tbadge b{display:block;font-size:19px;font-weight:900;background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
   .tbadge span{display:block;font-size:12px;color:var(--dim);margin-top:2px}
 
+  /* HERO FILM — a dawn run playing behind the hero, handing off to the watch.
+     It opens at full strength, then settles back so the app itself takes over. */
+  .hero-film{
+    position:absolute;inset:0;overflow:hidden;z-index:0;pointer-events:none;
+    opacity:0;transition:opacity 1.6s ease;
+  }
+  .hero-film video{width:100%;height:100%;object-fit:cover;display:block}
+  /* scrim keeps the headline readable over the footage at every stage */
+  .hero-film::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(10,12,14,.55) 0%,rgba(10,12,14,.72) 55%,var(--bg) 100%);
+  }
+  .hero.film-in .hero-film{opacity:.9}
+  .hero.film-settled .hero-film{opacity:.34}
+  .hero .wrap{position:relative;z-index:1}
+  @media(prefers-reduced-motion:reduce){
+    .hero-film{transition:none}
+  }
+
   /* WATCH FRAME + typing caption */
-  .stage{margin:52px auto 0;position:relative;width:300px}
+  .stage{margin:52px auto 0;position:relative;width:300px;transition:opacity 1.2s ease,transform 1.2s ease}
+  .hero.film-in .stage{opacity:0;transform:translateY(18px)}
+  .hero.film-settled .stage{opacity:1;transform:none}
   .watch{width:300px;height:auto;display:block;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6))}
   /* hero screen rotation: first image sets the layout height, the rest stack on top */
   .watch-stack{position:relative}
@@ -247,48 +269,72 @@
   footer a{color:var(--dim)}
   footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
   .disclaimer{max-width:640px;margin:20px auto 0;font-size:12px;color:var(--dim2);line-height:1.7}
+  /* language switcher */
+  .langsel{position:relative;display:inline-block;margin-left:14px}
+  .langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);
+    border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
+  .langsel button:hover{border-color:var(--green)}
+  .langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);
+    border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;
+    box-shadow:0 12px 40px rgba(0,0,0,.5)}
+  .langsel.open ul{display:block}
+  .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text)}
+  .langsel li:hover{background:rgba(61,220,132,.15)}
+  .langsel li[aria-current="true"]{color:var(--green);font-weight:700}
+  @media(max-width:640px){.langsel{margin-left:8px}.langsel button{padding:6px 9px;font-size:12px}}
 </style>
+<script src="translations.js"></script>
+<script defer src="i18n.js"></script>
 </head>
 <body>
-
 <nav>
-  <div class="wrap">
-    <div class="logo">Run<b>vis</b></div>
-    <div class="links">
-      <a href="run.html" style="color:var(--green)">라이브 데모</a>
-<a href="#why">차별점</a>
-      <a href="#how">작동 방식</a>
-      <a href="#features">기능</a>
-      <a href="#voice">음성 코칭</a>
-      <a href="#price">가격</a>
-      <a href="#beta">베타 신청</a>
-    </div>
-  </div>
+<div class="wrap">
+<div class="logo">Run<b>vis</b></div>
+<div class="links">
+<a data-i18n="t0" href="run.html" style="color:var(--green)">라이브 데모</a>
+<a data-i18n="t1" href="#why">차별점</a>
+<a data-i18n="t2" href="#how">작동 방식</a>
+<a data-i18n="t3" href="#features">기능</a>
+<a data-i18n="t4" href="#voice">음성 코칭</a>
+<a data-i18n="t5" href="#price">가격</a>
+<a data-i18n="t6" href="#beta">베타 신청</a>
+<div class="langsel" id="langsel">
+  <button id="langbtn" aria-haspopup="true" aria-expanded="false">🌐 <span id="langlabel">한국어</span> ▾</button>
+  <ul id="langmenu" role="menu"></ul>
+</div>
+</div>
+</div>
 </nav>
-
 <!-- HERO -->
-<header class="hero">
-  <div class="hero-bg"></div>
-  <div class="wrap">
-    <div class="eyebrow reveal">Apple Watch 러닝 코치</div>
-    <h1 class="reveal">달리는 순간,<br><span class="grad-text">나와 함께하는</span> 러닝 코치 Runvis</h1>
-    <p class="sub reveal"><b style="color:var(--text)">Apple Watch는 기록합니다. Runvis는 코치합니다.</b><br>준비운동부터 결승선까지, 옆에서 함께 뛰는 것처럼.</p>
-    <div class="cta reveal">
-      <a href="#beta" class="btn">TestFlight 베타 신청</a>
-      <a href="#how" class="btn ghost">작동 방식 보기</a>
-    </div>
-    <p class="note reveal">계정 없음 · 서버 없음 · 신발 신고 3초면 시작</p>
-
-    <!-- 신뢰의 벽 — Gentler Streak식 배지 줄. 출시 후 수상/언론/리뷰 배지로 확장.
+<header class="hero" id="hero">
+<div class="hero-bg"></div>
+<!-- A dawn run opens the page, then settles into the background so the watch
+       itself takes over. Drop hero-run.mp4/webm into assets/ to enable it; with
+       the files absent the page stays exactly as it was. -->
+<div aria-hidden="true" class="hero-film" id="heroFilm">
+<video id="heroFilmVideo" muted="" playsinline="" poster="assets/hero-run-poster.jpg" preload="auto">
+<source src="assets/hero-run.webm" type="video/webm"/>
+<source src="assets/hero-run.mp4" type="video/mp4"/>
+</video>
+</div>
+<div class="wrap">
+<div class="eyebrow reveal">Apple Watch 러닝 코치</div>
+<h1 class="reveal" data-i18n="t7">달리는 순간,<br/><span class="grad-text">나와 함께하는</span> 러닝 코치 Runvis</h1>
+<p class="sub reveal" data-i18n="t8"><b style="color:var(--text)">Apple Watch는 기록합니다. Runvis는 코치합니다.</b><br/>준비운동부터 결승선까지, 옆에서 함께 뛰는 것처럼.</p>
+<div class="cta reveal">
+<a class="btn" data-i18n="t9" href="#beta">TestFlight 베타 신청</a>
+<a class="btn ghost" data-i18n="t10" href="#how">작동 방식 보기</a>
+</div>
+<p class="note reveal" data-i18n="t11">계정 없음 · 서버 없음 · 신발 신고 3초면 시작</p>
+<!-- 신뢰의 벽 — Gentler Streak식 배지 줄. 출시 후 수상/언론/리뷰 배지로 확장.
          지금은 제품 자체의 신뢰 신호(온디바이스·개방 개발·무료 시작)로 채움. -->
-    <div class="trust reveal">
-      <div class="tbadge"><b>100%</b><span>온디바이스 분석</span></div>
-      <div class="tbadge"><b>0원</b><span>계정·서버 없음</span></div>
-      <div class="tbadge"><b>공개</b><span>개발 과정 오픈</span></div>
-      <div class="tbadge"><b>1개월</b><span>무료 체험</span></div>
-    </div>
-
-    <!-- ============================================================
+<div class="trust reveal">
+<div class="tbadge"><b>100%</b><span data-i18n="t12">온디바이스 분석</span></div>
+<div class="tbadge"><b data-i18n="t13">0원</b><span data-i18n="t14">계정·서버 없음</span></div>
+<div class="tbadge"><b data-i18n="t15">공개</b><span data-i18n="t16">개발 과정 오픈</span></div>
+<div class="tbadge"><b data-i18n="t17">1개월</b><span data-i18n="t18">무료 체험</span></div>
+</div>
+<!-- ============================================================
          히어로 영상 자리 — Apple Watch 3D 렌더링(AI 제작) 영상을 넣을 곳.
          영상이 준비되면 아래 <div class="stage"> 통째로 다음으로 교체:
 
@@ -304,163 +350,153 @@
          (자막 타이핑 루프는 그대로 유지 — heroCaption id만 남기면 됨.)
          지금은 라이브 SVG 워치 목업으로 대체 중.
     ============================================================= -->
-    <div class="stage reveal">
-      <!-- 같은 베젤에 화면만 다른 3장 → 크로스페이드 로테이션 -->
-      <div class="watch-stack" id="watchStack">
-        <img class="watch on" src="assets/framed-watch-hero.png" alt="Apple Watch Ultra에 표시된 Runvis 현재 페이스 화면">
-        <img class="watch" src="assets/framed-watch-hr.png" alt="Runvis 심박존 아크 화면">
-        <img class="watch" src="assets/framed-watch-map.png" alt="Runvis 실시간 GPS 지도 화면">
-      </div>
-      <div class="caption"><span class="mic">🔊</span><span class="txt" id="heroCaption"></span></div>
-    </div>
-  </div>
+<div class="stage reveal">
+<!-- 같은 베젤에 화면만 다른 3장 → 크로스페이드 로테이션 -->
+<div class="watch-stack" id="watchStack">
+<img alt="Apple Watch Ultra에 표시된 Runvis 현재 페이스 화면" class="watch on" src="assets/framed-watch-hero.png"/>
+<img alt="Runvis 심박존 아크 화면" class="watch" src="assets/framed-watch-hr.png"/>
+<img alt="Runvis 실시간 GPS 지도 화면" class="watch" src="assets/framed-watch-map.png"/>
+</div>
+<div class="caption"><span class="mic">🔊</span><span class="txt" id="heroCaption"></span></div>
+</div>
+</div>
 </header>
-
 <!-- WHY: 애플워치엔 없던 코치 -->
 <!-- START FLOW: 시작 버튼부터 첫 발까지 — 버튼 없는 시작 (강점 쇼케이스) -->
 <section id="startflow">
-  <div class="wrap">
-    <div class="eyebrow reveal">신발 신고 3초</div>
-    <h2 class="reveal">시작 버튼은 <span class="grad-text">한 번이면 끝</span>입니다</h2>
-    <p class="sub reveal">그 뒤로는 코치가 알아서 이어갑니다 — 날씨 브리핑, 준비운동, 그리고 <b>달리기 시작하면 자동으로 기록 시작</b>. 손목을 다시 볼 필요가 없습니다.</p>
-    <div class="startflow-grid reveal">
-      <div class="sf-card">
-        <div class="sf-step">01</div>
-        <h3>🌤️ 날씨 브리핑</h3>
-        <div class="sf-quote">"현재 여의도동 날씨입니다. 기온 26도, 습도 78퍼센트 — 중간에 수분 꼭 챙기세요."</div>
-        <p>지금 있는 동네 이름부터 실시간 기상까지. 더운 날엔 러닝 중 수분 알림 간격도 자동으로 짧아집니다.</p>
-      </div>
-      <div class="sf-arrow">→</div>
-      <div class="sf-card">
-        <div class="sf-step">02</div>
-        <h3>🤸 준비운동 코칭</h3>
-        <div class="sf-quote">"목 돌리기, 20초. … 반대 방향으로. … 셋, 둘, 하나."</div>
-        <p>목→팔→허리→다리→발목→제자리뛰기, 6단계를 타이머와 음성으로. 건너뛰기도 한 번의 탭.</p>
-      </div>
-      <div class="sf-arrow">→</div>
-      <div class="sf-card sf-hot">
-        <div class="sf-step">03</div>
-        <h3>🏃 그냥 달리세요</h3>
-        <div class="sf-quote">"달리기 시작하셨네요. 기록 시작합니다."</div>
-        <p>버튼 없이, 손목의 러닝 리듬을 감지해 <b>자동으로 기록 시작</b>. 준비운동 끝나고 그대로 출발하면 됩니다.</p>
-      </div>
-    </div>
-  </div>
+<div class="wrap">
+<div class="eyebrow reveal">신발 신고 3초</div>
+<h2 class="reveal" data-i18n="t19">시작 버튼은 <span class="grad-text">한 번이면 끝</span>입니다</h2>
+<p class="sub reveal" data-i18n="t20">그 뒤로는 코치가 알아서 이어갑니다 — 날씨 브리핑, 준비운동, 그리고 <b>달리기 시작하면 자동으로 기록 시작</b>. 손목을 다시 볼 필요가 없습니다.</p>
+<div class="startflow-grid reveal">
+<div class="sf-card">
+<div class="sf-step">01</div>
+<h3 data-i18n="t21">🌤️ 날씨 브리핑</h3>
+<div class="sf-quote">"현재 여의도동 날씨입니다. 기온 26도, 습도 78퍼센트 — 중간에 수분 꼭 챙기세요."</div>
+<p data-i18n="t22">지금 있는 동네 이름부터 실시간 기상까지. 더운 날엔 러닝 중 수분 알림 간격도 자동으로 짧아집니다.</p>
+</div>
+<div class="sf-arrow">→</div>
+<div class="sf-card">
+<div class="sf-step">02</div>
+<h3 data-i18n="t23">🤸 준비운동 코칭</h3>
+<div class="sf-quote">"목 돌리기, 20초. … 반대 방향으로. … 셋, 둘, 하나."</div>
+<p data-i18n="t24">목→팔→허리→다리→발목→제자리뛰기, 6단계를 타이머와 음성으로. 건너뛰기도 한 번의 탭.</p>
+</div>
+<div class="sf-arrow">→</div>
+<div class="sf-card sf-hot">
+<div class="sf-step">03</div>
+<h3 data-i18n="t25">🏃 그냥 달리세요</h3>
+<div class="sf-quote">"달리기 시작하셨네요. 기록 시작합니다."</div>
+<p data-i18n="t26">버튼 없이, 손목의 러닝 리듬을 감지해 <b>자동으로 기록 시작</b>. 준비운동 끝나고 그대로 출발하면 됩니다.</p>
+</div>
+</div>
+</div>
 </section>
-
 <section id="why" style="padding-top:64px">
-  <div class="wrap">
-    <div class="eyebrow reveal">애플워치엔 없던 코치</div>
-    <h2 class="reveal">오늘, 뛸 준비 됐나요?</h2>
-    <p class="sub reveal">Apple Watch 기본 운동 앱은 숫자를 <b>기록</b>합니다.<br>Runvis는 그 숫자를 읽고 지금 필요한 <b>코칭</b>을 건넵니다 — 준비운동부터 대회날까지.</p>
-    <div class="why-grid reveal">
-      <div class="why-item"><div class="k">🌤️</div><div><b>날씨 브리핑 + 준비운동</b><span>"운동 시작"을 누르면 오늘 기온·습도를 말해주고, 추운 날엔 준비운동을 더 길게. 밖에 나와 코치와 몸을 풉니다.</span></div></div>
-      <div class="why-item"><div class="k">🏃</div><div><b>자동 러닝 인식</b><span>몸 풀고 달리기 시작하면 버튼 없이 자동으로 코칭 개시.</span></div></div>
-      <div class="why-item"><div class="k">🏔️</div><div><b>대회 코스를 미리 아는 코치</b><span>대회 GPX를 올리면 어디서 오르막·내리막이 나올지 먼저 알려줘 오버페이스를 막습니다. (가민 최상위에만 있던 기능)</span></div></div>
-      <div class="why-item"><div class="k">🗣️</div><div><b>자세가 무너지면 "왜"까지 설명</b><span>케이던스·접지·수직진폭이 흐트러지면 숫자만이 아니라 무릎에 왜 부담이 가는지, 어떻게 고치는지 안내.</span></div></div>
-      <div class="why-item"><div class="k">🌐</div><div><b>한국어·영어 음성 코칭 — 선택 가능</b><span>자연스러운 한국어가 기본, 설정에서 영어로도 전환. 조용한 구간엔 잔소리 대신 러닝 상식 한 마디도. 음악은 부드럽게 낮아졌다 원래대로.</span></div></div>
-      <div class="why-item"><div class="k">🤖</div><div><b>내 러닝을 내 AI로 분석</b><span>한 번의 탭으로 분석 프롬프트 내보내기 → ChatGPT·Gemini·Claude에 붙여넣으면 즉시 심층 분석.</span></div></div>
-      <div class="why-item"><div class="k">📅</div><div><b>코치를 고르는 훈련 플랜</b><span>완주 우선·균형·기록 도전 — 고른 코치가 플랜과 말투를 함께 바꿉니다. 수면이 부족한 날엔 강도를 자동으로 낮추고 이유까지.</span></div></div>
-      <div class="why-item"><div class="k">🚴</div><div><b>실내 스마트 트레이너 제어</b><span>Wahoo KICKR 저항을 자동 제어하는 8종 구조화 워크아웃. 지방연소 구간은 심박에 맞춰 저항 자동 조절.</span></div></div>
-      <div class="why-item"><div class="k">👻</div><div><b>과거의 나와 경쟁</b><span>레이스 모드에서 내 최고 기록을 고스트로 불러와 실시간으로 앞섰는지 뒤처졌는지 음성 중계.</span></div></div>
-    </div>
-  </div>
+<div class="wrap">
+<div class="eyebrow reveal">애플워치엔 없던 코치</div>
+<h2 class="reveal" data-i18n="t27">오늘, 뛸 준비 됐나요?</h2>
+<p class="sub reveal" data-i18n="t28">Apple Watch 기본 운동 앱은 숫자를 <b>기록</b>합니다.<br/>Runvis는 그 숫자를 읽고 지금 필요한 <b>코칭</b>을 건넵니다 — 준비운동부터 대회날까지.</p>
+<div class="why-grid reveal">
+<div class="why-item"><div class="k">🌤️</div><div><b data-i18n="t29">날씨 브리핑 + 준비운동</b><span data-i18n="t30">"운동 시작"을 누르면 오늘 기온·습도를 말해주고, 추운 날엔 준비운동을 더 길게. 밖에 나와 코치와 몸을 풉니다.</span></div></div>
+<div class="why-item"><div class="k">🏃</div><div><b data-i18n="t31">자동 러닝 인식</b><span data-i18n="t32">몸 풀고 달리기 시작하면 버튼 없이 자동으로 코칭 개시.</span></div></div>
+<div class="why-item"><div class="k">🏔️</div><div><b data-i18n="t33">대회 코스를 미리 아는 코치</b><span data-i18n="t34">대회 GPX를 올리면 어디서 오르막·내리막이 나올지 먼저 알려줘 오버페이스를 막습니다. (가민 최상위에만 있던 기능)</span></div></div>
+<div class="why-item"><div class="k">🗣️</div><div><b data-i18n="t35">자세가 무너지면 "왜"까지 설명</b><span data-i18n="t36">케이던스·접지·수직진폭이 흐트러지면 숫자만이 아니라 무릎에 왜 부담이 가는지, 어떻게 고치는지 안내.</span></div></div>
+<div class="why-item"><div class="k">🌐</div><div><b data-i18n="t37">6개 언어 음성 코칭 — 선택 가능</b><span data-i18n="t38">한국어·영어·일본어·스페인어·중국어·독일어 중에서 선택. 조용한 구간엔 잔소리 대신 러닝 상식 한 마디도. 음악은 부드럽게 낮아졌다 원래대로.</span></div></div>
+<div class="why-item"><div class="k">🤖</div><div><b data-i18n="t39">내 러닝을 내 AI로 분석</b><span data-i18n="t40">한 번의 탭으로 분석 프롬프트 내보내기 → ChatGPT·Gemini·Claude에 붙여넣으면 즉시 심층 분석.</span></div></div>
+<div class="why-item"><div class="k">📅</div><div><b data-i18n="t41">코치를 고르는 훈련 플랜</b><span data-i18n="t42">완주 우선·균형·기록 도전 — 고른 코치가 플랜과 말투를 함께 바꿉니다. 수면이 부족한 날엔 강도를 자동으로 낮추고 이유까지.</span></div></div>
+<div class="why-item"><div class="k">🚴</div><div><b data-i18n="t43">실내 스마트 트레이너 제어</b><span data-i18n="t44">Wahoo KICKR 저항을 자동 제어하는 8종 구조화 워크아웃. 지방연소 구간은 심박에 맞춰 저항 자동 조절.</span></div></div>
+<div class="why-item"><div class="k">👻</div><div><b data-i18n="t45">과거의 나와 경쟁</b><span data-i18n="t46">레이스 모드에서 내 최고 기록을 고스트로 불러와 실시간으로 앞섰는지 뒤처졌는지 음성 중계.</span></div></div>
+</div>
+</div>
 </section>
-
 <!-- HOW: 롱런 시뮬레이터 -->
 <section id="how">
-  <div class="wrap">
-    <div class="eyebrow reveal">작동 방식</div>
-    <h2 class="reveal">필요할 때만, 정확히 개입합니다</h2>
-    <p class="sub reveal">긴 러닝을 골라보세요. 런비스가 <b>언제</b> 말을 거는지 — 그리고 언제 조용히 있는지 — 그대로 보여드립니다.</p>
-
-    <div class="sim reveal">
-      <div class="tabs">
-        <button class="tab active" data-sim="lsd">2시간 LSD</button>
-        <button class="tab" data-sim="half">하프 마라톤</button>
-        <button class="tab" data-sim="interval">인터벌</button>
-      </div>
-      <div class="timeline" id="simTimeline"></div>
-      <p class="hint">💡 회색·기울임 = 런비스가 조용히 지켜보는 구간. 초록 = 개입하는 순간.</p>
-      <p style="margin-top:18px;text-align:center"><a href="run.html" style="color:var(--green);font-weight:700;border-bottom:1px solid var(--green);padding-bottom:2px">스크롤로 5km 러닝을 직접 체험해 보세요 — 라이브 데모 →</a></p>
-    </div>
-  </div>
+<div class="wrap">
+<div class="eyebrow reveal">작동 방식</div>
+<h2 class="reveal" data-i18n="t47">필요할 때만, 정확히 개입합니다</h2>
+<p class="sub reveal" data-i18n="t48">긴 러닝을 골라보세요. 런비스가 <b>언제</b> 말을 거는지 — 그리고 언제 조용히 있는지 — 그대로 보여드립니다.</p>
+<div class="sim reveal">
+<div class="tabs">
+<button class="tab active" data-i18n="t49" data-sim="lsd">2시간 LSD</button>
+<button class="tab" data-i18n="t50" data-sim="half">하프 마라톤</button>
+<button class="tab" data-i18n="t51" data-sim="interval">인터벌</button>
+</div>
+<div class="timeline" id="simTimeline"></div>
+<p class="hint" data-i18n="t52">💡 회색·기울임 = 런비스가 조용히 지켜보는 구간. 초록 = 개입하는 순간.</p>
+<p data-i18n="t53" style="margin-top:18px;text-align:center"><a href="run.html" style="color:var(--green);font-weight:700;border-bottom:1px solid var(--green);padding-bottom:2px">스크롤로 5km 러닝을 직접 체험해 보세요 — 라이브 데모 →</a></p>
+</div>
+</div>
 </section>
-
 <!-- FEATURES: 상황 중심 -->
 <section id="features">
-  <div class="wrap">
-    <div class="eyebrow reveal">Runvis가 특별한 이유</div>
-    <h2 class="reveal">준비운동부터 결승선까지, 함께</h2>
-    <div class="cards">
-      <div class="card reveal"><div class="ic">🌤️</div><h3>준비운동부터 함께하는 코치</h3><p>"운동 시작"을 누르면 그날의 <b>기온·습도를 음성으로 브리핑</b>하고, 날씨에 맞춰 준비운동을 시켜줍니다. 추운 날엔 더 길게, 습한 날엔 수분 조언까지 — 밖에 나와 코치와 함께 몸을 풉니다.</p></div>
-      <div class="card reveal"><div class="ic">🏃</div><h3>자동으로 러닝을 인식</h3><p>준비운동이 끝나고 <b>달리기 시작하면 자동으로 러닝을 인식</b>해 코칭이 시작됩니다. 버튼을 다시 누를 필요 없이, 몸을 풀고 그대로 출발하면 됩니다.</p></div>
-      <div class="card reveal"><div class="ic">🏔️</div><h3>대회 코스를 미리 아는 코치</h3><p>대회 GPX를 올리면 <b>어디서 오르막·내리막이 나올지 런비스가 먼저 압니다.</b> 처음 뛰는 코스여도 오버페이스 없이, 출발선부터 결승선까지 목표 시간에 맞춰 완주하도록 안내합니다.</p></div>
-    </div>
-    <div class="cards" style="margin-top:20px">
-      <div class="card reveal"><div class="ic">🔊</div><h3>실시간 음성 코칭</h3><p>자세가 무너지는 순간, 언덕이 다가오는 순간, 회복이 필요한 순간 — 필요할 때만 정확히 안내합니다. 수다스럽지 않게.</p></div>
-      <div class="card reveal"><div class="ic">🤖</div><h3>내 러닝을 내 AI로 분석</h3><p>운동 상세에서 한 번의 탭으로 <b>AI 분석용 프롬프트를 내보내기</b>. ChatGPT·Gemini·Claude 등 내가 쓰는 AI에 붙여넣으면 즉시 심층 분석을 받습니다.</p></div>
-      <div class="card reveal"><div class="ic">📊</div><h3>전문가 수준 훈련 분석</h3><p>훈련 준비도·부하·회복까지, 공개된 스포츠 과학 공식으로 계산한 숫자. 각 지표를 탭하면 초보자도 알기 쉽게 설명합니다.</p></div>
-    </div>
-    <div class="cards" style="margin-top:20px">
-      <div class="card reveal"><div class="ic">📋</div><h3>훈련 순서를 미리 말해주는 코치</h3><p>인터벌이 처음이어도 당황하지 않습니다. 시작 전에 <b>오늘의 전체 순서를 화면과 음성으로 브리핑</b>하고, 달리는 중엔 "3번째 질주, 3분" — 구간마다 코치가 직접 진행합니다. 힘든 구간은 10초 전에 미리 예고까지.</p></div>
-      <div class="card reveal"><div class="ic">💧</div><h3>물 마실 타이밍까지 챙깁니다</h3><p>장거리에서 제일 잘 잊는 것: 물과 보급. 원하는 간격으로 <b>음성 리마인더</b>를 켜두세요. 아침 브리핑에서 더운 날이었다면 <b>알림 간격이 자동으로 짧아집니다.</b></p></div>
-      <div class="card reveal"><div class="ic">⛰️</div><h3>오르막은 느리게, 계획대로</h3><p>코스와 목표 시간을 정하면 <b>경사를 반영한 킬로미터별 목표 페이스</b>를 짜서 구간마다 음성으로 안내합니다. 오르막에서 무리하지 않고, 같은 힘으로 목표 시간에 들어오는 페이스 전략.</p></div>
-    </div>
-  </div>
+<div class="wrap">
+<div class="eyebrow reveal">Runvis가 특별한 이유</div>
+<h2 class="reveal" data-i18n="t54">준비운동부터 결승선까지, 함께</h2>
+<div class="cards">
+<div class="card reveal"><div class="ic">🌤️</div><h3 data-i18n="t55">준비운동부터 함께하는 코치</h3><p data-i18n="t56">"운동 시작"을 누르면 그날의 <b>기온·습도를 음성으로 브리핑</b>하고, 날씨에 맞춰 준비운동을 시켜줍니다. 추운 날엔 더 길게, 습한 날엔 수분 조언까지 — 밖에 나와 코치와 함께 몸을 풉니다.</p></div>
+<div class="card reveal"><div class="ic">🏃</div><h3 data-i18n="t57">자동으로 러닝을 인식</h3><p data-i18n="t58">준비운동이 끝나고 <b>달리기 시작하면 자동으로 러닝을 인식</b>해 코칭이 시작됩니다. 버튼을 다시 누를 필요 없이, 몸을 풀고 그대로 출발하면 됩니다.</p></div>
+<div class="card reveal"><div class="ic">🏔️</div><h3 data-i18n="t59">대회 코스를 미리 아는 코치</h3><p data-i18n="t60">대회 GPX를 올리면 <b>어디서 오르막·내리막이 나올지 런비스가 먼저 압니다.</b> 처음 뛰는 코스여도 오버페이스 없이, 출발선부터 결승선까지 목표 시간에 맞춰 완주하도록 안내합니다.</p></div>
+</div>
+<div class="cards" style="margin-top:20px">
+<div class="card reveal"><div class="ic">🔊</div><h3 data-i18n="t61">실시간 음성 코칭</h3><p data-i18n="t62">자세가 무너지는 순간, 언덕이 다가오는 순간, 회복이 필요한 순간 — 필요할 때만 정확히 안내합니다. 수다스럽지 않게.</p></div>
+<div class="card reveal"><div class="ic">🤖</div><h3 data-i18n="t63">내 러닝을 내 AI로 분석</h3><p data-i18n="t64">운동 상세에서 한 번의 탭으로 <b>AI 분석용 프롬프트를 내보내기</b>. ChatGPT·Gemini·Claude 등 내가 쓰는 AI에 붙여넣으면 즉시 심층 분석을 받습니다.</p></div>
+<div class="card reveal"><div class="ic">📊</div><h3 data-i18n="t65">전문가 수준 훈련 분석</h3><p data-i18n="t66">훈련 준비도·부하·회복까지, 공개된 스포츠 과학 공식으로 계산한 숫자. 각 지표를 탭하면 초보자도 알기 쉽게 설명합니다.</p></div>
+</div>
+<div class="cards" style="margin-top:20px">
+<div class="card reveal"><div class="ic">📋</div><h3 data-i18n="t67">훈련 순서를 미리 말해주는 코치</h3><p data-i18n="t68">인터벌이 처음이어도 당황하지 않습니다. 시작 전에 <b>오늘의 전체 순서를 화면과 음성으로 브리핑</b>하고, 달리는 중엔 "3번째 질주, 3분" — 구간마다 코치가 직접 진행합니다. 힘든 구간은 10초 전에 미리 예고까지.</p></div>
+<div class="card reveal"><div class="ic">💧</div><h3 data-i18n="t69">물 마실 타이밍까지 챙깁니다</h3><p data-i18n="t70">장거리에서 제일 잘 잊는 것: 물과 보급. 원하는 간격으로 <b>음성 리마인더</b>를 켜두세요. 아침 브리핑에서 더운 날이었다면 <b>알림 간격이 자동으로 짧아집니다.</b></p></div>
+<div class="card reveal"><div class="ic">⛰️</div><h3 data-i18n="t71">오르막은 느리게, 계획대로</h3><p data-i18n="t72">코스와 목표 시간을 정하면 <b>경사를 반영한 킬로미터별 목표 페이스</b>를 짜서 구간마다 음성으로 안내합니다. 오르막에서 무리하지 않고, 같은 힘으로 목표 시간에 들어오는 페이스 전략.</p></div>
+</div>
+</div>
 </section>
-
 <!-- SHOWCASE: 실제 앱 화면 (Gentler Streak식 워치 3-up + iPhone) -->
 <section id="screens">
-  <div class="wrap">
-    <div class="eyebrow reveal">실제 화면</div>
-    <h2 class="reveal">손목 위의 전문가 수준 분석</h2>
-    <p class="sub reveal">Apple Watch에서 바로 보고, 아이폰에서 깊이 들여다봅니다. 아래는 실제 앱 화면입니다.</p>
-
-    <!-- 워치 3-up: Gentler Streak 스타일. 실사 워치 프레임 안에 우리 SVG 화면. -->
-    <div class="watch3">
-      <div class="w3 reveal"><div class="frame"><img src="assets/framed-watch-hr.png" alt="Apple Watch Ultra 심박존 아크 화면" loading="lazy"></div><b>심박존 아크</b><span>270° 아크에 5개 심박존. 현재 존에 맞춰 숫자 색이 바뀌고 마커가 아크 위를 움직입니다.</span></div>
-      <div class="w3 reveal"><div class="frame"><img src="assets/framed-watch-pace.png" alt="Apple Watch Ultra 페이스 화면" loading="lazy"></div><b>현재 · 평균 페이스</b><span>손목을 들면 현재 페이스가 크게, 평균과 거리도 함께. 3초 뒤 자동으로 사라집니다.</span></div>
-      <div class="w3 reveal"><div class="frame"><img src="assets/framed-watch-map.png" alt="Apple Watch Ultra GPS 지도 화면" loading="lazy"></div><b>실시간 GPS 지도</b><span>달리는 중 경로가 그려지고, 출발점 복귀 방향까지. 끝나면 아이폰에서 3D 플라이오버로.</span></div>
-    </div>
-
-    <!-- iPhone 대시보드: 실사 폰 프레임 안에 우리 대시보드 SVG -->
-    <div class="phonerow reveal">
-      <div class="phone-frame"><img src="assets/framed-phone-dash.png" alt="iPhone 대시보드 — 오늘의 준비도" loading="lazy"></div>
-      <div class="phone-desc">
-        <h3>아이폰에서, 오늘 뭘 해야 하는지 한눈에</h3>
-        <p>수면·HRV·안정시 심박으로 계산한 <b>오늘의 훈련 준비도</b>. 훈련 부하(CTL·ATL·TSB)·ACWR·회복 시간까지, 모든 숫자는 공개된 스포츠 과학 공식에서 나옵니다.</p>
-        <ul>
-          <li>각 지표를 탭하면 "뭔지 · 뭘로 계산되는지 · 높으면 좋은지" 초보자도 알기 쉽게 설명</li>
-          <li>수면 부족·안정심박 상승이면 오늘 강도를 자동으로 낮추고 이유를 알려줍니다</li>
-          <li><b>트렌드 리포트</b>: 3개월~1년, "같은 심박에서 페이스가 얼마나 빨라졌는지" 한 문장으로</li>
-          <li>체성분 30일 추세 그래프 · 경로 3D 플라이오버 MP4 내보내기 · 차트는 가로로 돌리면 상세 분석</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 운동 상세 + AI 내보내기 (킬러) -->
-    <div class="phonerow reveal" style="margin-top:56px">
-      <div class="phone-desc">
-        <h3>운동이 끝나면, 이렇게 분석합니다</h3>
-        <p>심박 존 분포·운동 부하(TRIMP)·구간별 페이스에 더해, <b>런비스가 폼과 페이스 배분을 직접 코칭</b>합니다. "고른 페이스", "Fly-and-Die 주의" 같은 진단을 초보자도 알기 쉽게.</p>
-        <ul>
-          <li><b>내 러닝을 내 AI로</b> — [AI 분석용 내보내기] 한 번이면 ChatGPT·Gemini·Claude에 붙여넣어 즉시 심층 분석</li>
-          <li>GPX 내보내기 · 3D 경로 플라이오버 영상</li>
-          <li>모든 지표를 탭하면 뜻과 계산 근거를 설명</li>
-        </ul>
-      </div>
-      <div class="phone-frame"><img src="assets/framed-phone-detail.png" alt="iPhone 운동 상세 분석 화면" loading="lazy"></div>
-    </div>
-
-    <!-- AI 분석용 내보내기: 실제 앱이 뽑는 리포트 형식 + AI 답변 예시 -->
-    <div class="ai-export reveal" style="margin-top:56px">
-      <h3>✨ 한 번의 탭 — 내 러닝이 <span class="grad-text">AI가 읽는 리포트</span>가 됩니다</h3>
-      <p class="ai-sub">[AI 분석용 내보내기]를 누르면 아래 형식의 리포트가 생성됩니다. ChatGPT·Gemini·Claude 어디든 붙여넣으면 즉시 심층 분석 — 실제 앱이 만드는 형식 그대로입니다.</p>
-      <div class="ai-flow">
-        <div class="ai-report">
-          <div class="ai-cardhead"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>내보낸 리포트.md</div>
-          <pre># 러닝 기록 리포트
+<div class="wrap">
+<div class="eyebrow reveal">실제 화면</div>
+<h2 class="reveal" data-i18n="t73">손목 위의 전문가 수준 분석</h2>
+<p class="sub reveal" data-i18n="t74">Apple Watch에서 바로 보고, 아이폰에서 깊이 들여다봅니다. 아래는 실제 앱 화면입니다.</p>
+<!-- 워치 3-up: Gentler Streak 스타일. 실사 워치 프레임 안에 우리 SVG 화면. -->
+<div class="watch3">
+<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra 심박존 아크 화면" loading="lazy" src="assets/framed-watch-hr.png"/></div><b data-i18n="t75">심박존 아크</b><span data-i18n="t76">270° 아크에 5개 심박존. 현재 존에 맞춰 숫자 색이 바뀌고 마커가 아크 위를 움직입니다.</span></div>
+<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra 페이스 화면" loading="lazy" src="assets/framed-watch-pace.png"/></div><b data-i18n="t77">현재 · 평균 페이스</b><span data-i18n="t78">손목을 들면 현재 페이스가 크게, 평균과 거리도 함께. 3초 뒤 자동으로 사라집니다.</span></div>
+<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra GPS 지도 화면" loading="lazy" src="assets/framed-watch-map.png"/></div><b data-i18n="t79">실시간 GPS 지도</b><span data-i18n="t80">달리는 중 경로가 그려지고, 출발점 복귀 방향까지. 끝나면 아이폰에서 3D 플라이오버로.</span></div>
+</div>
+<!-- iPhone 대시보드: 실사 폰 프레임 안에 우리 대시보드 SVG -->
+<div class="phonerow reveal">
+<div class="phone-frame"><img alt="iPhone 대시보드 — 오늘의 준비도" loading="lazy" src="assets/framed-phone-dash.png"/></div>
+<div class="phone-desc">
+<h3 data-i18n="t81">아이폰에서, 오늘 뭘 해야 하는지 한눈에</h3>
+<p data-i18n="t82">수면·HRV·안정시 심박으로 계산한 <b>오늘의 훈련 준비도</b>. 훈련 부하(CTL·ATL·TSB)·ACWR·회복 시간까지, 모든 숫자는 공개된 스포츠 과학 공식에서 나옵니다.</p>
+<ul>
+<li data-i18n="t83">각 지표를 탭하면 "뭔지 · 뭘로 계산되는지 · 높으면 좋은지" 초보자도 알기 쉽게 설명</li>
+<li data-i18n="t84">수면 부족·안정심박 상승이면 오늘 강도를 자동으로 낮추고 이유를 알려줍니다</li>
+<li data-i18n="t85"><b>트렌드 리포트</b>: 3개월~1년, "같은 심박에서 페이스가 얼마나 빨라졌는지" 한 문장으로</li>
+<li data-i18n="t86">체성분 30일 추세 그래프 · 경로 3D 플라이오버 MP4 내보내기 · 차트는 가로로 돌리면 상세 분석</li>
+</ul>
+</div>
+</div>
+<!-- 운동 상세 + AI 내보내기 (킬러) -->
+<div class="phonerow reveal" style="margin-top:56px">
+<div class="phone-desc">
+<h3 data-i18n="t87">운동이 끝나면, 이렇게 분석합니다</h3>
+<p data-i18n="t88">심박 존 분포·운동 부하(TRIMP)·구간별 페이스에 더해, <b>런비스가 폼과 페이스 배분을 직접 코칭</b>합니다. "고른 페이스", "Fly-and-Die 주의" 같은 진단을 초보자도 알기 쉽게.</p>
+<ul>
+<li data-i18n="t89"><b>내 러닝을 내 AI로</b> — [AI 분석용 내보내기] 한 번이면 ChatGPT·Gemini·Claude에 붙여넣어 즉시 심층 분석</li>
+<li data-i18n="t90">GPX 내보내기 · 3D 경로 플라이오버 영상</li>
+<li data-i18n="t91">모든 지표를 탭하면 뜻과 계산 근거를 설명</li>
+</ul>
+</div>
+<div class="phone-frame"><img alt="iPhone 운동 상세 분석 화면" loading="lazy" src="assets/framed-phone-detail.png"/></div>
+</div>
+<!-- AI 분석용 내보내기: 실제 앱이 뽑는 리포트 형식 + AI 답변 예시 -->
+<div class="ai-export reveal" style="margin-top:56px">
+<h3 data-i18n="t92">✨ 한 번의 탭 — 내 러닝이 <span class="grad-text">AI가 읽는 리포트</span>가 됩니다</h3>
+<p class="ai-sub" data-i18n="t93">[AI 분석용 내보내기]를 누르면 아래 형식의 리포트가 생성됩니다. ChatGPT·Gemini·Claude 어디든 붙여넣으면 즉시 심층 분석 — 실제 앱이 만드는 형식 그대로입니다.</p>
+<div class="ai-flow">
+<div class="ai-report">
+<div class="ai-cardhead"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>내보낸 리포트.md</div>
+<pre># 러닝 기록 리포트
 
 - 종목: 러닝 · 일시: 2026-07-06 (월) 06:04
 - 시간: 42:18 · 거리: 7.4 km · 평균 페이스: 5:43 /km
@@ -488,211 +524,208 @@
 1) 페이스 배분과 심박 반응의 관계
 2) 유산소 능력 상태 3) 러닝 폼 개선점
 4) 다음 2주 훈련 제안</pre>
-        </div>
-        <div class="ai-arrow">→<span>내 AI에<br>붙여넣기</span></div>
-        <div class="ai-answer">
-          <div class="ai-cardhead ai-chat">🤖 내 AI의 분석 (예시)</div>
-          <div class="ai-bubble">
-            <p><b>페이스 배분</b> — 심박 드리프트 +2.1%는 훌륭합니다. 42분 내내 같은 효율을 유지했다는 뜻이라, 이 페이스(5:43)는 몸에 잘 맞는 이지런입니다.</p>
-            <p><b>유산소 상태</b> — Z2에 66%를 머문 훌륭한 베이스 훈련이었어요. 이런 러닝을 주 2~3회 쌓으면 같은 심박에서 페이스가 점점 빨라집니다.</p>
-            <p><b>폼</b> — 케이던스 174는 부상 위험이 낮은 구간이고, 접지 244ms·수직진폭 8.1cm 모두 안정적입니다. 지금 폼을 유지하세요.</p>
-            <p><b>다음 2주</b> — 주 3회: 이지런 2회(오늘 페이스) + 언덕 스트라이드 1회. 3주 차에 템포런을 추가해볼 만한 상태입니다.</p>
-          </div>
-          <p class="ai-note">답변은 사용 중인 AI가 생성 — 데이터가 정형화돼 있어 어떤 AI든 깊게 읽습니다</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- 주간 훈련 플랜 (코치 = 계획을 짜준다) -->
-    <div class="phonerow reveal" style="margin-top:56px">
-      <div class="phone-frame"><img src="assets/framed-phone-plan.png" alt="iPhone 주간 훈련 플랜 화면" loading="lazy"></div>
-      <div class="phone-desc">
-        <h3>코치를 고르면, 훈련도 말투도 달라집니다</h3>
-        <p>트래커가 아니라 코치입니다. 목표 대회와 기록을 정하고 <b>코치 성향을 고르세요</b> — 🛡 완주 우선(다정하게, 무리 없이) · ⚖️ 균형 · 🔥 기록 도전(퀄리티 훈련 2회, 직설 화법). 고른 코치가 훈련 플랜과 운동 중 말투를 함께 바꿉니다.</p>
-        <ul>
-          <li>대회일을 등록하면 <b>D-day부터 대회 주까지 주차별 로드맵</b> — 베이스→빌드→피크→테이퍼를 한눈에</li>
-          <li>목표 시간이 현실적인지 <b>지금 체력 기준으로 솔직하게 판정</b> — 무리한 목표엔 대안 시간을 제안합니다</li>
-          <li>플랜의 인터벌·템포는 워치가 <b>구간별로 직접 진행</b> — 외울 필요 없이 안내만 따라오세요</li>
-          <li>몸이 안 좋은 날은 <b>[오늘 몸이 안 좋아요]</b> 한 번으로 강도를 낮춰 다시 짜줍니다</li>
-          <li>초급 러너는 어떤 코치를 골라도 안전한 구성 — 무리한 인터벌은 주지 않습니다</li>
-          <li>서버 없음 — 플랜 계산까지 전부 아이폰 안에서</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 레이스 예측 (VDOT) -->
-    <div class="phonerow reveal" style="margin-top:56px">
-      <div class="phone-desc">
-        <h3>지금 실력이면, 대회에서 몇 분?</h3>
-        <p>최근 베스트 기록 하나면 5K·10K·하프·풀코스의 목표 타임과 페이스를 예측합니다. VO2max(VDOT)와 검증된 러닝 공식 기반이라, 무리한 목표인지 현실적인지 바로 감이 옵니다.</p>
-        <ul>
-          <li>기준 거리를 바꾸면 예측이 실시간으로 다시 계산됩니다</li>
-          <li>예측 페이스에 훈련 강도를 맞추면 목표가 몸에 익습니다</li>
-          <li>레이스 기록을 넣으면 코칭 레벨도 자동으로 맞춰집니다</li>
-        </ul>
-      </div>
-      <div class="phone-frame"><img src="assets/framed-phone-race.png" alt="iPhone 레이스 예측 화면" loading="lazy"></div>
-    </div>
-
-    <!-- 디테일 스트립: 작지만 러너가 매일 체감하는 것들 -->
-    <div class="reveal" style="margin-top:64px">
-      <h3 style="text-align:center;margin-bottom:8px">그리고, 뛰어본 사람만 아는 디테일</h3>
-      <p style="text-align:center;color:var(--dim,#9aa3ad);font-size:.95rem;margin-bottom:24px">큰 기능보다 이런 게 러닝을 바꿉니다.</p>
-      <div class="cards">
-        <div class="card reveal"><div class="ic">↩️</div><h3>랩 버튼, 잘못 눌러도 OK</h3><p>수동 랩 직후 15초간 버튼이 <b>"랩 취소"</b>로 바뀝니다. 한 번 더 누르면 원래 랩에 도로 합쳐집니다.</p></div>
-        <div class="card reveal"><div class="ic">👟</div><h3>신발이 닳으면 먼저 말해줍니다</h3><p>러닝화별 누적 거리를 자동 추적 — 교체 거리에 가까워지면 <b>운동 요약에서 바로 알려줍니다.</b> 쿠셔닝이 죽은 신발로 달리기 전에.</p></div>
-        <div class="card reveal"><div class="ic">🔁</div><h3>오늘 뛸 코스가 없다면</h3><p>목표 거리만 정하면 <b>현재 위치에서 출발해 돌아오는 루프 코스</b>를 지도 경로로 만들어 워치로 보냅니다. 마음에 안 들면 다시 — 매번 다른 방향으로.</p></div>
-      </div>
-      <div class="cards" style="margin-top:20px">
-        <div class="card reveal"><div class="ic">🔋</div><h3>지금 에너지, 숫자 하나로</h3><p>아침 컨디션에서 오늘 운동한 만큼 내려가는 <b>에너지 게이지</b>. 저녁 러닝을 갈지 말지, 열어보면 답이 나옵니다.</p></div>
-        <div class="card reveal"><div class="ic">💬</div><h3>어제의 대답을 기억하는 코치</h3><p>운동 후 30초 체크인(강도·통증·수분)이 다음 훈련에 반영됩니다. 물을 못 마셨다고 하면 <b>다음 브리핑이 "오늘은 물부터 챙기세요"로 시작</b>합니다.</p></div>
-        <div class="card reveal"><div class="ic">🏅</div><h3>혼자여도, 달릴 이유</h3><p>첫 5K부터 마라톤, 누적 1,000km, 새벽 러너까지 <b>배지 11종</b>. 아직 못 딴 배지엔 조건이 적혀 있어 다음 목표가 됩니다.</p></div>
-      </div>
-      <div class="cards" style="margin-top:20px">
-        <div class="card reveal"><div class="ic">👻</div><h3>가장 강한 라이벌, 과거의 나</h3><p>같은 코스를 다시 달리면 <b>내 최고 기록이 고스트가 되어 함께 달립니다.</b> "지난 최고 기록보다 12초 앞서고 있어요" — 역전의 순간엔 바로 알려주고, 기록을 깨면 오늘의 내가 다음 고스트가 됩니다.</p></div>
-        <div class="card reveal"><div class="ic">🐢</div><h3>늦추라고 말해주는 코치</h3><p>이지런 날 신나서 빨라지면 <b>"오늘은 쉬운 날이에요"</b>라고 잡아줍니다. 쉬운 날이 쉬워야 힘든 날이 강해진다 — 초보 러너가 가장 많이 하는 실수를 코치가 막아줍니다.</p></div>
-        <div class="card reveal"><div class="ic">🗓️</div><h3>모든 러닝이 계획으로 끝납니다</h3><p>가볍게 뛴 날도, 전력을 다한 날도 — 분석 마지막엔 항상 <b>부하에 맞춘 '다음 2주' 제안</b>이 붙습니다. 오늘의 기록이 다음 훈련의 근거가 되는 순환.</p></div>
-      </div>
-    </div>
-  </div>
+</div>
+<div class="ai-arrow">→<span data-i18n="t94">내 AI에<br/>붙여넣기</span></div>
+<div class="ai-answer">
+<div class="ai-cardhead ai-chat">🤖 내 AI의 분석 (예시)</div>
+<div class="ai-bubble">
+<p data-i18n="t95"><b>페이스 배분</b> — 심박 드리프트 +2.1%는 훌륭합니다. 42분 내내 같은 효율을 유지했다는 뜻이라, 이 페이스(5:43)는 몸에 잘 맞는 이지런입니다.</p>
+<p data-i18n="t96"><b>유산소 상태</b> — Z2에 66%를 머문 훌륭한 베이스 훈련이었어요. 이런 러닝을 주 2~3회 쌓으면 같은 심박에서 페이스가 점점 빨라집니다.</p>
+<p data-i18n="t97"><b>폼</b> — 케이던스 174는 부상 위험이 낮은 구간이고, 접지 244ms·수직진폭 8.1cm 모두 안정적입니다. 지금 폼을 유지하세요.</p>
+<p data-i18n="t98"><b>다음 2주</b> — 주 3회: 이지런 2회(오늘 페이스) + 언덕 스트라이드 1회. 3주 차에 템포런을 추가해볼 만한 상태입니다.</p>
+</div>
+<p class="ai-note" data-i18n="t99">답변은 사용 중인 AI가 생성 — 데이터가 정형화돼 있어 어떤 AI든 깊게 읽습니다</p>
+</div>
+</div>
+</div>
+<!-- 주간 훈련 플랜 (코치 = 계획을 짜준다) -->
+<div class="phonerow reveal" style="margin-top:56px">
+<div class="phone-frame"><img alt="iPhone 주간 훈련 플랜 화면" loading="lazy" src="assets/framed-phone-plan.png"/></div>
+<div class="phone-desc">
+<h3 data-i18n="t100">코치를 고르면, 훈련도 말투도 달라집니다</h3>
+<p data-i18n="t101">트래커가 아니라 코치입니다. 목표 대회와 기록을 정하고 <b>코치 성향을 고르세요</b> — 🛡 완주 우선(다정하게, 무리 없이) · ⚖️ 균형 · 🔥 기록 도전(퀄리티 훈련 2회, 직설 화법). 고른 코치가 훈련 플랜과 운동 중 말투를 함께 바꿉니다.</p>
+<ul>
+<li data-i18n="t102">대회일을 등록하면 <b>D-day부터 대회 주까지 주차별 로드맵</b> — 베이스→빌드→피크→테이퍼를 한눈에</li>
+<li data-i18n="t103">목표 시간이 현실적인지 <b>지금 체력 기준으로 솔직하게 판정</b> — 무리한 목표엔 대안 시간을 제안합니다</li>
+<li data-i18n="t104">플랜의 인터벌·템포는 워치가 <b>구간별로 직접 진행</b> — 외울 필요 없이 안내만 따라오세요</li>
+<li data-i18n="t105">몸이 안 좋은 날은 <b>[오늘 몸이 안 좋아요]</b> 한 번으로 강도를 낮춰 다시 짜줍니다</li>
+<li data-i18n="t106">초급 러너는 어떤 코치를 골라도 안전한 구성 — 무리한 인터벌은 주지 않습니다</li>
+<li data-i18n="t107">서버 없음 — 플랜 계산까지 전부 아이폰 안에서</li>
+</ul>
+</div>
+</div>
+<!-- 레이스 예측 (VDOT) -->
+<div class="phonerow reveal" style="margin-top:56px">
+<div class="phone-desc">
+<h3 data-i18n="t108">지금 실력이면, 대회에서 몇 분?</h3>
+<p data-i18n="t109">최근 베스트 기록 하나면 5K·10K·하프·풀코스의 목표 타임과 페이스를 예측합니다. VO2max(VDOT)와 검증된 러닝 공식 기반이라, 무리한 목표인지 현실적인지 바로 감이 옵니다.</p>
+<ul>
+<li data-i18n="t110">기준 거리를 바꾸면 예측이 실시간으로 다시 계산됩니다</li>
+<li data-i18n="t111">예측 페이스에 훈련 강도를 맞추면 목표가 몸에 익습니다</li>
+<li data-i18n="t112">레이스 기록을 넣으면 코칭 레벨도 자동으로 맞춰집니다</li>
+</ul>
+</div>
+<div class="phone-frame"><img alt="iPhone 레이스 예측 화면" loading="lazy" src="assets/framed-phone-race.png"/></div>
+</div>
+<!-- 디테일 스트립: 작지만 러너가 매일 체감하는 것들 -->
+<div class="reveal" style="margin-top:64px">
+<h3 data-i18n="t113" style="text-align:center;margin-bottom:8px">그리고, 뛰어본 사람만 아는 디테일</h3>
+<p data-i18n="t114" style="text-align:center;color:var(--dim,#9aa3ad);font-size:.95rem;margin-bottom:24px">큰 기능보다 이런 게 러닝을 바꿉니다.</p>
+<div class="cards">
+<div class="card reveal"><div class="ic">↩️</div><h3 data-i18n="t115">랩 버튼, 잘못 눌러도 OK</h3><p data-i18n="t116">수동 랩 직후 15초간 버튼이 <b>"랩 취소"</b>로 바뀝니다. 한 번 더 누르면 원래 랩에 도로 합쳐집니다.</p></div>
+<div class="card reveal"><div class="ic">👟</div><h3 data-i18n="t117">신발이 닳으면 먼저 말해줍니다</h3><p data-i18n="t118">러닝화별 누적 거리를 자동 추적 — 교체 거리에 가까워지면 <b>운동 요약에서 바로 알려줍니다.</b> 쿠셔닝이 죽은 신발로 달리기 전에.</p></div>
+<div class="card reveal"><div class="ic">🔁</div><h3 data-i18n="t119">오늘 뛸 코스가 없다면</h3><p data-i18n="t120">목표 거리만 정하면 <b>현재 위치에서 출발해 돌아오는 루프 코스</b>를 지도 경로로 만들어 워치로 보냅니다. 마음에 안 들면 다시 — 매번 다른 방향으로.</p></div>
+</div>
+<div class="cards" style="margin-top:20px">
+<div class="card reveal"><div class="ic">🔋</div><h3 data-i18n="t121">지금 에너지, 숫자 하나로</h3><p data-i18n="t122">아침 컨디션에서 오늘 운동한 만큼 내려가는 <b>에너지 게이지</b>. 저녁 러닝을 갈지 말지, 열어보면 답이 나옵니다.</p></div>
+<div class="card reveal"><div class="ic">💬</div><h3 data-i18n="t123">어제의 대답을 기억하는 코치</h3><p data-i18n="t124">운동 후 30초 체크인(강도·통증·수분)이 다음 훈련에 반영됩니다. 물을 못 마셨다고 하면 <b>다음 브리핑이 "오늘은 물부터 챙기세요"로 시작</b>합니다.</p></div>
+<div class="card reveal"><div class="ic">🏅</div><h3 data-i18n="t125">혼자여도, 달릴 이유</h3><p data-i18n="t126">첫 5K부터 마라톤, 누적 1,000km, 새벽 러너까지 <b>배지 11종</b>. 아직 못 딴 배지엔 조건이 적혀 있어 다음 목표가 됩니다.</p></div>
+</div>
+<div class="cards" style="margin-top:20px">
+<div class="card reveal"><div class="ic">👻</div><h3 data-i18n="t127">가장 강한 라이벌, 과거의 나</h3><p data-i18n="t128">같은 코스를 다시 달리면 <b>내 최고 기록이 고스트가 되어 함께 달립니다.</b> "지난 최고 기록보다 12초 앞서고 있어요" — 역전의 순간엔 바로 알려주고, 기록을 깨면 오늘의 내가 다음 고스트가 됩니다.</p></div>
+<div class="card reveal"><div class="ic">🐢</div><h3 data-i18n="t129">늦추라고 말해주는 코치</h3><p data-i18n="t130">이지런 날 신나서 빨라지면 <b>"오늘은 쉬운 날이에요"</b>라고 잡아줍니다. 쉬운 날이 쉬워야 힘든 날이 강해진다 — 초보 러너가 가장 많이 하는 실수를 코치가 막아줍니다.</p></div>
+<div class="card reveal"><div class="ic">🗓️</div><h3 data-i18n="t131">모든 러닝이 계획으로 끝납니다</h3><p data-i18n="t132">가볍게 뛴 날도, 전력을 다한 날도 — 분석 마지막엔 항상 <b>부하에 맞춘 '다음 2주' 제안</b>이 붙습니다. 오늘의 기록이 다음 훈련의 근거가 되는 순환.</p></div>
+</div>
+</div>
+</div>
 </section>
-
 <!-- VOICE -->
 <section id="voice">
-  <div class="wrap">
-    <div class="eyebrow reveal">음성 코칭</div>
-    <h2 class="reveal">센서가 읽고, <span class="grad-text">코치가 말합니다</span></h2>
-    <p class="sub reveal">"자세 좋아요" 같은 빈말이 아닙니다. 모든 코칭엔 <b>워치 센서가 잡은 근거</b>가 먼저 있습니다. 아이콘을 누르면 실제 안내가 한국어로 재생됩니다.<br><span style="color:var(--dim2)">음악 볼륨은 부드럽게 낮아지고, 안내가 끝나면 다시 원래대로 돌아옵니다.</span></p>
-    <div class="voice-grid reveal">
-      <div class="vchip" data-say="시작할 때보다 발걸음이 5퍼센트 느려지고 접지가 길어졌어요. 보폭을 줄이면 회전이 살아나면서 자세가 돌아옵니다."><div class="sensor">📡 케이던스 174→165 · 접지 +9% — 3개 신호 중 2개 동시 이탈</div><div class="play">▶ 폼 코칭</div><div class="line">"시작할 때보다 발걸음이 5% 느려지고 접지가 길어졌어요. 보폭을 줄이면 회전이 살아나면서 자세가 돌아옵니다."</div></div>
-      <div class="vchip" data-say="300미터 앞, 1.2킬로미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor">📡 대회 GPX 전방 스캔 — 300m 앞 고도 +34m</div><div class="play">▶ 언덕 예고</div><div class="line">"300m 앞, 1.2km 오르막이 시작됩니다. 평균 경사 4%. 보폭을 줄이고 리듬을 유지하세요."</div></div>
-      <div class="vchip" data-say="심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor">📡 걷기 회복 추적 중 — 심박 존 4→3 하강</div><div class="play">▶ 회복 격려</div><div class="line">"심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."</div></div>
-      <div class="vchip" data-say="잠깐 상식 하나. 편한 페이스에선 코로만 숨 쉬어도 충분해요. 입이 벌어지기 시작하면, 그게 강도가 올라갔다는 신호예요."><div class="sensor">📡 코칭 이벤트 없이 조용한 구간 — 잔소리 대신 상식</div><div class="play">▶ 러닝 상식</div><div class="line">"잠깐 상식 하나. 편한 페이스에선 코로만 숨 쉬어도 충분해요. 입이 벌어지기 시작하면, 그게 강도가 올라갔다는 신호예요."</div></div>
-    </div>
-    <p class="reveal" style="text-align:center;color:var(--dim2);font-size:13.5px;margin-top:22px">같은 순간에도 초급자에겐 풀어서, 고급자에겐 짧게 — 최근 1개월 기록으로 코칭 레벨이 자동 조정됩니다.</p>
-  </div>
+<div class="wrap">
+<div class="eyebrow reveal">음성 코칭</div>
+<h2 class="reveal" data-i18n="t133">센서가 읽고, <span class="grad-text">코치가 말합니다</span></h2>
+<p class="sub reveal" data-i18n="t134">"자세 좋아요" 같은 빈말이 아닙니다. 모든 코칭엔 <b>워치 센서가 잡은 근거</b>가 먼저 있습니다. 아이콘을 누르면 실제 안내가 한국어로 재생됩니다.<br/><span style="color:var(--dim2)">음악 볼륨은 부드럽게 낮아지고, 안내가 끝나면 다시 원래대로 돌아옵니다.</span></p>
+<div class="voice-grid reveal">
+<div class="vchip" data-say="시작할 때보다 발걸음이 5퍼센트 느려지고 접지가 길어졌어요. 보폭을 줄이면 회전이 살아나면서 자세가 돌아옵니다."><div class="sensor">📡 케이던스 174→165 · 접지 +9% — 3개 신호 중 2개 동시 이탈</div><div class="play">▶ 폼 코칭</div><div class="line">"시작할 때보다 발걸음이 5% 느려지고 접지가 길어졌어요. 보폭을 줄이면 회전이 살아나면서 자세가 돌아옵니다."</div></div>
+<div class="vchip" data-say="300미터 앞, 1.2킬로미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor">📡 대회 GPX 전방 스캔 — 300m 앞 고도 +34m</div><div class="play">▶ 언덕 예고</div><div class="line">"300m 앞, 1.2km 오르막이 시작됩니다. 평균 경사 4%. 보폭을 줄이고 리듬을 유지하세요."</div></div>
+<div class="vchip" data-say="심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor">📡 걷기 회복 추적 중 — 심박 존 4→3 하강</div><div class="play">▶ 회복 격려</div><div class="line">"심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."</div></div>
+<div class="vchip" data-say="잠깐 상식 하나. 편한 페이스에선 코로만 숨 쉬어도 충분해요. 입이 벌어지기 시작하면, 그게 강도가 올라갔다는 신호예요."><div class="sensor">📡 코칭 이벤트 없이 조용한 구간 — 잔소리 대신 상식</div><div class="play">▶ 러닝 상식</div><div class="line">"잠깐 상식 하나. 편한 페이스에선 코로만 숨 쉬어도 충분해요. 입이 벌어지기 시작하면, 그게 강도가 올라갔다는 신호예요."</div></div>
+</div>
+<p class="reveal" data-i18n="t135" style="text-align:center;color:var(--dim2);font-size:13.5px;margin-top:22px">같은 순간에도 초급자에겐 풀어서, 고급자에겐 짧게 — 최근 1개월 기록으로 코칭 레벨이 자동 조정됩니다.</p>
+</div>
 </section>
-
 <!-- PRIVACY -->
 <section id="privacy">
-  <div class="wrap">
-    <div class="eyebrow reveal">프라이버시</div>
-    <h2 class="reveal">당신의 러닝은 당신 기기 안에</h2>
-    <div class="privacy reveal">
-      <div class="big">계정도, 자체 서버도 없습니다.<br>모든 러닝 기록과 분석은 <span class="grad-text">기기 내부</span>에서만 처리됩니다.</div>
-      <p class="note">단, 워밍업 날씨 안내를 위해 Open-Meteo로 대략적인 위치 정보가 전송될 수 있습니다.</p>
-    </div>
-  </div>
+<div class="wrap">
+<div class="eyebrow reveal">프라이버시</div>
+<h2 class="reveal" data-i18n="t136">당신의 러닝은 당신 기기 안에</h2>
+<div class="privacy reveal">
+<div class="big">계정도, 자체 서버도 없습니다.<br/>모든 러닝 기록과 분석은 <span class="grad-text" data-i18n="t137">기기 내부</span>에서만 처리됩니다.</div>
+<p class="note" data-i18n="t138">단, 워밍업 날씨 안내를 위해 Open-Meteo로 대략적인 위치 정보가 전송될 수 있습니다.</p>
+</div>
+</div>
 </section>
-
 <!-- PRICING -->
 <section id="price">
-  <div class="wrap">
-    <div class="eyebrow reveal">가격</div>
-    <h2 class="reveal">기록은 영원히 무료, 코칭은 커피 한 잔 값</h2>
-    <div class="price">
-      <div class="plan reveal">
-        <div class="name">기본 — 무료</div>
-        <div class="amt">₩0</div>
-        <ul>
-          <li>GPS 기록 · 페이스 · 심박 · 랩</li>
-          <li>Apple Health 저장 · 러닝 히스토리</li>
-          <li>기본 통계 · GPX 내보내기</li>
-          <li><b>훈련 플랜 보기</b> — 목표 대회 플랜·로드맵까지 무료</li>
-        </ul>
-      </div>
-      <div class="plan pro reveal">
-        <div class="name">런비스 코치</div>
-        <div class="amt">₩3,900<small> / 월</small></div>
-        <ul>
-          <li>실시간 음성 코칭 (자세·언덕·회복)</li>
-          <li>플랜 실행 코칭 — 인터벌을 구간별로 직접 진행</li>
-          <li>심층 러닝 분석 · 레이스 전략</li>
-          <li><b>가족 공유</b> — 1구독으로 가족 최대 6명</li>
-        </ul>
-      </div>
-    </div>
-    <p class="note" style="text-align:center;color:var(--dim2);margin-top:20px;font-size:14px">플랜은 무료로 보고, 코치가 <b style="color:var(--text)">직접 말하며 진행해주는 건 커피 한 잔 값</b>. 가족 공유를 켜면 한 구독으로 온 가족이 함께 씁니다. 1개월 무료 체험으로 충분히 써보고 판단하세요.</p>
-  </div>
+<div class="wrap">
+<div class="eyebrow reveal">가격</div>
+<h2 class="reveal" data-i18n="t139">기록은 영원히 무료, 코칭은 커피 한 잔 값</h2>
+<div class="price">
+<div class="plan reveal">
+<div class="name">기본 — 무료</div>
+<div class="amt">₩0</div>
+<ul>
+<li data-i18n="t140">GPS 기록 · 페이스 · 심박 · 랩</li>
+<li data-i18n="t141">Apple Health 저장 · 러닝 히스토리</li>
+<li data-i18n="t142">기본 통계 · GPX 내보내기</li>
+<li data-i18n="t143"><b>훈련 플랜 보기</b> — 목표 대회 플랜·로드맵까지 무료</li>
+</ul>
+</div>
+<div class="plan pro reveal">
+<div class="name">런비스 코치</div>
+<div class="amt">₩3,900<small data-i18n="t144"> / 월</small></div>
+<ul>
+<li data-i18n="t145">실시간 음성 코칭 (자세·언덕·회복)</li>
+<li data-i18n="t146">플랜 실행 코칭 — 인터벌을 구간별로 직접 진행</li>
+<li data-i18n="t147">심층 러닝 분석 · 레이스 전략</li>
+<li data-i18n="t148"><b>가족 공유</b> — 1구독으로 가족 최대 6명</li>
+</ul>
+</div>
+</div>
+<p class="note" data-i18n="t149" style="text-align:center;color:var(--dim2);margin-top:20px;font-size:14px">플랜은 무료로 보고, 코치가 <b style="color:var(--text)">직접 말하며 진행해주는 건 커피 한 잔 값</b>. 가족 공유를 켜면 한 구독으로 온 가족이 함께 씁니다. 1개월 무료 체험으로 충분히 써보고 판단하세요.</p>
+</div>
 </section>
-
 <!-- DEV LOG -->
 <section id="log">
-  <div class="wrap">
-    <div class="eyebrow reveal">만드는 사람</div>
-    <h2 class="reveal">러너가 자기가 쓰려고 만든 코치</h2>
-    <p class="sub reveal">대형 브랜드와 경쟁할 무기는 진정성입니다. 개발 과정을 그대로 공유합니다.</p>
-    <div class="log">
-      <div class="item reveal"><h4>3시간 LSD에서 음성 빈도를 줄인 이유</h4><p>긴 러닝일수록 코치는 조용해야 합니다. 실제로 뛰어보고 개입 간격을 다시 설계한 기록.</p></div>
-      <div class="item reveal"><h4>Apple Watch가 손목을 내렸을 때도 랩 기록이 틀어지지 않게 고친 과정</h4><p>백그라운드에서 타이머가 눌리는 문제를 찾아 실제 경과 시간 기준으로 재구성한 이야기.</p></div>
-      <div class="item reveal"><h4>날씨에 따라 준비운동 시간을 다르게 하는 코치</h4><p>추운 날 근육이 굳는다는 걸 알기에, 기온이 낮으면 준비운동을 더 길게. 밖에 나온 러너를 진짜 코치처럼 챙기고 싶었습니다.</p></div>
-    </div>
-  </div>
+<div class="wrap">
+<div class="eyebrow reveal">만드는 사람</div>
+<h2 class="reveal" data-i18n="t150">러너가 자기가 쓰려고 만든 코치</h2>
+<p class="sub reveal" data-i18n="t151">대형 브랜드와 경쟁할 무기는 진정성입니다. 개발 과정을 그대로 공유합니다.</p>
+<div class="log">
+<div class="item reveal"><h4 data-i18n="t152">3시간 LSD에서 음성 빈도를 줄인 이유</h4><p data-i18n="t153">긴 러닝일수록 코치는 조용해야 합니다. 실제로 뛰어보고 개입 간격을 다시 설계한 기록.</p></div>
+<div class="item reveal"><h4 data-i18n="t154">Apple Watch가 손목을 내렸을 때도 랩 기록이 틀어지지 않게 고친 과정</h4><p data-i18n="t155">백그라운드에서 타이머가 눌리는 문제를 찾아 실제 경과 시간 기준으로 재구성한 이야기.</p></div>
+<div class="item reveal"><h4 data-i18n="t156">날씨에 따라 준비운동 시간을 다르게 하는 코치</h4><p data-i18n="t157">추운 날 근육이 굳는다는 걸 알기에, 기온이 낮으면 준비운동을 더 길게. 밖에 나온 러너를 진짜 코치처럼 챙기고 싶었습니다.</p></div>
+</div>
+</div>
 </section>
-
 <!-- SIGNUP -->
 <section id="beta">
-  <div class="wrap">
-    <div class="eyebrow reveal">베타 신청</div>
-    <h2 class="reveal">가장 먼저 달려보세요</h2>
-    <div class="signup reveal">
-      <p class="sub" style="margin:0 auto">TestFlight 베타가 열리면 가장 먼저 초대장을 보내드립니다.</p>
-      <!-- Formspree: 폼 ID 발급 후 아래 action의 YOUR_FORM_ID만 교체하면 활성화.
+<div class="wrap">
+<div class="eyebrow reveal">베타 신청</div>
+<h2 class="reveal" data-i18n="t158">가장 먼저 달려보세요</h2>
+<div class="signup reveal">
+<p class="sub" data-i18n="t159" style="margin:0 auto">TestFlight 베타가 열리면 가장 먼저 초대장을 보내드립니다.</p>
+<!-- Formspree: 폼 ID 발급 후 아래 action의 YOUR_FORM_ID만 교체하면 활성화.
            ID 미설정 상태에서는 제출 시 안내 문구만 표시(오발송 없음). -->
-      <form id="betaForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-        <input type="email" name="email" placeholder="이메일 주소" required>
-        <button class="btn" type="submit" id="betaSubmit">베타 초대 받기</button>
-      </form>
-      <p id="betaStatus" style="display:none;margin-top:14px;font-size:15px;font-weight:600"></p>
-      <div class="consent">
-        <div>· <b>수집 목적</b>: TestFlight 베타 초대장 발송</div>
-        <div>· <b>보관 기간</b>: 베타 종료 또는 수신 동의 철회 시까지</div>
-        <label><input type="checkbox" name="marketing_consent" value="yes" form="betaForm"> (선택) 출시 소식·업데이트 등 마케팅 정보 수신에 동의합니다.</label>
-      </div>
-    </div>
-  </div>
+<form action="https://formspree.io/f/YOUR_FORM_ID" id="betaForm" method="POST">
+<input name="email" placeholder="이메일 주소" required="" type="email"/>
+<button class="btn" data-i18n="t160" id="betaSubmit" type="submit">베타 초대 받기</button>
+</form>
+<p id="betaStatus" style="display:none;margin-top:14px;font-size:15px;font-weight:600"></p>
+<div class="consent">
+<div>· <b data-i18n="t161">수집 목적</b>: TestFlight 베타 초대장 발송</div>
+<div>· <b data-i18n="t162">보관 기간</b>: 베타 종료 또는 수신 동의 철회 시까지</div>
+<label><input form="betaForm" name="marketing_consent" type="checkbox" value="yes"/> (선택) 출시 소식·업데이트 등 마케팅 정보 수신에 동의합니다.</label>
+</div>
+</div>
+</div>
 </section>
-
 <footer>
-  <div class="wrap">
-    <div class="links">
-      <a href="privacy.html">개인정보처리방침</a>
-      <a href="terms.html">이용약관</a>
-      <a href="mailto:curara@naver.com">문의</a>
-    </div>
-    <div class="logo" style="font-size:16px">Run<b>vis</b></div>
-    <p class="disclaimer">Runvis의 모든 지표와 안내는 일반적인 운동과학 공식에 기반한 참고 정보이며, 의학적 진단·치료·처방이 아닙니다. 흉통·어지럼 등 이상 증상이 있으면 운동을 중단하고 전문가와 상담하세요. Apple Watch는 Apple Inc.의 상표입니다. Runvis는 Apple과 제휴하지 않은 독립 앱입니다.</p>
-    <p style="margin-top:16px">© 2026 Runvis</p>
-  </div>
+<div class="wrap">
+<div class="links">
+<a data-i18n="t163" href="privacy.html">개인정보처리방침</a>
+<a data-i18n="t164" href="terms.html">이용약관</a>
+<a data-i18n="t165" href="mailto:curara@naver.com">문의</a>
+</div>
+<div class="logo" style="font-size:16px">Run<b>vis</b></div>
+<p class="disclaimer" data-i18n="t166">Runvis의 모든 지표와 안내는 일반적인 운동과학 공식에 기반한 참고 정보이며, 의학적 진단·치료·처방이 아닙니다. 흉통·어지럼 등 이상 증상이 있으면 운동을 중단하고 전문가와 상담하세요. Apple Watch는 Apple Inc.의 상표입니다. Runvis는 Apple과 제휴하지 않은 독립 앱입니다.</p>
+<p style="margin-top:16px">© 2026 Runvis</p>
+</div>
 </footer>
-
 <script>
 // --- reveal on scroll ---
 const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-// --- hero caption typing loop ---
-const heroLines=["현재 기온 8도, 습도 60퍼센트. 준비운동을 조금 길게 할게요.","300m 앞, 오르막입니다. 보폭을 줄이세요.","심박이 존 3까지 내려왔어요. 조금만 더요.","반환점입니다. 여기서부터 조금씩 올려도 좋습니다."];
+// --- hero caption typing loop (language-aware via window.RunvisDyn) ---
 const capEl=document.getElementById('heroCaption');
-let hl=0;
-function typeLine(text,cb){let i=0;capEl.textContent="";const iv=setInterval(()=>{capEl.textContent=text.slice(0,++i);if(i>=text.length){clearInterval(iv);setTimeout(cb,2200)}},45)}
-function heroLoop(){typeLine(heroLines[hl],()=>{hl=(hl+1)%heroLines.length;heroLoop()})}
+let hl=0, heroTimer=null;
+function heroCurrentLines(){
+  return (window.RunvisDyn&&window.RunvisDyn.hero&&window.RunvisDyn.hero[0])
+    ? window.RunvisDyn.hero
+    : ["현재 기온 8도, 습도 60퍼센트. 준비운동을 조금 길게 할게요.","300m 앞, 오르막입니다. 보폭을 줄이세요.","심박이 존 3까지 내려왔어요. 조금만 더요.","반환점입니다. 여기서부터 조금씩 올려도 좋습니다."];
+}
+function typeLine(text,cb){let i=0;capEl.textContent="";clearInterval(heroTimer);heroTimer=setInterval(()=>{capEl.textContent=text.slice(0,++i);if(i>=text.length){clearInterval(heroTimer);setTimeout(cb,2200)}},45)}
+function heroLoop(){const lines=heroCurrentLines();typeLine(lines[hl%lines.length],()=>{hl++;heroLoop()})}
 heroLoop();
 
-// --- simulator ---
-const sims={
-  lsd:[["0:00","러닝 시작. 오늘도 함께 달려볼까요?"],["0:20","초반 페이스가 빠릅니다. 조금 억눌러 시작하세요.",1],["12:00","",0],["40:00","1시간의 40퍼센트 지점. 잘하고 있어요."],["1:10:00","수분을 보충하세요."],["1:45:00","같은 페이스에서 심박이 오르고 있어요. 어깨 힘을 빼세요."],["2:00:00","오늘도 나와서 뛴 것 자체가 훈련입니다. 수고했어요."]],
-  half:[["0:00","레이스 모드. 목표 페이스로 안내합니다."],["0:20","가상 파트너보다 5초 앞서 있습니다. 좋은 페이스."],["5:00","",0],["10.5km","반환점입니다. 여기서부터 조금씩 올려도 좋습니다."],["18km","같은 페이스에서 심박이 오르고 있어요."],["19km","마지막 10퍼센트. 남은 힘을 전부 쏟을 시간입니다!"]],
-  interval:[["0:00","워밍업 10분. 편하게 풀어주세요."],["10:00","인터벌 1. 3분간 5K 페이스로. 호흡은 거칠어져도 리듬은 유지하세요."],["13:00","회복 2분. 천천히 조깅."],["15:00","인터벌 2. 같은 강도 유지."],["20:00","",0],["35:00","쿨다운. 오늘 훈련 완료했습니다."]]
-};
+// --- simulator (language-aware) ---
 const tl=document.getElementById('simTimeline');
+let simKey='lsd';
+function currentSim(key){
+  if(window.RunvisDyn&&window.RunvisDyn.sim&&window.RunvisDyn.sim[key]) return window.RunvisDyn.sim[key];
+  // Korean fallback if translations not loaded
+  const fb={lsd:[["0:00","러닝 시작. 오늘도 함께 달려볼까요?"],["0:20","초반 페이스가 빠릅니다. 조금 억눌러 시작하세요."],["12:00",null],["40:00","1시간의 40퍼센트 지점. 잘하고 있어요."],["1:10:00","수분을 보충하세요."],["1:45:00","같은 페이스에서 심박이 오르고 있어요. 어깨 힘을 빼세요."],["2:00:00","오늘도 나와서 뛴 것 자체가 훈련입니다. 수고했어요."]],half:[["0:00","레이스 모드. 목표 페이스로 안내합니다."],["0:20","가상 파트너보다 5초 앞서 있습니다. 좋은 페이스."],["5:00",null],["10.5km","반환점입니다. 여기서부터 조금씩 올려도 좋습니다."],["18km","같은 페이스에서 심박이 오르고 있어요."],["19km","마지막 10퍼센트. 남은 힘을 전부 쏟을 시간입니다!"]],interval:[["0:00","워밍업 10분. 편하게 풀어주세요."],["10:00","인터벌 1. 3분간 5K 페이스로. 호흡은 거칠어져도 리듬은 유지하세요."],["13:00","회복 2분. 천천히 조깅."],["15:00","인터벌 2. 같은 강도 유지."],["20:00",null],["35:00","쿨다운. 오늘 훈련 완료했습니다."]]};
+  return fb[key];
+}
 function renderSim(key){
-  tl.innerHTML="";
-  sims[key].forEach((ev,idx)=>{
+  simKey=key; tl.innerHTML="";
+  const silentLabel=(window.RunvisDyn&&window.RunvisDyn.silent)||"— 조용히 지켜보는 중 —";
+  currentSim(key).forEach((ev,idx)=>{
     const d=document.createElement('div');
-    const silent=ev[2]===0;
+    const silent=ev[1]==null;
     d.className="ev"+(silent?" silent":"");
-    d.innerHTML=`<span class="t">${ev[0]}</span><span class="m">${silent?"— 조용히 지켜보는 중 —":ev[1]}</span>`;
+    d.innerHTML=`<span class="t">${ev[0]}</span><span class="m">${silent?silentLabel:ev[1]}</span>`;
     tl.appendChild(d);
     setTimeout(()=>d.classList.add('show'),120*idx+80);
   });
@@ -703,17 +736,53 @@ document.querySelectorAll('.sim .tab').forEach(t=>t.addEventListener('click',()=
 }));
 renderSim('lsd');
 
-// --- voice playback (Web Speech API, ko-KR) ---
-document.querySelectorAll('.vchip').forEach(c=>c.addEventListener('click',()=>{
-  if(!('speechSynthesis' in window)){alert('이 브라우저는 음성 재생을 지원하지 않습니다.');return;}
+// Called by i18n.js whenever the language changes: re-render dynamic demo text.
+window.renderDynamicI18n=function(){ hl=0; renderSim(simKey); };
+
+// --- voice playback (Web Speech API, follows the selected language) ---
+document.querySelectorAll('.vchip').forEach((c,idx)=>c.addEventListener('click',()=>{
+  if(!('speechSynthesis' in window)){alert('This browser does not support voice playback.');return;}
   speechSynthesis.cancel();
   document.querySelectorAll('.vchip').forEach(x=>x.classList.remove('playing'));
   c.classList.add('playing');
-  const u=new SpeechSynthesisUtterance(c.dataset.say);
-  u.lang="ko-KR";u.rate=.95;
+  const dyn=window.RunvisDyn;
+  const say=(dyn&&dyn.vchip&&dyn.vchip[idx])||c.dataset.say;
+  const u=new SpeechSynthesisUtterance(say);
+  u.lang=(dyn&&dyn.tts)||"ko-KR";u.rate=.95;
   u.onend=()=>c.classList.remove('playing');
   speechSynthesis.speak(u);
 }));
+
+// --- hero film → watch handoff ---
+// The run plays first; once it has had its moment the footage settles back and
+// the watch rises into place. If the video can't play (missing file, reduced
+// motion, autoplay blocked) the watch is shown immediately — never a blank hero.
+(() => {
+  const hero = document.getElementById('hero');
+  const film = document.getElementById('heroFilm');
+  const video = document.getElementById('heroFilmVideo');
+  if (!hero || !video) return;
+
+  const settle = () => { hero.classList.remove('film-in'); hero.classList.add('film-settled'); };
+
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { settle(); return; }
+
+  let settled = false;
+  const settleOnce = () => { if (!settled) { settled = true; settle(); } };
+  const giveUp = () => { film.remove(); settleOnce(); };
+
+  video.addEventListener('error', giveUp);
+  video.addEventListener('loadeddata', () => {
+    hero.classList.add('film-in');
+    video.play().then(() => {
+      // hand off shortly before the clip ends, then hold the last frame
+      const cut = Math.max(1200, (video.duration || 5) * 1000 - 900);
+      setTimeout(() => { settleOnce(); video.pause(); }, cut);
+    }).catch(giveUp);
+  });
+  // safety net: never leave the hero mid-transition
+  setTimeout(settleOnce, 9000);
+})();
 
 // --- hero watch screen rotation (pace → HR zones → GPS map) ---
 (() => {
