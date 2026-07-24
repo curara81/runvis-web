@@ -291,6 +291,19 @@
   .langsel li:hover{background:rgba(61,220,132,.15)}
   .langsel li[aria-current="true"]{color:var(--green);font-weight:700}
   @media(max-width:640px){.langsel{margin-left:8px}.langsel button{padding:6px 9px;font-size:12px}}
+
+/* 코스 라이브러리 목록 — course-catalog.json에서 렌더 */
+.courselist{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr));gap:12px;margin-top:24px}
+.crs{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+     border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.crs .top{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.crs .nm{font-weight:700;font-size:15px}
+.crs .km{font-weight:700;font-size:14px;color:var(--brand,#22d3a0);white-space:nowrap}
+.crs .meta{font-size:12px;color:var(--muted,#9aa4ae);display:flex;gap:8px;flex-wrap:wrap}
+.crs .tag{font-size:11px;padding:2px 8px;border-radius:999px;
+          background:rgba(34,211,160,.14);color:var(--brand,#22d3a0)}
+.crs .tag.flat{background:rgba(255,255,255,.07);color:var(--muted,#9aa4ae)}
+.fineprint{font-size:12px;color:var(--muted,#9aa4ae);margin-top:18px}
 </style>
 <script src="translations.js"></script>
 <script defer src="i18n.js"></script>
@@ -462,6 +475,17 @@
 <div class="card reveal"><div class="ic">🩹</div><h3 data-i18n="t169">아픈 곳을 기억하는 코치</h3><p data-i18n="t170">달리기 전 통증 부위를 체크하면 <b>런비스가 기억합니다.</b> 같은 곳이 자꾸 아프면 다음 러닝 브리핑에서 코치가 먼저 짚어주고, 무리하지 않도록 안내합니다.</p></div>
 <div class="card reveal"><div class="ic">🏅</div><h3 data-i18n="t171">배지를 이미지 한 장으로 자랑</h3><p data-i18n="t172">달린 만큼 쌓인 배지를 <b>이미지 카드로 만들어 친구에게 공유</b>. 손목 위에서 얻은 성취를 온디바이스로 그려서 — 서버도, 계정도 필요 없습니다.</p></div>
 </div>
+</div>
+</section>
+<!-- COURSE LIBRARY: 실제 카탈로그(course-catalog.json)에서 렌더 —
+     코스를 추가하면 이 목록이 자동으로 따라온다. -->
+<section id="courses">
+<div class="wrap">
+<div class="eyebrow reveal" data-i18n="t173">코스 라이브러리</div>
+<h2 class="reveal" data-i18n="t174">앱에서 바로 내려받는 코스</h2>
+<p class="sub reveal" data-i18n="t175">실제 지도 데이터로 그린 경로에 공개 고도를 입혔습니다. 앱의 <b>코스</b> 화면에서 탭 한 번이면 내려받아 지도로 확인하고, 워치로 보내 달릴 수 있습니다.</p>
+<div id="courselist" class="courselist reveal"></div>
+<p class="fineprint reveal" data-i18n="t178">경로 © OpenStreetMap contributors (ODbL) · 고도 Copernicus DEM / NASA SRTMGL1(공개 도메인). 코스는 계속 추가됩니다.</p>
 </div>
 </section>
 <!-- SHOWCASE: 실제 앱 화면 (Gentler Streak식 워치 3-up + iPhone) -->
@@ -765,7 +789,7 @@ document.querySelectorAll('.sim .tab').forEach(t=>t.addEventListener('click',()=
 renderSim('lsd');
 
 // Called by i18n.js whenever the language changes: re-render dynamic demo text.
-window.renderDynamicI18n=function(){ hl=0; renderSim(simKey); };
+window.renderDynamicI18n=function(){ hl=0; renderSim(simKey); if(window.renderCourseList) window.renderCourseList(); };
 
 // --- voice playback (Web Speech API, follows the selected language) ---
 document.querySelectorAll('.vchip').forEach((c,idx)=>c.addEventListener('click',()=>{
@@ -878,6 +902,40 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   });
 });
 
+
+// --- 코스 라이브러리: course-catalog.json을 그대로 읽어 렌더 ---
+// 앱이 쓰는 것과 똑같은 파일이라 코스를 추가하면 홈페이지가 자동으로 따라온다.
+// 실패해도 조용히 넘어간다(섹션만 비어 보임).
+(function(){
+  var catalog=null;
+  function t(k,fb){ var d=window.RUNVIS_I18N&&window.RUNVIS_I18N[(window.RunvisDyn&&window.RunvisDyn.code)||'ko']; return (d&&d[k])||fb; }
+  function draw(){
+    var el=document.getElementById('courselist');
+    if(!el||!catalog) return;
+    var ko=((window.RunvisDyn&&window.RunvisDyn.code)||'ko')==='ko';
+    el.innerHTML=catalog.map(function(c){
+      var uphill=(c.ascentM||0)>=60;
+      // The notes are written in Korean. Rather than leave a half-translated
+      // page, other languages fall back to the numbers plus the tag — which
+      // already says uphill or flat, so no second line is needed.
+      var desc=ko ? (c.note||'') : '';
+      // Ascent only means something on the hilly ones; on a riverside path it
+      // is DEM noise and just adds a number nobody asked for.
+      var asc=uphill ? '↑'+c.ascentM+'m' : '';
+      return '<div class="crs"><div class="top"><span class="nm">'+c.name+'</span>'+
+             '<span class="km">'+Number(c.km).toFixed(1)+'km</span></div>'+
+             '<div class="meta"><span class="tag'+(uphill?'':' flat')+'">'+
+             (uphill? t('t176','업힐') : t('t177','평지'))+'</span>'+
+             (asc?'<span>'+asc+'</span>':'')+'</div>'+
+             (desc?'<div class="meta">'+desc+'</div>':'')+'</div>';
+    }).join('');
+  }
+  window.renderCourseList=draw;
+  fetch('course-catalog.json',{cache:'no-cache'})
+    .then(function(r){ return r.ok? r.json() : null; })
+    .then(function(j){ if(j&&j.courses){ catalog=j.courses; draw(); } })
+    .catch(function(){});
+})();
 </script>
 </body>
 </html>

@@ -59,3 +59,54 @@ Object.assign(window.RUNVIS_I18N.de, {
   t171: 'Zeig deine Abzeichen als ein einziges Bild',
   t172: 'Mach aus den verdienten Abzeichen eine <b>Bildkarte und teile sie mit Freunden</b>. Deine am Handgelenk erreichten Meilensteine, auf dem Gerät gerendert — kein Server, kein Konto.'
 });
+
+
+/* --- 2026-07-25: 코스 라이브러리 섹션(course-catalog.json 렌더) + t168 갱신 --- */
+Object.assign(window.RUNVIS_I18N.ko, {
+  t168: '실제 지도 데이터로 그린 경로에 공개 고도를 입혀 <b>앱에서 바로 내려받습니다</b>. 코스를 누르면 <b>어디서 어디까지인지 지도로 미리 확인</b>하고, 오르막은 달리는 중 미리 알려줍니다. 서버 없이, 공개 데이터로만.',
+  t173: '코스 라이브러리',
+  t174: '앱에서 바로 내려받는 코스',
+  t175: '실제 지도 데이터로 그린 경로에 공개 고도를 입혔습니다. 앱의 <b>코스</b> 화면에서 탭 한 번이면 내려받아 지도로 확인하고, 워치로 보내 달릴 수 있습니다.',
+  t176: '업힐', t177: '평지',
+  t178: '경로 © OpenStreetMap contributors (ODbL) · 고도 Copernicus DEM / NASA SRTMGL1(공개 도메인). 코스는 계속 추가됩니다.'
+});
+Object.assign(window.RUNVIS_I18N.en, {
+  t168: 'Routes drawn from real map data, given real elevation, and <b>downloaded straight into the app</b>. Tap a course to <b>see exactly where it runs on a map</b>, and the climbs get called out while you run. No server — public data only.',
+  t173: 'Course library',
+  t174: 'Courses you can pull straight into the app',
+  t175: 'Routes drawn from real map data with public elevation applied. One tap in the app\'s <b>Courses</b> screen downloads a course, shows it on a map, and sends it to your watch.',
+  t176: 'Uphill', t177: 'Flat',
+  t178: 'Routes © OpenStreetMap contributors (ODbL) · Elevation from Copernicus DEM / NASA SRTMGL1 (public domain). More courses are being added.'
+});
+Object.assign(window.RUNVIS_I18N.ja, {
+  t168: '実際の地図データで描いた経路に公開標高を載せ、<b>アプリからそのままダウンロード</b>。コースをタップすれば<b>どこからどこまでかを地図で確認</b>でき、上り坂は走行中に先に知らせます。サーバーなし、公開データのみ。',
+  t173: 'コースライブラリ',
+  t174: 'アプリにそのまま取り込めるコース',
+  t175: '実際の地図データで描いた経路に公開標高を適用しています。アプリの<b>コース</b>画面でワンタップすればダウンロードでき、地図で確認してウォッチへ送れます。',
+  t176: '上り', t177: '平坦',
+  t178: '経路 © OpenStreetMap contributors（ODbL）· 標高 Copernicus DEM / NASA SRTMGL1（パブリックドメイン）。コースは順次追加します。'
+});
+Object.assign(window.RUNVIS_I18N.es, {
+  t168: 'Rutas trazadas con datos cartográficos reales, con desnivel real, y <b>descargadas directamente en la app</b>. Toca una ruta para <b>ver en el mapa exactamente por dónde va</b>; las subidas se avisan mientras corres. Sin servidor: solo datos públicos.',
+  t173: 'Biblioteca de rutas',
+  t174: 'Rutas que puedes cargar directamente en la app',
+  t175: 'Rutas trazadas con datos cartográficos reales y desnivel de fuentes públicas. Un toque en la pantalla <b>Rutas</b> de la app la descarga, la muestra en el mapa y la envía a tu reloj.',
+  t176: 'Subida', t177: 'Llano',
+  t178: 'Rutas © OpenStreetMap contributors (ODbL) · Altimetría de Copernicus DEM / NASA SRTMGL1 (dominio público). Seguimos añadiendo rutas.'
+});
+Object.assign(window.RUNVIS_I18N.zh, {
+  t168: '以真實地圖資料描繪路線並套用公開高程，<b>直接在 App 內下載</b>。點選路線即可<b>在地圖上看清楚從哪裡到哪裡</b>，上坡也會在跑步途中提前提醒。無伺服器，只用公開資料。',
+  t173: '路線庫',
+  t174: '可直接載入 App 的路線',
+  t175: '以真實地圖資料描繪路線，並套用公開高程。在 App 的<b>路線</b>頁面點一下即可下載、在地圖上確認，並傳送到手錶。',
+  t176: '上坡', t177: '平路',
+  t178: '路線 © OpenStreetMap contributors（ODbL）· 高程來自 Copernicus DEM / NASA SRTMGL1（公有領域）。路線持續增加中。'
+});
+Object.assign(window.RUNVIS_I18N.de, {
+  t168: 'Strecken aus echten Kartendaten gezeichnet, mit echten Höhendaten versehen und <b>direkt in der App geladen</b>. Tippe auf eine Strecke, um <b>auf der Karte zu sehen, wo genau sie verläuft</b> — Anstiege werden während des Laufs vorher angesagt. Ohne Server, nur mit offenen Daten.',
+  t173: 'Streckenbibliothek',
+  t174: 'Strecken, die du direkt in die App holst',
+  t175: 'Strecken aus echten Kartendaten, versehen mit offenen Höhendaten. Ein Tipp im <b>Strecken</b>-Bildschirm lädt sie, zeigt sie auf der Karte und schickt sie an deine Uhr.',
+  t176: 'Anstieg', t177: 'Flach',
+  t178: 'Strecken © OpenStreetMap contributors (ODbL) · Höhendaten von Copernicus DEM / NASA SRTMGL1 (gemeinfrei). Es kommen laufend Strecken dazu.'
+});
