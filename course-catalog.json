@@ -1,124 +1,124 @@
 {
   "version": 1,
-  "attribution": "코스 경로=Runvis 자체 제작(공개 지리정보 기반). 고도=Copernicus DEM(Open-Meteo) 및 NASA SRTMGL1(public domain, OpenTopoData).",
-  "license": "ODbL 1.0 (경로 지오메트리가 OSM 파생인 범위 내)",
+  "attribution": "코스 경로=OpenStreetMap 실제 도로·산책로 데이터. 고도=Copernicus DEM / NASA SRTMGL1(public domain).",
+  "license": "ODbL 1.0",
   "attributionRequired": "© OpenStreetMap contributors",
   "elevationSource": "Copernicus DEM GLO / NASA SRTMGL1 (public domain)",
   "courses": [
     {
-      "name": "여의도 한강공원 순환",
+      "name": "남산 북측순환로",
       "region": "서울",
       "country": "KR",
-      "km": 5.0,
-      "ascentM": 0,
-      "note": "평지 강변 순환 · 초보 친화",
-      "file": "gpx/seoul-hangang-yeouido-5k.gpx"
+      "km": 6.7,
+      "ascentM": 144,
+      "note": "차 없는 순환 산책로 · 러너들의 남산",
+      "file": "gpx/seoul-namsan-bukcheuk.gpx"
     },
     {
-      "name": "남산 순환로",
+      "name": "남산 정상 업힐",
       "region": "서울",
       "country": "KR",
-      "km": 4.6,
-      "ascentM": 353,
-      "note": "남측 소월로 오르막 + 북측순환로 · 정상 N서울타워",
-      "file": "gpx/seoul-namsan-loop.gpx"
+      "km": 4.0,
+      "ascentM": 181,
+      "note": "소월로→남산공원길 · 정상 N서울타워",
+      "file": "gpx/seoul-namsan-summit.gpx"
     },
     {
       "name": "북악스카이웨이",
       "region": "서울",
       "country": "KR",
-      "km": 9.5,
-      "ascentM": 322,
-      "note": "창의문→북악팔각정 왕복 · 롱 힐런",
+      "km": 5.2,
+      "ascentM": 165,
+      "note": "창의문→북악팔각정 · 롱 힐런",
       "file": "gpx/seoul-bukak-skyway.gpx"
     },
     {
       "name": "안산 자락길",
       "region": "서울",
       "country": "KR",
-      "km": 3.0,
-      "ascentM": 182,
+      "km": 6.1,
+      "ascentM": 193,
       "note": "무장애 순환 데크길 · 봉수대",
       "file": "gpx/seoul-ansan-jarak.gpx"
     },
     {
-      "name": "응봉산 계단",
+      "name": "인왕산 자락길",
       "region": "서울",
       "country": "KR",
-      "km": 1.7,
-      "ascentM": 61,
-      "note": "가파른 계단 인터벌 · 한강 조망",
-      "file": "gpx/seoul-eungbong.gpx"
+      "km": 2.9,
+      "ascentM": 127,
+      "note": "한양도성 인왕산 구간 · 급경사",
+      "file": "gpx/seoul-inwangsan.gpx"
     },
     {
       "name": "낙산공원 한양도성길",
       "region": "서울",
       "country": "KR",
       "km": 2.1,
-      "ascentM": 68,
+      "ascentM": 62,
       "note": "성곽 오르막 · 도심 야경",
       "file": "gpx/seoul-naksan.gpx"
     },
     {
-      "name": "인왕산 자락길",
+      "name": "응봉산 계단",
       "region": "서울",
       "country": "KR",
-      "km": 2.5,
-      "ascentM": 214,
-      "note": "수성동계곡→성곽 급경사",
-      "file": "gpx/seoul-inwangsan.gpx"
+      "km": 1.6,
+      "ascentM": 52,
+      "note": "가파른 계단 인터벌 · 한강 조망",
+      "file": "gpx/seoul-eungbong.gpx"
     },
     {
       "name": "도림천",
       "region": "서울",
       "country": "KR",
-      "km": 7.4,
-      "ascentM": 29,
-      "note": "평지 하천 산책로",
+      "km": 14.5,
+      "ascentM": 49,
+      "note": "평지 하천길 · 관악~신도림",
       "file": "gpx/seoul-dorimcheon.gpx"
     },
     {
       "name": "반포 한강공원",
       "region": "서울",
       "country": "KR",
-      "km": 5.1,
-      "ascentM": 9,
-      "note": "평지 강변 · 세빛섬",
+      "km": 5.0,
+      "ascentM": 26,
+      "note": "평지 강변 · 세빛섬~동작대교",
       "file": "gpx/seoul-banpo-hangang.gpx"
     },
     {
       "name": "탄천",
       "region": "서울",
       "country": "KR",
-      "km": 6.0,
-      "ascentM": 26,
-      "note": "평지 하천 · 한강 합수부",
+      "km": 7.1,
+      "ascentM": 47,
+      "note": "평지 하천 · 수서~한강 합수부",
       "file": "gpx/seoul-tancheon.gpx"
     },
     {
       "name": "양재천",
       "region": "서울",
       "country": "KR",
-      "km": 4.6,
-      "ascentM": 29,
-      "note": "평지 하천 · 시민의숲",
+      "km": 3.9,
+      "ascentM": 14,
+      "note": "평지 하천 · 시민의숲~영동교",
       "file": "gpx/seoul-yangjaecheon.gpx"
     },
     {
       "name": "청계천",
       "region": "서울",
       "country": "KR",
-      "km": 5.1,
-      "ascentM": 21,
-      "note": "도심 평지 물길",
+      "km": 5.5,
+      "ascentM": 14,
+      "note": "도심 평지 물길 · 청계광장~고산자교",
       "file": "gpx/seoul-cheonggyecheon.gpx"
     },
     {
       "name": "서울숲 순환",
       "region": "서울",
       "country": "KR",
-      "km": 3.1,
-      "ascentM": 15,
+      "km": 2.0,
+      "ascentM": 9,
       "note": "평지 공원 순환",
       "file": "gpx/seoul-seoulsup.gpx"
     }
