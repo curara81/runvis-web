@@ -1,6 +1,9 @@
 {
   "version": 1,
-  "attribution": "코스 경로=Runvis 자체 제작. 고도=Copernicus DEM(Open-Meteo)·SRTM(OpenTopoData). 공개 재배포 가능 데이터만 사용.",
+  "attribution": "코스 경로=Runvis 자체 제작(공개 지리정보 기반). 고도=Copernicus DEM(Open-Meteo) 및 NASA SRTMGL1(public domain, OpenTopoData).",
+  "license": "ODbL 1.0 (경로 지오메트리가 OSM 파생인 범위 내)",
+  "attributionRequired": "© OpenStreetMap contributors",
+  "elevationSource": "Copernicus DEM GLO / NASA SRTMGL1 (public domain)",
   "courses": [
     {
       "name": "여의도 한강공원 순환",
