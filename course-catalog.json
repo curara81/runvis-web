@@ -10,7 +10,7 @@
       "region": "서울",
       "country": "KR",
       "km": 6.7,
-      "ascentM": 144,
+      "ascentM": 123,
       "note": "차 없는 순환 산책로 · 러너들의 남산",
       "file": "gpx/seoul-namsan-bukcheuk.gpx"
     },
@@ -19,7 +19,7 @@
       "region": "서울",
       "country": "KR",
       "km": 4.0,
-      "ascentM": 181,
+      "ascentM": 176,
       "note": "소월로→남산공원길 · 정상 N서울타워",
       "file": "gpx/seoul-namsan-summit.gpx"
     },
@@ -28,7 +28,7 @@
       "region": "서울",
       "country": "KR",
       "km": 5.2,
-      "ascentM": 165,
+      "ascentM": 157,
       "note": "창의문→북악팔각정 · 롱 힐런",
       "file": "gpx/seoul-bukak-skyway.gpx"
     },
@@ -37,7 +37,7 @@
       "region": "서울",
       "country": "KR",
       "km": 6.1,
-      "ascentM": 193,
+      "ascentM": 169,
       "note": "무장애 순환 데크길 · 봉수대",
       "file": "gpx/seoul-ansan-jarak.gpx"
     },
@@ -46,7 +46,7 @@
       "region": "서울",
       "country": "KR",
       "km": 2.9,
-      "ascentM": 127,
+      "ascentM": 121,
       "note": "한양도성 인왕산 구간 · 급경사",
       "file": "gpx/seoul-inwangsan.gpx"
     },
@@ -55,7 +55,7 @@
       "region": "서울",
       "country": "KR",
       "km": 2.1,
-      "ascentM": 62,
+      "ascentM": 59,
       "note": "성곽 오르막 · 도심 야경",
       "file": "gpx/seoul-naksan.gpx"
     },
@@ -64,7 +64,7 @@
       "region": "서울",
       "country": "KR",
       "km": 1.6,
-      "ascentM": 52,
+      "ascentM": 48,
       "note": "가파른 계단 인터벌 · 한강 조망",
       "file": "gpx/seoul-eungbong.gpx"
     },
@@ -73,7 +73,7 @@
       "region": "서울",
       "country": "KR",
       "km": 14.5,
-      "ascentM": 49,
+      "ascentM": 31,
       "note": "평지 하천길 · 관악~신도림",
       "file": "gpx/seoul-dorimcheon.gpx"
     },
@@ -82,7 +82,7 @@
       "region": "서울",
       "country": "KR",
       "km": 5.0,
-      "ascentM": 26,
+      "ascentM": 22,
       "note": "평지 강변 · 세빛섬~동작대교",
       "file": "gpx/seoul-banpo-hangang.gpx"
     },
@@ -91,7 +91,7 @@
       "region": "서울",
       "country": "KR",
       "km": 7.1,
-      "ascentM": 47,
+      "ascentM": 25,
       "note": "평지 하천 · 수서~한강 합수부",
       "file": "gpx/seoul-tancheon.gpx"
     },
@@ -100,7 +100,7 @@
       "region": "서울",
       "country": "KR",
       "km": 3.9,
-      "ascentM": 14,
+      "ascentM": 7,
       "note": "평지 하천 · 시민의숲~영동교",
       "file": "gpx/seoul-yangjaecheon.gpx"
     },
@@ -109,7 +109,7 @@
       "region": "서울",
       "country": "KR",
       "km": 5.5,
-      "ascentM": 14,
+      "ascentM": 8,
       "note": "도심 평지 물길 · 청계광장~고산자교",
       "file": "gpx/seoul-cheonggyecheon.gpx"
     },
@@ -118,9 +118,10 @@
       "region": "서울",
       "country": "KR",
       "km": 2.0,
-      "ascentM": 9,
+      "ascentM": 7,
       "note": "평지 공원 순환",
       "file": "gpx/seoul-seoulsup.gpx"
     }
-  ]
+  ],
+  "note": "km·ascentM은 앱의 CourseEngine이 GPX를 읽어 계산하는 값과 동일하게 맞춰져 있습니다(목록과 상세가 같은 숫자를 보이도록)."
 }
