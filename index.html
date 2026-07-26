@@ -338,12 +338,20 @@
 <!-- A dawn run opens the page, then settles into the background so the watch
        itself takes over. Drop hero-run.mp4/webm into assets/ to enable it; with
        the files absent the page stays exactly as it was. -->
-<div aria-hidden="true" class="hero-film" id="heroFilm">
-<video id="heroFilmVideo" muted="" playsinline="" poster="assets/hero-run-poster.jpg" preload="auto">
-<source src="assets/hero-run.webm" type="video/webm"/>
-<source src="assets/hero-run.mp4" type="video/mp4"/>
-</video>
-</div>
+<!-- Hero film slot. The clip isn't shot yet, and pointing <source> at files
+       that don't exist made every visit fire three 404s (webm, mp4, poster) for
+       a video nobody could watch. When the footage exists, restore:
+
+         <div aria-hidden="true" class="hero-film" id="heroFilm">
+           <video id="heroFilmVideo" muted playsinline preload="auto"
+                  poster="assets/hero-run-poster.jpg">
+             <source src="assets/hero-run.webm" type="video/webm">
+             <source src="assets/hero-run.mp4"  type="video/mp4">
+           </video>
+         </div>
+
+       The script below already handles both cases — with no film it settles the
+       hero into its final state immediately, which is what visitors see today. -->
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="eb.hero">Apple Watch 러닝 코치</div>
 <h1 class="reveal" data-i18n="t7">달리는 순간,<br/><span class="grad-text">나와 함께하는</span> 러닝 코치 Runvis</h1>
@@ -853,15 +861,20 @@ document.querySelectorAll('.vchip').forEach((c,idx)=>c.addEventListener('click',
   const hero = document.getElementById('hero');
   const film = document.getElementById('heroFilm');
   const video = document.getElementById('heroFilmVideo');
-  if (!hero || !video) return;
+  if (!hero) return;
 
   const settle = () => { hero.classList.remove('film-in'); hero.classList.add('film-settled'); };
+
+  // No film in the markup (the usual case today) → land straight in the settled
+  // state. Returning without settling would leave the watch mockup in whatever
+  // the base style happens to be instead of its intended resting position.
+  if (!video) { settle(); return; }
 
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) { settle(); return; }
 
   let settled = false;
   const settleOnce = () => { if (!settled) { settled = true; settle(); } };
-  const giveUp = () => { film.remove(); settleOnce(); };
+  const giveUp = () => { film?.remove(); settleOnce(); };
 
   video.addEventListener('error', giveUp);
   video.addEventListener('loadeddata', () => {
