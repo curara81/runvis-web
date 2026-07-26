@@ -38,7 +38,38 @@
       var v = dict[el.getAttribute('data-i18n')];
       if (v != null) el.innerHTML = v;
     });
+    // Attribute text — alt, placeholder, aria-label. Written as
+    // data-i18n-attr="alt:alt.watch.pace" (comma-separated for several).
+    // Without this, screen readers and search engines saw Korean on every
+    // language, and the e-mail field's placeholder stayed Korean too.
+    document.querySelectorAll('[data-i18n-attr]').forEach(function (el) {
+      el.getAttribute('data-i18n-attr').split(',').forEach(function (pair) {
+        var bits = pair.split(':');
+        if (bits.length !== 2) return;
+        var v = dict[bits[1].trim()];
+        if (v != null) el.setAttribute(bits[0].trim(), v);
+      });
+    });
+    // The tab title and the link preview are the first thing anyone sees, and
+    // they live outside the DOM the loop above walks.
+    if (dict['meta.title']) document.title = dict['meta.title'];
+    setMeta('name', 'description', dict['meta.desc']);
+    setMeta('property', 'og:title', dict['meta.ogtitle']);
+    setMeta('property', 'og:description', dict['meta.ogdesc']);
   }
+
+  function setMeta(attr, key, value) {
+    if (value == null) return;
+    var el = document.querySelector('meta[' + attr + '="' + key + '"]');
+    if (el) el.setAttribute('content', value);
+  }
+
+  /// Page scripts call this for their own runtime strings (form results and
+  /// the like) so they don't have to reach into the table themselves.
+  window.RunvisT = function (key, fallback) {
+    var d = I18N[current];
+    return (d && d[key]) || fallback;
+  };
 
   // Dynamic demo text is redrawn by the page's own render functions; we just
   // publish the active language's strings + tts code for them to read.
