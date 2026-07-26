@@ -1,7 +1,36 @@
 # 홈페이지 기기 목업 이미지 재생성 절차
 
 홈페이지의 기기 이미지(`assets/framed-*.png`)는 **Apple 공식 제품 베젤**에
-앱 화면 SVG 렌더를 합성한 것. 앱 화면 데이터/디자인이 바뀌면 아래 순서로 재생성.
+앱 화면을 합성한 것. 앱 화면 데이터/디자인이 바뀌면 아래 순서로 재생성.
+
+## ⚠️ 현재 상태 (2026-07-26)
+- **폰 4종(dash·detail·plan·race)은 실기기 스크린샷으로 교체됨.** 아래 "A. 실기기
+  경로"를 쓸 것. SVG 목업은 앱과 어긋나기 시작했다(탭 3개 vs 실제 4개).
+- **워치 4종은 아직 SVG 목업.** 운동 중 화면이라 워치 시뮬레이터에서 러닝 세션을
+  띄워야 하므로 별도 작업. 그때까지는 아래 "B. SVG 경로" 유지.
+
+---
+
+## A. 실기기 스크린샷 경로 (권장)
+
+앱 리포(`~/Developer/SportsDashboard`)에 `SampleDataSeeder`(DEBUG 전용)가 있다.
+
+1. Debug 빌드 → 시뮬레이터 설치 (iPhone 17 / Runvis Watch Ultra 3)
+2. 앱 → 설정 맨 아래 **개발자 — 샘플 데이터** → `샘플 러닝 기록 생성 (10주)`
+   → HealthKit 권한 시트에서 **모두 켜기 → 허용** (쓰기·읽기 두 번 뜬다)
+   → 러닝 39회 + 일일 지표 70일이 들어간다. 시더는 고정 시드라 **매번 같은 숫자**가
+   나오므로 스크린샷이 재현된다.
+3. 화면 이동 후 `xcrun simctl io <UDID> screenshot ~/Downloads/Runvis_스크린_실기기/shotDash.png`
+   — 파일명은 아래 4단계 스크립트의 키와 맞출 것(`shotDash`·`shotDetail`·`shotPlan`·`shotRace`).
+4. `composite_bezels.py`의 `SRC`를 `Runvis_스크린_실기기`로 두고 3~4단계 진행.
+5. 다시 찍을 때는 `샘플 데이터 삭제` 먼저 — 지우지 않고 재생성하면 훈련 부하가 두 배가 된다.
+
+주의: 시더는 **앱이 저장한 샘플만** 지운다(HealthKit 제약). 실기기에서 돌려도 실제
+건강 데이터는 안전하지만, 굳이 실기기에서 돌릴 이유는 없다.
+
+---
+
+## B. SVG 목업 경로 (워치 4종 — 당분간 유지)
 
 1. **화면 수정**: `tools/screens-source.html`의 SVG 문자열 수정 (브라우저로 열면 미리보기 가능)
 2. **화면 PNG 추출**: `python3 tools/extract_screens.py` → `~/Downloads/Runvis_스크린_PNG/*.html` 생성
