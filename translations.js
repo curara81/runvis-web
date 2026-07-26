@@ -110,3 +110,78 @@ Object.assign(window.RUNVIS_I18N.de, {
   t176: 'Anstieg', t177: 'Flach',
   t178: 'Strecken © OpenStreetMap contributors (ODbL) · Höhendaten von Copernicus DEM / NASA SRTMGL1 (gemeinfrei). Es kommen laufend Strecken dazu.'
 });
+
+/* --- 2026-07-26: OFFLINE 섹션 (o0~o9) — 온디바이스를 "안 끊긴다 + 안 사라진다"로 확장.
+   각 언어 수작업 번역, 기계번역 없음. --- */
+Object.assign(window.RUNVIS_I18N.ko, {
+  o0: '끊기지 않는 코치',
+  o1: '터널에 들어가도<br/><span class="grad-text">코치는 말을 멈추지 않습니다</span>',
+  o2: '코칭 판단이 전부 워치 안에서 일어나기 때문입니다. 서버에 물어보지 않으니, 물어볼 신호도 필요 없습니다.',
+  o3: '신호가 없는 곳에서도',
+  o4: '산길, 터널, 지하 주차장, 비행기 모드. 네트워크가 끊긴 자리에서 조용해지는 코치가 아닙니다 — 음성도, 페이스 판단도, 폼 코칭도 평소 그대로입니다.',
+  o5: '기다림이 끼어들지 않습니다',
+  o6: '센서가 읽은 순간과 코치가 말하는 순간 사이에 클라우드 왕복이 없습니다. 오르막에 들어선 바로 그때 알려줘야 의미가 있으니까요.',
+  o7: '계속 당신 것으로 남습니다',
+  o8: '로그인 서버도, 인증 서버도 없습니다 — 켜 둬야 할 서버 자체가 없다는 뜻입니다. 기록은 Apple Health에, 코스는 GPX로, 분석은 언제든 통째로 내보낼 수 있습니다.',
+  o9: '코칭 판단 자체는 통신 없이 이뤄집니다. 날씨·동네 이름·코스 생성처럼 기기 밖으로 나가는 통신은 전부 조회 전용이며, <a href="privacy.html" style="color:var(--dim);border-bottom:1px solid var(--line)">개인정보처리방침</a>에 목록 전체를 공개해 두었습니다.'
+});
+Object.assign(window.RUNVIS_I18N.en, {
+  o0: 'A coach that never cuts out',
+  o1: 'Run into a tunnel and<br/><span class="grad-text">your coach keeps talking</span>',
+  o2: 'Every coaching decision happens on the watch itself. It never asks a server — so it never needs a signal to ask over.',
+  o3: 'Where there is no signal',
+  o4: 'Trails, tunnels, underground car parks, airplane mode. This is not a coach that goes quiet the moment the network does — the voice, the pace calls and the form cues all carry on exactly as before.',
+  o5: 'Nothing to wait for',
+  o6: 'There is no round trip to the cloud between the moment a sensor reads something and the moment your coach says it. A hill warning only means anything while you are still on the hill.',
+  o7: 'It stays yours',
+  o8: 'No login server, no licence server — which means there is no server that has to stay switched on. Your runs live in Apple Health, your routes export as GPX, and your analysis can be taken out whole, whenever you want.',
+  o9: 'Coaching itself runs with no connection at all. The few things that do leave the device — weather, neighbourhood names, route generation — are read-only lookups, and every one of them is listed in our <a href="privacy.html" style="color:var(--dim);border-bottom:1px solid var(--line)">privacy policy</a>.'
+});
+Object.assign(window.RUNVIS_I18N.ja, {
+  o0: '途切れないコーチ',
+  o1: 'トンネルに入っても<br/><span class="grad-text">コーチは話しつづけます</span>',
+  o2: 'コーチングの判断がすべて時計の中で完結するからです。サーバーに問い合わせないので、問い合わせるための電波もいりません。',
+  o3: '電波のない場所でも',
+  o4: '山道、トンネル、地下駐車場、機内モード。ネットワークが切れた瞬間に黙るコーチではありません — 音声も、ペースの判断も、フォームの指摘も、いつもどおりです。',
+  o5: '待ち時間が入りこまない',
+  o6: 'センサーが読み取った瞬間と、コーチが声をかける瞬間のあいだに、クラウドとの往復がありません。上りに入ったまさにそのときに伝えてこそ意味があります。',
+  o7: 'ずっとあなたのものです',
+  o8: 'ログインサーバーも認証サーバーもありません — 動かしつづけるべきサーバーが、そもそも存在しないということです。記録はApple Healthに、コースはGPXで、分析はいつでもまるごと書き出せます。',
+  o9: 'コーチングそのものは通信なしで動きます。天気・地域名・コース生成など端末の外に出る通信はすべて読み取り専用で、その全項目を<a href="privacy.html" style="color:var(--dim);border-bottom:1px solid var(--line)">プライバシーポリシー</a>に公開しています。'
+});
+Object.assign(window.RUNVIS_I18N.es, {
+  o0: 'Un entrenador que no se corta',
+  o1: 'Entra en un túnel y<br/><span class="grad-text">tu entrenador sigue hablando</span>',
+  o2: 'Cada decisión de entrenamiento ocurre dentro del propio reloj. Nunca le pregunta a un servidor, así que tampoco necesita cobertura para preguntar.',
+  o3: 'Donde no hay cobertura',
+  o4: 'Senderos, túneles, aparcamientos subterráneos, modo avión. No es un entrenador que se calla en cuanto se cae la red: la voz, los avisos de ritmo y las correcciones de técnica siguen igual que siempre.',
+  o5: 'Sin esperas de por medio',
+  o6: 'No hay ida y vuelta a la nube entre el instante en que el sensor lee algo y el instante en que tu entrenador te lo dice. Avisarte de una cuesta solo sirve mientras sigues en ella.',
+  o7: 'Sigue siendo tuyo',
+  o8: 'Sin servidor de acceso ni de licencias, lo que significa que no hay ningún servidor que deba seguir encendido. Tus carreras viven en Apple Health, tus rutas salen en GPX y tu análisis puedes llevártelo entero cuando quieras.',
+  o9: 'El entrenamiento funciona sin conexión alguna. Lo poco que sale del dispositivo — el tiempo, el nombre del barrio, la generación de rutas — son consultas de solo lectura, y todas están enumeradas en nuestra <a href="privacy.html" style="color:var(--dim);border-bottom:1px solid var(--line)">política de privacidad</a>.'
+});
+Object.assign(window.RUNVIS_I18N.zh, {
+  o0: '不會斷線的教練',
+  o1: '就算跑進隧道，<br/><span class="grad-text">教練也不會停下來</span>',
+  o2: '因為所有教練判斷都在手錶裡完成。它不必問伺服器，自然也不需要訊號去問。',
+  o3: '在沒有訊號的地方',
+  o4: '山路、隧道、地下停車場、飛航模式。這不是一個網路一斷就安靜下來的教練——語音、配速判斷、跑姿提醒，全都和平常一樣。',
+  o5: '中間沒有等待',
+  o6: '從感測器讀到，到教練開口，中間沒有一趟雲端往返。上坡的提醒，要在你還在坡上時說出來才有意義。',
+  o7: '始終屬於你',
+  o8: '沒有登入伺服器，也沒有授權伺服器——意思是根本沒有一台必須持續開著的伺服器。紀錄留在 Apple Health，路線可匯出成 GPX，分析隨時能整份帶走。',
+  o9: '教練功能本身完全不需連線。少數會離開裝置的通訊——天氣、地區名稱、路線生成——全部只做讀取，並已在<a href="privacy.html" style="color:var(--dim);border-bottom:1px solid var(--line)">隱私權政策</a>中逐項公開。'
+});
+Object.assign(window.RUNVIS_I18N.de, {
+  o0: 'Ein Coach, der nicht abreißt',
+  o1: 'Lauf in einen Tunnel —<br/><span class="grad-text">dein Coach redet weiter</span>',
+  o2: 'Jede Coaching-Entscheidung fällt auf der Uhr selbst. Sie fragt nie einen Server — und braucht deshalb auch kein Netz, um zu fragen.',
+  o3: 'Auch ohne Empfang',
+  o4: 'Waldwege, Tunnel, Tiefgaragen, Flugmodus. Das ist kein Coach, der verstummt, sobald das Netz weg ist — Stimme, Pace-Ansagen und Technik-Hinweise laufen genau wie sonst weiter.',
+  o5: 'Kein Warten dazwischen',
+  o6: 'Zwischen dem Moment, in dem ein Sensor etwas misst, und dem Moment, in dem dein Coach es sagt, liegt kein Weg in die Cloud und zurück. Ein Hinweis auf den Anstieg hilft nur, solange du noch am Anstieg bist.',
+  o7: 'Es bleibt deins',
+  o8: 'Kein Anmelde-Server, kein Lizenz-Server — es gibt also gar keinen Server, der laufen müsste. Deine Läufe liegen in Apple Health, deine Strecken gehen als GPX raus, und deine Auswertung kannst du jederzeit komplett mitnehmen.',
+  o9: 'Das Coaching selbst arbeitet ganz ohne Verbindung. Das Wenige, das das Gerät verlässt — Wetter, Ortsnamen, Streckenberechnung — sind reine Abfragen, und jede einzelne steht in unserer <a href="privacy.html" style="color:var(--dim);border-bottom:1px solid var(--line)">Datenschutzerklärung</a>.'
+});
