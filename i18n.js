@@ -43,6 +43,18 @@
     return 'ko';
   }
 
+  // Swap the device screenshots to the reader's language. Korean keeps the
+  // unsuffixed file; every other language has its own capture of the same
+  // screen (assets/framed-phone-dash.ja.png and so on), taken from the app
+  // running in that locale — so a German visitor sees a German phone, not a
+  // Korean one with a caption apologising for it.
+  function applyShots(code) {
+    document.querySelectorAll('img[data-shot]').forEach(function (img) {
+      var base = img.getAttribute('data-shot');
+      img.src = 'assets/' + base + (code === 'ko' ? '' : '.' + code) + '.png';
+    });
+  }
+
   // Apply static [data-i18n] text. Values are HTML (they carry <b>/<span>/<br>).
   function applyStatic(dict) {
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
@@ -112,6 +124,7 @@
     current = code;
     document.documentElement.lang = code === 'zh' ? 'zh-Hant' : code;
     applyStatic(I18N[code]);
+    applyShots(code);
     publishDynamic(code);
     try { localStorage.setItem('runvis_lang', code); } catch (e) {}
     var label = document.getElementById('langlabel');
