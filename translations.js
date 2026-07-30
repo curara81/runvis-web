@@ -689,3 +689,12 @@ Object.assign(window.RUNVIS_I18N.de, {
   "ft.pods.d": "AirPods mit Bewegungssensor lesen die Kopfbewegung und erfassen Balance und vertikale Bewegung, die ein einzelnes Handgelenk nicht sieht. Ohne Zusatzgerät.",
   "rd.sleep": "Ohne Uhr geschlafen? Trag Schlafens- und Aufwachzeit ein und die Readiness zählt deine Nacht trotzdem"
 });
+
+// 2026-07-31 — 비한국어 로케일 전용: 앱 캡처가 한국어 화면임을 고지 (ko는 빈값=숨김).
+// 앱 UI가 글로벌 출시 단계에서 로컬라이즈되면 언어별 실캡처로 교체하고 이 키를 제거.
+Object.assign(window.RUNVIS_I18N.ko, { "sc.note": "" });
+Object.assign(window.RUNVIS_I18N.en, { "sc.note": "Screenshots show the Korean UI — Runvis launches in Korea first; localized UI arrives with the regional rollout." });
+Object.assign(window.RUNVIS_I18N.ja, { "sc.note": "スクリーンショットは韓国語UIの例です — Runvisはまず韓国でローンチし、地域展開とともにローカライズUIを提供します。" });
+Object.assign(window.RUNVIS_I18N.es, { "sc.note": "Las capturas muestran la interfaz en coreano — Runvis se lanza primero en Corea; la interfaz localizada llegará con el despliegue regional." });
+Object.assign(window.RUNVIS_I18N.zh, { "sc.note": "截圖為韓文介面示例 — Runvis 將先於韓國上市,在地化介面將隨區域擴展推出。" });
+Object.assign(window.RUNVIS_I18N.de, { "sc.note": "Die Screenshots zeigen die koreanische Oberfläche — Runvis startet zuerst in Korea; die lokalisierte Oberfläche folgt mit dem regionalen Rollout." });
