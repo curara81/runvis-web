@@ -12,8 +12,26 @@
 <meta content="https://runvis.app/" property="og:url"/>
 <meta content="Runvis" property="og:site_name"/>
 <meta content="ko_KR" property="og:locale"/>
+<meta content="en_US" property="og:locale:alternate"/>
+<meta content="ja_JP" property="og:locale:alternate"/>
+<meta content="es_ES" property="og:locale:alternate"/>
+<meta content="zh_TW" property="og:locale:alternate"/>
+<meta content="de_DE" property="og:locale:alternate"/>
+<meta content="https://runvis.app/assets/og-card.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
 <meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://runvis.app/assets/og-card.png" name="twitter:image"/>
 <link href="https://runvis.app/" rel="canonical"/>
+<!-- Single-page client-side i18n: one canonical URL, per-language entry points
+     via ?lang= (honored by i18n.js), x-default = the language-detecting root. -->
+<link href="https://runvis.app/" hreflang="x-default" rel="alternate"/>
+<link href="https://runvis.app/?lang=ko" hreflang="ko" rel="alternate"/>
+<link href="https://runvis.app/?lang=en" hreflang="en" rel="alternate"/>
+<link href="https://runvis.app/?lang=ja" hreflang="ja" rel="alternate"/>
+<link href="https://runvis.app/?lang=es" hreflang="es" rel="alternate"/>
+<link href="https://runvis.app/?lang=zh" hreflang="zh-Hant" rel="alternate"/>
+<link href="https://runvis.app/?lang=de" hreflang="de" rel="alternate"/>
 <link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🏃&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
 <style>
   :root{
@@ -60,8 +78,10 @@
   nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
   .logo{font-weight:900;font-size:20px;letter-spacing:-.02em}
   .logo b{color:var(--green)}
-  nav .links{display:flex;gap:26px;font-size:15px;color:var(--dim)}
+  nav .links{display:flex;gap:26px;font-size:15px;color:var(--dim);margin-left:auto}
   nav .links a:hover{color:var(--text)}
+  /* On phones the text links collapse, but the language switcher (now a direct
+     child of the nav bar, not of .links) must stay reachable. */
   @media(max-width:640px){nav .links{display:none}}
 
   /* HERO */
@@ -247,10 +267,14 @@
   @media(max-width:640px){.price{grid-template-columns:1fr}}
   .plan{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:32px}
   .plan.pro{border-color:var(--green);position:relative}
-  .plan.pro::before{content:"1개월 무료";position:absolute;top:-11px;right:20px;background:var(--green);color:#04120c;font-size:12px;font-weight:800;padding:4px 12px;border-radius:8px}
+  /* The free-trial ribbon is a real element (data-i18n="pl.ribbon"), not CSS
+     content — CSS content can't be translated by i18n.js. */
+  .plan .ribbon{position:absolute;top:-11px;right:20px;background:var(--green);color:#04120c;font-size:12px;font-weight:800;padding:4px 12px;border-radius:8px}
   .plan .name{font-size:16px;color:var(--dim);font-weight:700}
   .plan .amt{font-size:34px;font-weight:900;margin:8px 0 4px}
   .plan .amt small{font-size:16px;color:var(--dim);font-weight:600}
+  .plan .amt-year{font-size:13.5px;color:var(--dim);margin-top:2px;line-height:1.5}
+  .plan .amt-year b{color:var(--green);font-weight:700}
   .plan ul{list-style:none;margin-top:18px}
   .plan li{padding:7px 0;font-size:15px;color:#dfe3e7;display:flex;gap:10px}
   .plan li::before{content:"✓";color:var(--green);font-weight:800}
@@ -295,7 +319,8 @@
   .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text)}
   .langsel li:hover{background:rgba(61,220,132,.15)}
   .langsel li[aria-current="true"]{color:var(--green);font-weight:700}
-  @media(max-width:640px){.langsel{margin-left:8px}.langsel button{padding:6px 9px;font-size:12px}}
+  /* phones: .links is hidden, so the switcher takes the right edge by itself */
+  @media(max-width:640px){.langsel{margin-left:auto}.langsel button{padding:6px 9px;font-size:12px}}
 
 /* 코스 라이브러리 목록 — course-catalog.json에서 렌더 */
 .courselist{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr));gap:12px;margin-top:24px}
@@ -325,10 +350,10 @@
 <a data-i18n="t4" href="#voice">음성 코칭</a>
 <a data-i18n="t5" href="#price">가격</a>
 <a data-i18n="t6" href="#beta">베타 신청</a>
+</div>
 <div class="langsel" id="langsel">
   <button id="langbtn" aria-haspopup="true" aria-expanded="false">🌐 <span id="langlabel">한국어</span> ▾</button>
   <ul id="langmenu" role="menu"></ul>
-</div>
 </div>
 </div>
 </nav>
@@ -435,13 +460,15 @@
 <div class="why-grid reveal">
 <div class="why-item"><div class="k">🌤️</div><div><b data-i18n="t29">날씨 브리핑 + 준비운동</b><span data-i18n="t30">"운동 시작"을 누르면 오늘 기온·습도를 말해주고, 추운 날엔 준비운동을 더 길게. 밖에 나와 코치와 몸을 풉니다.</span></div></div>
 <div class="why-item"><div class="k">🏃</div><div><b data-i18n="t31">자동 러닝 인식</b><span data-i18n="t32">몸 풀고 달리기 시작하면 버튼 없이 자동으로 코칭 개시.</span></div></div>
-<div class="why-item"><div class="k">🏔️</div><div><b data-i18n="t33">대회 코스를 미리 아는 코치</b><span data-i18n="t34">대회 GPX를 올리면 어디서 오르막·내리막이 나올지 먼저 알려줘 오버페이스를 막습니다. (가민 최상위에만 있던 기능)</span></div></div>
+<div class="why-item"><div class="k">🏔️</div><div><b data-i18n="t33">대회 코스를 미리 아는 코치</b><span data-i18n="t34">대회 GPX를 올리면 어디서 오르막·내리막이 나올지 먼저 알려줘 오버페이스를 막습니다. (애플워치에는 없던 기능)</span></div></div>
 <div class="why-item"><div class="k">🗣️</div><div><b data-i18n="t35">자세가 무너지면 "왜"까지 설명</b><span data-i18n="t36">케이던스·접지·수직진폭이 흐트러지면 숫자만이 아니라 무릎에 왜 부담이 가는지, 어떻게 고치는지 안내.</span></div></div>
-<div class="why-item"><div class="k">🌐</div><div><b data-i18n="t37">6개 언어 음성 코칭 — 선택 가능</b><span data-i18n="t38">한국어·영어·일본어·스페인어·중국어·독일어 중에서 선택. 조용한 구간엔 잔소리 대신 러닝 상식 한 마디도. 음악은 부드럽게 낮아졌다 원래대로.</span></div></div>
+<div class="why-item"><div class="k">🌐</div><div><b data-i18n="t37">6개 언어 음성 코칭 — 선택 가능</b><span data-i18n="t38">한국어·영어·일본어·스페인어·중국어(번체)·독일어 중에서 선택. 조용한 구간엔 잔소리 대신 러닝 상식 한 마디도. 음악은 부드럽게 낮아졌다 원래대로.</span></div></div>
 <div class="why-item"><div class="k">🤖</div><div><b data-i18n="t39">내 러닝을 내 AI로 분석</b><span data-i18n="t40">한 번의 탭으로 분석 프롬프트 내보내기 → ChatGPT·Gemini·Claude에 붙여넣으면 즉시 심층 분석.</span></div></div>
 <div class="why-item"><div class="k">📅</div><div><b data-i18n="t41">코치를 고르는 훈련 플랜</b><span data-i18n="t42">완주 우선·균형·기록 도전 — 고른 코치가 플랜과 말투를 함께 바꿉니다. 수면이 부족한 날엔 강도를 자동으로 낮추고 이유까지.</span></div></div>
 <div class="why-item"><div class="k">🚴</div><div><b data-i18n="t43">실내 스마트 트레이너 제어</b><span data-i18n="t44">Wahoo KICKR 저항을 자동 제어하는 8종 구조화 워크아웃. 지방연소 구간은 심박에 맞춰 저항 자동 조절.</span></div></div>
 <div class="why-item"><div class="k">👻</div><div><b data-i18n="t45">과거의 나와 경쟁</b><span data-i18n="t46">레이스 모드에서 내 최고 기록을 고스트로 불러와 실시간으로 앞섰는지 뒤처졌는지 음성 중계.</span></div></div>
+<div class="why-item"><div class="k">🧘</div><div><b data-i18n="ft.cool.t">결승선 뒤에도 코치는 남습니다</b><span data-i18n="ft.cool.d">러닝이 끝나면 걷기로 심박을 내리고 정적 스트레칭 5가지 — 3분 30초 마무리 운동까지 음성으로 진행합니다.</span></div></div>
+<div class="why-item"><div class="k">🎧</div><div><b data-i18n="ft.pods.t">에어팟을 끼면 좌우 균형까지</b><span data-i18n="ft.pods.d">모션 센서 에어팟이 머리 움직임을 읽어 손목 하나로는 못 보는 좌우 균형·상하 흔들림을 잡아냅니다. 추가 장비 없이.</span></div></div>
 </div>
 </div>
 </section>
@@ -475,7 +502,7 @@
 </div>
 <div class="cards" style="margin-top:20px">
 <div class="card reveal"><div class="ic">🔊</div><h3 data-i18n="t61">실시간 음성 코칭</h3><p data-i18n="t62">자세가 무너지는 순간, 언덕이 다가오는 순간, 회복이 필요한 순간 — 필요할 때만 정확히 안내합니다. 수다스럽지 않게.</p></div>
-<div class="card reveal"><div class="ic">🤖</div><h3 data-i18n="t63">내 러닝을 내 AI로 분석</h3><p data-i18n="t64">운동 상세에서 한 번의 탭으로 <b>AI 분석용 프롬프트를 내보내기</b>. ChatGPT·Gemini·Claude 등 내가 쓰는 AI에 붙여넣으면 즉시 심층 분석을 받습니다.</p></div>
+<div class="card reveal"><div class="ic">🤖</div><h3 data-i18n="t63">내 러닝을 내 AI로 분석</h3><p data-i18n="t64">운동 상세에서 한 번의 탭으로 <b>AI 분석용 프롬프트를 내보내기</b>. ChatGPT·Gemini·Claude 등 내가 쓰는 AI에 붙여넣으면 즉시 심층 분석을 받습니다. AI가 준 <b>핵심조언·다음중점</b>을 앱에 붙여넣으면, 다음 러닝 브리핑에서 코치가 그대로 이어받습니다.</p></div>
 <div class="card reveal"><div class="ic">📊</div><h3 data-i18n="t65">전문가 수준 훈련 분석</h3><p data-i18n="t66">훈련 준비도·부하·회복까지, 공개된 스포츠 과학 공식으로 계산한 숫자. 각 지표를 탭하면 초보자도 알기 쉽게 설명합니다.</p></div>
 </div>
 <div class="cards" style="margin-top:20px">
@@ -504,9 +531,9 @@
 <!-- SHOWCASE: 실제 앱 화면 (Gentler Streak식 워치 3-up + iPhone) -->
 <section id="screens">
 <div class="wrap">
-<div class="eyebrow reveal" data-i18n="eb.screens">실제 화면</div>
+<div class="eyebrow reveal" data-i18n="eb.screens">앱 화면</div>
 <h2 class="reveal" data-i18n="t73">손목 위의 전문가 수준 분석</h2>
-<p class="sub reveal" data-i18n="t74">Apple Watch에서 바로 보고, 아이폰에서 깊이 들여다봅니다. 아래는 실제 앱 화면입니다.</p>
+<p class="sub reveal" data-i18n="t74">Apple Watch에서 바로 보고, 아이폰에서 깊이 들여다봅니다. 아래는 실제 앱 화면을 재현한 이미지입니다.</p>
 <!-- 워치 3-up: Gentler Streak 스타일. 실사 워치 프레임 안에 우리 SVG 화면. -->
 <div class="watch3">
 <div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra 심박존 아크 화면" data-i18n-attr="alt:alt.watch.zone" loading="lazy" src="assets/framed-watch-hr.png"/></div><b data-i18n="t75">심박존 아크</b><span data-i18n="t76">270° 아크에 5개 심박존. 현재 존에 맞춰 숫자 색이 바뀌고 마커가 아크 위를 움직입니다.</span></div>
@@ -522,6 +549,7 @@
 <ul>
 <li data-i18n="t83">각 지표를 탭하면 "뭔지 · 뭘로 계산되는지 · 높으면 좋은지" 초보자도 알기 쉽게 설명</li>
 <li data-i18n="t84">수면 부족·안정심박 상승이면 오늘 강도를 자동으로 낮추고 이유를 알려줍니다</li>
+<li data-i18n="rd.sleep">워치를 못 차고 잔 날엔 취침·기상 시각만 입력하면 준비도에 반영됩니다</li>
 <li data-i18n="t85"><b>트렌드 리포트</b>: 3개월~1년, "같은 심박에서 페이스가 얼마나 빨라졌는지" 한 문장으로</li>
 <li data-i18n="t86">체성분 30일 추세 그래프 · 경로 3D 플라이오버 MP4 내보내기 · 차트는 가로로 돌리면 상세 분석</li>
 </ul>
@@ -531,7 +559,7 @@
 <div class="phonerow reveal" style="margin-top:56px">
 <div class="phone-desc">
 <h3 data-i18n="t87">운동이 끝나면, 이렇게 분석합니다</h3>
-<p data-i18n="t88">심박 존 분포·운동 부하(TRIMP)·구간별 페이스에 더해, <b>런비스가 폼과 페이스 배분을 직접 코칭</b>합니다. "고른 페이스", "Fly-and-Die 주의" 같은 진단을 초보자도 알기 쉽게.</p>
+<p data-i18n="t88">심박 존 분포·운동 부하(TRIMP)·구간별 페이스에 더해, <b>런비스가 폼과 페이스 배분을 직접 코칭</b>합니다. "고른 페이스", "Fly-and-Die 주의" 같은 판정을 초보자도 알기 쉽게.</p>
 <ul>
 <li data-i18n="t89"><b>내 러닝을 내 AI로</b> — [AI 분석용 내보내기] 한 번이면 ChatGPT·Gemini·Claude에 붙여넣어 즉시 심층 분석</li>
 <li data-i18n="t90">GPX 내보내기 · 3D 경로 플라이오버 영상</li>
@@ -547,7 +575,7 @@
 <div class="ai-flow">
 <div class="ai-report">
 <div class="ai-cardhead"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span data-i18n="ai.head1">내보낸 리포트.md</span></div>
-<pre># 러닝 기록 리포트
+<pre data-i18n="ai.report"># 러닝 기록 리포트
 
 - 종목: 러닝 · 일시: 2026-07-06 (월) 06:04
 - 시간: 42:18 · 거리: 7.4 km · 평균 페이스: 5:43 /km
@@ -652,7 +680,7 @@
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="eb.voice">음성 코칭</div>
 <h2 class="reveal" data-i18n="t133">센서가 읽고, <span class="grad-text">코치가 말합니다</span></h2>
-<p class="sub reveal" data-i18n="t134">"자세 좋아요" 같은 빈말이 아닙니다. 모든 코칭엔 <b>워치 센서가 잡은 근거</b>가 먼저 있습니다. 아이콘을 누르면 실제 안내가 한국어로 재생됩니다.<br/><span style="color:var(--dim2)">음악 볼륨은 부드럽게 낮아지고, 안내가 끝나면 다시 원래대로 돌아옵니다.</span></p>
+<p class="sub reveal" data-i18n="t134">"자세 좋아요" 같은 빈말이 아닙니다. 모든 코칭엔 <b>워치 센서가 잡은 근거</b>가 먼저 있습니다. 아이콘을 누르면 실제 안내가 선택한 언어로 재생됩니다.<br/><span style="color:var(--dim2)">음악 볼륨은 부드럽게 낮아지고, 안내가 끝나면 다시 원래대로 돌아옵니다.</span></p>
 <div class="voice-grid reveal">
 <div class="vchip" data-say="시작할 때보다 발걸음이 5퍼센트 느려지고 접지가 길어졌어요. 보폭을 줄이면 회전이 살아나면서 자세가 돌아옵니다."><div class="sensor" data-i18n="vc1.sensor">📡 케이던스 174→165 · 접지 +9% — 3개 신호 중 2개 동시 이탈</div><div class="play" data-i18n="vc1.play">▶ 폼 코칭</div><div class="line" data-i18n="vc1.line">"시작할 때보다 발걸음이 5% 느려지고 접지가 길어졌어요. 보폭을 줄이면 회전이 살아나면서 자세가 돌아옵니다."</div></div>
 <div class="vchip" data-say="300미터 앞, 1.2킬로미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="vc2.sensor">📡 대회 GPX 전방 스캔 — 300m 앞 고도 +34m</div><div class="play" data-i18n="vc2.play">▶ 언덕 예고</div><div class="line" data-i18n="vc2.line">"300m 앞, 1.2km 오르막이 시작됩니다. 평균 경사 4%. 보폭을 줄이고 리듬을 유지하세요."</div></div>
@@ -731,8 +759,10 @@
 </ul>
 </div>
 <div class="plan pro reveal">
+<span class="ribbon" data-i18n="pl.ribbon">1개월 무료</span>
 <div class="name" data-i18n="pl.coach">런비스 코치</div>
 <div class="amt"><span data-i18n="pr.month">₩3,900</span><small data-i18n="t144"> / 월</small></div>
+<div class="amt-year" data-i18n="pr.year">연간 플랜 <b>₩30,000/년</b> — 월 2,500원꼴, 월간 대비 약 36% 절약</div>
 <ul>
 <li data-i18n="t145">실시간 음성 코칭 (자세·언덕·회복)</li>
 <li data-i18n="t146">플랜 실행 코칭 — 인터벌을 구간별로 진행하고 끝나면 계획 대비 점수</li>
@@ -742,6 +772,7 @@
 </div>
 </div>
 <p class="note" data-i18n="pr.note" style="text-align:center;color:var(--dim2);margin-top:14px;font-size:12.5px">표시 가격은 대한민국 App Store 기준입니다. 다른 국가는 해당 App Store의 현지 통화 가격이 적용됩니다.</p>
+<p class="note" data-i18n="pr.launch" style="text-align:center;color:var(--dim2);margin-top:6px;font-size:12.5px">Runvis는 대한민국 App Store에 먼저 출시되며, 다른 지역은 순차적으로 확대됩니다.</p>
 <p class="note" data-i18n="t149" style="text-align:center;color:var(--dim2);margin-top:20px;font-size:14px">플랜은 무료로 보고, 코치가 <b style="color:var(--text)">직접 말하며 진행해주는 건 커피 한 잔 값</b>. 가족 공유를 켜면 한 구독으로 온 가족이 함께 씁니다. 1개월 무료 체험으로 충분히 써보고 판단하세요.</p>
 </div>
 </section>
@@ -765,9 +796,9 @@
 <h2 class="reveal" data-i18n="t158">가장 먼저 달려보세요</h2>
 <div class="signup reveal">
 <p class="sub" data-i18n="t159" style="margin:0 auto">TestFlight 베타가 열리면 가장 먼저 초대장을 보내드립니다.</p>
-<!-- Formspree: 폼 ID 발급 후 아래 action의 YOUR_FORM_ID만 교체하면 활성화.
+<!-- Formspree 활성 (form xnjeyalr → help@runvis.app 수신).
            ID 미설정 상태에서는 제출 시 안내 문구만 표시(오발송 없음). -->
-<form action="https://formspree.io/f/YOUR_FORM_ID" id="betaForm" method="POST">
+<form action="https://formspree.io/f/xnjeyalr" id="betaForm" method="POST">
 <input name="email" placeholder="이메일 주소" data-i18n-attr="placeholder:ph.email" required="" type="email"/>
 <button class="btn" data-i18n="t160" id="betaSubmit" type="submit">베타 초대 받기</button>
 </form>
@@ -785,7 +816,7 @@
 <div class="links">
 <a data-i18n="t163" href="privacy.html">개인정보처리방침</a>
 <a data-i18n="t164" href="terms.html">이용약관</a>
-<a data-i18n="t165" href="mailto:help@runvis.app">문의</a>
+<a data-i18n="t165" href="mailto:help@runvis.app">help@runvis.app</a>
 </div>
 <div class="logo" style="font-size:16px">Run<b>vis</b></div>
 <p class="disclaimer" data-i18n="t166">Runvis의 모든 지표와 안내는 일반적인 운동과학 공식에 기반한 참고 정보이며, 의학적 진단·치료·처방이 아닙니다. 흉통·어지럼 등 이상 증상이 있으면 운동을 중단하고 전문가와 상담하세요. Apple Watch는 Apple Inc.의 상표입니다. Runvis는 Apple과 제휴하지 않은 독립 앱입니다.</p>
@@ -807,7 +838,12 @@ function heroCurrentLines(){
 }
 function typeLine(text,cb){let i=0;capEl.textContent="";clearInterval(heroTimer);heroTimer=setInterval(()=>{capEl.textContent=text.slice(0,++i);if(i>=text.length){clearInterval(heroTimer);setTimeout(cb,2200)}},45)}
 function heroLoop(){const lines=heroCurrentLines();typeLine(lines[hl%lines.length],()=>{hl++;heroLoop()})}
-heroLoop();
+// i18n.js is deferred, so on non-Korean locales the first typed line used to
+// flash Korean before RunvisDyn arrived — wait briefly for it, then fall back.
+(function startHero(tries){
+  if((window.RunvisDyn&&window.RunvisDyn.hero&&window.RunvisDyn.hero[0])||tries<=0){heroLoop();return}
+  setTimeout(()=>startHero(tries-1),50);
+})(30);
 
 // --- simulator (language-aware) ---
 const tl=document.getElementById('simTimeline');

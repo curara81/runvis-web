@@ -22,6 +22,17 @@
   }
 
   function resolve() {
+    // ?lang= entry points (the hreflang alternates in <head> use them) win over
+    // everything — a search engine sent this visitor to a specific language.
+    try {
+      var q = new URLSearchParams(location.search).get('lang');
+      if (q) {
+        q = q.toLowerCase();
+        if (q.indexOf('zh') === 0) q = 'zh';       // zh-Hant / zh-TW → our zh table
+        else q = q.slice(0, 2);
+        if (I18N[q]) return q;
+      }
+    } catch (e) {}
     var saved = null;
     try { saved = localStorage.getItem('runvis_lang'); } catch (e) {}
     if (saved && I18N[saved]) return saved;

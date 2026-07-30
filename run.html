@@ -5,6 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RUN SESSION — 런비스와 5km | Runvis</title>
 <meta name="description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요.">
+<meta property="og:title" content="RUN SESSION — 런비스와 5km | Runvis">
+<meta property="og:description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://runvis.app/run.html">
+<meta property="og:site_name" content="Runvis">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://runvis.app/assets/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RUN SESSION — 런비스와 5km | Runvis">
+<meta name="twitter:description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요.">
+<meta name="twitter:image" content="https://runvis.app/assets/og-card.png">
+<link rel="canonical" href="https://runvis.app/run.html">
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🏃&lt;/text&gt;&lt;/svg&gt;" rel="icon">
 <style>
   :root{
     --bg:#000; --panel:#0b0e0c; --line:rgba(61,220,132,.14); --line2:rgba(255,255,255,.08);
@@ -151,6 +164,8 @@
     .hud-top .dot,.scroll-cue{animation:none}
   }
 </style>
+<script src="translations.js"></script>
+<script defer src="i18n.js"></script>
 </head>
 <body>
 
@@ -163,13 +178,13 @@
 </header>
 
 <nav class="rail" id="rail">
-  <a href="#s0" data-s="s0"><span class="lbl">START</span><span class="tick"></span></a>
-  <a href="#s1" data-s="s1"><span class="lbl">브리핑</span><span class="tick"></span></a>
-  <a href="#s2" data-s="s2"><span class="lbl">출발</span><span class="tick"></span></a>
-  <a href="#s3" data-s="s3"><span class="lbl">언덕</span><span class="tick"></span></a>
-  <a href="#s4" data-s="s4"><span class="lbl">고비</span><span class="tick"></span></a>
-  <a href="#s5" data-s="s5"><span class="lbl">회복</span><span class="lbl"></span><span class="tick"></span></a>
-  <a href="#s6" data-s="s6"><span class="lbl">피니시</span><span class="tick"></span></a>
+  <a href="#s0" data-s="s0"><span class="lbl" data-i18n="r3">START</span><span class="tick"></span></a>
+  <a href="#s1" data-s="s1"><span class="lbl" data-i18n="r4">브리핑</span><span class="tick"></span></a>
+  <a href="#s2" data-s="s2"><span class="lbl" data-i18n="r5">출발</span><span class="tick"></span></a>
+  <a href="#s3" data-s="s3"><span class="lbl" data-i18n="r6">언덕</span><span class="tick"></span></a>
+  <a href="#s4" data-s="s4"><span class="lbl" data-i18n="r7">고비</span><span class="tick"></span></a>
+  <a href="#s5" data-s="s5"><span class="lbl" data-i18n="r8">회복</span><span class="tick"></span></a>
+  <a href="#s6" data-s="s6"><span class="lbl" data-i18n="r9">피니시</span><span class="tick"></span></a>
 </nav>
 
 <!-- ============ 00 HERO ============ -->
@@ -177,11 +192,11 @@
   <span class="corner c-tl"></span><span class="corner c-br"></span>
   <div class="wrap">
     <div>
-      <div class="tag rv">RUNVIS // LIVE COACHING DEMO</div>
-      <h1 class="rv">오늘의 러닝에<br><span class="outline">코치가 탑승</span>합니다.</h1>
-      <p class="lead rv">지금부터 <b>스크롤이 곧 러닝</b>입니다. 아래로 내리면 5km 러닝이 시작되고,
+      <div class="tag rv" data-i18n="r10">RUNVIS // LIVE COACHING DEMO</div>
+      <h1 class="rv" data-i18n="r11">오늘의 러닝에<br><span class="outline">코치가 탑승</span>합니다.</h1>
+      <p class="lead rv" data-i18n="r12">지금부터 <b>스크롤이 곧 러닝</b>입니다. 아래로 내리면 5km 러닝이 시작되고,
       하단의 거리·페이스·심박이 함께 움직입니다. 런비스가 <b>언제, 왜 말을 거는지</b> — 그리고 언제 조용히 있는지 직접 확인하세요.</p>
-      <p class="footnote rv">화면 속 수치는 시연용 예시 데이터입니다 · 실제 앱은 Apple Watch 센서로 동작합니다</p>
+      <p class="footnote rv" data-i18n="r13">화면 속 수치는 시연용 예시 데이터입니다 · 실제 앱은 Apple Watch 센서로 동작합니다</p>
     </div>
     <div class="rv">
       <svg class="heroWatch" viewBox="0 0 330 400" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Helvetica,sans-serif">
@@ -194,10 +209,10 @@
         <rect x="18" y="18" width="294" height="364" rx="52" fill="#000"/>
         <text x="165" y="70" fill="#5E6B64" font-size="13" letter-spacing="2" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">READY</text>
         <text x="165" y="190" fill="#3DDC84" font-size="72" font-weight="800" text-anchor="middle">5.0</text>
-        <text x="165" y="220" fill="#9BA8A0" font-size="15" text-anchor="middle">킬로미터 · 오늘의 목표</text>
-        <text x="165" y="300" fill="#EDF2EE" font-size="17" font-weight="700" text-anchor="middle">런비스와 달리기</text>
+        <text x="165" y="220" fill="#9BA8A0" font-size="15" text-anchor="middle" data-i18n="r14">킬로미터 · 오늘의 목표</text>
+        <text x="165" y="300" fill="#EDF2EE" font-size="17" font-weight="700" text-anchor="middle" data-i18n="r15">런비스와 달리기</text>
         <rect x="70" y="272" width="190" height="44" rx="22" fill="none" stroke="#3DDC84" stroke-opacity=".5"/>
-        <text x="165" y="345" fill="#5E6B64" font-size="11" text-anchor="middle">브리핑 · 준비운동 · 코칭</text>
+        <text x="165" y="345" fill="#5E6B64" font-size="11" text-anchor="middle" data-i18n="r16">브리핑 · 준비운동 · 코칭</text>
       </svg>
     </div>
   </div>
@@ -208,18 +223,19 @@
 <section id="s1" data-km="0" data-pace="--:--" data-hr="71" data-z="—">
   <span class="corner c-tl"></span><span class="corner c-br"></span>
   <div class="wrap">
-    <div class="tag rv">SEGMENT 00 — 현관 앞 · 05:52 AM</div>
-    <h2 class="rv">뛰기 전에,<br><span class="grad">코치가 먼저 말을 겁니다</span></h2>
-    <p class="lead rv">시작 버튼 하나로 <b>날씨 브리핑 → 준비운동</b>이 이어집니다. 서버 없이, 워치 안에서.</p>
+    <div class="tag rv" data-i18n="r17">SEGMENT 00 — 현관 앞 · 05:52 AM</div>
+    <h2 class="rv" data-i18n="r18">뛰기 전에,<br><span class="grad">코치가 먼저 말을 겁니다</span></h2>
+    <p class="lead rv" data-i18n="r19">시작 버튼 하나로 <b>날씨 브리핑 → 준비운동</b>이 이어집니다. 자체 서버 없이, 워치 안에서.</p>
     <div class="voice rv">
-      <p>"안녕하세요, 런비스입니다. 현재 여의도동 날씨입니다. 기온 26도, 습도 78퍼센트. 덥고 습해서 땀 증발이 잘 안 되는 날이에요. 수분 보충은 15분, 약 3킬로미터마다 서너 모금씩. 브리핑은 여기까지 — 준비운동 시작 버튼을 눌러, 가볍게 몸부터 풀어볼까요?"</p>
-      <div class="why">WHY · <b>현재 동네 이름 + Open-Meteo 실시간 기상</b> → 운동과학 기준(온도×습도)의 수분 가이드까지. 더운 날엔 러닝 중 수분 알림 간격도 자동 단축</div>
+      <p data-i18n="r20">"안녕하세요, 런비스입니다. 현재 여의도동 날씨입니다. 기온 26도, 습도 78퍼센트. 덥고 습해서 땀 증발이 잘 안 되는 날이에요. 수분 보충은 15분, 약 3킬로미터마다 서너 모금씩. 브리핑은 여기까지 — 준비운동 시작 버튼을 눌러, 가볍게 몸부터 풀어볼까요?"</p>
+      <div class="why" data-i18n="r21">WHY · <b>현재 동네 이름 + Open-Meteo 실시간 기상</b> → 운동과학 기준(온도×습도)의 수분 가이드까지. 더운 날엔 러닝 중 수분 알림 간격도 자동 단축</div>
     </div>
     <div class="datastrip rv">
       <div class="d"><div class="k">WEATHER</div><div class="v cy">26°C</div></div>
       <div class="d"><div class="k">HUMIDITY</div><div class="v cy">78%</div></div>
       <div class="d"><div class="k">WARM-UP</div><div class="v gr">6 STEPS</div></div>
     </div>
+    <p class="footnote rv" style="margin-top:22px" data-i18n="r22">단, 워밍업 날씨 안내를 위해 Open-Meteo로 대략적인 위치 정보가 전송될 수 있습니다.</p>
   </div>
 </section>
 
@@ -227,17 +243,17 @@
 <section id="s2" data-km="0.4" data-pace="5:41" data-hr="128" data-z="Z2">
   <span class="corner c-tl"></span><span class="corner c-br"></span>
   <div class="wrap">
-    <div class="tag rv">SEGMENT 01 — 0.0 → 1.0 KM</div>
-    <h2 class="rv">버튼은 안 눌러도 됩니다.<br><span class="outline">달리면, 압니다</span></h2>
-    <p class="lead rv">준비운동을 마치고 그냥 달리기 시작하면 — 런비스가 <b>러닝을 자동 인식</b>하고 기록과 코칭을 시작합니다.</p>
+    <div class="tag rv" data-i18n="r23">SEGMENT 01 — 0.0 → 1.0 KM</div>
+    <h2 class="rv" data-i18n="r24">버튼은 안 눌러도 됩니다.<br><span class="outline">달리면, 압니다</span></h2>
+    <p class="lead rv" data-i18n="r25">준비운동을 마치고 그냥 달리기 시작하면 — 런비스가 <b>러닝을 자동 인식</b>하고 기록과 코칭을 시작합니다.</p>
     <div class="voice rv">
-      <p>"달리기 시작하셨네요. 기록 시작합니다. 오늘의 컨디션 브리핑 — 어젯밤 수면 7시간 24분, 안정 심박은 평소 수준입니다. 좋은 날이에요."</p>
-      <div class="why">WHY · 모션+페이스 패턴으로 <b>러닝 자동 감지</b> · HealthKit 수면·안정심박으로 오늘 강도 제안</div>
+      <p data-i18n="r26">"달리기 시작하셨네요. 기록 시작합니다. 오늘의 컨디션 브리핑 — 어젯밤 수면 7시간 24분, 안정 심박은 평소 수준입니다. 좋은 날이에요."</p>
+      <div class="why" data-i18n="r27">WHY · 모션+페이스 패턴으로 <b>러닝 자동 감지</b> · HealthKit 수면·안정심박으로 오늘 강도 제안</div>
     </div>
     <div class="datastrip rv">
       <div class="d"><div class="k">AUTO-DETECT</div><div class="v gr">RUN ✓</div></div>
       <div class="d"><div class="k">SLEEP</div><div class="v gr">7.4h</div></div>
-      <div class="d"><div class="k">RESTING HR</div><div class="v gr">평소 수준</div></div>
+      <div class="d"><div class="k">RESTING HR</div><div class="v gr" data-i18n="r28">평소 수준</div></div>
     </div>
   </div>
 </section>
@@ -246,9 +262,9 @@
 <section id="s3" data-km="1.8" data-pace="6:05" data-hr="148" data-z="Z3">
   <span class="corner c-tl"></span><span class="corner c-br"></span>
   <div class="wrap">
-    <div class="tag rv">SEGMENT 02 — 1.0 → 2.5 KM · 오르막</div>
-    <h2 class="rv">언덕은 <span class="grad">미리 알고</span> 만나야<br>무섭지 않습니다</h2>
-    <p class="lead rv">대회 GPX 코스를 넣어두면, 런비스는 <b>아직 보이지 않는 오르막</b>을 먼저 알려줍니다.</p>
+    <div class="tag rv" data-i18n="r29">SEGMENT 02 — 1.0 → 2.5 KM · 오르막</div>
+    <h2 class="rv" data-i18n="r30">언덕은 <span class="grad">미리 알고</span> 만나야<br>무섭지 않습니다</h2>
+    <p class="lead rv" data-i18n="r31">대회 GPX 코스를 넣어두면, 런비스는 <b>아직 보이지 않는 오르막</b>을 먼저 알려줍니다.</p>
     <div class="elev rv">
       <div class="cap"><span>ELEVATION PROFILE — AHEAD 1.5 KM</span><span>▲ +34 m</span></div>
       <svg viewBox="0 0 600 120" xmlns="http://www.w3.org/2000/svg">
@@ -262,8 +278,8 @@
       </svg>
     </div>
     <div class="voice rv">
-      <p>"300미터 앞, 1.2킬로미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요. 페이스가 느려지는 건 당연합니다 — 경사를 감안하면 지금 평지 5분 40초 페이스로 잘 뛰고 있어요."</p>
-      <div class="why">WHY · GPX 전방 스캔 + <b>Minetti 경사보정페이스(GAP)</b> — 오르막에서 조급해지지 않게</div>
+      <p data-i18n="r32">"300미터 앞, 1.2킬로미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요. 페이스가 느려지는 건 당연합니다 — 경사를 감안하면 지금 평지 5분 40초 페이스로 잘 뛰고 있어요."</p>
+      <div class="why" data-i18n="r33">WHY · GPX 전방 스캔 + <b>Minetti 경사보정페이스(GAP)</b> — 오르막에서 조급해지지 않게</div>
     </div>
   </div>
 </section>
@@ -272,16 +288,16 @@
 <section id="s4" data-km="3.4" data-pace="5:58" data-hr="164" data-z="Z4">
   <span class="corner c-tl"></span><span class="corner c-br"></span>
   <div class="wrap">
-    <div class="tag rv">SEGMENT 03 — 3.0 → 4.0 KM · 피로 누적</div>
-    <h2 class="rv">힘들어지는 순간,<br><span class="outline">근거를 갖고</span> 개입합니다</h2>
-    <p class="lead rv">"자세가 나쁘다"가 아니라 — <b>무엇이, 얼마나</b> 변했는지 말해주는 코치.</p>
+    <div class="tag rv" data-i18n="r34">SEGMENT 03 — 3.0 → 4.0 KM · 피로 누적</div>
+    <h2 class="rv" data-i18n="r35">힘들어지는 순간,<br><span class="outline">근거를 갖고</span> 개입합니다</h2>
+    <p class="lead rv" data-i18n="r36">"자세가 나쁘다"가 아니라 — <b>무엇이, 얼마나</b> 변했는지 말해주는 코치.</p>
     <div class="voice rv">
-      <p>"시작할 때보다 발걸음이 5퍼센트 느려지고 접지가 길어졌어요. 보폭을 줄이면 회전이 살아나면서 자세가 돌아옵니다."</p>
-      <div class="why">WHY · 케이던스·접지시간·수직진폭 <b>3개 신호 중 2개 동시 이탈</b>일 때만 경고 — 오탐 억제</div>
+      <p data-i18n="r37">"시작할 때보다 발걸음이 5퍼센트 느려지고 접지가 길어졌어요. 보폭을 줄이면 회전이 살아나면서 자세가 돌아옵니다."</p>
+      <div class="why" data-i18n="r38">WHY · 케이던스·접지시간·수직진폭 <b>3개 신호 중 2개 동시 이탈</b>일 때만 경고 — 오탐 억제</div>
     </div>
     <div class="voice rv" style="border-color:rgba(61,220,132,.4)">
-      <p>"좋아요, 자세가 돌아오고 있어요. 그 느낌 그대로 조금만 더요."</p>
-      <div class="why">WHY · 잔소리 코치가 아니라 <b>회복을 알아보는 코치</b> — 개선 추세 감지 시 격려</div>
+      <p data-i18n="r39">"좋아요, 자세가 돌아오고 있어요. 그 느낌 그대로 조금만 더요."</p>
+      <div class="why" data-i18n="r40">WHY · 잔소리 코치가 아니라 <b>회복을 알아보는 코치</b> — 개선 추세 감지 시 격려</div>
     </div>
     <div class="datastrip rv">
       <div class="d"><div class="k">CADENCE</div><div class="v or">166→174</div></div>
@@ -295,21 +311,21 @@
 <section id="s5" data-km="4.2" data-pace="8:50" data-hr="151" data-z="Z3">
   <span class="corner c-tl"></span><span class="corner c-br"></span>
   <div class="wrap">
-    <div class="tag rv">SEGMENT 04 — 4.0 → 4.5 KM · 걷기 전환</div>
-    <h2 class="rv">걷는 것도<br><span class="grad">훈련의 일부</span>입니다</h2>
-    <p class="lead rv">지치면 걸어도 됩니다. 런비스는 멈췄다고 하지 않고, <b>회복을 함께</b> 합니다.</p>
+    <div class="tag rv" data-i18n="r41">SEGMENT 04 — 4.0 → 4.5 KM · 걷기 전환</div>
+    <h2 class="rv" data-i18n="r42">걷는 것도<br><span class="grad">훈련의 일부</span>입니다</h2>
+    <p class="lead rv" data-i18n="r43">지치면 걸어도 됩니다. 런비스는 멈췄다고 하지 않고, <b>회복을 함께</b> 합니다.</p>
     <div class="voice rv">
-      <p>"걷기 시작하셨네요. 완전히 걷는 것보다 아주 천천히 뛰는 게 회복이 빨라요. 심박이 존 2에 들어오면 알려드릴게요."</p>
-      <div class="why">WHY · 페이스 밴드로 <b>걷기 전환 감지</b> → 심박 회복 추적 시작</div>
+      <p data-i18n="r44">"걷기 시작하셨네요. 완전히 걷는 것보다 아주 천천히 뛰는 게 회복이 빨라요. 심박이 존 2에 들어오면 알려드릴게요."</p>
+      <div class="why" data-i18n="r45">WHY · 페이스 밴드로 <b>걷기 전환 감지</b> → 심박 회복 추적 시작</div>
     </div>
     <div class="zones rv">
       <div class="zone hot"><span>Z4</span><span class="bar"></span><span>164</span></div>
-      <div class="zone mid"><span>Z3</span><span class="bar"></span><span>151 ← 지금</span></div>
-      <div class="zone ok"><span>Z2</span><span class="bar"></span><span>대기 중…</span></div>
+      <div class="zone mid"><span>Z3</span><span class="bar"></span><span data-i18n="r46">151 ← 지금</span></div>
+      <div class="zone ok"><span>Z2</span><span class="bar"></span><span data-i18n="r47">대기 중…</span></div>
     </div>
     <div class="voice rv" style="border-color:rgba(61,220,132,.4)">
-      <p>"심박이 존 2까지 내려왔어요. 충분히 회복됐습니다. 다시 천천히 뛰어볼까요?"</p>
-      <div class="why">WHY · 존을 한 칸 내려올 때마다 진행을 알림 — <b>회복의 과정</b>이 들립니다</div>
+      <p data-i18n="r48">"심박이 존 2까지 내려왔어요. 충분히 회복됐습니다. 다시 천천히 뛰어볼까요?"</p>
+      <div class="why" data-i18n="r49">WHY · 존을 한 칸 내려올 때마다 진행을 알림 — <b>회복의 과정</b>이 들립니다</div>
     </div>
   </div>
 </section>
@@ -318,21 +334,21 @@
 <section id="s6" data-km="5.0" data-pace="5:52" data-hr="142" data-z="Z2">
   <span class="corner c-tl"></span><span class="corner c-br"></span>
   <div class="wrap">
-    <div class="tag rv">FINISH — 5.0 KM · MISSION COMPLETE</div>
-    <h2 class="rv">달리기는 끝났지만,<br>코칭은 <span class="grad">이제 반환점</span>입니다</h2>
-    <p class="lead rv">기록이 저장되는 순간 — 심박 존, 훈련 부하, 폼 분석과 함께 <b>다음 러닝을 위한 진단</b>이 도착합니다. 원하면 한 번의 탭으로 내 AI에게 심층 분석을 맡길 수도.</p>
+    <div class="tag rv" data-i18n="r50">FINISH — 5.0 KM · MISSION COMPLETE</div>
+    <h2 class="rv" data-i18n="r51">달리기는 끝났지만,<br>코칭은 <span class="grad">이제 반환점</span>입니다</h2>
+    <p class="lead rv" data-i18n="r52">기록이 저장되는 순간 — 심박 존, 훈련 부하, 폼 분석과 함께 <b>다음 러닝을 위한 코칭 요약</b>이 도착합니다. 원하면 한 번의 탭으로 내 AI에게 심층 분석을 맡길 수도.</p>
     <div class="finish rv">
-      <div class="row"><span class="k">거리 · 시간</span><span class="v">5.00 km · 29:24</span></div>
-      <div class="row"><span class="k">평균 페이스 · 심박</span><span class="v">5:52 /km · 145 bpm</span></div>
-      <div class="row"><span class="k">운동 부하</span><span class="v">TRIMP 54 · 드리프트 +1.8%</span></div>
-      <div class="row"><span class="k">코치 진단</span><span class="v" style="color:var(--green)">고른 페이스 · 좋은 폼</span></div>
-      <div class="row"><span class="k">내보내기</span><span class="v">✨ AI 분석용 · GPX</span></div>
+      <div class="row"><span class="k" data-i18n="r53">거리 · 시간</span><span class="v">5.00 km · 29:24</span></div>
+      <div class="row"><span class="k" data-i18n="r54">평균 페이스 · 심박</span><span class="v">5:52 /km · 145 bpm</span></div>
+      <div class="row"><span class="k" data-i18n="r55">운동 부하</span><span class="v" data-i18n="r56">TRIMP 54 · 드리프트 +1.8%</span></div>
+      <div class="row"><span class="k" data-i18n="r57">코치 판정</span><span class="v" style="color:var(--green)" data-i18n="r58">고른 페이스 · 좋은 폼</span></div>
+      <div class="row"><span class="k" data-i18n="r59">내보내기</span><span class="v" data-i18n="r60">✨ AI 분석용 · GPX</span></div>
     </div>
     <div class="btns rv">
-      <a class="btn" href="index.html#beta">TestFlight 베타 신청</a>
-      <a class="btn ghost" href="index.html">기능 전체 보기</a>
+      <a class="btn" href="index.html#beta" data-i18n="r61">TestFlight 베타 신청</a>
+      <a class="btn ghost" href="index.html" data-i18n="r62">기능 전체 보기</a>
     </div>
-    <p class="footnote rv">본 페이지의 수치·대사는 실제 앱 동작 방식을 보여주는 시연용 예시입니다. 모든 지표와 안내는 일반적인 운동과학 공식에 기반한 참고 정보이며, 의학적 진단·치료가 아닙니다.<br>© 2026 Runvis · Apple Watch는 Apple Inc.의 상표입니다</p>
+    <p class="footnote rv" data-i18n="r63">본 페이지의 수치·대사는 실제 앱 동작 방식을 보여주는 시연용 예시입니다. 모든 지표와 안내는 일반적인 운동과학 공식에 기반한 참고 정보이며, 의학적 진단·치료가 아닙니다.<br>문의: <a href="mailto:help@runvis.app" style="color:var(--dim)">help@runvis.app</a> · © 2026 Runvis · Apple Watch는 Apple Inc.의 상표입니다</p>
   </div>
 </section>
 
@@ -396,6 +412,26 @@ const io2 = new IntersectionObserver(es => es.forEach(e => {
   }
 }), {threshold:.5});
 secs.forEach(s => io2.observe(s));
+
+// ---------- i18n: keep this page's own meta after language switches ----------
+// i18n.js applies the shared dictionary (translations.js) and, on every
+// language change, writes the *index* page's meta.title/meta.desc/og:* into
+// the head. It then calls window.renderDynamicI18n() — so we restore the run
+// page's own title and descriptions here from the r1/r2 keys.
+window.renderDynamicI18n = function () {
+  if (!window.RunvisT) return;
+  // Korean fallbacks keep the run page's identity even before the r* keys
+  // land in translations.js.
+  const t = window.RunvisT('r1', 'RUN SESSION — 런비스와 5km | Runvis');
+  const d = window.RunvisT('r2', '스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요.');
+  const set = (sel, v) => { const el = document.querySelector(sel); if (el && v != null) el.setAttribute('content', v); };
+  if (t != null) document.title = t;
+  set('meta[name="description"]', d);
+  set('meta[property="og:title"]', t);
+  set('meta[property="og:description"]', d);
+  set('meta[name="twitter:title"]', t);
+  set('meta[name="twitter:description"]', d);
+};
 
 // ---------- robust in-page anchors (same fix as index) ----------
 document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
