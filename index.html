@@ -876,6 +876,40 @@ renderSim('lsd');
 window.renderDynamicI18n=function(){ hl=0; renderSim(simKey); if(window.renderCourseList) window.renderCourseList(); };
 
 // --- voice playback (Web Speech API, follows the selected language) ---
+// Setting only utterance.lang lets the browser pick the first matching system
+// voice, and on macOS that list is full of novelty voices — English landed on
+// Grandpa/Fred, which sounds nothing like the coach. So the voice is chosen
+// explicitly: novelty and character voices are excluded outright, real
+// speech-quality voices are preferred, and each language names its known-good
+// default as a fallback.
+const VOICE_BLOCK=/^(albert|bad news|bahh|bells|boing|bubbles|cellos|fred|good news|jester|junior|kathy|organ|ralph|superstar|trinoids|whisper|wobble|zarvox|grandma|grandpa|eddy|flo|reed|rocko|sandy|shelley)\b/i;
+const VOICE_GOOD=/siri|premium|enhanced|neural|natural|google|microsoft/i;
+const VOICE_PREF={ko:['유나','yuna'],en:['samantha','google us english','aria'],ja:['kyoko','o-ren'],
+                  es:['mónica','monica','paulina'],zh:['meijia','tingting'],de:['anna','helena']};
+function pickVoice(tag){
+  const voices=speechSynthesis.getVoices();
+  if(!voices.length) return null;
+  const primary=tag.split('-')[0].toLowerCase();
+  const prefs=VOICE_PREF[primary]||[];
+  const score=v=>{
+    const n=v.name.toLowerCase();
+    if(VOICE_BLOCK.test(n)) return -1;
+    let s=1;
+    if(v.lang.toLowerCase()===tag.toLowerCase()) s+=8;      // exact region wins
+    const p=prefs.findIndex(x=>n.includes(x));
+    if(p>=0) s+=40-p;                                       // named default
+    if(VOICE_GOOD.test(n)) s+=20;                           // platform's better engines
+    return s;
+  };
+  let best=null,bestScore=0;
+  voices.filter(v=>v.lang.toLowerCase().startsWith(primary)).forEach(v=>{
+    const s=score(v); if(s>bestScore){bestScore=s;best=v;}
+  });
+  return best;
+}
+// Safari/Chrome populate the list asynchronously; warm it so the first tap
+// isn't the one that gets the bad voice.
+if('speechSynthesis' in window){speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();}
 document.querySelectorAll('.vchip').forEach((c,idx)=>c.addEventListener('click',()=>{
   if(!('speechSynthesis' in window)){alert('This browser does not support voice playback.');return;}
   speechSynthesis.cancel();
@@ -885,6 +919,7 @@ document.querySelectorAll('.vchip').forEach((c,idx)=>c.addEventListener('click',
   const say=(dyn&&dyn.vchip&&dyn.vchip[idx])||c.dataset.say;
   const u=new SpeechSynthesisUtterance(say);
   u.lang=(dyn&&dyn.tts)||"ko-KR";u.rate=.95;
+  const v=pickVoice(u.lang); if(v){u.voice=v;u.lang=v.lang;}
   u.onend=()=>c.classList.remove('playing');
   speechSynthesis.speak(u);
 }));
