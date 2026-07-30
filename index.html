@@ -883,12 +883,16 @@ window.renderDynamicI18n=function(){ hl=0; renderSim(simKey); if(window.renderCo
 // speech-quality voices are preferred, and each language names its known-good
 // default as a fallback.
 const VOICE_BLOCK=/^(albert|bad news|bahh|bells|boing|bubbles|cellos|fred|good news|jester|junior|kathy|organ|ralph|superstar|trinoids|whisper|wobble|zarvox|grandma|grandpa|eddy|flo|reed|rocko|sandy|shelley)\b/i;
-const VOICE_GOOD=/siri|premium|enhanced|neural|natural|google|microsoft/i;
-const VOICE_PREF={ko:['유나','yuna'],en:['samantha','google us english','aria'],ja:['kyoko','o-ren'],
+const VOICE_GOOD=/siri|premium|enhanced|neural|natural/i;
+const VOICE_PREF={ko:['유나','yuna'],en:['samantha','ava','allison','aria'],ja:['kyoko','o-ren'],
                   es:['mónica','monica','paulina'],zh:['meijia','tingting'],de:['anna','helena']};
-function pickVoice(tag){
+// Ranked candidates, best first, so a voice that refuses to speak can be
+// stepped over. Local voices outrank remote ones: Chrome's "Google …" voices
+// stream from Google's servers and fail SILENTLY when that request doesn't go
+// through — which is how English went from a bad voice to no voice at all.
+function voiceCandidates(tag){
   const voices=speechSynthesis.getVoices();
-  if(!voices.length) return null;
+  if(!voices.length) return [];
   const primary=tag.split('-')[0].toLowerCase();
   const prefs=VOICE_PREF[primary]||[];
   const score=v=>{
@@ -898,15 +902,15 @@ function pickVoice(tag){
     if(v.lang.toLowerCase()===tag.toLowerCase()) s+=8;      // exact region wins
     const p=prefs.findIndex(x=>n.includes(x));
     if(p>=0) s+=40-p;                                       // named default
-    if(VOICE_GOOD.test(n)) s+=20;                           // platform's better engines
+    if(VOICE_GOOD.test(n)) s+=10;                           // platform's better engines
+    if(v.localService) s+=15;                               // offline = actually plays
     return s;
   };
-  let best=null,bestScore=0;
-  voices.filter(v=>v.lang.toLowerCase().startsWith(primary)).forEach(v=>{
-    const s=score(v); if(s>bestScore){bestScore=s;best=v;}
-  });
-  return best;
+  return voices.filter(v=>v.lang.toLowerCase().startsWith(primary))
+               .map(v=>({v,s:score(v)})).filter(x=>x.s>0)
+               .sort((a,b)=>b.s-a.s).map(x=>x.v);
 }
+function pickVoice(tag){ return voiceCandidates(tag)[0]||null; }
 // Safari/Chrome populate the list asynchronously; warm it so the first tap
 // isn't the one that gets the bad voice.
 if('speechSynthesis' in window){speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();}
@@ -917,11 +921,24 @@ document.querySelectorAll('.vchip').forEach((c,idx)=>c.addEventListener('click',
   c.classList.add('playing');
   const dyn=window.RunvisDyn;
   const say=(dyn&&dyn.vchip&&dyn.vchip[idx])||c.dataset.say;
-  const u=new SpeechSynthesisUtterance(say);
-  u.lang=(dyn&&dyn.tts)||"ko-KR";u.rate=.95;
-  const v=pickVoice(u.lang); if(v){u.voice=v;u.lang=v.lang;}
-  u.onend=()=>c.classList.remove('playing');
-  speechSynthesis.speak(u);
+  const tag=(dyn&&dyn.tts)||"ko-KR";
+  const list=voiceCandidates(tag);
+  // Speak with the best candidate, and if it neither starts nor errors within
+  // a beat, fall through to the next one — a silent failure must not end as
+  // silence for the reader.
+  (function play(i){
+    const u=new SpeechSynthesisUtterance(say);
+    u.lang=tag; u.rate=.95;
+    const v=list[i]; if(v){u.voice=v;u.lang=v.lang;}
+    let started=false, done=false;
+    const next=()=>{ if(done)return; done=true; speechSynthesis.cancel();
+                     if(i+1<list.length) play(i+1); else c.classList.remove('playing'); };
+    u.onstart=()=>{started=true;};
+    u.onerror=next;
+    u.onend=()=>{ done=true; c.classList.remove('playing'); };
+    speechSynthesis.speak(u);
+    setTimeout(()=>{ if(!started) next(); }, 700);
+  })(0);
 }));
 
 // --- hero film → watch handoff ---
