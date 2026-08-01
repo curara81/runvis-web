@@ -38,7 +38,7 @@
     --green:#3DDC84; --green-d:#27b368; --cyan:#4CCBD9; --orange:#FFA633;
     --red:#FF5A5A; --blue:#5AA6FF; --purple:#B374FF;
     --bg:#000; --bg1:#0b0d10; --bg2:#14171c; --card:#16191e;
-    --line:#24282e; --text:#f2f3f5; --dim:#9aa0a6; --dim2:#6a6f76;
+    --line:#24282e; --text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;   /* 4.5:1 on #0b0d10 — was #6a6f76 (3.4:1) */
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -682,10 +682,10 @@
 <h2 class="reveal" data-i18n="t133">센서가 읽고, <span class="grad-text">코치가 말합니다</span></h2>
 <p class="sub reveal" data-i18n="t134">"자세 좋아요" 같은 빈말이 아닙니다. 모든 코칭엔 <b>워치 센서가 잡은 근거</b>가 먼저 있습니다. 아이콘을 누르면 실제 안내가 선택한 언어로 재생됩니다.<br/><span style="color:var(--dim2)">음악 볼륨은 부드럽게 낮아지고, 안내가 끝나면 다시 원래대로 돌아옵니다.</span></p>
 <div class="voice-grid reveal">
-<div class="vchip" data-say="시작할 때보다 발걸음이 5퍼센트 느려지고 접지가 길어졌어요. 보폭을 줄이면 회전이 살아나면서 자세가 돌아옵니다."><div class="sensor" data-i18n="vc1.sensor">📡 케이던스 174→165 · 접지 +9% — 3개 신호 중 2개 동시 이탈</div><div class="play" data-i18n="vc1.play">▶ 폼 코칭</div><div class="line" data-i18n="vc1.line">"시작할 때보다 발걸음이 5% 느려지고 접지가 길어졌어요. 보폭을 줄이면 회전이 살아나면서 자세가 돌아옵니다."</div></div>
-<div class="vchip" data-say="300미터 앞, 1.2킬로미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="vc2.sensor">📡 대회 GPX 전방 스캔 — 300m 앞 고도 +34m</div><div class="play" data-i18n="vc2.play">▶ 언덕 예고</div><div class="line" data-i18n="vc2.line">"300m 앞, 1.2km 오르막이 시작됩니다. 평균 경사 4%. 보폭을 줄이고 리듬을 유지하세요."</div></div>
-<div class="vchip" data-say="심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor" data-i18n="vc3.sensor">📡 걷기 회복 추적 중 — 심박 존 4→3 하강</div><div class="play" data-i18n="vc3.play">▶ 회복 격려</div><div class="line" data-i18n="vc3.line">"심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."</div></div>
-<div class="vchip" data-say="잠깐 상식 하나. 편한 페이스에선 코로만 숨 쉬어도 충분해요. 입이 벌어지기 시작하면, 그게 강도가 올라갔다는 신호예요."><div class="sensor" data-i18n="vc4.sensor">📡 코칭 이벤트 없이 조용한 구간 — 잔소리 대신 상식</div><div class="play" data-i18n="vc4.play">▶ 러닝 상식</div><div class="line" data-i18n="vc4.line">"잠깐 상식 하나. 편한 페이스에선 코로만 숨 쉬어도 충분해요. 입이 벌어지기 시작하면, 그게 강도가 올라갔다는 신호예요."</div></div>
+<div class="vchip" role="button" tabindex="0" data-say="시작할 때보다 발걸음이 5퍼센트 느려지고 접지가 길어졌어요. 보폭을 줄이면 회전이 살아나면서 자세가 돌아옵니다."><div class="sensor" data-i18n="vc1.sensor">📡 케이던스 174→165 · 접지 +9% — 3개 신호 중 2개 동시 이탈</div><div class="play" data-i18n="vc1.play">▶ 폼 코칭</div><div class="line" data-i18n="vc1.line">"시작할 때보다 발걸음이 5% 느려지고 접지가 길어졌어요. 보폭을 줄이면 회전이 살아나면서 자세가 돌아옵니다."</div></div>
+<div class="vchip" role="button" tabindex="0" data-say="300미터 앞, 1.2킬로미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="vc2.sensor">📡 대회 GPX 전방 스캔 — 300m 앞 고도 +34m</div><div class="play" data-i18n="vc2.play">▶ 언덕 예고</div><div class="line" data-i18n="vc2.line">"300m 앞, 1.2km 오르막이 시작됩니다. 평균 경사 4%. 보폭을 줄이고 리듬을 유지하세요."</div></div>
+<div class="vchip" role="button" tabindex="0" data-say="심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor" data-i18n="vc3.sensor">📡 걷기 회복 추적 중 — 심박 존 4→3 하강</div><div class="play" data-i18n="vc3.play">▶ 회복 격려</div><div class="line" data-i18n="vc3.line">"심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."</div></div>
+<div class="vchip" role="button" tabindex="0" data-say="잠깐 상식 하나. 편한 페이스에선 코로만 숨 쉬어도 충분해요. 입이 벌어지기 시작하면, 그게 강도가 올라갔다는 신호예요."><div class="sensor" data-i18n="vc4.sensor">📡 코칭 이벤트 없이 조용한 구간 — 잔소리 대신 상식</div><div class="play" data-i18n="vc4.play">▶ 러닝 상식</div><div class="line" data-i18n="vc4.line">"잠깐 상식 하나. 편한 페이스에선 코로만 숨 쉬어도 충분해요. 입이 벌어지기 시작하면, 그게 강도가 올라갔다는 신호예요."</div></div>
 </div>
 <p class="reveal" data-i18n="t135" style="text-align:center;color:var(--dim2);font-size:13.5px;margin-top:22px">같은 순간에도 초급자에겐 풀어서, 고급자에겐 짧게 — 최근 1개월 기록으로 코칭 레벨이 자동 조정됩니다.</p>
 </div>
@@ -914,7 +914,12 @@ function pickVoice(tag){ return voiceCandidates(tag)[0]||null; }
 // Safari/Chrome populate the list asynchronously; warm it so the first tap
 // isn't the one that gets the bad voice.
 if('speechSynthesis' in window){speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();}
-document.querySelectorAll('.vchip').forEach((c,idx)=>c.addEventListener('click',()=>{
+document.querySelectorAll('.vchip').forEach((c,idx)=>{
+  // Keyboard parity: the chips are buttons in everything but tag name.
+  c.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); c.click(); }
+  });
+  c.addEventListener('click',()=>{
   if(!('speechSynthesis' in window)){alert('This browser does not support voice playback.');return;}
   speechSynthesis.cancel();
   document.querySelectorAll('.vchip').forEach(x=>x.classList.remove('playing'));
@@ -939,7 +944,8 @@ document.querySelectorAll('.vchip').forEach((c,idx)=>c.addEventListener('click',
     speechSynthesis.speak(u);
     setTimeout(()=>{ if(!started) next(); }, 700);
   })(0);
-}));
+  });
+});
 
 // --- hero film → watch handoff ---
 // The run plays first; once it has had its moment the footage settles back and

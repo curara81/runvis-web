@@ -146,7 +146,13 @@
       li.textContent = l.label;
       li.setAttribute('role', 'menuitem');
       li.setAttribute('data-code', l.code);
+      // Keyboard parity: a menu item that only answers to a mouse is a menu
+      // item half the visitors can't use.
+      li.tabIndex = 0;
       li.addEventListener('click', function () { setLang(l.code); sel.classList.remove('open'); });
+      li.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); li.click(); }
+      });
       menu.appendChild(li);
     });
     btn.addEventListener('click', function (e) {
