@@ -692,3 +692,139 @@ Object.assign(window.RUNVIS_I18N.de, {
 
 // 2026-07-31 — 비한국어 로케일 전용: 앱 캡처가 한국어 화면임을 고지 (ko는 빈값=숨김).
 // 앱 UI가 글로벌 출시 단계에서 로컬라이즈되면 언어별 실캡처로 교체하고 이 키를 제거.
+
+// 2026-08-08 — 코치 시리즈: 컨디션 협상·주간 예산·기록 레이더·강도 식단·대회 리허설
+// + 한눈에 보기(열 순응·지구력·언덕·젖산 역치 추정, 지표별 도움말) 섹션.
+Object.assign(window.RUNVIS_I18N.ko, {
+  "co.eb": "코치 시리즈",
+  "co.t": "통보하지 않고, 상의하는 코치",
+  "co.sub": "숫자를 던지는 앱은 많습니다. 런비스는 그 숫자로 <b>당신과 상의합니다</b> — 오늘 몸 상태를 함께 읽고, 계획을 함께 조정합니다.",
+  "co.c1h": "🤝 코치 처방 — 오늘의 협상",
+  "co.c1p": "컨디션이 낮은 날, 일방적으로 훈련을 바꾸지 않습니다. <b>왜 낮추자는 건지 이유를 먼저 설명</b>하고, \"그래도 원래대로 할래요\"를 고르면 그 선택을 존중합니다 — 주의할 점 한 줄과 함께.",
+  "co.c2h": "✋ 코치 브레이크 — 이번 주 예산",
+  "co.c2p": "최근 4주 훈련량으로 <b>이번 주 몸이 감당할 수 있는 거리</b>를 예산처럼 보여줍니다. 러닝 전 통증을 보고하면 한도가 자동으로 내려갑니다. 부상의 최대 원인은 갑자기 늘어난 거리니까요.",
+  "co.c3h": "⛽ 코치 보급 — 번호 붙인 보급 안내",
+  "co.c3p": "장거리 보급 알림에 <b>\"첫 번째 보급\", \"두 번째 보급\" 번호가 붙습니다.</b> 몇 번째 젤인지 세지 않아도 되고, 레이스 보급 연습이 그대로 훈련이 됩니다.",
+  "co.c4h": "🏆 코치 기록 레이더",
+  "co.c4p": "1K·5K·10K·하프 개인 기록에 근접하면 <b>달리는 중에 실시간으로</b> 알려줍니다. \"이 페이스면 5K 기록을 12초 앞당깁니다.\" 단, 컨디션이 낮은 날엔 부추기지 않습니다 — 그게 코치니까요.",
+  "co.c5h": "🍽️ 코치 식단표 — 훈련 강도 진단",
+  "co.c5p": "최근 4주의 강도 분포를 <b>식단처럼 진단</b>합니다. 이지 런이 주식, 고강도가 양념 — \"회색지대 과식\"이 뜨면 쉬운 날을 더 쉽게, 힘든 날을 더 힘들게 나누라는 신호입니다.",
+  "co.c6h": "🎯 코치 리허설 — 대회 미리 달리기",
+  "co.c6p": "대회 16일 전부터, <b>대회일 예보(기온·습도)와 지금의 더위 적응도를 반영한</b> 예상 기록을 보여줍니다. 더위 비용이 얼마인지, 남은 기간 적응하면 얼마나 줄일 수 있는지까지.",
+  "co.c7h": "🌙 코치 저녁 브리핑",
+  "co.c7p": "내일 훈련이 있는 날 밤, <b>한 줄 브리핑</b>이 옵니다. \"내일은 인터벌. 오늘 밤 잘 자면 그대로 갑니다.\" 운동 후 체감 강도(RPE) 체크인은 Apple 건강의 <b>운동 노력도</b>로도 기록됩니다.",
+  "co.c8h": "🔥 한눈에 보기 — 22개 지표, 전부 설명 포함",
+  "co.c8p": "<b>열 순응(더위 적응 0~100%)·지구력 점수·언덕 점수·젖산 역치(추정)</b>까지 한 화면 그리드로. 모든 지표에 ⓘ 도움말 — 젖산 역치가 뭔지 몰라도 탭 한 번이면 초보자 언어로 설명합니다. 지표를 탭하면 1일·7일·4주, 내 평소 범위 밴드 위에서 봅니다."
+});
+Object.assign(window.RUNVIS_I18N.en, {
+  "co.eb": "The Coach Series",
+  "co.t": "A coach that consults, not commands",
+  "co.sub": "Plenty of apps throw numbers at you. Runvis uses those numbers to <b>talk it over with you</b> — reading today's body together, adjusting the plan together.",
+  "co.c1h": "🤝 Coach's Call — today's negotiation",
+  "co.c1p": "On a low-readiness day it never silently rewrites your training. It <b>explains why it wants to ease off first</b>, and if you pick \"I'll do the original anyway\", it respects that — with one line on what to watch.",
+  "co.c2h": "✋ Coach's Brake — this week's budget",
+  "co.c2p": "From your last 4 weeks it shows <b>how much running this week's body can absorb</b>, like a budget. Report pain before a run and the limit drops automatically. The biggest cause of injury is a sudden jump in distance.",
+  "co.c3h": "⛽ Coach's Fuel — numbered fuel calls",
+  "co.c3p": "Long-run fuel reminders come <b>numbered: \"first fuel stop\", \"second fuel stop.\"</b> No counting gels mid-run, and race-day fueling practice happens in training for free.",
+  "co.c4h": "🏆 Coach's Record Radar",
+  "co.c4p": "Close in on your 1K, 5K, 10K or half PR and the coach tells you <b>live, mid-run</b>: \"Hold this pace and the 5K record falls by 12 seconds.\" On a rough day it stays quiet — that's what a coach does.",
+  "co.c5h": "🍽️ Coach's Menu — intensity diagnosis",
+  "co.c5p": "Your last 4 weeks of intensity, <b>diagnosed like a diet</b>. Easy runs are the staple, hard days the spice — see \"grey-zone overeating\" and it's a sign to make easy days easier and hard days harder.",
+  "co.c6h": "🎯 Coach's Rehearsal — pre-run your race",
+  "co.c6p": "From 16 days out, a finish prediction that <b>factors in the race-day forecast (heat, humidity) and your current heat adaptation</b>. See what the weather costs — and how much adapting in the time left could claw back.",
+  "co.c7h": "🌙 Coach's Evening Briefing",
+  "co.c7p": "The night before a training day, <b>one line arrives</b>: \"Tomorrow is intervals. Sleep well tonight and we go as planned.\" Your post-run effort check-in is also recorded to Apple Health as a <b>workout effort score</b>.",
+  "co.c8h": "🔥 At a Glance — 22 metrics, all explained",
+  "co.c8p": "<b>Heat adaptation (0–100%), endurance score, hill score, lactate threshold (estimated)</b> — one grid. Every metric has an ⓘ helper: never heard of lactate threshold? One tap explains it in beginner language. Tap a metric to see 1-day, 7-day and 4-week views on your own normal-range band."
+});
+Object.assign(window.RUNVIS_I18N.ja, {
+  "co.eb": "コーチシリーズ",
+  "co.t": "通告ではなく、相談するコーチ",
+  "co.sub": "数字を投げてくるアプリは多い。Runvisはその数字で<b>あなたと相談します</b> — 今日の体を一緒に読み、計画を一緒に調整します。",
+  "co.c1h": "🤝 コーチの処方 — 今日の交渉",
+  "co.c1p": "調子が低い日も、勝手にトレーニングを書き換えません。<b>なぜ軽くしたいのか理由を先に説明</b>し、「それでも元のままやる」を選べばその選択を尊重します — 注意点ひと言を添えて。",
+  "co.c2h": "✋ コーチのブレーキ — 今週の予算",
+  "co.c2p": "直近4週間から<b>今週体が受け止められる距離</b>を予算のように表示。ラン前に痛みを報告すると上限が自動で下がります。ケガの最大の原因は急に増えた距離だから。",
+  "co.c3h": "⛽ コーチの補給 — 番号つき補給コール",
+  "co.c3p": "ロング走の補給リマインダーに<b>「1回目の補給」「2回目の補給」と番号がつきます。</b>走りながらジェルを数える必要はなく、レースの補給練習がそのままトレーニングに。",
+  "co.c4h": "🏆 コーチの記録レーダー",
+  "co.c4p": "1K・5K・10K・ハーフの自己ベストに近づくと<b>走行中にリアルタイムで</b>教えます。「このペースなら5Kの記録を12秒更新します。」ただし調子が低い日は煽りません — それがコーチだから。",
+  "co.c5h": "🍽️ コーチの献立表 — 強度診断",
+  "co.c5p": "直近4週間の強度分布を<b>食事のように診断</b>。イージーランが主食、高強度がスパイス — 「グレーゾーン食べ過ぎ」が出たら、楽な日はより楽に、きつい日はよりきつく分けるサインです。",
+  "co.c6h": "🎯 コーチのリハーサル — レースを先に走る",
+  "co.c6p": "レース16日前から、<b>当日の予報（気温・湿度）と今の暑熱順応を反映した</b>予想タイムを表示。暑さのコストがいくらか、残り期間で順応すればどれだけ縮むかまで。",
+  "co.c7h": "🌙 コーチの夜ブリーフィング",
+  "co.c7p": "翌日にトレーニングがある夜、<b>ひと言ブリーフィング</b>が届きます。「明日はインターバル。今夜よく眠ればこのまま行きます。」運動後の体感強度チェックインはApple ヘルスケアの<b>ワークアウト努力スコア</b>にも記録されます。",
+  "co.c8h": "🔥 ひと目でわかる — 22指標、すべて説明つき",
+  "co.c8p": "<b>暑熱順応（0〜100%）・持久力スコア・ヒルスコア・乳酸性閾値（推定）</b>まで1画面のグリッドに。全指標にⓘヘルプ — 乳酸性閾値を知らなくてもタップ1回で初心者の言葉で説明。指標をタップすると1日・7日・4週間、自分の普段の範囲バンドの上で見られます。"
+});
+Object.assign(window.RUNVIS_I18N.es, {
+  "co.eb": "La Serie del Coach",
+  "co.t": "Un coach que consulta, no ordena",
+  "co.sub": "Muchas apps te lanzan números. Runvis usa esos números para <b>hablarlo contigo</b>: leer juntos tu cuerpo de hoy y ajustar juntos el plan.",
+  "co.c1h": "🤝 Prescripción del coach — la negociación de hoy",
+  "co.c1p": "En un día flojo no reescribe tu entrenamiento sin más. <b>Primero explica por qué quiere bajar la carga</b>, y si eliges \"haré el original de todos modos\", lo respeta — con una línea sobre qué vigilar.",
+  "co.c2h": "✋ Freno del coach — el presupuesto semanal",
+  "co.c2p": "Con tus últimas 4 semanas muestra <b>cuánto puede absorber tu cuerpo esta semana</b>, como un presupuesto. Reporta dolor antes de correr y el límite baja solo. La mayor causa de lesión es subir la distancia de golpe.",
+  "co.c3h": "⛽ Avituallamiento del coach — avisos numerados",
+  "co.c3p": "Los recordatorios de avituallamiento llegan <b>numerados: \"primer avituallamiento\", \"segundo avituallamiento\".</b> Sin contar geles en plena carrera, y la práctica de avituallamiento de competición ocurre gratis en el entrenamiento.",
+  "co.c4h": "🏆 Radar de récords del coach",
+  "co.c4p": "Acércate a tu mejor marca de 1K, 5K, 10K o media y el coach te lo dice <b>en vivo, mientras corres</b>: \"Mantén este ritmo y el récord de 5K cae por 12 segundos.\" En un mal día guarda silencio — eso hace un coach.",
+  "co.c5h": "🍽️ Menú del coach — diagnóstico de intensidad",
+  "co.c5p": "Tus últimas 4 semanas de intensidad, <b>diagnosticadas como una dieta</b>. Los rodajes suaves son el plato principal, lo duro la especia — si aparece \"exceso de zona gris\", toca hacer lo fácil más fácil y lo duro más duro.",
+  "co.c6h": "🎯 Ensayo del coach — corre tu carrera antes",
+  "co.c6p": "Desde 16 días antes, una predicción que <b>incorpora el pronóstico del día (calor, humedad) y tu adaptación al calor actual</b>. Ve cuánto cuesta el clima — y cuánto podrías recuperar adaptándote en el tiempo que queda.",
+  "co.c7h": "🌙 Briefing nocturno del coach",
+  "co.c7p": "La noche antes de entrenar, <b>llega una línea</b>: \"Mañana toca intervalos. Duerme bien y vamos según lo previsto.\" Tu check-in de esfuerzo también se registra en Apple Salud como <b>puntuación de esfuerzo</b>.",
+  "co.c8h": "🔥 De un vistazo — 22 métricas, todas explicadas",
+  "co.c8p": "<b>Adaptación al calor (0–100%), resistencia, cuestas, umbral de lactato (estimado)</b> — en una sola cuadrícula. Cada métrica tiene su ⓘ: ¿nunca oíste hablar del umbral de lactato? Un toque lo explica en lenguaje de principiante. Toca una métrica y mírala a 1 día, 7 días y 4 semanas sobre tu banda de rango habitual."
+});
+Object.assign(window.RUNVIS_I18N.zh, {
+  "co.eb": "教練系列",
+  "co.t": "不下指令、與你商量的教練",
+  "co.sub": "把數字丟給你的 App 很多。Runvis 用這些數字<b>與你商量</b> — 一起解讀今天的身體，一起調整計畫。",
+  "co.c1h": "🤝 教練的處方 — 今日協商",
+  "co.c1p": "狀態不佳的日子，不會擅自改寫你的訓練。<b>先說明為什麼想降低強度</b>，你若選擇「我還是要照原計畫」，它會尊重 — 並附上一句提醒。",
+  "co.c2h": "✋ 教練的煞車 — 本週預算",
+  "co.c2p": "根據最近4週訓練量，把<b>本週身體能承受的距離</b>像預算一樣呈現。跑前回報疼痛，上限會自動下調。受傷最大的原因就是跑量突然增加。",
+  "co.c3h": "⛽ 教練的補給 — 編號補給提醒",
+  "co.c3p": "長跑補給提醒<b>附上編號：「第一次補給」「第二次補給」。</b>跑步中不必數吃了幾條能量膠，比賽補給演練在訓練中順便完成。",
+  "co.c4h": "🏆 教練的紀錄雷達",
+  "co.c4p": "接近1K・5K・10K・半馬個人紀錄時，教練<b>在跑步中即時</b>告訴你：「保持這個配速，5K紀錄將快12秒。」狀態不好的日子則保持安靜 — 這才是教練。",
+  "co.c5h": "🍽️ 教練的菜單 — 強度診斷",
+  "co.c5p": "把最近4週的強度分布<b>像飲食一樣診斷</b>。輕鬆跑是主食，高強度是調味料 — 出現「灰色地帶過食」，就是該把輕鬆日跑更輕鬆、困難日跑更扎實的訊號。",
+  "co.c6h": "🎯 教練的預演 — 先跑一遍你的比賽",
+  "co.c6p": "賽前16天起，提供<b>納入比賽日預報（氣溫・濕度）與當前熱適應</b>的預測成績。天氣要付出多少代價、剩餘時間內適應能追回多少，一目了然。",
+  "co.c7h": "🌙 教練的晚間簡報",
+  "co.c7p": "隔天有訓練的夜晚，<b>一句簡報</b>送達：「明天是間歇跑。今晚睡好，就照計畫進行。」跑後的體感強度檢查也會記錄到 Apple 健康的<b>體能消耗分數</b>。",
+  "co.c8h": "🔥 一目瞭然 — 22項指標，全附說明",
+  "co.c8p": "<b>熱適應（0~100%）・耐力分數・坡度分數・乳酸閾值（推估）</b>全在一個網格。每項指標都有ⓘ說明 — 不知道乳酸閾值是什麼？點一下就用初學者的語言解釋。點指標可在自己的平常範圍帶上查看1日・7日・4週。"
+});
+Object.assign(window.RUNVIS_I18N.de, {
+  "co.eb": "Die Coach-Serie",
+  "co.t": "Ein Coach, der berät statt befiehlt",
+  "co.sub": "Viele Apps werfen dir Zahlen hin. Runvis nutzt diese Zahlen, um <b>mit dir zu beraten</b> — gemeinsam den heutigen Körper lesen, gemeinsam den Plan anpassen.",
+  "co.c1h": "🤝 Coach-Rezept — die Verhandlung des Tages",
+  "co.c1p": "An schwachen Tagen wird dein Training nie stillschweigend umgeschrieben. Der Coach <b>erklärt zuerst, warum er drosseln will</b> — wählst du \"Ich mache trotzdem das Original\", respektiert er das, mit einem Satz, worauf du achten solltest.",
+  "co.c2h": "✋ Coach-Bremse — das Wochenbudget",
+  "co.c2p": "Aus deinen letzten 4 Wochen zeigt sie <b>wie viel Laufen dein Körper diese Woche verkraftet</b> — wie ein Budget. Meldest du vor dem Lauf Schmerzen, sinkt das Limit automatisch. Die häufigste Verletzungsursache ist ein plötzlicher Umfangssprung.",
+  "co.c3h": "⛽ Coach-Verpflegung — nummerierte Gel-Ansagen",
+  "co.c3p": "Verpflegungs-Erinnerungen kommen <b>nummeriert: \"erste Verpflegung\", \"zweite Verpflegung\".</b> Kein Gel-Zählen mitten im Lauf — und das Renn-Verpflegungstraining passiert nebenbei.",
+  "co.c4h": "🏆 Coach-Rekordradar",
+  "co.c4p": "Näherst du dich deiner 1-km-, 5-km-, 10-km- oder Halbmarathon-Bestzeit, sagt es der Coach <b>live im Lauf</b>: \"Halte dieses Tempo und der 5-km-Rekord fällt um 12 Sekunden.\" An schwachen Tagen bleibt er still — genau das macht einen Coach aus.",
+  "co.c5h": "🍽️ Coach-Speiseplan — Intensitätsdiagnose",
+  "co.c5p": "Deine letzten 4 Wochen Intensität, <b>diagnostiziert wie eine Ernährung</b>. Lockere Läufe sind das Grundnahrungsmittel, harte Tage das Gewürz — erscheint \"Grauzonen-Völlerei\", heißt es: leichte Tage leichter, harte Tage härter.",
+  "co.c6h": "🎯 Coach-Generalprobe — dein Rennen vorlaufen",
+  "co.c6p": "Ab 16 Tagen vor dem Rennen eine Zielzeit-Prognose, die <b>die Renntag-Vorhersage (Hitze, Luftfeuchte) und deine aktuelle Hitzeanpassung einrechnet</b>. Sieh, was das Wetter kostet — und wie viel Anpassung in der Restzeit zurückholen kann.",
+  "co.c7h": "🌙 Coach-Abendbriefing",
+  "co.c7p": "Am Abend vor einem Trainingstag <b>kommt eine Zeile</b>: \"Morgen sind Intervalle dran. Schlaf gut, dann ziehen wir es durch.\" Dein Anstrengungs-Check-in nach dem Lauf landet auch als <b>Trainingsanstrengung</b> in Apple Health.",
+  "co.c8h": "🔥 Auf einen Blick — 22 Kennzahlen, alle erklärt",
+  "co.c8p": "<b>Hitzeanpassung (0–100 %), Ausdauer-Score, Hügel-Score, Laktatschwelle (geschätzt)</b> — ein Raster. Jede Kennzahl hat ein ⓘ: nie von der Laktatschwelle gehört? Ein Tipp erklärt sie in Anfängersprache. Tippe eine Kennzahl und sieh 1 Tag, 7 Tage und 4 Wochen auf deinem persönlichen Normalbereichs-Band."
+});
+// 한눈에 보기 캡처 alt (로케일별)
+Object.assign(window.RUNVIS_I18N.ko, {"alt.phone.glance": "iPhone 한눈에 보기 — 열 순응·지구력·젖산 역치·코치 타일"});
+Object.assign(window.RUNVIS_I18N.en, {"alt.phone.glance": "iPhone At a Glance — heat adaptation, endurance, lactate threshold and coach tiles"});
+Object.assign(window.RUNVIS_I18N.ja, {"alt.phone.glance": "iPhone ひと目で見る — 暑熱順応・持久力・乳酸性閾値・コーチタイル"});
+Object.assign(window.RUNVIS_I18N.es, {"alt.phone.glance": "iPhone De un vistazo — adaptación al calor, resistencia, umbral de lactato y fichas del coach"});
+Object.assign(window.RUNVIS_I18N.zh, {"alt.phone.glance": "iPhone 一覽 — 熱適應・耐力・乳酸閾值・教練卡片"});
+Object.assign(window.RUNVIS_I18N.de, {"alt.phone.glance": "iPhone Auf einen Blick — Hitzeanpassung, Ausdauer, Laktatschwelle und Coach-Kacheln"});
