@@ -713,7 +713,7 @@ Object.assign(window.RUNVIS_I18N.ko, {
   "co.c6p": "대회 16일 전부터, <b>대회일 예보(기온·습도)와 지금의 더위 적응도를 반영한</b> 예상 기록을 보여줍니다. 더위 비용이 얼마인지, 남은 기간 적응하면 얼마나 줄일 수 있는지까지.",
   "co.c7h": "🌙 코치 저녁 브리핑",
   "co.c7p": "내일 훈련이 있는 날 밤, <b>한 줄 브리핑</b>이 옵니다. \"내일은 인터벌. 오늘 밤 잘 자면 그대로 갑니다.\" 운동 후 체감 강도(RPE) 체크인은 Apple 건강의 <b>운동 노력도</b>로도 기록됩니다.",
-  "co.c8h": "🔥 한눈에 보기 — 22개 지표, 전부 설명 포함",
+  "co.c8h": "🔥 몸·러닝 리포트 — 22개 지표, 전부 설명 포함",
   "co.c8p": "<b>열 순응(더위 적응 0~100%)·지구력 점수·언덕 점수·젖산 역치(추정)</b>까지 한 화면 그리드로. 모든 지표에 ⓘ 도움말 — 젖산 역치가 뭔지 몰라도 탭 한 번이면 초보자 언어로 설명합니다. 지표를 탭하면 1일·7일·4주, 내 평소 범위 밴드 위에서 봅니다."
 });
 Object.assign(window.RUNVIS_I18N.en, {
@@ -734,7 +734,7 @@ Object.assign(window.RUNVIS_I18N.en, {
   "co.c6p": "From 16 days out, a finish prediction that <b>factors in the race-day forecast (heat, humidity) and your current heat adaptation</b>. See what the weather costs — and how much adapting in the time left could claw back.",
   "co.c7h": "🌙 Coach's Evening Briefing",
   "co.c7p": "The night before a training day, <b>one line arrives</b>: \"Tomorrow is intervals. Sleep well tonight and we go as planned.\" Your post-run effort check-in is also recorded to Apple Health as a <b>workout effort score</b>.",
-  "co.c8h": "🔥 At a Glance — 22 metrics, all explained",
+  "co.c8h": "🔥 Body & Run Report — 22 metrics, all explained",
   "co.c8p": "<b>Heat adaptation (0–100%), endurance score, hill score, lactate threshold (estimated)</b> — one grid. Every metric has an ⓘ helper: never heard of lactate threshold? One tap explains it in beginner language. Tap a metric to see 1-day, 7-day and 4-week views on your own normal-range band."
 });
 Object.assign(window.RUNVIS_I18N.ja, {
@@ -755,7 +755,7 @@ Object.assign(window.RUNVIS_I18N.ja, {
   "co.c6p": "レース16日前から、<b>当日の予報（気温・湿度）と今の暑熱順応を反映した</b>予想タイムを表示。暑さのコストがいくらか、残り期間で順応すればどれだけ縮むかまで。",
   "co.c7h": "🌙 コーチの夜ブリーフィング",
   "co.c7p": "翌日にトレーニングがある夜、<b>ひと言ブリーフィング</b>が届きます。「明日はインターバル。今夜よく眠ればこのまま行きます。」運動後の体感強度チェックインはApple ヘルスケアの<b>ワークアウト努力スコア</b>にも記録されます。",
-  "co.c8h": "🔥 ひと目でわかる — 22指標、すべて説明つき",
+  "co.c8h": "🔥 からだ・ランレポート — 22指標、すべて説明つき",
   "co.c8p": "<b>暑熱順応（0〜100%）・持久力スコア・ヒルスコア・乳酸性閾値（推定）</b>まで1画面のグリッドに。全指標にⓘヘルプ — 乳酸性閾値を知らなくてもタップ1回で初心者の言葉で説明。指標をタップすると1日・7日・4週間、自分の普段の範囲バンドの上で見られます。"
 });
 Object.assign(window.RUNVIS_I18N.es, {
@@ -776,7 +776,7 @@ Object.assign(window.RUNVIS_I18N.es, {
   "co.c6p": "Desde 16 días antes, una predicción que <b>incorpora el pronóstico del día (calor, humedad) y tu adaptación al calor actual</b>. Ve cuánto cuesta el clima — y cuánto podrías recuperar adaptándote en el tiempo que queda.",
   "co.c7h": "🌙 Briefing nocturno del coach",
   "co.c7p": "La noche antes de entrenar, <b>llega una línea</b>: \"Mañana toca intervalos. Duerme bien y vamos según lo previsto.\" Tu check-in de esfuerzo también se registra en Apple Salud como <b>puntuación de esfuerzo</b>.",
-  "co.c8h": "🔥 De un vistazo — 22 métricas, todas explicadas",
+  "co.c8h": "🔥 Informe cuerpo y running — 22 métricas, todas explicadas",
   "co.c8p": "<b>Adaptación al calor (0–100%), resistencia, cuestas, umbral de lactato (estimado)</b> — en una sola cuadrícula. Cada métrica tiene su ⓘ: ¿nunca oíste hablar del umbral de lactato? Un toque lo explica en lenguaje de principiante. Toca una métrica y mírala a 1 día, 7 días y 4 semanas sobre tu banda de rango habitual."
 });
 Object.assign(window.RUNVIS_I18N.zh, {
@@ -797,7 +797,7 @@ Object.assign(window.RUNVIS_I18N.zh, {
   "co.c6p": "賽前16天起，提供<b>納入比賽日預報（氣溫・濕度）與當前熱適應</b>的預測成績。天氣要付出多少代價、剩餘時間內適應能追回多少，一目了然。",
   "co.c7h": "🌙 教練的晚間簡報",
   "co.c7p": "隔天有訓練的夜晚，<b>一句簡報</b>送達：「明天是間歇跑。今晚睡好，就照計畫進行。」跑後的體感強度檢查也會記錄到 Apple 健康的<b>體能消耗分數</b>。",
-  "co.c8h": "🔥 一目瞭然 — 22項指標，全附說明",
+  "co.c8h": "🔥 身體・跑步報告 — 22項指標，全附說明",
   "co.c8p": "<b>熱適應（0~100%）・耐力分數・坡度分數・乳酸閾值（推估）</b>全在一個網格。每項指標都有ⓘ說明 — 不知道乳酸閾值是什麼？點一下就用初學者的語言解釋。點指標可在自己的平常範圍帶上查看1日・7日・4週。"
 });
 Object.assign(window.RUNVIS_I18N.de, {
@@ -818,13 +818,13 @@ Object.assign(window.RUNVIS_I18N.de, {
   "co.c6p": "Ab 16 Tagen vor dem Rennen eine Zielzeit-Prognose, die <b>die Renntag-Vorhersage (Hitze, Luftfeuchte) und deine aktuelle Hitzeanpassung einrechnet</b>. Sieh, was das Wetter kostet — und wie viel Anpassung in der Restzeit zurückholen kann.",
   "co.c7h": "🌙 Coach-Abendbriefing",
   "co.c7p": "Am Abend vor einem Trainingstag <b>kommt eine Zeile</b>: \"Morgen sind Intervalle dran. Schlaf gut, dann ziehen wir es durch.\" Dein Anstrengungs-Check-in nach dem Lauf landet auch als <b>Trainingsanstrengung</b> in Apple Health.",
-  "co.c8h": "🔥 Auf einen Blick — 22 Kennzahlen, alle erklärt",
+  "co.c8h": "🔥 Körper- & Laufbericht — 22 Kennzahlen, alle erklärt",
   "co.c8p": "<b>Hitzeanpassung (0–100 %), Ausdauer-Score, Hügel-Score, Laktatschwelle (geschätzt)</b> — ein Raster. Jede Kennzahl hat ein ⓘ: nie von der Laktatschwelle gehört? Ein Tipp erklärt sie in Anfängersprache. Tippe eine Kennzahl und sieh 1 Tag, 7 Tage und 4 Wochen auf deinem persönlichen Normalbereichs-Band."
 });
 // 한눈에 보기 캡처 alt (로케일별)
-Object.assign(window.RUNVIS_I18N.ko, {"alt.phone.glance": "iPhone 한눈에 보기 — 열 순응·지구력·젖산 역치·코치 타일"});
-Object.assign(window.RUNVIS_I18N.en, {"alt.phone.glance": "iPhone At a Glance — heat adaptation, endurance, lactate threshold and coach tiles"});
-Object.assign(window.RUNVIS_I18N.ja, {"alt.phone.glance": "iPhone ひと目で見る — 暑熱順応・持久力・乳酸性閾値・コーチタイル"});
-Object.assign(window.RUNVIS_I18N.es, {"alt.phone.glance": "iPhone De un vistazo — adaptación al calor, resistencia, umbral de lactato y fichas del coach"});
-Object.assign(window.RUNVIS_I18N.zh, {"alt.phone.glance": "iPhone 一覽 — 熱適應・耐力・乳酸閾值・教練卡片"});
-Object.assign(window.RUNVIS_I18N.de, {"alt.phone.glance": "iPhone Auf einen Blick — Hitzeanpassung, Ausdauer, Laktatschwelle und Coach-Kacheln"});
+Object.assign(window.RUNVIS_I18N.ko, {"alt.phone.glance": "iPhone 몸·러닝 리포트 — 열 순응·지구력·젖산 역치·코치 타일"});
+Object.assign(window.RUNVIS_I18N.en, {"alt.phone.glance": "iPhone Body & Run Report — heat adaptation, endurance, lactate threshold and coach tiles"});
+Object.assign(window.RUNVIS_I18N.ja, {"alt.phone.glance": "iPhone からだ・ランレポート — 暑熱順応・持久力・乳酸性閾値・コーチタイル"});
+Object.assign(window.RUNVIS_I18N.es, {"alt.phone.glance": "iPhone Informe cuerpo y running — adaptación al calor, resistencia, umbral de lactato y fichas del coach"});
+Object.assign(window.RUNVIS_I18N.zh, {"alt.phone.glance": "iPhone 身體・跑步報告 — 熱適應・耐力・乳酸閾值・教練卡片"});
+Object.assign(window.RUNVIS_I18N.de, {"alt.phone.glance": "iPhone Körper- & Laufbericht — Hitzeanpassung, Ausdauer, Laktatschwelle und Coach-Kacheln"});
