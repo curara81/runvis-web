@@ -828,3 +828,53 @@ Object.assign(window.RUNVIS_I18N.ja, {"alt.phone.glance": "iPhone からだ・�
 Object.assign(window.RUNVIS_I18N.es, {"alt.phone.glance": "iPhone Informe cuerpo y running — adaptación al calor, resistencia, umbral de lactato y fichas del coach"});
 Object.assign(window.RUNVIS_I18N.zh, {"alt.phone.glance": "iPhone 身體・跑步報告 — 熱適應・耐力・乳酸閾值・教練卡片"});
 Object.assign(window.RUNVIS_I18N.de, {"alt.phone.glance": "iPhone Körper- & Laufbericht — Hitzeanpassung, Ausdauer, Laktatschwelle und Coach-Kacheln"});
+
+// 2026-08-08 — 코치 시리즈 확장: 입단 테스트·승급 심사·페이스 인사이트·회복 주간
+Object.assign(window.RUNVIS_I18N.ko, {
+  "co.c9h": "⏱️ 코치 입단 테스트",
+  "co.c9p": "첫날, 기록이 없어도 코치는 서 있습니다. <b>12분 측정 러닝 한 번</b>이면 — 음성이 페이스 전략을 잡아주고 자동 종료 — <b>예상 5K·10K 기록과 첫 플랜</b>이 바로 만들어집니다.",
+  "co.c10h": "📈 승급 심사 · 페이스 인사이트",
+  "co.c10p": "2주간 계획 이수율이 높으면 코치가 <b>다음 거리(5K→10K→하프→풀)를 제안</b>합니다. 워크 페이스가 목표와 계속 어긋나면 <b>목표를 현실에 맞추자고 먼저 묻습니다</b> — 자동 변경은 없습니다. 코치는 물어보고 옮깁니다.",
+  "co.c11h": "🛌 대회 후 회복 주간",
+  "co.c11p": "대회일이 지나면 플랜이 <b>거리에 맞춘 회복 모드</b>로 바뀝니다 — 5K는 4일, 풀코스는 14일. 회복 조깅과 완전 휴식만, 쫓아갈 목표 페이스는 없음. 창이 닫히면 원래 플랜으로 자동 복귀."
+});
+Object.assign(window.RUNVIS_I18N.en, {
+  "co.c9h": "⏱️ Coach's Placement Test",
+  "co.c9p": "Day one, zero history — the coach still shows up. <b>One 12-minute test run</b> — voice-paced, auto-finished — and you get <b>predicted 5K/10K times and your first plan</b> on the spot.",
+  "co.c10h": "📈 Promotion Review · Pace Insight",
+  "co.c10p": "Hit your plan for two weeks and the coach <b>proposes the next distance (5K→10K→half→full)</b>. Drift from your work-pace targets and it <b>asks first whether to move the targets to reality</b> — nothing changes automatically. This coach asks, then moves.",
+  "co.c11h": "🛌 Post-Race Recovery Week",
+  "co.c11p": "Once race day passes, the plan flips to a <b>distance-scaled recovery mode</b> — 4 days after a 5K, 14 after a marathon. Recovery jogs and full rest only, no target pace to chase. When the window closes, your plan returns on its own."
+});
+Object.assign(window.RUNVIS_I18N.ja, {
+  "co.c9h": "⏱️ コーチ入団テスト",
+  "co.c9p": "初日、記録ゼロでもコーチは立っています。<b>12分の測定ラン1回</b> — 音声がペース戦略を導き、自動終了 — <b>予想5K・10Kタイムと最初のプラン</b>がその場で作られます。",
+  "co.c10h": "📈 昇級審査 · ペースインサイト",
+  "co.c10p": "2週間プランを達成すると、コーチが<b>次の距離（5K→10K→ハーフ→フル）を提案</b>。ワークペースが目標とずれ続けると<b>「目標を現実に合わせますか」と先に聞きます</b> — 自動変更はありません。このコーチは、聞いてから動かします。",
+  "co.c11h": "🛌 レース後の回復週間",
+  "co.c11p": "レース当日が過ぎると、プランは<b>距離に応じた回復モード</b>へ — 5Kなら4日、フルなら14日。回復ジョグと完全休養だけ、追いかける目標ペースはなし。期間が終われば元のプランに自動復帰。"
+});
+Object.assign(window.RUNVIS_I18N.es, {
+  "co.c9h": "⏱️ Prueba de nivel del coach",
+  "co.c9p": "Día uno, sin historial — el coach igual está ahí. <b>Una carrera de prueba de 12 minutos</b> — guiada por voz, con final automático — y obtienes <b>tiempos previstos de 5K/10K y tu primer plan</b> al momento.",
+  "co.c10h": "📈 Evaluación de ascenso · Análisis de ritmo",
+  "co.c10p": "Cumple tu plan dos semanas y el coach <b>propone la siguiente distancia (5K→10K→media→maratón)</b>. Si te desvías de los ritmos objetivo, <b>primero pregunta si ajustar los objetivos a la realidad</b> — nada cambia solo. Este coach pregunta, y luego mueve.",
+  "co.c11h": "🛌 Semana de recuperación poscarrera",
+  "co.c11p": "Pasado el día de la carrera, el plan cambia a un <b>modo de recuperación según la distancia</b> — 4 días tras un 5K, 14 tras un maratón. Solo trote suave y descanso total, sin ritmos que perseguir. Al cerrarse la ventana, tu plan vuelve solo."
+});
+Object.assign(window.RUNVIS_I18N.zh, {
+  "co.c9h": "⏱️ 教練入隊測驗",
+  "co.c9p": "第一天、零紀錄，教練也已就位。<b>一次12分鐘測驗跑</b> — 語音引導配速、自動結束 — 當場生成<b>預測5K・10K成績與首個計畫</b>。",
+  "co.c10h": "📈 升級審查 · 配速洞察",
+  "co.c10p": "連續兩週達成計畫，教練會<b>提議下一個距離（5K→10K→半馬→全馬）</b>。強度配速持續偏離目標時，<b>會先問你要不要把目標調到現實</b> — 不會自動更改。這位教練先問，再動。",
+  "co.c11h": "🛌 賽後恢復週",
+  "co.c11p": "比賽日一過，計畫切換為<b>依距離調整的恢復模式</b> — 5K休4天、全馬休14天。只有恢復慢跑與完全休息，沒有要追的目標配速。窗口結束後自動回到原計畫。"
+});
+Object.assign(window.RUNVIS_I18N.de, {
+  "co.c9h": "⏱️ Einstufungstest des Coaches",
+  "co.c9p": "Tag eins, null Historie — der Coach steht trotzdem bereit. <b>Ein 12-Minuten-Testlauf</b> — stimmgeführt, mit Auto-Finish — und du bekommst <b>prognostizierte 5-km-/10-km-Zeiten und deinen ersten Plan</b>, sofort.",
+  "co.c10h": "📈 Aufstiegsprüfung · Pace-Einblick",
+  "co.c10p": "Erfülle deinen Plan zwei Wochen lang und der Coach <b>schlägt die nächste Distanz vor (5 km→10 km→Halb→Marathon)</b>. Weichst du dauerhaft von den Zieltempi ab, <b>fragt er zuerst, ob er die Ziele an die Realität anpassen soll</b> — nichts ändert sich automatisch. Dieser Coach fragt erst, dann handelt er.",
+  "co.c11h": "🛌 Erholungswoche nach dem Rennen",
+  "co.c11p": "Nach dem Renntag wechselt der Plan in einen <b>distanzabhängigen Erholungsmodus</b> — 4 Tage nach einem 5er, 14 nach einem Marathon. Nur Erholungsläufe und komplette Ruhe, kein Zieltempo. Ist das Fenster vorbei, kehrt dein Plan von selbst zurück."
+});
