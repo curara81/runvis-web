@@ -878,3 +878,34 @@ Object.assign(window.RUNVIS_I18N.de, {
   "co.c11h": "🛌 Erholungswoche nach dem Rennen",
   "co.c11p": "Nach dem Renntag wechselt der Plan in einen <b>distanzabhängigen Erholungsmodus</b> — 4 Tage nach einem 5er, 14 nach einem Marathon. Nur Erholungsläufe und komplette Ruhe, kein Zieltempo. Ist das Fenster vorbei, kehrt dein Plan von selbst zurück."
 });
+// 2026-08-08 — 기능 탭 브라우저 (32카드 → 화면 한 장)
+Object.assign(window.RUNVIS_I18N.ko, {
+  "ft.sub": "32개 기능이 있지만, 다 늘어놓지 않을게요 — 탭으로 골라 보세요.",
+  "ft.t0": "🎙️ 러닝 중 코칭", "ft.t1": "🧠 코치 시리즈", "ft.t2": "📊 분석·리포트",
+  "ft.t3": "🗺️ 코스·지도", "ft.t4": "✨ 디테일"
+});
+Object.assign(window.RUNVIS_I18N.en, {
+  "ft.sub": "There are 32 features — we won't line them all up. Pick a tab.",
+  "ft.t0": "🎙️ Mid-run coaching", "ft.t1": "🧠 The Coach Series", "ft.t2": "📊 Analysis & reports",
+  "ft.t3": "🗺️ Courses & maps", "ft.t4": "✨ The details"
+});
+Object.assign(window.RUNVIS_I18N.ja, {
+  "ft.sub": "機能は32個。全部は並べません — タブで選んでください。",
+  "ft.t0": "🎙️ ラン中のコーチング", "ft.t1": "🧠 コーチシリーズ", "ft.t2": "📊 分析・レポート",
+  "ft.t3": "🗺️ コース・マップ", "ft.t4": "✨ ディテール"
+});
+Object.assign(window.RUNVIS_I18N.es, {
+  "ft.sub": "Hay 32 funciones — no las alinearemos todas. Elige una pestaña.",
+  "ft.t0": "🎙️ Coaching en carrera", "ft.t1": "🧠 La Serie del Coach", "ft.t2": "📊 Análisis e informes",
+  "ft.t3": "🗺️ Rutas y mapas", "ft.t4": "✨ Los detalles"
+});
+Object.assign(window.RUNVIS_I18N.zh, {
+  "ft.sub": "共有32項功能，但不會全部排開 — 用分頁挑著看。",
+  "ft.t0": "🎙️ 跑步中教練", "ft.t1": "🧠 教練系列", "ft.t2": "📊 分析・報告",
+  "ft.t3": "🗺️ 路線・地圖", "ft.t4": "✨ 細節"
+});
+Object.assign(window.RUNVIS_I18N.de, {
+  "ft.sub": "Es gibt 32 Funktionen — wir reihen nicht alle auf. Wähl einen Tab.",
+  "ft.t0": "🎙️ Coaching im Lauf", "ft.t1": "🧠 Die Coach-Serie", "ft.t2": "📊 Analysen & Berichte",
+  "ft.t3": "🗺️ Strecken & Karten", "ft.t4": "✨ Die Details"
+});
