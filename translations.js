@@ -909,3 +909,11 @@ Object.assign(window.RUNVIS_I18N.de, {
   "ft.t0": "🎙️ Coaching im Lauf", "ft.t1": "🧠 Die Coach-Serie", "ft.t2": "📊 Analysen & Berichte",
   "ft.t3": "🗺️ Strecken & Karten", "ft.t4": "✨ Die Details"
 });
+
+// 2026-08-10 — 평생 이용권 (일회성)
+Object.assign(window.RUNVIS_I18N.ko, {"pr.life": "구독이 싫다면 — <b>평생 이용권 ₩39,000</b>, 한 번 결제로 끝"});
+Object.assign(window.RUNVIS_I18N.en, {"pr.life": "Not a subscription person? <b>Lifetime unlock</b> — one payment, yours forever (price in your App Store)."});
+Object.assign(window.RUNVIS_I18N.ja, {"pr.life": "サブスクが苦手なら — <b>ライフタイム</b>：1回払いでずっと使えます（価格は各App Store表示）。"});
+Object.assign(window.RUNVIS_I18N.es, {"pr.life": "¿No te van las suscripciones? <b>Acceso de por vida</b> — un solo pago, tuyo para siempre (precio en tu App Store)."});
+Object.assign(window.RUNVIS_I18N.zh, {"pr.life": "不想訂閱？<b>終身版</b> — 一次付款，永久使用（價格以你的 App Store 為準）。"});
+Object.assign(window.RUNVIS_I18N.de, {"pr.life": "Kein Abo-Fan? <b>Lifetime-Freischaltung</b> — einmal zahlen, für immer deins (Preis laut deinem App Store)."});
