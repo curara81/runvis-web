@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Runvis — 애플워치면 충분합니다. Apple Watch 러닝 코치</title>
-<meta content="러닝 시계를 하나 더 살 필요 없어요. 애플워치가 기록한 수면과 심박을 읽고 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다. 계정도 서버도 없습니다." name="description"/>
-<meta content="Runvis — Apple Watch 러닝 코치" property="og:title"/>
-<meta content="러닝 시계를 하나 더 살 필요 없어요. 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다." property="og:description"/>
+<title data-i18n="meta.title">Runvis — 애플워치면 충분합니다. Apple Watch 러닝 코치</title>
+<meta content="러닝 시계를 하나 더 살 필요 없어요. 애플워치가 기록한 수면과 심박을 읽고 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다. 계정도 서버도 없습니다." name="description" data-i18n-attr="content:meta.desc"/>
+<meta content="Runvis — Apple Watch 러닝 코치" property="og:title" data-i18n-attr="content:meta.ogtitle"/>
+<meta content="러닝 시계를 하나 더 살 필요 없어요. 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다." property="og:description" data-i18n-attr="content:meta.ogdesc"/>
 <meta content="website" property="og:type"/>
 <meta content="https://runvis.app/" property="og:url"/>
 <meta content="Runvis" property="og:site_name"/>
@@ -32,6 +32,7 @@
 <link href="https://runvis.app/?lang=zh" hreflang="zh-Hant" rel="alternate"/>
 <link href="https://runvis.app/?lang=de" hreflang="de" rel="alternate"/>
 <link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🏃&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<noscript><style>.reveal,.rv{opacity:1!important;transform:none!important}</style></noscript>
 <style>
   :root{
     --green:#3DDC84; --green-d:#27b368; --cyan:#4CCBD9; --orange:#FFB340; --red:#FF6B6B;
@@ -61,8 +62,8 @@
   h2{font-size:clamp(30px,4.6vw,44px);font-weight:800;letter-spacing:-.025em;line-height:1.18;margin-top:10px}
   .sub{color:var(--dim);font-size:18px;margin-top:16px;max-width:660px}
   .sub b{color:var(--text);font-weight:700}
-  .reveal{opacity:0;transform:translateY(28px) scale(.985);transition:opacity .8s var(--ease) var(--d,0ms),transform .8s var(--ease) var(--d,0ms)}
-  .reveal.in{opacity:1;transform:none}
+  html.js .reveal{opacity:0;transform:translateY(28px) scale(.985);transition:opacity .8s var(--ease) var(--d,0ms),transform .8s var(--ease) var(--d,0ms)}
+  html.js .reveal.in{opacity:1;transform:none}
   .pill{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.04em;padding:3px 9px;border-radius:999px;vertical-align:middle;margin-left:8px}
   .pill.free{background:rgba(255,255,255,.08);color:var(--dim)}
   .pill.pro{background:rgba(61,220,132,.16);color:var(--green)}
@@ -114,7 +115,7 @@
   .langsel.open ul{display:block}
   .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text)}
   .langsel li:hover{background:rgba(61,220,132,.15)}
-  .langsel li[aria-current="true"]{color:var(--green);font-weight:700}
+  .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
   @media(max-width:700px){.langsel{margin-left:auto}.langsel button{padding:6px 9px;font-size:12px}}
 
   /* HERO */
@@ -235,16 +236,31 @@
   @media(max-width:640px){.price{grid-template-columns:1fr}}
   .plan{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:22px;padding:32px;position:relative}
   .plan.pro{border-color:rgba(61,220,132,.6)}
-  .plan .ribbon{position:absolute;top:-11px;right:20px;background:var(--green);color:#04120c;font-size:12px;font-weight:800;padding:4px 12px;border-radius:8px}
+  /* the ribbon now carries the introEligible condition, so it is longer in
+     every language — cap it at the card so it can never run off the edge. */
+  .plan .ribbon{position:absolute;top:-11px;right:20px;max-width:calc(100% - 40px);background:var(--green);color:#04120c;font-size:12px;font-weight:800;padding:4px 12px;border-radius:8px}
   .plan .name{font-size:15px;color:var(--dim);font-weight:700}
   .plan .amt{font-size:36px;font-weight:900;margin:8px 0 4px;letter-spacing:-.02em}
   .plan .amt small{font-size:16px;color:var(--dim);font-weight:600}
+  /* --dim2 on the .plan gradient is only 4.94:1; --dim is 6.27:1 there. */
+  .plan .amt-approx{font-size:12.5px;color:var(--dim);margin:2px 0 8px;line-height:1.5}
   .plan .amt-year{font-size:13.5px;color:var(--dim);margin-top:2px;line-height:1.5}
   .plan .amt-year b{color:var(--green);font-weight:700}
   .plan ul{list-style:none;margin-top:18px}
   .plan li{padding:7px 0;font-size:15px;color:#dfe3e7;display:flex;gap:10px}
   .plan li::before{content:"✓";color:var(--green);font-weight:800}
   .note{text-align:center;color:var(--dim2);font-size:12.5px;margin-top:14px}
+  /* beta funnel: what happens next, and what there is to look at now */
+  .nextsteps{max-width:520px;margin:24px auto 0;text-align:left;counter-reset:ns}
+  .nextsteps h4{font-size:14px;color:var(--dim);font-weight:700;letter-spacing:.02em}
+  .nextsteps ol{list-style:none;margin-top:10px}
+  .nextsteps li{counter-increment:ns;display:flex;gap:10px;padding:6px 0;font-size:14px;color:#dfe3e7;line-height:1.6}
+  .nextsteps li::before{content:counter(ns);flex:0 0 20px;height:20px;margin-top:3px;border-radius:999px;background:rgba(61,220,132,.16);color:var(--green);font-size:11.5px;font-weight:800;display:grid;place-items:center}
+  .nextsteps p{margin-top:10px;font-size:13.5px;color:var(--dim);line-height:1.7}
+  .nextsteps h4.sep{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+  .nextsteps p a{color:var(--green);border-bottom:1px solid rgba(61,220,132,.4)}
+  /* visible only to assistive tech — playback announcements for the chips */
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
   /* signup */
   .signup{background:var(--bg1);border:1px solid var(--line);border-radius:22px;padding:40px;text-align:center;margin-top:28px}
@@ -275,20 +291,69 @@
     html{scroll-behavior:auto}
   }
 </style>
-<script defer src="translations.js?v=20260906d"></script>
-<script defer src="i18n.js?v=20260906d"></script>
+<!-- Language boot. Runs before the body is parsed, so <html lang>, the title,
+     the og: tags and the hero copy are already in the visitor's language at
+     first paint instead of being swapped afterwards. It also pulls exactly ONE
+     dictionary (t-<code>.js, ~37-49 KB) instead of the old 245 KB table of six.
+     Everything else still happens in the deferred i18n.js. -->
+<script>
+(function(){
+  var L=["ko","en","ja","es","zh","de"];
+  function norm(v){ if(!v) return null; v=String(v).toLowerCase();
+    v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
+    return L.indexOf(v)>=0 ? v : null; }
+  var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
+  var urlLang=norm(q), code=urlLang;
+  if(!code){ try{ code=norm(localStorage.getItem("runvis_lang")); }catch(e){} }
+  if(!code) code=norm(navigator.language)||"ko";
+  window.RunvisLang=code; window.RunvisUrlLang=urlLang;
+  var html=document.documentElement;
+  html.lang = code==="zh" ? "zh-Hant" : code;
+  html.className += (html.className?" ":"") + "js";   // .reveal only hides when JS is alive
+  var d=document.createElement("script");
+  d.src="t-"+code+".js?v=20260906e"; d.async=false; document.head.appendChild(d);
+  function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
+  var link=document.querySelector('link[rel="canonical"]');
+  if(link){ var base=(link.getAttribute("href")||"").split("?")[0].split("#")[0];
+    var url=base+(urlLang?"?lang="+urlLang:"");
+    link.setAttribute("href",url); meta("property","og:url",url); }
+  var OGL={ko:"ko_KR",en:"en_US",ja:"ja_JP",es:"es_ES",zh:"zh_TW",de:"de_DE"};
+  meta("property","og:locale",OGL[code]);
+  // Above-the-fold copy, inlined for the five non-Korean languages. This is the
+  // only text duplicated out of the dictionary, and it exists so the LCP heading
+  // never changes language in place. RunvisCritical is applied by the small
+  // script that sits directly under the hero markup.
+  var C={"en":{"h":{"n.hero.eb":"Apple Watch running coach","n.hero.h1":"Your Apple Watch<br/><span class=\"grad\">is enough</span>","n.hero.sub":"You don't need a second running watch. Your coach reads the data already on your wrist, picks today's workout, and talks you through the run.","n.hero.cta1":"Join the beta","n.hero.cta2":"Run the 5K demo"},"m":{"meta.title":"Runvis: your Apple Watch is enough. Apple Watch running coach","meta.desc":"You don't need a second running watch. Runvis reads the sleep and heart rate your Apple Watch recorded, picks today's workout, and talks you through the run. No account, no server.","meta.ogtitle":"Runvis: Apple Watch running coach","meta.ogdesc":"You don't need a second running watch. Your coach picks today's workout and talks you through the run."}},"ja":{"h":{"n.hero.eb":"Apple Watchランニングコーチ","n.hero.h1":"Apple Watchが<br/><span class=\"grad\">あれば十分です</span>","n.hero.sub":"ランニングウォッチをもう一台買う必要はありません。すでに手首にあるデータから、今日何を走るかコーチが決めます。走っている間は声で伝えます。","n.hero.cta1":"ベータに申し込む","n.hero.cta2":"5kmデモを走ってみる"},"m":{"meta.title":"Runvis — Apple Watchがあれば十分です。Apple Watchランニングコーチ","meta.desc":"ランニングウォッチをもう一台買う必要はありません。Apple Watchが記録した睡眠と心拍を読んで、今日何を走るかコーチが決めます。走っている間は声で伝えます。アカウントもサーバーもありません。","meta.ogtitle":"Runvis — Apple Watchランニングコーチ","meta.ogdesc":"ランニングウォッチをもう一台買う必要はありません。今日何を走るかコーチが決めて、走っている間は声で伝えます。"}},"es":{"h":{"n.hero.eb":"Entrenador de running para Apple Watch","n.hero.h1":"Con el Apple Watch<br/><span class=\"grad\">ya basta</span>","n.hero.sub":"No hace falta comprar otro reloj de running. Con los datos que ya tienes en la muñeca, el entrenador decide qué corres hoy y te lo va contando por voz mientras corres.","n.hero.cta1":"Apúntate a la beta","n.hero.cta2":"Corre la demo de 5 km"},"m":{"meta.title":"Runvis — con el Apple Watch ya basta. Entrenador de running para Apple Watch","meta.desc":"No hace falta comprar otro reloj de running. El entrenador lee el sueño y el pulso que registra tu Apple Watch, decide qué corres hoy y te lo cuenta por voz mientras corres. Sin cuenta y sin servidores.","meta.ogtitle":"Runvis — entrenador de running para Apple Watch","meta.ogdesc":"No hace falta comprar otro reloj de running. El entrenador decide qué corres hoy y te lo cuenta por voz mientras corres."}},"zh":{"h":{"n.hero.eb":"Apple Watch 跑步教練","n.hero.h1":"有 Apple Watch<br/><span class=\"grad\">就夠了</span>","n.hero.sub":"不必再買第二支跑錶。用你手腕上已經有的資料，教練決定今天跑什麼，跑步時再用聲音告訴你。","n.hero.cta1":"報名 Beta","n.hero.cta2":"試跑 5 公里展示"},"m":{"meta.title":"Runvis — 有 Apple Watch 就夠了。Apple Watch 跑步教練","meta.desc":"不必再買第二支跑錶。讀取 Apple Watch 記錄的睡眠與心率，教練決定今天跑什麼，跑步時用聲音告訴你。沒有帳號，也沒有伺服器。","meta.ogtitle":"Runvis — Apple Watch 跑步教練","meta.ogdesc":"不必再買第二支跑錶。今天跑什麼由教練決定，跑步時用聲音告訴你。"}},"de":{"h":{"n.hero.eb":"Lauf-Coach für die Apple Watch","n.hero.h1":"Deine Apple Watch<br/><span class=\"grad\">reicht aus</span>","n.hero.sub":"Du brauchst keine zweite Laufuhr. Der Coach nimmt die Daten, die schon an deinem Handgelenk liegen, und legt fest, was du heute läufst. Im Lauf sagt er es dir per Stimme.","n.hero.cta1":"Für die Beta anmelden","n.hero.cta2":"Die 5-km-Demo laufen"},"m":{"meta.title":"Runvis — Die Apple Watch reicht aus. Lauf-Coach für die Apple Watch","meta.desc":"Du brauchst keine zweite Laufuhr. Der Coach liest Schlaf und Puls, die deine Apple Watch aufgezeichnet hat, legt fest, was du heute läufst, und sagt es dir im Lauf per Stimme. Kein Konto, kein Server.","meta.ogtitle":"Runvis — Lauf-Coach für die Apple Watch","meta.ogdesc":"Du brauchst keine zweite Laufuhr. Der Coach legt fest, was du heute läufst, und sagt es dir im Lauf per Stimme."}}};
+  var d2=C[code]; if(!d2) return;
+  document.title=d2.m["meta.title"];
+  meta("name","description",d2.m["meta.desc"]);
+  meta("property","og:title",d2.m["meta.ogtitle"]);
+  meta("property","og:description",d2.m["meta.ogdesc"]);
+  window.RunvisCritical=d2.h;
+})();
+</script>
+<script defer src="i18n.js?v=20260906e"></script>
 <!-- The FAQ rich result must carry the same questions the page shows. This is
      the Korean copy, word for word from the n.faq.* dictionary; i18n.js
      rewrites this node (and inLanguage) whenever the reader picks another
      language, so the markup and the visible tiles cannot drift apart. -->
+<!-- The page quotes three prices; say so in structured data as well. i18n.js
+     rewrites name/description/inLanguage when the reader picks a language.
+     Currency is KRW because that is what the Korean App Store actually
+     charges — the page's other figures are labelled approximations. -->
+<script id="appld" type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"ko","url":"https://runvis.app/","description":"러닝 시계를 하나 더 살 필요 없어요. 애플워치가 기록한 수면과 심박을 읽고 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다. 계정도 서버도 없습니다.","offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription"},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription"},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time"}]}
+</script>
 <script id="faqld" type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[
-{"@type":"Question","name":"워치가 없어도 되나요?","acceptedAnswer":{"@type":"Answer","text":"아이폰만으로 GPS 기록과 1km마다 구간 페이스 안내가 됩니다. 자세 코칭은 손목 센서가 필요해 워치에서만 동작합니다."}},
+{"@type":"Question","name":"워치가 없어도 되나요?","acceptedAnswer":{"@type":"Answer","text":"아이폰만으로 GPS 기록과 1km(마일 설정이면 1마일)마다 구간 페이스 안내가 됩니다. 자세 코칭은 손목 센서가 필요해 워치에서만 동작합니다."}},
 {"@type":"Question","name":"어떤 애플워치가 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"심박과 GPS가 있는 모델이면 됩니다. 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 촘촘해지고, 못 재는 모델에서는 케이던스 기준으로 동작합니다."}},
 {"@type":"Question","name":"해지하면 기록은 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 Apple 건강에 남아 그대로입니다. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 씁니다."}},
 {"@type":"Question","name":"데이터는 어디로 가나요?","acceptedAnswer":{"@type":"Answer","text":"계정도 서버도 없습니다. 날씨와 동네 이름, 코스 자동 생성을 조회할 때만 위치가 나가고, 운동과 건강 데이터는 업로드하지 않습니다."}},
 {"@type":"Question","name":"6개 언어 음성은 어디까지 되나요?","acceptedAnswer":{"@type":"Answer","text":"코치 문장은 한국어, 영어, 일본어, 스페인어, 중국어(번체), 독일어로 말합니다. 스플릿과 언덕 예고처럼 숫자가 들어간 안내도 6개 언어로 나오고, 아직 번역되지 않은 문장은 영어로 나옵니다."}},
-{"@type":"Question","name":"기록이 하나도 없어도 쓸 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"됩니다. 12분만 달리면 예상 5K·10K 기록과 첫 플랜이 만들어지고, 준비도 같은 지표는 며칠 데이터가 쌓이면 나타납니다."}}]}
+{"@type":"Question","name":"기록이 하나도 없어도 쓸 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"됩니다. 12분만 달리면 예상 5K·10K 기록과 첫 플랜이 만들어지고, 준비도 같은 지표는 며칠 데이터가 쌓이면 나타납니다."}},
+{"@type":"Question","name":"첫 달 무료는 누가 받나요?","acceptedAnswer":{"@type":"Answer","text":"App Store가 이 구독의 체험을 아직 쓰지 않았다고 판단하는 계정만 받습니다. 전에 같은 구독을 썼거나 체험을 이미 소진한 계정은 첫 결제부터 바로 청구됩니다. 앱의 구매 화면이 지금 어느 쪽인지 사기 전에 항상 알려줍니다."}},
+{"@type":"Question","name":"평생 이용권과 연간 중 뭐가 유리한가요?","acceptedAnswer":{"@type":"Answer","text":"₩39,000인 평생 이용권은 연간 ₩15,000 기준 약 2.6년, 월 ₩1,900 기준 약 20개월이면 본전입니다. 그보다 오래 쓸 생각이면 평생 쪽이 쌉니다. 평생 이용권은 자동 갱신이 없는 1회 구매이고, 다른 지역에서는 그 App Store의 현지 가격이 적용됩니다."}}]}
 </script>
 </head>
 <body>
@@ -307,8 +372,8 @@
 </div>
 <a class="btn nav-cta" data-i18n="n.nav.cta" href="#beta">베타 신청</a>
 <div class="langsel" id="langsel">
-  <button id="langbtn" aria-haspopup="true" aria-expanded="false">🌐 <span id="langlabel">한국어</span> ▾</button>
-  <ul id="langmenu" role="menu"></ul>
+  <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="표시 언어">🌐 <span id="langlabel">한국어</span> ▾</button>
+  <ul id="langmenu" role="menu" aria-labelledby="langbtn" tabindex="-1"></ul>
 </div>
 </div>
 </nav>
@@ -324,6 +389,13 @@
 <a class="btn" data-i18n="n.hero.cta1" href="#beta">베타 신청</a>
 <a class="btn ghost" data-i18n="n.hero.cta2" href="run.html">5km 데모 달려보기</a>
 </div>
+<!-- The eyebrow, the H1, the sub and the two CTAs are parsed by now, so the
+     five strings the boot script inlined go in before the first paint. Without
+     this the largest text on the page was Korean until the dictionary landed
+     and then changed under the reader. -->
+<script>(function(){var h=window.RunvisCritical; if(!h) return;
+  for(var k in h){ var e=document.querySelector('[data-i18n="'+k+'"]'); if(e) e.innerHTML=h[k]; }
+})();</script>
 <p class="note reveal" data-i18n="n.hero.note">기록은 무료. 코치는 월 ₩1,900이고, 첫 구독이면 한 달 무료입니다.</p>
 <div class="trust reveal">
 <div class="tbadge"><b>100%</b><span data-i18n="n.hero.b1">기기 안에서 계산</span></div>
@@ -397,6 +469,7 @@
 <div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 오늘의 근거" data-i18n-attr="alt:alt.watch.evidence" loading="lazy" src="assets/framed-watch-evidence.png" data-shot="framed-watch-evidence" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w2">오늘의 근거</b><span data-i18n="n.today.w2p">수면, HRV, 어제 부하를 내 기준과 비교해 좋음, 보통, 주의로 표시합니다.</span></div>
 <div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 운동 시작: 오늘의 훈련 카드" data-i18n-attr="alt:alt.watch.start" loading="lazy" src="assets/framed-watch-start.png" data-shot="framed-watch-start" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w3">한 번에 시작</b><span data-i18n="n.today.w3p">오늘 훈련이 시작 화면 맨 위에 있습니다. 누르면 코치가 구간마다 진행합니다.</span></div>
 </div>
+<p class="sc-note reveal" data-i18n="sc.note.s">화면 사진은 한국어판입니다.</p>
 </div>
 </section>
 
@@ -407,11 +480,12 @@
 <h2 class="reveal" data-i18n="n.live.h2">필요한 말만,<br/>필요한 순간에</h2>
 <p class="sub reveal" data-i18n="n.live.sub">코치가 하는 말에는 전부 센서가 잡은 근거가 있습니다. 눌러서 실제 안내를 들어 보세요.</p>
 <div class="voice-grid reveal">
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" data-say="목표보다 25초 빠릅니다."><div class="sensor" data-i18n="n.vc1.sensor">📡 목표보다 20초 이상 벗어난 상태가 20초 넘게 이어질 때</div><div class="play"><span data-i18n="n.vc1.play">페이스</span><span class="pill free" data-i18n="n.pill.free">무료</span></div><div class="line" data-i18n="n.vc1.line">"목표보다 25초 빠릅니다."</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" data-say="300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="n.vc2.sensor">📡 코스 고도를 미리 읽습니다. 늘 달리던 길이면 500m쯤에서 알아보고 언덕을 예고합니다</div><div class="play"><span data-i18n="n.vc2.play">언덕 예고</span><span class="pill free" data-i18n="n.pill.free">무료</span></div><div class="line" data-i18n="n.vc2.line">"300m 앞, 800m 오르막이 시작됩니다. 평균 경사 4%. 보폭을 줄이고 리듬을 유지하세요."</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" data-say="케이던스가 기준보다 5퍼센트 낮아요. 보폭을 조금 줄여볼까요."><div class="sensor" data-i18n="n.vc3.sensor">📡 평지에서 페이스가 일정한데 케이던스가 내 기준보다 5% 낮은 상태가 30초 이어질 때. 접지 시간이 300ms를 넘거나 수직 진폭이 커져도 같은 한 줄 · 러닝 6분 뒤부터, 한 러닝에 두 번까지</div><div class="play"><span data-i18n="n.vc3.play">자세</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></div><div class="line" data-i18n="n.vc3.line">"케이던스가 기준보다 5% 낮아요. 보폭을 조금 줄여볼까요."</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" data-say="심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor" data-i18n="n.vc4.sensor">📡 걷기 회복 중 심박 존이 한 칸 내려올 때</div><div class="play"><span data-i18n="n.vc4.play">회복</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></div><div class="line" data-i18n="n.vc4.line">"심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 페이스 안내 (무료)" data-i18n-attr="aria-label:n.vc1.aria" data-say="목표보다 25초 빠릅니다."><div class="sensor" data-i18n="n.vc1.sensor">📡 목표보다 20초 이상 벗어난 상태가 20초 넘게 이어질 때</div><div class="play"><span data-i18n="n.vc1.play">페이스</span><span class="pill free" data-i18n="n.pill.free">무료</span></div><div class="line" data-i18n="n.vc1.line">"목표보다 25초 빠릅니다."</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 언덕 예고 (무료)" data-i18n-attr="aria-label:n.vc2.aria" data-say="300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="n.vc2.sensor">📡 코스 고도를 미리 읽습니다. 늘 달리던 길이면 500m쯤에서 알아보고 언덕을 예고합니다</div><div class="play"><span data-i18n="n.vc2.play">언덕 예고</span><span class="pill free" data-i18n="n.pill.free">무료</span></div><div class="line" data-i18n="n.vc2.line">"300m 앞, 800m 오르막이 시작됩니다. 평균 경사 4%. 보폭을 줄이고 리듬을 유지하세요."</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 자세 코칭 (구독)" data-i18n-attr="aria-label:n.vc3.aria" data-say="케이던스가 기준보다 5퍼센트 낮아요. 보폭을 조금 줄여볼까요."><div class="sensor" data-i18n="n.vc3.sensor">📡 평지에서 페이스가 일정한데 케이던스가 내 기준보다 5% 낮은 상태가 30초 이어질 때. 접지 시간이 300ms를 넘거나 수직 진폭이 커져도 같은 한 줄 · 러닝 6분 뒤부터, 한 러닝에 두 번까지</div><div class="play"><span data-i18n="n.vc3.play">자세</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></div><div class="line" data-i18n="n.vc3.line">"케이던스가 기준보다 5% 낮아요. 보폭을 조금 줄여볼까요."</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 회복 안내 (구독)" data-i18n-attr="aria-label:n.vc4.aria" data-say="심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor" data-i18n="n.vc4.sensor">📡 걷기 회복 중 심박 존이 한 칸 내려올 때</div><div class="play"><span data-i18n="n.vc4.play">회복</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></div><div class="line" data-i18n="n.vc4.line">"심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."</div></div>
 </div>
+<p class="sr-only" id="voiceStatus" role="status" aria-live="polite"></p>
 <div class="quiet reveal"><span>🤫</span><span data-i18n="n.live.quiet">말이 많지 않습니다. 안전 안내와 훈련 스텝 같은 핵심 안내, 스플릿을 빼면 어떤 안내도 직전 발화로부터 45초 안에는 나오지 않습니다. 이지런·롱런·달리기 걷기는 그 밖의 안내를 30분에 8회, 템포와 레이스는 6회까지만 하고, 인터벌과 자유 러닝은 상한 대신 켜 둔 항목이 밀도를 정합니다. 페이스, 심박존, 자세, 언덕, 격려는 하나씩 끄고 켤 수 있습니다. 음악은 안내하는 동안만 살짝 줄어듭니다.</span></div>
 <h3 class="steps-h reveal"><span data-i18n="n.steps.h">출발 버튼은 한 번이면 됩니다</span><span class="pill free" data-i18n="n.pill.free">무료</span></h3>
 <p class="honest reveal" style="margin-top:8px" data-i18n="n.steps.note">화면과 타이머, 자동 시작 감지는 무료입니다. 코치가 음성으로 함께 진행하는 것이 구독이에요.</p>
@@ -484,6 +558,7 @@
 </ul>
 </div>
 </div>
+<p class="sc-note reveal" data-i18n="sc.note.s">화면 사진은 한국어판입니다.</p>
 </div>
 </section>
 
@@ -518,6 +593,7 @@
 <span class="ribbon" data-i18n="pl.ribbon">1개월 무료</span>
 <div class="name" data-i18n="pl.coach">런비스 코치</div>
 <div class="amt"><span data-i18n="pr.month">₩1,900</span><small data-i18n="t144"> / 월</small></div>
+<div class="amt-approx" data-i18n="pr.approx">대한민국 App Store 가격입니다. 다른 지역에서는 그 지역 App Store의 현지 통화 가격이 적용됩니다.</div>
 <div class="amt-year" data-i18n="n.price.year">연간은 <b>₩15,000</b>. 월 1,250원꼴로 약 34% 저렴합니다.</div>
 <div class="amt-year" data-i18n="n.price.life">구독 대신 <b>평생 이용권 ₩39,000</b>. 출시 기념가이고, 출시 3개월 뒤 ₩59,000이 됩니다.</div>
 <ul>
@@ -547,6 +623,8 @@
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q4">데이터는 어디로 가나요?</h4><p data-i18n="n.faq.a4">계정도 서버도 없습니다. 날씨와 동네 이름, 코스 자동 생성을 조회할 때만 위치가 나가고, 운동과 건강 데이터는 업로드하지 않습니다.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q5">6개 언어 음성은 어디까지 되나요?</h4><p data-i18n="n.faq.a5">코치 문장은 한국어, 영어, 일본어, 스페인어, 중국어(번체), 독일어로 말합니다. 스플릿과 언덕 예고처럼 숫자가 들어간 안내도 6개 언어로 나오고, 아직 번역되지 않은 문장은 영어로 나옵니다.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q6">기록이 하나도 없어도 쓸 수 있나요?</h4><p data-i18n="n.faq.a6">됩니다. 12분만 달리면 예상 5K·10K 기록과 첫 플랜이 만들어지고, 준비도 같은 지표는 며칠 데이터가 쌓이면 나타납니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q7">첫 달 무료는 누가 받나요?</h4><p data-i18n="n.faq.a7">App Store가 이 구독의 체험을 아직 쓰지 않았다고 판단하는 계정만 받습니다. 전에 같은 구독을 썼거나 체험을 이미 소진한 계정은 첫 결제부터 바로 청구됩니다. 앱의 구매 화면이 지금 어느 쪽인지 사기 전에 항상 알려줍니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q8">평생 이용권과 연간 중 뭐가 유리한가요?</h4><p data-i18n="n.faq.a8">₩39,000인 평생 이용권은 연간 ₩15,000 기준 약 2.6년, 월 ₩1,900 기준 약 20개월이면 본전입니다. 그보다 오래 쓸 생각이면 평생 쪽이 쌉니다. 평생 이용권은 자동 갱신이 없는 1회 구매이고, 다른 지역에서는 그 App Store의 현지 가격이 적용됩니다.</p></div>
 </div>
 </div>
 </section>
@@ -563,11 +641,22 @@
 <button class="btn" data-i18n="t160" id="betaSubmit" type="submit">베타 초대 받기</button>
 </form>
 <p id="betaStatus" role="status" aria-live="polite" style="display:none;margin-top:14px;font-size:15px;font-weight:600"></p>
+<a class="btn ghost" id="betaNext" href="run.html" style="display:none;margin-top:14px" data-i18n="form.okcta">5km 데모 달려보기</a>
 <div class="consent">
 <div>· <b data-i18n="t161">수집 목적</b><span data-i18n="cs.purpose">: TestFlight 베타 초대장 발송</span></div>
 <div>· <b data-i18n="t162">보관 기간</b><span data-i18n="cs.retain">: 베타 종료 또는 수신 동의 철회 시까지</span></div>
 <label><input form="betaForm" name="privacy_consent" type="checkbox" value="yes" required=""/> <span data-i18n="n.beta.required">(필수) 베타 초대장 발송을 위한 이메일 수집·이용에 동의합니다.</span></label>
 <label><input form="betaForm" name="marketing_consent" type="checkbox" value="yes"/> <span data-i18n="cs.marketing">(선택) 출시 소식·업데이트 등 마케팅 정보 수신에 동의합니다.</span></label>
+</div>
+<div class="nextsteps">
+<h4 data-i18n="n.beta.stepsh">신청하면 이렇게 진행됩니다</h4>
+<ol>
+<li data-i18n="n.beta.s1">접수 — 이메일 주소만 받습니다. 계정을 만들 필요는 없습니다.</li>
+<li data-i18n="n.beta.s2">TestFlight 초대 — 베타가 열리면 신청 순서대로 초대 링크를 보냅니다. 애플 계정만 있으면 되고 결제는 없습니다.</li>
+<li data-i18n="n.beta.s3">피드백 — 앱 안에서 바로 의견을 보낼 수 있고, help@runvis.app 으로도 받습니다.</li>
+</ol>
+<h4 class="sep" data-i18n="n.beta.nowh">기다리는 동안 확인할 수 있는 것</h4>
+<p data-i18n="n.beta.now"><a href="run.html">5km 데모</a>는 코치가 언제 말하고 언제 조용한지 그대로 보여주고, <a href="privacy.html">개인정보처리방침</a>은 데이터가 어디까지 나가는지 적어 둔 문서입니다.</p>
 </div>
 </div>
 </div>
@@ -758,18 +847,30 @@ if('speechSynthesis' in window){speechSynthesis.getVoices();speechSynthesis.onvo
 const Voice=(()=>{
   let gen=0, activeChip=null;
   const chips=()=>document.querySelectorAll('.vchip');
-  function stop(){
+  const status=()=>document.getElementById('voiceStatus');
+  // A sighted visitor sees the chip turn green; without these two lines a
+  // screen-reader user got no signal at all that anything had happened.
+  function announce(key,fallback){
+    const el=status(); if(!el) return;
+    el.textContent='';
+    const msg=window.RunvisT?window.RunvisT(key,fallback):fallback;
+    setTimeout(()=>{ el.textContent=msg; },50);
+  }
+  function stop(quiet){
     gen++;
     if('speechSynthesis' in window) speechSynthesis.cancel();
-    chips().forEach(x=>x.classList.remove('playing'));
+    const was=activeChip;
+    chips().forEach(x=>{ x.classList.remove('playing'); x.setAttribute('aria-pressed','false'); });
     activeChip=null;
+    if(was && !quiet) announce('a11y.stopped','재생을 멈췄습니다');
   }
   function play(chip, text, tag){
-    stop();
+    stop(true);
     const my=++gen;
-    activeChip=chip; chip.classList.add('playing');
+    activeChip=chip; chip.classList.add('playing'); chip.setAttribute('aria-pressed','true');
+    announce('a11y.playing','예시 음성 재생 중');
     const list=voiceCandidates(tag);
-    const done=()=>{ if(my!==gen) return; chip.classList.remove('playing'); activeChip=null; };
+    const done=()=>{ if(my!==gen) return; chip.classList.remove('playing'); chip.setAttribute('aria-pressed','false'); activeChip=null; };
     (function attempt(i){
       if(my!==gen) return;                                   // superseded by a newer tap
       const u=new SpeechSynthesisUtterance(text);
@@ -839,7 +940,14 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
   btn.textContent = window.RunvisT('form.sending', '전송 중…');
   try {
     const res = await fetch(betaForm.action, { method: 'POST', body: new FormData(betaForm), headers: { Accept: 'application/json' } });
-    if (res.ok) { show(window.RunvisT('form.ok', '신청 완료! 베타가 열리면 가장 먼저 초대장을 보내드릴게요. 🏃'), true); betaForm.reset(); }
+    if (res.ok) {
+      show(window.RunvisT('form.ok', '신청 완료! 베타가 열리면 신청 순서대로 초대장을 보내드릴게요. 기다리는 동안 5km 데모를 달려 보세요. 🏃'), true);
+      betaForm.reset();
+      // The signup used to end in an inbox. Hand the reader the one thing they
+      // can actually do next while they wait.
+      const next = document.getElementById('betaNext');
+      if (next) { next.textContent = window.RunvisT('form.okcta', '5km 데모 달려보기'); next.style.display = 'inline-flex'; }
+    }
     else { const d = await res.json().catch(() => null); show(d?.errors?.[0]?.message || window.RunvisT('form.fail', '전송에 실패했어요. 잠시 후 다시 시도해 주세요.'), false); }
   } catch { show(window.RunvisT('form.neterr', '네트워크 오류예요. 잠시 후 다시 시도해 주세요.'), false); }
   finally { btn.disabled = false; btn.textContent = original; }

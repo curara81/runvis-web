@@ -3,26 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RUN SESSION — 런비스와 5km | Runvis</title>
-<meta name="description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요.">
-<meta property="og:title" content="RUN SESSION — 런비스와 5km | Runvis">
-<meta property="og:description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요.">
+<title data-i18n="r1">RUN SESSION — 런비스와 5km | Runvis</title>
+<meta name="description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요." data-i18n-attr="content:r2">
+<meta property="og:title" content="RUN SESSION — 런비스와 5km | Runvis" data-i18n-attr="content:r1">
+<meta property="og:description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요." data-i18n-attr="content:r2">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://runvis.app/run.html">
 <meta property="og:site_name" content="Runvis">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:image" content="https://runvis.app/assets/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="RUN SESSION — 런비스와 5km | Runvis">
-<meta name="twitter:description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요.">
+<meta name="twitter:title" content="RUN SESSION — 런비스와 5km | Runvis" data-i18n-attr="content:r1">
+<meta name="twitter:description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요." data-i18n-attr="content:r2">
 <meta name="twitter:image" content="https://runvis.app/assets/og-card.png">
 <link rel="canonical" href="https://runvis.app/run.html">
+<noscript><style>.rv,.reveal{opacity:1!important;transform:none!important}</style></noscript>
+<link rel="alternate" hreflang="x-default" href="https://runvis.app/run.html">
+<link rel="alternate" hreflang="ko" href="https://runvis.app/run.html?lang=ko">
+<link rel="alternate" hreflang="en" href="https://runvis.app/run.html?lang=en">
+<link rel="alternate" hreflang="ja" href="https://runvis.app/run.html?lang=ja">
+<link rel="alternate" hreflang="es" href="https://runvis.app/run.html?lang=es">
+<link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/run.html?lang=zh">
+<link rel="alternate" hreflang="de" href="https://runvis.app/run.html?lang=de">
 <link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🏃&lt;/text&gt;&lt;/svg&gt;" rel="icon">
 <style>
   :root{
     --bg:#000; --panel:#0b0e0c; --line:rgba(61,220,132,.14); --line2:rgba(255,255,255,.08);
     --green:#3DDC84; --cyan:#4CCBD9; --orange:#FFA633; --red:#FF5B4D;
-    --text:#EDF2EE; --dim:#9BA8A0; --dim2:#5E6B64;
+    /* --dim2 was #5E6B64 = 3.76:1 on black, under the 4.5:1 AA floor, and it
+       carried the WHY lines and the footnote — the demo's whole argument.
+       #8A9990 is 7.04:1 on black and 6.50:1 on --panel. */
+    --text:#EDF2EE; --dim:#9BA8A0; --dim2:#8A9990;
     --mono:'SF Mono',ui-monospace,'JetBrains Mono',Menlo,monospace;
   }
   *{margin:0;padding:0;box-sizing:border-box}
@@ -49,7 +60,7 @@
   .tier p{font-size:13.5px;color:var(--dim);line-height:1.7}
   .tier p + p{margin-top:12px;padding-top:12px;border-top:1px solid var(--line2)}
   .tier .pill{margin-left:0;margin-right:8px}
-  .tier .note{font-family:var(--mono);font-size:10.5px;color:var(--dim2);letter-spacing:.04em;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line2)}
+  .tier .note{font-family:var(--mono);font-size:11.5px;color:var(--dim2);letter-spacing:.04em;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line2)}
 
   /* language selector — same ids i18n.js looks for (#langsel/#langbtn/#langmenu) */
   .langsel{position:relative;display:inline-block}
@@ -59,7 +70,7 @@
   .langsel.open ul{display:block}
   .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;letter-spacing:0}
   .langsel li:hover{background:rgba(61,220,132,.15)}
-  .langsel li[aria-current="true"]{color:var(--green);font-weight:700}
+  .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
   .hud-top .right{display:flex;align-items:center;gap:10px}
 
   /* ---------- HUD frame (fixed chrome) ---------- */
@@ -92,14 +103,14 @@
   }
   @media(min-width:460px){ .hud-metrics .m{padding:10px 18px 8px} }
   .hud-metrics .m:first-child{border-left:none}
-  .hud-metrics .m .k{font-size:9px;letter-spacing:.22em;color:var(--dim2)}
+  .hud-metrics .m .k{font-size:10px;letter-spacing:.2em;color:var(--dim)}
   .hud-metrics .m .v{font-size:20px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
   .hud-metrics .m .v em{font-style:normal;font-size:11px;color:var(--dim);margin-left:2px}
   .hud-metrics .m .v.gr{color:var(--green)} .hud-metrics .m .v.or{color:var(--orange)}
 
   /* progress rail (right) */
   .rail{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:60;display:flex;flex-direction:column;gap:14px;font-family:var(--mono)}
-  .rail a{display:flex;align-items:center;gap:8px;color:var(--dim2);font-size:10px;letter-spacing:.12em;transition:.2s}
+  .rail a{display:flex;align-items:center;gap:8px;color:var(--dim);font-size:11px;letter-spacing:.12em;transition:.2s}
   .rail a .tick{width:14px;height:1px;background:var(--dim2);transition:.2s}
   .rail a.on{color:var(--green)} .rail a.on .tick{background:var(--green);width:22px;box-shadow:0 0 6px var(--green)}
   .rail a span.lbl{opacity:0;transform:translateX(4px);transition:.2s}
@@ -130,11 +141,13 @@
   }
   .voice::before{content:"RUNVIS // VOICE";position:absolute;top:-9px;left:14px;background:var(--bg);padding:0 8px;font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--green)}
   .voice p{font-size:15.5px;color:var(--text);line-height:1.7}
-  .voice .why{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line2);font-family:var(--mono);font-size:11px;color:var(--dim2);letter-spacing:.04em}
+  /* the WHY line is the evidence for every cue on this page — it reads at
+     12px / --dim (8.50:1), not 11px / 3.76:1. */
+  .voice .why{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line2);font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.03em;line-height:1.65}
   .voice .why b{color:var(--cyan);font-weight:600}
 
   .datastrip{display:flex;gap:26px;margin-top:26px;font-family:var(--mono);flex-wrap:wrap}
-  .datastrip .d .k{font-size:9px;letter-spacing:.22em;color:var(--dim2)}
+  .datastrip .d .k{font-size:10.5px;letter-spacing:.18em;color:var(--dim)}
   .datastrip .d .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
   .datastrip .d .v.gr{color:var(--green)} .datastrip .d .v.or{color:var(--orange)} .datastrip .d .v.rd{color:var(--red)} .datastrip .d .v.cy{color:var(--cyan)}
 
@@ -144,8 +157,8 @@
   .c-br{bottom:76px;right:20px;border-left:none;border-top:none}
 
   /* reveal */
-  .rv{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
-  .rv.in{opacity:1;transform:none}
+  html.js .rv{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
+  html.js .rv.in{opacity:1;transform:none}
 
   /* hero */
   #s0{flex-direction:column;justify-content:center;text-align:left}
@@ -159,7 +172,7 @@
 
   /* elevation chart */
   .elev{margin-top:30px;border:1px solid var(--line2);background:rgba(255,255,255,.02);padding:16px}
-  .elev .cap{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--dim2);display:flex;justify-content:space-between;margin-bottom:8px}
+  .elev .cap{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--dim2);display:flex;justify-content:space-between;margin-bottom:8px}
   .elev svg{width:100%;height:auto;display:block}
 
   /* zone ladder (recovery) */
@@ -186,7 +199,7 @@
   .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line2);box-shadow:none}
   .btn.ghost:hover{border-color:var(--green)}
 
-  .footnote{font-family:var(--mono);font-size:10px;color:var(--dim2);letter-spacing:.06em;margin-top:40px;line-height:1.8}
+  .footnote{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.04em;margin-top:40px;line-height:1.8}
 
   /* Four items in a 52 px bar wrap and overflow on a phone — the link-status
      readout is decoration, so it is the one that goes, and the brand stops
@@ -206,8 +219,35 @@
     .hud-top .dot,.scroll-cue{animation:none}
   }
 </style>
-<script defer src="translations.js?v=20260906d"></script>
-<script defer src="i18n.js?v=20260906d"></script>
+<!-- Language boot — same script as index.html. Runs before the body is parsed
+     so <html lang>, the canonical and og:locale are already right at first
+     paint, and pulls exactly one dictionary (~37-49 KB) instead of six. -->
+<script>
+(function(){
+  var L=["ko","en","ja","es","zh","de"];
+  function norm(v){ if(!v) return null; v=String(v).toLowerCase();
+    v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
+    return L.indexOf(v)>=0 ? v : null; }
+  var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
+  var urlLang=norm(q), code=urlLang;
+  if(!code){ try{ code=norm(localStorage.getItem("runvis_lang")); }catch(e){} }
+  if(!code) code=norm(navigator.language)||"ko";
+  window.RunvisLang=code; window.RunvisUrlLang=urlLang;
+  var html=document.documentElement;
+  html.lang = code==="zh" ? "zh-Hant" : code;
+  html.className += (html.className?" ":"") + "js";
+  var d=document.createElement("script");
+  d.src="t-"+code+".js?v=20260906e"; d.async=false; document.head.appendChild(d);
+  function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
+  var link=document.querySelector('link[rel="canonical"]');
+  if(link){ var base=(link.getAttribute("href")||"").split("?")[0].split("#")[0];
+    var url=base+(urlLang?"?lang="+urlLang:"");
+    link.setAttribute("href",url); meta("property","og:url",url); }
+  var OGL={ko:"ko_KR",en:"en_US",ja:"ja_JP",es:"es_ES",zh:"zh_TW",de:"de_DE"};
+  meta("property","og:locale",OGL[code]);
+})();
+</script>
+<script defer src="i18n.js?v=20260906e"></script>
 </head>
 <body>
 
@@ -218,8 +258,8 @@
   <div class="status"><span class="dot"></span> COACH LINK CONNECTED</div>
   <div class="right">
     <div class="langsel" id="langsel">
-      <button id="langbtn" aria-haspopup="true" aria-expanded="false">🌐 <span id="langlabel">한국어</span> ▾</button>
-      <ul id="langmenu" role="menu"></ul>
+      <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="표시 언어">🌐 <span id="langlabel">한국어</span> ▾</button>
+      <ul id="langmenu" role="menu" aria-labelledby="langbtn" tabindex="-1"></ul>
     </div>
     <a class="exit" href="index.html">EXIT ↗</a>
   </div>
@@ -486,15 +526,16 @@ const io2 = new IntersectionObserver(es => es.forEach(e => {
 }), {threshold:.5});
 secs.forEach(s => io2.observe(s));
 
-// ---------- i18n: keep this page's own meta after language switches ----------
-// i18n.js applies the shared dictionary (translations.js) and, on every
-// language change, writes the *index* page's meta.title/meta.desc/og:* into
-// the head. It then calls window.renderDynamicI18n() — so we restore the run
-// page's own title and descriptions here from the r1/r2 keys.
+// ---------- i18n: this page's own meta, belt and braces ----------
+// i18n.js used to hard-code the *index* page's meta.title/meta.desc/og:* on
+// every language change, so this page had to put its own back afterwards. That
+// is fixed at the source now — the <title> and the four <meta> tags in the head
+// carry data-i18n / data-i18n-attr with the r1 and r2 keys, so i18n.js writes
+// the right values on its own. This stays as a second pass because it also runs
+// on the very first render and costs nothing.
 window.renderDynamicI18n = function () {
   if (!window.RunvisT) return;
-  // Korean fallbacks keep the run page's identity even before the r* keys
-  // land in translations.js.
+  // Korean fallbacks keep the run page's identity even before t-<code>.js lands.
   const t = window.RunvisT('r1', 'RUN SESSION — 런비스와 5km | Runvis');
   const d = window.RunvisT('r2', '스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요.');
   const set = (sel, v) => { const el = document.querySelector(sel); if (el && v != null) el.setAttribute('content', v); };
