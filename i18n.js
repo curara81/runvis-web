@@ -21,18 +21,23 @@
     return LANGS[0];
   }
 
+  /// The ?lang= this URL asks for, normalised to one of our table codes, or
+  /// null when there is no usable one. Used both to pick the language and to
+  /// point the canonical link at this exact URL.
+  function urlLang() {
+    var q = null;
+    try { q = new URLSearchParams(location.search).get('lang'); } catch (e) { return null; }
+    if (!q) return null;
+    q = q.toLowerCase();
+    q = q.indexOf('zh') === 0 ? 'zh' : q.slice(0, 2);   // zh-Hant / zh-TW → our zh table
+    return I18N[q] ? q : null;
+  }
+
   function resolve() {
     // ?lang= entry points (the hreflang alternates in <head> use them) win over
     // everything — a search engine sent this visitor to a specific language.
-    try {
-      var q = new URLSearchParams(location.search).get('lang');
-      if (q) {
-        q = q.toLowerCase();
-        if (q.indexOf('zh') === 0) q = 'zh';       // zh-Hant / zh-TW → our zh table
-        else q = q.slice(0, 2);
-        if (I18N[q]) return q;
-      }
-    } catch (e) {}
+    var q = urlLang();
+    if (q) return q;
     var saved = null;
     try { saved = localStorage.getItem('runvis_lang'); } catch (e) {}
     if (saved && I18N[saved]) return saved;
@@ -43,23 +48,42 @@
     return 'ko';
   }
 
-  // Swap the device screenshots to the reader's language. Korean keeps the
-  // unsuffixed file; every other language has its own capture of the same
-  // screen (assets/framed-phone-dash.ja.png and so on), taken from the app
-  // running in that locale — so a German visitor sees a German phone, not a
-  // Korean one with a caption apologising for it.
-  function applyShots(code) {
-    document.querySelectorAll('img[data-shot]').forEach(function (img) {
-      var base = img.getAttribute('data-shot');
-      img.src = 'assets/' + base + (code === 'ko' ? '' : '.' + code) + '.png';
-    });
+  // There is one set of device captures and it is Korean. The `data-shot`
+  // attributes in the markup name each screen so localized captures can be
+  // wired up later; until those captures actually exist, nothing is swapped
+  // and the `sc.note` caption under the hero says so in all six languages.
+
+  // Values are HTML (they carry <b>/<span>/<br>) and are written through
+  // innerHTML, which replaces every child of the element. A value whose tags
+  // do not close is a value that was cut short, and applying it would delete
+  // the rest of the sentence that lives in the markup — that is exactly how
+  // the yearly price, the lifetime price and the "we call an estimate an
+  // estimate" line lost their second halves. Refuse those and keep the markup.
+  var TAG = /<(\/?)([a-zA-Z][a-zA-Z0-9]*)\b[^>]*?(\/?)>/g;
+  var VOID = { br: 1, img: 1, hr: 1, wbr: 1, input: 1, source: 1, col: 1 };
+  function tagsClose(html) {
+    if (html.indexOf('<') < 0) return true;
+    var stack = [], m;
+    TAG.lastIndex = 0;
+    while ((m = TAG.exec(html))) {
+      var name = m[2].toLowerCase();
+      if (VOID[name] || m[3]) continue;
+      if (m[1]) { if (stack.pop() !== name) return false; }
+      else stack.push(name);
+    }
+    return stack.length === 0;
   }
 
-  // Apply static [data-i18n] text. Values are HTML (they carry <b>/<span>/<br>).
+  // Apply static [data-i18n] text.
   function applyStatic(dict) {
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
       var v = dict[el.getAttribute('data-i18n')];
-      if (v != null) el.innerHTML = v;
+      if (v == null) return;
+      if (!tagsClose(v)) {
+        if (window.console) console.warn('i18n: unbalanced value kept out of the page —', el.getAttribute('data-i18n'));
+        return;
+      }
+      el.innerHTML = v;
     });
     // Attribute text — alt, placeholder, aria-label. Written as
     // data-i18n-attr="alt:alt.watch.pace" (comma-separated for several).
@@ -85,6 +109,59 @@
     if (value == null) return;
     var el = document.querySelector('meta[' + attr + '="' + key + '"]');
     if (el) el.setAttribute('content', value);
+  }
+
+  var OG_LOCALE = { ko: 'ko_KR', en: 'en_US', ja: 'ja_JP', es: 'es_ES', zh: 'zh_TW', de: 'de_DE' };
+
+  // Each ?lang= URL should be its own canonical. The <head> ships
+  // https://runvis.app/ as canonical and lists the six ?lang= alternates;
+  // without this every alternate folded back into the one canonical and only
+  // the bare URL stayed indexable. It follows the URL, not the language the
+  // reader picks from the menu: the bare URL keeps pointing at itself even
+  // when a browser's Accept-Language resolves to English (otherwise "/" would
+  // canonicalise to "?lang=en" and orphan the x-default), and switching
+  // language by hand does not rewrite the address bar, so it must not rewrite
+  // the canonical either. og:locale does follow the shown language, because
+  // og:title and og:description already do.
+  function applyCanonical(code) {
+    var link = document.querySelector('link[rel="canonical"]');
+    // The page it belongs to decides the path — this file is shared with
+    // run.html, whose canonical is /run.html, not the homepage.
+    var base = link ? (link.getAttribute('href') || '').split('?')[0].split('#')[0] : '';
+    if (base) {
+      var url = base + (urlLang() ? '?lang=' + urlLang() : '');
+      link.setAttribute('href', url);
+      setMeta('property', 'og:url', url);
+    }
+    setMeta('property', 'og:locale', OG_LOCALE[code] || 'ko_KR');
+  }
+
+  // The FAQ rich result has to carry the same six questions the page shows,
+  // in the language the page is showing them in. Rebuilding it from the same
+  // dictionary the tiles read is the only way the two cannot drift apart.
+  function applyFaqLd(code, dict) {
+    var node = document.getElementById('faqld');
+    if (!node) return;
+    var items = [];
+    for (var i = 1; i <= 6; i++) {
+      var q = dict['n.faq.q' + i], a = dict['n.faq.a' + i];
+      if (!q || !a) return;                       // never publish a partial FAQ
+      items.push({
+        '@type': 'Question',
+        name: plain(q),
+        acceptedAnswer: { '@type': 'Answer', text: plain(a) }
+      });
+    }
+    node.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      inLanguage: code === 'zh' ? 'zh-Hant' : code,
+      mainEntity: items
+    });
+  }
+
+  function plain(html) {
+    return html.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
   }
 
   /// Page scripts call this for their own runtime strings (form results and
@@ -124,7 +201,8 @@
     current = code;
     document.documentElement.lang = code === 'zh' ? 'zh-Hant' : code;
     applyStatic(I18N[code]);
-    applyShots(code);
+    applyCanonical(code);
+    applyFaqLd(code, I18N[code]);
     publishDynamic(code);
     try { localStorage.setItem('runvis_lang', code); } catch (e) {}
     // Anything mid-flight in the old language should stop — the voice demo

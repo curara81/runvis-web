@@ -34,7 +34,33 @@
     word-break:keep-all;
   }
   a{color:inherit;text-decoration:none}
+  /* Same keyboard focus ring as index.html — without it the EXIT link, the
+     language button and the two footer buttons were invisible to a keyboard. */
+  :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+  img{max-width:100%;display:block}
   ::selection{background:rgba(61,220,132,.3)}
+
+  /* free / subscription badges — same markup and keys as index.html */
+  .pill{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;padding:3px 9px;border-radius:999px;vertical-align:middle;margin-left:8px;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif}
+  .pill.free{background:rgba(255,255,255,.08);color:var(--dim)}
+  .pill.pro{background:rgba(61,220,132,.16);color:var(--green)}
+  .voice .pill{position:absolute;top:-11px;right:12px}
+  .tier{margin-top:20px;border:1px solid var(--line2);padding:20px;max-width:560px;background:rgba(255,255,255,.02)}
+  .tier p{font-size:13.5px;color:var(--dim);line-height:1.7}
+  .tier p + p{margin-top:12px;padding-top:12px;border-top:1px solid var(--line2)}
+  .tier .pill{margin-left:0;margin-right:8px}
+  .tier .note{font-family:var(--mono);font-size:10.5px;color:var(--dim2);letter-spacing:.04em;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line2)}
+
+  /* language selector — same ids i18n.js looks for (#langsel/#langbtn/#langmenu) */
+  .langsel{position:relative;display:inline-block}
+  .langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line2);color:var(--text);border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;font-family:inherit}
+  .langsel button:hover{border-color:var(--green)}
+  .langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line2);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:80;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+  .langsel.open ul{display:block}
+  .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;letter-spacing:0}
+  .langsel li:hover{background:rgba(61,220,132,.15)}
+  .langsel li[aria-current="true"]{color:var(--green);font-weight:700}
+  .hud-top .right{display:flex;align-items:center;gap:10px}
 
   /* ---------- HUD frame (fixed chrome) ---------- */
   .hud-top{
@@ -162,14 +188,26 @@
 
   .footnote{font-family:var(--mono);font-size:10px;color:var(--dim2);letter-spacing:.06em;margin-top:40px;line-height:1.8}
 
+  /* Four items in a 52 px bar wrap and overflow on a phone — the link-status
+     readout is decoration, so it is the one that goes, and the brand stops
+     wrapping so the bar keeps its height. Placed last so these win over the
+     .hud-top rules above them. */
+  .hud-top .brand,.hud-top .status{white-space:nowrap}
+  @media(max-width:860px){.hud-top .status{display:none}}
+  @media(max-width:520px){
+    .hud-top{padding:0 12px;font-size:10px}
+    .hud-top .exit{padding:6px 9px}
+    .langsel button{padding:5px 8px;font-size:11px}
+  }
+
   @media(prefers-reduced-motion:reduce){
     .rv{opacity:1!important;transform:none!important;transition:none}
     html{scroll-behavior:auto}
     .hud-top .dot,.scroll-cue{animation:none}
   }
 </style>
-<script defer src="translations.js?v=20260906c"></script>
-<script defer src="i18n.js?v=20260906c"></script>
+<script defer src="translations.js?v=20260906d"></script>
+<script defer src="i18n.js?v=20260906d"></script>
 </head>
 <body>
 
@@ -178,10 +216,16 @@
 <header class="hud-top">
   <div class="brand"><span class="sq">R</span> RUN SESSION // 01</div>
   <div class="status"><span class="dot"></span> COACH LINK CONNECTED</div>
-  <a class="exit" href="index.html">EXIT ↗</a>
+  <div class="right">
+    <div class="langsel" id="langsel">
+      <button id="langbtn" aria-haspopup="true" aria-expanded="false">🌐 <span id="langlabel">한국어</span> ▾</button>
+      <ul id="langmenu" role="menu"></ul>
+    </div>
+    <a class="exit" href="index.html">EXIT ↗</a>
+  </div>
 </header>
 
-<nav class="rail" id="rail">
+<nav class="rail" id="rail" aria-label="RUN SESSION" data-i18n-attr="aria-label:r.rail.aria">
   <a href="#s0" data-s="s0"><span class="lbl" data-i18n="r3">START</span><span class="tick"></span></a>
   <a href="#s1" data-s="s1"><span class="lbl" data-i18n="r4">브리핑</span><span class="tick"></span></a>
   <a href="#s2" data-s="s2"><span class="lbl" data-i18n="r5">출발</span><span class="tick"></span></a>
@@ -201,9 +245,10 @@
       <p class="lead rv" data-i18n="r12">지금부터 <b>스크롤이 곧 러닝</b>입니다. 아래로 내리면 5km 러닝이 시작되고,
       하단의 거리·페이스·심박이 함께 움직입니다. 런비스가 <b>언제, 왜 말을 거는지</b> — 그리고 언제 조용히 있는지 직접 확인하세요.</p>
       <p class="footnote rv" data-i18n="r13">화면 속 수치는 시연용 예시 데이터입니다 · 실제 앱은 Apple Watch 센서로 동작합니다</p>
+      <p class="footnote rv" style="margin-top:10px" data-i18n="r.badge.note">코치 음성 하나하나에 <span class="pill free">무료</span> 또는 <span class="pill pro">구독</span> 표시를 붙여 뒀습니다. 기록·랩·건강 저장·기록 열람, 훈련 플랜 보기, 운동 상세 리포트, 준비운동 화면은 전부 무료입니다.</p>
     </div>
     <div class="rv">
-      <svg class="heroWatch" viewBox="0 0 330 400" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Helvetica,sans-serif">
+      <svg class="heroWatch" viewBox="0 0 330 400" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Helvetica,sans-serif" role="img" aria-label="Apple Watch — 5.0 킬로미터" data-i18n-attr="aria-label:r.alt.watch">
         <defs>
           <linearGradient id="hbz" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a3a3d"/><stop offset=".5" stop-color="#1c1c1e"/><stop offset="1" stop-color="#2c2c2e"/></linearGradient>
         </defs>
@@ -231,13 +276,14 @@
     <h2 class="rv" data-i18n="r18">뛰기 전에,<br><span class="grad">코치가 먼저 말을 겁니다</span></h2>
     <p class="lead rv" data-i18n="r19">시작 버튼 하나로 <b>날씨 브리핑 → 준비운동</b>이 이어집니다. 자체 서버 없이, 워치 안에서.</p>
     <div class="voice rv">
+      <span class="pill pro" data-i18n="n.pill.pro">구독</span>
       <p data-i18n="r20">"안녕하세요, 런비스입니다. 현재 여의도동 날씨입니다. 기온 26도, 습도 78퍼센트. 덥고 습해서 땀 증발이 잘 안 되는 날이에요. 수분 보충은 15분, 약 3킬로미터마다 서너 모금씩. 브리핑은 여기까지 — 준비운동 시작 버튼을 눌러, 가볍게 몸부터 풀어볼까요?"</p>
-      <div class="why" data-i18n="r21">WHY · <b>현재 동네 이름 + Open-Meteo 실시간 기상</b> → 운동과학 기준(온도×습도)의 수분 가이드까지. 더운 날엔 러닝 중 수분 알림 간격도 자동 단축</div>
+      <div class="why" data-i18n="r21">WHY · <b>현재 동네 이름 + Open-Meteo 실시간 기상</b> → 운동과학 기준(온도×습도)의 수분 가이드까지. 더운 날엔 러닝 중 수분 알림 간격도 자동 단축. 날씨 화면과 준비운동 타이머는 무료, 이 문장을 <b>소리로 읽어주는 것</b>이 구독입니다</div>
     </div>
     <div class="datastrip rv">
       <div class="d"><div class="k">WEATHER</div><div class="v cy">26°C</div></div>
       <div class="d"><div class="k">HUMIDITY</div><div class="v cy">78%</div></div>
-      <div class="d"><div class="k">WARM-UP</div><div class="v gr">STEPS</div></div>
+      <div class="d"><div class="k">WARM-UP</div><div class="v gr" data-i18n="r.warmup.v">7단계</div></div>
     </div>
     <p class="footnote rv" style="margin-top:22px" data-i18n="r22">단, 날씨 안내를 위해 반올림한 좌표가 Open-Meteo로, 동네 이름 표시를 위해 현재 좌표가 애플 위치 서비스로 그 순간에만 전송됩니다.</p>
   </div>
@@ -247,12 +293,13 @@
 <section id="s2" data-km="0.4" data-pace="5:41" data-hr="128" data-z="Z2">
   <span class="corner c-tl"></span><span class="corner c-br"></span>
   <div class="wrap">
-    <div class="tag rv" data-i18n="r23">SEGMENT 01 — 0.0 → 1.0 KM</div>
+    <div class="tag rv"><span data-i18n="r23">SEGMENT 01 — 0.0 → 1.0 KM</span><span class="pill free" data-i18n="n.pill.free">무료</span></div>
     <h2 class="rv" data-i18n="r24">버튼은 안 눌러도 됩니다.<br><span class="outline">달리면, 압니다</span></h2>
     <p class="lead rv" data-i18n="r25">준비운동을 마치고 그냥 달리기 시작하면 — 런비스가 <b>러닝을 자동 인식</b>하고 기록과 코칭을 시작합니다.</p>
     <div class="voice rv">
-      <p data-i18n="r26">"달리기 시작하셨네요. 기록 시작합니다. 어젯밤 수면 7시간 24분. 안정 심박이 평소보다 낮네요. 좋은 신호예요."</p>
-      <div class="why" data-i18n="r27">WHY · 손목 가속도 리듬으로 <b>러닝 자동 감지</b> · 수면과 안정 심박이 평소와 다를 때만 한 줄 브리핑</div>
+      <span class="pill pro" data-i18n="n.pill.pro">구독</span>
+      <p data-i18n="r26">"오늘의 컨디션 브리핑. 어젯밤 수면 7시간 24분. 안정 심박이 평소보다 낮네요. 좋은 신호예요."</p>
+      <div class="why" data-i18n="r27">WHY · 손목 가속도 리듬으로 <b>러닝을 자동 감지</b>해 기록을 시작합니다(무료) · 컨디션 브리핑은 출발 8초 뒤, 안정 심박이 평소보다 5 높거나 3 낮을 때 또는 수면이 6시간 미만일 때만 나옵니다. 평소 수준인 날은 아무 말도 하지 않습니다</div>
     </div>
     <div class="datastrip rv">
       <div class="d"><div class="k">AUTO-DETECT</div><div class="v gr">RUN ✓</div></div>
@@ -271,7 +318,7 @@
     <p class="lead rv" data-i18n="r31">대회 GPX 코스를 넣어두면, 런비스는 <b>아직 보이지 않는 오르막</b>을 먼저 알려줍니다.</p>
     <div class="elev rv">
       <div class="cap"><span>ELEVATION PROFILE — AHEAD 1.5 KM</span><span>▲ +34 m</span></div>
-      <svg viewBox="0 0 600 120" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 600 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="앞으로 1.5km 고도 프로필 — 300m 앞에서 오르막 시작, 누적 +34m" data-i18n-attr="aria-label:r.alt.elev">
         <defs><linearGradient id="eg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3DDC84" stop-opacity=".5"/><stop offset="1" stop-color="#3DDC84" stop-opacity="0"/></linearGradient></defs>
         <path d="M0,95 L80,93 L150,88 L220,62 L300,38 L370,34 L430,52 L520,80 L600,84 L600,120 L0,120 Z" fill="url(#eg)"/>
         <path d="M0,95 L80,93 L150,88 L220,62 L300,38 L370,34 L430,52 L520,80 L600,84" fill="none" stroke="#3DDC84" stroke-width="2"/>
@@ -282,6 +329,7 @@
       </svg>
     </div>
     <div class="voice rv">
+      <span class="pill free" data-i18n="n.pill.free">무료</span>
       <p data-i18n="r32">"300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."</p>
       <div class="why" data-i18n="r33">WHY · 코스 고도를 미리 읽습니다. 코치를 켜면 오르막에서 <b>경사 보정 페이스</b>로 지금 속도가 괜찮은지도 알려줍니다</div>
     </div>
@@ -296,12 +344,14 @@
     <h2 class="rv" data-i18n="r35">힘들어지는 순간,<br><span class="outline">근거를 갖고</span> 개입합니다</h2>
     <p class="lead rv" data-i18n="r36">"자세가 나쁘다"가 아니라 — <b>무엇이, 얼마나</b> 변했는지 말해주는 코치.</p>
     <div class="voice rv">
-      <p data-i18n="r37">"시작할 때보다 발걸음이 5퍼센트 느려지고 접지가 길어졌어요. 보폭을 줄이면 회전이 살아나면서 자세가 돌아옵니다."</p>
+      <span class="pill pro" data-i18n="n.pill.pro">구독</span>
+      <p data-i18n="r37">"시작할 때보다 발걸음이 5퍼센트 느려지고 접지가 7퍼센트 길어졌어요. 보폭을 줄이면 회전이 살아나면서 자세가 돌아옵니다."</p>
       <div class="why" data-i18n="r38">WHY · 케이던스·접지·수직진폭 중 <b>둘 이상이 함께 흔들릴 때</b>, 또는 한 신호가 크게 흔들릴 때 · 페이스가 일정한 평지에서 30초 이상 이어져야 합니다</div>
     </div>
     <div class="voice rv" style="border-color:rgba(61,220,132,.4)">
+      <span class="pill pro" data-i18n="n.pill.pro">구독</span>
       <p data-i18n="r39">"좋아요, 자세가 돌아오고 있어요. 그 느낌 그대로 조금만 더요."</p>
-      <div class="why" data-i18n="r40">WHY · 자세가 돌아오면 그것도 알려줍니다 · 개선 추세를 감지하면 한 번 격려</div>
+      <div class="why" data-i18n="r40">WHY · <b>경고를 실제로 들은</b> 러닝에서만 · 경고 뒤 2분이 지나고 흔들림이 최고치보다 눈에 띄게 줄었을 때 한 번. 경고가 간격 규칙에 막혀 나가지 않았다면 회복 칭찬도 하지 않습니다</div>
     </div>
     <div class="datastrip rv">
       <div class="d"><div class="k">CADENCE</div><div class="v or">166→174</div></div>
@@ -319,8 +369,9 @@
     <h2 class="rv" data-i18n="r42">걷는 것도<br><span class="grad">훈련의 일부</span>입니다</h2>
     <p class="lead rv" data-i18n="r43">지치면 걸어도 됩니다. 런비스는 멈췄다고 하지 않고, <b>회복을 함께</b> 합니다.</p>
     <div class="voice rv">
+      <span class="pill pro" data-i18n="n.pill.pro">구독</span>
       <p data-i18n="r44">"걷기 시작하셨네요. 잠깐 숨을 고르는 건 좋은 선택이에요. 편해지면 다시 가볍게 뛰어도 되고, 힘들면 그대로 걸으셔도 됩니다. 심박이 존 원까지 내려오면 알려드릴게요."</p>
-      <div class="why" data-i18n="r45">WHY · 페이스 밴드로 <b>걷기 전환 감지</b> → 심박 회복 추적 시작</div>
+      <div class="why" data-i18n="r45">WHY · 속도가 걷기 구간으로 떨어지고 <b>케이던스가 130 아래로 8초</b> 이어질 때 걷기로 봅니다 — 야외 GPS 러닝 5분 이후, 정해진 플랜이 아닌 자유 러닝에서만. 걷기가 시작되면 대기 중이던 러닝 안내는 버립니다</div>
     </div>
     <div class="zones rv">
       <div class="zone hot"><span>Z3</span><span class="bar"></span><span>151</span></div>
@@ -328,8 +379,9 @@
       <div class="zone ok"><span>Z1</span><span class="bar"></span><span data-i18n="r47">대기 중…</span></div>
     </div>
     <div class="voice rv" style="border-color:rgba(61,220,132,.4)">
-      <p data-i18n="r48">"심박이 존 원까지 내려왔어요. 충분히 회복됐어요. 다시 천천히 뛰어볼까요?"</p>
-      <div class="why" data-i18n="r49">WHY · 심박이 존 원까지 내려오면 알려줍니다 — <b>회복의 과정</b>이 들립니다</div>
+      <span class="pill pro" data-i18n="n.pill.pro">구독</span>
+      <p data-i18n="r48">"심박이 충분히 회복됐어요. 다시 천천히 뛰어볼까요? 처음엔 가볍게 시작하세요."</p>
+      <div class="why" data-i18n="r49">WHY · 걷는 동안 <b>심박 존이 한 칸 내려올 때마다</b> 알려주고, 존 원까지 내려오면 다시 뛰어도 된다고 말합니다 — <b>회복의 과정</b>이 들립니다</div>
     </div>
   </div>
 </section>
@@ -338,21 +390,26 @@
 <section id="s6" data-km="5.0" data-pace="5:52" data-hr="142" data-z="Z2">
   <span class="corner c-tl"></span><span class="corner c-br"></span>
   <div class="wrap">
-    <div class="tag rv" data-i18n="r50">FINISH — 5.0 KM · MISSION COMPLETE</div>
+    <div class="tag rv"><span data-i18n="r50">FINISH — 5.0 KM · MISSION COMPLETE</span><span class="pill free" data-i18n="n.pill.free">무료</span></div>
     <h2 class="rv" data-i18n="r51">달리기는 끝났고,<br>코칭은 <span class="grad">여기서부터</span>입니다</h2>
-    <p class="lead rv" data-i18n="r52">기록이 저장되는 순간 — 심박 존, 훈련 부하, 폼 분석과 함께 <b>다음 러닝을 위한 코칭 요약</b>이 도착합니다. 원하면 한 번의 탭으로 내 AI에게 심층 분석을 맡길 수도.</p>
+    <p class="lead rv" data-i18n="r52">기록이 저장되는 순간 — 심박 존, 훈련 부하, 폼 관찰과 함께 <b>다음 러닝을 위한 코칭 요약</b>이 도착합니다. 여기까지가 무료입니다. 원하면 한 번의 탭으로 내 AI에게 넘길 리포트를 내보낼 수도 있습니다.</p>
     <div class="finish rv">
       <div class="row"><span class="k" data-i18n="r53">거리 · 시간</span><span class="v">5.00 km · 29:24</span></div>
       <div class="row"><span class="k" data-i18n="r54">평균 페이스 · 심박</span><span class="v">5:52 /km · 145 bpm</span></div>
       <div class="row"><span class="k" data-i18n="r55">운동 부하</span><span class="v" data-i18n="r56">TRIMP 54 · 드리프트 +1.8%</span></div>
-      <div class="row"><span class="k" data-i18n="r57">코치 판정</span><span class="v" style="color:var(--green)" data-i18n="r58">고른 페이스 · 좋은 폼</span></div>
+      <div class="row"><span class="k" data-i18n="r57">코치 한 줄</span><span class="v" style="color:var(--green)" data-i18n="r58">심박 효율이 끝까지 유지됐어요</span></div>
       <div class="row"><span class="k" data-i18n="r59">내보내기</span><span class="v" data-i18n="r60">✨ AI 분석용 · GPX</span></div>
+    </div>
+    <div class="tier rv">
+      <p><span class="pill free" data-i18n="n.pill.free">무료</span><span data-i18n="r.tier.free">GPS 기록·랩·Apple 건강 저장·모든 기록 열람 · 훈련 플랜 보기 · 운동 상세 리포트 · 준비운동 화면 · 러닝 중 km(또는 마일) 스플릿, 심박존 안내, 페이스 목표 안내, 코스 언덕 예고, 경로 이탈 경보 음성 · 러닝 후 팁 카드 · 레이스 모드와 고스트 표시</span></p>
+      <p><span class="pill pro" data-i18n="n.pill.pro">구독</span><span data-i18n="r.tier.pro">자세 코칭 음성과 언덕 주행법·회복·격려 음성 · 훈련 플랜을 구간마다 실행하고 끝나면 계획 대비 점수 · 심층 분석 7타일 · 레이스 전략(리허설·구간 페이스 플랜·보급 스케줄) · 주간 코치 요약 카드</span></p>
+      <p class="note" data-i18n="r.tier.price">월 ₩1,900 · 연 구독 · 평생 이용권 중에서 고릅니다. 가격은 App Store 기준이며 계정도 서버도 없습니다 — 데이터는 기기와 Apple 건강에만 남습니다.</p>
     </div>
     <div class="btns rv">
       <a class="btn" href="index.html#beta" data-i18n="r61">TestFlight 베타 신청</a>
       <a class="btn ghost" href="index.html" data-i18n="r62">기능 전체 보기</a>
     </div>
-    <p class="footnote rv" data-i18n="r63">본 페이지의 수치·대사는 실제 앱 동작 방식을 보여주는 시연용 예시입니다. 모든 지표와 안내는 일반적인 운동과학 공식에 기반한 참고 정보이며, 의학적 진단·치료가 아닙니다.<br>문의: <a href="mailto:help@runvis.app" style="color:var(--dim)">help@runvis.app</a> · © 2026 Runvis · Apple Watch는 Apple Inc.의 상표입니다</p>
+    <p class="footnote rv" data-i18n="r63">본 페이지의 수치·대사는 실제 앱 동작 방식을 보여주는 시연용 예시입니다. 모든 지표와 안내는 일반적인 운동과학 공식에 기반한 참고 정보이며, 의학적 조언이 아닙니다.<br>문의: <a href="mailto:help@runvis.app" style="color:var(--dim)">help@runvis.app</a> · © 2026 Runvis · Apple Watch는 Apple Inc.의 상표입니다</p>
   </div>
 </section>
 
