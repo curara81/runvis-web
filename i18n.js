@@ -127,6 +127,9 @@
     applyShots(code);
     publishDynamic(code);
     try { localStorage.setItem('runvis_lang', code); } catch (e) {}
+    // Anything mid-flight in the old language should stop — the voice demo
+    // listens for this and silences itself instead of talking over the new one.
+    try { window.dispatchEvent(new CustomEvent('runvis:lang', { detail: code })); } catch (e) {}
     var label = document.getElementById('langlabel');
     if (label) label.textContent = meta(code).label;
     document.querySelectorAll('#langmenu li').forEach(function (li) {
