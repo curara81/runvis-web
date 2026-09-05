@@ -87,7 +87,13 @@
   nav .links{display:flex;gap:24px;font-size:15px;color:var(--dim);margin-left:auto}
   nav .links a{transition:color .2s}
   nav .links a:hover{color:var(--text)}
-  @media(max-width:700px){nav .links{display:none}}
+  @media(max-width:700px){
+    nav .wrap{height:auto;padding-top:8px;padding-bottom:8px;flex-wrap:wrap;row-gap:6px}
+    nav .links{order:3;width:100%;gap:16px;font-size:13.5px;overflow-x:auto;-webkit-overflow-scrolling:touch;
+      scrollbar-width:none;padding-bottom:2px;margin-left:0}
+    nav .links::-webkit-scrollbar{display:none}
+    nav .links a{white-space:nowrap}
+  }
   .langsel{position:relative;display:inline-block;margin-left:14px}
   .langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
   .langsel button:hover{border-color:var(--green)}
@@ -178,6 +184,7 @@
   .vchip{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:16px;padding:20px;cursor:pointer;text-align:left}
   .vchip .sensor{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;color:var(--cyan);letter-spacing:.02em;line-height:1.5;padding-bottom:10px;margin-bottom:12px;border-bottom:1px dashed var(--line)}
   .vchip .play{display:inline-flex;align-items:center;gap:8px;color:var(--green);font-weight:700;font-size:14px;margin-bottom:10px}
+  .vchip .play .pill{margin-left:2px}
   .vchip .play::before{content:"";width:0;height:0;border-left:9px solid var(--green);border-top:6px solid transparent;border-bottom:6px solid transparent}
   .vchip.playing .play::before{border:none;width:9px;height:12px;background:var(--green);border-radius:1px}
   .vchip .line{color:#dfe3e7;font-size:15px}
@@ -261,6 +268,7 @@
 <a data-i18n="n.nav.today" href="#today">오늘의 결정</a>
 <a data-i18n="n.nav.live" href="#live">달리는 동안</a>
 <a data-i18n="n.nav.after" href="#after">러닝 후</a>
+<a data-i18n="n.nav.race" href="#race">대회 준비</a>
 <a data-i18n="n.nav.price" href="#price">가격</a>
 <a data-i18n="n.nav.demo" href="run.html" style="color:var(--green)">5km 데모</a>
 </div>
@@ -360,10 +368,10 @@
 <h2 class="reveal" data-i18n="n.live.h2">필요한 말만,<br/>필요한 순간에</h2>
 <p class="sub reveal" data-i18n="n.live.sub">코치가 하는 말에는 전부 센서가 잡은 근거가 있습니다. 눌러서 실제 안내를 들어 보세요.</p>
 <div class="voice-grid reveal">
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" data-say="목표보다 25초 빠릅니다."><div class="sensor" data-i18n="n.vc1.sensor">📡 목표보다 20초 이상 벗어난 상태가 20초 넘게 이어질 때</div><div class="play" data-i18n="n.vc1.play">페이스</div><div class="line" data-i18n="n.vc1.line">"목표보다 25초 빠릅니다."</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" data-say="300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="n.vc2.sensor">📡 코스 고도를 미리 읽습니다. 늘 달리던 길이면 500m쯤에서 알아보고 언덕을 예고합니다</div><div class="play" data-i18n="n.vc2.play">언덕 예고</div><div class="line" data-i18n="n.vc2.line">"300m 앞, 800m 오르막이 시작됩니다. 평균 경사 4%. 보폭을 줄이고 리듬을 유지하세요."</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" data-say="케이던스가 기준보다 5퍼센트 낮아요. 보폭을 조금 줄여볼까요."><div class="sensor" data-i18n="n.vc3.sensor">📡 시작 대비 케이던스 5% 하락이 60초 이어질 때</div><div class="play" data-i18n="n.vc3.play">자세</div><div class="line" data-i18n="n.vc3.line">"케이던스가 기준보다 5% 낮아요. 보폭을 조금 줄여볼까요."</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" data-say="심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor" data-i18n="n.vc4.sensor">📡 걷기 회복 중 심박 존이 한 칸 내려올 때</div><div class="play" data-i18n="n.vc4.play">회복</div><div class="line" data-i18n="n.vc4.line">"심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" data-say="목표보다 25초 빠릅니다."><div class="sensor" data-i18n="n.vc1.sensor">📡 목표보다 20초 이상 벗어난 상태가 20초 넘게 이어질 때</div><div class="play"><span data-i18n="n.vc1.play">페이스</span><span class="pill free" data-i18n="n.pill.free">무료</span></div><div class="line" data-i18n="n.vc1.line">"목표보다 25초 빠릅니다."</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" data-say="300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="n.vc2.sensor">📡 코스 고도를 미리 읽습니다. 늘 달리던 길이면 500m쯤에서 알아보고 언덕을 예고합니다</div><div class="play"><span data-i18n="n.vc2.play">언덕 예고</span><span class="pill free" data-i18n="n.pill.free">무료</span></div><div class="line" data-i18n="n.vc2.line">"300m 앞, 800m 오르막이 시작됩니다. 평균 경사 4%. 보폭을 줄이고 리듬을 유지하세요."</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" data-say="케이던스가 기준보다 5퍼센트 낮아요. 보폭을 조금 줄여볼까요."><div class="sensor" data-i18n="n.vc3.sensor">📡 접지를 재는 워치는 케이던스와 접지가 함께 흔들릴 때, 못 재는 워치는 케이던스가 6% 떨어져 60초 이어질 때</div><div class="play"><span data-i18n="n.vc3.play">자세</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></div><div class="line" data-i18n="n.vc3.line">"케이던스가 기준보다 5% 낮아요. 보폭을 조금 줄여볼까요."</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" data-say="심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor" data-i18n="n.vc4.sensor">📡 걷기 회복 중 심박 존이 한 칸 내려올 때</div><div class="play"><span data-i18n="n.vc4.play">회복</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></div><div class="line" data-i18n="n.vc4.line">"심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."</div></div>
 </div>
 <div class="quiet reveal"><span>🤫</span><span data-i18n="n.live.quiet">말이 많지 않습니다. 같은 종류의 안내는 45초 안에 다시 하지 않습니다. 페이스, 심박존, 자세, 언덕, 격려는 하나씩 끄고 켤 수 있습니다. 음악은 안내하는 동안만 살짝 줄어듭니다.</span></div>
 <h3 class="steps-h reveal"><span data-i18n="n.steps.h">출발 버튼은 한 번이면 됩니다</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></h3>
@@ -463,7 +471,7 @@
 <li data-i18n="n.price.f1">GPS 기록, 페이스, 심박, 랩, Apple Health 저장</li>
 <li data-i18n="n.price.f2">운동 상세 리포트, 몸 리포트, 기록 목록</li>
 <li data-i18n="n.price.f3">훈련 플랜 보기, 레이스 예측 기본</li>
-<li data-i18n="n.price.f4">km 스플릿 음성, 코스 언덕 예고, 경로 이탈 경보</li>
+<li data-i18n="n.price.f4">km 스플릿 음성, 심박존 안내, 코스 언덕 예고, 경로 이탈 경보</li>
 <li data-i18n="n.price.f5">GPX 내보내기, AI 분석용 리포트</li>
 </ul>
 </div>
@@ -474,7 +482,7 @@
 <div class="amt-year" data-i18n="n.price.year">연간은 <b>₩15,000</b>. 월 1,250원꼴로 약 34% 저렴합니다.</div>
 <div class="amt-year" data-i18n="n.price.life">구독 대신 <b>평생 이용권 ₩39,000</b>. 출시 기념가이고, 출시 3개월 뒤 ₩59,000이 됩니다.</div>
 <ul>
-<li data-i18n="n.price.p1">달리는 중 코치 음성 — 자세, 페이스, 언덕 주행법, 회복</li>
+<li data-i18n="n.price.p1">달리는 중 코치 음성 — 자세, 언덕 주행법, 회복, 격려, 기록 레이더</li>
 <li data-i18n="n.price.p2">플랜 실행: 구간마다 진행하고 끝나면 계획 대비 점수</li>
 <li data-i18n="n.price.p3">심층 분석: PR 북, 역치 추정, 거리 예산, 강도 분포, VDOT</li>
 <li data-i18n="n.price.p4">레이스 전략: 구간 페이스, 보급 시점, 리허설</li>
@@ -503,6 +511,7 @@
 <div class="consent">
 <div>· <b data-i18n="t161">수집 목적</b><span data-i18n="cs.purpose">: TestFlight 베타 초대장 발송</span></div>
 <div>· <b data-i18n="t162">보관 기간</b><span data-i18n="cs.retain">: 베타 종료 또는 수신 동의 철회 시까지</span></div>
+<label><input form="betaForm" name="privacy_consent" type="checkbox" value="yes" required=""/> <span data-i18n="n.beta.required">(필수) 베타 초대장 발송을 위한 이메일 수집·이용에 동의합니다.</span></label>
 <label><input form="betaForm" name="marketing_consent" type="checkbox" value="yes"/> <span data-i18n="cs.marketing">(선택) 출시 소식·업데이트 등 마케팅 정보 수신에 동의합니다.</span></label>
 </div>
 </div>

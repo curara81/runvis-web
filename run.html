@@ -404,9 +404,21 @@ function hudTick() {
   const z = t > .5 ? b.dataset.z : a.dataset.z;
   hZ.textContent = z;
   hZ.style.color = z === 'Z4' ? 'var(--red)' : z === 'Z3' ? 'var(--orange)' : z === 'Z2' ? 'var(--green)' : 'var(--dim)';
+  hudPending = false;
+}
+// The HUD only changes when the page scrolls or resizes, so it recomputes on
+// those events instead of every frame — a permanent rAF loop kept the CPU (and
+// the battery) busy on a page nobody is touching.
+let hudPending = false;
+function hudSchedule() {
+  if (hudPending || document.hidden) return;
+  hudPending = true;
   requestAnimationFrame(hudTick);
 }
-requestAnimationFrame(hudTick);
+addEventListener('scroll', hudSchedule, { passive: true });
+addEventListener('resize', hudSchedule);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) hudSchedule(); });
+hudSchedule();
 
 // ---------- rail highlight ----------
 const rail = [...document.querySelectorAll('.rail a')];
