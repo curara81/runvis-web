@@ -247,6 +247,12 @@
   footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
   .disclaimer{max-width:640px;margin:20px auto 0;font-size:12px;color:var(--dim2);line-height:1.7}
 
+  /* sticky CTA (small screens): the page is long and the only action used to sit at the very bottom */
+  .sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+    background:rgba(0,0,0,.82);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+  .sticky-cta a{display:block;text-align:center}
+  @media(max-width:820px){.sticky-cta{display:block} footer{padding-bottom:96px}}
+
   @media(prefers-reduced-motion:reduce){
     .reveal{opacity:1!important;transform:none!important;transition:none}
     .hero-bg .blob,.phone,.watch-stack,.ring .spin{animation:none}
@@ -270,6 +276,7 @@
 <a data-i18n="n.nav.after" href="#after">러닝 후</a>
 <a data-i18n="n.nav.race" href="#race">대회 준비</a>
 <a data-i18n="n.nav.price" href="#price">가격</a>
+<a data-i18n="n.nav.faq" href="#faq">FAQ</a>
 <a data-i18n="n.nav.demo" href="run.html" style="color:var(--green)">5km 데모</a>
 </div>
 <div class="langsel" id="langsel">
@@ -373,11 +380,11 @@
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" data-say="케이던스가 기준보다 5퍼센트 낮아요. 보폭을 조금 줄여볼까요."><div class="sensor" data-i18n="n.vc3.sensor">📡 접지를 재는 워치는 케이던스와 접지가 함께 흔들릴 때, 못 재는 워치는 케이던스가 6% 떨어져 60초 이어질 때</div><div class="play"><span data-i18n="n.vc3.play">자세</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></div><div class="line" data-i18n="n.vc3.line">"케이던스가 기준보다 5% 낮아요. 보폭을 조금 줄여볼까요."</div></div>
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" data-say="심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor" data-i18n="n.vc4.sensor">📡 걷기 회복 중 심박 존이 한 칸 내려올 때</div><div class="play"><span data-i18n="n.vc4.play">회복</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></div><div class="line" data-i18n="n.vc4.line">"심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."</div></div>
 </div>
-<div class="quiet reveal"><span>🤫</span><span data-i18n="n.live.quiet">말이 많지 않습니다. 같은 종류의 안내는 45초 안에 다시 하지 않습니다. 페이스, 심박존, 자세, 언덕, 격려는 하나씩 끄고 켤 수 있습니다. 음악은 안내하는 동안만 살짝 줄어듭니다.</span></div>
+<div class="quiet reveal"><span>🤫</span><span data-i18n="n.live.quiet">말이 많지 않습니다. 안전 안내와 스플릿을 빼면 어떤 안내도 직전 발화로부터 45초 안에는 나오지 않고, 30분마다 말할 횟수에 상한이 있습니다. 페이스, 심박존, 자세, 언덕, 격려는 하나씩 끄고 켤 수 있습니다. 음악은 안내하는 동안만 살짝 줄어듭니다.</span></div>
 <h3 class="steps-h reveal"><span data-i18n="n.steps.h">출발 버튼은 한 번이면 됩니다</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></h3>
 <div class="steps reveal">
 <div class="step tilt" data-tilt="5"><div class="sn">1</div><h4 data-i18n="n.step1h">날씨 브리핑</h4><p class="q" data-i18n="n.step1q">"기온 26도, 습도 78퍼센트. 중간에 수분 꼭 챙기세요."</p><p data-i18n="n.step1p">지금 있는 동네 기준 실시간 날씨입니다.</p></div>
-<div class="step tilt" data-tilt="5"><div class="sn">2</div><h4 data-i18n="n.step2h">준비운동</h4><p class="q" data-i18n="n.step2q">"목 돌리기, 20초. 반대 방향으로. 셋, 둘, 하나."</p><p data-i18n="n.step2p">6단계를 타이머와 음성으로 이끕니다.</p></div>
+<div class="step tilt" data-tilt="5"><div class="sn">2</div><h4 data-i18n="n.step2h">준비운동</h4><p class="q" data-i18n="n.step2q">"목 돌리기, 20초. 반대 방향으로. 셋, 둘, 하나."</p><p data-i18n="n.step2p">7단계를 타이머로 이끌고, 코치를 켜면 음성으로 함께합니다.</p></div>
 <div class="step tilt" data-tilt="5"><div class="sn">3</div><h4 data-i18n="n.step3h">그냥 달리세요</h4><p class="q" data-i18n="n.step3q">"달리기 시작하셨네요. 기록 시작합니다."</p><p data-i18n="n.step3p">손목의 러닝 리듬을 감지해 기록을 시작합니다.</p></div>
 </div>
 <p class="reveal" style="text-align:center;margin-top:34px"><a class="btn ghost" data-i18n="n.live.demo" href="run.html">5km 데모에서 언제 말하고 언제 조용한지 보기</a></p>
@@ -453,7 +460,7 @@
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.priv.eb">프라이버시</div>
 <div class="big reveal" data-i18n="n.priv.big">계정도, 서버도 없습니다.<br/>터널에서도 코치는 말합니다.</div>
-<p class="reveal"><span data-i18n="n.priv.p">기록과 분석은 전부 워치와 아이폰 안에서 처리합니다. 날씨와 동네 이름, 코스 자동 생성을 조회할 때만 반올림한 좌표를 보냅니다. 운동과 건강 데이터는 어디로도 올라가지 않습니다.</span> <a href="privacy.html" data-i18n="n.priv.link">개인정보처리방침</a></p>
+<p class="reveal"><span data-i18n="n.priv.p">기록과 분석은 전부 워치와 아이폰 안에서 처리합니다. 날씨를 조회할 때는 약 1km 단위로 반올림한 좌표를, 동네 이름과 코스 자동 생성에는 애플 서비스에 현재 좌표를 그 순간에만 보냅니다. 운동과 건강 데이터는 어디로도 올라가지 않습니다.</span> <a href="privacy.html" data-i18n="n.priv.link">개인정보처리방침</a></p>
 </div>
 </section>
 
@@ -496,6 +503,22 @@
 </div>
 </section>
 
+<!-- FAQ -->
+<section id="faq">
+<div class="wrap">
+<div class="eyebrow reveal" data-i18n="n.faq.eb">자주 묻는 것</div>
+<h2 class="reveal" data-i18n="n.faq.h2">먼저 궁금해할 것들</h2>
+<div class="tiles">
+<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q1">워치가 없어도 되나요?</h4><p data-i18n="n.faq.a1">아이폰만으로 GPS 기록과 1km마다 구간 페이스 안내가 됩니다. 자세 코칭은 손목 센서가 필요해 워치에서만 동작합니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q2">어떤 애플워치가 필요한가요?</h4><p data-i18n="n.faq.a2">심박과 GPS가 있는 모델이면 됩니다. 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 촘촘해지고, 못 재는 모델에서는 케이던스 기준으로 동작합니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q3">해지하면 기록은 어떻게 되나요?</h4><p data-i18n="n.faq.a3">기록은 Apple 건강에 남아 그대로입니다. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 씁니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q4">데이터는 어디로 가나요?</h4><p data-i18n="n.faq.a4">계정도 서버도 없습니다. 날씨와 동네 이름, 코스 자동 생성을 조회할 때만 위치가 나가고, 운동과 건강 데이터는 업로드하지 않습니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q5">6개 언어 음성은 어디까지 되나요?</h4><p data-i18n="n.faq.a5">코치 문장은 한국어, 영어, 일본어, 스페인어, 중국어(번체), 독일어로 말합니다. 거리와 경사처럼 숫자가 들어간 일부 안내는 아직 한국어와 영어만 준비돼 있습니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q6">기록이 하나도 없어도 쓸 수 있나요?</h4><p data-i18n="n.faq.a6">됩니다. 12분만 달리면 예상 5K·10K 기록과 첫 플랜이 만들어지고, 준비도 같은 지표는 며칠 데이터가 쌓이면 나타납니다.</p></div>
+</div>
+</div>
+</section>
+
 <!-- BETA -->
 <section id="beta">
 <div class="wrap">
@@ -518,6 +541,7 @@
 </div>
 </section>
 
+<div class="sticky-cta"><a class="btn" href="#beta" data-i18n="n.hero.cta1">베타 신청</a></div>
 <footer>
 <div class="wrap">
 <div class="links">
