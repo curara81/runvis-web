@@ -87,7 +87,15 @@
   // There is one set of device captures and it is Korean. The `data-shot`
   // attributes in the markup name each screen so localized captures can be
   // wired up later; until those captures actually exist, nothing is swapped
-  // and the `sc.note` caption under the hero says so in all six languages.
+  // and the `sc.note` caption under the FIRST screenshot section (#today, no
+  // longer under the hero) says so in all six languages.
+  //
+  // The share card (assets/og-card.png) is deliberately language-neutral —
+  // mark, watch silhouette, pulse, domain, no sentence — because og:image is
+  // read by crawlers that never run this file, and GitHub Pages hands every
+  // ?lang= the same HTML. og:title/og:description below have the same limit:
+  // what a crawler sees is the Korean markup. Fixing that needs prerendered
+  // per-language files (/en/index.html …), i.e. a build step in tools/.
 
   // Values are HTML (they carry <b>/<span>/<br>) and are written through
   // innerHTML, which replaces every child of the element. A value whose tags
