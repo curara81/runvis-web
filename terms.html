@@ -21,12 +21,12 @@
 <meta name="twitter:image" content="https://runvis.app/assets/og-card.png?v=2">
 <link rel="canonical" href="https://runvis.app/terms.html">
 <link rel="alternate" hreflang="x-default" href="https://runvis.app/terms.html">
-<link rel="alternate" hreflang="ko" href="https://runvis.app/terms.html?lang=ko">
-<link rel="alternate" hreflang="en" href="https://runvis.app/terms.html?lang=en">
-<link rel="alternate" hreflang="ja" href="https://runvis.app/terms.html?lang=ja">
-<link rel="alternate" hreflang="es" href="https://runvis.app/terms.html?lang=es">
-<link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/terms.html?lang=zh">
-<link rel="alternate" hreflang="de" href="https://runvis.app/terms.html?lang=de">
+<link rel="alternate" hreflang="ko" href="https://runvis.app/terms.html">
+<link rel="alternate" hreflang="en" href="https://runvis.app/en/terms.html">
+<link rel="alternate" hreflang="ja" href="https://runvis.app/ja/terms.html">
+<link rel="alternate" hreflang="es" href="https://runvis.app/es/terms.html">
+<link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/terms.html">
+<link rel="alternate" hreflang="de" href="https://runvis.app/de/terms.html">
 <style>
   :root{
     --green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;
@@ -77,19 +77,35 @@
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
-  var urlLang=norm(q), code=urlLang;
+  // On a prerendered page (/en/, /ja/ …) the directory IS the language and
+  // RunvisPageLang is set just above; it outranks the saved choice and the
+  // browser's. ?lang= still wins over it.
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang);
   if(!code){ try{ code=norm(localStorage.getItem("runvis_lang")); }catch(e){} }
   if(!code) code=norm(navigator.language)||"ko";
   window.RunvisLang=code; window.RunvisUrlLang=urlLang;
   var html=document.documentElement;
   html.lang = code==="zh" ? "zh-Hant" : code;
   html.className += (html.className?" ":"") + "js";
+  var BASE=window.RunvisBase||"";              // "" at the root, "/" under /en/ …
   var d=document.createElement("script");
-  d.src="t-"+code+".js?v=20260906e"; d.async=false; document.head.appendChild(d);
+  d.src=BASE+"t-"+code+".js?v=20260906e"; d.async=false; document.head.appendChild(d);
   function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
+  // ?lang=de on a ROOT url shows the same page the prerendered /de/ copy shows,
+  // so the canonical points there instead of at itself — otherwise the two
+  // compete for the same market and neither wins. Without ?lang, and on the
+  // prerendered pages themselves, the canonical is the page's own address.
   var link=document.querySelector('link[rel="canonical"]');
-  if(link){ var base=(link.getAttribute("href")||"").split("?")[0].split("#")[0];
-    var url=base+(urlLang?"?lang="+urlLang:"");
+  if(link){
+    // Remember the page's OWN address before rewriting it. i18n.js recomputes
+    // the canonical on every language switch and would otherwise read back the
+    // value this script just wrote and prefix it a second time (/ja/ja/).
+    var base=link.getAttribute("data-base")||(link.getAttribute("href")||"").split("?")[0].split("#")[0];
+    link.setAttribute("data-base",base);
+    var url=base;
+    if(!window.RunvisPageLang && urlLang && urlLang!=="ko"){
+      try{ var u=new URL(base); u.pathname="/"+urlLang+u.pathname; url=u.href; }catch(e){}
+    }
     link.setAttribute("href",url); meta("property","og:url",url); }
   var OGL={ko:"ko_KR",en:"en_US",ja:"ja_JP",es:"es_ES",zh:"zh_TW",de:"de_DE"};
   meta("property","og:locale",OGL[code]);
@@ -182,15 +198,11 @@
   <p data-i18n="tm.s8.p"><a href="mailto:help@runvis.app">help@runvis.app</a> ·
   개인정보 처리는 <a href="privacy.html">개인정보 처리방침</a>을 참고하세요.</p>
 </div>
-<script>
-// i18n.js applies the shared dictionary and, on every language change, writes
-// the INDEX page's meta.title into the head. This page has its own title, so
-// restore it from tm.meta.title after each switch.
-window.renderDynamicI18n = function () {
-  if (!window.RunvisT) return;
-  var t = window.RunvisT('tm.meta.title', '이용약관 — Runvis');
-  if (t) document.title = t;
-};
-</script>
+<!-- No renderDynamicI18n hook here any more. It existed to repair a title
+     that i18n.js used to hard-code to the homepage's meta.title on every
+     language switch; i18n.js stopped doing that, and this page's own
+     <title data-i18n> is applied by the ordinary [data-i18n] pass. The comment
+     was still describing the old bug, which is how a reader ends up keeping
+     dead code for a reason that no longer exists. -->
 </body>
 </html>

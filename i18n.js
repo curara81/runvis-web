@@ -9,8 +9,10 @@
    first dictionary before the body is parsed; this file does the rest and
    fetches a second dictionary only if the reader picks another language.
 
-   Language resolution: ?lang= → saved choice → browser language → Korean. The
-   choice is remembered in localStorage so a returning visitor keeps it. */
+   Language resolution: ?lang= → the page's own language (set as
+   window.RunvisPageLang by the prerendered copies under /en/, /ja/ …) → saved
+   choice → browser language → Korean. The choice is remembered in localStorage
+   so a returning visitor keeps it. */
 (function () {
   var LANGS = [
     { code: 'ko', label: '한국어',   tts: 'ko-KR' },
@@ -22,6 +24,10 @@
   ];
   var CODES = LANGS.map(function (l) { return l.code; });
   var DICT_V = '20260906e';                  // must match the <head> boot script
+  // "" on the root pages, "/" on the prerendered per-language copies under
+  // /en/, /ja/ … so that dictionaries and screenshots resolve to the one copy
+  // at the site root instead of 404ing inside the language directory.
+  var BASE = window.RunvisBase || '';
   var I18N = window.RUNVIS_I18N = window.RUNVIS_I18N || {};
   var current = 'ko';
 
@@ -72,7 +78,7 @@
       // The boot script injected this one already — do not fetch it twice.
       if (code !== window.RunvisLang) {
         var s = document.createElement('script');
-        s.src = 't-' + code + '.js?v=' + DICT_V;
+        s.src = BASE + 't-' + code + '.js?v=' + DICT_V;
         s.async = false;
         s.onerror = function () {
           if (window.console) console.warn('i18n: dictionary failed to load —', code);
@@ -106,17 +112,19 @@
     document.querySelectorAll('img[data-shot]').forEach(function (img) {
       var base = img.getAttribute('data-shot');
       if (!SHOTS[base]) return;                 // watch frames: leave the markup alone
-      var want = 'assets/' + base + (SHOT_LANGS[code] ? '.' + code : '') + '.png';
+      var want = BASE + 'assets/' + base + (SHOT_LANGS[code] ? '.' + code : '') + '.png';
       if (img.getAttribute('src') !== want) img.setAttribute('src', want);
     });
   }
 
   // The share card (assets/og-card.png) is deliberately language-neutral —
   // mark, watch silhouette, pulse, domain, no sentence — because og:image is
-  // read by crawlers that never run this file, and GitHub Pages hands every
-  // ?lang= the same HTML. og:title/og:description below have the same limit:
-  // what a crawler sees is the Korean markup. Fixing that needs prerendered
-  // per-language files (/en/index.html …), i.e. a build step in tools/.
+  // read by crawlers that never run this file. og:title/og:description no
+  // longer depend on this file either: tools/prerender.mjs writes /en/, /ja/,
+  // /es/, /zh/, /de/ with their own <html lang>, title, meta, og, canonical
+  // and JSON-LD already in the markup, and the hreflang alternates point
+  // there. What this function still fixes is the ROOT document, which serves
+  // ?lang= and browser-language visitors and stays Korean in the markup.
 
   // Values are HTML (they carry <b>/<span>/<br>) and are written through
   // innerHTML, which replaces every child of the element. A value whose tags
@@ -177,23 +185,33 @@
 
   var OG_LOCALE = { ko: 'ko_KR', en: 'en_US', ja: 'ja_JP', es: 'es_ES', zh: 'zh_TW', de: 'de_DE' };
 
-  // Each ?lang= URL should be its own canonical. The <head> ships
-  // https://runvis.app/ as canonical and lists the six ?lang= alternates;
-  // without this every alternate folded back into the one canonical and only
-  // the bare URL stayed indexable. It follows the URL, not the language the
-  // reader picks from the menu: the bare URL keeps pointing at itself even
-  // when a browser's Accept-Language resolves to English (otherwise "/" would
-  // canonicalise to "?lang=en" and orphan the x-default), and switching
-  // language by hand does not rewrite the address bar, so it must not rewrite
-  // the canonical either. og:locale does follow the shown language, because
-  // og:title and og:description already do.
+  // The six hreflang alternates now point at the prerendered per-language
+  // directories (/en/, /ja/ …), so those are the indexable pages. A root URL
+  // carrying ?lang=de shows exactly what /de/ shows, so its canonical points
+  // there rather than at itself — two self-canonical copies of one German page
+  // would only split the signal. The bare root URL and each prerendered page
+  // stay their own canonical.
+  //
+  // It follows the URL, not the language the reader picks from the menu: the
+  // bare URL keeps pointing at itself even when a browser's Accept-Language
+  // resolves to English (otherwise "/" would canonicalise to "/en/" and orphan
+  // the x-default), and switching language by hand does not rewrite the
+  // address bar, so it must not rewrite the canonical either. og:locale does
+  // follow the shown language, because og:title and og:description already do.
   function applyCanonical(code) {
     var link = document.querySelector('link[rel="canonical"]');
     // The page it belongs to decides the path — this file is shared with
     // run.html, whose canonical is /run.html, not the homepage.
-    var base = link ? (link.getAttribute('href') || '').split('?')[0].split('#')[0] : '';
+    // data-base is the page's own address, stashed by the <head> boot script
+    // before it rewrote href — reading href back would prefix twice.
+    var base = link ? (link.getAttribute('data-base')
+      || (link.getAttribute('href') || '').split('?')[0].split('#')[0]) : '';
+    if (link && base) link.setAttribute('data-base', base);
     if (base) {
-      var url = base + (urlLang() ? '?lang=' + urlLang() : '');
+      var url = base, q = urlLang();
+      if (!window.RunvisPageLang && q && q !== 'ko') {
+        try { var u = new URL(base); u.pathname = '/' + q + u.pathname; url = u.href; } catch (e) {}
+      }
       link.setAttribute('href', url);
       setMeta('property', 'og:url', url);
     }
@@ -203,8 +221,10 @@
   // The FAQ rich result has to carry the same questions the page shows, in the
   // language the page is showing them in. Rebuilding it from the same
   // dictionary the tiles read is the only way the two cannot drift apart.
-  // Eight tiles since the two pricing questions were added.
-  var FAQ_COUNT = 8;
+  // Ten tiles: the two pricing questions, plus 기기 교체 (there is no iCloud
+  // sync, so the answer is the manual backup file) and 컴플리케이션/위젯
+  // (there is none in this build — say so before the install, not after).
+  var FAQ_COUNT = 10;
   function applyFaqLd(code, dict) {
     var node = document.getElementById('faqld');
     if (!node) return;

@@ -21,12 +21,12 @@
 <meta name="twitter:image" content="https://runvis.app/assets/og-card.png?v=2">
 <link rel="canonical" href="https://runvis.app/privacy.html">
 <link rel="alternate" hreflang="x-default" href="https://runvis.app/privacy.html">
-<link rel="alternate" hreflang="ko" href="https://runvis.app/privacy.html?lang=ko">
-<link rel="alternate" hreflang="en" href="https://runvis.app/privacy.html?lang=en">
-<link rel="alternate" hreflang="ja" href="https://runvis.app/privacy.html?lang=ja">
-<link rel="alternate" hreflang="es" href="https://runvis.app/privacy.html?lang=es">
-<link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/privacy.html?lang=zh">
-<link rel="alternate" hreflang="de" href="https://runvis.app/privacy.html?lang=de">
+<link rel="alternate" hreflang="ko" href="https://runvis.app/privacy.html">
+<link rel="alternate" hreflang="en" href="https://runvis.app/en/privacy.html">
+<link rel="alternate" hreflang="ja" href="https://runvis.app/ja/privacy.html">
+<link rel="alternate" hreflang="es" href="https://runvis.app/es/privacy.html">
+<link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/privacy.html">
+<link rel="alternate" hreflang="de" href="https://runvis.app/de/privacy.html">
 <style>
   :root{
     --green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;
@@ -83,19 +83,35 @@
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
-  var urlLang=norm(q), code=urlLang;
+  // On a prerendered page (/en/, /ja/ …) the directory IS the language and
+  // RunvisPageLang is set just above; it outranks the saved choice and the
+  // browser's. ?lang= still wins over it.
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang);
   if(!code){ try{ code=norm(localStorage.getItem("runvis_lang")); }catch(e){} }
   if(!code) code=norm(navigator.language)||"ko";
   window.RunvisLang=code; window.RunvisUrlLang=urlLang;
   var html=document.documentElement;
   html.lang = code==="zh" ? "zh-Hant" : code;
   html.className += (html.className?" ":"") + "js";
+  var BASE=window.RunvisBase||"";              // "" at the root, "/" under /en/ …
   var d=document.createElement("script");
-  d.src="t-"+code+".js?v=20260906e"; d.async=false; document.head.appendChild(d);
+  d.src=BASE+"t-"+code+".js?v=20260906e"; d.async=false; document.head.appendChild(d);
   function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
+  // ?lang=de on a ROOT url shows the same page the prerendered /de/ copy shows,
+  // so the canonical points there instead of at itself — otherwise the two
+  // compete for the same market and neither wins. Without ?lang, and on the
+  // prerendered pages themselves, the canonical is the page's own address.
   var link=document.querySelector('link[rel="canonical"]');
-  if(link){ var base=(link.getAttribute("href")||"").split("?")[0].split("#")[0];
-    var url=base+(urlLang?"?lang="+urlLang:"");
+  if(link){
+    // Remember the page's OWN address before rewriting it. i18n.js recomputes
+    // the canonical on every language switch and would otherwise read back the
+    // value this script just wrote and prefix it a second time (/ja/ja/).
+    var base=link.getAttribute("data-base")||(link.getAttribute("href")||"").split("?")[0].split("#")[0];
+    link.setAttribute("data-base",base);
+    var url=base;
+    if(!window.RunvisPageLang && urlLang && urlLang!=="ko"){
+      try{ var u=new URL(base); u.pathname="/"+urlLang+u.pathname; url=u.href; }catch(e){}
+    }
     link.setAttribute("href",url); meta("property","og:url",url); }
   var OGL={ko:"ko_KR",en:"en_US",ja:"ja_JP",es:"es_ES",zh:"zh_TW",de:"de_DE"};
   meta("property","og:locale",OGL[code]);
@@ -139,7 +155,7 @@
     <li data-i18n="pv.s2.li1">운동 기록·경로는 <b>Apple 건강(HealthKit)</b>에 저장됩니다 — 소유자는 당신이며, iCloud 건강 동기화 여부는 iOS 설정을 따릅니다</li>
     <li data-i18n="pv.s2.li2">앱 설정·프로필 입력값·플랜·코스·배지 계산 결과는 <b>기기 내 앱 저장공간</b>에만 저장됩니다</li>
     <li data-i18n="pv.s2.li3">Runvis는 자체 서버·데이터베이스·계정 시스템을 운영하지 않습니다</li>
-    <li data-i18n="pv.s2.li4">Runvis는 자체 백업·동기화를 하지 않습니다. 기기를 바꾸면 Apple 건강에 저장된 운동 기록은 따라오지만, 프로필·신발·플랜·배지와 코치가 만든 기준선처럼 앱 저장공간에만 있는 값은 따라오지 않습니다</li>
+    <li data-i18n="pv.s2.li4">Runvis는 자체 백업·동기화를 하지 않습니다. 기기를 바꾸면 Apple 건강에 저장된 운동 기록은 따라오지만, 프로필·신발·플랜·배지와 코치가 만든 기준선처럼 앱 저장공간에만 있는 값은 따라오지 않습니다. 설정 → 데이터의 '내 데이터 내보내기'로 이 값들을 파일 하나로 만들어 새 기기에서 '백업에서 가져오기'로 되돌릴 수 있습니다 — 그 파일은 사용자가 저장하는 곳에만 남고 Runvis가 어디로도 보내지 않습니다</li>
   </ul>
 
   <h2 data-i18n="pv.s3.h">3. 기기 밖으로 나가는 예외 (전부)</h2>
@@ -151,7 +167,7 @@
     <tr><td data-i18n="pv.s3.r3a">코스 자동 생성</td><td data-i18n="pv.s3.r3b">경로 계산용 현재 좌표 — 생성 요청 순간에만(반올림하지 않은 값)</td><td data-i18n="pv.s3.r3c">Apple 지도(MapKit)</td></tr>
     <tr><td data-i18n="pv.s3.r4a">동네 이름 표시</td><td data-i18n="pv.s3.r4b">날씨 브리핑과 운동 기록에 "역삼동" 같은 동네 이름을 붙이기 위한 현재 좌표 — 조회 순간에만, 반올림하지 않은 값. 결과는 기기에 캐시되어 같은 장소는 다시 조회하지 않습니다</td><td data-i18n="pv.s3.r4c">Apple 위치 서비스(CLGeocoder)</td></tr>
     <tr><td data-i18n="pv.s3.r5a">코스·신발 목록 내려받기</td><td data-i18n="pv.s3.r5b"><b>보내는 데이터 없음</b> — 공개된 파일을 하루 한 번 익명으로 내려받기만 합니다(웹사이트 방문과 동일하게 접속 IP는 노출)</td><td data-i18n="pv.s3.r5c">GitHub Pages(정적 파일 호스팅)</td></tr>
-    <tr><td data-i18n="pv.s3.r6a">새 러닝화 검색 열기</td><td data-i18n="pv.s3.r6b"><b>보내는 데이터 없음</b> — 워치의 신발 화면에서 사용자가 버튼을 직접 눌렀을 때만, 검색어 "러닝화"가 들어간 주소로 외부 브라우저가 열립니다. 운동·건강 데이터나 신발 기록은 함께 나가지 않습니다</td><td data-i18n="pv.s3.r6c">외부 쇼핑몰(현재는 한국 쇼핑몰 쿠팡의 검색 페이지)</td></tr>
+    <tr><td data-i18n="pv.s3.r6a">새 러닝화 검색 열기</td><td data-i18n="pv.s3.r6b"><b>보내는 데이터 없음</b> — 워치와 아이폰의 신발 화면에서 사용자가 버튼을 직접 눌렀을 때만, 검색어 "러닝화"가 들어간 주소로 외부 브라우저가 열립니다. 운동·건강 데이터나 신발 기록은 함께 나가지 않습니다</td><td data-i18n="pv.s3.r6c">외부 쇼핑몰(현재는 한국 쇼핑몰 쿠팡의 검색 페이지)</td></tr>
   </table>
   </div>
   <p data-i18n="pv.s3.note">위 경우 모두 이름·이메일 등 식별 정보는 포함되지 않으며, Runvis가 별도로 기록하지 않습니다. Runvis는 수집·기록한 운동·건강 데이터를 <b>업로드하지 않습니다</b> — 앱에는 이를 업로드하는 코드가 없으며, 위 통신은 조회에 필요한 최소 정보만 담은 읽기(조회) 요청입니다.</p>
@@ -206,15 +222,11 @@
   <p data-i18n="pv.s10.p">방침이 바뀌면 이 페이지의 시행일을 갱신합니다. 이용약관은 <a href="terms.html">이용약관</a>을 참고하세요. 문의:
   <a href="mailto:help@runvis.app">help@runvis.app</a></p>
 </div>
-<script>
-// i18n.js applies the shared dictionary and, on every language change, writes
-// the INDEX page's meta.title into the head. This page has its own title, so
-// restore it from pv.meta.title after each switch.
-window.renderDynamicI18n = function () {
-  if (!window.RunvisT) return;
-  var t = window.RunvisT('pv.meta.title', '개인정보 처리방침 — Runvis');
-  if (t) document.title = t;
-};
-</script>
+<!-- No renderDynamicI18n hook here any more. It existed to repair a title
+     that i18n.js used to hard-code to the homepage's meta.title on every
+     language switch; i18n.js stopped doing that, and this page's own
+     <title data-i18n> is applied by the ordinary [data-i18n] pass. The comment
+     was still describing the old bug, which is how a reader ends up keeping
+     dead code for a reason that no longer exists. -->
 </body>
 </html>

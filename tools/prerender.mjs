@@ -1,0 +1,176 @@
+/* Prerender the five non-Korean copies of the site.
+ *
+ *   node tools/prerender.mjs
+ *
+ * Writes /en/, /ja/, /es/, /zh/, /de/ — one directory per market, each with
+ * index.html, run.html, privacy.html and terms.html. Korean stays at the root
+ * and is the x-default.
+ *
+ * WHY this exists. GitHub Pages hands every ?lang= the same file and crawlers
+ * do not run i18n.js, so the six hreflang alternates all resolved to one
+ * Korean document: five markets had no indexable page at all, and the FAQ rich
+ * result, og:title, og:description and <html lang> that search engines and
+ * link previews read were Korean for everybody. Everything i18n.js does at
+ * runtime is done here at build time instead, so the markup a crawler receives
+ * is already the finished page in that language.
+ *
+ * These files are BUILD OUTPUT. Do not hand-edit them — edit the root page or
+ * t-<code>.js and run this again. tools/check-content.mjs fails if they drift.
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+import {
+  ROOT, CODES, PAGES, HTML_LANG, OG_LOCALE, SHOTS,
+  loadDicts, attrEscape, findI18nElements, findI18nAttrs, spliceAll,
+  faqLd, appLd, readLd,
+} from './i18n-lib.mjs';
+
+const dicts = loadDicts();
+const OUT_CODES = CODES.filter(c => c !== 'ko');
+
+const BANNER = (code, page) => `<!-- GENERATED FILE — do not edit.
+     tools/prerender.mjs built this from /${page} and t-${code}.js.
+     Edit those and run: node tools/prerender.mjs -->
+`;
+
+/** Replace an HTML comment block delimited by two literal markers. No-op when
+ *  the block is not in this page. */
+function replaceBlock(html, startMark, endMark, text) {
+  const i = html.indexOf(startMark);
+  if (i < 0) return html;
+  const j = html.indexOf(endMark, i);
+  if (j < 0) return html;
+  return html.slice(0, i) + text + html.slice(j + endMark.length);
+}
+
+/** The "this file goes out to all six languages" notes are true of the Korean
+ *  root pages and false of these copies — every string below is already in one
+ *  language. Replacing them keeps the next reader from acting on a stale note. */
+function retireBilingualNotes(html, code) {
+  const note = `<!-- Prerendered ${code} copy. Every crawler-visible string on this page is
+     already ${code}: title, description, og:*, canonical, the JSON-LD below and
+     the body text were substituted at build time out of t-${code}.js, so a
+     search engine or link preview that runs no JavaScript still reads this
+     market's page. i18n.js still runs and still lets a reader switch
+     languages; it just has nothing left to correct on first paint. -->`;
+  html = replaceBlock(html, '<!-- THIS file is the Korean document', 'locales can at least parse. -->', note);
+  html = replaceBlock(html, '<!-- Bilingual on purpose — see the same note in index.html.', 'title and description went out to all six languages. -->', note);
+  html = replaceBlock(html, '<!-- Bilingual like index.html: one file answers every ?lang=', 'It had no og tags at all before. -->', note);
+  html = replaceBlock(html, '<!-- The share card carries no sentence in any language', 'went out for all six languages. -->',
+    `<!-- The share card carries no sentence in any language (mark, watch, pulse,
+     domain), so one image serves every market. -->`);
+  html = replaceBlock(html, '<!-- Language-neutral card: mark, watch and pulse only, no sentence in any',
+    'language. One HTML file serves every ?lang= and crawlers run no JS. -->',
+    `<!-- Language-neutral card: mark, watch and pulse only, no sentence in any
+     language. -->`);
+  return html;
+}
+
+/** Absolute site path for one page in one language. */
+function pageUrl(code, page) {
+  const dir = code === 'ko' ? '/' : `/${code}/`;
+  return page === 'index.html' ? `https://runvis.app${dir}` : `https://runvis.app${dir}${page}`;
+}
+
+function render(page, code) {
+  const dict = dicts[code];
+  let html = fs.readFileSync(path.join(ROOT, page), 'utf8');
+
+  // ---- 1. inner text of every [data-i18n] element -------------------------
+  // Values are HTML (they carry <b>/<span>/<br>) and go in verbatim, which is
+  // exactly what i18n.js does with innerHTML at runtime.
+  const edits = [];
+  let missing = 0;
+  for (const el of findI18nElements(html)) {
+    const v = dict[el.key];
+    if (v == null) { console.warn(`  ! ${code}/${page}: no value for ${el.key}`); missing++; continue; }
+    edits.push({ start: el.innerStart, end: el.innerEnd, text: v });
+  }
+  // ---- 2. attribute text (alt, placeholder, aria-label, meta content) -----
+  for (const a of findI18nAttrs(html)) {
+    const v = dict[a.key];
+    if (v == null) { console.warn(`  ! ${code}/${page}: no value for ${a.key}`); missing++; continue; }
+    edits.push({ start: a.valueStart, end: a.valueEnd, text: attrEscape(v) });
+  }
+  html = spliceAll(html, edits);
+  if (missing) throw new Error(`${code}/${page}: ${missing} missing dictionary values`);
+
+  // ---- 3. document language ----------------------------------------------
+  html = replaceOnce(html, '<html lang="ko">', `<html lang="${HTML_LANG[code]}">`);
+  html = replaceOnce(html, 'content="ko_KR" property="og:locale"', `content="${OG_LOCALE[code]}" property="og:locale"`,
+    'property="og:locale" content="ko_KR"', `property="og:locale" content="${OG_LOCALE[code]}"`);
+  // og:locale:alternate lists the OTHER five, so this page's own locale is not
+  // declared twice (it now stands as og:locale).
+  html = replaceAll(html, `<meta content="${OG_LOCALE[code]}" property="og:locale:alternate"/>`,
+    `<meta content="ko_KR" property="og:locale:alternate"/>`);
+  html = retireBilingualNotes(html, code);
+
+  // ---- 4. canonical + og:url point at THIS file ---------------------------
+  const self = pageUrl(code, page);
+  html = replaceAll(html, `<link href="https://runvis.app/" id="canonical" rel="canonical"/>`,
+    `<link href="${self}" id="canonical" rel="canonical"/>`);
+  html = replaceAll(html, `<link rel="canonical" href="https://runvis.app/${page}">`,
+    `<link rel="canonical" href="${self}">`);
+  html = replaceAll(html, `content="https://runvis.app/" property="og:url"`, `content="${self}" property="og:url"`);
+  html = replaceAll(html, `property="og:url" content="https://runvis.app/${page}"`, `property="og:url" content="${self}"`);
+
+  // ---- 5. tell the boot script which language and where the root is -------
+  // After <meta charset>, not before it: the encoding declaration has to stay
+  // inside the first 1024 bytes and, by convention, first in <head>.
+  const charset = /<meta charset=["']?[^>]*>/i.exec(html);
+  if (!charset) throw new Error('prerender: no <meta charset> in ' + page);
+  const at = charset.index + charset[0].length;
+  html = html.slice(0, at)
+    + `\n<script>window.RunvisPageLang=${JSON.stringify(code)};window.RunvisBase="/";</script>`
+    + html.slice(at);
+
+  // ---- 6. relative URLs, from a subdirectory ------------------------------
+  // Only the things that live at the site ROOT need rewriting. Page-to-page
+  // links stay relative on purpose: href="privacy.html" inside /de/ already
+  // resolves to /de/privacy.html, and leaving them alone means the dictionary
+  // values that CONTAIN such links (n.beta.now, pv.s10.p, tm.s8.p) still match
+  // the markup exactly — otherwise a language switch would rewrite the link
+  // back and check-content.mjs would report drift that is not drift.
+  html = replaceAll(html, 'src="assets/', 'src="/assets/');
+  html = replaceAll(html, 'href="gpx/', 'href="/gpx/');
+  html = replaceAll(html, 'src="i18n.js?v=', 'src="/i18n.js?v=');
+
+  // ---- 7. the localized iPhone captures, already in the markup ------------
+  // Saves the runtime swap and, for the hero, the second download that used to
+  // arrive after the Korean one had already painted.
+  for (const base of SHOTS) {
+    html = replaceAll(html, `/assets/${base}.png`, `/assets/${base}.${code}.png`);
+  }
+
+  // ---- 8. structured data -------------------------------------------------
+  const faq = readLd(html, 'faqld');
+  if (faq) html = html.slice(0, faq.start) + '\n' + JSON.stringify(faqLd(dict, code)) + '\n' + html.slice(faq.end);
+  const app = readLd(html, 'appld');
+  if (app) html = html.slice(0, app.start) + '\n' + JSON.stringify(appLd(dict, code)) + '\n' + html.slice(app.end);
+
+  // The banner goes AFTER the doctype — a comment in front of it puts some
+  // browsers into quirks mode.
+  const dt = /<!DOCTYPE[^>]*>\s*/i.exec(html);
+  if (!dt) throw new Error('prerender: no doctype in ' + page);
+  const cut = dt.index + dt[0].length;
+  return html.slice(0, cut) + BANNER(code, page) + html.slice(cut);
+}
+
+function replaceAll(s, from, to) { return s.split(from).join(to); }
+function replaceOnce(s, from, to, altFrom, altTo) {
+  if (s.includes(from)) return s.replace(from, to);
+  if (altFrom && s.includes(altFrom)) return s.replace(altFrom, altTo);
+  throw new Error('prerender: expected markup not found — ' + from);
+}
+
+let written = 0;
+for (const code of OUT_CODES) {
+  const dir = path.join(ROOT, code);
+  fs.mkdirSync(dir, { recursive: true });
+  for (const page of PAGES) {
+    fs.writeFileSync(path.join(dir, page), render(page, code));
+    written++;
+  }
+  console.log(`  ${code}/  ${PAGES.join(' ')}`);
+}
+console.log(`prerender: ${written} files written for ${OUT_CODES.length} languages`);

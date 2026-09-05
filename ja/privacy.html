@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<!-- GENERATED FILE — do not edit.
+     tools/prerender.mjs built this from /privacy.html and t-ja.js.
+     Edit those and run: node tools/prerender.mjs -->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<script>window.RunvisPageLang="ja";window.RunvisBase="/";</script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Prerendered ja copy. Every crawler-visible string on this page is
+     already ja: title, description, og:*, canonical, the JSON-LD below and
+     the body text were substituted at build time out of t-ja.js, so a
+     search engine or link preview that runs no JavaScript still reads this
+     market's page. i18n.js still runs and still lets a reader switch
+     languages; it just has nothing left to correct on first paint. -->
+<title data-i18n="pv.meta.title">プライバシーポリシー — Runvis</title>
+<meta name="description" content="Runvisはランニング・健康データを端末の中だけで処理します。サーバーもアカウントもなく、端末の外に出る例外をすべて書いています。" data-i18n-attr="content:pv.meta.desc">
+<meta name="robots" content="index,follow">
+<meta property="og:title" content="プライバシーポリシー — Runvis" data-i18n-attr="content:pv.meta.title">
+<meta property="og:description" content="Runvisはランニング・健康データを端末の中だけで処理します。サーバーもアカウントもなく、端末の外に出る例外をすべて書いています。" data-i18n-attr="content:pv.meta.desc">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://runvis.app/ja/privacy.html">
+<meta property="og:site_name" content="Runvis">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://runvis.app/assets/og-card.png?v=2">
+<meta property="og:image:alt" content="Runvis — Apple Watch running coach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://runvis.app/assets/og-card.png?v=2">
+<link rel="canonical" href="https://runvis.app/ja/privacy.html">
+<link rel="alternate" hreflang="x-default" href="https://runvis.app/privacy.html">
+<link rel="alternate" hreflang="ko" href="https://runvis.app/privacy.html">
+<link rel="alternate" hreflang="en" href="https://runvis.app/en/privacy.html">
+<link rel="alternate" hreflang="ja" href="https://runvis.app/ja/privacy.html">
+<link rel="alternate" hreflang="es" href="https://runvis.app/es/privacy.html">
+<link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/privacy.html">
+<link rel="alternate" hreflang="de" href="https://runvis.app/de/privacy.html">
+<style>
+  :root{
+    --green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;
+    /* --dim2 was #6a6f76 = 4.15:1 on black, under the 4.5:1 AA floor; the
+       "last updated" line and the legal note used it. #878d95 is 6.27:1,
+       the same token index.html uses. */
+    --text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
+    line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
+  .wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}
+  a{color:var(--green);text-decoration:none}
+  :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+  img{max-width:100%;display:block}
+  h1{font-size:1.7rem;margin-bottom:6px}
+  .updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}
+  /* Without this the first Tab on every page landed on the language menu.
+     Visually hidden until it takes focus, then it becomes a real button. */
+  .skip{position:absolute;left:-9999px;top:0;z-index:200}
+  .skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
+    padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
+  h2{font-size:1.15rem;margin:36px 0 12px;color:var(--green)}
+  p,li{color:var(--dim);font-size:.95rem}
+  ul{padding-left:20px;margin:10px 0}
+  li{margin:6px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0}
+  .card b{color:var(--text)}
+  .tablewrap{overflow-x:auto;margin:14px 0}
+  table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:520px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--dim)}
+  th{color:var(--text);font-weight:600}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
+  .back{color:var(--dim);font-size:.9rem}
+  .legalnote{color:var(--dim2);font-size:.8rem;margin-bottom:22px}
+  /* language selector — same ids i18n.js looks for (#langsel/#langbtn/#langmenu) */
+  .langsel{position:relative;display:inline-block}
+  .langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
+  .langsel button:hover{border-color:var(--green)}
+  .langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+  .langsel.open ul{display:block}
+  .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
+  .langsel li:hover{background:rgba(61,220,132,.15)}
+  .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
+</style>
+<!-- Language boot — same script as index.html. Runs before the body is parsed
+     so <html lang>, the canonical and og:locale are already right at first
+     paint, and pulls exactly one dictionary (~37-49 KB) instead of six. -->
+<script>
+(function(){
+  var L=["ko","en","ja","es","zh","de"];
+  function norm(v){ if(!v) return null; v=String(v).toLowerCase();
+    v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
+    return L.indexOf(v)>=0 ? v : null; }
+  var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
+  // On a prerendered page (/en/, /ja/ …) the directory IS the language and
+  // RunvisPageLang is set just above; it outranks the saved choice and the
+  // browser's. ?lang= still wins over it.
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang);
+  if(!code){ try{ code=norm(localStorage.getItem("runvis_lang")); }catch(e){} }
+  if(!code) code=norm(navigator.language)||"ko";
+  window.RunvisLang=code; window.RunvisUrlLang=urlLang;
+  var html=document.documentElement;
+  html.lang = code==="zh" ? "zh-Hant" : code;
+  html.className += (html.className?" ":"") + "js";
+  var BASE=window.RunvisBase||"";              // "" at the root, "/" under /en/ …
+  var d=document.createElement("script");
+  d.src=BASE+"t-"+code+".js?v=20260906e"; d.async=false; document.head.appendChild(d);
+  function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
+  // ?lang=de on a ROOT url shows the same page the prerendered /de/ copy shows,
+  // so the canonical points there instead of at itself — otherwise the two
+  // compete for the same market and neither wins. Without ?lang, and on the
+  // prerendered pages themselves, the canonical is the page's own address.
+  var link=document.querySelector('link[rel="canonical"]');
+  if(link){
+    // Remember the page's OWN address before rewriting it. i18n.js recomputes
+    // the canonical on every language switch and would otherwise read back the
+    // value this script just wrote and prefix it a second time (/ja/ja/).
+    var base=link.getAttribute("data-base")||(link.getAttribute("href")||"").split("?")[0].split("#")[0];
+    link.setAttribute("data-base",base);
+    var url=base;
+    if(!window.RunvisPageLang && urlLang && urlLang!=="ko"){
+      try{ var u=new URL(base); u.pathname="/"+urlLang+u.pathname; url=u.href; }catch(e){}
+    }
+    link.setAttribute("href",url); meta("property","og:url",url); }
+  var OGL={ko:"ko_KR",en:"en_US",ja:"ja_JP",es:"es_ES",zh:"zh_TW",de:"de_DE"};
+  meta("property","og:locale",OGL[code]);
+})();
+</script>
+<script defer src="/i18n.js?v=20260906e"></script>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="a11y.skip">本文へスキップ</a>
+<div class="wrap">
+  <div class="topbar">
+    <a class="back" href="index.html" data-i18n="pv.back">← Runvisのホームへ</a>
+    <div class="langsel" id="langsel">
+      <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="表示言語">🌐 <span id="langlabel">한국어</span> ▾</button>
+      <ul id="langmenu" role="menu" aria-labelledby="langbtn" tabindex="-1"></ul>
+    </div>
+  </div>
+  <p class="legalnote" data-i18n="pv.legalNote">韓国語版が法的な基準版です。他の言語は理解を助けるための翻訳であり、解釈に相違がある場合は韓国語版に従います。お問い合わせ: <a href="mailto:help@runvis.app">help@runvis.app</a></p>
+  <h1 id="main" tabindex="-1" data-i18n="pv.h1">プライバシーポリシー</h1>
+  <p class="updated" data-i18n="pv.updated">施行日: 2026年9月6日 · バージョン1.3</p>
+
+  <div class="card">
+    <p data-i18n="pv.summary"><b>ひと段落での要約</b> — Runvisはランニング・健康データを<b>あなたの端末の中だけで</b>処理します。Runvisが運営するサーバーはなく、アカウントもなく、あなたのワークアウト・健康データを開発者を含む誰にも送信・販売・共有しません。以下にその例外のすべて（天気の取得、Appleの決済、地図の経路生成、地名の取得、公開コース・シューズ一覧ファイルのダウンロード、ユーザーが自分で押すランニングシューズ検索リンク）を隠さず説明します。</p>
+  </div>
+
+  <h2 data-i18n="pv.s1.h">1. 収集・処理するデータ</h2>
+  <p data-i18n="pv.s1.p">Runvisは次のデータを<b>端末内で</b>読み取り、処理します。いずれもアプリの機能提供が目的で、端末の外には出ません。</p>
+  <ul>
+    <li data-i18n="pv.s1.li1"><b>ワークアウトデータ</b>: 心拍数、ペース、距離、GPSの経路、高度、ケイデンス、ランニングパワー・ストライド・接地時間・上下動（対応機種）、カロリー — Apple HealthKitを通じて読み取り・保存</li>
+    <li data-i18n="pv.s1.li2"><b>健康データ</b>: 睡眠（時間・段階）、心拍変動（HRV）、安静時心拍、VO₂max、（選択時）月経周期 — トレーニング準備度・回復の分析に使用</li>
+    <li data-i18n="pv.s1.li3"><b>モーションデータ</b>: 手首の加速度（ランの自動開始検知）、（装着時）AirPodsのヘッドモーション — フォームの参考シグナルとして</li>
+    <li data-i18n="pv.s1.li4"><b>プロフィール入力値</b>: 生年、性別、安静時心拍数、最大心拍数 — 初回設定画面でご自身が入力し、心拍ゾーンと年齢ベースの推定の基準としてのみ使用します</li>
+    <li data-i18n="pv.s1.li5"><b>その他の入力データ</b>: 目標大会・目標タイム、コーチの性格、シューズ情報、ワークアウト後のチェックイン（強度・痛み・水分）</li>
+    <li data-i18n="pv.s1.li6"><b>Bluetoothセンサー</b>: （接続時）心拍ベルト、サイクリングパワーメーター・スマートトレーナーのリアルタイム測定値</li>
+    <li data-i18n="pv.s1.li7"><b>診断データ</b>: アプリのクラッシュ・ハングのレポート（Apple MetricKit）— 端末にのみ保存され、ユーザー自身が共有（書き出し）したときだけ端末の外に出ます</li>
+  </ul>
+
+  <h2 data-i18n="pv.s2.h">2. データが保存される場所</h2>
+  <ul>
+    <li data-i18n="pv.s2.li1">ワークアウトの記録・経路は<b>ヘルスケア（HealthKit）</b>に保存されます — 所有者はあなたで、iCloudの健康同期を行うかどうかはiOSの設定に従います</li>
+    <li data-i18n="pv.s2.li2">アプリの設定・プロフィール入力値・プラン・コース・バッジの計算結果は<b>端末内のアプリ保存領域</b>にのみ保存されます</li>
+    <li data-i18n="pv.s2.li3">Runvisは自社のサーバー・データベース・アカウントシステムを運営していません</li>
+    <li data-i18n="pv.s2.li4">Runvisは独自のバックアップや同期を行いません。端末を変えるとApple ヘルスケアに保存されたワークアウトは引き継がれますが、プロフィール・シューズ・プラン・バッジやコーチが作ったベースラインのようにアプリ内にだけある値は引き継がれません。設定 → データの「自分のデータを書き出す」でこれらをファイル1つにまとめ、新しい端末の「バックアップから読み込む」で戻せます — そのファイルは自分が保存した場所にだけ残り、Runvisはどこにも送りません</li>
+  </ul>
+
+  <h2 data-i18n="pv.s3.h">3. 端末の外に出る例外（すべて）</h2>
+  <div class="tablewrap">
+  <table>
+    <tr><th data-i18n="pv.s3.th1">例外</th><th data-i18n="pv.s3.th2">送信されるもの</th><th data-i18n="pv.s3.th3">送信先</th></tr>
+    <tr><td data-i18n="pv.s3.r1a">天気ブリーフィング</td><td data-i18n="pv.s3.r1b">約1km単位に丸めたおおよその座標（町レベルの精度）と時刻 — リクエストの瞬間のみ、保存・識別子なし</td><td data-i18n="pv.s3.r1c">Open-Meteo（無料の気象API）</td></tr>
+    <tr><td data-i18n="pv.s3.r2a">サブスクの決済</td><td data-i18n="pv.s3.r2b">決済処理のすべて — Runvisはカード・決済情報を見ることも保存することもできません</td><td data-i18n="pv.s3.r2c">Apple App Store</td></tr>
+    <tr><td data-i18n="pv.s3.r3a">コースの自動生成</td><td data-i18n="pv.s3.r3b">経路計算用の現在の座標 — 生成をリクエストした瞬間のみ（丸めていない値）</td><td data-i18n="pv.s3.r3c">Appleの地図（MapKit）</td></tr>
+    <tr><td data-i18n="pv.s3.r4a">地名の表示</td><td data-i18n="pv.s3.r4b">天気ブリーフィングやワークアウト記録に「駅三洞」のような地名を付けるための現在の座標 — 照会の瞬間のみ、丸めていない値。結果は端末にキャッシュされ、同じ場所を再度照会することはありません</td><td data-i18n="pv.s3.r4c">Appleの位置情報サービス（CLGeocoder）</td></tr>
+    <tr><td data-i18n="pv.s3.r5a">コース・シューズ一覧のダウンロード</td><td data-i18n="pv.s3.r5b"><b>送信するデータなし</b> — 公開されたファイルを1日1回、匿名でダウンロードするだけです（ウェブサイトの閲覧と同じく、接続IPは相手に見えます）</td><td data-i18n="pv.s3.r5c">GitHub Pages（静的ファイルホスティング）</td></tr>
+    <tr><td data-i18n="pv.s3.r6a">ランニングシューズ検索を開く</td><td data-i18n="pv.s3.r6b"><b>送信するデータなし</b> — ウォッチまたはiPhoneのシューズ画面でユーザーが自分でボタンを押したときにだけ、検索語「ランニングシューズ」を含むアドレスで外部ブラウザが開きます。運動・健康データやシューズの記録は一緒に出ていきません</td><td data-i18n="pv.s3.r6c">外部のショッピングサイト（現在は韓国の通販サイト Coupang の検索ページ）</td></tr>
+  </table>
+  </div>
+  <p data-i18n="pv.s3.note">上記のいずれにも氏名・メールアドレスなどの識別情報は含まれず、Runvisが別途記録することもありません。Runvisは収集・記録したワークアウト・健康データを<b>アップロードしません</b> — アプリにアップロードするコードは存在せず、上の通信は照会に必要な最小限の情報だけを含む読み取り（照会）リクエストです。</p>
+
+  <h2 data-i18n="pv.s4.h">4. 権限の利用目的</h2>
+  <ul>
+    <li data-i18n="pv.s4.li1"><b>ヘルスケア（HealthKit）</b>: ワークアウトの保存・過去の記録の分析</li>
+    <li data-i18n="pv.s4.li2"><b>位置情報</b>: ランの経路の記録、天気ブリーフィング、コース案内</li>
+    <li data-i18n="pv.s4.li3"><b>モーション</b>: ランの開始の自動検知、ウォームアップの案内</li>
+    <li data-i18n="pv.s4.li4"><b>通知</b>（任意）: トレーニングプランの曜日リマインダー、夕方のブリーフィング、日曜の週間コーチまとめ、久しぶりの復帰の案内、サブスク更新の2日前の案内 — 通知の文面は端末内で作られ、サーバーには送信されません</li>
+    <li data-i18n="pv.s4.li5"><b>Bluetooth</b>: 外部センサー（心拍ベルト・パワーメーター）の接続</li>
+    <li data-i18n="pv.s4.li6"><b>カレンダー</b>（任意）: トレーニングプランの予定の追加</li>
+    <li data-i18n="pv.s4.li7"><b>写真</b>（任意）: 経路のフライオーバー動画の保存</li>
+  </ul>
+  <p data-i18n="pv.s4.note">いずれの権限も拒否できます。該当する機能以外のアプリの利用に支障はありません。</p>
+
+  <h2 data-i18n="pv.s5.h">5. 第三者提供・広告・トラッキング</h2>
+  <ul>
+    <li data-i18n="pv.s5.li1">第三者提供: <b>なし</b> — アプリが処理するワークアウト・健康データについてです。唯一の例外はウェブサイトのベータ申込メールの処理委託（Formspree）で、下の6節で説明します</li>
+    <li data-i18n="pv.s5.li2">広告SDK・分析SDK・トラッキングツール: <b>なし</b></li>
+    <li data-i18n="pv.s5.li3">データの販売: <b>なし</b></li>
+  </ul>
+
+  <h2 data-i18n="pv.s6.h">6. ウェブサイト（ベータ申込）</h2>
+  <p data-i18n="pv.s6.p">ホームページ（runvis.app）のベータ申込フォームからメールアドレスを送信した場合、以下のように取り扱われます。この節はウェブサイトのフォームにのみ適用され、アプリはメールを含むいかなるアカウント情報も収集しません。</p>
+  <ul>
+    <li data-i18n="pv.s6.li1"><b>収集項目</b>: メールアドレス（申込者ご自身が入力したものに限ります）</li>
+    <li data-i18n="pv.s6.li2"><b>収集目的</b>: TestFlightベータの招待の送付とベータ進行に関する案内</li>
+    <li data-i18n="pv.s6.li3"><b>処理の委託・国外移転</b>: フォームの送信・保管は<b>Formspree, Inc.</b>（米国）のフォーム処理サービスに委託され、送信されたメールアドレスはFormspreeのサーバー（米国）に送信・保管されます — <a href="https://formspree.io/legal/privacy-policy/" rel="noopener">Formspreeのプライバシーポリシー</a></li>
+    <li data-i18n="pv.s6.li4"><b>保管・破棄</b>: ベータ招待の送付など収集目的を達成した時点で遅滞なく破棄し、遅くとも収集日から1年以内に破棄します。削除のご依頼: <a href="mailto:help@runvis.app">help@runvis.app</a></li>
+  </ul>
+
+  <h2 data-i18n="pv.s7.h">7. データの削除</h2>
+  <p data-i18n="pv.s7.p">アプリを削除すると、アプリ保存領域のデータ（プロフィール入力値を含む）が削除されます。HealthKitに保存されたワークアウトの記録はあなたの所有物なので、アプリ削除後もヘルスケアアプリに残り、ヘルスケアアプリから直接削除できます。</p>
+
+  <h2 data-i18n="pv.s8.h">8. 子どもについて</h2>
+  <p data-i18n="pv.s8.p">Runvisは満14歳未満を対象としていません。心拍ゾーンと年齢ベースの推定を計算するため、初回設定で生年を入力していただきますが、この値は端末内にのみ保存され、外部に送信されることはありません。ファミリー共有のサブスクでお子さまが利用する場合は、保護者の指導が必要です。</p>
+
+  <h2 data-i18n="pv.s9.h">9. 医療に関する免責</h2>
+  <p data-i18n="pv.s9.p">Runvisのすべての数値と案内は、公開された運動科学の式に基づく<b>参考用の推定値</b>であり、医学的な診断・治療・処方ではありません。胸の痛みやめまいなどの異常があれば、直ちに運動を中止して専門家にご相談ください。</p>
+
+  <h2 data-i18n="pv.s10.h">10. 変更およびお問い合わせ</h2>
+  <p data-i18n="pv.s10.p">ポリシーが変更された場合は、このページの施行日を更新します。利用規約は<a href="terms.html">利用規約</a>をご覧ください。お問い合わせ: <a href="mailto:help@runvis.app">help@runvis.app</a></p>
+</div>
+<!-- No renderDynamicI18n hook here any more. It existed to repair a title
+     that i18n.js used to hard-code to the homepage's meta.title on every
+     language switch; i18n.js stopped doing that, and this page's own
+     <title data-i18n> is applied by the ordinary [data-i18n] pass. The comment
+     was still describing the old bug, which is how a reader ends up keeping
+     dead code for a reason that no longer exists. -->
+</body>
+</html>

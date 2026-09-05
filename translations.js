@@ -8,7 +8,12 @@
    It is kept as a shim so a browser still holding a cached copy of the old
    markup (which asks for translations.js by name) resolves the language the
    same way and pulls the right file instead of getting a 404 and a page with
-   no dictionary at all. Do not add strings here — edit t-<code>.js. */
+   no dictionary at all. Do not add strings here — edit t-<code>.js.
+
+   DELETE THIS FILE ON OR AFTER 2026-10-06. A shim with no expiry date is how a
+   repository accumulates files nobody dares remove: by then the old markup has
+   been out of every cache for a month (GitHub Pages serves HTML with a
+   ten-minute max-age), so nothing can still be asking for it. */
 (function () {
   if (window.RUNVIS_I18N && Object.keys(window.RUNVIS_I18N).length) return;
   var L = ['ko', 'en', 'ja', 'es', 'zh', 'de'];
