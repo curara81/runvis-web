@@ -84,12 +84,33 @@
     if (waiting[code]) waiting[code].push(cb);
   }
 
-  // There is one set of device captures and it is Korean. The `data-shot`
-  // attributes in the markup name each screen so localized captures can be
-  // wired up later; until those captures actually exist, nothing is swapped
-  // and the `sc.note` caption under the FIRST screenshot section (#today, no
-  // longer under the hero) says so in all six languages.
+  // ---- localized device captures ----------------------------------------
+  // The five iPhone frames now exist in all six languages: the app was run on
+  // the iPhone 17 simulator under -AppleLanguages "(xx)" and re-composited into
+  // the same Apple bezel (tools/regenerate-screens.md → tools/composite_lang.py).
+  // Korean is the file with no suffix; the others are `<base>.<code>.png`.
   //
+  // The six WATCH frames have no localized variants and are Korean in every
+  // language. They are not in SHOTS below, so nothing is swapped for them and
+  // no request 404s — the capture script cannot reach those screens because the
+  // watchOS simulator ignores synthetic taps (only drags and hardware buttons
+  // register), and three of them are mid-run screens on top of that. The
+  // `sc.note` caption under the FIRST screenshot section (#today) is the place
+  // that tells the reader which half is which, in all six languages.
+  var SHOT_LANGS = { en: 1, ja: 1, es: 1, zh: 1, de: 1 };   // ko = the base file
+  var SHOTS = {
+    'framed-phone-dash': 1, 'framed-phone-detail': 1, 'framed-phone-glance': 1,
+    'framed-phone-plan': 1, 'framed-phone-race': 1
+  };
+  function applyShots(code) {
+    document.querySelectorAll('img[data-shot]').forEach(function (img) {
+      var base = img.getAttribute('data-shot');
+      if (!SHOTS[base]) return;                 // watch frames: leave the markup alone
+      var want = 'assets/' + base + (SHOT_LANGS[code] ? '.' + code : '') + '.png';
+      if (img.getAttribute('src') !== want) img.setAttribute('src', want);
+    });
+  }
+
   // The share card (assets/og-card.png) is deliberately language-neutral —
   // mark, watch silhouette, pulse, domain, no sentence — because og:image is
   // read by crawlers that never run this file, and GitHub Pages hands every
@@ -263,6 +284,7 @@
     current = code;
     document.documentElement.lang = code === 'zh' ? 'zh-Hant' : code;
     applyStatic(I18N[code]);
+    applyShots(code);
     applyCanonical(code);
     applyFaqLd(code, I18N[code]);
     applyAppLd(code, I18N[code]);

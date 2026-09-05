@@ -3,10 +3,20 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title data-i18n="meta.title">Runvis — 애플워치면 충분합니다. Apple Watch 러닝 코치</title>
-<meta content="러닝 시계를 하나 더 살 필요 없어요. 애플워치가 기록한 수면과 심박을 읽고 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다. 계정도 서버도 없습니다." name="description" data-i18n-attr="content:meta.desc"/>
-<meta content="Runvis — Apple Watch 러닝 코치" property="og:title" data-i18n-attr="content:meta.ogtitle"/>
-<meta content="러닝 시계를 하나 더 살 필요 없어요. 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다." property="og:description" data-i18n-attr="content:meta.ogdesc"/>
+<!-- Crawler-visible strings are BILINGUAL on purpose. GitHub Pages hands every
+     ?lang= the same file and no crawler runs the dictionary swap below, so
+     whatever stands here is what goes out for all six languages. Korean-only
+     was the worst of the options: five of the six audiences got a preview they
+     could not read. Korean leads because Korea is the launch store; the second
+     half is English because it is the only other language every one of the six
+     locales can at least parse. The real fix is prerendered per-language files
+     (/en/index.html …) with their own title/meta/og/canonical — that needs a
+     build step in tools/ and is not done. Until then og:locale, <html lang>
+     and the six hreflang alternates all still describe one Korean document. -->
+<title data-i18n="meta.title">Runvis — 애플워치면 충분합니다 · Apple Watch running coach</title>
+<meta content="러닝 시계를 하나 더 살 필요 없어요. 애플워치가 읽은 수면·심박으로 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다. 계정도 서버도 없습니다. / Apple Watch running coach: it reads the sleep and heart rate your watch already recorded, picks today&#39;s run and talks you through it. Six languages, no account, no server." name="description" data-i18n-attr="content:meta.desc"/>
+<meta content="Runvis — 애플워치 러닝 코치 · Apple Watch running coach" property="og:title" data-i18n-attr="content:meta.ogtitle"/>
+<meta content="오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다. / Your Apple Watch picks today&#39;s run and talks you through it — six languages, no account, no server." property="og:description" data-i18n-attr="content:meta.ogdesc"/>
 <meta content="website" property="og:type"/>
 <meta content="https://runvis.app/" property="og:url"/>
 <meta content="Runvis" property="og:site_name"/>
@@ -97,6 +107,16 @@
   /* German and Spanish labels are long: tighten before they wrap into the logo */
   @media(max-width:1180px){nav .links{gap:16px;font-size:14px}}
   @media(max-width:1000px){nav .links{gap:12px;font-size:13px}}
+  /* 821–920px (iPad Air/Pro portrait is 820 and 834) kept .nav-cta on screen
+     while .links was still overflow:hidden, so the last link — "5km 데모" —
+     was clipped off the right edge in Spanish and German with no way to reach
+     it. The phone rule below already scrolls the row; this extends the same
+     escape hatch up to the width where .nav-cta disappears, without taking
+     the desktop call to action away. */
+  @media(min-width:701px) and (max-width:920px){
+    nav .links{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    nav .links::-webkit-scrollbar{display:none}
+  }
   nav .links a{transition:color .2s}
   nav .links a:hover{color:var(--text)}
   @media(max-width:700px){
@@ -144,6 +164,11 @@
   .tbadge{background:rgba(22,25,30,.6);border:1px solid var(--line);border-radius:12px;padding:10px 18px;min-width:110px;backdrop-filter:blur(6px)}
   .tbadge b{display:block;font-size:19px;font-weight:900;background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
   .tbadge span{display:block;font-size:12px;color:var(--dim);margin-top:2px}
+  /* The trial badge is a link to the FAQ answer that states the condition,
+     so it needs a visible affordance where the other two badges have none. */
+  a.tbadge{display:block;transition:border-color .2s var(--ease)}
+  a.tbadge:hover{border-color:var(--green)}
+  a.tbadge span{text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
 
   /* hero devices: Apple bezels are shown flat (Apple's guidelines forbid angled product images) — they float, they don't tilt */
   .stage{margin:64px auto 0;position:relative;width:min(100%,680px)}
@@ -277,8 +302,18 @@
   .nextsteps p{margin-top:10px;font-size:13.5px;color:var(--dim);line-height:1.7}
   .nextsteps h4.sep{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
   .nextsteps p a{color:var(--green);border-bottom:1px solid rgba(61,220,132,.4)}
+  /* 13 course links in one block — dense on purpose so the takeaway does not
+     out-weigh the sign-up form it sits under. */
+  .nextsteps p.gpxlist{font-size:12.5px;line-height:2.1;color:var(--dim2)}
+  .nextsteps p.gpxlist a{white-space:nowrap}
+  .nextsteps p.gpxattr{font-size:11.5px;color:var(--dim2);margin-top:8px}
   /* visible only to assistive tech — playback announcements for the chips */
   .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+  /* Without this the first Tab on every page landed on the language menu.
+     Visually hidden until it takes focus, then it becomes a real button. */
+  .skip{position:absolute;left:-9999px;top:0;z-index:200}
+  .skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
+    padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
 
   /* signup */
   .signup{background:var(--bg1);border:1px solid var(--line);border-radius:22px;padding:40px;text-align:center;margin-top:28px}
@@ -375,6 +410,7 @@
 </script>
 </head>
 <body>
+<a class="skip" href="#hero" data-i18n="a11y.skip">본문 바로가기</a>
 <nav>
 <div class="wrap">
 <a class="logo" href="#hero">Run<b>vis</b></a>
@@ -414,17 +450,20 @@
 <script>(function(){var h=window.RunvisCritical; if(!h) return;
   for(var k in h){ var e=document.querySelector('[data-i18n="'+k+'"]'); if(e) e.innerHTML=h[k]; }
 })();</script>
-<p class="note reveal" data-i18n="n.hero.note">기록은 무료. 코치는 월 ₩1,900이고, 첫 구독이면 한 달 무료입니다.</p>
+<p class="note reveal" data-i18n="n.hero.note">기록은 무료. 코치는 월 ₩1,900이고, App Store가 체험 대상으로 판단하는 계정은 첫 기간이 무료입니다 — 어느 쪽인지 앱이 사기 전에 알려줍니다.</p>
 <div class="trust reveal">
 <div class="tbadge"><b>100%</b><span data-i18n="n.hero.b1">기기 안에서 계산</span></div>
 <div class="tbadge"><b data-i18n="n.hero.b3n">6개 언어</b><span data-i18n="n.hero.b3">음성 코칭</span></div>
-<div class="tbadge"><b data-i18n="n.hero.b4n">1개월</b><span data-i18n="n.hero.b4">첫 구독 시 무료 체험</span></div>
+<!-- The chip states the condition first and links to the FAQ answer that
+     spells it out; the app only shows this line when StoreKit says the account
+     is intro-eligible, so the page must not promise it flatly. -->
+<a class="tbadge" href="#faq"><b data-i18n="n.hero.b4n">첫 구독</b><span data-i18n="n.hero.b4">이면 무료 체험</span></a>
 </div>
 <div class="stage reveal">
 <div class="ring" aria-hidden="true" data-depth="-.15"><svg viewBox="0 0 200 200"><defs><linearGradient id="rg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#3DDC84"/><stop offset="1" stop-color="#4CCBD9"/></linearGradient></defs>
 <g class="spin"><circle cx="100" cy="100" r="92" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/><circle class="arc" cx="100" cy="100" r="92" fill="none" stroke="url(#rg)" stroke-width="3.5" stroke-linecap="round" transform="rotate(-90 100 100)" opacity=".95"/><circle cx="100" cy="100" r="70" fill="none" stroke="rgba(76,203,217,.12)" stroke-width="1" stroke-dasharray="2 6"/></g></svg></div>
 <div class="devices" data-depth=".35">
-<div class="phone"><img alt="iPhone 홈 — 오늘의 결정: 준비도 94, 달리기·걷기 반복, 수면·HRV·어제 부하와 '왜?'" data-i18n-attr="alt:alt.phone.hero" src="assets/framed-phone-dash.png" data-shot="framed-phone-dash" width="640" height="1308" fetchpriority="high" decoding="sync"/></div>
+<div class="phone"><img alt="iPhone 홈 — 오늘의 결정은 휴식(완전 휴식 또는 가벼운 산책)" data-i18n-attr="alt:alt.phone.hero" src="assets/framed-phone-dash.png" data-shot="framed-phone-dash" width="640" height="1308" fetchpriority="high" decoding="sync"/></div>
 <!-- Running screens only. The decision, the evidence and the start card live in
      #today and used to be repeated here, so the first scroll rewound instead of
      moving on; the two duplicates are gone and the phone above already carries
@@ -451,10 +490,24 @@
 <div class="card tilt reveal" data-tilt="8"><div class="ic">📐</div><h3 data-i18n="n.why.c2h">계산식은 공개돼 있어요</h3><p data-i18n="n.why.c2p">훈련 부하, 회복 시간, 역치 추정은 공개된 스포츠 과학 공식입니다. 런비스는 그 공식을 기기 안에서 돌립니다.</p></div>
 <div class="card tilt reveal" data-tilt="8"><div class="ic">🗣️</div><h3 data-i18n="n.why.c3h">없던 건 코치였어요</h3><p data-i18n="n.why.c3p">숫자를 읽고 오늘 할 일을 정해 주고, 달리는 동안 옆에서 말해 주는 사람. 그 일을 런비스가 합니다.</p></div>
 </div>
+<!-- The two counts are grepped out of the app, not estimated.
+     s1v 40  = `grep -c "return Entry(" Shared/Services/MetricGlossary.swift`
+               (40 explanations; 39 distinct titles because "평균" and
+                "평균 페이스" carry the same title with different bodies).
+     s2v 270+ = Cue( ko: ) construction sites in the nine shipping source
+               files (CoachEngine, WorkoutManager, PhoneCoachPlan,
+               CoachLanguage, MetricsEngine, WarmupView, CooldownView,
+               WorkoutStartView, IntervalWorkout), tests and the one
+               doc-comment mention excluded. Cue is "one spoken line" by
+               its own definition, so this counts lines, not triggers.
+               Exact count on 2026-09-06: 276, and CoachLanguage.swift:6
+               independently calls it "~280 cue sites"; the page states a
+               floor so adding a cue can never make it false. The old
+               "83 situations" matched nothing in the repo at all. -->
 <div class="mini reveal" style="max-width:760px;margin-top:26px">
-<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s1">뜻까지 설명하는 지표</small><b data-i18n="n.why.s1v">39개</b><em class="st-good" data-i18n="n.why.s1n">기기 안에서</em></div>
-<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s2">코치가 말하는 상황</small><b data-i18n="n.why.s2v">83가지</b><em class="st-good" data-i18n="n.why.s2n">실시간</em></div>
-<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">코치 음성 값</small><b data-i18n="n.why.s3v">월 1,900원</b><em class="st-fair" data-i18n="n.why.s3n">첫 구독 시 무료</em></div>
+<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s1">뜻까지 설명하는 지표</small><b data-i18n="n.why.s1v">40개</b><em class="st-good" data-i18n="n.why.s1n">기기 안에서</em></div>
+<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s2">코치가 준비한 문장</small><b data-i18n="n.why.s2v">270개 이상</b><em class="st-good" data-i18n="n.why.s2n">6개 언어 전부</em></div>
+<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">코치 음성 값</small><b data-i18n="n.why.s3v">월 1,900원</b><em class="st-fair" data-i18n="n.why.s3n">첫 구독이면 무료</em></div>
 </div>
 <p class="honest reveal" data-i18n="n.why.phone">워치가 아직 없어도 됩니다. 아이폰만으로 GPS 기록과 1km(마일 설정이면 1마일)마다 구간 페이스 안내가 됩니다 — 구독 없이 아이폰만으로 달릴 때 나오는 음성은 이 스플릿 하나입니다. 자세 코칭은 손목 센서가 필요해서 워치에서만 됩니다.</p>
 </div>
@@ -490,7 +543,7 @@
 </div>
 <!-- The full disclosure sits under the FIRST screenshot section rather than
      under the hero: it belongs next to the captures, not across the opening. -->
-<p class="sc-note reveal" data-i18n="sc.note">이 페이지의 앱 화면 사진은 모두 한국어판입니다 — Runvis는 한국에 먼저 출시하고, 지역이 열릴 때마다 그 언어로 촬영한 화면으로 교체합니다. 음성 코칭과 이 페이지의 문구는 이미 6개 언어로 동작합니다.</p>
+<p class="sc-note reveal" data-i18n="sc.note">화면 사진은 모두 실제 앱 캡처입니다 — 언어를 바꾸면 아이폰 화면 5장이 그 언어로 촬영한 캡처로 바뀝니다. 애플워치 화면 6장은 아직 한국어판뿐입니다.</p>
 </div>
 </section>
 
@@ -501,10 +554,10 @@
 <h2 class="reveal" data-i18n="n.live.h2">필요한 말만,<br/>필요한 순간에</h2>
 <p class="sub reveal" data-i18n="n.live.sub">코치가 하는 말에는 전부 센서가 잡은 근거가 있습니다. 눌러서 실제 안내를 들어 보세요.</p>
 <div class="voice-grid reveal">
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 페이스 안내 (무료)" data-i18n-attr="aria-label:n.vc1.aria" data-say="목표보다 25초 빠릅니다."><div class="sensor" data-i18n="n.vc1.sensor">📡 목표보다 20초 이상 벗어난 상태가 20초 넘게 이어질 때</div><div class="play"><span data-i18n="n.vc1.play">페이스</span><span class="pill free" data-i18n="n.pill.free">무료</span></div><div class="line" data-i18n="n.vc1.line">"목표보다 25초 빠릅니다."</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 언덕 예고 (무료)" data-i18n-attr="aria-label:n.vc2.aria" data-say="300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="n.vc2.sensor">📡 코스 고도를 미리 읽습니다. 늘 달리던 길이면 500m쯤에서 알아보고 언덕을 예고합니다</div><div class="play"><span data-i18n="n.vc2.play">언덕 예고</span><span class="pill free" data-i18n="n.pill.free">무료</span></div><div class="line" data-i18n="n.vc2.line">"300m 앞, 800m 오르막이 시작됩니다. 평균 경사 4%. 보폭을 줄이고 리듬을 유지하세요."</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 자세 코칭 (구독)" data-i18n-attr="aria-label:n.vc3.aria" data-say="케이던스가 기준보다 5퍼센트 낮아요. 보폭을 조금 줄여볼까요."><div class="sensor" data-i18n="n.vc3.sensor">📡 평지에서 페이스가 일정한데 케이던스가 내 기준보다 5% 낮은 상태가 30초 이어질 때. 접지 시간이 300ms를 넘거나 수직 진폭이 커져도 같은 한 줄 · 러닝 6분 뒤부터, 한 러닝에 두 번까지</div><div class="play"><span data-i18n="n.vc3.play">자세</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></div><div class="line" data-i18n="n.vc3.line">"케이던스가 기준보다 5% 낮아요. 보폭을 조금 줄여볼까요."</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 회복 안내 (구독)" data-i18n-attr="aria-label:n.vc4.aria" data-say="심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor" data-i18n="n.vc4.sensor">📡 걷기 회복 중 심박 존이 한 칸 내려올 때</div><div class="play"><span data-i18n="n.vc4.play">회복</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></div><div class="line" data-i18n="n.vc4.line">"심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 페이스 안내 (무료)" data-i18n-attr="aria-label:n.vc1.aria" data-say="목표보다 25초 빠릅니다"><div class="sensor" data-i18n="n.vc1.sensor">📡 목표보다 20초 이상 벗어난 상태가 20초 넘게 이어질 때</div><div class="play"><span data-i18n="n.vc1.play">페이스</span><span class="pill free" data-i18n="n.pill.free">무료</span></div><div class="line" data-i18n="n.vc1.line">"목표보다 25초 빠릅니다"</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 언덕 예고 (무료)" data-i18n-attr="aria-label:n.vc2.aria" data-say="300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="n.vc2.sensor">📡 코스 고도를 미리 읽습니다. 늘 달리던 길이면 500m쯤에서 알아보고 언덕을 예고합니다</div><div class="play"><span data-i18n="n.vc2.play">언덕 예고</span><span class="pill free" data-i18n="n.pill.free">무료</span></div><div class="line" data-i18n="n.vc2.line">"300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 자세 코칭 (구독)" data-i18n-attr="aria-label:n.vc3.aria" data-say="케이던스가 기준보다 5퍼센트 낮아요 — 보폭을 조금 줄여볼까요."><div class="sensor" data-i18n="n.vc3.sensor">📡 평지에서 페이스가 일정한데 케이던스가 내 기준보다 5% 낮은 상태가 30초 이어질 때. 접지 시간이 300ms를 넘거나 수직 진폭이 커져도 같은 한 줄 · 러닝 6분 뒤부터, 한 러닝에 두 번까지</div><div class="play"><span data-i18n="n.vc3.play">자세</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></div><div class="line" data-i18n="n.vc3.line">"케이던스가 기준보다 5퍼센트 낮아요 — 보폭을 조금 줄여볼까요."</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 회복 안내 (구독)" data-i18n-attr="aria-label:n.vc4.aria" data-say="심박이 존 쓰리까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor" data-i18n="n.vc4.sensor">📡 걷기 회복 중 심박 존이 한 칸 내려올 때 · 화면에는 '존 3', 워치는 '존 쓰리'로 읽습니다 — 한국어 TTS가 존 일·존 이를 헷갈려서 숫자만 영어로 말합니다</div><div class="play"><span data-i18n="n.vc4.play">회복</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></div><div class="line" data-i18n="n.vc4.line">"심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."</div></div>
 </div>
 <p class="sr-only" id="voiceStatus" role="status" aria-live="polite"></p>
 <div class="quiet reveal"><span>🤫</span><div class="qbody">
@@ -512,8 +565,8 @@
 <div class="qtable"><table>
 <tr><th data-i18n="n.live.q.th1">세션</th><th data-i18n="n.live.q.th2">30분당 그 밖의 안내</th></tr>
 <tr><td data-i18n="n.live.q.r1a">이지런 · 롱런 · 달리기·걷기 반복</td><td data-i18n="n.live.q.r1b">8회까지</td></tr>
-<tr><td data-i18n="n.live.q.r2a">템포 · 레이스</td><td data-i18n="n.live.q.r2b">6회까지</td></tr>
-<tr><td data-i18n="n.live.q.r3a">인터벌 · 자유 러닝</td><td data-i18n="n.live.q.r3b">상한 없음 — 켜 둔 항목이 밀도를 정합니다</td></tr>
+<tr><td data-i18n="n.live.q.r2a">템포 · 레이스 · 자유 러닝</td><td data-i18n="n.live.q.r2b">6회까지</td></tr>
+<tr><td data-i18n="n.live.q.r3a">인터벌</td><td data-i18n="n.live.q.r3b">상한 없음 — 켜 둔 항목이 밀도를 정합니다</td></tr>
 </table></div>
 <ul>
 <li data-i18n="n.live.q.n1">최소 간격은 45초입니다. 안전 안내, 훈련 스텝 같은 핵심 안내, 스플릿만 예외예요.</li>
@@ -593,7 +646,7 @@
 </ul>
 </div>
 </div>
-<p class="sc-note reveal" data-i18n="sc.note.s">화면 사진은 한국어판입니다.</p>
+<p class="sc-note reveal" data-i18n="sc.note.s">이 언어로 촬영한 실제 앱 화면입니다.</p>
 </div>
 </section>
 
@@ -602,7 +655,7 @@
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.priv.eb">프라이버시</div>
 <div class="big reveal" data-i18n="n.priv.big">계정도, 서버도 없습니다.<br/>터널에서도 코치는 말합니다.</div>
-<p class="reveal"><span data-i18n="n.priv.p">기록과 분석은 전부 워치와 아이폰 안에서 처리합니다. 날씨를 조회할 때는 약 1km 단위로 반올림한 좌표를, 동네 이름과 코스 자동 생성에는 애플 서비스에 현재 좌표를 그 순간에만 보냅니다. 이 밖에 App Store 결제 처리와 공개 코스·신발 목록 파일 내려받기가 있고, 다섯 가지 전부를 개인정보처리방침에 적어 두었습니다. 운동과 건강 데이터는 어디로도 올라가지 않습니다.</span> <a href="privacy.html" data-i18n="n.priv.link">개인정보처리방침</a></p>
+<p class="reveal"><span data-i18n="n.priv.p">기록과 분석은 전부 워치와 아이폰 안에서 처리합니다. 날씨를 조회할 때는 약 1km 단위로 반올림한 좌표를, 동네 이름과 코스 자동 생성에는 애플 서비스에 현재 좌표를 그 순간에만 보냅니다. 이 밖에 App Store 결제 처리와 공개 코스·신발 목록 파일 내려받기가 있고, 워치 신발 화면에서 사용자가 직접 누를 때만 외부 러닝화 검색 페이지가 열립니다. 이 예외를 하나도 빼지 않고 개인정보처리방침에 적어 두었습니다. 운동과 건강 데이터는 어디로도 올라가지 않습니다.</span> <a href="privacy.html" data-i18n="n.priv.link">개인정보처리방침</a></p>
 </div>
 </section>
 
@@ -611,7 +664,7 @@
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.price.eb">가격</div>
 <h2 class="reveal" data-i18n="n.price.h2">기록은 무료,<br/>코치는 월 1,900원</h2>
-<p class="sub reveal" data-i18n="n.price.sub">기록과 플랜 보기, 리포트는 무료입니다. 코치가 직접 말하고 분석하는 건 구독이고, 첫 구독이면 첫 달을 무료로 써볼 수 있습니다.</p>
+<p class="sub reveal" data-i18n="n.price.sub">기록과 플랜 보기, 리포트는 무료입니다. 코치가 직접 말하고 분석하는 건 구독이고, App Store가 체험 대상으로 판단하는 계정은 첫 기간을 무료로 써볼 수 있습니다.</p>
 <div class="price">
 <div class="plan tilt reveal" data-tilt="5">
 <div class="name" data-i18n="n.price.freeName">기본</div>
@@ -625,21 +678,21 @@
 </ul>
 </div>
 <div class="plan pro tilt reveal" data-tilt="5">
-<span class="ribbon" data-i18n="pl.ribbon">첫 구독 1개월 무료</span>
+<span class="ribbon" data-i18n="pl.ribbon">첫 구독이면 무료 체험</span>
 <div class="name" data-i18n="pl.coach">런비스 코치</div>
 <div class="amt"><span data-i18n="pr.month">₩1,900</span><small data-i18n="t144"> / 월</small></div>
 <div class="amt-approx" data-i18n="pr.approx">대한민국 App Store 가격입니다. 다른 지역에서는 그 지역 App Store의 현지 통화 가격이 적용됩니다.</div>
 <div class="amt-year" data-i18n="n.price.year">연간은 <b>₩15,000</b>. 월 1,250원꼴로 약 34% 저렴합니다.</div>
-<div class="amt-year" data-i18n="n.price.life">구독 대신 <b>평생 이용권 ₩39,000</b>. 출시 기념가입니다. 연간 ₩15,000으로 치면 약 2.6년, 월 ₩1,900으로 치면 약 20개월이면 본전입니다. Apple 가족 공유가 되는 요금제는 이것뿐입니다.</div>
+<div class="amt-year" data-i18n="n.price.life">구독 대신 <b>평생 이용권 ₩39,000</b>. 출시 기념가이고 <b>출시 3개월 뒤 인상될 예정</b>입니다 — 인상은 그 뒤의 신규 구매에만 적용됩니다. 연간 ₩15,000으로 치면 약 2.6년, 월 ₩1,900으로 치면 약 20개월이면 본전입니다. Apple 가족 공유가 되는 요금제는 이것뿐입니다.</div>
 <ul>
 <li data-i18n="n.price.p1">달리는 중 코치 음성 — 자세, 언덕 주행법, 회복, 격려</li>
 <li data-i18n="n.price.p2">플랜 실행: 구간마다 진행하고 끝나면 계획 대비 점수</li>
-<li data-i18n="n.price.p3">심층 분석 7타일: 젖산 역치(추정), 지구력 훈련량, 언덕 노출, 더위 노출 지수, 코치 브레이크, 강도 분포, 코치 기록 레이더. 여기에 구간 최속 기록과 런비스 VDOT</li>
+<li data-i18n="n.price.p3">심층 분석 7타일: 젖산 역치(추정), 지구력 훈련량, 언덕 노출, 더위 노출 지수, 코치 브레이크, 강도 분포, 코치 기록 레이더. 여기에 구간 최속 기록과 런비스 VDOT. 7타일은 결제 즉시 열리고 값은 기록이 쌓이면서 채워집니다 — 지구력은 4주 중 3주·6회, 언덕은 오르막 2회, 더위는 22°C 이상 3회, 강도 분포는 8일·심박 5회, 브레이크는 2주가 필요하고, 그전까지 각 타일이 무엇이 더 필요한지 스스로 적어 둡니다.</li>
 <li data-i18n="n.price.p4">레이스 전략: 구간 페이스 플랜, 보급 스케줄, 대회 리허설</li>
 </ul>
 </div>
 </div>
-<p class="note" data-i18n="pr.note">표시 가격은 대한민국 App Store 기준입니다. 옆에 적은 환산액은 대략적인 값이고, 실제 결제에는 각 App Store의 현지 통화 가격이 적용됩니다.</p>
+<p class="note" data-i18n="pr.note">표시 가격은 대한민국 App Store 기준이며, 실제 결제에는 각 App Store의 현지 통화 가격이 적용됩니다. 지역별 금액은 스토어의 구매 화면에서 확인하세요.</p>
 <p class="note" data-i18n="pr.launch">Runvis는 대한민국 App Store에 먼저 출시되며, 다른 지역은 순차적으로 확대됩니다. 출시 시점은 TestFlight 베타가 끝난 뒤에 정해지고, 정해지면 이 페이지에 먼저 적습니다.</p>
 <p class="note" data-i18n="n.price.cancel">구독은 App Store 계정 설정에서 언제든 해지할 수 있고, 해지하면 남은 기간까지 쓰고 자동 갱신이 멈춥니다. 환불은 Apple의 환불 정책을 따릅니다.</p>
 <div class="reveal" style="text-align:center;margin-top:26px"><a class="btn" href="#beta" data-i18n="n.price.cta">베타 신청하고 먼저 써보기</a></div>
@@ -656,10 +709,10 @@
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q2">어떤 애플워치가 필요한가요?</h4><p data-i18n="n.faq.a2">심박과 GPS가 있는 모델이면 됩니다. 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 촘촘해지고, 못 재는 모델에서는 케이던스 기준으로 동작합니다.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q3">해지하면 기록은 어떻게 되나요?</h4><p data-i18n="n.faq.a3">기록은 Apple 건강에 남아 그대로입니다. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 씁니다.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q4">데이터는 어디로 가나요?</h4><p data-i18n="n.faq.a4">계정도 서버도 없습니다. 날씨와 동네 이름, 코스 자동 생성을 조회할 때만 위치가 나갑니다. 이 밖에 App Store 결제 처리와 공개 코스·신발 목록 파일 내려받기가 있고, 운동과 건강 데이터는 업로드하지 않습니다.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q5">6개 언어 음성은 어디까지 되나요?</h4><p data-i18n="n.faq.a5">코치 문장은 한국어, 영어, 일본어, 스페인어, 중국어(번체), 독일어로 말합니다. 스플릿과 언덕 예고처럼 숫자가 들어간 안내도 6개 언어로 나오고, 아직 번역되지 않은 문장은 영어로 나옵니다.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q6">기록이 하나도 없어도 쓸 수 있나요?</h4><p data-i18n="n.faq.a6">됩니다. 12분만 달리면 예상 5K·10K 기록과 첫 플랜이 그날 만들어집니다. 준비도는 워치를 차고 잔 밤이 기준선에 쌓여야 해서 보통 2주쯤, ACWR은 4주쯤, 퍼포먼스 컨디션은 경로가 기록된 러닝 3회부터 나옵니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q5">6개 언어 음성은 어디까지 되나요?</h4><p data-i18n="n.faq.a5">코치가 말하는 문장은 여섯 언어 모두에 번역돼 있습니다 — 지금 빠진 문장은 하나도 없습니다. 숫자가 들어가는 안내도 언어마다 그 언어의 어순으로 말합니다(스플릿, 언덕 예고, 페이스, 심박존, 훈련 스텝 포함). 네 개의 번역표가 서로 같은 키를 갖는지 검사하는 테스트가 앱에 들어 있어서, 문장이 늘었는데 번역이 빠지면 그 자리에서 실패합니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q6">기록이 하나도 없어도 쓸 수 있나요?</h4><p data-i18n="n.faq.a6">됩니다. 12분만 달리면 예상 5K·10K 기록과 첫 플랜이 그날 만들어집니다. 준비도는 워치를 차고 잔 밤이 기준선에 쌓여야 해서 보통 2주쯤, ACWR은 4주쯤 걸립니다. 퍼포먼스 컨디션은 최대심박을 설정한 뒤 심박이 기록된 10분 넘는 러닝을 같은 강도대(이지·중간·고강도)로 3회 채우면 나옵니다.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q7">첫 달 무료는 누가 받나요?</h4><p data-i18n="n.faq.a7">App Store가 이 구독의 체험을 아직 쓰지 않았다고 판단하는 계정만 받습니다. 전에 같은 구독을 썼거나 체험을 이미 소진한 계정은 첫 결제부터 바로 청구됩니다. 앱의 구매 화면이 지금 어느 쪽인지 사기 전에 항상 알려줍니다.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q8">평생 이용권과 연간 중 뭐가 유리한가요?</h4><p data-i18n="n.faq.a8">₩39,000인 평생 이용권은 연간 ₩15,000 기준 약 2.6년, 월 ₩1,900 기준 약 20개월이면 본전입니다. 그보다 오래 쓸 생각이면 평생 쪽이 쌉니다. 평생 이용권은 자동 갱신이 없는 1회 구매이고, Apple 가족 공유가 되는 요금제도 이것뿐입니다 — 월간·연간 구독은 대상이 아닙니다. 다른 지역에서는 그 App Store의 현지 가격이 적용됩니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q8">평생 이용권과 연간 중 뭐가 유리한가요?</h4><p data-i18n="n.faq.a8">₩39,000인 평생 이용권은 연간 ₩15,000 기준 약 2.6년, 월 ₩1,900 기준 약 20개월이면 본전입니다. 그보다 오래 쓸 생각이면 평생 쪽이 쌉니다. 지금 가격은 출시 기념가이고 출시 3개월 뒤 인상될 예정이며, 인상은 그 뒤의 신규 구매에만 적용됩니다. 평생 이용권은 자동 갱신이 없는 1회 구매이고, Apple 가족 공유가 되는 요금제도 이것뿐입니다 — 월간·연간 구독은 대상이 아닙니다. 다른 지역에서는 그 App Store의 현지 가격이 적용됩니다.</p></div>
 </div>
 </div>
 </section>
@@ -670,7 +723,7 @@
 <div class="eyebrow reveal" data-i18n="n.beta.eb">베타 신청</div>
 <h2 class="reveal" data-i18n="n.beta.h2">베타로 먼저 써 보세요</h2>
 <div class="signup reveal">
-<p class="sub" data-i18n="n.beta.sub" style="margin:0 auto">이메일을 남기면 TestFlight 베타가 열릴 때 초대장을 한 통 보내드립니다. 여는 날짜는 아직 정해지지 않았고, 정해지면 이 자리에 먼저 적습니다. 출시 전까지 코치 기능은 전부 무료입니다.</p>
+<p class="sub" data-i18n="n.beta.sub" style="margin:0 auto">이메일을 남기면 TestFlight 베타가 열릴 때 초대장을 한 통 보내드립니다. 여는 날짜는 아직 정해지지 않았습니다 — 정해지는 날 이 자리에 적고, 이미 신청하신 주소로도 같이 보냅니다. 초대는 신청한 순서 그대로 나갑니다. 출시 전까지 코치 기능은 전부 무료입니다.</p>
 <form action="https://formspree.io/f/xnjeyalr" id="betaForm" method="POST">
 <input name="email" placeholder="이메일 주소" data-i18n-attr="placeholder:ph.email" required="" type="email"/>
 <button class="btn" data-i18n="t160" id="betaSubmit" type="submit">베타 초대 받기</button>
@@ -691,7 +744,16 @@
 <li data-i18n="n.beta.s1">접수 — 이메일 주소만 받습니다. 계정을 만들 필요는 없습니다.</li>
 <li data-i18n="n.beta.s2">TestFlight 초대 — 베타가 열리면 신청 순서대로 초대 링크를 보냅니다. 애플 계정만 있으면 되고 결제는 없습니다. 마케팅 수신에 동의하지 않으면 이 초대 한 통 외에 다른 메일은 가지 않습니다.</li>
 <li data-i18n="n.beta.s3">피드백 — 앱 안에서 바로 의견을 보낼 수 있고, help@runvis.app 으로도 받습니다.</li>
+<li data-i18n="n.beta.s4">출시 — 출시 시점은 베타가 끝난 뒤에 정해집니다. 대한민국 App Store에 먼저 나오고 다른 지역은 순차적으로 열립니다.</li>
 </ol>
+<!-- A second thing to do that is not "wait for an e-mail". These are the same
+     files the app downloads from this domain (CourseLibrary reads
+     https://runvis.app/course-catalog.json), so nothing new is exposed — the
+     visitor just gets to keep them. ODbL requires the attribution line below. -->
+<h4 class="sep" data-i18n="n.beta.gpxh">지금 바로 받아 갈 수 있는 것</h4>
+<p data-i18n="n.beta.gpx">앱이 쓰는 서울 코스 13개의 GPX 파일입니다. 신청하지 않아도, 앱을 깔지 않아도 지금 받아서 다른 시계나 지도 앱에 넣을 수 있습니다.</p>
+<p class="gpxlist"><a href="gpx/seoul-namsan-bukcheuk.gpx" download>남산 북측순환로 <span style="color:var(--dim2)">6.7km</span></a> · <a href="gpx/seoul-namsan-summit.gpx" download>남산 정상 업힐 <span style="color:var(--dim2)">4.0km</span></a> · <a href="gpx/seoul-bukak-skyway.gpx" download>북악스카이웨이 <span style="color:var(--dim2)">5.2km</span></a> · <a href="gpx/seoul-ansan-jarak.gpx" download>안산 자락길 <span style="color:var(--dim2)">6.1km</span></a> · <a href="gpx/seoul-inwangsan.gpx" download>인왕산 자락길 <span style="color:var(--dim2)">2.9km</span></a> · <a href="gpx/seoul-naksan.gpx" download>낙산공원 한양도성길 <span style="color:var(--dim2)">2.1km</span></a> · <a href="gpx/seoul-eungbong.gpx" download>응봉산 계단 <span style="color:var(--dim2)">1.6km</span></a> · <a href="gpx/seoul-dorimcheon.gpx" download>도림천 <span style="color:var(--dim2)">14.5km</span></a> · <a href="gpx/seoul-banpo-hangang.gpx" download>반포 한강공원 <span style="color:var(--dim2)">5.0km</span></a> · <a href="gpx/seoul-tancheon.gpx" download>탄천 <span style="color:var(--dim2)">7.1km</span></a> · <a href="gpx/seoul-yangjaecheon.gpx" download>양재천 <span style="color:var(--dim2)">3.9km</span></a> · <a href="gpx/seoul-cheonggyecheon.gpx" download>청계천 <span style="color:var(--dim2)">5.5km</span></a> · <a href="gpx/seoul-seoulsup.gpx" download>서울숲 순환 <span style="color:var(--dim2)">2.0km</span></a></p>
+<p class="gpxattr" data-i18n="n.beta.gpxattr">경로는 OpenStreetMap 도로·산책로 데이터, 고도는 Copernicus DEM / NASA SRTMGL1(공개 도메인) 기준입니다. © OpenStreetMap contributors · ODbL 1.0.</p>
 <h4 class="sep" data-i18n="n.beta.nowh">기다리는 동안 확인할 수 있는 것</h4>
 <p data-i18n="n.beta.now"><a href="run.html">5km 데모</a>는 코치가 언제 말하고 언제 조용한지 그대로 보여주고, <a href="privacy.html">개인정보처리방침</a>은 데이터가 어디까지 나가는지 적어 둔 문서입니다.</p>
 </div>
@@ -816,7 +878,7 @@ function heroCurrentLines(){
     // Same four sentences as hero0..hero3 in t-ko.js, word for word — they are
     // quoted as things the coach actually says, so both copies come from
     // CoachEngine/WorkoutManager originals. Keep them in step.
-    : ["현재 기온 3도, 습도 60퍼센트입니다. 기온이 낮아 근육이 굳기 쉬우니 준비운동을 평소보다 길게 하겠습니다.","300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요.","목표보다 12초 빠릅니다.","심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."];
+    : ["현재 기온 3도, 습도 60퍼센트입니다. 기온이 낮아 근육이 굳기 쉬우니 준비운동을 평소보다 길게 하겠습니다.","300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요.","목표보다 12초 빠릅니다","심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."];
 }
 // Every restart bumps `heroGen`. The typing interval and the 2.4 s pause that
 // follows a finished line both carry the generation they were started in, so a

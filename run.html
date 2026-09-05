@@ -3,10 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title data-i18n="r1">RUN SESSION — 런비스와 5km | Runvis</title>
-<meta name="description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요." data-i18n-attr="content:r2">
-<meta property="og:title" content="RUN SESSION — 런비스와 5km | Runvis" data-i18n-attr="content:r1">
-<meta property="og:description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요." data-i18n-attr="content:r2">
+<!-- Bilingual on purpose — see the same note in index.html. One file serves
+     every ?lang= and crawlers never run the dictionary swap, so a Korean-only
+     title and description went out to all six languages. -->
+<title data-i18n="r1">RUN SESSION — 런비스와 5km · a 5&#8239;km run with Runvis</title>
+<meta name="description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요. / Scrolling is the run: hear exactly when and why the coach speaks over 5&#8239;km, from warm-up to finish." data-i18n-attr="content:r2">
+<meta property="og:title" content="RUN SESSION — 런비스와 5km · a 5&#8239;km run with Runvis" data-i18n-attr="content:r1">
+<meta property="og:description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요. / Scrolling is the run: hear exactly when and why the coach speaks over 5&#8239;km, from warm-up to finish." data-i18n-attr="content:r2">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://runvis.app/run.html">
 <meta property="og:site_name" content="Runvis">
@@ -18,8 +21,8 @@
      language. One HTML file serves every ?lang= and crawlers run no JS. -->
 <meta property="og:image:alt" content="Runvis — Apple Watch running coach">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="RUN SESSION — 런비스와 5km | Runvis" data-i18n-attr="content:r1">
-<meta name="twitter:description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요." data-i18n-attr="content:r2">
+<meta name="twitter:title" content="RUN SESSION — 런비스와 5km · a 5&#8239;km run with Runvis" data-i18n-attr="content:r1">
+<meta name="twitter:description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요. / Scrolling is the run: hear exactly when and why the coach speaks over 5&#8239;km, from warm-up to finish." data-i18n-attr="content:r2">
 <meta name="twitter:image" content="https://runvis.app/assets/og-card.png?v=2">
 <link rel="canonical" href="https://runvis.app/run.html">
 <noscript><style>.rv,.reveal{opacity:1!important;transform:none!important}</style></noscript>
@@ -204,6 +207,31 @@
   .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line2);box-shadow:none}
   .btn.ghost:hover{border-color:var(--green)}
 
+  /* Inline sign-up at the finish. Borrows the page's own tokens rather than
+     importing index.html's .signup block, so the demo keeps its terminal look. */
+  .dsign{margin-top:30px;border:1px solid var(--line);padding:24px;max-width:560px;background:rgba(61,220,132,.04)}
+  .dsign h3{font-size:19px;letter-spacing:-.01em}
+  .dsign p{font-size:13.5px;color:var(--dim);line-height:1.7;margin-top:8px}
+  .dsign form{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .dsign input[type=email]{flex:1 1 220px;min-width:0;padding:14px 16px;font-size:15px;color:var(--text);
+    background:#000;border:1px solid var(--line2);border-radius:2px;font-family:inherit}
+  .dsign input[type=email]::placeholder{color:var(--dim2)}
+  .dsign input[type=email]:focus{outline:none;border-color:var(--green)}
+  /* .btn was only ever used on <a>, so a <button> needs the UA border, font
+     and cursor reset or it renders grey with the system font. */
+  .dsign button.btn{border:none;cursor:pointer;font-family:inherit;line-height:1}
+  .dsign button.btn:disabled{opacity:.6;cursor:default;transform:none}
+  .dsign #demoStatus{font-size:14px;font-weight:700;margin-top:12px}
+  .dsign .consent{margin-top:14px;font-size:11.5px;color:var(--dim2);line-height:1.9}
+  .dsign .consent label{display:flex;gap:8px;align-items:flex-start;margin-top:6px;cursor:pointer}
+  .dsign .consent input{margin-top:4px;accent-color:var(--green)}
+
+  /* Without this the first Tab on every page landed on the language menu.
+     Visually hidden until it takes focus, then it becomes a real button. */
+  .skip{position:absolute;left:-9999px;top:0;z-index:200}
+  .skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
+    padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
+
   .footnote{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.04em;margin-top:40px;line-height:1.8}
 
   /* Four items in a 52 px bar wrap and overflow on a phone — the link-status
@@ -255,6 +283,7 @@
 <script defer src="i18n.js?v=20260906e"></script>
 </head>
 <body>
+<a class="skip" href="#s0" data-i18n="a11y.skip">본문 바로가기</a>
 
 <div class="progress" id="prog"></div>
 
@@ -290,6 +319,7 @@
       <p class="lead rv" data-i18n="r12">지금부터 <b>스크롤이 곧 러닝</b>입니다. 아래로 내리면 5km 러닝이 시작되고,
       하단의 거리·페이스·심박이 함께 움직입니다. 런비스가 <b>언제, 왜 말을 거는지</b> — 그리고 언제 조용히 있는지 직접 확인하세요.</p>
       <p class="footnote rv" data-i18n="r13">화면 속 수치는 시연용 예시 데이터입니다 · 실제 앱은 Apple Watch 센서로 동작합니다</p>
+      <p class="footnote rv" style="margin-top:10px" data-i18n="r.unitnote">이 데모는 km 기준으로만 달립니다. 실제 앱은 기기의 단위 설정을 따라 1km 또는 1마일마다 스플릿을 말하고, 화면과 음성의 거리·페이스도 그 단위로 나옵니다.</p>
       <p class="footnote rv" style="margin-top:10px" data-i18n="r.badge.note">코치 음성 하나하나에 <span class="pill free">무료</span> 또는 <span class="pill pro">구독</span> 표시를 붙여 뒀습니다. 기록·랩·건강 저장·기록 열람, 훈련 플랜 보기, 운동 상세 리포트, 준비운동 화면은 전부 무료입니다.</p>
     </div>
     <div class="rv">
@@ -450,9 +480,29 @@
       <p><span class="pill pro" data-i18n="n.pill.pro">구독</span><span data-i18n="r.tier.pro">자세 코칭 음성과 언덕 주행법·회복·격려 음성 · 훈련 플랜을 구간마다 실행하고 끝나면 계획 대비 점수 · 심층 분석 7타일 · 레이스 전략(리허설·구간 페이스 플랜·보급 스케줄) · 주간 코치 요약 카드</span></p>
       <p class="note" data-i18n="r.tier.price">월 ₩1,900 · 연 구독 · 평생 이용권 중에서 고릅니다. 가격은 App Store 기준이며 계정도 서버도 없습니다 — 데이터는 기기와 Apple 건강에만 남습니다.</p>
     </div>
+    <!-- The demo used to end in two links back to the home page, so the reader
+         who had just spent 5 km with the coach had to start the funnel over.
+         Same Formspree endpoint, same required consent and the same two
+         disclosure lines as #beta on index.html — one submission either way. -->
+    <div class="dsign rv">
+      <h3 data-i18n="r.signup.h">5km를 끝까지 들으셨습니다</h3>
+      <p data-i18n="r.signup.p">방금 읽은 안내를 손목에서 실제로 듣고 싶다면 여기서 바로 신청하세요 — 홈으로 돌아갈 필요 없습니다. 여는 날짜가 정해지면 이 주소로 먼저 알려 드리고, 초대는 신청한 순서대로 나갑니다.</p>
+      <form action="https://formspree.io/f/xnjeyalr" id="demoForm" method="POST">
+        <input name="email" placeholder="이메일 주소" data-i18n-attr="placeholder:ph.email" required type="email">
+        <button class="btn" id="demoSubmit" type="submit" data-i18n="t160">베타 초대 받기</button>
+      </form>
+      <p id="demoStatus" role="status" aria-live="polite" style="display:none"></p>
+      <div class="consent">
+        <div>· <b data-i18n="t161">수집 목적</b><span data-i18n="cs.purpose">: TestFlight 베타 초대장 발송</span></div>
+        <div>· <b data-i18n="t162">보관 기간</b><span data-i18n="cs.retain">: 베타 종료 또는 수신 동의 철회 시까지</span></div>
+        <label><input form="demoForm" name="privacy_consent" type="checkbox" value="yes" required> <span data-i18n="n.beta.required">(필수) 베타 초대장 발송을 위한 이메일 수집·이용에 동의합니다.</span></label>
+        <label><input form="demoForm" name="marketing_consent" type="checkbox" value="yes"> <span data-i18n="cs.marketing">(선택) 출시 소식·업데이트 등 마케팅 정보 수신에 동의합니다.</span></label>
+        <div style="margin-top:8px">· <a href="privacy.html" style="color:var(--green)" data-i18n="n.priv.link">개인정보처리방침</a></div>
+      </div>
+    </div>
     <div class="btns rv">
-      <a class="btn" href="index.html#beta" data-i18n="r61">TestFlight 베타 신청</a>
       <a class="btn ghost" href="index.html" data-i18n="r62">기능 전체 보기</a>
+      <a class="btn ghost" href="index.html#price" data-i18n="r.signup.price">가격 보기</a>
     </div>
     <p class="footnote rv" data-i18n="r63">본 페이지의 수치·대사는 실제 앱 동작 방식을 보여주는 시연용 예시입니다. 모든 지표와 안내는 일반적인 운동과학 공식에 기반한 참고 정보이며, 의학적 조언이 아닙니다.<br>문의: <a href="mailto:help@runvis.app" style="color:var(--dim)">help@runvis.app</a> · © 2026 Runvis · Apple Watch는 Apple Inc.의 상표입니다</p>
   </div>
@@ -460,11 +510,14 @@
 
 <footer style="height:56px"></footer>
 
+<!-- The four labels used to be untranslated English abbreviations, and the
+     KM unit is hard-coded because the demo's section anchors are min/km. The
+     app is not km-only — r.unitnote in #s0 says so in all six languages. -->
 <div class="hud-metrics">
-  <div class="m"><div class="k">DIST</div><div class="v gr"><span id="hKm">0.00</span><em>KM</em></div></div>
-  <div class="m"><div class="k">PACE</div><div class="v" id="hPace">--:--</div></div>
-  <div class="m"><div class="k">HR</div><div class="v or"><span id="hHr">62</span><em>BPM</em></div></div>
-  <div class="m"><div class="k">ZONE</div><div class="v" id="hZ">—</div></div>
+  <div class="m"><div class="k" data-i18n="r.hud.dist">거리</div><div class="v gr"><span id="hKm">0.00</span><em>KM</em></div></div>
+  <div class="m"><div class="k" data-i18n="r.hud.pace">페이스</div><div class="v" id="hPace">--:--</div></div>
+  <div class="m"><div class="k" data-i18n="r.hud.hr">심박</div><div class="v or"><span id="hHr">62</span><em>BPM</em></div></div>
+  <div class="m"><div class="k" data-i18n="r.hud.zone">존</div><div class="v" id="hZ">—</div></div>
 </div>
 
 <script>
@@ -551,6 +604,34 @@ window.renderDynamicI18n = function () {
   set('meta[name="twitter:title"]', t);
   set('meta[name="twitter:description"]', d);
 };
+
+// ---------- inline beta signup at the finish ----------
+// Same endpoint and same messages as index.html's #beta form; the demo used to
+// hand the reader back to the home page and lose them on the way.
+const demoForm = document.getElementById('demoForm');
+if (demoForm) demoForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  const status = document.getElementById('demoStatus');
+  const btn = document.getElementById('demoSubmit');
+  const T = (k, f) => window.RunvisT ? window.RunvisT(k, f) : f;
+  // Live region: clear it first so an identical repeat message is announced.
+  const show = (msg, ok) => {
+    status.textContent = '';
+    status.style.display = 'block';
+    status.style.color = ok ? 'var(--green)' : 'var(--red)';
+    setTimeout(() => { status.textContent = msg; }, 50);
+  };
+  if (demoForm.action.includes('YOUR_FORM_ID')) { show(T('form.busy', '신청 접수 준비 중입니다. 조금만 기다려 주세요!'), false); return; }
+  btn.disabled = true;
+  const original = btn.textContent;
+  btn.textContent = T('form.sending', '전송 중…');
+  try {
+    const res = await fetch(demoForm.action, { method: 'POST', body: new FormData(demoForm), headers: { Accept: 'application/json' } });
+    if (res.ok) { show(T('form.ok', '등록됐습니다. 여는 날짜가 정해지면 이 주소로 알려 드립니다.'), true); demoForm.reset(); }
+    else { const d = await res.json().catch(() => null); show(d?.errors?.[0]?.message || T('form.fail', '전송에 실패했어요. 잠시 후 다시 시도해 주세요.'), false); }
+  } catch { show(T('form.neterr', '네트워크 오류예요. 잠시 후 다시 시도해 주세요.'), false); }
+  finally { btn.disabled = false; btn.textContent = original; }
+});
 
 // ---------- robust in-page anchors (same fix as index) ----------
 document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
