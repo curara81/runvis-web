@@ -82,10 +82,13 @@
 
   /* NAV */
   nav{position:sticky;top:0;z-index:50;background:rgba(0,0,0,.66);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+  nav .wrap{display:flex;align-items:center;gap:18px;height:60px}
   .logo{font-weight:900;font-size:20px;letter-spacing:-.02em}
   .logo b{color:var(--green)}
-  nav .links{display:flex;gap:24px;font-size:15px;color:var(--dim);margin-left:auto}
+  nav .links{display:flex;gap:24px;font-size:15px;color:var(--dim);margin:0 auto;white-space:nowrap;min-width:0;overflow:hidden}
+  /* German and Spanish labels are long: tighten before they wrap into the logo */
+  @media(max-width:1180px){nav .links{gap:16px;font-size:14px}}
+  @media(max-width:1000px){nav .links{gap:12px;font-size:13px}}
   nav .links a{transition:color .2s}
   nav .links a:hover{color:var(--text)}
   @media(max-width:700px){
