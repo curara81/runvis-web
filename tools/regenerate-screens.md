@@ -6,8 +6,14 @@
 ## ⚠️ 현재 상태 (2026-07-26)
 - **폰 4종(dash·detail·plan·race)은 실기기 스크린샷으로 교체됨.** 아래 "A. 실기기
   경로"를 쓸 것. SVG 목업은 앱과 어긋나기 시작했다(탭 3개 vs 실제 4개).
-- **워치 4종은 아직 SVG 목업.** 운동 중 화면이라 워치 시뮬레이터에서 러닝 세션을
-  띄워야 하므로 별도 작업. 그때까지는 아래 "B. SVG 경로" 유지.
+- **워치 6종(hero=오늘의 결정·evidence=오늘의 근거·start=운동 시작·pace·hr·map)도
+  2026-09-05부터 워치 시뮬레이터 실캡처.** Ultra 3 시뮬 `xcrun simctl io <UDID> screenshot`
+  (422×514) → 기존 framed-watch-*.png를 도너로 스크린 구멍(79,178)-(403,590)에 cover-fit 합성
+  (PIL, 마스크는 도너 4장의 픽셀 차이로 추출). 러닝 중 화면은
+  `xcrun simctl location <UDID> start --speed=3.2 37.52,126.93 37.523,126.932 …`로 이동 시뮬 후
+  러닝 시작(위치 권한 → 브리핑 "건너뛰고 바로 달리기") 1~2분 뒤 캡처. 워치 UserDefaults
+  `planDaysPerWeek=3`, `c25kStartDate`(이번 주), `isDeveloperGodMode=1`로 오늘의 훈련 카드가
+  아이폰과 같은 세션(달리기·걷기 반복)·잠금 해제 상태로 나오게 맞출 것.
 
 ---
 

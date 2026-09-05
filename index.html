@@ -426,17 +426,20 @@
            </div>
 
          (자막 타이핑 루프는 그대로 유지 — heroCaption id만 남기면 됨.)
-         지금은 라이브 SVG 워치 목업으로 대체 중.
+         지금은 워치 시뮬레이터 실캡처 로테이션으로 대체 중.
     ============================================================= -->
 <div class="stage reveal">
 <div class="hero-devices">
 <!-- iPhone 홈: 오늘의 결정(준비도 → 오늘의 훈련 → 왜?) — 시뮬레이터 실캡처 -->
 <div class="hero-phone"><img alt="iPhone 홈 — 오늘의 결정: 준비도 94, 달리기·걷기 반복, 수면·HRV·어제 부하와 '왜?'" data-i18n-attr="alt:alt.phone.hero" src="assets/framed-phone-dash.png" data-shot="framed-phone-dash"/></div>
-<!-- 같은 베젤에 화면만 다른 3장 → 크로스페이드 로테이션 -->
+<!-- 같은 베젤에 화면만 다른 6장(워치 시뮬레이터 실캡처) → 크로스페이드 로테이션 -->
 <div class="watch-stack" id="watchStack">
-<img alt="Apple Watch Ultra에 표시된 Runvis 현재 페이스 화면" data-i18n-attr="alt:alt.watch.pace" class="watch on" src="assets/framed-watch-hero.png" data-shot="framed-watch-hero"/>
-<img alt="Runvis 심박존 아크 화면" data-i18n-attr="alt:alt.watch.zone" class="watch" src="assets/framed-watch-hr.png" data-shot="framed-watch-hr"/>
-<img alt="Runvis 실시간 GPS 지도 화면" data-i18n-attr="alt:alt.watch.map" class="watch" src="assets/framed-watch-map.png" data-shot="framed-watch-map"/>
+<img alt="Apple Watch Ultra — Runvis 오늘의 결정: 준비도 94 링, 달리기·걷기 반복" data-i18n-attr="alt:alt.watch.decision" class="watch on" src="assets/framed-watch-hero.png" data-shot="framed-watch-hero"/>
+<img alt="Apple Watch Ultra — Runvis 오늘의 근거: 수면 7.2h·HRV 48ms·어제 부하 70" data-i18n-attr="alt:alt.watch.evidence" class="watch" src="assets/framed-watch-evidence.png" data-shot="framed-watch-evidence"/>
+<img alt="Apple Watch Ultra — Runvis 운동 시작: 오늘의 훈련 카드(달리기·걷기 반복)" data-i18n-attr="alt:alt.watch.start" class="watch" src="assets/framed-watch-start.png" data-shot="framed-watch-start"/>
+<img alt="Apple Watch Ultra — Runvis 러닝 중 현재 페이스 5:12/km, 평균·속도·GAP·경사" data-i18n-attr="alt:alt.watch.pace" class="watch" src="assets/framed-watch-pace.png" data-shot="framed-watch-pace"/>
+<img alt="Apple Watch Ultra — Runvis 심박존 아크: 135bpm, 존 2" data-i18n-attr="alt:alt.watch.zone" class="watch" src="assets/framed-watch-hr.png" data-shot="framed-watch-hr"/>
+<img alt="Apple Watch Ultra — Runvis 러닝 중 실시간 GPS 지도와 거리·시간·페이스" data-i18n-attr="alt:alt.watch.map" class="watch" src="assets/framed-watch-map.png" data-shot="framed-watch-map"/>
 </div>
 </div>
 <div class="caption"><span class="mic">🔊</span><span class="txt" id="heroCaption"></span></div>
@@ -625,15 +628,20 @@
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="eb.screens">앱 화면</div>
 <h2 class="reveal" data-i18n="t73">손목 위의 전문가 수준 분석</h2>
-<p class="sub reveal" data-i18n="t74">Apple Watch에서 바로 보고, 아이폰에서 깊이 들여다봅니다. 아이폰 화면은 시뮬레이터에서 찍은 실제 앱 화면, 워치 화면은 재현 이미지입니다.</p>
+<p class="sub reveal" data-i18n="t74">Apple Watch에서 바로 보고, 아이폰에서 깊이 들여다봅니다. 아래는 시뮬레이터에서 찍은 실제 앱 화면입니다.</p>
 <p class="sc-note reveal" data-i18n="sc.note"></p>
-<!-- 워치 3-up: 실사 워치 프레임 안에 우리 SVG 화면. -->
+<!-- 워치 3-up ×2: Apple 베젤 안에 워치 시뮬레이터 실캡처(tools/regenerate-screens.md). -->
 <div class="watch3">
-<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra 심박존 아크 화면" data-i18n-attr="alt:alt.watch.zone" loading="lazy" src="assets/framed-watch-hr.png" data-shot="framed-watch-hr"/></div><b data-i18n="t75">심박존 아크</b><span data-i18n="t76">270° 아크에 5개 심박존. 현재 존에 맞춰 숫자 색이 바뀌고 마커가 아크 위를 움직입니다.</span></div>
-<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra 페이스 화면" data-i18n-attr="alt:alt.watch.pace" loading="lazy" src="assets/framed-watch-pace.png" data-shot="framed-watch-pace"/></div><b data-i18n="t77">현재 · 평균 페이스</b><span data-i18n="t78">손목을 들면 현재 페이스가 크게, 평균과 거리도 함께. 3초 뒤 자동으로 사라집니다.</span></div>
-<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra GPS 지도 화면" data-i18n-attr="alt:alt.watch.map" loading="lazy" src="assets/framed-watch-map.png" data-shot="framed-watch-map"/></div><b data-i18n="t79">실시간 GPS 지도</b><span data-i18n="t80">달리는 중 경로가 그려지고, 출발점 복귀 방향까지. 끝나면 아이폰에서 3D 플라이오버로.</span></div>
+<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 오늘의 결정: 준비도 94 링, 달리기·걷기 반복" data-i18n-attr="alt:alt.watch.decision" loading="lazy" src="assets/framed-watch-hero.png" data-shot="framed-watch-hero"/></div><b data-i18n="ws1">오늘의 결정</b><span data-i18n="ws2">손목에서 바로 준비도 링과 오늘의 훈련. 아이폰을 꺼내지 않아도 오늘 뭘 할지 압니다.</span></div>
+<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 오늘의 근거: 수면 7.2h·HRV 48ms·어제 부하 70" data-i18n-attr="alt:alt.watch.evidence" loading="lazy" src="assets/framed-watch-evidence.png" data-shot="framed-watch-evidence"/></div><b data-i18n="ws3">오늘의 근거</b><span data-i18n="ws4">수면·HRV·어제 부하를 내 28일 기준 범위와 비교해 좋음·보통·주의로 표시합니다.</span></div>
+<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 운동 시작: 오늘의 훈련 카드(달리기·걷기 반복)" data-i18n-attr="alt:alt.watch.start" loading="lazy" src="assets/framed-watch-start.png" data-shot="framed-watch-start"/></div><b data-i18n="ws5">오늘의 훈련, 한 번에 시작</b><span data-i18n="ws6">플랜의 오늘 세션이 시작 화면 맨 위에. 누르면 코치가 구간별로 진행합니다.</span></div>
 </div>
-<!-- iPhone 대시보드: 실사 폰 프레임 안에 우리 대시보드 SVG -->
+<div class="watch3">
+<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 심박존 아크: 135bpm, 존 2" data-i18n-attr="alt:alt.watch.zone" loading="lazy" src="assets/framed-watch-hr.png" data-shot="framed-watch-hr"/></div><b data-i18n="t75">심박존 아크</b><span data-i18n="t76">270° 아크에 5개 심박존. 현재 존에 맞춰 숫자 색이 바뀌고 마커가 아크 위를 움직입니다.</span></div>
+<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 러닝 중 현재 페이스 5:12/km, 평균·속도·GAP·경사" data-i18n-attr="alt:alt.watch.pace" loading="lazy" src="assets/framed-watch-pace.png" data-shot="framed-watch-pace"/></div><b data-i18n="t77">현재 · 평균 페이스</b><span data-i18n="t78">손목을 들면 현재 페이스가 크게, 평균과 거리도 함께. 3초 뒤 자동으로 사라집니다.</span></div>
+<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 러닝 중 실시간 GPS 지도와 거리·시간·페이스" data-i18n-attr="alt:alt.watch.map" loading="lazy" src="assets/framed-watch-map.png" data-shot="framed-watch-map"/></div><b data-i18n="t79">실시간 GPS 지도</b><span data-i18n="t80">달리는 중 경로가 그려지고, 출발점 복귀 방향까지. 끝나면 아이폰에서 3D 플라이오버로.</span></div>
+</div>
+<!-- iPhone 홈: Apple 베젤 안에 iPhone 시뮬레이터 실캡처 -->
 <div class="phonerow reveal">
 <div class="phone-frame"><img alt="iPhone 홈 — 오늘의 결정과 준비도" data-i18n-attr="alt:alt.phone.dash" loading="lazy" src="assets/framed-phone-dash.png" data-shot="framed-phone-dash"/></div>
 <div class="phone-desc">
@@ -1060,7 +1068,7 @@ document.querySelectorAll('.vchip').forEach((c,idx)=>{
   setTimeout(settleOnce, 9000);
 })();
 
-// --- hero watch screen rotation (pace → HR zones → GPS map) ---
+// --- hero watch screen rotation (오늘의 결정 → 근거 → 운동 시작 → 페이스 → 심박존 → 지도) ---
 (() => {
   const slides = document.querySelectorAll('#watchStack .watch');
   if (slides.length < 2) return;

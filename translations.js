@@ -1390,3 +1390,99 @@ Object.assign(window.RUNVIS_I18N.ja, {"pr.life": "サブスクが苦手なら �
 Object.assign(window.RUNVIS_I18N.es, {"pr.life": "¿No te van las suscripciones? <b>Acceso de por vida</b> — un solo pago, tuyo para siempre. Precio de lanzamiento; sube tres meses después del lanzamiento (precio en tu App Store).", "t8": "<b style=\"color:var(--text)\">Sin comprar un reloj de running aparte — el Apple Watch registra, Runvis decide.</b><br/>Lee sueño, HRV y la carga de ayer para fijar la sesión de hoy, y corre contigo por voz.", "t149": "Los planes los ves gratis, y tener <b style=\"color:var(--text)\">un entrenador que te habla y los dirige contigo cuesta un café</b>. Pruébalo un mes gratis y decide."});
 Object.assign(window.RUNVIS_I18N.zh, {"pr.life": "不想訂閱？<b>終身版</b> — 一次付款，永久使用。現為上市紀念價，上市三個月後調漲（價格以你的 App Store 為準）。", "t8": "<b style=\"color:var(--text)\">不必另外買一支跑步錶 — Apple Watch 負責記錄，Runvis 負責決定。</b><br/>讀取睡眠、HRV 與昨天的負荷來安排今天的訓練，跑步時用聲音陪你。", "t149": "計畫免費看，而<b style=\"color:var(--text)\">教練親口帶著你跑，只要一杯咖啡的價格</b>。用 1 個月免費試用充分體驗後再決定。"});
 Object.assign(window.RUNVIS_I18N.de, {"pr.life": "Kein Abo-Fan? <b>Lifetime-Freischaltung</b> — einmal zahlen, für immer deins. Jetzt zum Launch-Preis; drei Monate nach Launch steigt er (Preis laut deinem App Store).", "t8": "<b style=\"color:var(--text)\">Keine separate Laufuhr nötig — die Apple Watch zeichnet auf, Runvis entscheidet.</b><br/>Sie liest Schlaf, HRV und die gestrige Belastung, legt die heutige Einheit fest und läuft per Stimme mit.", "t149": "Die Pläne kostenlos ansehen, und <b style=\"color:var(--text)\">ein Coach, der sie mit dir spricht und durchführt, kostet einen Kaffee</b>. Einen Monat gratis testen, dann entscheiden."});
+
+
+/* --- 2026-09-05: 배치 M — 워치 캡처 6종 전부 워치 시뮬레이터 실캡처로 교체
+   (오늘의 결정 링 · 오늘의 근거 · 운동 시작(오늘의 훈련 카드) · 러닝 중 페이스 · 심박존 아크 · GPS 지도).
+   히어로 로테이션 6장 + #screens 워치 3-up 두 줄(ws1~ws6). alt는 실제 화면 내용 기준.
+   t78은 실제 페이스 데이터 화면(평균·속도·GAP·경사)에 맞게 수정. Object.assign 병합. --- */
+Object.assign(window.RUNVIS_I18N.ko, {
+  "alt.watch.decision": "Apple Watch Ultra — Runvis 오늘의 결정: 준비도 94 링, 달리기·걷기 반복",
+  "alt.watch.evidence": "Apple Watch Ultra — Runvis 오늘의 근거: 수면 7.2h·HRV 48ms·어제 부하 70",
+  "alt.watch.start": "Apple Watch Ultra — Runvis 운동 시작: 오늘의 훈련 카드(달리기·걷기 반복)",
+  "alt.watch.pace": "Apple Watch Ultra — Runvis 러닝 중 현재 페이스 5:12/km, 평균·속도·GAP·경사",
+  "alt.watch.zone": "Apple Watch Ultra — Runvis 심박존 아크: 135bpm, 존 2",
+  "alt.watch.map": "Apple Watch Ultra — Runvis 러닝 중 실시간 GPS 지도와 거리·시간·페이스",
+  "ws1": "오늘의 결정",
+  "ws2": "손목에서 바로 준비도 링과 오늘의 훈련. 아이폰을 꺼내지 않아도 오늘 뭘 할지 압니다.",
+  "ws3": "오늘의 근거",
+  "ws4": "수면·HRV·어제 부하를 내 28일 기준 범위와 비교해 좋음·보통·주의로 표시합니다.",
+  "ws5": "오늘의 훈련, 한 번에 시작",
+  "ws6": "플랜의 오늘 세션이 시작 화면 맨 위에. 누르면 코치가 구간별로 진행합니다.",
+  "t78": "현재 페이스를 크게, 평균·속도·경사 보정 페이스(GAP)·경사를 한 화면에. 크라운으로 화면을 넘깁니다."
+});
+Object.assign(window.RUNVIS_I18N.en, {
+  "alt.watch.decision": "Apple Watch Ultra — Runvis today's decision: readiness ring at 94, run-walk intervals",
+  "alt.watch.evidence": "Apple Watch Ultra — Runvis today's evidence: sleep 7.2h, HRV 48ms, yesterday's load 70",
+  "alt.watch.start": "Apple Watch Ultra — Runvis start screen with today's workout card (run-walk intervals)",
+  "alt.watch.pace": "Apple Watch Ultra — Runvis mid-run current pace 5:12/km with average, speed, GAP and grade",
+  "alt.watch.zone": "Apple Watch Ultra — Runvis heart-rate zone arc: 135 bpm, zone 2",
+  "alt.watch.map": "Apple Watch Ultra — Runvis live GPS map mid-run with distance, time and pace",
+  "ws1": "Today's decision",
+  "ws2": "The readiness ring and today's session right on your wrist — you know what to do without reaching for the phone.",
+  "ws3": "Today's evidence",
+  "ws4": "Sleep, HRV and yesterday's load, each compared with your own 28-day range and marked good, fair or caution.",
+  "ws5": "Today's session, one tap away",
+  "ws6": "The plan's session for today sits at the top of the start screen. Tap it and the coach runs it step by step.",
+  "t78": "Current pace large, with average, speed, grade-adjusted pace (GAP) and grade on one screen. Turn the crown to flip screens."
+});
+Object.assign(window.RUNVIS_I18N.ja, {
+  "alt.watch.decision": "Apple Watch Ultra — Runvis 今日の決定：準備度94のリング、ラン・ウォーク反復",
+  "alt.watch.evidence": "Apple Watch Ultra — Runvis 今日の根拠：睡眠7.2h・HRV 48ms・昨日の負荷70",
+  "alt.watch.start": "Apple Watch Ultra — Runvis ワークアウト開始画面、今日のトレーニングカード（ラン・ウォーク反復）",
+  "alt.watch.pace": "Apple Watch Ultra — Runvis ラン中の現在ペース5:12/km、平均・速度・GAP・勾配",
+  "alt.watch.zone": "Apple Watch Ultra — Runvis 心拍ゾーンアーク：135bpm、ゾーン2",
+  "alt.watch.map": "Apple Watch Ultra — Runvis ラン中のリアルタイムGPS地図と距離・時間・ペース",
+  "ws1": "今日の決定",
+  "ws2": "準備度リングと今日のトレーニングが手首に。iPhoneを取り出さなくても今日やることが分かります。",
+  "ws3": "今日の根拠",
+  "ws4": "睡眠・HRV・昨日の負荷を自分の28日基準範囲と比べ、良好・普通・注意で表示します。",
+  "ws5": "今日のトレーニングをワンタップで",
+  "ws6": "プランの今日のセッションが開始画面の一番上に。タップするとコーチが区間ごとに進行します。",
+  "t78": "現在ペースを大きく、平均・速度・勾配補正ペース（GAP）・勾配を1画面に。クラウンで画面を切り替えます。"
+});
+Object.assign(window.RUNVIS_I18N.es, {
+  "alt.watch.decision": "Apple Watch Ultra — decisión de hoy de Runvis: anillo de preparación en 94, intervalos correr-caminar",
+  "alt.watch.evidence": "Apple Watch Ultra — evidencia de hoy de Runvis: sueño 7,2 h, HRV 48 ms, carga de ayer 70",
+  "alt.watch.start": "Apple Watch Ultra — pantalla de inicio de Runvis con la tarjeta del entrenamiento de hoy (correr-caminar)",
+  "alt.watch.pace": "Apple Watch Ultra — Runvis en carrera: ritmo actual 5:12/km con media, velocidad, GAP y pendiente",
+  "alt.watch.zone": "Apple Watch Ultra — arco de zonas de pulso de Runvis: 135 ppm, zona 2",
+  "alt.watch.map": "Apple Watch Ultra — mapa GPS en directo de Runvis con distancia, tiempo y ritmo",
+  "ws1": "La decisión de hoy",
+  "ws2": "El anillo de preparación y la sesión de hoy en la muñeca: sabes qué hacer sin sacar el iPhone.",
+  "ws3": "La evidencia de hoy",
+  "ws4": "Sueño, HRV y carga de ayer comparados con tu propio rango de 28 días y marcados como bien, normal o atención.",
+  "ws5": "La sesión de hoy, a un toque",
+  "ws6": "La sesión de hoy del plan está arriba del todo en la pantalla de inicio. Tócala y el entrenador la dirige tramo a tramo.",
+  "t78": "Ritmo actual en grande, con media, velocidad, ritmo ajustado por pendiente (GAP) y pendiente en una pantalla. Gira la corona para cambiar de pantalla."
+});
+Object.assign(window.RUNVIS_I18N.zh, {
+  "alt.watch.decision": "Apple Watch Ultra — Runvis 今日決定：準備度 94 圓環，跑走交替",
+  "alt.watch.evidence": "Apple Watch Ultra — Runvis 今日依據：睡眠 7.2h、HRV 48ms、昨日負荷 70",
+  "alt.watch.start": "Apple Watch Ultra — Runvis 開始運動畫面，今日訓練卡片（跑走交替）",
+  "alt.watch.pace": "Apple Watch Ultra — Runvis 跑步中即時配速 5:12/km，含平均、速度、GAP、坡度",
+  "alt.watch.zone": "Apple Watch Ultra — Runvis 心率區間弧形：135 bpm，第 2 區",
+  "alt.watch.map": "Apple Watch Ultra — Runvis 跑步中即時 GPS 地圖與距離、時間、配速",
+  "ws1": "今日決定",
+  "ws2": "準備度圓環與今日訓練直接顯示在手腕上，不用拿出 iPhone 也知道今天該做什麼。",
+  "ws3": "今日依據",
+  "ws4": "睡眠、HRV、昨日負荷與你自己的 28 天基準範圍比較，標示為良好、普通或注意。",
+  "ws5": "今日訓練，一鍵開始",
+  "ws6": "計畫中今天的課表就在開始畫面最上方，點一下教練就會逐段帶你完成。",
+  "t78": "即時配速放大顯示，平均、速度、坡度校正配速（GAP）與坡度同一畫面。轉動數位錶冠切換畫面。"
+});
+Object.assign(window.RUNVIS_I18N.de, {
+  "alt.watch.decision": "Apple Watch Ultra — Runvis Entscheidung für heute: Bereitschaftsring bei 94, Lauf-Geh-Intervalle",
+  "alt.watch.evidence": "Apple Watch Ultra — Runvis Begründung für heute: Schlaf 7,2 h, HRV 48 ms, gestrige Belastung 70",
+  "alt.watch.start": "Apple Watch Ultra — Runvis Startbildschirm mit der Karte der heutigen Einheit (Lauf-Geh-Intervalle)",
+  "alt.watch.pace": "Apple Watch Ultra — Runvis im Lauf: aktuelles Tempo 5:12/km mit Schnitt, Geschwindigkeit, GAP und Steigung",
+  "alt.watch.zone": "Apple Watch Ultra — Runvis Herzfrequenzzonen-Bogen: 135 bpm, Zone 2",
+  "alt.watch.map": "Apple Watch Ultra — Runvis Live-GPS-Karte im Lauf mit Distanz, Zeit und Tempo",
+  "ws1": "Die Entscheidung für heute",
+  "ws2": "Bereitschaftsring und heutige Einheit direkt am Handgelenk — du weißt, was ansteht, ohne das iPhone zu zücken.",
+  "ws3": "Die Begründung für heute",
+  "ws4": "Schlaf, HRV und gestrige Belastung, jeweils mit deinem eigenen 28-Tage-Bereich verglichen und als gut, mittel oder Achtung markiert.",
+  "ws5": "Die heutige Einheit, ein Tipp entfernt",
+  "ws6": "Die heutige Einheit aus dem Plan steht ganz oben auf dem Startbildschirm. Antippen, und der Coach führt sie Abschnitt für Abschnitt durch.",
+  "t78": "Aktuelles Tempo groß, dazu Schnitt, Geschwindigkeit, steigungsbereinigtes Tempo (GAP) und Steigung auf einem Bildschirm. Mit der Krone blätterst du weiter."
+});
