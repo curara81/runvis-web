@@ -43,6 +43,7 @@
     font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
     line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:clip;word-break:keep-all}
   a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
   img{max-width:100%;display:block}
   .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
   .grad{background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -264,6 +265,14 @@
 </style>
 <script defer src="translations.js?v=20260906c"></script>
 <script defer src="i18n.js?v=20260906c"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[
+{"@type":"Question","name":"워치가 없어도 되나요?","acceptedAnswer":{"@type":"Answer","text":"아이폰만으로 GPS 기록과 1km마다 구간 페이스 안내가 됩니다. 자세 코칭은 손목 센서가 필요해 워치에서만 동작합니다."}},
+{"@type":"Question","name":"어떤 애플워치가 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"심박과 GPS가 있는 모델이면 됩니다. 접지 시간과 수직 진폭을 재는 모델에서는 자세 코칭이 더 촘촘해집니다."}},
+{"@type":"Question","name":"해지하면 기록은 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 Apple 건강에 그대로 남고, 기록·플랜 보기·운동 상세 리포트는 해지 후에도 무료입니다."}},
+{"@type":"Question","name":"데이터는 어디로 가나요?","acceptedAnswer":{"@type":"Answer","text":"계정도 서버도 없습니다. 날씨와 동네 이름, 코스 자동 생성을 조회할 때만 위치가 나가고 운동·건강 데이터는 업로드하지 않습니다."}},
+{"@type":"Question","name":"기록이 하나도 없어도 쓸 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"12분만 달리면 예상 5K·10K 기록과 첫 플랜이 만들어집니다."}}]}
+</script>
 </head>
 <body>
 <nav>
@@ -297,7 +306,7 @@
 <a class="btn" data-i18n="n.hero.cta1" href="#beta">베타 신청</a>
 <a class="btn ghost" data-i18n="n.hero.cta2" href="run.html">5km 데모 달려보기</a>
 </div>
-<p class="note reveal" data-i18n="n.hero.note">기록은 무료. 코치는 월 ₩1,900이고 첫 달은 무료입니다. 계정도 서버도 없습니다.</p>
+<p class="note reveal" data-i18n="n.hero.note">기록은 무료. 코치는 월 ₩1,900이고, 첫 구독이면 한 달 무료입니다.</p>
 <div class="trust reveal">
 <div class="tbadge"><b>100%</b><span data-i18n="n.hero.b1">기기 안에서 계산</span></div>
 <div class="tbadge"><b data-i18n="n.hero.b3n">6개 언어</b><span data-i18n="n.hero.b3">음성 코칭</span></div>
@@ -390,7 +399,7 @@
 <p class="honest reveal" style="margin-top:8px" data-i18n="n.steps.note">화면과 타이머, 자동 시작 감지는 무료입니다. 코치가 음성으로 함께 진행하는 것이 구독이에요.</p>
 <div class="steps reveal">
 <div class="step tilt" data-tilt="5"><div class="sn">1</div><h4 data-i18n="n.step1h">날씨 브리핑</h4><p class="q" data-i18n="n.step1q">"기온 26도, 습도 78퍼센트. 중간에 수분 꼭 챙기세요."</p><p data-i18n="n.step1p">지금 있는 동네 기준 실시간 날씨입니다.</p></div>
-<div class="step tilt" data-tilt="5"><div class="sn">2</div><h4 data-i18n="n.step2h">준비운동</h4><p class="q" data-i18n="n.step2q">"목 돌리기, 20초. 반대 방향으로. 셋, 둘, 하나."</p><p data-i18n="n.step2p">7단계를 타이머로 이끌고, 코치를 켜면 음성으로 함께합니다.</p></div>
+<div class="step tilt" data-tilt="5"><div class="sn">2</div><h4 data-i18n="n.step2h">준비운동</h4><p class="q" data-i18n="n.step2q">"목 돌리기, 20초. 반대 방향으로. 셋, 둘, 하나."</p><p data-i18n="n.step2p">단계별 타이머로 이끌고, 코치를 켜면 음성으로 함께합니다.</p></div>
 <div class="step tilt" data-tilt="5"><div class="sn">3</div><h4 data-i18n="n.step3h">그냥 달리세요</h4><p class="q" data-i18n="n.step3q">"달리기 시작하셨네요. 기록 시작합니다."</p><p data-i18n="n.step3p">손목의 러닝 리듬을 감지해 기록을 시작합니다.</p></div>
 </div>
 <p class="reveal" style="text-align:center;margin-top:34px"><a class="btn ghost" data-i18n="n.live.demo" href="run.html">5km 데모에서 언제 말하고 언제 조용한지 보기</a></p>
@@ -483,7 +492,7 @@
 <ul>
 <li data-i18n="n.price.f1">GPS 기록, 페이스, 심박, 랩, Apple Health 저장</li>
 <li data-i18n="n.price.f2">운동 상세 리포트, 몸 리포트, 기록 목록</li>
-<li data-i18n="n.price.f3">훈련 플랜 보기, 레이스 예측 기본</li>
+<li data-i18n="n.price.f3">훈련 플랜 보기, 레이스 예측 기본, 날씨 브리핑과 준비운동 화면</li>
 <li data-i18n="n.price.f4">km 스플릿 음성, 심박존 안내, 코스 언덕 예고, 경로 이탈 경보</li>
 <li data-i18n="n.price.f5">GPX 내보내기, AI 분석용 리포트</li>
 </ul>
@@ -664,7 +673,10 @@ function heroCurrentLines(){
     : ["기온 8도, 습도 60퍼센트. 추우니까 준비운동을 조금 길게 할게요.","300미터 앞, 800미터 오르막이 시작됩니다. 보폭을 줄이고 리듬을 유지하세요.","목표보다 12초 빠릅니다.","심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."];
 }
 function typeLine(text,cb){let i=0;capEl.textContent="";clearInterval(heroTimer);heroTimer=setInterval(()=>{capEl.textContent=text.slice(0,++i);if(i>=text.length){clearInterval(heroTimer);setTimeout(cb,2400)}},42)}
-function heroLoop(){const lines=heroCurrentLines();typeLine(lines[hl%lines.length],()=>{hl++;heroLoop()})}
+function heroLoop(){
+  // A caption that retypes forever is motion; honour the setting.
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){capEl.textContent=heroCurrentLines()[0];return}
+  const lines=heroCurrentLines();typeLine(lines[hl%lines.length],()=>{hl++;heroLoop()})}
 (function startHero(tries){
   if((window.RunvisDyn&&window.RunvisDyn.hero&&window.RunvisDyn.hero[0])||tries<=0){heroLoop();return}
   setTimeout(()=>startHero(tries-1),50);
