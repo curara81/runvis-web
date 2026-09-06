@@ -3,9 +3,12 @@
 Korean captures already wear, without re-downloading the bezel DMGs.
 
 Why a "donor" instead of `composite_bezels.py`: that script needs the raw
-Apple bezel PNGs (300 MB DMGs, not redistributable, not in this repo). The
-already-shipped `assets/framed-*.png` ARE that bezel with a screen in it, so
-we reuse one of them as the donor and repaint only the glass.
+Apple bezel PNGs (300 MB DMGs, not redistributable, not in this repo). A
+shipped `framed-*.png` IS that bezel with a screen in it, so we reuse one as
+the donor and repaint only the glass. The two donors live in
+`tools/bezel-donors/` — NOT in assets/, because both of them are also outputs
+of this script and donoring from an output compounds PNG8 palette error one
+generation per run.
 
 Geometry is not guessed. `fit_geometry()` (kept below, run with --fit) solves
 scale+offset by normalized cross-correlation between a fresh Korean capture
@@ -55,8 +58,36 @@ def rounded_mask(size, box, radius):
     return m
 
 
+DONORS = pathlib.Path(__file__).resolve().parent / "bezel-donors"
+_CACHE = {}
+
+
+def donor_image(name):
+    """The pristine bezel, read from `tools/bezel-donors/`, never from assets/.
+
+    `framed-watch-hero.png` and `framed-phone-dash.png` are BOTH the donor and
+    a Korean output. Donoring from assets/ therefore re-quantized last run's
+    output into this run's bezel, and the PNG8 palette error compounded one
+    generation per run (measured: max diff outside the screen box went 43 -> 55
+    on the second pass). `tools/bezel-donors/` holds generation zero, so every
+    run starts from the same bezel no matter how often it is re-run.
+
+    If the copy is missing (fresh checkout of an older tree), the first run
+    seeds it from assets/ — do that only when assets/ still holds a frame that
+    this script has not overwritten.
+    """
+    if name not in _CACHE:
+        src = DONORS / name
+        if not src.exists():
+            DONORS.mkdir(parents=True, exist_ok=True)
+            Image.open(ASSETS / name).save(src)
+            print(f"seeded donor {src.relative_to(DONORS.parent.parent)}")
+        _CACHE[name] = Image.open(src).convert("RGBA")
+    return _CACHE[name]
+
+
 def compose(shot_path, spec, out_path):
-    donor = Image.open(ASSETS / spec["donor"]).convert("RGBA")
+    donor = donor_image(spec["donor"])
     l, t, r, b = spec["box"]
     shot = Image.open(shot_path).convert("RGBA").resize((r - l, b - t), Image.LANCZOS)
     canvas = Image.new("RGBA", donor.size, (0, 0, 0, 255))

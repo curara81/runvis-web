@@ -22,7 +22,7 @@ import path from 'node:path';
 import {
   ROOT, CODES, PAGES, HTML_LANG, HREFLANG, OG_LOCALE, SHOTS,
   loadDicts, attrEscape, findI18nElements, findI18nAttrs, spliceAll,
-  faqLd, appLd, readLd,
+  faqLd, appLd, pageLd, readLd,
 } from './i18n-lib.mjs';
 
 const dicts = loadDicts();
@@ -168,6 +168,11 @@ function render(page, code) {
   if (faq) html = html.slice(0, faq.start) + '\n' + JSON.stringify(faqLd(dict, code)) + '\n' + html.slice(faq.end);
   const app = readLd(html, 'appld');
   if (app) html = html.slice(0, app.start) + '\n' + JSON.stringify(appLd(dict, code)) + '\n' + html.slice(app.end);
+  // run.html / privacy.html / terms.html: WebPage + BreadcrumbList, in this
+  // language, pointing at this language's directory.
+  const pg = readLd(html, 'pageld');
+  const pgNode = pageLd(dict, code, page);
+  if (pg && pgNode) html = html.slice(0, pg.start) + '\n' + JSON.stringify(pgNode) + '\n' + html.slice(pg.end);
 
   // ---- 9. drop what this copy cannot use ---------------------------------
   // 9a. The boot script inlines the hero copy and the four meta strings for

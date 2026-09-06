@@ -67,8 +67,17 @@
   h2{font-size:clamp(30px,4.6vw,44px);font-weight:800;letter-spacing:-.025em;line-height:1.18;margin-top:10px}
   .sub{color:var(--dim);font-size:18px;margin-top:16px;max-width:660px}
   .sub b{color:var(--text);font-weight:700}
-  html.js .reveal{opacity:0;transform:translateY(28px) scale(.985);transition:opacity .8s var(--ease) var(--d,0ms),transform .8s var(--ease) var(--d,0ms)}
-  html.js .reveal.in{opacity:1;transform:none}
+  /* The reveal no longer touches opacity, and that is the whole fix for the
+     black screen. It used to fade 0 -> 1 over .8s; measured on the deployed
+     page, a fling at ~120 px per frame left 65 of 137 sampled frames at
+     1280x900 — and 76 of 248 at 375x812 — with more than half the viewport
+     occupied by text still at opacity 0. No observer tuning can beat that:
+     to finish a .45s fade before a block arrives, it would have to start
+     several viewports early. A block that only SLIDES is legible from the
+     first frame it is on screen, and the settle still reads as motion.
+     Phones drop even the slide, below. */
+  html.js .reveal{transform:translateY(28px) scale(.985);transition:transform .45s var(--ease) var(--d,0ms)}
+  html.js .reveal.in{transform:none}
   .pill{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.04em;padding:3px 9px;border-radius:999px;vertical-align:middle;margin-left:8px}
   .pill.free{background:rgba(255,255,255,.08);color:var(--dim)}
   .pill.pro{background:rgba(61,220,132,.16);color:var(--green)}
@@ -116,15 +125,19 @@
   nav .links a{transition:color .2s}
   nav .links a:hover{color:var(--text)}
   /* Phone: measured at 384 px the row was 479 px wide inside 336 px, so
-     가격 (x=368), FAQ (x=407) and 5km 데모 (x=449) were all off-screen with the
-     scrollbar hidden — the three links that matter most to a decision. The
-     five section anchors duplicate a page you are already scrolling, so below
-     700 px they fold away and only those three stay. */
+     가격, FAQ and 5km 데모 were all off-screen with the scrollbar hidden. The
+     five section anchors used to be display:none here, which left an
+     eleven-section document with three links and no other table of contents.
+     They scroll instead, with the same hidden scrollbar and the same navFade
+     mask the 701–920 px rule uses — so nothing is removed and the fade says
+     there is more. justify-content is flex-start, because a centred row cannot
+     be scrolled back to its first item. */
   @media(max-width:700px){
     nav .wrap{height:auto;padding-top:8px;padding-bottom:8px;flex-wrap:wrap;row-gap:6px}
-    nav .links{order:3;width:100%;gap:18px;font-size:13.5px;justify-content:center;margin-left:0}
+    nav .links{order:3;width:100%;gap:18px;font-size:13.5px;justify-content:flex-start;margin-left:0;
+      overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    nav .links::-webkit-scrollbar{display:none}
     nav .links a{white-space:nowrap}
-    nav .links a.sec{display:none}
   }
   /* Desktop had no standing call to action: the sticky bar below is phone-only,
      so a reader scrolling this long page had to find the hero, the price
@@ -272,7 +285,10 @@
      every session belong under it. */
   .qbody{flex:1;min-width:0}
   .qbody>b{display:block;color:var(--text);font-size:16px;font-weight:800;margin-bottom:10px}
-  .qtable{overflow-x:auto;margin:0 -4px}
+  /* One sentence above the fold of this block; the table it summarises is
+     inside the <details> under it. */
+  .qsum{font-size:14.5px;color:#dfe3e7;margin-top:8px;line-height:1.7}
+  .qtable{overflow-x:auto;margin:10px -4px 0}
   .qtable table{width:100%;border-collapse:collapse;font-size:14px}
   .qtable th,.qtable td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
   .qtable th{color:var(--dim2);font-weight:700;font-size:12.5px}
@@ -324,11 +340,21 @@
   .plan .ribbon{position:absolute;top:-11px;right:20px;max-width:calc(100% - 40px);background:var(--green);color:#04120c;font-size:12px;font-weight:800;padding:4px 12px;border-radius:8px}
   .plan .name{font-size:15px;color:var(--dim);font-weight:700}
   .plan .amt{font-size:36px;font-weight:900;margin:8px 0 4px;letter-spacing:-.02em}
-  .plan .amt small{font-size:16px;color:var(--dim);font-weight:600;margin-left:6px}
-  /* --dim2 on the .plan gradient is only 4.94:1; --dim is 6.27:1 there. */
-  .plan .amt-approx{font-size:12.5px;color:var(--dim);margin:2px 0 8px;line-height:1.5}
-  .plan .amt-year{font-size:13.5px;color:var(--dim);margin-top:2px;line-height:1.5}
-  .plan .amt-year b{color:var(--green);font-weight:700}
+  /* .amt-approx / .amt-year are gone with the paragraphs they styled — the
+     three prices are .ptable rows and the prose they carried is inside the
+     .gate below the table. --dim2 on the .plan gradient is only 4.94:1, so
+     everything small in this card uses --dim (6.27:1). */
+  .plan .gate p b{color:var(--green);font-weight:700}
+  /* Three rows, three prices, one shape. The label carries its single
+     qualifying clause; everything longer folds into the .gate below it. */
+  .plan .ptable{width:100%;border-collapse:collapse;margin:10px 0 2px}
+  .plan .ptable th{text-align:left;font-weight:700;font-size:15px;padding:9px 0;vertical-align:baseline}
+  .plan .ptable th small{display:block;font-weight:500;font-size:12px;color:var(--dim);line-height:1.5;margin-top:2px}
+  .plan .ptable td.pv{text-align:right;white-space:nowrap;font-size:21px;font-weight:900;letter-spacing:-.02em;
+    padding:9px 0 9px 12px;vertical-align:baseline;font-variant-numeric:tabular-nums}
+  .plan .ptable tr.lead td.pv{font-size:32px}
+  .plan .ptable tr+tr th,.plan .ptable tr+tr td{border-top:1px solid var(--line)}
+  .plan .amt{font-size:36px;font-weight:900;margin:8px 0 4px;letter-spacing:-.02em}
   .plan ul{list-style:none;margin-top:18px}
   .plan li{padding:7px 0;font-size:15px;color:#dfe3e7;display:flex;gap:10px}
   .plan li::before{content:"✓";color:var(--green);font-weight:800}
@@ -347,6 +373,19 @@
   .gate summary:hover{color:var(--text)}
   .gate p{margin-top:10px;font-size:13px;line-height:1.75;color:var(--dim)}
   .note{text-align:center;color:var(--dim2);font-size:12.5px;margin-top:14px}
+  /* Sits directly under the submit button: the one thing about timing that can
+     honestly be said. */
+  .order-note{margin-top:10px;font-size:13px;color:var(--dim);line-height:1.6}
+  /* The take-away that needs no address, no install and no Seoul. */
+  .hzcalc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+  @media(max-width:520px){.hzcalc{grid-template-columns:1fr 1fr}.hzcalc label:last-child{grid-column:1/-1}}
+  .hzcalc label{display:block;font-size:12px;color:var(--dim);line-height:1.4}
+  .hzcalc input{width:100%;margin-top:5px;background:var(--bg1);border:1px solid var(--line2);color:var(--text);
+    border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;font-variant-numeric:tabular-nums}
+  .hzcalc input:focus{border-color:var(--green);outline:none}
+  .hzout{margin-top:12px;font-size:13.5px;line-height:1.9;color:#dfe3e7}
+  .hzout b{color:var(--green);font-variant-numeric:tabular-nums}
+  .hzout .hzmax{display:block;color:var(--dim);font-size:12.5px;margin-top:4px}
   /* beta funnel: what happens next, and what there is to look at now */
   .nextsteps{max-width:520px;margin:24px auto 0;text-align:left;counter-reset:ns}
   .nextsteps h4{font-size:14px;color:var(--dim);font-weight:700;letter-spacing:.02em}
@@ -406,13 +445,21 @@
   /* sticky CTA (small screens): the page is long and the only action used to sit at the very bottom */
   .sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;padding:10px 16px calc(10px + env(safe-area-inset-bottom));
     background:rgba(0,0,0,.82);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
-  .sticky-cta a{display:block;text-align:center}
+  .sticky-cta.armed{gap:10px}
+  .sticky-cta a{display:block;text-align:center;flex:1 1 0;min-width:0;padding-left:12px;padding-right:12px;font-size:15.5px}
   /* Hidden until the script says otherwise: at scrollY=0 the hero's own CTA is
      on screen, so the bar used to repeat the same words in the same colour
      250px below it and take 64px of a 812px phone for nothing. The observer
      below shows it only while BOTH the hero CTA and #beta are off screen; with
      no JS it never appears and never covers the hero. */
-  @media(max-width:820px){.sticky-cta.armed{display:block} footer{padding-bottom:96px}}
+  @media(max-width:820px){.sticky-cta.armed{display:flex} footer{padding-bottom:96px}}
+
+  /* Phones do not animate at all. A flick is the normal way to read here, the
+     slide costs a transform on every block during it, and the settle is not
+     worth that on a 375 px screen. */
+  @media(max-width:820px){
+    html.js .reveal{transform:none;transition:none}
+  }
 
   @media(prefers-reduced-motion:reduce){
     .reveal{opacity:1!important;transform:none!important;transition:none}
@@ -433,9 +480,28 @@
   // On a prerendered page (/en/, /ja/ …) the directory IS the language and
   // RunvisPageLang is set just above; it outranks the saved choice and the
   // browser's, so /de/ never renders in English. ?lang= still wins over it.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang);
-  if(!code){ try{ code=norm(localStorage.getItem("runvis_lang")); }catch(e){} }
-  if(!code) code=norm(navigator.language)||"ko";
+  var saved=null; try{ saved=norm(localStorage.getItem("runvis_lang")); }catch(e){}
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"ko";
+  // A German browser landing on a ROOT url used to get German BODY text with a
+  // Korean canonical, Korean og:* and no route to /de/ at all — the five
+  // prerendered market pages existed and nothing ever sent anyone to them.
+  // GitHub Pages cannot redirect, so it happens here, and only in the one case
+  // where nothing else has spoken: no ?lang= (an explicit choice), no saved
+  // choice, not already on a prerendered page, and not Korean (this IS the
+  // Korean document and the x-default). replace() keeps the back button
+  // working and the sessionStorage flag makes a second hop impossible even if
+  // the target ever failed to set RunvisPageLang.
+  try{
+    if(!window.RunvisPageLang && !urlLang && !saved && code!=="ko"
+       && /(^|\.)runvis\.app$/.test(location.hostname)
+       && !sessionStorage.getItem("runvis_sent")){
+      sessionStorage.setItem("runvis_sent","1");
+      var file=location.pathname.split("/").pop()||"";
+      if(file==="index.html") file="";      // /de/, the URL hreflang and canonical name
+      location.replace("/"+code+"/"+file+location.hash);
+      return;
+    }
+  }catch(e){}
   window.RunvisLang=code; window.RunvisUrlLang=urlLang;
   var html=document.documentElement;
   html.lang = code==="zh" ? "zh-Hant" : code;
@@ -484,14 +550,14 @@
 </script>
 <script defer src="/i18n.js?v=20260906e"></script>
 <script id="appld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"es","url":"https://runvis.app/","description":"No hace falta comprar otro reloj de running. El entrenador lee el sueño y el pulso que registra tu Apple Watch, decide qué corres hoy y te lo cuenta por voz mientras corres. Sin cuenta y sin servidores.","offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time","eligibleRegion":{"@type":"Country","name":"KR"}}]}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"es","url":"https://runvis.app/","description":"No hace falta comprar otro reloj de running. El entrenador lee el sueño y el pulso que registra tu Apple Watch, decide qué corres hoy y te lo cuenta por voz mientras corres. Sin cuenta y sin servidores.","image":"https://runvis.app/assets/og-card.png","screenshot":"https://runvis.app/assets/framed-phone-dash.es.png","author":{"@type":"Organization","name":"Runvis","url":"https://runvis.app/"},"offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}}]}
 </script>
 <script id="faqld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Necesito un reloj?","acceptedAnswer":{"@type":"Answer","text":"Solo con el iPhone tienes registro GPS y aviso de ritmo parcial cada kilómetro (cada milla si esa es tu unidad). Sin suscripción ese parcial es lo único que dice el teléfono; los avisos de zona de FC y de ritmo objetivo llegan también al teléfono al suscribirte. La técnica, el aviso de cuestas y la alerta de desvío existen solo corriendo con el reloj."}},{"@type":"Question","name":"¿Qué Apple Watch necesito?","acceptedAnswer":{"@type":"Answer","text":"Cualquier modelo con pulso y GPS. En los modelos recientes que miden el tiempo de contacto y la oscilación vertical el coaching de técnica es más fino; en el resto funciona con la cadencia."}},{"@type":"Question","name":"¿Qué pasa con mis datos si cancelo?","acceptedAnswer":{"@type":"Answer","text":"Tus carreras siguen en Salud de Apple, intactas. Tras cancelar mantienes gratis la grabación, la vista del plan y el informe detallado."}},{"@type":"Question","name":"¿Adónde van mis datos?","acceptedAnswer":{"@type":"Answer","text":"No hay cuenta ni servidor. La ubicación solo sale para el tiempo, el nombre del barrio y las rutas generadas. Además están los pagos de la App Store, la descarga de los archivos públicos de recorridos y zapatillas y —por ahora solo en la App Store de Corea— una página externa de búsqueda de zapatillas que se abre si la tocas tú en la pantalla de zapatillas. Los datos de entrenamiento y salud no se suben."}},{"@type":"Question","name":"¿Hasta dónde llegan los seis idiomas?","acceptedAnswer":{"@type":"Answer","text":"Todas las frases que el coach dice en voz alta están traducidas a seis idiomas. Si alguna aún no ha llegado a las tablas se oye en inglés, nunca en coreano, y esa reserva también está fijada por una prueba. Esta garantía cubre solo la voz del coach; los textos de las pantallas usan otra tabla."}},{"@type":"Question","name":"¿Puedo empezar sin historial?","acceptedAnswer":{"@type":"Answer","text":"Sí. Una prueba de 12 minutos en el reloj produce ese mismo día un tiempo estimado de 5K y 10K y tu primer plan — esa prueba solo existe en el reloj. Con el iPhone solo tienes igualmente registro por GPS, avisos de ritmo por tramo y el plan de entrenamiento desde el primer día, y el plan arranca a partir de tu distancia semanal reciente. La disposición necesita noches dormidas con el reloj para formar su línea base, así que suele aparecer a las dos semanas, y el ACWR a las cuatro. La condición de rendimiento aparece cuando has fijado una frecuencia cardiaca máxima y acumulas tres carreras de más de diez minutos, con pulso registrado, en la misma franja de intensidad (suave, media o alta)."}},{"@type":"Question","name":"¿Quién consigue la prueba gratis?","acceptedAnswer":{"@type":"Answer","text":"Solo las cuentas que la App Store todavía considera válidas para la oferta introductoria de esta suscripción. Si ya te suscribiste antes o ya usaste la prueba, se te cobra desde el primer pago. La pantalla de compra de la app siempre te dice en cuál de los dos casos estás antes de comprar. La duración del periodo gratis también viene de la App Store junto con el producto, así que la app muestra justo lo que ha recibido, justo antes de la compra. Si eliges el anual, el año entero se cobra de una vez cuando termina ese periodo gratis."}},{"@type":"Question","name":"¿Qué conviene más, de por vida o anual?","acceptedAnswer":{"@type":"Answer","text":"El pase de por vida es una compra única, sin renovación automática. Según las cuentas de la tarjeta de precios, se amortiza a los 2,6 años frente al anual o a los 20 meses frente al mensual, así que si piensas usar Runvis más tiempo que eso, sale más barato. Además es el único plan compatible con Compartir en Familia de Apple: las suscripciones mensual y anual no lo son."}},{"@type":"Question","name":"¿Qué pasa si cambio de dispositivo?","acceptedAnswer":{"@type":"Answer","text":"Las carreras están en Salud de Apple, así que la app Salud del nuevo dispositivo se las lleva consigo. Lo que solo vivía dentro de Runvis —tu perfil, las zonas de frecuencia cardiaca, la lista de zapatillas y las líneas base que ha construido el coach— sale en un único archivo desde Ajustes → Datos → «Exportar mis datos» y vuelve en el dispositivo nuevo con «Importar desde copia». El archivo se queda solo donde tú lo pongas; Runvis no lo envía a ninguna parte. La suscripción se recupera con «Restaurar compras» de la App Store."}},{"@type":"Question","name":"¿Hay complicación de esfera o widget?","acceptedAnswer":{"@type":"Answer","text":"Todavía no. Las complicaciones en la esfera del reloj, el widget de la pantalla de inicio del iPhone y las Actividades en Vivo no están en esta versión. Están previstas, pero sin fecha."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Necesito un reloj?","acceptedAnswer":{"@type":"Answer","text":"Solo con el iPhone tienes registro GPS y aviso de ritmo parcial cada kilómetro (cada milla si esa es tu unidad). Sin suscripción ese parcial es lo único que dice el teléfono. Con suscripción el teléfono también te guía el ritmo; los avisos de zona de FC necesitan pulso, y el iPhone no tiene sensor de frecuencia cardiaca, así que solo llegan si conectas una banda Bluetooth de pulso (una cinta BLE estándar tipo Polar H10 o Wahoo TICKR). La técnica, el aviso de cuestas y la alerta de desvío existen solo corriendo con el reloj."}},{"@type":"Question","name":"¿Qué Apple Watch necesito?","acceptedAnswer":{"@type":"Answer","text":"Hace falta watchOS 10 o posterior (Apple Watch Series 4 en adelante) e iOS 17 o posterior. Superado ese límite, basta con pulso y GPS. En los modelos recientes que miden el tiempo de contacto y la oscilación vertical el coaching de técnica es más fino; en el resto funciona con la cadencia."}},{"@type":"Question","name":"¿Qué pasa con mis datos si cancelo?","acceptedAnswer":{"@type":"Answer","text":"Tus carreras siguen en Salud de Apple, intactas. Tras cancelar mantienes gratis la grabación, la vista del plan y el informe detallado."}},{"@type":"Question","name":"¿Adónde van mis datos?","acceptedAnswer":{"@type":"Answer","text":"No hay cuenta ni servidor. La ubicación solo sale para el tiempo, el nombre del barrio y las rutas generadas. Además están los pagos de la App Store, la descarga de los archivos públicos de recorridos y zapatillas y —por ahora solo en la App Store de Corea— una página externa de búsqueda de zapatillas que se abre si la tocas tú en la pantalla de zapatillas. Los datos de entrenamiento y salud no se suben."}},{"@type":"Question","name":"¿Hasta dónde llegan los seis idiomas?","acceptedAnswer":{"@type":"Answer","text":"Todas las frases que el coach dice en voz alta están traducidas a seis idiomas. Si alguna aún no ha llegado a las tablas se oye en inglés, nunca en coreano, y esa reserva también está fijada por una prueba. Esta garantía cubre solo la voz del coach; los textos de las pantallas usan otra tabla."}},{"@type":"Question","name":"¿Puedo empezar sin historial?","acceptedAnswer":{"@type":"Answer","text":"Sí. Una prueba de 12 minutos en el reloj produce ese mismo día un tiempo estimado de 5K y 10K y tu primer plan — esa prueba solo existe en el reloj. Con el iPhone solo tienes igualmente registro por GPS, avisos de ritmo por tramo y el plan de entrenamiento desde el primer día, y el plan arranca a partir de tu distancia semanal reciente. La disposición necesita noches dormidas con el reloj para formar su línea base, así que suele aparecer a las dos semanas, y el ACWR a las cuatro. La condición de rendimiento aparece cuando has fijado una frecuencia cardiaca máxima y acumulas tres carreras de más de diez minutos, con pulso registrado, en la misma franja de intensidad (suave, media o alta)."}},{"@type":"Question","name":"¿Quién consigue la prueba gratis?","acceptedAnswer":{"@type":"Answer","text":"Solo las cuentas que la App Store todavía considera válidas para la oferta introductoria de esta suscripción. Si ya te suscribiste antes o ya usaste la prueba, se te cobra desde el primer pago. La pantalla de compra de la app siempre te dice en cuál de los dos casos estás antes de comprar. La duración del periodo gratis también viene de la App Store junto con el producto, así que la app muestra justo lo que ha recibido, justo antes de la compra. Si eliges el anual, el año entero se cobra de una vez cuando termina ese periodo gratis."}},{"@type":"Question","name":"¿Qué conviene más, de por vida o anual?","acceptedAnswer":{"@type":"Answer","text":"El pase de por vida es una compra única, sin renovación automática. Según las cuentas de la tarjeta de precios, se amortiza a los 2,6 años frente al anual o a los 20 meses frente al mensual, así que si piensas usar Runvis más tiempo que eso, sale más barato. Además es el único plan compatible con Compartir en Familia de Apple: las suscripciones mensual y anual no lo son."}},{"@type":"Question","name":"¿Qué pasa si cambio de dispositivo?","acceptedAnswer":{"@type":"Answer","text":"Las carreras están en Salud de Apple, así que la app Salud del nuevo dispositivo se las lleva consigo. Lo que solo vivía dentro de Runvis —tu perfil, las zonas de frecuencia cardiaca, la lista de zapatillas y las líneas base que ha construido el coach— sale en un único archivo desde Ajustes → Datos → «Exportar mis datos» y vuelve en el dispositivo nuevo con «Importar desde copia». El archivo se queda solo donde tú lo pongas; Runvis no lo envía a ninguna parte. La suscripción se recupera con «Restaurar compras» de la App Store."}},{"@type":"Question","name":"¿Hay complicación de esfera o widget?","acceptedAnswer":{"@type":"Answer","text":"Todavía no. Las complicaciones en la esfera del reloj, el widget de la pantalla de inicio del iPhone y las Actividades en Vivo no están en esta versión. Están previstas, pero sin fecha."}}]}
 </script>
 </head>
 <body>
-<a class="skip" href="#hero" data-i18n="a11y.skip">Saltar al contenido principal</a>
+<a class="skip" href="#main" data-i18n="a11y.skip">Saltar al contenido principal</a>
 <nav>
 <div class="wrap">
 <a class="logo" href="#hero">Run<b>vis</b></a>
@@ -513,6 +579,8 @@
 </div>
 </nav>
 
+<main id="main">
+
 <header class="hero" id="hero">
 <div class="hero-bg"><div class="grid"></div><div class="blob b1" data-depth="-.4"></div><div class="blob b2" data-depth=".5"></div><div class="blob b3" data-depth=".25"></div></div>
 <div class="wrap">
@@ -526,11 +594,11 @@
 <script>(function(){var h=window.RunvisCritical; if(!h) return;
   for(var k in h){ var e=document.querySelector('[data-i18n="'+k+'"]'); if(e) e.innerHTML=h[k]; }
 })();</script>
-<p class="note" data-i18n="n.hero.note">Grabar es gratis. El coach cuesta ₩1,900 al mes en la App Store de Corea —en otras regiones se aplica el precio de tu tienda— y las cuentas que la App Store considera elegibles tienen gratis el primer periodo: la app te dice cuál es tu caso antes de comprar.</p>
+<p class="note" data-i18n="n.hero.note">Grabar es gratis. El entrenador cuesta ₩1,900 al mes.</p>
 <div class="trust">
 <div class="tbadge"><b>100%</b><span data-i18n="n.hero.b1">Cálculo en el dispositivo</span></div>
 <div class="tbadge"><b data-i18n="n.hero.b3n">6 idiomas</b><span data-i18n="n.hero.b3">Coaching por voz</span></div>
-<a class="tbadge" href="#faq"><b data-i18n="n.hero.b4n">Prueba gratis</b><span data-i18n="n.hero.b4">solo cuentas con derecho</span></a>
+<a class="tbadge" href="#beta"><b data-i18n="n.hero.b4n">más de 500</b><span data-i18n="n.hero.b4">pruebas automáticas</span></a>
 </div>
 <div class="stage">
 <div class="ring" aria-hidden="true" data-depth="-.15"><svg viewBox="0 0 200 200"><defs><linearGradient id="rg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#3DDC84"/><stop offset="1" stop-color="#4CCBD9"/></linearGradient></defs>
@@ -542,10 +610,9 @@
   if(i&&i.getAttribute("src")!==s) i.setAttribute("src",s);
 })();</script>
 <div class="watch-stack" id="watchStack" role="group" data-i18n-attr="aria-label:a11y.watchstack" aria-label="Tres pantallas del Apple Watch en carrera, alternándose">
-<img alt="Apple Watch Ultra — Runvis en carrera: ritmo actual 5:12/km con media, velocidad, GAP y pendiente" data-i18n-attr="alt:alt.watch.pace" class="on" src="/assets/framed-watch-pace.png" data-shot="framed-watch-pace" width="480" height="768" fetchpriority="high" decoding="sync"/>
-<img alt="Apple Watch Ultra — arco de zonas de pulso de Runvis: 135 ppm, zona 2" data-i18n-attr="alt:alt.watch.zone" src="/assets/framed-watch-hr.png" data-shot="framed-watch-hr" width="480" height="768" fetchpriority="low" decoding="async"/>
-<img alt="Apple Watch Ultra — mapa GPS en directo de Runvis con distancia, tiempo y ritmo" data-i18n-attr="alt:alt.watch.map" src="/assets/framed-watch-map.png" data-shot="framed-watch-map" width="480" height="768" fetchpriority="low" decoding="async"/>
-<p class="wnote" data-i18n="sc.note.watch">Estas tres pantallas de Apple Watch son capturas de la versión coreana.</p>
+<img alt="Apple Watch Ultra — ritmo actual en Runvis con media, velocidad, GAP y pendiente" data-i18n-attr="alt:alt.watch.pace" class="on" src="/assets/framed-watch-pace.es.png" data-shot="framed-watch-pace" width="480" height="768" fetchpriority="high" decoding="sync"/>
+<img alt="Apple Watch Ultra — arco de zona de frecuencia cardiaca en Runvis" data-i18n-attr="alt:alt.watch.zone" src="/assets/framed-watch-hr.es.png" data-shot="framed-watch-hr" width="480" height="768" fetchpriority="low" decoding="async"/>
+<img alt="Apple Watch Ultra — mapa GPS en directo de Runvis con distancia, tiempo y ritmo" data-i18n-attr="alt:alt.watch.map" src="/assets/framed-watch-map.es.png" data-shot="framed-watch-map" width="480" height="768" fetchpriority="low" decoding="async"/>
 </div>
 </div>
 <div class="caption"><span class="mic">🔊</span><span class="txt" id="heroCaption"></span></div>
@@ -568,6 +635,7 @@
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s2">Frases del coach escritas</small><b data-i18n="n.why.s2v">más de 270</b><em class="st-good" data-i18n="n.why.s2n">en los seis idiomas</em></div>
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">Pruebas automáticas</small><b data-i18n="n.why.s3v">más de 500</b><em class="st-good" data-i18n="n.why.s3n">en cada compilación</em></div>
 </div>
+<p class="honest reveal" data-i18n="n.why.cost">No hay que comprar ningún aparato más: el Apple Watch que ya llevas en la muñeca es el hardware. Lo único que cuesta es el entrenador: ₩1,900 al mes, ₩15,000 al año o ₩39,000 una sola vez por el acceso de por vida, a precios de la App Store de Corea.</p>
 <p class="honest reveal" data-i18n="n.why.phone">Todavía no necesitas un reloj. Solo con el iPhone tienes registro GPS y aviso de ritmo parcial cada kilómetro (cada milla si esa es tu unidad), y sin suscripción ese parcial es lo único que dice. La técnica necesita los sensores de muñeca, así que se queda en el reloj.</p>
 </div>
 </section>
@@ -595,11 +663,11 @@
 </div>
 </div>
 <div class="watch3">
-<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — decisión de hoy de Runvis: anillo de preparación en 94, intervalos correr-caminar" data-i18n-attr="alt:alt.watch.decision" loading="lazy" src="/assets/framed-watch-hero.png" data-shot="framed-watch-hero" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w1">La decisión de hoy</b><span data-i18n="n.today.w1p">El anillo de preparación y el entreno de hoy se ven directamente en la muñeca.</span></div>
-<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — evidencia de hoy de Runvis: sueño 7,2 h, HRV 48 ms, carga de ayer 70" data-i18n-attr="alt:alt.watch.evidence" loading="lazy" src="/assets/framed-watch-evidence.png" data-shot="framed-watch-evidence" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w2">El motivo de hoy</b><span data-i18n="n.today.w2p">Compara sueño, HRV y carga de ayer con tu referencia y lo marca como bien, normal o atención.</span></div>
-<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — pantalla de inicio de Runvis con la tarjeta del entrenamiento de hoy (correr-caminar)" data-i18n-attr="alt:alt.watch.start" loading="lazy" src="/assets/framed-watch-start.png" data-shot="framed-watch-start" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w3">Empezar con un toque</b><span data-i18n="n.today.w3p">El entreno de hoy está arriba del todo en la pantalla de inicio. Lo pulsas y el entrenador te lleva tramo a tramo.</span></div>
+<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra: la decisión de hoy en Runvis, anillo de preparación y día de descanso" data-i18n-attr="alt:alt.watch.decision" loading="lazy" src="/assets/framed-watch-hero.es.png" data-shot="framed-watch-hero" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w1">La decisión de hoy</b><span data-i18n="n.today.w1p">El anillo de preparación y el entreno de hoy se ven directamente en la muñeca.</span></div>
+<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — la base de hoy en Runvis: sueño y VFC" data-i18n-attr="alt:alt.watch.evidence" loading="lazy" src="/assets/framed-watch-evidence.es.png" data-shot="framed-watch-evidence" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w2">El motivo de hoy</b><span data-i18n="n.today.w2p">Compara sueño, HRV y carga de ayer con tu referencia y lo marca como bien, normal o atención.</span></div>
+<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — selector de entrenamiento de Runvis: correr y correr en interior" data-i18n-attr="alt:alt.watch.start" loading="lazy" src="/assets/framed-watch-start.es.png" data-shot="framed-watch-start" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w3">Empezar con un toque</b><span data-i18n="n.today.w3p">El entreno de hoy está arriba del todo en la pantalla de inicio. Lo pulsas y el entrenador te lleva tramo a tramo.</span></div>
 </div>
-<p class="sc-note reveal" data-i18n="sc.note">Las cinco capturas de iPhone de esta página se tomaron con la app funcionando en tu idioma. Las seis capturas del Apple Watch siguen siendo de la versión coreana: el simulador del reloj no acepta toques sintéticos, así que no se han podido automatizar. La voz del entrenador y esta página ya funcionan en los seis idiomas.</p>
+<p class="sc-note reveal" data-i18n="sc.note">Las once capturas de esta página —cinco de iPhone y seis de Apple Watch— se tomaron con la app funcionando en tu idioma. Las pantallas en carrera vienen de una sesión real.</p>
 <p class="sc-note reveal" data-i18n="sc.build">Las 30 capturas de iPhone salen de una compilación del 6 de septiembre de 2026. Después de eso se cambió la etiqueta de estado para que quepa en una línea, así que en las capturas en alemán y español la palabra de aviso (Achtung · Atención) todavía se parte en dos líneas; en la app actual no. Están pendientes de rehacerse.</p>
 </div>
 </section>
@@ -618,14 +686,15 @@
 <p class="sr-only" id="voiceStatus" role="status" aria-live="polite"></p>
 <div class="quiet reveal"><span>🤫</span><div class="qbody">
 <b data-i18n="n.live.q.h">No habla mucho</b>
+<p class="qsum" data-i18n="n.live.q.sum">Hasta ocho avisos por cada 30 minutos en un rodaje suave y seis en un tempo o una carrera, y nunca dos en menos de 45 segundos. Los parciales y el aviso de cuestas quedan fuera de ese límite y suenan siempre; en las series, en lugar de un tope, mandan los avisos que dejaste activados.</p>
+<details class="gate">
+<summary data-i18n="n.live.q.moreh">La tabla por sesión y todas las excepciones</summary>
 <div class="qtable"><table>
 <tr><th data-i18n="n.live.q.th1">Sesión</th><th data-i18n="n.live.q.th2">Otros avisos por 30 min (sin parciales, cuestas ni pausas)</th></tr>
 <tr><td data-i18n="n.live.q.r1a">Suave · larga · correr-caminar</td><td data-i18n="n.live.q.r1b">hasta 8</td></tr>
 <tr><td data-i18n="n.live.q.r2a">Tempo · carrera · carrera libre</td><td data-i18n="n.live.q.r2b">hasta 6</td></tr>
 <tr><td data-i18n="n.live.q.r3a">Series</td><td data-i18n="n.live.q.r3b">sin tope: lo que dejes activado decide cuánto habla. A cambio, en las series solo suenan el aviso del bloque, la zona de FC, el ritmo y la pausa automática: parciales, cuestas, técnica y ánimos se callan</td></tr>
 </table></div>
-<details class="gate">
-<summary data-i18n="n.live.q.moreh">Todas las reglas de intervalo y excepciones</summary>
 <ul>
 <li data-i18n="n.live.q.n1">El intervalo mínimo es de 45 segundos. Los avisos de seguridad, los avisos esenciales como los pasos del entrenamiento y los parciales no esperan a ese intervalo, y los siguientes tampoco.</li>
 <li data-i18n="n.live.q.n2">Los parciales, el aviso de cuestas y los de pausa y reanudación automáticas siguen cada uno su propia regla y nunca consumen el tope de 30 minutos. El aviso de pasar de andar a correr y la cuenta de respiración también quedan fuera de la regla de 45 segundos: tarde no significan nada. Y también el saludo con el que reconoce un recorrido que ya has corrido.</li>
@@ -700,7 +769,7 @@
 <ul>
 <li data-i18n="n.race.lb1">Con una sola marca reciente, predicción de 5K, 10K, media y maratón, y tu ritmo objetivo</li>
 <li data-i18n="n.race.lb2">Si repites el mismo recorrido, tu mejor marca corre como fantasma y te dice la diferencia</li>
-<li data-i18n="n.race.lb3">Desde 16 días antes, una predicción que tiene en cuenta el pronóstico del día de la carrera</li>
+<li data-i18n="n.race.lb3">Desde 15 días antes, una predicción que tiene en cuenta el pronóstico del día de la carrera</li>
 </ul>
 </div>
 </div>
@@ -729,7 +798,8 @@
 <li data-i18n="n.price.f1">Registro por GPS, ritmo, pulso, vueltas y guardado en Apple Health</li>
 <li data-i18n="n.price.f2">Informe detallado del entreno, informe del cuerpo e historial</li>
 <li data-i18n="n.price.f3">Ver el plan, predicciones básicas de carrera, el parte meteorológico y la pantalla de calentamiento, el modo carrera del reloj con tu fantasma de mejor marca</li>
-<li data-i18n="n.price.f4">Corriendo con el reloj: avisos de parciales por kilómetro o milla —según tu ajuste de unidades—, avisos de zona de FC, avisos de ritmo objetivo, aviso de cuestas en el recorrido y alerta de desvío. Corriendo solo con el iPhone, los parciales son la única voz gratuita.</li>
+<li data-i18n="n.price.f4">Corriendo con el reloj: voz para parciales (por kilómetro o milla, según tu ajuste de unidades), zonas de pulso, ritmo, aviso de subidas del recorrido y alerta de desvío. Corriendo solo con el iPhone, los parciales son la única voz gratuita.</li>
+<li data-i18n="n.price.f6">La tarjeta de consejo posterior a la carrera</li>
 <li data-i18n="n.price.f5">Exportación a GPX e informe para análisis con IA</li>
 </ul>
 <a class="btn ghost" href="run.html" style="margin-top:18px" data-i18n="n.price.freecta">Ve hasta dónde llega el plan gratis en la demo de 5 km</a>
@@ -738,10 +808,17 @@
 <span class="ribbon" data-i18n="pl.ribbon">Cuentas con derecho: primer periodo gratis</span>
 <div class="name" data-i18n="pl.coach">Runvis Coach</div>
 <a class="terms-link" href="#faq" data-i18n="pl.terms">¿Quién tiene derecho?</a>
-<div class="amt"><span data-i18n="pr.month">₩1,900</span><small data-i18n="t144">/ mes</small></div>
-<div class="amt-approx" data-i18n="pr.approx">Es el precio de la App Store de Corea, la tienda con la que se lanza. En cualquier otro sitio se te cobra el precio local de tu propia App Store. Aquí no ponemos una cifra convertida: Apple cobra por tramos de precio, no por tipo de cambio, así que una conversión estaría mal justo el día que importa. Los números reales llegarán a esta página cuando estén configuradas las demás tiendas.</div>
-<div class="amt-year" data-i18n="n.price.year">El plan anual cuesta <b>₩15,000</b>: unos ₩1,250 al mes, alrededor de un 34% menos que pagar mes a mes en la App Store de Corea. Otras tiendas cobran por sus propios tramos, así que la proporción puede cambiar; el ahorro real lo calcula la pantalla de compra de la app con los dos precios que le ofrecen. Si tu cuenta tiene derecho a prueba, el anual también empieza con un periodo gratis y después se cobra el año entero de una vez.</div>
-<div class="amt-year" data-i18n="n.price.life">En vez de suscripción, <b>acceso de por vida por ₩39,000</b>: precio de lanzamiento. Si sube más adelante, la subida nunca alcanza a quien ya lo compró. Con los precios de la App Store coreana equivale a unos 2,6 años del plan anual o unos 20 meses del mensual; en tu tienda los tramos de precio pueden dar otra proporción. Es el único plan que cubre Compartir en familia de Apple.</div>
+<table class="ptable">
+<tr class="lead"><th scope="row"><span data-i18n="pl.month">Mensual</span><small data-i18n="pr.monthn">Se renueva cada mes · cancela cuando quieras</small></th><td class="pv" data-i18n="pr.month">₩1,900</td></tr>
+<tr><th scope="row"><span data-i18n="pl.year">Anual</span><small data-i18n="pr.yearn">Unos ₩1,250 al mes · alrededor de un 34% menos que el mensual</small></th><td class="pv" data-i18n="pr.year">₩15,000</td></tr>
+<tr><th scope="row"><span data-i18n="pl.life">De por vida</span><small data-i18n="pr.lifen">Un solo pago · sin renovación automática · Compartir en familia</small></th><td class="pv" data-i18n="pr.life">₩39,000</td></tr>
+</table>
+<details class="gate">
+<summary data-i18n="n.price.moreh">Precios en otras regiones, el ahorro real y cuándo sale a cuenta</summary>
+<p data-i18n="pr.approx">Es el precio de la App Store de Corea, la tienda con la que se lanza. En cualquier otro sitio se te cobra el precio local de tu propia App Store. Aquí no ponemos una cifra convertida: Apple cobra por tramos de precio, no por tipo de cambio, así que una conversión estaría mal justo el día que importa. Los números reales llegarán a esta página cuando estén configuradas las demás tiendas.</p>
+<p data-i18n="n.price.year">El plan anual cuesta <b>₩15,000</b>: unos ₩1,250 al mes, alrededor de un 34% menos que pagar mes a mes en la App Store de Corea. Otras tiendas cobran por sus propios tramos, así que la proporción puede cambiar; el ahorro real lo calcula la pantalla de compra de la app con los dos precios que le ofrecen. Si tu cuenta tiene derecho a prueba, el anual también empieza con un periodo gratis y después se cobra el año entero de una vez.</p>
+<p data-i18n="n.price.life">En vez de suscripción, <b>acceso de por vida por ₩39,000</b>: precio de lanzamiento. Si sube más adelante, la subida nunca alcanza a quien ya lo compró. Con los precios de la App Store coreana equivale a unos 2,6 años del plan anual o unos 20 meses del mensual; en tu tienda los tramos de precio pueden dar otra proporción. Es el único plan que cubre Compartir en familia de Apple.</p>
+</details>
 <ul>
 <li data-i18n="n.price.p1">La voz del coach mientras corres: técnica, cómo correr las cuestas, recuperación, ánimo</li>
 <li data-i18n="n.price.p2">Ejecución del plan: dirige cada tramo y al terminar te puntúa respecto al plan</li>
@@ -765,8 +842,10 @@
 <div class="eyebrow reveal" data-i18n="n.faq.eb">Preguntas frecuentes</div>
 <h2 id="faq-h" class="reveal" data-i18n="n.faq.h2">Lo que se pregunta primero</h2>
 <div class="tiles">
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q1">¿Necesito un reloj?</h3><p data-i18n="n.faq.a1">Solo con el iPhone tienes registro GPS y aviso de ritmo parcial cada kilómetro (cada milla si esa es tu unidad). Sin suscripción ese parcial es lo único que dice el teléfono; los avisos de zona de FC y de ritmo objetivo llegan también al teléfono al suscribirte. La técnica, el aviso de cuestas y la alerta de desvío existen solo corriendo con el reloj.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q2">¿Qué Apple Watch necesito?</h3><p data-i18n="n.faq.a2">Cualquier modelo con pulso y GPS. En los modelos recientes que miden el tiempo de contacto y la oscilación vertical el coaching de técnica es más fino; en el resto funciona con la cadencia.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q1">¿Necesito un reloj?</h3>
+<p data-i18n="n.faq.a1">Solo con el iPhone tienes registro GPS y aviso de ritmo parcial cada kilómetro (cada milla si esa es tu unidad). Sin suscripción ese parcial es lo único que dice el teléfono. Con suscripción el teléfono también te guía el ritmo; los avisos de zona de FC necesitan pulso, y el iPhone no tiene sensor de frecuencia cardiaca, así que solo llegan si conectas una banda Bluetooth de pulso (una cinta BLE estándar tipo Polar H10 o Wahoo TICKR). La técnica, el aviso de cuestas y la alerta de desvío existen solo corriendo con el reloj.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q2">¿Qué Apple Watch necesito?</h3>
+<p data-i18n="n.faq.a2">Hace falta watchOS 10 o posterior (Apple Watch Series 4 en adelante) e iOS 17 o posterior. Superado ese límite, basta con pulso y GPS. En los modelos recientes que miden el tiempo de contacto y la oscilación vertical el coaching de técnica es más fino; en el resto funciona con la cadencia.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q3">¿Qué pasa con mis datos si cancelo?</h3><p data-i18n="n.faq.a3">Tus carreras siguen en Salud de Apple, intactas. Tras cancelar mantienes gratis la grabación, la vista del plan y el informe detallado.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q4">¿Adónde van mis datos?</h3><p data-i18n="n.faq.a4">No hay cuenta ni servidor. La ubicación solo sale para el tiempo, el nombre del barrio y las rutas generadas. Además están los pagos de la App Store, la descarga de los archivos públicos de recorridos y zapatillas y —por ahora solo en la App Store de Corea— una página externa de búsqueda de zapatillas que se abre si la tocas tú en la pantalla de zapatillas. Los datos de entrenamiento y salud no se suben.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q5">¿Hasta dónde llegan los seis idiomas?</h3><p data-i18n="n.faq.a5">Todas las frases que el coach dice en voz alta están traducidas a seis idiomas. Si alguna aún no ha llegado a las tablas se oye en inglés, nunca en coreano, y esa reserva también está fijada por una prueba. Esta garantía cubre solo la voz del coach; los textos de las pantallas usan otra tabla.</p>
@@ -785,7 +864,7 @@
 <div class="eyebrow reveal" data-i18n="n.beta.eb">Apúntate a la beta</div>
 <h2 id="beta-h" class="reveal" data-i18n="n.beta.h2">Pruébalo antes en la beta</h2>
 <div class="proof reveal">
-<h3 data-i18n="n.trust.h">Todavía no hay reseñas: esto es lo que sí se puede comprobar hoy</h3>
+<h3 data-i18n="n.trust.h">Lo que se puede comprobar aquí mismo, hoy</h3>
 <ul>
 <li data-i18n="n.trust.l1">Más de 500 pruebas automáticas revisan las frases que dice el coach, la frontera entre gratis y de pago y el cálculo del plan en cada compilación.</li>
 <li data-i18n="n.trust.l2">Más de 2.100 textos de interfaz coinciden clave por clave en las seis tablas de idioma, y las cuatro tablas de voz del coach tienen 396 líneas cada una. Basta un desajuste para que la prueba falle en el acto.</li>
@@ -794,11 +873,12 @@
 <p data-i18n="n.trust.p">Esta app la hace una sola persona. Todavía no hay valoraciones ni prensa: no se ha lanzado. Así que en vez de cifras que se podrían inventar, aquí van las que salen contadas directamente del repositorio de la app. Si quieres saber cualquier otra cosa, escribe a help@runvis.app; contesto yo.</p>
 </div>
 <div class="signup reveal">
-<p class="sub" data-i18n="n.beta.sub" style="margin:0 auto">Déjanos tu correo y recibirás una invitación cuando se abra la beta de TestFlight. Las invitaciones salen por orden de solicitud. Todavía no hay fecha de apertura: el día que la haya se escribirá aquí y se enviará a todas las direcciones ya apuntadas.</p>
+<p class="sub" data-i18n="n.beta.sub" style="margin:0 auto">Déjanos tu correo y recibirás una invitación cuando se abra la beta de TestFlight. El día que se fije la fecha de apertura se escribirá aquí y se enviará a todas las direcciones ya apuntadas.</p>
 <form action="https://formspree.io/f/xnjeyalr" id="betaForm" method="POST">
-<input name="email" placeholder="Correo electrónico" data-i18n-attr="placeholder:ph.email" required="" type="email"/>
+<input name="email" placeholder="Correo electrónico" aria-label="Correo electrónico" data-i18n-attr="placeholder:ph.email,aria-label:ph.email" required="" type="email"/>
 <button class="btn" data-i18n="t160" id="betaSubmit" type="submit">Recibir invitación a la beta</button>
 </form>
+<p class="order-note" data-i18n="n.beta.order">Todavía no hay fecha de apertura. Las invitaciones salen por orden de solicitud, así que dejar ahora tu dirección es lo que fija tu puesto en esa cola.</p>
 <fieldset class="want">
 <legend data-i18n="n.beta.want">¿Qué prefieres recibir?</legend>
 <label><input form="betaForm" name="want" type="radio" value="beta" checked=""/> <span data-i18n="n.beta.want1">Entrar en la beta: mándame la invitación de TestFlight</span></label>
@@ -808,13 +888,23 @@
 <a class="btn ghost" id="betaNext" href="run.html" style="margin-top:14px" data-i18n="form.okcta">Corre la demo de 5 km</a>
 <div class="consent">
 <div>· <b data-i18n="t161">Qué recopilamos</b><span data-i18n="cs.purpose">: enviarte la invitación a la beta de TestFlight</span></div>
-<div>· <b data-i18n="t162">Periodo de conservación</b><span data-i18n="cs.retain">: hasta que termine la beta o retires tu consentimiento</span></div>
+<div>· <b data-i18n="t162">Periodo de conservación</b>
+<span data-i18n="cs.retain">: se elimina sin demora en cuanto se cumple la finalidad (enviada la invitación a la beta) y, en todo caso, en el plazo de un año desde su recogida</span></div>
 <label><input form="betaForm" name="privacy_consent" type="checkbox" value="yes" required=""/> <span data-i18n="n.beta.required">(Obligatorio) Acepto que se recoja y use mi correo para enviarme la invitación a la beta.</span></label>
 <label><input form="betaForm" name="marketing_consent" type="checkbox" value="yes"/> <span data-i18n="cs.marketing">(Opcional) Acepto recibir novedades del lanzamiento y actualizaciones.</span></label>
 <div style="margin-top:8px">· <a href="privacy.html" style="color:var(--green)" data-i18n="n.priv.link">Política de privacidad</a></div>
 </div>
 <div class="nextsteps">
-<h4 data-i18n="n.beta.gpxh">Lo que puedes llevarte ahora mismo</h4>
+<h4 data-i18n="hz.h">Algo que puedes calcular ahora mismo: tus cinco zonas de pulso</h4>
+<p data-i18n="hz.p">La misma aritmética de Karvonen que usa Runvis para hablarte. En la app las entradas se actualizan solas —el pulso en reposo de siete días de Salud y la frecuencia máxima que tu reloj ha registrado de verdad—, pero el cálculo es el de abajo.</p>
+<div class="hzcalc">
+<label><span data-i18n="hz.age">Edad</span><input id="hzAge" type="number" min="10" max="99" step="1" value="35" inputmode="numeric"/></label>
+<label><span data-i18n="hz.rest">Pulso en reposo</span><input id="hzRest" type="number" min="30" max="110" step="1" value="60" inputmode="numeric"/></label>
+<label><span data-i18n="hz.max">Frecuencia máxima (déjalo vacío si no la sabes)</span><input id="hzMax" type="number" min="120" max="230" step="1" inputmode="numeric"/></label>
+</div>
+<p class="hzout" id="hzOut" role="status" aria-live="polite"></p>
+<p class="gpxattr" data-i18n="hz.note">Límite inferior de zona = (FC máx − FC en reposo) × 50/60/70/80/90% + FC en reposo. Si dejas la máxima vacía, se estima como 208 − 0,7 × edad. Es un cálculo orientativo, no un consejo médico.</p>
+<h4 class="sep" data-i18n="n.beta.gpxh">Si corres en Seúl: 13 archivos GPX de recorridos</h4>
 <p data-i18n="n.beta.gpx">Los archivos GPX de los 13 recorridos de Seúl que usa la app. Sin registro y sin instalar nada: descárgalos ya y cárgalos en otro reloj o app de mapas. Las distancias van en km en los seis idiomas: un archivo GPX no lleva unidad propia y la conversión la hace el dispositivo donde lo cargues.</p>
 <p class="gpxlist"><a href="/gpx/seoul-namsan-bukcheuk.gpx" download><span data-i18n="gpx.namsan.north">Namsan, circuito norte</span> <span style="color:var(--dim2)">6.7km</span></a> · <a href="/gpx/seoul-namsan-summit.gpx" download><span data-i18n="gpx.namsan.summit">Subida a la cima del Namsan</span> <span style="color:var(--dim2)">4.0km</span></a> · <a href="/gpx/seoul-bukak-skyway.gpx" download><span data-i18n="gpx.bukak">Bugak Skyway</span> <span style="color:var(--dim2)">5.2km</span></a> · <a href="/gpx/seoul-ansan-jarak.gpx" download><span data-i18n="gpx.ansan">Sendero Jarak del Ansan</span> <span style="color:var(--dim2)">6.1km</span></a> · <a href="/gpx/seoul-inwangsan.gpx" download><span data-i18n="gpx.inwangsan">Sendero Jarak del Inwangsan</span> <span style="color:var(--dim2)">2.9km</span></a> · <a href="/gpx/seoul-naksan.gpx" download><span data-i18n="gpx.naksan">Muralla de Seúl, parque Naksan</span> <span style="color:var(--dim2)">2.1km</span></a> · <a href="/gpx/seoul-eungbong.gpx" download><span data-i18n="gpx.eungbong">Escaleras del Eungbongsan</span> <span style="color:var(--dim2)">1.6km</span></a> · <a href="/gpx/seoul-dorimcheon.gpx" download><span data-i18n="gpx.dorimcheon">Arroyo Dorimcheon</span> <span style="color:var(--dim2)">14.5km</span></a> · <a href="/gpx/seoul-banpo-hangang.gpx" download><span data-i18n="gpx.banpo">Parque del río Han en Banpo</span> <span style="color:var(--dim2)">5.0km</span></a> · <a href="/gpx/seoul-tancheon.gpx" download><span data-i18n="gpx.tancheon">Arroyo Tancheon</span> <span style="color:var(--dim2)">7.1km</span></a> · <a href="/gpx/seoul-yangjaecheon.gpx" download><span data-i18n="gpx.yangjaecheon">Arroyo Yangjaecheon</span> <span style="color:var(--dim2)">3.9km</span></a> · <a href="/gpx/seoul-cheonggyecheon.gpx" download><span data-i18n="gpx.cheonggyecheon">Arroyo Cheonggyecheon</span> <span style="color:var(--dim2)">5.5km</span></a> · <a href="/gpx/seoul-seoulsup.gpx" download><span data-i18n="gpx.seoulsup">Circuito del Bosque de Seúl</span> <span style="color:var(--dim2)">2.0km</span></a></p>
 <p class="gpxattr" data-i18n="n.beta.gpxattr">Trazados a partir de datos de carreteras y senderos de OpenStreetMap; altitud de Copernicus DEM / NASA SRTMGL1 (dominio público). © OpenStreetMap contributors · ODbL 1.0.</p>
@@ -832,7 +922,9 @@
 </div>
 </section>
 
-<div class="sticky-cta" id="stickyCta"><a class="btn" href="#beta" data-i18n="n.hero.cta1">Apúntate a la beta</a></div>
+</main>
+
+<div class="sticky-cta" id="stickyCta"><a class="btn" href="#beta" data-i18n="n.hero.cta1">Apúntate a la beta</a><a class="btn ghost" id="stickyLaunch" href="#beta" data-i18n="n.beta.cta2">Recibir el aviso de lanzamiento</a></div>
 <footer>
 <div class="wrap">
 <div class="links">
@@ -953,13 +1045,47 @@
   }
 
   // 4) Scroll reveal with staggered depth (translateZ via perspective wrapper).
+  //    Three things went wrong at threshold .12 with a negative bottom margin,
+  //    and a flick on a 375x812 phone reproduced all three at once — 62 of 68
+  //    .reveal elements still at opacity 0 with the whole viewport black:
+  //      a) a block TALLER than the viewport can never show 12% of itself
+  //         inside the viewport, so #price .plan.pro (1,029 px in Korean,
+  //         1,616 px in German) was never "intersecting" enough to fire;
+  //      b) rootMargin shrank the trigger box instead of growing it, so an
+  //         element had to be well inside the screen before it counted;
+  //      c) an element that scrolled PAST the viewport between two observer
+  //         callbacks was left behind with no second chance.
+  //    Fixed in that order: tall blocks are painted at once and never
+  //    observed, the box grows 15% past the bottom edge so a block fires
+  //    before it arrives, any threshold crossing counts, and anything already
+  //    above the top edge is shown immediately.
+  const pending = new Set();
+  const show = el => { el.classList.add('in'); pending.delete(el); io.unobserve(el); };
   const io = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-  }), { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+    if (e.isIntersecting || e.boundingClientRect.bottom < 0) show(e.target);
+  }), { threshold: 0, rootMargin: '0px 0px 15% 0px' });
   document.querySelectorAll('.reveal').forEach((el, i) => {
     el.style.setProperty('--d', ((i % 4) * 70) + 'ms');
-    io.observe(el);
+    if (el.getBoundingClientRect().height > innerHeight * 0.9) { el.classList.add('in'); return; }
+    pending.add(el); io.observe(el);
   });
+  // The safety net the observer cannot be: with threshold 0, an element that
+  // goes from "below the viewport" to "above the viewport" between two frames
+  // never CHANGES intersection state, so no callback is ever delivered for it
+  // and it stays at opacity 0 behind the reader. A flick down this page
+  // (23,000 px) reproduces that on a phone. One rAF-coalesced pass over
+  // whatever is still pending, on every scroll, closes it: anything whose top
+  // has reached the bottom edge is shown, whether it is still on screen or
+  // already gone past. The set empties as the page is read, so this costs
+  // nothing by the time the page has been scrolled once.
+  let sweeping = 0;
+  const sweep = () => {
+    sweeping = 0;
+    for (const el of [...pending]) if (el.getBoundingClientRect().top < innerHeight) show(el);
+    if (!pending.size) removeEventListener('scroll', onScroll);
+  };
+  const onScroll = () => { if (!sweeping && pending.size) sweeping = requestAnimationFrame(sweep); };
+  addEventListener('scroll', onScroll, { passive: true });
 
   // 5) Count-up numbers on [data-count] when they enter the viewport.
   const cio = new IntersectionObserver(es => es.forEach(e => {
@@ -1156,6 +1282,61 @@ document.addEventListener('visibilitychange', ()=>{ if(document.hidden) Voice.st
   sync();
 })();
 
+// --- the sticky bar's second action arrives with its intent set -------------
+// Otherwise "출시 알림 받기" dropped the reader at a form whose radio still said
+// 베타 참여 and whose button still said 베타 초대 받기 — the same dead end the bar
+// was added to remove.
+(() => {
+  const link = document.getElementById('stickyLaunch');
+  if (!link) return;
+  link.addEventListener('click', () => {
+    const r = document.querySelector('input[name="want"][value="launch"]');
+    if (r && !r.checked) { r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); }
+  });
+})();
+
+// --- heart-rate zones, worked out here, with no address and no install -------
+// The same arithmetic the app runs: UserProfile.karvonenZoneLowerBounds maps
+// 50/60/70/80/90 % of heart-rate reserve over effectiveMaxHR, and an empty max
+// falls back to the Tanaka estimate 208 − 0.7 × age (UserProfile.estimatedMaxHR).
+// Zone names are the app's own five labels, translated in the same six tables.
+(() => {
+  const age = document.getElementById('hzAge'), rest = document.getElementById('hzRest'),
+        mx = document.getElementById('hzMax'), out = document.getElementById('hzOut');
+  if (!age || !rest || !mx || !out) return;
+  // Named RunvisT on purpose. This block paints during parsing, before the
+  // deferred i18n.js has defined window.RunvisT, so every string needs an
+  // inline fallback — and tools/check-content.mjs [10] only compares fallbacks
+  // written as a call whose two arguments are both quoted literals, the shape
+  // tools/prerender.mjs rewrites for /en/ … . The local name delegates to the
+  // global one once it exists; `window.RunvisT` inside is the global, not this.
+  const RunvisT = (k, f) => (window.RunvisT ? window.RunvisT(k, f) : f);
+  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+  const render = () => {
+    const a = clamp(Math.round(Number(age.value) || 0), 10, 99);
+    const r = clamp(Math.round(Number(rest.value) || 0), 30, 110);
+    const typed = Math.round(Number(mx.value) || 0);
+    const estimated = Math.round(208 - 0.7 * a);
+    const max = typed >= 120 && typed <= 230 ? typed : estimated;
+    if (max - r < 20) { out.textContent = RunvisT('hz.bad', 'El pulso en reposo está demasiado cerca del máximo para repartir zonas.'); return; }
+    const names = [RunvisT('hz.z1', 'Z1 Recuperación'), RunvisT('hz.z2', 'Z2 Aeróbico'), RunvisT('hz.z3', 'Z3 Tempo'), RunvisT('hz.z4', 'Z4 VO2max'), RunvisT('hz.z5', 'Z5 Anaeróbico')];
+    const lower = [.5, .6, .7, .8, .9].map(p => Math.round((max - r) * p + r));
+    const rows = names.map((n, i) => {
+      const hi = i === 4 ? max : lower[i + 1] - 1;
+      return n + ' <b>' + lower[i] + '\u2013' + hi + '</b>';
+    });
+    const bpm = RunvisT('hz.bpm', 'ppm');
+    const line = typed >= 120 && typed <= 230
+      ? RunvisT('hz.maxtyped', 'Con la frecuencia máxima que has introducido')
+      : RunvisT('hz.maxest', 'Máxima estimada como 208 − 0,7 × edad');
+    out.innerHTML = rows.join(' · ') + ' ' + bpm
+      + '<span class="hzmax">' + line + ': ' + max + ' ' + bpm + '</span>';
+  };
+  [age, rest, mx].forEach(el => el.addEventListener('input', render));
+  addEventListener('runvis:lang', () => setTimeout(render, 0));
+  render();
+})();
+
 // --- beta signup → Formspree (AJAX, no page navigation) ---
 const betaForm = document.getElementById('betaForm');
 if (betaForm) betaForm.addEventListener('submit', async e => {
@@ -1196,7 +1377,20 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
       // of the privacy notice. check-content.mjs [10] compares every such
       // fallback on a page against that page's dictionary, and prerender.mjs
       // rewrites them for the five language copies.
+      // The address goes back on screen with the confirmation. There is no
+      // double opt-in and no autoresponder, so a mistyped address used to be
+      // lost in silence: the form said "등록됐습니다" and the invitation would
+      // later go nowhere. Echoing what was actually submitted is the one
+      // check that can be made without a server, and it happens while the
+      // reader is still looking at the form.
+      const typed = (new FormData(betaForm).get('email') || '').toString();
       show(window.RunvisT('form.ok', 'Registrado. Te escribiremos a esta dirección el día que se fije la fecha de apertura, y cuando se abra la beta saldrá una invitación por orden de registro. Escríbenos a help@runvis.app cuando quieras y la borramos. Mientras esperas, corre la demo de 5 km. 🏃'), true);
+      if (typed) setTimeout(() => {
+        const p = document.createElement('span');
+        p.style.cssText = 'display:block;margin-top:6px;font-weight:600;color:var(--dim)';
+        p.textContent = window.RunvisT('form.okaddr', 'Dirección recibida') + ': ' + typed;
+        status.appendChild(p);
+      }, 60);
       betaForm.reset();
       // The signup used to end in an inbox. Hand the reader the one thing they
       // can actually do next while they wait.

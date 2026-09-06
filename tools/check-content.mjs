@@ -30,12 +30,14 @@
  *  10  every RunvisT('key', 'inline fallback') matches that page's dictionary
  *  11  sitemap.xml lists exactly the pages that exist, and robots.txt points
  *      at it
+ *  12  a short list of claims that must survive being reworded in six
+ *      languages, each tied to a fact in the app repository
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import {
   ROOT, CODES, PAGES, loadDicts, findI18nElements, findI18nAttrs,
-  faqLd, appLd, readLd,
+  faqLd, appLd, pageLd, readLd,
 } from './i18n-lib.mjs';
 
 const dicts = loadDicts();
@@ -120,7 +122,9 @@ for (const { file, code } of ALL) {
 console.log('\n[4] static JSON-LD == dictionary');
 for (const { file, code } of ALL) {
   const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
-  for (const [id, builder] of [['faqld', faqLd], ['appld', appLd]]) {
+  const page = file.split('/').pop();
+  for (const [id, builder] of [['faqld', faqLd], ['appld', appLd],
+                               ['pageld', (d, c) => pageLd(d, c, page)]]) {
     const node = readLd(html, id);
     if (!node) continue;
     const want = JSON.stringify(builder(dicts[code], code));
@@ -141,7 +145,8 @@ for (const { file, code } of ALL) {
       } catch (e) { why = 'not valid JSON'; }
       fail(`${file} #${id}: ${why}`);
     } else {
-      const n = id === 'faqld' ? JSON.parse(want).mainEntity.length + ' questions' : 'ok';
+      const n = id === 'faqld' ? JSON.parse(want).mainEntity.length + ' questions'
+              : id === 'appld' ? '3 offers, PreOrder' : 'WebPage + breadcrumb';
       ok(`${file} #${id}: ${n}, byte-identical to ${code} dictionary`);
     }
   }
@@ -355,6 +360,53 @@ console.log('\n[11] sitemap.xml == the files on disk');
     if (!fs.existsSync(robots)) fail('robots.txt missing');
     else if (!fs.readFileSync(robots, 'utf8').includes('https://runvis.app/sitemap.xml')) fail('robots.txt does not point at the sitemap');
     else ok('robots.txt points at sitemap.xml');
+  }
+}
+
+// ---- 12. claims that must survive a rewording ----------------------------
+// Round 11 lost points twice for the same shape of mistake: a sentence that was
+// true when it was written, reworded or translated later, and the CONDITION
+// dropped out of it in some languages and not others. Neither one is
+// detectable by comparing the page against the dictionary — the page and the
+// dictionary agreed perfectly. So the conditions themselves are written down
+// here, once, with the file in the app repository that makes them true.
+//
+// `need`: at least one of these strings must appear in every language's value.
+// `ban` : none of them may appear in any language's value.
+console.log('\n[12] claims that carry a condition');
+{
+  const CLAIMS = [
+    {
+      key: 'n.faq.a1',
+      need: ['Bluetooth', '블루투스', '藍牙', 'BLE'],
+      why: 'an iPhone has no heart-rate sensor. PhoneWorkoutManager takes HR only '
+         + 'from HeartRateBandManager (BLE 0x180D) and PhoneCoachPlan.zoneCue returns '
+         + 'nil when heartRate is 0, so the phone zone cue REQUIRES a chest strap — '
+         + 'saying it "arrives on the phone with a subscription" without that '
+         + 'condition sells a cue the subscriber may never hear',
+    },
+    {
+      key: 'r20',
+      ban: ['2.5', '2,5', '二・五', '二點五', '二点五'],
+      why: 'the demo quotes the coach verbatim and CoachEngine says "약 3킬로미터마다" '
+         + '(distanceSpoken(meters: 3000)) — there is no 2.5 km in any hydration line',
+    },
+  ];
+  for (const claim of CLAIMS) {
+    const bad = [];
+    for (const c of CODES) {
+      const value = dicts[c][claim.key];
+      if (value == null) { bad.push(`${c}: key missing`); continue; }
+      if (claim.need && !claim.need.some(t => value.includes(t))) {
+        bad.push(`${c}: none of ${claim.need.map(t => `"${t}"`).join('/')}`);
+      }
+      if (claim.ban) {
+        const hit = claim.ban.filter(t => value.includes(t));
+        if (hit.length) bad.push(`${c}: contains ${hit.map(t => `"${t}"`).join(', ')}`);
+      }
+    }
+    if (bad.length) fail(`${claim.key} — ${claim.why}\n       ${bad.join('\n       ')}`);
+    else ok(`${claim.key}: holds in all six languages`);
   }
 }
 

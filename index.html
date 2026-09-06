@@ -91,8 +91,17 @@
   h2{font-size:clamp(30px,4.6vw,44px);font-weight:800;letter-spacing:-.025em;line-height:1.18;margin-top:10px}
   .sub{color:var(--dim);font-size:18px;margin-top:16px;max-width:660px}
   .sub b{color:var(--text);font-weight:700}
-  html.js .reveal{opacity:0;transform:translateY(28px) scale(.985);transition:opacity .8s var(--ease) var(--d,0ms),transform .8s var(--ease) var(--d,0ms)}
-  html.js .reveal.in{opacity:1;transform:none}
+  /* The reveal no longer touches opacity, and that is the whole fix for the
+     black screen. It used to fade 0 -> 1 over .8s; measured on the deployed
+     page, a fling at ~120 px per frame left 65 of 137 sampled frames at
+     1280x900 — and 76 of 248 at 375x812 — with more than half the viewport
+     occupied by text still at opacity 0. No observer tuning can beat that:
+     to finish a .45s fade before a block arrives, it would have to start
+     several viewports early. A block that only SLIDES is legible from the
+     first frame it is on screen, and the settle still reads as motion.
+     Phones drop even the slide, below. */
+  html.js .reveal{transform:translateY(28px) scale(.985);transition:transform .45s var(--ease) var(--d,0ms)}
+  html.js .reveal.in{transform:none}
   .pill{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.04em;padding:3px 9px;border-radius:999px;vertical-align:middle;margin-left:8px}
   .pill.free{background:rgba(255,255,255,.08);color:var(--dim)}
   .pill.pro{background:rgba(61,220,132,.16);color:var(--green)}
@@ -140,15 +149,19 @@
   nav .links a{transition:color .2s}
   nav .links a:hover{color:var(--text)}
   /* Phone: measured at 384 px the row was 479 px wide inside 336 px, so
-     가격 (x=368), FAQ (x=407) and 5km 데모 (x=449) were all off-screen with the
-     scrollbar hidden — the three links that matter most to a decision. The
-     five section anchors duplicate a page you are already scrolling, so below
-     700 px they fold away and only those three stay. */
+     가격, FAQ and 5km 데모 were all off-screen with the scrollbar hidden. The
+     five section anchors used to be display:none here, which left an
+     eleven-section document with three links and no other table of contents.
+     They scroll instead, with the same hidden scrollbar and the same navFade
+     mask the 701–920 px rule uses — so nothing is removed and the fade says
+     there is more. justify-content is flex-start, because a centred row cannot
+     be scrolled back to its first item. */
   @media(max-width:700px){
     nav .wrap{height:auto;padding-top:8px;padding-bottom:8px;flex-wrap:wrap;row-gap:6px}
-    nav .links{order:3;width:100%;gap:18px;font-size:13.5px;justify-content:center;margin-left:0}
+    nav .links{order:3;width:100%;gap:18px;font-size:13.5px;justify-content:flex-start;margin-left:0;
+      overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    nav .links::-webkit-scrollbar{display:none}
     nav .links a{white-space:nowrap}
-    nav .links a.sec{display:none}
   }
   /* Desktop had no standing call to action: the sticky bar below is phone-only,
      so a reader scrolling this long page had to find the hero, the price
@@ -296,7 +309,10 @@
      every session belong under it. */
   .qbody{flex:1;min-width:0}
   .qbody>b{display:block;color:var(--text);font-size:16px;font-weight:800;margin-bottom:10px}
-  .qtable{overflow-x:auto;margin:0 -4px}
+  /* One sentence above the fold of this block; the table it summarises is
+     inside the <details> under it. */
+  .qsum{font-size:14.5px;color:#dfe3e7;margin-top:8px;line-height:1.7}
+  .qtable{overflow-x:auto;margin:10px -4px 0}
   .qtable table{width:100%;border-collapse:collapse;font-size:14px}
   .qtable th,.qtable td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
   .qtable th{color:var(--dim2);font-weight:700;font-size:12.5px}
@@ -348,11 +364,21 @@
   .plan .ribbon{position:absolute;top:-11px;right:20px;max-width:calc(100% - 40px);background:var(--green);color:#04120c;font-size:12px;font-weight:800;padding:4px 12px;border-radius:8px}
   .plan .name{font-size:15px;color:var(--dim);font-weight:700}
   .plan .amt{font-size:36px;font-weight:900;margin:8px 0 4px;letter-spacing:-.02em}
-  .plan .amt small{font-size:16px;color:var(--dim);font-weight:600;margin-left:6px}
-  /* --dim2 on the .plan gradient is only 4.94:1; --dim is 6.27:1 there. */
-  .plan .amt-approx{font-size:12.5px;color:var(--dim);margin:2px 0 8px;line-height:1.5}
-  .plan .amt-year{font-size:13.5px;color:var(--dim);margin-top:2px;line-height:1.5}
-  .plan .amt-year b{color:var(--green);font-weight:700}
+  /* .amt-approx / .amt-year are gone with the paragraphs they styled — the
+     three prices are .ptable rows and the prose they carried is inside the
+     .gate below the table. --dim2 on the .plan gradient is only 4.94:1, so
+     everything small in this card uses --dim (6.27:1). */
+  .plan .gate p b{color:var(--green);font-weight:700}
+  /* Three rows, three prices, one shape. The label carries its single
+     qualifying clause; everything longer folds into the .gate below it. */
+  .plan .ptable{width:100%;border-collapse:collapse;margin:10px 0 2px}
+  .plan .ptable th{text-align:left;font-weight:700;font-size:15px;padding:9px 0;vertical-align:baseline}
+  .plan .ptable th small{display:block;font-weight:500;font-size:12px;color:var(--dim);line-height:1.5;margin-top:2px}
+  .plan .ptable td.pv{text-align:right;white-space:nowrap;font-size:21px;font-weight:900;letter-spacing:-.02em;
+    padding:9px 0 9px 12px;vertical-align:baseline;font-variant-numeric:tabular-nums}
+  .plan .ptable tr.lead td.pv{font-size:32px}
+  .plan .ptable tr+tr th,.plan .ptable tr+tr td{border-top:1px solid var(--line)}
+  .plan .amt{font-size:36px;font-weight:900;margin:8px 0 4px;letter-spacing:-.02em}
   .plan ul{list-style:none;margin-top:18px}
   .plan li{padding:7px 0;font-size:15px;color:#dfe3e7;display:flex;gap:10px}
   .plan li::before{content:"✓";color:var(--green);font-weight:800}
@@ -371,6 +397,19 @@
   .gate summary:hover{color:var(--text)}
   .gate p{margin-top:10px;font-size:13px;line-height:1.75;color:var(--dim)}
   .note{text-align:center;color:var(--dim2);font-size:12.5px;margin-top:14px}
+  /* Sits directly under the submit button: the one thing about timing that can
+     honestly be said. */
+  .order-note{margin-top:10px;font-size:13px;color:var(--dim);line-height:1.6}
+  /* The take-away that needs no address, no install and no Seoul. */
+  .hzcalc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+  @media(max-width:520px){.hzcalc{grid-template-columns:1fr 1fr}.hzcalc label:last-child{grid-column:1/-1}}
+  .hzcalc label{display:block;font-size:12px;color:var(--dim);line-height:1.4}
+  .hzcalc input{width:100%;margin-top:5px;background:var(--bg1);border:1px solid var(--line2);color:var(--text);
+    border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;font-variant-numeric:tabular-nums}
+  .hzcalc input:focus{border-color:var(--green);outline:none}
+  .hzout{margin-top:12px;font-size:13.5px;line-height:1.9;color:#dfe3e7}
+  .hzout b{color:var(--green);font-variant-numeric:tabular-nums}
+  .hzout .hzmax{display:block;color:var(--dim);font-size:12.5px;margin-top:4px}
   /* beta funnel: what happens next, and what there is to look at now */
   .nextsteps{max-width:520px;margin:24px auto 0;text-align:left;counter-reset:ns}
   .nextsteps h4{font-size:14px;color:var(--dim);font-weight:700;letter-spacing:.02em}
@@ -430,13 +469,21 @@
   /* sticky CTA (small screens): the page is long and the only action used to sit at the very bottom */
   .sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;padding:10px 16px calc(10px + env(safe-area-inset-bottom));
     background:rgba(0,0,0,.82);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
-  .sticky-cta a{display:block;text-align:center}
+  .sticky-cta.armed{gap:10px}
+  .sticky-cta a{display:block;text-align:center;flex:1 1 0;min-width:0;padding-left:12px;padding-right:12px;font-size:15.5px}
   /* Hidden until the script says otherwise: at scrollY=0 the hero's own CTA is
      on screen, so the bar used to repeat the same words in the same colour
      250px below it and take 64px of a 812px phone for nothing. The observer
      below shows it only while BOTH the hero CTA and #beta are off screen; with
      no JS it never appears and never covers the hero. */
-  @media(max-width:820px){.sticky-cta.armed{display:block} footer{padding-bottom:96px}}
+  @media(max-width:820px){.sticky-cta.armed{display:flex} footer{padding-bottom:96px}}
+
+  /* Phones do not animate at all. A flick is the normal way to read here, the
+     slide costs a transform on every block during it, and the settle is not
+     worth that on a 375 px screen. */
+  @media(max-width:820px){
+    html.js .reveal{transform:none;transition:none}
+  }
 
   @media(prefers-reduced-motion:reduce){
     .reveal{opacity:1!important;transform:none!important;transition:none}
@@ -462,9 +509,28 @@
   // On a prerendered page (/en/, /ja/ …) the directory IS the language and
   // RunvisPageLang is set just above; it outranks the saved choice and the
   // browser's, so /de/ never renders in English. ?lang= still wins over it.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang);
-  if(!code){ try{ code=norm(localStorage.getItem("runvis_lang")); }catch(e){} }
-  if(!code) code=norm(navigator.language)||"ko";
+  var saved=null; try{ saved=norm(localStorage.getItem("runvis_lang")); }catch(e){}
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"ko";
+  // A German browser landing on a ROOT url used to get German BODY text with a
+  // Korean canonical, Korean og:* and no route to /de/ at all — the five
+  // prerendered market pages existed and nothing ever sent anyone to them.
+  // GitHub Pages cannot redirect, so it happens here, and only in the one case
+  // where nothing else has spoken: no ?lang= (an explicit choice), no saved
+  // choice, not already on a prerendered page, and not Korean (this IS the
+  // Korean document and the x-default). replace() keeps the back button
+  // working and the sessionStorage flag makes a second hop impossible even if
+  // the target ever failed to set RunvisPageLang.
+  try{
+    if(!window.RunvisPageLang && !urlLang && !saved && code!=="ko"
+       && /(^|\.)runvis\.app$/.test(location.hostname)
+       && !sessionStorage.getItem("runvis_sent")){
+      sessionStorage.setItem("runvis_sent","1");
+      var file=location.pathname.split("/").pop()||"";
+      if(file==="index.html") file="";      // /de/, the URL hreflang and canonical name
+      location.replace("/"+code+"/"+file+location.hash);
+      return;
+    }
+  }catch(e){}
   window.RunvisLang=code; window.RunvisUrlLang=urlLang;
   var html=document.documentElement;
   html.lang = code==="zh" ? "zh-Hant" : code;
@@ -521,14 +587,14 @@
      Currency is KRW because that is what the Korean App Store actually
      charges — the page's other figures are labelled approximations. -->
 <script id="appld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"ko","url":"https://runvis.app/","description":"러닝 시계를 하나 더 살 필요 없어요. 애플워치가 기록한 수면과 심박을 읽고 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다. 계정도 서버도 없습니다.","offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time","eligibleRegion":{"@type":"Country","name":"KR"}}]}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"ko","url":"https://runvis.app/","description":"러닝 시계를 하나 더 살 필요 없어요. 애플워치가 기록한 수면과 심박을 읽고 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다. 계정도 서버도 없습니다.","image":"https://runvis.app/assets/og-card.png","screenshot":"https://runvis.app/assets/framed-phone-dash.png","author":{"@type":"Organization","name":"Runvis","url":"https://runvis.app/"},"offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}}]}
 </script>
 <script id="faqld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"워치가 없어도 되나요?","acceptedAnswer":{"@type":"Answer","text":"아이폰만으로 GPS 기록과 1km(마일 설정이면 1마일)마다 구간 페이스 안내가 됩니다. 구독 없이 아이폰만 들고 달릴 때 나오는 음성은 이 스플릿 하나뿐이고, 심박존·목표 페이스 안내는 구독하면 아이폰에서도 나옵니다. 자세 코칭·언덕 예고·경로 이탈 경보는 워치 러닝에만 있습니다."}},{"@type":"Question","name":"어떤 애플워치가 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"심박과 GPS가 있는 모델이면 됩니다. 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 촘촘해지고, 못 재는 모델에서는 케이던스 기준으로 동작합니다."}},{"@type":"Question","name":"해지하면 기록은 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 Apple 건강에 남아 그대로입니다. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 씁니다."}},{"@type":"Question","name":"데이터는 어디로 가나요?","acceptedAnswer":{"@type":"Answer","text":"계정도 서버도 없습니다. 날씨와 동네 이름, 코스 자동 생성을 조회할 때만 위치가 나갑니다. 이 밖에 App Store 결제 처리와 공개 코스·신발 목록 파일 내려받기가 있고, 신발 화면에서 사용자가 직접 누를 때만 외부 러닝화 검색 페이지가 열립니다. 운동과 건강 데이터는 업로드하지 않습니다."}},{"@type":"Question","name":"6개 언어 음성은 어디까지 되나요?","acceptedAnswer":{"@type":"Answer","text":"코치가 소리 내어 말하는 문장은 여섯 언어로 번역돼 있습니다. 아직 표에 닿지 않은 문장이 남아 있으면 한국어가 아니라 영어로 나오고, 그 폴백도 테스트로 고정돼 있습니다. 이 보증은 코치 음성에 한한 것이고, 앱 화면에 적히는 문구는 다른 번역표를 씁니다."}},{"@type":"Question","name":"기록이 하나도 없어도 쓸 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"됩니다. 워치에서 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 만들어집니다. 이 측정은 워치 전용입니다. 아이폰만 있으면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기가 되고 플랜의 시작 지점은 최근 주간 거리로 잡습니다. 준비도는 워치를 차고 잔 밤이 기준선에 쌓여야 해서 보통 2주쯤, ACWR은 4주쯤 걸립니다. 퍼포먼스 컨디션은 최대심박을 설정한 뒤 심박이 기록된 10분 넘는 러닝을 같은 강도대(이지·중간·고강도)로 3회 채우면 나옵니다."}},{"@type":"Question","name":"무료 체험은 누가 받나요?","acceptedAnswer":{"@type":"Answer","text":"App Store가 이 구독의 체험을 아직 쓰지 않았다고 판단하는 계정만 받습니다. 전에 같은 구독을 썼거나 체험을 이미 소진한 계정은 첫 결제부터 바로 청구됩니다. 앱의 구매 화면이 지금 어느 쪽인지 사기 전에 항상 알려줍니다. 무료 기간의 길이도 App Store가 상품에 실어 내려보내는 값이라, 앱이 받은 그대로 구매 직전에 표시합니다. 연간을 골랐다면 그 무료 기간이 끝난 뒤 1년 요금이 한 번에 청구됩니다."}},{"@type":"Question","name":"평생 이용권과 연간 중 뭐가 유리한가요?","acceptedAnswer":{"@type":"Answer","text":"평생 이용권은 자동 갱신이 없는 1회 구매입니다. 가격 카드의 계산대로 연간 기준 약 2.6년, 월간 기준 약 20개월이면 본전이니 그보다 오래 쓸 생각이면 평생 쪽이 쌉니다. Apple 가족 공유가 되는 요금제도 이것 하나뿐입니다. 월간·연간 구독은 대상이 아닙니다."}},{"@type":"Question","name":"기기를 바꾸면 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"러닝 기록 자체는 Apple 건강에 저장돼 있어 새 기기의 건강 앱이 그대로 가져옵니다. 런비스 안에만 있던 값(프로필, 심박존, 신발 목록, 코치가 만든 기준선)은 설정 → 데이터 → '내 데이터 내보내기'로 파일 하나에 담아 빼내고, 새 기기에서 '백업에서 가져오기'로 되돌립니다. 파일은 사용자가 저장하는 곳에만 남고 런비스가 어디로도 보내지 않습니다. 구독은 App Store의 구매 복원으로 살립니다."}},{"@type":"Question","name":"워치 페이스 컴플리케이션이나 위젯이 있나요?","acceptedAnswer":{"@type":"Answer","text":"아직 없습니다. 워치 페이스 컴플리케이션, 아이폰 홈 화면 위젯, 라이브 액티비티는 이번 버전에 들어 있지 않습니다. 넣을 계획은 있지만 날짜는 아직 정해지지 않았습니다."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"워치가 없어도 되나요?","acceptedAnswer":{"@type":"Answer","text":"아이폰만으로 GPS 기록과 1km(마일 설정이면 1마일)마다 구간 페이스 안내가 됩니다. 구독 없이 아이폰만 들고 달릴 때 나오는 음성은 이 스플릿 하나뿐입니다. 구독하면 아이폰에서도 페이스 안내가 나오고, 심박존 안내는 아이폰에 심박 센서가 없어서 블루투스 심박 밴드(폴라 H10, 와후 TICKR 같은 표준 BLE 심박 스트랩)를 연결했을 때만 나옵니다. 자세 코칭·언덕 예고·경로 이탈 경보는 워치 러닝에만 있습니다."}},{"@type":"Question","name":"어떤 애플워치가 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"watchOS 10 이상(Apple Watch Series 4 이상)과 iOS 17 이상이 필요합니다. 그 조건만 넘으면 심박과 GPS로 충분합니다. 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 촘촘해지고, 못 재는 모델에서는 케이던스 기준으로 동작합니다."}},{"@type":"Question","name":"해지하면 기록은 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 Apple 건강에 남아 그대로입니다. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 씁니다."}},{"@type":"Question","name":"데이터는 어디로 가나요?","acceptedAnswer":{"@type":"Answer","text":"계정도 서버도 없습니다. 날씨와 동네 이름, 코스 자동 생성을 조회할 때만 위치가 나갑니다. 이 밖에 App Store 결제 처리와 공개 코스·신발 목록 파일 내려받기가 있고, 신발 화면에서 사용자가 직접 누를 때만 외부 러닝화 검색 페이지가 열립니다. 운동과 건강 데이터는 업로드하지 않습니다."}},{"@type":"Question","name":"6개 언어 음성은 어디까지 되나요?","acceptedAnswer":{"@type":"Answer","text":"코치가 소리 내어 말하는 문장은 여섯 언어로 번역돼 있습니다. 아직 표에 닿지 않은 문장이 남아 있으면 한국어가 아니라 영어로 나오고, 그 폴백도 테스트로 고정돼 있습니다. 이 보증은 코치 음성에 한한 것이고, 앱 화면에 적히는 문구는 다른 번역표를 씁니다."}},{"@type":"Question","name":"기록이 하나도 없어도 쓸 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"됩니다. 워치에서 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 만들어집니다. 이 측정은 워치 전용입니다. 아이폰만 있으면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기가 되고 플랜의 시작 지점은 최근 주간 거리로 잡습니다. 준비도는 워치를 차고 잔 밤이 기준선에 쌓여야 해서 보통 2주쯤, ACWR은 4주쯤 걸립니다. 퍼포먼스 컨디션은 최대심박을 설정한 뒤 심박이 기록된 10분 넘는 러닝을 같은 강도대(이지·중간·고강도)로 3회 채우면 나옵니다."}},{"@type":"Question","name":"무료 체험은 누가 받나요?","acceptedAnswer":{"@type":"Answer","text":"App Store가 이 구독의 체험을 아직 쓰지 않았다고 판단하는 계정만 받습니다. 전에 같은 구독을 썼거나 체험을 이미 소진한 계정은 첫 결제부터 바로 청구됩니다. 앱의 구매 화면이 지금 어느 쪽인지 사기 전에 항상 알려줍니다. 무료 기간의 길이도 App Store가 상품에 실어 내려보내는 값이라, 앱이 받은 그대로 구매 직전에 표시합니다. 연간을 골랐다면 그 무료 기간이 끝난 뒤 1년 요금이 한 번에 청구됩니다."}},{"@type":"Question","name":"평생 이용권과 연간 중 뭐가 유리한가요?","acceptedAnswer":{"@type":"Answer","text":"평생 이용권은 자동 갱신이 없는 1회 구매입니다. 가격 카드의 계산대로 연간 기준 약 2.6년, 월간 기준 약 20개월이면 본전이니 그보다 오래 쓸 생각이면 평생 쪽이 쌉니다. Apple 가족 공유가 되는 요금제도 이것 하나뿐입니다. 월간·연간 구독은 대상이 아닙니다."}},{"@type":"Question","name":"기기를 바꾸면 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"러닝 기록 자체는 Apple 건강에 저장돼 있어 새 기기의 건강 앱이 그대로 가져옵니다. 런비스 안에만 있던 값(프로필, 심박존, 신발 목록, 코치가 만든 기준선)은 설정 → 데이터 → '내 데이터 내보내기'로 파일 하나에 담아 빼내고, 새 기기에서 '백업에서 가져오기'로 되돌립니다. 파일은 사용자가 저장하는 곳에만 남고 런비스가 어디로도 보내지 않습니다. 구독은 App Store의 구매 복원으로 살립니다."}},{"@type":"Question","name":"워치 페이스 컴플리케이션이나 위젯이 있나요?","acceptedAnswer":{"@type":"Answer","text":"아직 없습니다. 워치 페이스 컴플리케이션, 아이폰 홈 화면 위젯, 라이브 액티비티는 이번 버전에 들어 있지 않습니다. 넣을 계획은 있지만 날짜는 아직 정해지지 않았습니다."}}]}
 </script>
 </head>
 <body>
-<a class="skip" href="#hero" data-i18n="a11y.skip">본문 바로가기</a>
+<a class="skip" href="#main" data-i18n="a11y.skip">본문 바로가기</a>
 <nav>
 <div class="wrap">
 <a class="logo" href="#hero">Run<b>vis</b></a>
@@ -549,6 +615,13 @@
 </div>
 </div>
 </nav>
+
+<!-- The document had NAV, HEADER and FOOTER landmarks and no main: a screen
+     reader offered no way to jump past the navigation, and the skip link
+     pointed at #hero (a section), not at a landmark. Everything a reader came
+     for — hero through beta form — is inside <main id="main"> now, and the
+     skip link lands on it. -->
+<main id="main">
 
 <!-- HERO -->
 <header class="hero" id="hero">
@@ -574,18 +647,22 @@
 <script>(function(){var h=window.RunvisCritical; if(!h) return;
   for(var k in h){ var e=document.querySelector('[data-i18n="'+k+'"]'); if(e) e.innerHTML=h[k]; }
 })();</script>
-<p class="note" data-i18n="n.hero.note">기록은 무료. 코치는 월 ₩1,900이고, App Store가 체험 대상으로 판단하는 계정은 첫 기간이 무료입니다. 어느 쪽인지는 앱이 사기 전에 알려줍니다.</p>
+<!-- Three clauses used to be chained here — price, region, trial eligibility —
+     and they took two lines directly under the CTA. Region and eligibility are
+     both stated in full in the price section (pr.approx, the ribbon, FAQ q7),
+     so this is the price and nothing else. -->
+<p class="note" data-i18n="n.hero.note">기록은 무료. 코치는 월 ₩1,900입니다.</p>
 <div class="trust">
 <div class="tbadge"><b>100%</b><span data-i18n="n.hero.b1">기기 안에서 계산</span></div>
 <div class="tbadge"><b data-i18n="n.hero.b3n">6개 언어</b><span data-i18n="n.hero.b3">음성 코칭</span></div>
-<!-- Offer first, condition as the label under it — the split used to read
-     "첫 구독 / 이면 무료 체험", which put a fragment of a sentence in the slot
-     the other two badges use for a value. It points straight at the FAQ answer
-     that states the rule (q7) rather than at the price card, so the badge, the
-     price ribbon and the card's own link all land on the same sentence. The
-     app shows the trial line only when StoreKit reports the account eligible,
-     so the page must not promise it flatly. -->
-<a class="tbadge" href="#faq"><b data-i18n="n.hero.b4n">체험 가능</b><span data-i18n="n.hero.b4">대상 계정이면 첫 기간 무료</span></a>
+<!-- The third badge used to be "체험 가능 / 대상 계정이면 첫 기간 무료" — an
+     exception condition standing where the other two carry a measurement, and
+     the one line on this page that a reader could take as a flat promise. The
+     eligibility rule still lives in FAQ q7 and on the price ribbon, where the
+     decision is made. This slot is a counted number now, like its neighbours:
+     the same floor the trust block states and check-content [9] holds against
+     tools/app-facts.json. -->
+<a class="tbadge" href="#beta"><b data-i18n="n.hero.b4n">500개 이상</b><span data-i18n="n.hero.b4">자동 테스트</span></a>
 </div>
 <!-- Also not .reveal: the phone bezel below is the LCP element, and an element
      sitting at opacity 0 does not count as painted, so keeping the reveal here
@@ -613,12 +690,11 @@
      tech met three images and no way to tell which one is on screen. The group
      names itself, and the rotation below moves aria-current with .on. -->
 <div class="watch-stack" id="watchStack" role="group" data-i18n-attr="aria-label:a11y.watchstack" aria-label="러닝 중 애플워치 화면 3장이 번갈아 나옵니다">
-<img alt="Apple Watch Ultra — Runvis 러닝 중 현재 페이스 5:12/km, 평균·속도·GAP·경사" data-i18n-attr="alt:alt.watch.pace" class="on" src="assets/framed-watch-pace.png" data-shot="framed-watch-pace" width="480" height="768" fetchpriority="high" decoding="sync"/>
-<img alt="Apple Watch Ultra — Runvis 심박존 아크: 135bpm, 존 2" data-i18n-attr="alt:alt.watch.zone" src="assets/framed-watch-hr.png" data-shot="framed-watch-hr" width="480" height="768" fetchpriority="low" decoding="async"/>
+<img alt="Apple Watch Ultra — Runvis 러닝 중 현재 페이스와 평균·속도·GAP·경사" data-i18n-attr="alt:alt.watch.pace" class="on" src="assets/framed-watch-pace.png" data-shot="framed-watch-pace" width="480" height="768" fetchpriority="high" decoding="sync"/>
+<img alt="Apple Watch Ultra — Runvis 심박존 아크" data-i18n-attr="alt:alt.watch.zone" src="assets/framed-watch-hr.png" data-shot="framed-watch-hr" width="480" height="768" fetchpriority="low" decoding="async"/>
 <img alt="Apple Watch Ultra — Runvis 러닝 중 실시간 GPS 지도와 거리·시간·페이스" data-i18n-attr="alt:alt.watch.map" src="assets/framed-watch-map.png" data-shot="framed-watch-map" width="480" height="768" fetchpriority="low" decoding="async"/>
 <!-- Says it here, in the hero, instead of leaving the reader to find sc.note a
      section below: these three are Korean captures in every language. -->
-<p class="wnote" data-i18n="sc.note.watch">이 애플워치 화면 3장은 한국어판 캡처입니다.</p>
 </div>
 </div>
 <div class="caption"><span class="mic">🔊</span><span class="txt" id="heroCaption"></span></div>
@@ -643,25 +719,33 @@
      and the price is already stated three times on this page (hero note, hero
      badge, price section). It is a count now, and it is the one hard trust
      signal a pre-launch page can offer.
-     s1v 40  = `grep -c "return Entry(" Shared/Services/MetricGlossary.swift`
-               (40 explanations; 39 distinct titles because "평균" and
-                "평균 페이스" carry the same title with different bodies).
-     s2v 270+ = `Cue( ko:` construction sites across the shipping sources,
-               tests excluded: 287 repo-wide on 2026-09-06 (CoachEngine 188,
-               WorkoutManager 45, WarmupView 15, PhoneCoachPlan 10,
-               IntervalWorkout 9, CustomWorkoutsView 8, CooldownView 6,
-               RouteSuggestions 2, MetricsEngine 2, WorkoutStartView 1,
-               CoachLanguage 1). Cue is "one spoken line" by its own
-               definition, so this counts lines, not triggers. The page states
-               a floor, so adding a cue can never make it false.
-     s3v 506 = unique `func test…` names across the 34 files in Tests/.
-     All three are re-measured by `node tools/app-facts.mjs`; check-content [9]
-     compares the dictionaries against what that wrote. -->
+     WHAT each tile counts, and nothing more — the FIGURES are deliberately not
+     written here any more. They used to be, and this comment went stale three
+     rounds running because a number in a comment is maintained by hand while
+     the app repository moves in another session.
+       s1v  `return Entry(` sites in Shared/Services/MetricGlossary.swift —
+            a fixed inventory, so the page states it exactly.
+       s2v  `Cue( ko:` construction sites across the shipping sources, tests
+            excluded. Cue is "one spoken line" by its own definition, so this
+            counts lines, not triggers. The page states a FLOOR, so adding a
+            cue can never falsify it.
+       s3v  unique `func test…` names in Tests/. Also a floor, for the same
+            reason: round 10 added 48 tests in one session.
+     The live figures live in ONE place — tools/app-facts.json, written by
+     `node tools/app-facts.mjs` out of the app checkout. check-content [9]
+     compares the six dictionaries against that file. -->
 <div class="mini reveal" style="max-width:760px;margin-top:26px">
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s1">뜻까지 설명하는 항목</small><b data-i18n="n.why.s1v">40개</b><em class="st-good" data-i18n="n.why.s1n">기기 안에서</em></div>
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s2">코치가 준비한 문장</small><b data-i18n="n.why.s2v">270개 이상</b><em class="st-good" data-i18n="n.why.s2n">6개 언어 전부</em></div>
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">자동 테스트</small><b data-i18n="n.why.s3v">500개 이상</b><em class="st-good" data-i18n="n.why.s3n">빌드마다 전부</em></div>
 </div>
+<!-- The claim "you do not need a second running watch" is made five times on
+     this page and had no figure attached anywhere. Naming a competitor's
+     street price would be a number this repository cannot verify, so the line
+     states the two costs that ARE fixed and checkable: the extra hardware
+     (none — the watch is already on the wrist) and what the coach costs. The
+     three prices are the same ones the price card and the JSON-LD carry. -->
+<p class="honest reveal" data-i18n="n.why.cost">추가로 사야 하는 기기는 없습니다. 손목에 있는 애플워치를 그대로 씁니다. 드는 비용은 코치뿐이고, 대한민국 App Store 기준으로 월 ₩1,900 · 연 ₩15,000 · 평생 이용권 ₩39,000 한 번입니다.</p>
 <p class="honest reveal" data-i18n="n.why.phone">워치가 아직 없어도 됩니다. 아이폰만으로 GPS 기록과 1km(마일 설정이면 1마일)마다 구간 페이스 안내가 됩니다 — 구독 없이 아이폰만으로 달릴 때 나오는 음성은 이 스플릿 하나입니다. 자세 코칭은 손목 센서가 필요해서 워치에서만 됩니다.</p>
 </div>
 </section>
@@ -690,13 +774,13 @@
 </div>
 </div>
 <div class="watch3">
-<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 오늘의 결정: 준비도 94 링, 달리기·걷기 반복" data-i18n-attr="alt:alt.watch.decision" loading="lazy" src="assets/framed-watch-hero.png" data-shot="framed-watch-hero" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w1">오늘의 결정</b><span data-i18n="n.today.w1p">준비도 링과 오늘 훈련이 손목에서 바로 보입니다.</span></div>
-<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 오늘의 근거: 수면 7.2h·HRV 48ms·어제 부하 70" data-i18n-attr="alt:alt.watch.evidence" loading="lazy" src="assets/framed-watch-evidence.png" data-shot="framed-watch-evidence" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w2">오늘의 근거</b><span data-i18n="n.today.w2p">수면, HRV, 어제 부하를 내 기준과 비교해 좋음, 보통, 주의로 표시합니다.</span></div>
-<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 운동 시작: 오늘의 훈련 카드(달리기·걷기 반복)" data-i18n-attr="alt:alt.watch.start" loading="lazy" src="assets/framed-watch-start.png" data-shot="framed-watch-start" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w3">한 번에 시작</b><span data-i18n="n.today.w3p">오늘 훈련이 시작 화면 맨 위에 있습니다. 누르면 코치가 구간마다 진행합니다.</span></div>
+<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 오늘의 결정: 준비도 링과 휴식 판정" data-i18n-attr="alt:alt.watch.decision" loading="lazy" src="assets/framed-watch-hero.png" data-shot="framed-watch-hero" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w1">오늘의 결정</b><span data-i18n="n.today.w1p">준비도 링과 오늘 훈련이 손목에서 바로 보입니다.</span></div>
+<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 오늘의 근거: 수면과 HRV" data-i18n-attr="alt:alt.watch.evidence" loading="lazy" src="assets/framed-watch-evidence.png" data-shot="framed-watch-evidence" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w2">오늘의 근거</b><span data-i18n="n.today.w2p">수면, HRV, 어제 부하를 내 기준과 비교해 좋음, 보통, 주의로 표시합니다.</span></div>
+<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 운동 시작 목록: 러닝·실내 러닝" data-i18n-attr="alt:alt.watch.start" loading="lazy" src="assets/framed-watch-start.png" data-shot="framed-watch-start" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w3">한 번에 시작</b><span data-i18n="n.today.w3p">오늘 훈련이 시작 화면 맨 위에 있습니다. 누르면 코치가 구간마다 진행합니다.</span></div>
 </div>
 <!-- The full disclosure sits under the FIRST screenshot section rather than
      under the hero: it belongs next to the captures, not across the opening. -->
-<p class="sc-note reveal" data-i18n="sc.note">이 페이지의 아이폰 화면 5장은 앱을 그 언어로 띄워 찍은 실제 캡처입니다. 애플워치 화면 6장은 아직 한국어판뿐입니다 — 워치 시뮬레이터가 합성 탭을 받지 않아 캡처를 자동화하지 못했습니다. 코치 음성과 이 페이지의 문장은 이미 여섯 언어로 나옵니다.</p>
+<p class="sc-note reveal" data-i18n="sc.note">이 페이지의 아이폰 5장과 애플워치 6장은 모두 앱을 그 언어로 띄워 찍은 실제 캡처입니다. 러닝 중 화면은 실제 러닝 세션에서 찍었습니다.</p>
 <!-- Which BUILD the captures came from, not just which language. The 30 iPhone
      PNGs in assets/ are all stamped 2026-09-06 07:30; RunvisDesignSystem.swift
      (FactorRow's status label) gained .lineLimit(1).minimumScaleFactor(0.8)
@@ -723,6 +807,16 @@
 <p class="sr-only" id="voiceStatus" role="status" aria-live="polite"></p>
 <div class="quiet reveal"><span>🤫</span><div class="qbody">
 <b data-i18n="n.live.q.h">말이 많지 않습니다</b>
+<!-- One sentence, then the reference material. The visible layer used to be a
+     three-row table whose header alone ran to eleven words of exclusions, in
+     the middle of a landing page and directly above the price section — a
+     reader deciding whether the coach talks too much had to parse a spec to
+     find out. The table and the four exception notes are unchanged and one tap
+     away; nothing was deleted. A closed <details> stays in the markup for a
+     crawler and for Ctrl-F. -->
+<p class="qsum" data-i18n="n.live.q.sum">이지런은 30분에 8회까지, 템포·레이스는 6회까지, 최소 간격은 45초입니다. 스플릿과 언덕 예고는 이 상한 밖이라 늘 나오고, 인터벌은 상한 대신 켜 둔 항목이 빈도를 정합니다.</p>
+<details class="gate">
+<summary data-i18n="n.live.q.moreh">세션별 상한과 예외 규칙 전부 보기</summary>
 <div class="qtable"><table>
 <!-- The header carries the exclusions because a reader who only scans the table
      would otherwise read "8 per 30 min" as the whole of what they will hear.
@@ -733,15 +827,6 @@
 <tr><td data-i18n="n.live.q.r2a">템포 · 레이스 · 자유 러닝</td><td data-i18n="n.live.q.r2b">6회까지</td></tr>
 <tr><td data-i18n="n.live.q.r3a">인터벌</td><td data-i18n="n.live.q.r3b">상한 없음 — 켜 둔 항목이 얼마나 자주 말할지를 정합니다. 대신 인터벌에서는 스텝·심박존·페이스·자동 일시정지 안내만 나가고 스플릿·언덕·자세·격려는 쉽니다</td></tr>
 </table></div>
-<!-- The four notes below used to sit open under the table: three rows of
-     summary followed by four paragraphs of exception, in the middle of a
-     landing page and directly above the price section. Everything in them is
-     true and worth keeping — a reader who wants to know exactly when the coach
-     is allowed to talk should be able to find it — but it is reference
-     material, so it folds the way the price gate does (:838). A closed
-     <details> is still in the markup for a crawler and still Ctrl-F-able. -->
-<details class="gate">
-<summary data-i18n="n.live.q.moreh">간격과 예외 규칙 전부 보기</summary>
 <ul>
 <li data-i18n="n.live.q.n1">최소 간격은 45초입니다. 안전 안내, 훈련 스텝 같은 핵심 안내, 스플릿은 이 간격을 기다리지 않고, 아래 항목도 예외입니다.</li>
 <li data-i18n="n.live.q.n2">스플릿, 언덕 예고, 자동 일시정지·재개 안내는 각자 자기 규칙이 있어 30분 상한을 쓰지 않습니다. 걷기·달리기 전환 안내와 호흡 구령도 그 순간을 놓치면 뜻이 없어져 45초 규칙 밖입니다. 지난번과 같은 코스를 알아봤을 때의 첫 인사도 45초 규칙을 거치지 않습니다.</li>
@@ -823,7 +908,12 @@
 <ul>
 <li data-i18n="n.race.lb1">최근 기록 하나로 5K, 10K, 하프, 풀 예상 기록과 목표 페이스</li>
 <li data-i18n="n.race.lb2">같은 코스를 다시 달리면 내 최고 기록이 고스트가 되어 격차를 알려줍니다</li>
-<li data-i18n="n.race.lb3">대회 16일 전부터 대회일 예보를 반영한 예상 기록</li>
+<!-- 15, not 16. RacePredictionView asks Open-Meteo for forecast_days =
+     min(daysAhead + 1, 16), so the last hourly slot it can receive is D+15; at
+     D-16 the target hour is not in the array and the card comes back empty
+     while still reporting itself in range. The page states the day the card
+     actually fills. -->
+<li data-i18n="n.race.lb3">대회 15일 전부터 대회일 예보를 반영한 예상 기록</li>
 </ul>
 </div>
 </div>
@@ -844,7 +934,7 @@
 <section id="price" aria-labelledby="price-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.price.eb">가격</div>
-<h2 id="price-h" class="reveal" data-i18n="n.price.h2">기록은 무료,<br/>코치는 월 1,900원</h2>
+<h2 id="price-h" class="reveal" data-i18n="n.price.h2">기록은 무료,<br/>코치는 월 ₩1,900</h2>
 <p class="sub reveal" data-i18n="n.price.sub">기록과 플랜 보기, 리포트는 무료입니다. 코치가 직접 말하고 분석하는 건 구독이고, App Store가 체험 대상으로 판단하는 계정은 첫 기간을 무료로 써볼 수 있습니다.</p>
 <div class="price">
 <div class="plan tilt reveal" data-tilt="5">
@@ -854,7 +944,12 @@
 <li data-i18n="n.price.f1">GPS 기록, 페이스, 심박, 랩, Apple Health 저장</li>
 <li data-i18n="n.price.f2">운동 상세 리포트, 몸 리포트, 기록 목록</li>
 <li data-i18n="n.price.f3">훈련 플랜 보기, 레이스 예측 기본, 날씨 브리핑과 준비운동 화면, 워치 레이스 모드와 내 최고 기록 고스트</li>
-<li data-i18n="n.price.f4">워치로 달릴 때 — 스플릿 음성(km 또는 마일 — 기기 단위 설정을 따릅니다), 심박존 안내, 목표 페이스 안내, 코스 언덕 예고, 경로 이탈 경보. 아이폰만 들고 달리면 무료 음성은 스플릿뿐입니다.</li>
+<!-- The nouns are the app's own cue-category labels (스플릿 · 심박존 · 페이스 ·
+     언덕), so this list and run.html's r.tier.free name the same five things in
+     the same words; the tip card was in run.html's free list and missing here,
+     which is why the two pages disagreed on how long the free tier is. -->
+<li data-i18n="n.price.f4">워치로 달릴 때 — 스플릿(km 또는 마일 — 기기 단위 설정을 따릅니다), 심박존, 페이스, 코스 언덕 예고, 경로 이탈 경보 음성. 아이폰만 들고 달리면 무료 음성은 스플릿뿐입니다.</li>
+<li data-i18n="n.price.f6">러닝 후 팁 카드</li>
 <li data-i18n="n.price.f5">GPX 내보내기, AI 분석용 리포트</li>
 </ul>
 <!-- The free card had no action at all, so a reader weighing "is the free tier
@@ -872,10 +967,26 @@
      introEligible true. The subject is the ACCOUNT now, and the rule itself is
      one link away in FAQ q7 — the same answer the hero badge points at. -->
 <a class="terms-link" href="#faq" data-i18n="pl.terms">누가 대상인가요?</a>
-<div class="amt"><span data-i18n="pr.month">₩1,900</span><small data-i18n="t144">/ 월</small></div>
-<div class="amt-approx" data-i18n="pr.approx">대한민국 App Store 가격입니다. 다른 지역에서는 그 지역 App Store의 현지 통화 가격이 적용됩니다.</div>
-<div class="amt-year" data-i18n="n.price.year">연간은 <b>₩15,000</b>. 대한민국 App Store 기준으로 월 1,250원꼴, 월간보다 약 34% 저렴합니다. 다른 지역은 가격대가 달라 이 비율도 달라질 수 있어서, 실제 절약률은 앱의 구매 화면이 그 자리의 두 가격으로 계산해 보여줍니다. 체험 대상 계정이면 연간도 첫 기간이 무료이고, 그 뒤 1년 요금이 한 번에 청구됩니다.</div>
-<div class="amt-year" data-i18n="n.price.life">구독 대신 <b>평생 이용권 ₩39,000</b>. 출시 기념 가격이고, 가격이 오르더라도 이미 구매한 분께는 적용되지 않습니다. 대한민국 App Store 가격으로 치면 연간 ₩15,000 기준 약 2.6년, 월 ₩1,900 기준 약 20개월이면 본전입니다. Apple 가족 공유가 되는 요금제는 이것뿐입니다.</div>
+<!-- Three products, one of which looked like a price. ₩1,900 sat in .amt and
+     the other two were <b> inside two 13.5 px grey paragraphs — nine lines of
+     small print between the headline figure and the first benefit (measured at
+     375 px: nineteen lines in Korean, twenty-eight in German). All three are
+     rows of one table now, each with the figure on the right and a single
+     qualifying clause under its label; the rest of what those paragraphs said
+     — regional pricing, how the saving is worked out, the break-even
+     arithmetic — is unchanged, one tap down, in the same <details class="gate">
+     shape the app's own paywall uses. -->
+<table class="ptable">
+<tr class="lead"><th scope="row"><span data-i18n="pl.month">월간</span><small data-i18n="pr.monthn">매달 자동 갱신 · 언제든 해지</small></th><td class="pv" data-i18n="pr.month">₩1,900</td></tr>
+<tr><th scope="row"><span data-i18n="pl.year">연간</span><small data-i18n="pr.yearn">월 1,250원꼴 · 월간보다 약 34% 저렴</small></th><td class="pv" data-i18n="pr.year">₩15,000</td></tr>
+<tr><th scope="row"><span data-i18n="pl.life">평생 이용권</span><small data-i18n="pr.lifen">1회 구매 · 자동 갱신 없음 · Apple 가족 공유</small></th><td class="pv" data-i18n="pr.life">₩39,000</td></tr>
+</table>
+<details class="gate">
+<summary data-i18n="n.price.moreh">다른 지역 가격, 절약률, 본전 계산</summary>
+<p data-i18n="pr.approx">대한민국 App Store 가격입니다. 다른 지역에서는 그 지역 App Store의 현지 통화 가격이 적용됩니다.</p>
+<p data-i18n="n.price.year">연간은 <b>₩15,000</b>. 대한민국 App Store 기준으로 월 1,250원꼴, 월간보다 약 34% 저렴합니다. 다른 지역은 가격대가 달라 이 비율도 달라질 수 있어서, 실제 절약률은 앱의 구매 화면이 그 자리의 두 가격으로 계산해 보여줍니다. 체험 대상 계정이면 연간도 첫 기간이 무료이고, 그 뒤 1년 요금이 한 번에 청구됩니다.</p>
+<p data-i18n="n.price.life">구독 대신 <b>평생 이용권 ₩39,000</b>. 출시 기념 가격이고, 가격이 오르더라도 이미 구매한 분께는 적용되지 않습니다. 대한민국 App Store 가격으로 치면 연간 ₩15,000 기준 약 2.6년, 월 ₩1,900 기준 약 20개월이면 본전입니다. Apple 가족 공유가 되는 요금제는 이것뿐입니다.</p>
+</details>
 <ul>
 <li data-i18n="n.price.p1">달리는 중 코치 음성 — 자세, 언덕 주행법, 회복, 격려</li>
 <li data-i18n="n.price.p2">플랜 실행: 구간마다 진행하고 끝나면 계획 대비 점수</li>
@@ -912,8 +1023,19 @@
 <div class="eyebrow reveal" data-i18n="n.faq.eb">자주 묻는 것</div>
 <h2 id="faq-h" class="reveal" data-i18n="n.faq.h2">먼저 궁금해할 것들</h2>
 <div class="tiles">
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q1">워치가 없어도 되나요?</h3><p data-i18n="n.faq.a1">아이폰만으로 GPS 기록과 1km(마일 설정이면 1마일)마다 구간 페이스 안내가 됩니다. 구독 없이 아이폰만 들고 달릴 때 나오는 음성은 이 스플릿 하나뿐이고, 심박존·목표 페이스 안내는 구독하면 아이폰에서도 나옵니다. 자세 코칭·언덕 예고·경로 이탈 경보는 워치 러닝에만 있습니다.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q2">어떤 애플워치가 필요한가요?</h3><p data-i18n="n.faq.a2">심박과 GPS가 있는 모델이면 됩니다. 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 촘촘해지고, 못 재는 모델에서는 케이던스 기준으로 동작합니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q1">워치가 없어도 되나요?</h3><!-- The old answer promised heart-rate zone calls on the phone with a
+     subscription and stopped there. The iPhone has no heart-rate sensor:
+     PhoneWorkoutManager reads HR only from HeartRateBandManager (Bluetooth
+     Heart Rate Service 0x180D), and PhoneCoachPlan.zoneCue returns nil the
+     moment heartRate is 0 — so without a strap that cue can never fire, no
+     matter what the subscriber paid. Pace cues need no strap; they run off
+     GPS. Both facts are in the answer now. -->
+<p data-i18n="n.faq.a1">아이폰만으로 GPS 기록과 1km(마일 설정이면 1마일)마다 구간 페이스 안내가 됩니다. 구독 없이 아이폰만 들고 달릴 때 나오는 음성은 이 스플릿 하나뿐입니다. 구독하면 아이폰에서도 페이스 안내가 나오고, 심박존 안내는 아이폰에 심박 센서가 없어서 블루투스 심박 밴드(폴라 H10, 와후 TICKR 같은 표준 BLE 심박 스트랩)를 연결했을 때만 나옵니다. 자세 코칭·언덕 예고·경로 이탈 경보는 워치 러닝에만 있습니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q2">어떤 애플워치가 필요한가요?</h3><!-- "Any model with heart rate and GPS" was not the real requirement:
+     project.yml sets the deployment targets to watchOS 10.0 and iOS 17.0, and
+     a Series 3 has both sensors but stops at watchOS 8. The OS floor goes
+     first because it is the line that excludes a device. -->
+<p data-i18n="n.faq.a2">watchOS 10 이상(Apple Watch Series 4 이상)과 iOS 17 이상이 필요합니다. 그 조건만 넘으면 심박과 GPS로 충분합니다. 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 촘촘해지고, 못 재는 모델에서는 케이던스 기준으로 동작합니다.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q3">해지하면 기록은 어떻게 되나요?</h3><p data-i18n="n.faq.a3">기록은 Apple 건강에 남아 그대로입니다. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 씁니다.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q4">데이터는 어디로 가나요?</h3><p data-i18n="n.faq.a4">계정도 서버도 없습니다. 날씨와 동네 이름, 코스 자동 생성을 조회할 때만 위치가 나갑니다. 이 밖에 App Store 결제 처리와 공개 코스·신발 목록 파일 내려받기가 있고, 신발 화면에서 사용자가 직접 누를 때만 외부 러닝화 검색 페이지가 열립니다. 운동과 건강 데이터는 업로드하지 않습니다.</p></div>
 <!-- The test-harness description is a spec sheet, not an answer: it ran past
@@ -945,18 +1067,25 @@
      reviews, no press, no ratings — an unshipped app cannot have them. Rather
      than invent a number, every line below is counted straight out of the app
      repository and can be re-counted by anyone with a checkout:
-       506   unique `func test…` names across the 34 files in Tests/
-       2,162 distinct keys, identical in all six Shared/Resources/*.lproj/
-             Localizable.strings (2,130 key=value lines; 8 keys are written more
-             than once, so the count of DISTINCT strings is 2,162)
-       396   entries in each of the four CoachTranslations+{ja,es,zh,de}.swift tables
-       40    `return Entry(` sites in Shared/Services/MetricGlossary.swift
-     Do not hand-edit these. `node tools/app-facts.mjs` re-measures them out of
-     the app checkout and writes tools/app-facts.json; check-content.mjs [9]
-     then fails if the six dictionaries and that file disagree. This block has
-     now gone stale three rounds running because it was maintained by hand. -->
+       l1  unique `func test…` names in Tests/                        (a floor)
+       l2  distinct keys shared by all six Shared/Resources/*.lproj/
+           Localizable.strings (a floor), and the exact entry count of each
+           CoachTranslations+{ja,es,zh,de}.swift table
+       l3  `return Entry(` sites in Shared/Services/MetricGlossary.swift
+     The FIGURES are not repeated in this comment, on purpose. They were, and
+     the comment went stale in three consecutive rounds — the one paragraph on
+     the page whose whole value is that its numbers are counted rather than
+     invented was itself maintained by hand. The measurements live in
+     tools/app-facts.json, written by `node tools/app-facts.mjs` out of the app
+     checkout; check-content.mjs [9] fails if the six dictionaries and that
+     file disagree. Read the JSON, not this comment. -->
 <div class="proof reveal">
-<h3 data-i18n="n.trust.h">후기는 아직 없습니다. 대신 지금 확인되는 것</h3>
+<!-- The heading used to open with "후기는 아직 없습니다" — the last thing a
+     reader met before the sign-up form was a sentence about what this page
+     cannot show. Same three facts, same admission, opposite order: the
+     countable evidence stands first and the missing reviews are the footnote
+     under it (n.trust.p, which said it already). Nothing was softened. -->
+<h3 data-i18n="n.trust.h">지금 이 자리에서 확인되는 것</h3>
 <ul>
 <li data-i18n="n.trust.l1">자동 테스트 500개 이상이 코치가 말하는 문장, 무료·유료 경계, 플랜 계산을 빌드할 때마다 검사합니다.</li>
 <li data-i18n="n.trust.l2">화면 문구 2,100개 이상이 여섯 언어 표에서 키까지 똑같고, 코치 음성 번역표 넷은 각각 396개입니다. 하나라도 어긋나면 테스트가 그 자리에서 실패합니다.</li>
@@ -965,15 +1094,23 @@
 <p data-i18n="n.trust.p">혼자 만드는 앱입니다. 별점도, 언론 언급도 아직 없습니다. 출시 전이니까요. 그래서 지어낼 수 있는 숫자 대신, 앱 저장소에서 그대로 세어 나오는 것만 적었습니다. 더 궁금한 게 있으면 help@runvis.app 으로 바로 물어보세요. 답은 제가 씁니다.</p>
 </div>
 <div class="signup reveal">
-<p class="sub" data-i18n="n.beta.sub" style="margin:0 auto">이메일을 남기면 TestFlight 베타가 열릴 때 초대장을 한 통 보내드립니다. 초대는 신청하신 순서대로 나갑니다. 여는 날짜는 아직 정해지지 않았습니다. 정해지는 날 이 자리에 적고, 이미 신청하신 주소로도 같이 보냅니다.</p>
+<p class="sub" data-i18n="n.beta.sub" style="margin:0 auto">이메일을 남기면 TestFlight 베타가 열릴 때 초대장을 한 통 보내드립니다. 여는 날짜가 정해지는 날 이 자리에 적고, 이미 신청하신 주소로도 같이 보냅니다.</p>
 <form action="https://formspree.io/f/xnjeyalr" id="betaForm" method="POST">
-<input name="email" placeholder="이메일 주소" data-i18n-attr="placeholder:ph.email" required="" type="email"/>
+<!-- placeholder was the only accessible name this field had, and a placeholder
+     stops existing the moment the reader types (WCAG 3.3.2). aria-label carries
+     the same dictionary key, so no new translation was needed. -->
+<input name="email" placeholder="이메일 주소" aria-label="이메일 주소" data-i18n-attr="placeholder:ph.email,aria-label:ph.email" required="" type="email"/>
 <!-- The binding STAYS, so the prerendered copies and a no-JS reader get this
      label in their own language. The script at the bottom of the page then
      swaps it for 출시 알림 받기 when the second radio is picked, and re-runs
      after runvis:lang so i18n.js writing the beta label back is harmless. -->
 <button class="btn" data-i18n="t160" id="betaSubmit" type="submit">베타 초대 받기</button>
 </form>
+<!-- There is no opening date to print and inventing one is not an option, so
+     the thing a reader CAN be told about timing sits where the decision is
+     made instead of four sentences up in n.beta.sub: the queue is ordered, and
+     signing up now is what fixes your place in it. -->
+<p class="order-note" data-i18n="n.beta.order">여는 날짜는 아직 없습니다. 초대는 신청하신 순서대로 나가니, 지금 남기면 그 순서가 정해집니다.</p>
 <fieldset class="want">
 <legend data-i18n="n.beta.want">무엇을 받고 싶으세요?</legend>
 <label><input form="betaForm" name="want" type="radio" value="beta" checked=""/> <span data-i18n="n.beta.want1">베타 참여 — TestFlight 초대를 받을게요</span></label>
@@ -985,7 +1122,11 @@
 <a class="btn ghost" id="betaNext" href="run.html" style="margin-top:14px" data-i18n="form.okcta">5km 데모 달려보기</a>
 <div class="consent">
 <div>· <b data-i18n="t161">수집 목적</b><span data-i18n="cs.purpose">: TestFlight 베타 초대장 발송</span></div>
-<div>· <b data-i18n="t162">보관 기간</b><span data-i18n="cs.retain">: 베타 종료 또는 수신 동의 철회 시까지</span></div>
+<div>· <b data-i18n="t162">보관 기간</b><!-- The consent screen is the notice that binds, so it has to state the same
+     period the policy does. It used to say "베타 종료 또는 수신 동의 철회 시까지"
+     while privacy.html §6 said "목적 달성 시 지체 없이, 늦어도 1년". Same
+     sentence in both places now. -->
+<span data-i18n="cs.retain">: 베타 초대 발송 등 수집 목적 달성 시 지체 없이 파기 · 늦어도 수집일로부터 1년 이내</span></div>
 <label><input form="betaForm" name="privacy_consent" type="checkbox" value="yes" required=""/> <span data-i18n="n.beta.required">(필수) 베타 초대장 발송을 위한 이메일 수집·이용에 동의합니다.</span></label>
 <label><input form="betaForm" name="marketing_consent" type="checkbox" value="yes"/> <span data-i18n="cs.marketing">(선택) 출시 소식·업데이트 등 마케팅 정보 수신에 동의합니다.</span></label>
 <!-- run.html has carried this line next to its identical consent block all
@@ -999,7 +1140,23 @@
      files the app downloads from this domain (CourseLibrary reads
      https://runvis.app/course-catalog.json), so nothing new is exposed — the
      visitor just gets to keep them. ODbL requires the attribution line below. -->
-<h4 data-i18n="n.beta.gpxh">지금 바로 받아 갈 수 있는 것</h4>
+<!-- Everything a visitor could take away without leaving an address was 13
+     GPX files, all of them in Seoul — no use at all to five of the six markets
+     this page is written for. The calculator below is the app's own zone
+     maths (UserProfile.karvonenZoneLowerBounds, 50/60/70/80/90 % of heart-rate
+     reserve, over the Tanaka max of 208 − 0.7 × age), so it works anywhere,
+     in every language, and states no number the app does not compute the same
+     way. It needs no signup, no install and no network. -->
+<h4 data-i18n="hz.h">지금 계산해 볼 수 있는 것 — 내 심박존 5개</h4>
+<p data-i18n="hz.p">런비스가 코치 음성에 쓰는 것과 같은 카르보넨(Karvonen) 공식입니다. 앱은 이 값을 애플 건강의 7일 안정시 심박과 실제로 관측된 최고 심박으로 계속 갱신하지만, 계산 자체는 아래와 같습니다.</p>
+<div class="hzcalc">
+<label><span data-i18n="hz.age">나이</span><input id="hzAge" type="number" min="10" max="99" step="1" value="35" inputmode="numeric"/></label>
+<label><span data-i18n="hz.rest">안정시 심박</span><input id="hzRest" type="number" min="30" max="110" step="1" value="60" inputmode="numeric"/></label>
+<label><span data-i18n="hz.max">최대심박 (모르면 비워 두세요)</span><input id="hzMax" type="number" min="120" max="230" step="1" inputmode="numeric"/></label>
+</div>
+<p class="hzout" id="hzOut" role="status" aria-live="polite"></p>
+<p class="gpxattr" data-i18n="hz.note">존 하한 = (최대심박 − 안정시 심박) × 50·60·70·80·90% + 안정시 심박. 최대심박을 비워 두면 208 − 0.7 × 나이로 추정합니다. 참고용 계산이며 의학적 조언이 아닙니다.</p>
+<h4 class="sep" data-i18n="n.beta.gpxh">서울에서 달린다면 — 코스 GPX 13개</h4>
 <p data-i18n="n.beta.gpx">앱이 쓰는 서울 코스 13개의 GPX 파일입니다. 신청하지 않아도, 앱을 깔지 않아도 지금 받아서 다른 시계나 지도 앱에 넣을 수 있습니다. 거리는 여섯 언어 모두 km로 적었습니다 — GPX 파일 자체는 단위가 없고, 마일 표시는 받는 쪽 기기가 합니다.</p>
 <!-- The course NAMES carry their own keys. This list is the only immediate
      value on the page for a visitor who leaves no e-mail, and until now the
@@ -1022,7 +1179,14 @@
 </div>
 </section>
 
-<div class="sticky-cta" id="stickyCta"><a class="btn" href="#beta" data-i18n="n.hero.cta1">베타 신청</a></div>
+</main>
+
+<!-- The bar carried one label all the way down the page, including across the
+     price section, where a reader who has just decided "not buying yet, but
+     tell me when it ships" had no route except scrolling to the bottom and
+     finding a radio button. Two buttons now; the second one preselects that
+     radio on the way to the form. -->
+<div class="sticky-cta" id="stickyCta"><a class="btn" href="#beta" data-i18n="n.hero.cta1">베타 신청</a><a class="btn ghost" id="stickyLaunch" href="#beta" data-i18n="n.beta.cta2">출시 알림 받기</a></div>
 <footer>
 <div class="wrap">
 <div class="links">
@@ -1143,13 +1307,47 @@
   }
 
   // 4) Scroll reveal with staggered depth (translateZ via perspective wrapper).
+  //    Three things went wrong at threshold .12 with a negative bottom margin,
+  //    and a flick on a 375x812 phone reproduced all three at once — 62 of 68
+  //    .reveal elements still at opacity 0 with the whole viewport black:
+  //      a) a block TALLER than the viewport can never show 12% of itself
+  //         inside the viewport, so #price .plan.pro (1,029 px in Korean,
+  //         1,616 px in German) was never "intersecting" enough to fire;
+  //      b) rootMargin shrank the trigger box instead of growing it, so an
+  //         element had to be well inside the screen before it counted;
+  //      c) an element that scrolled PAST the viewport between two observer
+  //         callbacks was left behind with no second chance.
+  //    Fixed in that order: tall blocks are painted at once and never
+  //    observed, the box grows 15% past the bottom edge so a block fires
+  //    before it arrives, any threshold crossing counts, and anything already
+  //    above the top edge is shown immediately.
+  const pending = new Set();
+  const show = el => { el.classList.add('in'); pending.delete(el); io.unobserve(el); };
   const io = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-  }), { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+    if (e.isIntersecting || e.boundingClientRect.bottom < 0) show(e.target);
+  }), { threshold: 0, rootMargin: '0px 0px 15% 0px' });
   document.querySelectorAll('.reveal').forEach((el, i) => {
     el.style.setProperty('--d', ((i % 4) * 70) + 'ms');
-    io.observe(el);
+    if (el.getBoundingClientRect().height > innerHeight * 0.9) { el.classList.add('in'); return; }
+    pending.add(el); io.observe(el);
   });
+  // The safety net the observer cannot be: with threshold 0, an element that
+  // goes from "below the viewport" to "above the viewport" between two frames
+  // never CHANGES intersection state, so no callback is ever delivered for it
+  // and it stays at opacity 0 behind the reader. A flick down this page
+  // (23,000 px) reproduces that on a phone. One rAF-coalesced pass over
+  // whatever is still pending, on every scroll, closes it: anything whose top
+  // has reached the bottom edge is shown, whether it is still on screen or
+  // already gone past. The set empties as the page is read, so this costs
+  // nothing by the time the page has been scrolled once.
+  let sweeping = 0;
+  const sweep = () => {
+    sweeping = 0;
+    for (const el of [...pending]) if (el.getBoundingClientRect().top < innerHeight) show(el);
+    if (!pending.size) removeEventListener('scroll', onScroll);
+  };
+  const onScroll = () => { if (!sweeping && pending.size) sweeping = requestAnimationFrame(sweep); };
+  addEventListener('scroll', onScroll, { passive: true });
 
   // 5) Count-up numbers on [data-count] when they enter the viewport.
   const cio = new IntersectionObserver(es => es.forEach(e => {
@@ -1346,6 +1544,61 @@ document.addEventListener('visibilitychange', ()=>{ if(document.hidden) Voice.st
   sync();
 })();
 
+// --- the sticky bar's second action arrives with its intent set -------------
+// Otherwise "출시 알림 받기" dropped the reader at a form whose radio still said
+// 베타 참여 and whose button still said 베타 초대 받기 — the same dead end the bar
+// was added to remove.
+(() => {
+  const link = document.getElementById('stickyLaunch');
+  if (!link) return;
+  link.addEventListener('click', () => {
+    const r = document.querySelector('input[name="want"][value="launch"]');
+    if (r && !r.checked) { r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); }
+  });
+})();
+
+// --- heart-rate zones, worked out here, with no address and no install -------
+// The same arithmetic the app runs: UserProfile.karvonenZoneLowerBounds maps
+// 50/60/70/80/90 % of heart-rate reserve over effectiveMaxHR, and an empty max
+// falls back to the Tanaka estimate 208 − 0.7 × age (UserProfile.estimatedMaxHR).
+// Zone names are the app's own five labels, translated in the same six tables.
+(() => {
+  const age = document.getElementById('hzAge'), rest = document.getElementById('hzRest'),
+        mx = document.getElementById('hzMax'), out = document.getElementById('hzOut');
+  if (!age || !rest || !mx || !out) return;
+  // Named RunvisT on purpose. This block paints during parsing, before the
+  // deferred i18n.js has defined window.RunvisT, so every string needs an
+  // inline fallback — and tools/check-content.mjs [10] only compares fallbacks
+  // written as a call whose two arguments are both quoted literals, the shape
+  // tools/prerender.mjs rewrites for /en/ … . The local name delegates to the
+  // global one once it exists; `window.RunvisT` inside is the global, not this.
+  const RunvisT = (k, f) => (window.RunvisT ? window.RunvisT(k, f) : f);
+  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+  const render = () => {
+    const a = clamp(Math.round(Number(age.value) || 0), 10, 99);
+    const r = clamp(Math.round(Number(rest.value) || 0), 30, 110);
+    const typed = Math.round(Number(mx.value) || 0);
+    const estimated = Math.round(208 - 0.7 * a);
+    const max = typed >= 120 && typed <= 230 ? typed : estimated;
+    if (max - r < 20) { out.textContent = RunvisT('hz.bad', '안정시 심박이 최대심박에 너무 가까워 존을 나눌 수 없습니다.'); return; }
+    const names = [RunvisT('hz.z1', 'Z1 회복'), RunvisT('hz.z2', 'Z2 유산소'), RunvisT('hz.z3', 'Z3 템포'), RunvisT('hz.z4', 'Z4 VO2max'), RunvisT('hz.z5', 'Z5 무산소')];
+    const lower = [.5, .6, .7, .8, .9].map(p => Math.round((max - r) * p + r));
+    const rows = names.map((n, i) => {
+      const hi = i === 4 ? max : lower[i + 1] - 1;
+      return n + ' <b>' + lower[i] + '\u2013' + hi + '</b>';
+    });
+    const bpm = RunvisT('hz.bpm', 'bpm');
+    const line = typed >= 120 && typed <= 230
+      ? RunvisT('hz.maxtyped', '입력하신 최대심박 기준')
+      : RunvisT('hz.maxest', '최대심박은 208 − 0.7 × 나이로 추정했습니다');
+    out.innerHTML = rows.join(' · ') + ' ' + bpm
+      + '<span class="hzmax">' + line + ': ' + max + ' ' + bpm + '</span>';
+  };
+  [age, rest, mx].forEach(el => el.addEventListener('input', render));
+  addEventListener('runvis:lang', () => setTimeout(render, 0));
+  render();
+})();
+
 // --- beta signup → Formspree (AJAX, no page navigation) ---
 const betaForm = document.getElementById('betaForm');
 if (betaForm) betaForm.addEventListener('submit', async e => {
@@ -1386,7 +1639,20 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
       // of the privacy notice. check-content.mjs [10] compares every such
       // fallback on a page against that page's dictionary, and prerender.mjs
       // rewrites them for the five language copies.
+      // The address goes back on screen with the confirmation. There is no
+      // double opt-in and no autoresponder, so a mistyped address used to be
+      // lost in silence: the form said "등록됐습니다" and the invitation would
+      // later go nowhere. Echoing what was actually submitted is the one
+      // check that can be made without a server, and it happens while the
+      // reader is still looking at the form.
+      const typed = (new FormData(betaForm).get('email') || '').toString();
       show(window.RunvisT('form.ok', '등록됐습니다. 여는 날짜가 정해지면 이 주소로 알려 드리고, 베타가 열리면 신청 순서대로 초대장 한 통이 갑니다. 삭제를 원하시면 언제든 help@runvis.app 으로 알려 주세요. 기다리는 동안 5km 데모를 달려 보세요. 🏃'), true);
+      if (typed) setTimeout(() => {
+        const p = document.createElement('span');
+        p.style.cssText = 'display:block;margin-top:6px;font-weight:600;color:var(--dim)';
+        p.textContent = window.RunvisT('form.okaddr', '접수된 주소') + ': ' + typed;
+        status.appendChild(p);
+      }, 60);
       betaForm.reset();
       // The signup used to end in an inbox. Hand the reader the one thing they
       // can actually do next while they wait.

@@ -111,7 +111,11 @@
   }
   @media(min-width:460px){ .hud-metrics .m{padding:10px 18px 8px} }
   .hud-metrics .m:first-child{border-left:none}
-  .hud-metrics .m .k{font-size:10px;letter-spacing:.2em;color:var(--dim)}
+  /* These five mono labels ran 9–10.5 px with .18–.3 em tracking. Letter-spacing
+     that wide makes a small glyph read thinner still, so both moved together:
+     nothing under 11 px, nothing over .14 em. They are labels beside a large
+     value, so the layout has the room. */
+  .hud-metrics .m .k{font-size:11.5px;letter-spacing:.14em;color:var(--dim)}
   .hud-metrics .m .v{font-size:20px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
   .hud-metrics .m .v em{font-style:normal;font-size:11px;color:var(--dim);margin-left:2px}
   .hud-metrics .m .v.gr{color:var(--green)} .hud-metrics .m .v.or{color:var(--orange)}
@@ -157,7 +161,7 @@
     background:linear-gradient(160deg,rgba(61,220,132,.07),rgba(0,0,0,.4));
     padding:18px 20px;border-radius:2px;position:relative;
   }
-  .voice::before{content:"RUNVIS // VOICE";position:absolute;top:-9px;left:14px;background:var(--bg);padding:0 8px;font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--green)}
+  .voice::before{content:"RUNVIS // VOICE";position:absolute;top:-9px;left:14px;background:var(--bg);padding:0 8px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--green)}
   .voice p{font-size:15.5px;color:var(--text);line-height:1.7}
   /* the WHY line is the evidence for every cue on this page — it reads at
      12px / --dim (8.50:1), not 11px / 3.76:1. */
@@ -165,7 +169,7 @@
   .voice .why b{color:var(--cyan);font-weight:600}
 
   .datastrip{display:flex;gap:26px;margin-top:26px;font-family:var(--mono);flex-wrap:wrap}
-  .datastrip .d .k{font-size:10.5px;letter-spacing:.18em;color:var(--dim)}
+  .datastrip .d .k{font-size:11.5px;letter-spacing:.14em;color:var(--dim)}
   .datastrip .d .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
   .datastrip .d .v.gr{color:var(--green)} .datastrip .d .v.or{color:var(--orange)} .datastrip .d .v.rd{color:var(--red)} .datastrip .d .v.cy{color:var(--cyan)}
 
@@ -182,7 +186,7 @@
   #s0{flex-direction:column;justify-content:center;text-align:left}
   #s0 .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
   @media(max-width:900px){#s0 .wrap{grid-template-columns:1fr}}
-  .scroll-cue{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--dim2);animation:bob 2.2s infinite}
+  .scroll-cue{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;color:var(--dim2);animation:bob 2.2s infinite}
   @keyframes bob{50%{transform:translate(-50%,8px)}}
 
   /* watch mock in hero */
@@ -251,7 +255,7 @@
   .hud-top .brand,.hud-top .status{white-space:nowrap}
   @media(max-width:860px){.hud-top .status{display:none}}
   @media(max-width:520px){
-    .hud-top{padding:0 12px;font-size:10px}
+    .hud-top{padding:0 12px;font-size:11px}
     .hud-top .exit{padding:6px 9px}
     .langsel button{padding:5px 8px;font-size:11px}
   }
@@ -272,9 +276,28 @@
   // On a prerendered page (/en/, /ja/ …) the directory IS the language and
   // RunvisPageLang is set just above; it outranks the saved choice and the
   // browser's. ?lang= still wins over it.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang);
-  if(!code){ try{ code=norm(localStorage.getItem("runvis_lang")); }catch(e){} }
-  if(!code) code=norm(navigator.language)||"ko";
+  var saved=null; try{ saved=norm(localStorage.getItem("runvis_lang")); }catch(e){}
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"ko";
+  // A German browser landing on a ROOT url used to get German BODY text with a
+  // Korean canonical, Korean og:* and no route to /de/ at all — the five
+  // prerendered market pages existed and nothing ever sent anyone to them.
+  // GitHub Pages cannot redirect, so it happens here, and only in the one case
+  // where nothing else has spoken: no ?lang= (an explicit choice), no saved
+  // choice, not already on a prerendered page, and not Korean (this IS the
+  // Korean document and the x-default). replace() keeps the back button
+  // working and the sessionStorage flag makes a second hop impossible even if
+  // the target ever failed to set RunvisPageLang.
+  try{
+    if(!window.RunvisPageLang && !urlLang && !saved && code!=="ko"
+       && /(^|\.)runvis\.app$/.test(location.hostname)
+       && !sessionStorage.getItem("runvis_sent")){
+      sessionStorage.setItem("runvis_sent","1");
+      var file=location.pathname.split("/").pop()||"";
+      if(file==="index.html") file="";      // /de/, the URL hreflang and canonical name
+      location.replace("/"+code+"/"+file+location.hash);
+      return;
+    }
+  }catch(e){}
   window.RunvisLang=code; window.RunvisUrlLang=urlLang;
   var html=document.documentElement;
   html.lang = code==="zh" ? "zh-Hant" : code;
@@ -304,6 +327,9 @@
 })();
 </script>
 <script defer src="/i18n.js?v=20260906e"></script>
+<script id="pageld" type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"RUN SESSION — 與 Runvis 跑 5km | Runvis","description":"滑動就是跑步。親身體驗 5km，看看 Runvis 從熱身到終點何時開口、為什麼開口。","inLanguage":"zh-Hant","url":"https://runvis.app/zh/run.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/zh/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/zh/"},{"@type":"ListItem","position":2,"name":"RUN SESSION — 與 Runvis 跑 5km | Runvis","item":"https://runvis.app/zh/run.html"}]}}
+</script>
 </head>
 <body>
 <a class="skip" href="#s0" data-i18n="a11y.skip">跳到主要內容</a>
@@ -340,8 +366,6 @@
       <h1 class="rv" data-i18n="r11">今天的跑步，<br><span class="outline">教練陪你一起</span>跑。</h1>
       <p class="lead rv" data-i18n="r12">從現在起，<b>滑動就是跑步</b>。往下滑，一場 5km 的跑步就此展開，底部的距離、配速、心率會跟著你一起動。親眼看看 Runvis <b>何時開口、為什麼開口</b>——以及它什麼時候保持安靜。</p>
       <p class="footnote rv" data-i18n="r13">畫面中的數值為展示用示範資料 · 實際 App 以 Apple Watch 感測器運作</p>
-      <p class="footnote rv" style="margin-top:10px" data-i18n="r.unitnote">這個展示只以公里計算。App 本身會依裝置的單位設定，每 1 公里或每 1 英里報一次分段，畫面與語音中的距離、配速也都使用同一單位。</p>
-      <p class="footnote rv" style="margin-top:10px" data-i18n="r.badge.note">每一句教練語音都標了 <span class="pill free">免費</span> 或 <span class="pill pro">訂閱</span>。記錄、分段、存入健康 App、查看歷史紀錄、瀏覽訓練計畫、運動詳細報告與熱身畫面全部免費。</p>
     </div>
     <div class="rv">
       <svg class="heroWatch" viewBox="0 0 330 400" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Helvetica,sans-serif" role="img" aria-label="Apple Watch 畫面 — 今日目標 5.0 公里，與 Runvis 一起跑" data-i18n-attr="aria-label:r.alt.watch">
@@ -372,9 +396,10 @@
     <p class="lead rv" data-i18n="r19">按一次開始鍵，<b>天氣簡報 → 熱身</b>接連進行。沒有我們的伺服器，全在錶上完成。</p>
     <div class="voice rv">
       <span class="pill pro" data-i18n="n.pill.pro">訂閱</span>
-      <p data-i18n="r20">「你好，我是 Runvis。今天也一起跑吧？這是汝矣島洞目前的天氣。目前氣溫26度，濕度百分之78。又悶又濕，汗不容易蒸發。補水請照運動生理學建議，每十五分鐘、大約每二點五到三公里補一百五十到兩百毫升，分成三四口慢慢喝。分次少量補充。簡報到這裡。按下畫面上的開始熱身，先輕鬆把身體鬆開吧。」</p>
+      <p data-i18n="r20">「你好，我是 Runvis。今天也一起跑吧？這是汝矣島洞目前的天氣。目前氣溫26度，濕度百分之78。又悶又濕，汗不容易蒸發。補水請照運動生理學建議，每十五分鐘、大約每三公里補一百五十到兩百毫升，分成三四口慢慢喝。分次少量補充。簡報到這裡。按下畫面上的開始熱身，先輕鬆把身體鬆開吧。」</p>
       <div class="why" data-i18n="r21">WHY · <b>目前所在地的地名 + Open-Meteo 即時天氣</b> → 依運動科學標準（氣溫×濕度）給出補水建議。天氣熱時，跑步中的補水提醒間隔也會自動縮短。天氣畫面與熱身計時器免費，把這段話<b>唸出來</b>才是訂閱</div>
     </div>
+    <p class="footnote rv" style="margin-top:10px" data-i18n="r.badge.note">每一句教練語音都標了 <span class="pill free">免費</span> 或 <span class="pill pro">訂閱</span>。記錄、分段、存入健康 App、查看歷史紀錄、瀏覽訓練計畫、運動詳細報告與熱身畫面全部免費。</p>
     <div class="datastrip rv">
       <div class="d"><div class="k">WEATHER</div><div class="v cy">26°C</div></div>
       <div class="d"><div class="k">HUMIDITY</div><div class="v cy">78%</div></div>
@@ -400,6 +425,7 @@
       <div class="d"><div class="k">SLEEP</div><div class="v gr">7.4h</div></div>
       <div class="d"><div class="k">RESTING HR</div><div class="v gr" data-i18n="r28">−4（低於平常）</div></div>
     </div>
+    <p class="footnote rv" style="margin-top:16px" data-i18n="r.unitnote">這個展示只以公里計算。App 本身會依裝置的單位設定，每 1 公里或每 1 英里報一次分段，畫面與語音中的距離、配速也都使用同一單位。</p>
   </div>
 </section>
 
@@ -491,7 +517,7 @@
       <div class="row"><span class="k" data-i18n="r59">匯出</span><span class="v" data-i18n="r60">✨ AI 分析用 · GPX</span></div>
     </div>
     <div class="tier rv">
-      <p><span class="pill free" data-i18n="n.pill.free">免費</span><span data-i18n="r.tier.free">GPS 記錄、分段、存入健康 App、查看全部歷史紀錄 · 瀏覽訓練計畫 · 運動詳細報告 · 熱身畫面 · 用手錶跑步時：公里（或英里）分段、心率區間提示、配速目標提示、路線爬坡預告、偏離路線警示語音（只帶 iPhone 跑步時，免費語音只有分段） · 跑後小提示卡 · 比賽模式與虛擬對手顯示</span></p>
+      <p><span class="pill free" data-i18n="n.pill.free">免費</span><span data-i18n="r.tier.free">GPS 記錄、分段、存入健康 App、查看全部歷史紀錄 · 瀏覽訓練計畫 · 運動詳細報告 · 熱身畫面 · 用手錶跑步時：公里（或英里）分段、心率區間、配速、路線爬坡預告、偏離路線警示語音（只帶 iPhone 跑步時，免費語音只有分段） · 跑後小提示卡 · 比賽模式與虛擬對手顯示</span></p>
       <p><span class="pill pro" data-i18n="n.pill.pro">訂閱</span><span data-i18n="r.tier.pro">跑姿指導語音，以及上坡跑法、恢復、鼓勵語音 · 逐段執行訓練計畫，結束後給出計畫達成分數 · 深度分析七個面板 · 比賽策略（預演、分段配速規劃、補給時程）· 每週教練摘要卡</span></p>
       <p class="note" data-i18n="r.tier.price">可選每月 ₩1,900、年訂閱，或一次買斷的永久授權。價格以 App Store 為準。沒有帳號也沒有伺服器 — 資料只留在裝置與健康 App 裡。</p>
     </div>
@@ -505,7 +531,7 @@
       <p id="demoStatus" role="status" aria-live="polite" style="display:none"></p>
       <div class="consent">
         <div>· <b data-i18n="t161">蒐集目的</b><span data-i18n="cs.purpose">：寄送 TestFlight Beta 邀請</span></div>
-        <div>· <b data-i18n="t162">保存期限</b><span data-i18n="cs.retain">：直到 Beta 結束或你撤回同意</span></div>
+        <div>· <b data-i18n="t162">保存期限</b><span data-i18n="cs.retain">：於達成收集目的（如寄出 Beta 邀請）後即刻銷毀，最遲於收集日起一年內</span></div>
         <label><input form="demoForm" name="privacy_consent" type="checkbox" value="yes" required> <span data-i18n="n.beta.required">（必填）我同意為寄送 Beta 邀請而蒐集並使用我的電子郵件。</span></label>
         <label><input form="demoForm" name="marketing_consent" type="checkbox" value="yes"> <span data-i18n="cs.marketing">（選填）我同意接收上線消息與更新等行銷資訊。</span></label>
         <div style="margin-top:8px">· <a href="privacy.html" style="color:var(--green)" data-i18n="n.priv.link">隱私權政策</a></div>

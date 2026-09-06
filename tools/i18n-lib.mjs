@@ -26,10 +26,14 @@ export const HTML_LANG = { ko: 'ko', en: 'en', ja: 'ja', es: 'es', zh: 'zh-Hant'
 export const HREFLANG = { ko: 'ko', en: 'en', ja: 'ja', es: 'es', zh: 'zh-Hant', de: 'de' };
 export const OG_LOCALE = { ko: 'ko_KR', en: 'en_US', ja: 'ja_JP', es: 'es_ES', zh: 'zh_TW', de: 'de_DE' };
 
-/** The iPhone frames that exist per language (i18n.js SHOTS, kept in step). */
+/** The device frames that exist per language (i18n.js SHOTS, kept in step).
+ *  Five iPhone + six Apple Watch since 2026-09-06: the watch set stopped being
+ *  Korean-only once tools/watch-capture.md's procedure was proven to work. */
 export const SHOTS = new Set([
   'framed-phone-dash', 'framed-phone-detail', 'framed-phone-glance',
   'framed-phone-plan', 'framed-phone-race',
+  'framed-watch-hero', 'framed-watch-evidence', 'framed-watch-start',
+  'framed-watch-pace', 'framed-watch-hr', 'framed-watch-map',
 ]);
 
 /** Elements that never have content, so never carry translatable inner text. */
@@ -187,10 +191,55 @@ export function appLd(dict, code) {
     applicationCategory: 'HealthApplication', operatingSystem: 'watchOS, iOS',
     inLanguage: HTML_LANG[code], url: 'https://runvis.app/',
     description: plain(dict['meta.desc'] || ''),
+    // The share card and this market's own home screenshot, so a rich result
+    // has a picture that is not the Korean build.
+    image: 'https://runvis.app/assets/og-card.png',
+    screenshot: `https://runvis.app/assets/framed-phone-dash${code === 'ko' ? '' : '.' + code}.png`,
+    author: { '@type': 'Organization', name: 'Runvis', url: 'https://runvis.app/' },
     offers: offers.map(o => ({
       '@type': 'Offer', name: o.name, price: o.price, priceCurrency: 'KRW', category: o.category,
+      // Nothing here can be bought yet — the app is in TestFlight beta and the
+      // page says the release date is not set. Publishing three prices with no
+      // availability told a search engine they were on sale. PreOrder is the
+      // truthful state; it becomes InStock on launch day.
+      availability: 'https://schema.org/PreOrder',
       eligibleRegion: { '@type': 'Country', name: 'KR' },
     })),
+  };
+}
+
+/** Which dictionary keys carry the name and description of each sub-page. */
+export const PAGE_META = {
+  'run.html': { title: 'r1', desc: 'r2' },
+  'privacy.html': { title: 'pv.meta.title', desc: 'pv.meta.desc' },
+  'terms.html': { title: 'tm.meta.title', desc: 'tm.meta.desc' },
+};
+
+/**
+ * WebPage + BreadcrumbList for run.html / privacy.html / terms.html. Those
+ * three carried no structured data at all in any of the six languages, so a
+ * crawler had a title and nothing that said where the page sits or what site
+ * it belongs to. index.html keeps its SoftwareApplication and FAQPage instead
+ * — returns null for it, and for anything else.
+ */
+export function pageLd(dict, code, page) {
+  const meta = PAGE_META[page];
+  if (!meta) return null;
+  const home = `https://runvis.app${code === 'ko' ? '/' : `/${code}/`}`;
+  const self = `${home}${page}`;
+  const name = plain(dict[meta.title] || '');
+  return {
+    '@context': 'https://schema.org', '@type': 'WebPage',
+    name, description: plain(dict[meta.desc] || ''),
+    inLanguage: HTML_LANG[code], url: self,
+    isPartOf: { '@type': 'WebSite', name: 'Runvis', url: home },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Runvis', item: home },
+        { '@type': 'ListItem', position: 2, name, item: self },
+      ],
+    },
   };
 }
 

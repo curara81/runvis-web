@@ -113,7 +113,11 @@
   }
   @media(min-width:460px){ .hud-metrics .m{padding:10px 18px 8px} }
   .hud-metrics .m:first-child{border-left:none}
-  .hud-metrics .m .k{font-size:10px;letter-spacing:.2em;color:var(--dim)}
+  /* These five mono labels ran 9–10.5 px with .18–.3 em tracking. Letter-spacing
+     that wide makes a small glyph read thinner still, so both moved together:
+     nothing under 11 px, nothing over .14 em. They are labels beside a large
+     value, so the layout has the room. */
+  .hud-metrics .m .k{font-size:11.5px;letter-spacing:.14em;color:var(--dim)}
   .hud-metrics .m .v{font-size:20px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
   .hud-metrics .m .v em{font-style:normal;font-size:11px;color:var(--dim);margin-left:2px}
   .hud-metrics .m .v.gr{color:var(--green)} .hud-metrics .m .v.or{color:var(--orange)}
@@ -159,7 +163,7 @@
     background:linear-gradient(160deg,rgba(61,220,132,.07),rgba(0,0,0,.4));
     padding:18px 20px;border-radius:2px;position:relative;
   }
-  .voice::before{content:"RUNVIS // VOICE";position:absolute;top:-9px;left:14px;background:var(--bg);padding:0 8px;font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--green)}
+  .voice::before{content:"RUNVIS // VOICE";position:absolute;top:-9px;left:14px;background:var(--bg);padding:0 8px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--green)}
   .voice p{font-size:15.5px;color:var(--text);line-height:1.7}
   /* the WHY line is the evidence for every cue on this page — it reads at
      12px / --dim (8.50:1), not 11px / 3.76:1. */
@@ -167,7 +171,7 @@
   .voice .why b{color:var(--cyan);font-weight:600}
 
   .datastrip{display:flex;gap:26px;margin-top:26px;font-family:var(--mono);flex-wrap:wrap}
-  .datastrip .d .k{font-size:10.5px;letter-spacing:.18em;color:var(--dim)}
+  .datastrip .d .k{font-size:11.5px;letter-spacing:.14em;color:var(--dim)}
   .datastrip .d .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
   .datastrip .d .v.gr{color:var(--green)} .datastrip .d .v.or{color:var(--orange)} .datastrip .d .v.rd{color:var(--red)} .datastrip .d .v.cy{color:var(--cyan)}
 
@@ -184,7 +188,7 @@
   #s0{flex-direction:column;justify-content:center;text-align:left}
   #s0 .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
   @media(max-width:900px){#s0 .wrap{grid-template-columns:1fr}}
-  .scroll-cue{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--dim2);animation:bob 2.2s infinite}
+  .scroll-cue{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;color:var(--dim2);animation:bob 2.2s infinite}
   @keyframes bob{50%{transform:translate(-50%,8px)}}
 
   /* watch mock in hero */
@@ -253,7 +257,7 @@
   .hud-top .brand,.hud-top .status{white-space:nowrap}
   @media(max-width:860px){.hud-top .status{display:none}}
   @media(max-width:520px){
-    .hud-top{padding:0 12px;font-size:10px}
+    .hud-top{padding:0 12px;font-size:11px}
     .hud-top .exit{padding:6px 9px}
     .langsel button{padding:5px 8px;font-size:11px}
   }
@@ -277,9 +281,28 @@
   // On a prerendered page (/en/, /ja/ …) the directory IS the language and
   // RunvisPageLang is set just above; it outranks the saved choice and the
   // browser's. ?lang= still wins over it.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang);
-  if(!code){ try{ code=norm(localStorage.getItem("runvis_lang")); }catch(e){} }
-  if(!code) code=norm(navigator.language)||"ko";
+  var saved=null; try{ saved=norm(localStorage.getItem("runvis_lang")); }catch(e){}
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"ko";
+  // A German browser landing on a ROOT url used to get German BODY text with a
+  // Korean canonical, Korean og:* and no route to /de/ at all — the five
+  // prerendered market pages existed and nothing ever sent anyone to them.
+  // GitHub Pages cannot redirect, so it happens here, and only in the one case
+  // where nothing else has spoken: no ?lang= (an explicit choice), no saved
+  // choice, not already on a prerendered page, and not Korean (this IS the
+  // Korean document and the x-default). replace() keeps the back button
+  // working and the sessionStorage flag makes a second hop impossible even if
+  // the target ever failed to set RunvisPageLang.
+  try{
+    if(!window.RunvisPageLang && !urlLang && !saved && code!=="ko"
+       && /(^|\.)runvis\.app$/.test(location.hostname)
+       && !sessionStorage.getItem("runvis_sent")){
+      sessionStorage.setItem("runvis_sent","1");
+      var file=location.pathname.split("/").pop()||"";
+      if(file==="index.html") file="";      // /de/, the URL hreflang and canonical name
+      location.replace("/"+code+"/"+file+location.hash);
+      return;
+    }
+  }catch(e){}
   window.RunvisLang=code; window.RunvisUrlLang=urlLang;
   var html=document.documentElement;
   html.lang = code==="zh" ? "zh-Hant" : code;
@@ -309,6 +332,15 @@
 })();
 </script>
 <script defer src="i18n.js?v=20260906e"></script>
+<!-- WebPage + BreadcrumbList. This page used to ship no structured data at
+     all in any of the six languages: a crawler got a title and nothing that
+     said what site the page belongs to or where it sits in it. Built from the
+     same dictionary the visible text reads, by tools/i18n-lib.mjs pageLd, so
+     the two cannot drift; tools/prerender.mjs rewrites it per language and
+     check-content [4] compares it byte for byte. -->
+<script id="pageld" type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"RUN SESSION — 런비스와 5km | Runvis","description":"스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요.","inLanguage":"ko","url":"https://runvis.app/run.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/"},{"@type":"ListItem","position":2,"name":"RUN SESSION — 런비스와 5km | Runvis","item":"https://runvis.app/run.html"}]}}
+</script>
 </head>
 <body>
 <a class="skip" href="#s0" data-i18n="a11y.skip">본문 바로가기</a>
@@ -347,8 +379,6 @@
       <p class="lead rv" data-i18n="r12">지금부터 <b>스크롤이 곧 러닝</b>입니다. 아래로 내리면 5km 러닝이 시작되고,
       하단의 거리·페이스·심박이 함께 움직입니다. 런비스가 <b>언제, 왜 말을 거는지</b> — 그리고 언제 조용히 있는지 직접 확인하세요.</p>
       <p class="footnote rv" data-i18n="r13">화면 속 수치는 시연용 예시 데이터입니다 · 실제 앱은 Apple Watch 센서로 동작합니다</p>
-      <p class="footnote rv" style="margin-top:10px" data-i18n="r.unitnote">이 데모는 km 기준으로만 달립니다. 실제 앱은 기기의 단위 설정을 따라 1km 또는 1마일마다 스플릿을 말하고, 화면과 음성의 거리·페이스도 그 단위로 나옵니다.</p>
-      <p class="footnote rv" style="margin-top:10px" data-i18n="r.badge.note">코치 음성 하나하나에 <span class="pill free">무료</span> 또는 <span class="pill pro">구독</span> 표시를 붙여 뒀습니다. 기록·랩·건강 저장·기록 열람, 훈련 플랜 보기, 운동 상세 리포트, 준비운동 화면은 전부 무료입니다.</p>
     </div>
     <div class="rv">
       <svg class="heroWatch" viewBox="0 0 330 400" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Helvetica,sans-serif" role="img" aria-label="Apple Watch 화면 — 오늘의 목표 5.0킬로미터, 런비스와 달리기" data-i18n-attr="aria-label:r.alt.watch">
@@ -380,9 +410,14 @@
     <p class="lead rv" data-i18n="r19">시작 버튼 하나로 <b>날씨 브리핑 → 준비운동</b>이 이어집니다. 자체 서버 없이, 워치 안에서.</p>
     <div class="voice rv">
       <span class="pill pro" data-i18n="n.pill.pro">구독</span>
-      <p data-i18n="r20">"안녕하세요, 런비스입니다. 오늘도 함께 달려볼까요? 현재 여의도동 날씨입니다. 현재 기온 26도, 습도 78퍼센트입니다. 덥고 습해서 땀 증발이 잘 안 되는 날이에요. 수분 보충은 운동생리학 권장대로 15분, 약 2.5에서 3킬로미터마다 150에서 200밀리리터 — 서너 모금씩 나눠 마시세요. 조금씩 나눠서. 브리핑은 여기까지. 이제 화면의 준비운동 시작 버튼을 눌러, 가볍게 몸부터 풀어볼까요?"</p>
+      <p data-i18n="r20">"안녕하세요, 런비스입니다. 오늘도 함께 달려볼까요? 현재 여의도동 날씨입니다. 현재 기온 26도, 습도 78퍼센트입니다. 덥고 습해서 땀 증발이 잘 안 되는 날이에요. 수분 보충은 운동생리학 권장대로 15분, 약 3킬로미터마다 150에서 200밀리리터 — 서너 모금씩 나눠 마시세요. 조금씩 나눠서. 브리핑은 여기까지. 이제 화면의 준비운동 시작 버튼을 눌러, 가볍게 몸부터 풀어볼까요?"</p>
       <div class="why" data-i18n="r21">WHY · <b>현재 동네 이름 + Open-Meteo 실시간 기상</b> → 운동과학 기준(온도×습도)의 수분 가이드까지. 더운 날엔 러닝 중 수분 알림 간격도 자동 단축. 날씨 화면과 준비운동 타이머는 무료, 이 문장을 <b>소리로 읽어주는 것</b>이 구독입니다</div>
     </div>
+    <!-- The pill legend used to sit in the hero, in a stack of three
+         disclaimers between the pitch and the scroll cue. It belongs at the
+         first pill a reader actually meets — the 구독 badge on the block just
+         above — which is where it becomes short. -->
+    <p class="footnote rv" style="margin-top:10px" data-i18n="r.badge.note">코치 음성 하나하나에 <span class="pill free">무료</span> 또는 <span class="pill pro">구독</span> 표시를 붙여 뒀습니다. 기록·랩·건강 저장·기록 열람, 훈련 플랜 보기, 운동 상세 리포트, 준비운동 화면은 전부 무료입니다.</p>
     <div class="datastrip rv">
       <div class="d"><div class="k">WEATHER</div><div class="v cy">26°C</div></div>
       <div class="d"><div class="k">HUMIDITY</div><div class="v cy">78%</div></div>
@@ -409,6 +444,9 @@
       <div class="d"><div class="k">SLEEP</div><div class="v gr">7.4h</div></div>
       <div class="d"><div class="k">RESTING HR</div><div class="v gr" data-i18n="r28">−4 (평소보다 낮음)</div></div>
     </div>
+    <!-- The unit note used to be a hero disclaimer; it is only a rule about
+         splits, so it waits for the section where the first split is spoken. -->
+    <p class="footnote rv" style="margin-top:16px" data-i18n="r.unitnote">이 데모는 km 기준으로만 달립니다. 실제 앱은 기기의 단위 설정을 따라 1km 또는 1마일마다 스플릿을 말하고, 화면과 음성의 거리·페이스도 그 단위로 나옵니다.</p>
   </div>
 </section>
 
@@ -504,7 +542,7 @@
       <div class="row"><span class="k" data-i18n="r59">내보내기</span><span class="v" data-i18n="r60">✨ AI 분석용 · GPX</span></div>
     </div>
     <div class="tier rv">
-      <p><span class="pill free" data-i18n="n.pill.free">무료</span><span data-i18n="r.tier.free">GPS 기록·랩·Apple 건강 저장·모든 기록 열람 · 훈련 플랜 보기 · 운동 상세 리포트 · 준비운동 화면 · 워치로 달릴 때 km(또는 마일) 스플릿, 심박존 안내, 페이스 목표 안내, 코스 언덕 예고, 경로 이탈 경보 음성 (아이폰만 들고 달리면 무료 음성은 스플릿뿐) · 러닝 후 팁 카드 · 레이스 모드와 고스트 표시</span></p>
+      <p><span class="pill free" data-i18n="n.pill.free">무료</span><span data-i18n="r.tier.free">GPS 기록·랩·Apple 건강 저장·모든 기록 열람 · 훈련 플랜 보기 · 운동 상세 리포트 · 준비운동 화면 · 워치로 달릴 때 km(또는 마일) 스플릿, 심박존, 페이스, 코스 언덕 예고, 경로 이탈 경보 음성 (아이폰만 들고 달리면 무료 음성은 스플릿뿐) · 러닝 후 팁 카드 · 레이스 모드와 고스트 표시</span></p>
       <p><span class="pill pro" data-i18n="n.pill.pro">구독</span><span data-i18n="r.tier.pro">자세 코칭 음성과 언덕 주행법·회복·격려 음성 · 훈련 플랜을 구간마다 실행하고 끝나면 계획 대비 점수 · 심층 분석 7타일 · 레이스 전략(리허설·구간 페이스 플랜·보급 스케줄) · 주간 코치 요약 카드</span></p>
       <p class="note" data-i18n="r.tier.price">월 ₩1,900 · 연 구독 · 평생 이용권 중에서 고릅니다. 가격은 App Store 기준이며 계정도 서버도 없습니다 — 데이터는 기기와 Apple 건강에만 남습니다.</p>
     </div>
@@ -522,7 +560,7 @@
       <p id="demoStatus" role="status" aria-live="polite" style="display:none"></p>
       <div class="consent">
         <div>· <b data-i18n="t161">수집 목적</b><span data-i18n="cs.purpose">: TestFlight 베타 초대장 발송</span></div>
-        <div>· <b data-i18n="t162">보관 기간</b><span data-i18n="cs.retain">: 베타 종료 또는 수신 동의 철회 시까지</span></div>
+        <div>· <b data-i18n="t162">보관 기간</b><span data-i18n="cs.retain">: 베타 초대 발송 등 수집 목적 달성 시 지체 없이 파기 · 늦어도 수집일로부터 1년 이내</span></div>
         <label><input form="demoForm" name="privacy_consent" type="checkbox" value="yes" required> <span data-i18n="n.beta.required">(필수) 베타 초대장 발송을 위한 이메일 수집·이용에 동의합니다.</span></label>
         <label><input form="demoForm" name="marketing_consent" type="checkbox" value="yes"> <span data-i18n="cs.marketing">(선택) 출시 소식·업데이트 등 마케팅 정보 수신에 동의합니다.</span></label>
         <div style="margin-top:8px">· <a href="privacy.html" style="color:var(--green)" data-i18n="n.priv.link">개인정보처리방침</a></div>

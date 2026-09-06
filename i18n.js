@@ -91,28 +91,30 @@
   }
 
   // ---- localized device captures ----------------------------------------
-  // The five iPhone frames now exist in all six languages: the app was run on
-  // the iPhone 17 simulator under -AppleLanguages "(xx)" and re-composited into
-  // the same Apple bezel (tools/regenerate-screens.md → tools/composite_lang.py).
+  // All eleven device frames — five iPhone, six Apple Watch — now exist in all
+  // six languages: the app was run on the simulator under -AppleLanguages "(xx)"
+  // and re-composited into the same Apple bezel
+  // (tools/regenerate-screens.md → tools/watch-capture.md → composite_lang.py).
   // Korean is the file with no suffix; the others are `<base>.<code>.png`.
   //
-  // The six WATCH frames have no localized variants and are Korean in every
-  // language. They are not in SHOTS below, so nothing is swapped for them and
-  // no request 404s — the capture script cannot reach those screens because the
-  // watchOS simulator ignores synthetic taps (only drags and hardware buttons
-  // register), and three of them are mid-run screens on top of that. The hero
-  // carries that disclosure inline, next to the frames it is about
-  // (`sc.note.watch`, index.html); `sc.note` under #today states the
-  // phone/watch split for readers who scroll. Both are in all six languages.
+  // The watch set was Korean-only through round 11 because a wrong note in
+  // regenerate-screens.md said the watchOS simulator ignores synthetic taps.
+  // It does not — taps land once the app's stale HKWorkoutSession is ended and
+  // cfprefsd is restarted after the container prefs are written. The three
+  // mid-run frames (pace / hr / map) come from a real run driven by
+  // `xcrun simctl location start --speed=3.2`, one per language, so the
+  // English page now reads 8:22 /mi where it used to read 5:12 /km.
   var SHOT_LANGS = { en: 1, ja: 1, es: 1, zh: 1, de: 1 };   // ko = the base file
   var SHOTS = {
     'framed-phone-dash': 1, 'framed-phone-detail': 1, 'framed-phone-glance': 1,
-    'framed-phone-plan': 1, 'framed-phone-race': 1
+    'framed-phone-plan': 1, 'framed-phone-race': 1,
+    'framed-watch-hero': 1, 'framed-watch-evidence': 1, 'framed-watch-start': 1,
+    'framed-watch-pace': 1, 'framed-watch-hr': 1, 'framed-watch-map': 1
   };
   function applyShots(code) {
     document.querySelectorAll('img[data-shot]').forEach(function (img) {
       var base = img.getAttribute('data-shot');
-      if (!SHOTS[base]) return;                 // watch frames: leave the markup alone
+      if (!SHOTS[base]) return;                 // not a localized frame: leave the markup alone
       var want = BASE + 'assets/' + base + (SHOT_LANGS[code] ? '.' + code : '') + '.png';
       if (img.getAttribute('src') !== want) img.setAttribute('src', want);
     });
@@ -272,12 +274,54 @@
       inLanguage: code === 'zh' ? 'zh-Hant' : code,
       url: 'https://runvis.app/',
       description: plain(dict['meta.desc'] || ''),
+      image: 'https://runvis.app/assets/og-card.png',
+      screenshot: 'https://runvis.app/assets/framed-phone-dash' + (code === 'ko' ? '' : '.' + code) + '.png',
+      author: { '@type': 'Organization', name: 'Runvis', url: 'https://runvis.app/' },
       offers: OFFERS.map(function (o) {
         return {
           '@type': 'Offer', name: o.name, price: o.price, priceCurrency: 'KRW', category: o.category,
+          // Nothing is purchasable yet — TestFlight beta, release date not set.
+          // Three prices with no availability read as "on sale now".
+          availability: 'https://schema.org/PreOrder',
           eligibleRegion: { '@type': 'Country', name: 'KR' }
         };
       })
+    });
+  }
+
+  // run.html / privacy.html / terms.html carry a WebPage + BreadcrumbList node
+  // instead of the app and FAQ nodes. Same shape tools/i18n-lib.mjs pageLd
+  // builds and tools/prerender.mjs writes; this one is for a reader who
+  // switched language on a root page with ?lang=.
+  var PAGE_META = {
+    'run.html': { title: 'r1', desc: 'r2' },
+    'privacy.html': { title: 'pv.meta.title', desc: 'pv.meta.desc' },
+    'terms.html': { title: 'tm.meta.title', desc: 'tm.meta.desc' }
+  };
+  function applyPageLd(code, dict) {
+    var node = document.getElementById('pageld');
+    if (!node) return;
+    var page = (location.pathname.split('/').pop() || 'index.html');
+    var m = PAGE_META[page];
+    if (!m) return;
+    var home = 'https://runvis.app/' + (code === 'ko' ? '' : code + '/');
+    var self = home + page;
+    var name = plain(dict[m.title] || '');
+    node.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: name,
+      description: plain(dict[m.desc] || ''),
+      inLanguage: code === 'zh' ? 'zh-Hant' : code,
+      url: self,
+      isPartOf: { '@type': 'WebSite', name: 'Runvis', url: home },
+      breadcrumb: {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Runvis', item: home },
+          { '@type': 'ListItem', position: 2, name: name, item: self }
+        ]
+      }
     });
   }
 
@@ -316,6 +360,7 @@
     applyCanonical(code);
     applyFaqLd(code, I18N[code]);
     applyAppLd(code, I18N[code]);
+    applyPageLd(code, I18N[code]);
     publishDynamic(code);
     try { localStorage.setItem('runvis_lang', code); } catch (e) {}
     // Anything mid-flight in the old language should stop — the voice demo

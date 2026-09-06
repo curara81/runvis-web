@@ -111,7 +111,11 @@
   }
   @media(min-width:460px){ .hud-metrics .m{padding:10px 18px 8px} }
   .hud-metrics .m:first-child{border-left:none}
-  .hud-metrics .m .k{font-size:10px;letter-spacing:.2em;color:var(--dim)}
+  /* These five mono labels ran 9–10.5 px with .18–.3 em tracking. Letter-spacing
+     that wide makes a small glyph read thinner still, so both moved together:
+     nothing under 11 px, nothing over .14 em. They are labels beside a large
+     value, so the layout has the room. */
+  .hud-metrics .m .k{font-size:11.5px;letter-spacing:.14em;color:var(--dim)}
   .hud-metrics .m .v{font-size:20px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
   .hud-metrics .m .v em{font-style:normal;font-size:11px;color:var(--dim);margin-left:2px}
   .hud-metrics .m .v.gr{color:var(--green)} .hud-metrics .m .v.or{color:var(--orange)}
@@ -157,7 +161,7 @@
     background:linear-gradient(160deg,rgba(61,220,132,.07),rgba(0,0,0,.4));
     padding:18px 20px;border-radius:2px;position:relative;
   }
-  .voice::before{content:"RUNVIS // VOICE";position:absolute;top:-9px;left:14px;background:var(--bg);padding:0 8px;font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--green)}
+  .voice::before{content:"RUNVIS // VOICE";position:absolute;top:-9px;left:14px;background:var(--bg);padding:0 8px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--green)}
   .voice p{font-size:15.5px;color:var(--text);line-height:1.7}
   /* the WHY line is the evidence for every cue on this page — it reads at
      12px / --dim (8.50:1), not 11px / 3.76:1. */
@@ -165,7 +169,7 @@
   .voice .why b{color:var(--cyan);font-weight:600}
 
   .datastrip{display:flex;gap:26px;margin-top:26px;font-family:var(--mono);flex-wrap:wrap}
-  .datastrip .d .k{font-size:10.5px;letter-spacing:.18em;color:var(--dim)}
+  .datastrip .d .k{font-size:11.5px;letter-spacing:.14em;color:var(--dim)}
   .datastrip .d .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
   .datastrip .d .v.gr{color:var(--green)} .datastrip .d .v.or{color:var(--orange)} .datastrip .d .v.rd{color:var(--red)} .datastrip .d .v.cy{color:var(--cyan)}
 
@@ -182,7 +186,7 @@
   #s0{flex-direction:column;justify-content:center;text-align:left}
   #s0 .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
   @media(max-width:900px){#s0 .wrap{grid-template-columns:1fr}}
-  .scroll-cue{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--dim2);animation:bob 2.2s infinite}
+  .scroll-cue{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;color:var(--dim2);animation:bob 2.2s infinite}
   @keyframes bob{50%{transform:translate(-50%,8px)}}
 
   /* watch mock in hero */
@@ -251,7 +255,7 @@
   .hud-top .brand,.hud-top .status{white-space:nowrap}
   @media(max-width:860px){.hud-top .status{display:none}}
   @media(max-width:520px){
-    .hud-top{padding:0 12px;font-size:10px}
+    .hud-top{padding:0 12px;font-size:11px}
     .hud-top .exit{padding:6px 9px}
     .langsel button{padding:5px 8px;font-size:11px}
   }
@@ -272,9 +276,28 @@
   // On a prerendered page (/en/, /ja/ …) the directory IS the language and
   // RunvisPageLang is set just above; it outranks the saved choice and the
   // browser's. ?lang= still wins over it.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang);
-  if(!code){ try{ code=norm(localStorage.getItem("runvis_lang")); }catch(e){} }
-  if(!code) code=norm(navigator.language)||"ko";
+  var saved=null; try{ saved=norm(localStorage.getItem("runvis_lang")); }catch(e){}
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"ko";
+  // A German browser landing on a ROOT url used to get German BODY text with a
+  // Korean canonical, Korean og:* and no route to /de/ at all — the five
+  // prerendered market pages existed and nothing ever sent anyone to them.
+  // GitHub Pages cannot redirect, so it happens here, and only in the one case
+  // where nothing else has spoken: no ?lang= (an explicit choice), no saved
+  // choice, not already on a prerendered page, and not Korean (this IS the
+  // Korean document and the x-default). replace() keeps the back button
+  // working and the sessionStorage flag makes a second hop impossible even if
+  // the target ever failed to set RunvisPageLang.
+  try{
+    if(!window.RunvisPageLang && !urlLang && !saved && code!=="ko"
+       && /(^|\.)runvis\.app$/.test(location.hostname)
+       && !sessionStorage.getItem("runvis_sent")){
+      sessionStorage.setItem("runvis_sent","1");
+      var file=location.pathname.split("/").pop()||"";
+      if(file==="index.html") file="";      // /de/, the URL hreflang and canonical name
+      location.replace("/"+code+"/"+file+location.hash);
+      return;
+    }
+  }catch(e){}
   window.RunvisLang=code; window.RunvisUrlLang=urlLang;
   var html=document.documentElement;
   html.lang = code==="zh" ? "zh-Hant" : code;
@@ -304,6 +327,9 @@
 })();
 </script>
 <script defer src="/i18n.js?v=20260906e"></script>
+<script id="pageld" type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"RUN SESSION — Runvisと5km | Runvis","description":"スクロールがそのままランニングに。ウォームアップからフィニッシュまで、Runvisがいつ、なぜ声をかけるのか、5kmを実際に体感してください。","inLanguage":"ja","url":"https://runvis.app/ja/run.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/ja/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/ja/"},{"@type":"ListItem","position":2,"name":"RUN SESSION — Runvisと5km | Runvis","item":"https://runvis.app/ja/run.html"}]}}
+</script>
 </head>
 <body>
 <a class="skip" href="#s0" data-i18n="a11y.skip">本文へスキップ</a>
@@ -340,8 +366,6 @@
       <h1 class="rv" data-i18n="r11">今日のランに<br><span class="outline">コーチが同行</span>します。</h1>
       <p class="lead rv" data-i18n="r12">ここからは<b>スクロールがそのままランニング</b>です。下へスクロールすると5kmのランが始まり、画面下の距離・ペース・心拍が一緒に動きます。Runvisが<b>いつ、なぜ声をかけるのか</b> — そしていつ静かにしているのか、ご自身で確かめてください。</p>
       <p class="footnote rv" data-i18n="r13">画面内の数値はデモ用のサンプルデータです · 実際のアプリはApple Watchのセンサーで動作します</p>
-      <p class="footnote rv" style="margin-top:10px" data-i18n="r.unitnote">このデモはkm単位のみで走ります。アプリ本体は端末の単位設定に従い、1kmごとまたは1マイルごとにスプリットを読み上げ、画面と音声の距離・ペースも同じ単位になります。</p>
-      <p class="footnote rv" style="margin-top:10px" data-i18n="r.badge.note">コーチの音声には一つひとつ <span class="pill free">無料</span> か <span class="pill pro">サブスク</span> の表示を付けています。記録・ラップ・ヘルスケア保存・記録の閲覧、トレーニングプランの表示、ワークアウト詳細レポート、ウォームアップ画面はすべて無料です。</p>
     </div>
     <div class="rv">
       <svg class="heroWatch" viewBox="0 0 330 400" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Helvetica,sans-serif" role="img" aria-label="Apple Watchの画面 — 今日の目標5.0キロメートル、Runvisと走る" data-i18n-attr="aria-label:r.alt.watch">
@@ -372,9 +396,10 @@
     <p class="lead rv" data-i18n="r19">スタートボタン一つで<b>天気ブリーフィング → ウォームアップ</b>と続きます。自前のサーバーなしで、ウォッチの中だけで。</p>
     <div class="voice rv">
       <span class="pill pro" data-i18n="n.pill.pro">サブスク</span>
-      <p data-i18n="r20">「こんにちは、Runvisです。今日も一緒に走りましょうか。現在のヨイド洞の天気です。現在の気温は26度、湿度は78パーセントです。蒸し暑くて汗が蒸発しにくい日です。水分補給は運動生理学の推奨どおり、十五分、およそ二・五から三キロごとに百五十から二百ミリリットル。三、四口ずつ分けて飲んでください。少しずつ分けて。ブリーフィングはここまで。では画面のウォームアップ開始ボタンを押して、軽く体をほぐしましょうか。」</p>
+      <p data-i18n="r20">「こんにちは、Runvisです。今日も一緒に走りましょうか。現在のヨイド洞の天気です。現在の気温は26度、湿度は78パーセントです。蒸し暑くて汗が蒸発しにくい日です。水分補給は運動生理学の推奨どおり、十五分、およそ三キロごとに百五十から二百ミリリットル。三、四口ずつ分けて飲んでください。少しずつ分けて。ブリーフィングはここまで。では画面のウォームアップ開始ボタンを押して、軽く体をほぐしましょうか。」</p>
       <div class="why" data-i18n="r21">WHY · <b>現在地の地名 + Open-Meteoのリアルタイム気象</b> → 運動科学の基準（気温×湿度）にもとづく水分ガイドまで。暑い日はラン中の水分通知の間隔も自動で短くなります。天気画面とウォームアップのタイマーは無料、この文章を<b>声で読み上げること</b>がサブスクです</div>
     </div>
+    <p class="footnote rv" style="margin-top:10px" data-i18n="r.badge.note">コーチの音声には一つひとつ <span class="pill free">無料</span> か <span class="pill pro">サブスク</span> の表示を付けています。記録・ラップ・ヘルスケア保存・記録の閲覧、トレーニングプランの表示、ワークアウト詳細レポート、ウォームアップ画面はすべて無料です。</p>
     <div class="datastrip rv">
       <div class="d"><div class="k">WEATHER</div><div class="v cy">26°C</div></div>
       <div class="d"><div class="k">HUMIDITY</div><div class="v cy">78%</div></div>
@@ -400,6 +425,7 @@
       <div class="d"><div class="k">SLEEP</div><div class="v gr">7.4h</div></div>
       <div class="d"><div class="k">RESTING HR</div><div class="v gr" data-i18n="r28">−4（平常より低い）</div></div>
     </div>
+    <p class="footnote rv" style="margin-top:16px" data-i18n="r.unitnote">このデモはkm単位のみで走ります。アプリ本体は端末の単位設定に従い、1kmごとまたは1マイルごとにスプリットを読み上げ、画面と音声の距離・ペースも同じ単位になります。</p>
   </div>
 </section>
 
@@ -491,7 +517,7 @@
       <div class="row"><span class="k" data-i18n="r59">書き出し</span><span class="v" data-i18n="r60">✨ AI分析用 · GPX</span></div>
     </div>
     <div class="tier rv">
-      <p><span class="pill free" data-i18n="n.pill.free">無料</span><span data-i18n="r.tier.free">GPS記録・ラップ・ヘルスケア保存・すべての記録の閲覧 · トレーニングプランの表示 · ワークアウト詳細レポート · ウォームアップ画面 · ウォッチで走るとき：キロ（またはマイル）スプリット、心拍ゾーン案内、ペース目標案内、コースの登り予告、コース逸脱警告の音声（iPhoneだけで走る場合、無料の音声はスプリットだけ） · ラン後のヒントカード · レースモードとゴースト表示</span></p>
+      <p><span class="pill free" data-i18n="n.pill.free">無料</span><span data-i18n="r.tier.free">GPS記録・ラップ・ヘルスケア保存・すべての記録の閲覧 · トレーニングプランの表示 · ワークアウト詳細レポート · ウォームアップ画面 · ウォッチで走るとき：キロ（またはマイル）スプリット、心拍ゾーン、ペース、コースの登り予告、コース逸脱警告の音声（iPhoneだけで走る場合、無料の音声はスプリットだけ） · ラン後のヒントカード · レースモードとゴースト表示</span></p>
       <p><span class="pill pro" data-i18n="n.pill.pro">サブスク</span><span data-i18n="r.tier.pro">フォームコーチングの音声と、坂の走り方・回復・励ましの音声 · トレーニングプランを区間ごとに実行し、終了後に計画対比スコア · 詳細分析の7タイル · レース戦略（リハーサル・区間ペースプラン・補給スケジュール）· 週間コーチまとめカード</span></p>
       <p class="note" data-i18n="r.tier.price">月額 ₩1,900・年額サブスク・買い切りの永久ライセンスから選べます。価格はApp Store基準です。アカウントもサーバーもありません — データは端末とヘルスケアの中だけに残ります。</p>
     </div>
@@ -505,7 +531,7 @@
       <p id="demoStatus" role="status" aria-live="polite" style="display:none"></p>
       <div class="consent">
         <div>· <b data-i18n="t161">収集目的</b><span data-i18n="cs.purpose">：TestFlightベータ招待の送付</span></div>
-        <div>· <b data-i18n="t162">保管期間</b><span data-i18n="cs.retain">：ベータ終了、または同意撤回まで</span></div>
+        <div>· <b data-i18n="t162">保管期間</b><span data-i18n="cs.retain">：ベータ招待の送付など収集目的を達成した時点で遅滞なく破棄・遅くとも収集日から1年以内</span></div>
         <label><input form="demoForm" name="privacy_consent" type="checkbox" value="yes" required> <span data-i18n="n.beta.required">（必須）ベータ招待の送付のためにメールアドレスを収集・利用することに同意します。</span></label>
         <label><input form="demoForm" name="marketing_consent" type="checkbox" value="yes"> <span data-i18n="cs.marketing">（任意）リリース情報やアップデートなどのお知らせを受け取ることに同意します。</span></label>
         <div style="margin-top:8px">· <a href="privacy.html" style="color:var(--green)" data-i18n="n.priv.link">プライバシーポリシー</a></div>
