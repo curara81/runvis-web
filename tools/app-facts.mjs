@@ -143,6 +143,29 @@ export function measure(app = findAppRepo()) {
   if (!toggleList) throw new Error('CoachCueCategory.userToggleable: not found in CoachSessionProfile.swift');
   const cueToggles = toggleList[1].split(',').map(t => t.trim()).filter(Boolean).length;
 
+  // 7. the seven paid tiles, under the app's OWN name for each, in all six
+  //    languages. The site repeats these names in the price list, in the gate
+  //    conditions and in the screenshot alt text, and it had drifted four ways
+  //    at once: 언덕 점수 (a name the app RETIRED in round 4 — the alt text
+  //    still carried it) plus 坂の露出 / 坡道暴露 / Bergexposition, none of
+  //    which the app uses. Nothing compared the two vocabularies, so the drift
+  //    was invisible to every check. check-content [15] compares them now.
+  //    The Korean literal IS the key in Localizable.strings, so a rename in the
+  //    app throws here rather than silently reporting the old name.
+  const TILE_KEYS = ['젖산 역치(추정)', '지구력 훈련량', '언덕 노출', '더위 노출 지수',
+                     '코치 브레이크', '강도 분포', '코치 기록 레이더'];
+  const LPROJ_TO_WEB = { ko: 'ko', en: 'en', ja: 'ja', es: 'es', 'zh-Hant': 'zh', de: 'de' };
+  const tiles = {};
+  for (const [lproj, code] of Object.entries(LPROJ_TO_WEB)) {
+    const text = fs.readFileSync(path.join(app, 'Shared/Resources', `${lproj}.lproj`, 'Localizable.strings'), 'utf8');
+    for (const key of TILE_KEYS) {
+      const esc = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const m = new RegExp(`^\\s*"${esc}"\\s*=\\s*"((?:[^"\\\\]|\\\\.)*)"\\s*;`, 'm').exec(text);
+      if (!m) throw new Error(`tile "${key}": no ${lproj} translation — the tile was renamed or removed, and the site says its old name`);
+      (tiles[key] ||= {})[code] = m[1];
+    }
+  }
+
   return {
     measuredAt: new Date().toISOString().slice(0, 10),
     appRepo: path.basename(app),
@@ -158,6 +181,8 @@ export function measure(app = findAppRepo()) {
     cueBudgetEasy,
     cueBudgetTempo,
     cueMinGap,
+    // Held against the six dictionaries by check-content [15].
+    tiles,
     // Bumped by hand when the screenshots in assets/ are re-shot. Nothing on
     // the page prints this any more (sc.build is gone — sc.note now says only
     // that the shipping build moves on after a capture, which stays true
@@ -186,9 +211,12 @@ const body = JSON.stringify(facts, null, 2) + '\n';
 if (mode === '--check') {
   const prev = readPrevious();
   if (!prev) { console.error('app-facts: tools/app-facts.json missing — run `node tools/app-facts.mjs`'); process.exit(1); }
-  const drift = Object.keys(facts).filter(k => k !== 'measuredAt' && prev[k] !== facts[k]);
+  // JSON, not ===: `tiles` is an object, and two structurally identical
+  // objects are never === , which would report permanent drift.
+  const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+  const drift = Object.keys(facts).filter(k => k !== 'measuredAt' && !same(prev[k], facts[k]));
   if (drift.length) {
-    console.error('app-facts: STALE — ' + drift.map(k => `${k}: file ${prev[k]} vs repo ${facts[k]}`).join(', '));
+    console.error('app-facts: STALE — ' + drift.map(k => `${k}: file ${JSON.stringify(prev[k])} vs repo ${JSON.stringify(facts[k])}`).join(', '));
     console.error('  run `node tools/app-facts.mjs`, then update the six t-*.js values check-content [9] names.');
     process.exit(1);
   }

@@ -8,11 +8,13 @@
 <script>window.RunvisPageLang="es";window.RunvisBase="/";</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#000000">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <title data-i18n="hw.meta.title">Reglas y herramientas — Runvis</title>
-<meta name="description" content="La versión completa de las reglas que la portada resume: cuántas veces habla el coach y todas las excepciones al mínimo de 45 segundos. Calcula aquí tus cinco zonas de FC, descarga 13 GPX de rutas de Seúl y mira cómo funciona la beta." data-i18n-attr="content:hw.meta.desc">
+<meta name="description" content="Métrica a métrica, las fórmulas con las que Runvis obtiene carga de entrenamiento, tiempo de recuperación y umbral de lactato estimado sin un reloj de running dedicado. Además, las reglas de habla completas, una calculadora de zonas de FC, 13 GPX de rutas de Seúl y cómo funciona la beta." data-i18n-attr="content:hw.meta.desc">
 <meta name="robots" content="index,follow">
 <meta property="og:title" content="Reglas y herramientas — Runvis" data-i18n-attr="content:hw.meta.title">
-<meta property="og:description" content="La versión completa de las reglas que la portada resume: cuántas veces habla el coach y todas las excepciones al mínimo de 45 segundos. Calcula aquí tus cinco zonas de FC, descarga 13 GPX de rutas de Seúl y mira cómo funciona la beta." data-i18n-attr="content:hw.meta.desc">
+<meta property="og:description" content="Métrica a métrica, las fórmulas con las que Runvis obtiene carga de entrenamiento, tiempo de recuperación y umbral de lactato estimado sin un reloj de running dedicado. Además, las reglas de habla completas, una calculadora de zonas de FC, 13 GPX de rutas de Seúl y cómo funciona la beta." data-i18n-attr="content:hw.meta.desc">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://runvis.app/es/how-it-works.html">
 <meta property="og:site_name" content="Runvis">
@@ -74,7 +76,14 @@
   .langsel.open ul{display:block}
   .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
   .langsel li:hover{background:rgba(61,220,132,.15)}
-  .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
+  /* 2026-09-06 라운드 13 (-0.5): each item is a real link to that language's
+     prerendered copy, so picking a language changes the ADDRESS — a URL shared
+     from here keeps the language it was read in. The <li> keeps the row box,
+     the <a> fills it so the whole row stays clickable, and aria-checked moves
+     onto the anchor, which is the menuitemradio now. */
+  .langsel li{padding:0}
+  .langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
+  .langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
   .intro{color:var(--dim);font-size:.95rem;margin-bottom:8px}
   h2{scroll-margin-top:20px}
   ol{list-style:none;margin:12px 0;padding:0;counter-reset:ns}
@@ -106,6 +115,17 @@
   function norm(v){ if(!v) return null; v=String(v).toLowerCase();
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
+  // The BROWSER's language is the one source that must not fold every zh-*
+  // onto our table, because our zh table is Traditional (LANGS label 繁體中文,
+  // tts zh-TW, <html lang="zh-Hant">) and norm() above sent zh-Hans / zh-CN /
+  // zh-SG straight to it. Being handed the other script automatically reads as
+  // an accident, not a choice (2026-09-06 라운드 13, -0.3). Those visitors fall
+  // through to the x-default, English, and 繁體中文 is still one pick away in
+  // the language menu. An EXPLICIT zh — ?lang=zh, /zh/, the menu — still goes
+  // through norm() and still resolves, which is why this is a second function
+  // and not a change to the first.
+  function navLang(v){ var s=v?String(v).toLowerCase():"";
+    return (s.indexOf("zh")===0 && !/^zh-(hant|tw|hk|mo)\b/.test(s)) ? null : norm(s); }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
   // On a prerendered page (/en/, /ja/ …) the directory IS the language and
   // RunvisPageLang is set just above; it outranks the saved choice and the
@@ -117,7 +137,7 @@
   // Korean document. A Korean browser still resolves through
   // norm(navigator.language) and is unaffected, and ?lang= and the saved
   // choice still outrank this.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"en";
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||navLang(navigator.language)||"en";
   // A German browser landing on a ROOT url used to get German BODY text with a
   // Korean canonical, Korean og:* and no route to /de/ at all — the five
   // prerendered market pages existed and nothing ever sent anyone to them.
@@ -168,7 +188,7 @@
 </script>
 <script defer src="/i18n.js?v=20260906e"></script>
 <script id="pageld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Reglas y herramientas — Runvis","description":"La versión completa de las reglas que la portada resume: cuántas veces habla el coach y todas las excepciones al mínimo de 45 segundos. Calcula aquí tus cinco zonas de FC, descarga 13 GPX de rutas de Seúl y mira cómo funciona la beta.","inLanguage":"es","url":"https://runvis.app/es/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/es/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/es/"},{"@type":"ListItem","position":2,"name":"Reglas y herramientas — Runvis","item":"https://runvis.app/es/how-it-works.html"}]}}
+{"@context":"https://schema.org","@type":"WebPage","name":"Reglas y herramientas — Runvis","description":"Métrica a métrica, las fórmulas con las que Runvis obtiene carga de entrenamiento, tiempo de recuperación y umbral de lactato estimado sin un reloj de running dedicado. Además, las reglas de habla completas, una calculadora de zonas de FC, 13 GPX de rutas de Seúl y cómo funciona la beta.","inLanguage":"es","url":"https://runvis.app/es/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/es/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/es/"},{"@type":"ListItem","position":2,"name":"Reglas y herramientas — Runvis","item":"https://runvis.app/es/how-it-works.html"}]}}
 </script>
 </head>
 <body>
@@ -197,6 +217,19 @@
     <li data-i18n="n.live.q.n3">Corriendo solo con el iPhone las reglas cambian: hay menos avisos, así que la frecuencia con la que habla la fijan un intervalo de 20 segundos en vez de 45, un tiempo de espera de 3 minutos en ritmo y de 5 en zona de FC, y no hay tope de 30 minutos.</li>
     <li data-i18n="n.live.q.n4">Hay 8 elementos que se activan uno a uno: ritmo, zona de FC, técnica, cuestas, ánimos y guiones, tarjetas de consejos, hidratación y la voz de pausa y reanudación automáticas. Los parciales no son un interruptor sino un intervalo: apagado, 0,5 o 1 (km o millas). Los avisos de seguridad y los avisos centrales, como los pasos del entrenamiento, no se pueden apagar. La música solo baja mientras el coach habla.</li>
   </ul>
+
+  <h2 id="versus" data-i18n="hw.vs.h">¿En qué se diferencia de un reloj de running dedicado?</h2>
+  <p data-i18n="hw.vs.p">Carga de entrenamiento, tiempo de recuperación, umbral de lactato estimado, plan de ritmos de carrera: los números que, según se dice, exigen comprar un reloj de running aparte. Runvis calcula esos mismos números a partir del pulso, el GPS y la altitud barométrica que tu Apple Watch ya registró. Un reloj dedicado no publica sus fórmulas, así que no diremos que son las mismas. Lo que sí hacemos es nombrar las nuestras: todas las de abajo son fórmulas publicadas y con nombre. Dentro de la app, cada métrica se abre y explica qué significa, cómo se calculó y cuál es tu rango habitual.</p>
+  <div class="tablewrap"><table>
+    <tr><th data-i18n="hw.vs.th1">Métrica</th><th data-i18n="hw.vs.th2">Con qué lo calcula Runvis, y cómo se llama esa fórmula</th></tr>
+    <tr><td data-i18n="hw.vs.r1a">Carga de entrenamiento y forma (TSB)</td><td data-i18n="hw.vs.r1b">TRIMP de Banister introducido en las medias móviles exponenciales de 42 y 7 días de Coggan (CTL y ATL); la diferencia entre ambas es el TSB.</td></tr>
+    <tr><td data-i18n="hw.vs.r2a">Tiempo de recuperación</td><td data-i18n="hw.vs.r2b">Se estima con tres cosas: el TRIMP de la última carrera, tu TSB actual y el estado de tu VFC. La pantalla también dice «estimado».</td></tr>
+    <tr><td data-i18n="hw.vs.r3a">Umbral de lactato (est.)</td><td data-i18n="hw.vs.r3b">El ritmo y el pulso de tu mejor tramo de 30 minutos (o de 20) sostenido por encima del 85% de la frecuencia máxima en los últimos 90 días. Una estimación leída de tus carreras, no una analítica de laboratorio.</td></tr>
+    <tr><td data-i18n="hw.vs.r4a">Predicción de carrera y plan de ritmos por tramo</td><td data-i18n="hw.vs.r4b">Extrapolación de Riegel más el VDOT de Runvis. Si le das el GPX de un recorrido, reparte el ritmo tramo a tramo según el desnivel de ese recorrido.</td></tr>
+    <tr><td data-i18n="hw.vs.r5a">Ritmo ajustado por pendiente (GAP)</td><td data-i18n="hw.vs.r5b">La curva de coste energético de la carrera de Minetti (2002), calculando por separado el coste de subir y el de bajar.</td></tr>
+    <tr><td data-i18n="hw.vs.r6a">Las cinco zonas de frecuencia cardiaca</td><td data-i18n="hw.vs.r6b">Karvonen, sobre la reserva de frecuencia cardiaca; si no se conoce la máxima, recurre a 208 − 0,7 × edad. La calculadora de abajo hace esa misma cuenta.</td></tr>
+  </table></div>
+  <p class="note" data-i18n="hw.vs.note">También dejamos por escrito lo que hace un reloj dedicado y Runvis no: en esta versión no hay complicación en la esfera del reloj, ni widget en la pantalla de inicio del iPhone, ni Live Activity. Y todos los valores de arriba son información de referencia, no consejo médico.</p>
 
   <h2 id="zones" data-i18n="hz.h">Algo que puedes calcular ahora mismo: tus cinco zonas de pulso</h2>
   <p data-i18n="hz.p">La misma aritmética de Karvonen que usa Runvis para hablarte. En la app las entradas se actualizan solas —el pulso en reposo de siete días de Salud y la frecuencia máxima que tu reloj ha registrado de verdad—, pero el cálculo es el de abajo.</p>

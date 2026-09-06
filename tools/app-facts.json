@@ -1,10 +1,10 @@
 {
   "measuredAt": "2026-09-06",
   "appRepo": "SportsDashboard",
-  "tests": 574,
-  "testFiles": 36,
-  "stringKeys": 2235,
-  "stringLines": 2249,
+  "tests": 645,
+  "testFiles": 38,
+  "stringKeys": 2293,
+  "stringLines": 2307,
   "coachTable": 396,
   "glossary": 41,
   "cueSites": 287,
@@ -12,5 +12,63 @@
   "cueBudgetEasy": 8,
   "cueBudgetTempo": 6,
   "cueMinGap": 45,
+  "tiles": {
+    "젖산 역치(추정)": {
+      "ko": "젖산 역치(추정)",
+      "en": "Lactate Threshold (est.)",
+      "ja": "乳酸性作業閾値（推定）",
+      "es": "Umbral de lactato (est.)",
+      "zh": "乳酸閾值（估計）",
+      "de": "Laktatschwelle (geschätzt)"
+    },
+    "지구력 훈련량": {
+      "ko": "지구력 훈련량",
+      "en": "Endurance training volume",
+      "ja": "持久力トレーニング量",
+      "es": "Volumen de entrenamiento de resistencia",
+      "zh": "耐力訓練量",
+      "de": "Ausdauer-Trainingsumfang"
+    },
+    "언덕 노출": {
+      "ko": "언덕 노출",
+      "en": "Hill exposure",
+      "ja": "ヒル曝露",
+      "es": "Exposición a cuestas",
+      "zh": "坡度暴露",
+      "de": "Hügelanteil"
+    },
+    "더위 노출 지수": {
+      "ko": "더위 노출 지수",
+      "en": "Heat exposure index",
+      "ja": "暑熱曝露指数",
+      "es": "Índice de exposición al calor",
+      "zh": "熱暴露指數",
+      "de": "Hitzebelastungsindex"
+    },
+    "코치 브레이크": {
+      "ko": "코치 브레이크",
+      "en": "Coach's Brake",
+      "ja": "コーチのブレーキ",
+      "es": "Freno del coach",
+      "zh": "教練煞車",
+      "de": "Coach-Bremse"
+    },
+    "강도 분포": {
+      "ko": "강도 분포",
+      "en": "Intensity mix",
+      "ja": "強度の配分",
+      "es": "Reparto de intensidad",
+      "zh": "強度分布",
+      "de": "Intensitätsverteilung"
+    },
+    "코치 기록 레이더": {
+      "ko": "코치 기록 레이더",
+      "en": "Coach's Record Radar",
+      "ja": "コーチの記録レーダー",
+      "es": "Radar de récords del coach",
+      "zh": "教練的紀錄雷達",
+      "de": "Rekord-Radar des Coachs"
+    }
+  },
   "screensCapturedAt": "2026-09-06"
 }

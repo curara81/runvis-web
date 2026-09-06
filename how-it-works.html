@@ -8,6 +8,13 @@
      the terms watched the browser chrome flip from black to white on iOS
      Safari and Android Chrome. Same value as index.html:49. -->
 <meta name="theme-color" content="#000000">
+<!-- "Add to Home Screen" used to save a screenshot of the page under a
+     browser-generated name: the favicon is a data-URI SVG, which iOS ignores,
+     and there was no manifest at all (2026-09-06 라운드 13, -0.4). Both are
+     absolute paths on purpose — the prerendered copies under /en/ … are served
+     from a subdirectory and there is one icon, at the root. -->
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <!-- Korean only, like index.html. /en/how-it-works.html and its siblings are
      the finished pages for the other five markets and hreflang points at them.
 
@@ -24,10 +31,10 @@
      on index.html, so check-content [2] and [3] still hold it, and the six
      copies are still built by tools/prerender.mjs. -->
 <title data-i18n="hw.meta.title">규칙과 도구 — Runvis</title>
-<meta name="description" content="코치가 30분에 몇 번 말하는지, 45초 규칙의 예외가 무엇인지 전문. 내 심박존 5개를 지금 계산해 보고, 서울 코스 GPX 13개를 받고, 베타가 어떻게 진행되는지 봅니다." data-i18n-attr="content:hw.meta.desc">
+<meta name="description" content="전용 러닝 시계 없이 훈련 부하·회복 시간·젖산 역치 추정을 어떤 계산으로 내는지 지표별로 적어 둔 페이지입니다. 코치가 30분에 몇 번 말하는지와 45초 규칙의 예외 전문, 내 심박존 5개 계산기, 서울 코스 GPX 13개, 베타 진행 순서." data-i18n-attr="content:hw.meta.desc">
 <meta name="robots" content="index,follow">
 <meta property="og:title" content="규칙과 도구 — Runvis" data-i18n-attr="content:hw.meta.title">
-<meta property="og:description" content="코치가 30분에 몇 번 말하는지, 45초 규칙의 예외가 무엇인지 전문. 내 심박존 5개를 지금 계산해 보고, 서울 코스 GPX 13개를 받고, 베타가 어떻게 진행되는지 봅니다." data-i18n-attr="content:hw.meta.desc">
+<meta property="og:description" content="전용 러닝 시계 없이 훈련 부하·회복 시간·젖산 역치 추정을 어떤 계산으로 내는지 지표별로 적어 둔 페이지입니다. 코치가 30분에 몇 번 말하는지와 45초 규칙의 예외 전문, 내 심박존 5개 계산기, 서울 코스 GPX 13개, 베타 진행 순서." data-i18n-attr="content:hw.meta.desc">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://runvis.app/how-it-works.html">
 <meta property="og:site_name" content="Runvis">
@@ -95,7 +102,14 @@
   .langsel.open ul{display:block}
   .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
   .langsel li:hover{background:rgba(61,220,132,.15)}
-  .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
+  /* 2026-09-06 라운드 13 (-0.5): each item is a real link to that language's
+     prerendered copy, so picking a language changes the ADDRESS — a URL shared
+     from here keeps the language it was read in. The <li> keeps the row box,
+     the <a> fills it so the whole row stays clickable, and aria-checked moves
+     onto the anchor, which is the menuitemradio now. */
+  .langsel li{padding:0}
+  .langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
+  .langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
   .intro{color:var(--dim);font-size:.95rem;margin-bottom:8px}
   h2{scroll-margin-top:20px}
   ol{list-style:none;margin:12px 0;padding:0;counter-reset:ns}
@@ -130,6 +144,17 @@
   function norm(v){ if(!v) return null; v=String(v).toLowerCase();
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
+  // The BROWSER's language is the one source that must not fold every zh-*
+  // onto our table, because our zh table is Traditional (LANGS label 繁體中文,
+  // tts zh-TW, <html lang="zh-Hant">) and norm() above sent zh-Hans / zh-CN /
+  // zh-SG straight to it. Being handed the other script automatically reads as
+  // an accident, not a choice (2026-09-06 라운드 13, -0.3). Those visitors fall
+  // through to the x-default, English, and 繁體中文 is still one pick away in
+  // the language menu. An EXPLICIT zh — ?lang=zh, /zh/, the menu — still goes
+  // through norm() and still resolves, which is why this is a second function
+  // and not a change to the first.
+  function navLang(v){ var s=v?String(v).toLowerCase():"";
+    return (s.indexOf("zh")===0 && !/^zh-(hant|tw|hk|mo)\b/.test(s)) ? null : norm(s); }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
   // On a prerendered page (/en/, /ja/ …) the directory IS the language and
   // RunvisPageLang is set just above; it outranks the saved choice and the
@@ -141,7 +166,7 @@
   // Korean document. A Korean browser still resolves through
   // norm(navigator.language) and is unaffected, and ?lang= and the saved
   // choice still outrank this.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"en";
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||navLang(navigator.language)||"en";
   // A German browser landing on a ROOT url used to get German BODY text with a
   // Korean canonical, Korean og:* and no route to /de/ at all — the five
   // prerendered market pages existed and nothing ever sent anyone to them.
@@ -198,7 +223,7 @@
      the two cannot drift; tools/prerender.mjs rewrites it per language and
      check-content [4] compares it byte for byte. -->
 <script id="pageld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"규칙과 도구 — Runvis","description":"코치가 30분에 몇 번 말하는지, 45초 규칙의 예외가 무엇인지 전문. 내 심박존 5개를 지금 계산해 보고, 서울 코스 GPX 13개를 받고, 베타가 어떻게 진행되는지 봅니다.","inLanguage":"ko","url":"https://runvis.app/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/"},{"@type":"ListItem","position":2,"name":"규칙과 도구 — Runvis","item":"https://runvis.app/how-it-works.html"}]}}
+{"@context":"https://schema.org","@type":"WebPage","name":"규칙과 도구 — Runvis","description":"전용 러닝 시계 없이 훈련 부하·회복 시간·젖산 역치 추정을 어떤 계산으로 내는지 지표별로 적어 둔 페이지입니다. 코치가 30분에 몇 번 말하는지와 45초 규칙의 예외 전문, 내 심박존 5개 계산기, 서울 코스 GPX 13개, 베타 진행 순서.","inLanguage":"ko","url":"https://runvis.app/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/"},{"@type":"ListItem","position":2,"name":"규칙과 도구 — Runvis","item":"https://runvis.app/how-it-works.html"}]}}
 </script>
 </head>
 <body>
@@ -234,6 +259,31 @@
     <li data-i18n="n.live.q.n3">아이폰만 들고 달릴 때는 규칙이 다릅니다 — 코치 항목이 더 적어서 45초 대신 20초 간격, 페이스는 3분·심박존은 5분 쿨다운으로 말하는 빈도를 잡고 30분 상한은 두지 않습니다.</li>
     <li data-i18n="n.live.q.n4">끄고 켤 수 있는 항목은 8개입니다 — 페이스, 심박존, 자세, 언덕, 격려·대본, 러닝 상식 카드, 수분·보급, 일시정지·재개 음성. 스플릿은 끄고 켜는 대신 간격을 고릅니다(끔 · 0.5 · 1, km 또는 마일). 안전 안내와 훈련 스텝 같은 핵심 안내는 끌 수 없습니다. 음악은 안내하는 동안만 살짝 줄어듭니다.</li>
   </ul>
+
+  <!-- 1b. The comparison the site would not make (2026-09-06 라운드 13, -1.5).
+       index.html says "러닝 시계를 하나 더 살 필요는 없습니다" and then never
+       names what the category actually sells, so the claim has nothing to land
+       on and the words a reader searches for — 훈련 부하, 회복 시간, 젖산 역치,
+       recovery time, training load — appeared nowhere near the comparison.
+       No brand name is used and none is needed: the honest comparison is
+       formula provenance, and a dedicated watch publishes none. Every row is a
+       real call site in the app repository — MetricsEngine.swift:289 (Banister
+       TRIMP) and :360 (Coggan CTL/ATL), :751 estimateRecoveryTime, :430
+       (Riegel), :1515 (Minetti 2002), PerformanceScores threshold sampling and
+       UserProfile.karvonenZoneLowerBounds — so nothing here is a claim that
+       cannot be read back out of the code. -->
+  <h2 id="versus" data-i18n="hw.vs.h">전용 러닝 시계와 뭐가 다른가요</h2>
+  <p data-i18n="hw.vs.p">훈련 부하, 회복 시간, 젖산 역치 추정, 레이스 페이스 플랜 — 러닝 워치를 따로 사야 볼 수 있다고들 하는 값들입니다. 런비스는 같은 값을 애플워치가 이미 기록한 심박·GPS·기압 고도에서 계산합니다. 전용 시계의 계산식은 공개돼 있지 않으니 '같은 식'이라고는 말하지 않겠습니다. 대신 런비스가 쓰는 식은 전부 이름이 있는 공개된 식이고, 아래에 그 이름을 적었습니다. 앱 안에서는 지표마다 뜻과 계산 근거, 내 평소 범위를 눌러서 볼 수 있습니다.</p>
+  <div class="tablewrap"><table>
+    <tr><th data-i18n="hw.vs.th1">지표</th><th data-i18n="hw.vs.th2">런비스가 쓰는 계산과 그 이름</th></tr>
+    <tr><td data-i18n="hw.vs.r1a">훈련 부하 · 컨디션(TSB)</td><td data-i18n="hw.vs.r1b">Banister TRIMP을 Coggan의 42일·7일 지수이동평균(CTL·ATL)에 넣고, 그 차이를 TSB로 씁니다.</td></tr>
+    <tr><td data-i18n="hw.vs.r2a">회복 시간</td><td data-i18n="hw.vs.r2b">마지막 러닝의 TRIMP, 지금의 TSB, HRV 상태 셋으로 추정합니다. 추정값이라고 화면에도 적습니다.</td></tr>
+    <tr><td data-i18n="hw.vs.r3a">젖산 역치(추정)</td><td data-i18n="hw.vs.r3b">최근 90일에서 최대심박 85% 이상을 버틴 30분(또는 20분) 최적 구간의 페이스와 심박입니다. 실험실 채혈이 아니라 러닝 기록에서 뽑은 추정치입니다.</td></tr>
+    <tr><td data-i18n="hw.vs.r4a">레이스 예측 · 구간 페이스 플랜</td><td data-i18n="hw.vs.r4b">Riegel 외삽과 런비스 VDOT. 코스 GPX를 넣으면 그 코스의 고도에 맞춰 구간마다 페이스를 나눕니다.</td></tr>
+    <tr><td data-i18n="hw.vs.r5a">언덕 보정 페이스(GAP)</td><td data-i18n="hw.vs.r5b">Minetti(2002)의 달리기 에너지 소비 곡선입니다. 오르막과 내리막의 비용을 따로 계산합니다.</td></tr>
+    <tr><td data-i18n="hw.vs.r6a">심박존 5개</td><td data-i18n="hw.vs.r6b">Karvonen(심박예비량) 방식이고, 최대심박을 모르면 208 − 0.7 × 나이로 추정합니다. 아래 계산기가 같은 식입니다.</td></tr>
+  </table></div>
+  <p class="note" data-i18n="hw.vs.note">전용 시계가 하고 런비스가 아직 못 하는 것도 적어 둡니다 — 워치 페이스 컴플리케이션, 아이폰 홈 위젯, 라이브 액티비티는 이번 버전에 들어 있지 않습니다. 그리고 위 값은 전부 참고 정보이며 의학적 조언이 아닙니다.</p>
 
   <!-- 2. The calculator. It moved off index.html with the rest of #beta's
        take-away block; it is the same script and the same six translations. -->

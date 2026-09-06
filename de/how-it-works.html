@@ -8,11 +8,13 @@
 <script>window.RunvisPageLang="de";window.RunvisBase="/";</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#000000">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <title data-i18n="hw.meta.title">Regeln und Werkzeuge — Runvis</title>
-<meta name="description" content="Die Langfassung der Regeln, die die Startseite zusammenfasst: wie oft der Coach spricht und jede Ausnahme vom 45-Sekunden-Mindestabstand. Hier rechnest du deine fünf Herzfrequenzzonen aus, lädst 13 Seouler Strecken als GPX und siehst, wie die Beta abläuft." data-i18n-attr="content:hw.meta.desc">
+<meta name="description" content="Kennzahl für Kennzahl die Formeln, mit denen Runvis Trainingslast, Erholungszeit und eine geschätzte Laktatschwelle ohne eigene Laufuhr berechnet. Dazu die vollständigen Sprechregeln, ein Herzfrequenzzonen-Rechner, 13 Seouler Strecken als GPX und der Ablauf der Beta." data-i18n-attr="content:hw.meta.desc">
 <meta name="robots" content="index,follow">
 <meta property="og:title" content="Regeln und Werkzeuge — Runvis" data-i18n-attr="content:hw.meta.title">
-<meta property="og:description" content="Die Langfassung der Regeln, die die Startseite zusammenfasst: wie oft der Coach spricht und jede Ausnahme vom 45-Sekunden-Mindestabstand. Hier rechnest du deine fünf Herzfrequenzzonen aus, lädst 13 Seouler Strecken als GPX und siehst, wie die Beta abläuft." data-i18n-attr="content:hw.meta.desc">
+<meta property="og:description" content="Kennzahl für Kennzahl die Formeln, mit denen Runvis Trainingslast, Erholungszeit und eine geschätzte Laktatschwelle ohne eigene Laufuhr berechnet. Dazu die vollständigen Sprechregeln, ein Herzfrequenzzonen-Rechner, 13 Seouler Strecken als GPX und der Ablauf der Beta." data-i18n-attr="content:hw.meta.desc">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://runvis.app/de/how-it-works.html">
 <meta property="og:site_name" content="Runvis">
@@ -74,7 +76,14 @@
   .langsel.open ul{display:block}
   .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
   .langsel li:hover{background:rgba(61,220,132,.15)}
-  .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
+  /* 2026-09-06 라운드 13 (-0.5): each item is a real link to that language's
+     prerendered copy, so picking a language changes the ADDRESS — a URL shared
+     from here keeps the language it was read in. The <li> keeps the row box,
+     the <a> fills it so the whole row stays clickable, and aria-checked moves
+     onto the anchor, which is the menuitemradio now. */
+  .langsel li{padding:0}
+  .langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
+  .langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
   .intro{color:var(--dim);font-size:.95rem;margin-bottom:8px}
   h2{scroll-margin-top:20px}
   ol{list-style:none;margin:12px 0;padding:0;counter-reset:ns}
@@ -106,6 +115,17 @@
   function norm(v){ if(!v) return null; v=String(v).toLowerCase();
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
+  // The BROWSER's language is the one source that must not fold every zh-*
+  // onto our table, because our zh table is Traditional (LANGS label 繁體中文,
+  // tts zh-TW, <html lang="zh-Hant">) and norm() above sent zh-Hans / zh-CN /
+  // zh-SG straight to it. Being handed the other script automatically reads as
+  // an accident, not a choice (2026-09-06 라운드 13, -0.3). Those visitors fall
+  // through to the x-default, English, and 繁體中文 is still one pick away in
+  // the language menu. An EXPLICIT zh — ?lang=zh, /zh/, the menu — still goes
+  // through norm() and still resolves, which is why this is a second function
+  // and not a change to the first.
+  function navLang(v){ var s=v?String(v).toLowerCase():"";
+    return (s.indexOf("zh")===0 && !/^zh-(hant|tw|hk|mo)\b/.test(s)) ? null : norm(s); }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
   // On a prerendered page (/en/, /ja/ …) the directory IS the language and
   // RunvisPageLang is set just above; it outranks the saved choice and the
@@ -117,7 +137,7 @@
   // Korean document. A Korean browser still resolves through
   // norm(navigator.language) and is unaffected, and ?lang= and the saved
   // choice still outrank this.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"en";
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||navLang(navigator.language)||"en";
   // A German browser landing on a ROOT url used to get German BODY text with a
   // Korean canonical, Korean og:* and no route to /de/ at all — the five
   // prerendered market pages existed and nothing ever sent anyone to them.
@@ -168,7 +188,7 @@
 </script>
 <script defer src="/i18n.js?v=20260906e"></script>
 <script id="pageld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Regeln und Werkzeuge — Runvis","description":"Die Langfassung der Regeln, die die Startseite zusammenfasst: wie oft der Coach spricht und jede Ausnahme vom 45-Sekunden-Mindestabstand. Hier rechnest du deine fünf Herzfrequenzzonen aus, lädst 13 Seouler Strecken als GPX und siehst, wie die Beta abläuft.","inLanguage":"de","url":"https://runvis.app/de/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/de/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/de/"},{"@type":"ListItem","position":2,"name":"Regeln und Werkzeuge — Runvis","item":"https://runvis.app/de/how-it-works.html"}]}}
+{"@context":"https://schema.org","@type":"WebPage","name":"Regeln und Werkzeuge — Runvis","description":"Kennzahl für Kennzahl die Formeln, mit denen Runvis Trainingslast, Erholungszeit und eine geschätzte Laktatschwelle ohne eigene Laufuhr berechnet. Dazu die vollständigen Sprechregeln, ein Herzfrequenzzonen-Rechner, 13 Seouler Strecken als GPX und der Ablauf der Beta.","inLanguage":"de","url":"https://runvis.app/de/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/de/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/de/"},{"@type":"ListItem","position":2,"name":"Regeln und Werkzeuge — Runvis","item":"https://runvis.app/de/how-it-works.html"}]}}
 </script>
 </head>
 <body>
@@ -197,6 +217,19 @@
     <li data-i18n="n.live.q.n3">Läufst du nur mit dem iPhone, gelten andere Regeln — es gibt weniger Ansagen, deshalb bestimmen ein Abstand von 20 statt 45 Sekunden sowie Cooldowns von 3 Minuten beim Tempo und 5 Minuten bei der Herzfrequenzzone, wie oft er spricht, ganz ohne 30-Minuten-Grenze.</li>
     <li data-i18n="n.live.q.n4">8 Punkte lassen sich einzeln schalten: Tempo, Herzfrequenzzone, Technik, Anstiege, Zuspruch und Skripte, Lauftipp-Karten, Trinken und Verpflegung sowie die Ansage bei Auto-Pause und Fortsetzung. Splits sind kein Schalter, sondern ein Intervall — aus, 0,5 oder 1 (km oder Meilen). Sicherheitsansagen und Kernansagen wie die Trainingsschritte lassen sich nicht abschalten. Musik wird nur leiser, solange der Coach spricht.</li>
   </ul>
+
+  <h2 id="versus" data-i18n="hw.vs.h">Was ist der Unterschied zu einer echten Laufuhr?</h2>
+  <p data-i18n="hw.vs.p">Trainingslast, Erholungszeit, geschätzte Laktatschwelle, Renn-Paceplan — die Werte, für die man angeblich eine eigene Laufuhr braucht. Runvis rechnet dieselben Werte aus Herzfrequenz, GPS und barometrischer Höhe, die deine Apple Watch ohnehin aufgezeichnet hat. Eine Laufuhr veröffentlicht ihre Formeln nicht, also behaupten wir nicht, es seien dieselben. Wir nennen dafür unsere: jede Formel unten ist eine veröffentlichte mit Namen. In der App öffnet jede Kennzahl, was sie bedeutet, wie sie gerechnet wurde und was dein üblicher Bereich ist.</p>
+  <div class="tablewrap"><table>
+    <tr><th data-i18n="hw.vs.th1">Kennzahl</th><th data-i18n="hw.vs.th2">Womit Runvis das rechnet — und wie die Formel heißt</th></tr>
+    <tr><td data-i18n="hw.vs.r1a">Trainingslast und Form (TSB)</td><td data-i18n="hw.vs.r1b">Banister-TRIMP, eingespeist in Coggans exponentielle 42- und 7-Tage-Mittel (CTL und ATL); die Differenz ist der TSB.</td></tr>
+    <tr><td data-i18n="hw.vs.r2a">Erholungszeit</td><td data-i18n="hw.vs.r2b">Geschätzt aus drei Dingen: dem TRIMP des letzten Laufs, deinem aktuellen TSB und deinem HRV-Status. Auf dem Bildschirm steht ebenfalls „geschätzt“.</td></tr>
+    <tr><td data-i18n="hw.vs.r3a">Laktatschwelle (geschätzt)</td><td data-i18n="hw.vs.r3b">Tempo und Herzfrequenz deines besten 30-Minuten-Abschnitts (oder 20-Minuten-Abschnitts) über 85% der maximalen Herzfrequenz in den letzten 90 Tagen. Eine Schätzung aus deinen Läufen, keine Laborblutabnahme.</td></tr>
+    <tr><td data-i18n="hw.vs.r4a">Wettkampfprognose und Abschnitts-Paceplan</td><td data-i18n="hw.vs.r4b">Riegel-Extrapolation plus Runvis-VDOT. Mit einer Strecken-GPX teilt es das Tempo abschnittsweise entlang des Höhenprofils dieser Strecke auf.</td></tr>
+    <tr><td data-i18n="hw.vs.r5a">Steigungsbereinigtes Tempo (GAP)</td><td data-i18n="hw.vs.r5b">Minettis Energiekostenkurve für das Laufen (2002); die Kosten für Anstieg und Gefälle werden getrennt gerechnet.</td></tr>
+    <tr><td data-i18n="hw.vs.r6a">Die fünf Herzfrequenzzonen</td><td data-i18n="hw.vs.r6b">Karvonen über die Herzfrequenzreserve; ohne bekannten Maximalpuls greift 208 − 0,7 × Alter. Der Rechner unten macht dieselbe Rechnung.</td></tr>
+  </table></div>
+  <p class="note" data-i18n="hw.vs.note">Was eine Laufuhr kann und Runvis nicht, steht auch hier: In dieser Version gibt es keine Zifferblatt-Komplikation, kein iPhone-Home-Widget und keine Live Activity. Und alle Werte oben sind Referenzinformationen, keine medizinische Beratung.</p>
 
   <h2 id="zones" data-i18n="hz.h">Etwas, das du sofort ausrechnen kannst — deine fünf Herzfrequenzzonen</h2>
   <p data-i18n="hz.p">Dieselbe Karvonen-Rechnung, aus der Runvis spricht. In der App aktualisieren sich die Eingaben laufend — ein Sieben-Tage-Ruhepuls aus Apple Health und die höchste Herzfrequenz, die deine Uhr tatsächlich aufgezeichnet hat — die Rechnung selbst ist aber die hier.</p>

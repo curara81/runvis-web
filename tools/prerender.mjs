@@ -134,7 +134,7 @@ function render(page, code) {
   // Only the things that live at the site ROOT need rewriting. Page-to-page
   // links stay relative on purpose: href="privacy.html" inside /de/ already
   // resolves to /de/privacy.html, and leaving them alone means the dictionary
-  // values that CONTAIN such links (n.beta.now, pv.s10.p, tm.s8.p) still match
+  // values that CONTAIN such links (n.beta.do1, pv.s10.p, tm.s8.p) still match
   // the markup exactly — otherwise a language switch would rewrite the link
   // back and check-content.mjs would report drift that is not drift.
   html = replaceAll(html, 'src="assets/', 'src="/assets/');
@@ -156,11 +156,14 @@ function render(page, code) {
   // German visitor could get a Korean form message. Swap the ones whose two
   // arguments are both plain single-quoted literals; anything passing a
   // variable is left alone.
-  html = html.replace(/RunvisT\(\s*'([^']+)'\s*,\s*'((?:[^'\\]|\\.)*)'\s*\)/g, (whole, key) => {
+  // `announce(key, fallback)` is the same two-literal shape — index.html's
+  // aria-live wrapper around RunvisT. It was not rewritten here, so the two
+  // screen-reader announcements kept their Korean fallback in all five copies.
+  html = html.replace(/(RunvisT|announce)\(\s*'([^']+)'\s*,\s*'((?:[^'\\]|\\.)*)'\s*\)/g, (whole, fn, key) => {
     const v = dict[key];
     if (v == null) return whole;                     // not ours to translate
     if (v.includes('</')) throw new Error(`${code}/${page}: ${key} would close the <script>`);
-    return `RunvisT('${key}', '${v.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}')`;
+    return `${fn}('${key}', '${v.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}')`;
   });
 
   // ---- 8. structured data -------------------------------------------------
@@ -249,12 +252,16 @@ for (const code of OUT_CODES) {
 console.log(`prerender: ${written} files written for ${OUT_CODES.length} languages`);
 
 // ---- sitemap.xml ---------------------------------------------------------
-// 24 URLs (4 root + 4 × 5 languages) and no way for a crawler to enumerate
-// them: GitHub Pages serves no index, and hreflang only tells a crawler about
+// One URL per page per language, and no way for a crawler to enumerate them:
+// GitHub Pages serves no index, and hreflang only tells a crawler about
 // alternates of a page it has already found. Every entry carries the same
 // seven alternates the page's own <head> declares, which is the form Google
 // documents for a multilingual site — declaring them in the sitemap means the
 // set is stated once per page rather than once per (page × language) fetch.
+// The count is deliberately NOT written in this comment: it was, as "24 URLs
+// (4 root + 4 × 5 languages)", and it stayed 24 after how-it-works.html made
+// it 30 (round 13, -0.25). robots.txt carried the same stale number by hand;
+// it is written from these arrays below.
 {
   const urls = [];
   for (const page of PAGES) urls.push(pageUrl('ko', page));
@@ -283,4 +290,15 @@ console.log(`prerender: ${written} files written for ${OUT_CODES.length} languag
   lines.push('</urlset>', '');
   fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), lines.join('\n'));
   console.log(`prerender: sitemap.xml with ${urls.length} URLs`);
+
+  // robots.txt says how many pages the sitemap lists, so a reader of the file
+  // knows what it is promising. That sentence was maintained by hand and went
+  // stale; it is generated here now, and check-content.mjs [11] fails if the
+  // two ever disagree again.
+  const robotsPath = path.join(ROOT, 'robots.txt');
+  const robots = fs.readFileSync(robotsPath, 'utf8');
+  const line = `# Pages: ${urls.length} (${PAGES.length} root x ${CODES.length} languages)`;
+  if (!/^# Pages: .*$/m.test(robots)) throw new Error('prerender: robots.txt has no "# Pages:" line to write');
+  const next = robots.replace(/^# Pages: .*$/m, line);
+  if (next !== robots) { fs.writeFileSync(robotsPath, next); console.log(`prerender: robots.txt ${line.slice(2)}`); }
 }

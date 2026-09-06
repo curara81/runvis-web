@@ -8,6 +8,8 @@
 <script>window.RunvisPageLang="es";window.RunvisBase="/";</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#000000">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <title data-i18n="pv.meta.title">Política de privacidad — Runvis</title>
 <meta name="description" content="Runvis procesa los datos de carrera y salud solo en tu dispositivo. Sin servidor ni cuenta, y aquí están escritas todas las excepciones que salen del dispositivo." data-i18n-attr="content:pv.meta.desc">
 <meta name="robots" content="index,follow">
@@ -78,7 +80,14 @@
   .langsel.open ul{display:block}
   .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
   .langsel li:hover{background:rgba(61,220,132,.15)}
-  .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
+  /* 2026-09-06 라운드 13 (-0.5): each item is a real link to that language's
+     prerendered copy, so picking a language changes the ADDRESS — a URL shared
+     from here keeps the language it was read in. The <li> keeps the row box,
+     the <a> fills it so the whole row stays clickable, and aria-checked moves
+     onto the anchor, which is the menuitemradio now. */
+  .langsel li{padding:0}
+  .langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
+  .langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
 </style>
 <script>
 (function(){
@@ -86,6 +95,17 @@
   function norm(v){ if(!v) return null; v=String(v).toLowerCase();
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
+  // The BROWSER's language is the one source that must not fold every zh-*
+  // onto our table, because our zh table is Traditional (LANGS label 繁體中文,
+  // tts zh-TW, <html lang="zh-Hant">) and norm() above sent zh-Hans / zh-CN /
+  // zh-SG straight to it. Being handed the other script automatically reads as
+  // an accident, not a choice (2026-09-06 라운드 13, -0.3). Those visitors fall
+  // through to the x-default, English, and 繁體中文 is still one pick away in
+  // the language menu. An EXPLICIT zh — ?lang=zh, /zh/, the menu — still goes
+  // through norm() and still resolves, which is why this is a second function
+  // and not a change to the first.
+  function navLang(v){ var s=v?String(v).toLowerCase():"";
+    return (s.indexOf("zh")===0 && !/^zh-(hant|tw|hk|mo)\b/.test(s)) ? null : norm(s); }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
   // On a prerendered page (/en/, /ja/ …) the directory IS the language and
   // RunvisPageLang is set just above; it outranks the saved choice and the
@@ -97,7 +117,7 @@
   // Korean document. A Korean browser still resolves through
   // norm(navigator.language) and is unaffected, and ?lang= and the saved
   // choice still outrank this.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"en";
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||navLang(navigator.language)||"en";
   // A German browser landing on a ROOT url used to get German BODY text with a
   // Korean canonical, Korean og:* and no route to /de/ at all — the five
   // prerendered market pages existed and nothing ever sent anyone to them.

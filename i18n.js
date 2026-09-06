@@ -43,6 +43,19 @@
     return CODES.indexOf(v) >= 0 ? v : null;
   }
 
+  // Same split the pages' boot scripts make, for the same reason: our zh table
+  // is Traditional (LANGS 繁體中文 / tts zh-TW / <html lang="zh-Hant">), and
+  // norm() sends every zh-* to it. That is right for an EXPLICIT choice —
+  // ?lang=zh, the /zh/ directory, the menu — and wrong for a browser that says
+  // zh-Hans, zh-CN or zh-SG, which got Traditional assigned to it without
+  // asking (2026-09-06 라운드 13, -0.3). Those fall through to the x-default,
+  // English; the menu still offers 繁體中文. A bare "zh" is ambiguous and is
+  // treated the same way when it comes from the browser.
+  function navLang(v) {
+    var s = v ? String(v).toLowerCase() : '';
+    return (s.indexOf('zh') === 0 && !/^zh-(hant|tw|hk|mo)\b/.test(s)) ? null : norm(s);
+  }
+
   /// The ?lang= this URL asks for, or null. Used both to pick the language and
   /// to point the canonical link at this exact URL.
   function urlLang() {
@@ -60,7 +73,7 @@
     if (norm(saved)) return norm(saved);
     // Same last resort as the pages' boot scripts: a browser language outside
     // the six resolves to English, not to the Korean document.
-    return norm(navigator.language) || 'en';
+    return navLang(navigator.language) || 'en';
   }
 
   // ---- dictionary loading ------------------------------------------------
@@ -197,12 +210,15 @@
   // would only split the signal. The bare root URL and each prerendered page
   // stay their own canonical.
   //
-  // It follows the URL, not the language the reader picks from the menu: the
-  // bare URL keeps pointing at itself even when a browser's Accept-Language
-  // resolves to English (otherwise "/" would canonicalise to "/en/" and orphan
-  // the x-default), and switching language by hand does not rewrite the
-  // address bar, so it must not rewrite the canonical either. og:locale does
-  // follow the shown language, because og:title and og:description already do.
+  // It follows the URL, not the language being shown: the bare URL keeps
+  // pointing at itself even when a browser's Accept-Language resolves to
+  // English (otherwise "/" would canonicalise to "/en/" and orphan the
+  // x-default). Since round 13 the language MENU navigates to the prerendered
+  // copy, so the common case never reaches this code with a mismatched
+  // language at all; what still can is an in-place switch through
+  // window.RunvisSetLang, and for that the address bar is unchanged, so the
+  // canonical must not change either. og:locale does follow the shown
+  // language, because og:title and og:description already do.
   function applyCanonical(code) {
     var link = document.querySelector('link[rel="canonical"]');
     // The page it belongs to decides the path — this file is shared with
@@ -372,8 +388,8 @@
     try { window.dispatchEvent(new CustomEvent('runvis:lang', { detail: code })); } catch (e) {}
     var label = document.getElementById('langlabel');
     if (label) label.textContent = meta(code).label;
-    document.querySelectorAll('#langmenu li').forEach(function (li) {
-      li.setAttribute('aria-checked', li.getAttribute('data-code') === code ? 'true' : 'false');
+    document.querySelectorAll('#langmenu [data-code]').forEach(function (item) {
+      item.setAttribute('aria-checked', item.getAttribute('data-code') === code ? 'true' : 'false');
     });
   }
 
@@ -385,6 +401,28 @@
   }
   window.RunvisSetLang = setLang;
 
+  /// This page's filename with its language directory stripped — "" for a
+  /// directory index, "run.html" for /de/run.html. The language menu builds its
+  /// hrefs from it.
+  function pageFile() {
+    var seg = location.pathname.split('/').filter(Boolean);
+    if (window.RunvisPageLang && seg.length && seg[0] === window.RunvisPageLang) seg.shift();
+    var last = seg.length ? seg[seg.length - 1] : '';
+    return /\.html?$/.test(last) ? last : '';
+  }
+
+  /// Where "read this page in <code>" actually lives.
+  ///
+  /// The menu used to swap the text in place and deliberately leave the address
+  /// alone, which meant a reader who picked Deutsch and then sent the link sent
+  /// a Korean page: the URL, the canonical and og:url all still said "/"
+  /// (2026-09-06 라운드 13, -0.5). The five prerendered directories already
+  /// exist and are the indexable pages, so the menu points AT them. The hash is
+  /// carried over so "share this section" survives a language switch.
+  function langHref(code) {
+    return (code === 'ko' ? '/' : '/' + code + '/') + pageFile() + location.hash;
+  }
+
   function buildMenu() {
     var menu = document.getElementById('langmenu');
     var btn = document.getElementById('langbtn');
@@ -395,20 +433,31 @@
     // arrived, which with per-language files would have meant a menu of one.)
     var items = LANGS.map(function (l) {
       var li = document.createElement('li');
-      li.textContent = l.label;
+      li.setAttribute('role', 'none');           // the <a> inside is the item
+      var a = document.createElement('a');
+      a.textContent = l.label;
+      // A real href, not a click handler: the browser then does the navigating,
+      // and middle-click, cmd-click and "copy link address" all work on a menu
+      // that used to be six unlinked list items. The address, the canonical,
+      // og:url and anything shared from the new page are then right for free.
+      a.href = langHref(l.code);
       // menuitemradio + aria-checked is what a "pick one of six" menu is; plain
       // menuitems left a screen reader unable to say which language was on.
-      li.setAttribute('role', 'menuitemradio');
-      li.setAttribute('aria-checked', 'false');
-      li.setAttribute('data-code', l.code);
-      li.setAttribute('lang', l.code === 'zh' ? 'zh-Hant' : l.code);
-      li.tabIndex = -1;
-      li.addEventListener('click', function () { setLang(l.code); close(true); });
+      a.setAttribute('role', 'menuitemradio');
+      a.setAttribute('aria-checked', 'false');
+      a.setAttribute('data-code', l.code);
+      a.setAttribute('lang', l.code === 'zh' ? 'zh-Hant' : l.code);
+      a.tabIndex = -1;
+      li.appendChild(a);
       menu.appendChild(li);
-      return li;
+      return a;
     });
 
     function open() {
+      // The hash moves as the reader scrolls and clicks anchors, and
+      // history.pushState does not fire hashchange, so the hrefs are refreshed
+      // the moment the menu is opened rather than once at build time.
+      items.forEach(function (a) { a.href = langHref(a.getAttribute('data-code')); });
       sel.classList.add('open');
       btn.setAttribute('aria-expanded', 'true');
       var i = Math.max(0, items.map(function (x) { return x.getAttribute('data-code'); }).indexOf(current));
@@ -440,7 +489,7 @@
       else if (e.key === 'ArrowUp') { e.preventDefault(); move(li, -1); }
       else if (e.key === 'Home') { e.preventDefault(); items[0].focus(); }
       else if (e.key === 'End') { e.preventDefault(); items[items.length - 1].focus(); }
-      else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); li.click(); }
+      else if (e.key === ' ') { e.preventDefault(); li.click(); }   // Enter already activates an <a>
       else if (e.key === 'Escape' || e.key === 'Tab') { close(e.key === 'Escape'); }
     });
     document.addEventListener('click', function () { close(false); });

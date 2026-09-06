@@ -36,6 +36,8 @@
 <link href="https://runvis.app/zh/" hreflang="zh-Hant" rel="alternate"/>
 <link href="https://runvis.app/de/" hreflang="de" rel="alternate"/>
 <link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🏃&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="manifest" href="/site.webmanifest"/>
 <noscript><style>.reveal,.rv{opacity:1!important;transform:none!important}</style></noscript>
 <style>
   :root{
@@ -50,6 +52,9 @@
     font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
     line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:clip;word-break:keep-all}
   a{color:inherit;text-decoration:none}
+  /* .btn sets display:inline-flex, which outranks the UA rule for [hidden].
+     #betaNext is a .btn and is hidden until a submit succeeds. */
+  [hidden]{display:none!important}
   :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
   img{max-width:100%;height:auto;display:block}
   body{overflow-wrap:break-word;word-break:normal;line-break:normal}
@@ -171,7 +176,14 @@
   .langsel.open ul{display:block}
   .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text)}
   .langsel li:hover{background:rgba(61,220,132,.15)}
-  .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
+  /* 2026-09-06 라운드 13 (-0.5): each item is a real link to that language's
+     prerendered copy, so picking a language changes the ADDRESS — a URL shared
+     from here keeps the language it was read in. The <li> keeps the row box,
+     the <a> fills it so the whole row stays clickable, and aria-checked moves
+     onto the anchor, which is the menuitemradio now. */
+  .langsel li{padding:0}
+  .langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
+  .langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
   @media(max-width:700px){.langsel{margin-left:auto}.langsel button{padding:6px 9px;font-size:12px}}
 
   /* HERO */
@@ -380,6 +392,19 @@
   .plan ul{list-style:none;margin-top:18px}
   .plan li{padding:7px 0;font-size:15px;color:#dfe3e7;display:flex;gap:10px}
   .plan li::before{content:"✓";color:var(--green);font-weight:800}
+  /* The two headings the app's paywall uses over the same two groups. */
+  .plan .plisth{margin-top:18px;font-size:12.5px;font-weight:800;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--dim)}
+  .plan .plisth+ul{margin-top:6px}
+  /* The seven tile names, as a list rather than a comma sentence. Two columns
+     where there is room; no tick, because they are the CONTENTS of the ticked
+     line above, not seven more things. */
+  .plan .tilesli{padding:0}
+  .plan .tilesli::before{content:none}
+  .plan .tiles{margin:2px 0 4px 26px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}
+  @media(max-width:520px){.plan .tiles{grid-template-columns:minmax(0,1fr)}}
+  .plan .tiles li{padding:3px 0;font-size:13.5px;color:var(--dim);gap:7px}
+  .plan .tiles li::before{content:"·";color:var(--cyan)}
   .plan .terms-link{display:inline-block;margin-top:4px;font-size:12px;color:var(--dim);
     text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
   .plan .terms-link:hover{color:var(--text)}
@@ -401,6 +426,10 @@
   .gate[open] summary::before{transform:rotate(90deg)}
   .gate summary:hover{color:var(--text)}
   .gate p{margin-top:10px;font-size:13px;line-height:1.75;color:var(--dim)}
+  /* One condition per tile. Was a single 298-character paragraph. */
+  .plan .gatelist{margin-top:8px;list-style:none}
+  .plan .gatelist li{padding:5px 0;font-size:13px;line-height:1.7;color:var(--dim);gap:8px;align-items:flex-start}
+  .plan .gatelist li::before{content:"·";color:var(--green)}
   .note{text-align:center;color:var(--dim2);font-size:12.5px;margin-top:14px}
   /* Sits directly under the submit button: the one thing about timing that can
      honestly be said. */
@@ -414,7 +443,11 @@
   .nextsteps{max-width:520px;margin:24px auto 0;text-align:left}
   .nextsteps h4{font-size:14px;color:var(--dim);font-weight:700;letter-spacing:.02em}
   .nextsteps p{margin-top:10px;font-size:13.5px;color:var(--dim);line-height:1.7}
-  .nextsteps p a{color:var(--green);border-bottom:1px solid rgba(61,220,132,.4)}
+  .nextsteps p a,.dolist a{color:var(--green);border-bottom:1px solid rgba(61,220,132,.4)}
+  /* Five things a reader can do before there is anything to install. */
+  .dolist{list-style:none;margin-top:12px}
+  .dolist li{position:relative;padding-left:18px;margin-top:11px;font-size:13.5px;color:var(--dim);line-height:1.7}
+  .dolist li::before{content:"→";position:absolute;left:0;color:var(--cyan);font-weight:800}
   /* visible only to assistive tech — playback announcements for the chips */
   .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
   /* Without this the first Tab on every page landed on the language menu.
@@ -437,6 +470,10 @@
   /* Beta testing and "just tell me when it ships" are different intents and
      used to share one button. One Formspree field separates them. */
   .want{max-width:520px;margin:18px auto 0;text-align:left;font-size:13.5px;color:var(--dim);border:0;padding:0}
+  /* Both blocks moved inside the form (round 13, -3). The form is a centred
+     flex row, so each of them takes a row of its own rather than trying to
+     share one with the e-mail field. */
+  .signup form .want,.signup form .consent{flex:0 0 100%;max-width:none;margin-left:0;margin-right:0}
   .want legend{padding:0;color:var(--text);font-weight:700;font-size:14px;margin-bottom:6px}
   .want label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;margin-top:6px;line-height:1.7}
   .want label span,.consent label span{min-width:0;flex:1}
@@ -492,6 +529,17 @@
   function norm(v){ if(!v) return null; v=String(v).toLowerCase();
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
+  // The BROWSER's language is the one source that must not fold every zh-*
+  // onto our table, because our zh table is Traditional (LANGS label 繁體中文,
+  // tts zh-TW, <html lang="zh-Hant">) and norm() above sent zh-Hans / zh-CN /
+  // zh-SG straight to it. Being handed the other script automatically reads as
+  // an accident, not a choice (2026-09-06 라운드 13, -0.3). Those visitors fall
+  // through to the x-default, English, and 繁體中文 is still one pick away in
+  // the language menu. An EXPLICIT zh — ?lang=zh, /zh/, the menu — still goes
+  // through norm() and still resolves, which is why this is a second function
+  // and not a change to the first.
+  function navLang(v){ var s=v?String(v).toLowerCase():"";
+    return (s.indexOf("zh")===0 && !/^zh-(hant|tw|hk|mo)\b/.test(s)) ? null : norm(s); }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
   // On a prerendered page (/en/, /ja/ …) the directory IS the language and
   // RunvisPageLang is set just above; it outranks the saved choice and the
@@ -503,7 +551,7 @@
   // Korean document. A Korean browser still resolves through
   // norm(navigator.language) and is unaffected, and ?lang= and the saved
   // choice still outrank this.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"en";
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||navLang(navigator.language)||"en";
   // A German browser landing on a ROOT url used to get German BODY text with a
   // Korean canonical, Korean og:* and no route to /de/ at all — the five
   // prerendered market pages existed and nothing ever sent anyone to them.
@@ -575,7 +623,7 @@
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"zh-Hant","url":"https://runvis.app/","description":"不必再買第二支跑錶。讀取 Apple Watch 記錄的睡眠與心率，教練決定今天跑什麼，跑步時用聲音告訴你。沒有帳號，也沒有伺服器。","image":"https://runvis.app/assets/og-card.png","screenshot":"https://runvis.app/assets/framed-phone-dash.zh.png","author":{"@type":"Organization","name":"Runvis","url":"https://runvis.app/"},"offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}}]}
 </script>
 <script id="faqld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-Hant","mainEntity":[{"@type":"Question","name":"沒有手錶也能用嗎？","acceptedAnswer":{"@type":"Answer","text":"只用 iPhone 也能記錄 GPS，並在每公里（若單位設定為英里則每英里）報一次分段配速。沒有訂閱時，手機只會說這個分段。訂閱後手機也會提示配速；心率區間提示需要心率，而 iPhone 沒有心率感測器，所以只有在連接藍牙心率帶（Polar H10、Wahoo TICKR 這類標準 BLE 心率裝置）時才會出現。姿勢指導、坡道預告與偏離路線提醒只在用手錶跑步時才有。"}},{"@type":"Question","name":"需要哪一款 Apple Watch？","acceptedAnswer":{"@type":"Answer","text":"需要 watchOS 10 以上（Apple Watch Series 4 以後的機型）與 iOS 17 以上。只要滿足這個條件，有心率與 GPS 就夠了。能量測觸地時間與垂直振幅的新機型，姿勢教練會更細緻；不能量測的則以步頻為準。"}},{"@type":"Question","name":"取消訂閱後紀錄會怎樣？","acceptedAnswer":{"@type":"Answer","text":"紀錄會留在 Apple 健康中，不受影響。取消後仍可免費使用記錄、檢視課表與運動詳細報告。"}},{"@type":"Question","name":"我的資料會去哪裡？","acceptedAnswer":{"@type":"Answer","text":"沒有帳號也沒有伺服器。只有查天氣、地區名稱與自動產生路線時會送出位置。除此之外還有 App Store 付款處理、下載公開的路線與跑鞋清單檔案，以及目前僅在韓國 App Store 提供、由你自己在跑鞋畫面點擊才會開啟的外部跑鞋搜尋頁面。運動與健康資料不會上傳。"}},{"@type":"Question","name":"六種語言的語音支援到什麼程度？","acceptedAnswer":{"@type":"Answer","text":"教練說出口的句子都翻譯成六種語言。若還有句子沒進到翻譯表，會以英文播出，不會變成韓文，這一點同樣有測試固定住。本保證只涵蓋教練的語音；App 畫面上的文字用的是另一份翻譯表。"}},{"@type":"Question","name":"完全沒有紀錄也能用嗎？","acceptedAnswer":{"@type":"Answer","text":"可以。在手錶上跑一次 12 分鐘測驗，當天就會產生 5K、10K 的預估成績與第一份課表 — 這項測驗只在手錶上有。只有 iPhone 也一樣，第一天就能用 GPS 記錄、分段配速語音與查看訓練課表，課表的起點改以最近的週跑量決定。準備度要先累積戴著手錶入睡的夜晚做為基準線，通常兩週左右才會出現，ACWR 約四週。表現狀態則需要先設定最大心率，並在同一強度帶（輕鬆、中等、高強度）累積三次有心率記錄、超過十分鐘的跑步。最初幾次會拿還沒有依強度、也還沒有依測量時點區分的基準線來比較，App 會在那個畫面上寫明這件事。"}},{"@type":"Question","name":"免費試用是誰能拿到？","acceptedAnswer":{"@type":"Answer","text":"只有 App Store 判定仍符合本訂閱首購優惠資格的帳號才有。若你先前訂閱過或已用掉試用，第一次付款就會照常扣款。購買前，App 的購買畫面一定會先告訴你屬於哪一種。免費期間有多長，也是 App Store 隨商品一起送來的值，App 會在購買前照原樣顯示。若選了年繳，免費期間結束後就會一次收取一整年的費用。"}},{"@type":"Question","name":"終身版和年繳，哪個比較划算？","acceptedAnswer":{"@type":"Answer","text":"永久使用權是一次性買斷，沒有自動續訂。照價格卡上的算法，跟年繳相比約 2.6 年回本，跟月繳相比約 20 個月，所以若打算用得比這更久，買斷比較划算。它也是唯一支援 Apple 家人共享的方案 — 月繳與年繳訂閱都不適用。"}},{"@type":"Question","name":"換手機或換錶之後會怎樣？","acceptedAnswer":{"@type":"Answer","text":"跑步紀錄本身存在 Apple 健康裡，新裝置的健康 App 會直接帶過去。只存在 Runvis 裡的資料 — 個人資料、心率區間、鞋子清單、教練建立的基準線 — 可以從設定 → 資料 →「匯出我的資料」存成一個檔案，在新裝置用「從備份匯入」還原。檔案只會留在你指定的地方，Runvis 不會傳送到任何地方。訂閱則用 App Store 的「回復購買項目」取回。"}},{"@type":"Question","name":"有錶面複雜功能或小工具嗎？","acceptedAnswer":{"@type":"Answer","text":"還沒有。錶面複雜功能、iPhone 主畫面小工具與即時動態都不在這個版本裡。有計畫要做，但日期還沒定。"}}]}
+{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-Hant","mainEntity":[{"@type":"Question","name":"沒有手錶也能用嗎？","acceptedAnswer":{"@type":"Answer","text":"只用 iPhone 也能記錄 GPS，並在每公里（若單位設定為英里則每英里）報一次分段配速。沒有訂閱時，手機只會說這個分段。訂閱後手機也會提示配速；心率區間提示需要心率，而 iPhone 沒有心率感測器，所以只有在連接藍牙心率帶（Polar H10、Wahoo TICKR 這類標準 BLE 心率裝置）時才會出現。姿勢指導、坡道預告與偏離路線提醒只在用手錶跑步時才有。"}},{"@type":"Question","name":"需要哪一款 Apple Watch？","acceptedAnswer":{"@type":"Answer","text":"需要 watchOS 10 以上（Apple Watch Series 4 以後的機型）與 iOS 17 以上。只要滿足這個條件，有心率與 GPS 就夠了。能量測觸地時間與垂直振幅的新機型，姿勢教練會更細緻；不能量測的則以步頻為準。"}},{"@type":"Question","name":"取消訂閱後紀錄會怎樣？","acceptedAnswer":{"@type":"Answer","text":"紀錄會留在 Apple 健康中，不受影響。取消後仍可免費使用記錄、檢視課表與運動詳細報告。"}},{"@type":"Question","name":"我的資料會去哪裡？","acceptedAnswer":{"@type":"Answer","text":"沒有帳號也沒有伺服器。只有查天氣、地區名稱與自動產生路線時會送出位置。除此之外還有 App Store 付款處理、下載公開的路線與跑鞋清單檔案，以及目前僅在韓國 App Store 提供、由你自己在跑鞋畫面點擊才會開啟的外部跑鞋搜尋頁面。運動與健康資料不會上傳。"}},{"@type":"Question","name":"六種語言的語音支援到什麼程度？","acceptedAnswer":{"@type":"Answer","text":"iPhone 教練說出口的句子，六種語言都有測試固定住 — 每次建置都會把一趟 45 分鐘的跑步逐秒重播，檢查那趟跑步發出的每一則提示是否都有翻譯。手錶上的即時教練迴圈不在這個測試套件裡，所以仍可能有還沒進到翻譯表的句子；遇到這種情況會以英文播出，不會變成韓文，這個備援同樣有測試固定住。App 畫面上的文字用的是另一份翻譯表，跟教練語音不同。"}},{"@type":"Question","name":"完全沒有紀錄也能用嗎？","acceptedAnswer":{"@type":"Answer","text":"可以。在手錶上跑一次 12 分鐘測驗，當天就會產生 5K、10K 的預估成績與第一份課表 — 這項測驗只在手錶上有。只有 iPhone 也一樣，第一天就能用 GPS 記錄、分段配速語音與查看訓練課表，課表的起點改以最近的週跑量決定。準備度要先累積戴著手錶入睡的夜晚做為基準線，通常兩週左右才會出現，ACWR 約四週。表現狀態則需要先設定最大心率，並在同一強度帶（輕鬆、中等、高強度）累積三次有心率記錄、超過十分鐘的跑步。最初幾次會拿還沒有依強度、也還沒有依測量時點區分的基準線來比較，App 會在那個畫面上寫明這件事。"}},{"@type":"Question","name":"免費試用是誰能拿到？","acceptedAnswer":{"@type":"Answer","text":"只有 App Store 判定仍符合本訂閱首購優惠資格的帳號才有。若你先前訂閱過或已用掉試用，第一次付款就會照常扣款。購買前，App 的購買畫面一定會先告訴你屬於哪一種。免費期間有多長，也是 App Store 隨商品一起送來的值，App 會在購買前照原樣顯示。若選了年繳，免費期間結束後就會一次收取一整年的費用。"}},{"@type":"Question","name":"終身版和年繳，哪個比較划算？","acceptedAnswer":{"@type":"Answer","text":"永久使用權是一次性買斷，沒有自動續訂。照價格卡上的算法，跟年繳相比約 2.6 年回本，跟月繳相比約 20 個月，所以若打算用得比這更久，買斷比較划算。它也是唯一支援 Apple 家人共享的方案 — 月繳與年繳訂閱都不適用。"}},{"@type":"Question","name":"換手機或換錶之後會怎樣？","acceptedAnswer":{"@type":"Answer","text":"跑步紀錄本身存在 Apple 健康裡，新裝置的健康 App 會直接帶過去。只存在 Runvis 裡的資料 — 個人資料、心率區間、鞋子清單、教練建立的基準線 — 可以從設定 → 資料 →「匯出我的資料」存成一個檔案，在新裝置用「從備份匯入」還原。檔案只會留在你指定的地方，Runvis 不會傳送到任何地方。訂閱則用 App Store 的「回復購買項目」取回。"}},{"@type":"Question","name":"有錶面複雜功能或小工具嗎？","acceptedAnswer":{"@type":"Answer","text":"還沒有。錶面複雜功能、iPhone 主畫面小工具與即時動態都不在這個版本裡。有計畫要做，但日期還沒定。"}}]}
 </script>
 </head>
 <body>
@@ -616,11 +664,11 @@
 <script>(function(){var h=window.RunvisCritical; if(!h) return;
   for(var k in h){ var e=document.querySelector('[data-i18n="'+k+'"]'); if(e) e.innerHTML=h[k]; }
 })();</script>
-<p class="note" data-i18n="n.hero.note">記錄免費。教練在韓國 App Store 是每月 ₩1,900，Runvis 也先從韓國開放。</p>
+<p class="note" data-i18n="n.hero.note">記錄免費。教練是訂閱制，三種價格都列在下面的價目表。Runvis 先在韓國 App Store 開放，其他地區陸續跟進。</p>
 <div class="trust">
 <div class="tbadge"><b>100%</b><span data-i18n="n.hero.b1">在裝置內計算</span></div>
 <div class="tbadge"><b data-i18n="n.hero.b3n">6 種語言</b><span data-i18n="n.hero.b3">語音指導</span></div>
-<a class="tbadge" href="#price"><b data-i18n="n.hero.b4n">先開放韓國</b><span data-i18n="n.hero.b4">其他地區陸續跟進</span></a>
+<a class="tbadge" href="#why"><b data-i18n="n.hero.b4n">41 項</b><span data-i18n="n.hero.b4">項指標，每項都有說明</span></a>
 </div>
 <div class="stage">
 <div class="ring" aria-hidden="true" data-depth="-.15"><svg viewBox="0 0 200 200"><defs><linearGradient id="rg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#3DDC84"/><stop offset="1" stop-color="#4CCBD9"/></linearGradient></defs>
@@ -657,7 +705,7 @@
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s2">教練備妥的語句</small><b data-i18n="n.why.s2v">270 句以上</b><em class="st-good" data-i18n="n.why.s2n">六種語言皆有</em></div>
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">自動化測試</small><b data-i18n="n.why.s3v">500 項以上</b><em class="st-good" data-i18n="n.why.s3n">每次建置全跑</em></div>
 </div>
-<p class="honest reveal" data-i18n="n.why.cost">不必再添購任何裝置，手腕上的 Apple Watch 就是硬體。要花錢的只有教練：以韓國 App Store 的價格計算，每月 ₩1,900、每年 ₩15,000，或終身版一次 ₩39,000。</p>
+<p class="honest reveal" data-i18n="n.why.cost">不必再添購任何裝置，手腕上的 Apple Watch 就是硬體。要花錢的只有教練：以韓國 App Store 的價格計算，每月 ₩1,900、每年 ₩15,000，或終身版一次 ₩39,000。跑錶有幾個人用就得買幾支，終身版則是 ₩39,000 一次就結束，而且整個 Apple 家庭共享群組都能一起用。專用跑錶和 Runvis 哪裡一樣、哪裡不一樣，<a href="how-it-works.html#versus">我們逐項寫下來了</a>。</p>
 <p class="honest reveal" data-i18n="n.why.phone">還沒有手錶也沒關係。只用 iPhone 就能記錄 GPS，並在每公里（若單位設定為英里則每英里）報一次分段配速 — 沒有訂閱時，手機只會說這個分段。姿勢指導需要手腕感測器，只有手錶才有。</p>
 </div>
 </section>
@@ -701,7 +749,7 @@
 <p class="sub reveal" data-i18n="n.live.sub">教練說的每一句話，背後都有感測器的依據。點一下，聽聽實際的語音。</p>
 <div class="voice-grid reveal">
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="播放範例語音：配速提示（免費）" data-i18n-attr="aria-label:n.vc1.aria" data-say="목표보다 25초 빠릅니다"><div class="sensor" data-i18n="n.vc1.sensor">📡 偏離目標配速超過 20 秒且持續 20 秒以上時</div><div class="play"><span data-i18n="n.vc1.play">配速</span><span class="pill free" data-i18n="n.pill.free">免費</span></div><div class="line" data-i18n="n.vc1.line">"比目標快25秒"</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="播放範例語音：坡道預告（免費）" data-i18n-attr="aria-label:n.vc2.aria" data-say="300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="n.vc2.sensor">📡 事先讀取路線高度。常跑的路線約在 500 公尺處就會認出來並預告坡道</div><div class="play"><span data-i18n="n.vc2.play">上坡預告</span><span class="pill free" data-i18n="n.pill.free">免費</span></div><div class="line" data-i18n="n.vc2.line">"前方 300公尺 開始一段 800公尺 的上坡，平均坡度 4%。縮小步幅，保持節奏。"</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="播放範例語音：坡道預告（免費）" data-i18n-attr="aria-label:n.vc2.aria" data-say="300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="n.vc2.sensor">📡 事先讀取路線高度。常跑的路線約在 500 公尺處就會認出來並預告坡道</div><div class="play"><span data-i18n="n.vc2.play">上坡預告</span><span class="pill free" data-i18n="n.pill.free">免費</span></div><div class="line" data-i18n="n.vc2.line">"前方 300 公尺開始一段 800 公尺的上坡，平均坡度 4%。縮小步幅，保持節奏。"</div></div>
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="播放範例語音：姿勢指導（訂閱）" data-i18n-attr="aria-label:n.vc3.aria" data-say="케이던스가 기준보다 5퍼센트 낮아요 — 보폭을 조금 줄여볼까요."><div class="sensor" data-i18n="n.vc3.sensor">📡 在平地、配速穩定時，步頻介於每分鐘 130～160 步之間且低於自己基準 5%，並持續 30 秒。觸地時間超過 300 毫秒或垂直振幅變大時也是同一句，而這兩項沒有步頻上限 · 起跑 6 分鐘後開始，每次跑步最多兩次</div><div class="play"><span data-i18n="n.vc3.play">跑姿</span><span class="pill pro" data-i18n="n.pill.pro">訂閱</span></div><div class="line" data-i18n="n.vc3.line">"步頻比基準低5%——試著把步幅縮小一點吧。"</div></div>
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="播放範例語音：恢復提示（訂閱）" data-i18n-attr="aria-label:n.vc4.aria" data-say="심박이 존 쓰리까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor" data-i18n="n.vc4.sensor">📡 走路恢復期間心率區間下降一階時</div><div class="play"><span data-i18n="n.vc4.play">恢復</span><span class="pill pro" data-i18n="n.pill.pro">訂閱</span></div><div class="line" data-i18n="n.vc4.line">"心率已經降到第3區了，恢復得很好，再一下下。"</div></div>
 </div>
@@ -738,7 +786,7 @@
 </div>
 <p class="honest reveal" data-i18n="n.after.honest"><b>估算出來的數值，就寫上「估算」。</b> 依據不足時會顯示「學習中」，而不是一個數字。沒有把握的指標，我們不放進來。</p>
 <div class="row flip reveal">
-<div class="frame"><img alt="iPhone 身體與跑步報告 — 訓練負荷走勢、訓練負荷、乳酸閾值（估計）、耐力與坡度磚" data-i18n-attr="alt:alt.phone.glance" loading="lazy" src="/assets/framed-phone-glance.zh.png" data-shot="framed-phone-glance" width="640" height="1308" decoding="async"/></div>
+<div class="frame"><img alt="iPhone 身體與跑步報告 — 訓練負荷走勢、訓練負荷、乳酸閾值（估計）、耐力訓練量、坡度暴露等資訊方塊" data-i18n-attr="alt:alt.phone.glance" loading="lazy" src="/assets/framed-phone-glance.zh.png" data-shot="framed-phone-glance" width="640" height="1308" decoding="async"/></div>
 <div class="desc">
 <h3 data-i18n="n.after.h3">點一下指標，放在你平常的範圍上看</h3>
 <p data-i18n="n.after.p">今天的數值有沒有落在你的 28 日範圍內，和四週前比大概在哪裡，都看得到。不懂術語也沒關係。每個指標都附上意思和計算依據。</p>
@@ -828,16 +876,39 @@
 <p data-i18n="n.price.year">年繳是 <b>₩15,000</b>，以韓國 App Store 計算平均每月約 ₩1,250，比按月付大約便宜 34%。其他地區的價格級距不同，比例也可能不一樣；實際省下多少，由 App 的購買畫面用當地的兩個價格算給你看。符合試用資格的帳號，年繳同樣有第一期免費，之後一次收取整年費用。</p>
 <p data-i18n="n.price.life">不想訂閱，也有<b>終身版 ₩39,000</b>，這是上市紀念價。日後若調漲，也不會套用到已經購買的人。以韓國 App Store 的價格換算，相當於年繳的 2.6 年或月繳的 20 個月；你所在商店的價格級距不同，算出來的比例也可能不一樣。這也是唯一支援 Apple 家庭共享的方案。</p>
 </details>
+<p class="plisth" data-i18n="n.price.nowh">訂閱後立刻開啟</p>
 <ul>
 <li data-i18n="n.price.p1">跑步中的教練語音：姿勢、坡道跑法、恢復、鼓勵</li>
 <li data-i18n="n.price.p2">計畫執行：一段一段帶著跑，結束後給對照計畫的分數</li>
-<li data-i18n="n.price.p3">七項深度分析面板：乳酸閾值（推估）、耐力訓練量、坡道暴露、熱暴露指數、教練煞車、強度分布、教練紀錄雷達（區間最速，最近 90 天），再加上 Runvis VDOT。</li>
 <li data-i18n="n.price.p4">比賽策略：分段配速計畫、補給時程、賽前預演</li>
+<li data-i18n="n.price.p6">Runvis VDOT 由最佳努力回推，預測 5K 到全馬的成績</li>
+</ul>
+<p class="plisth" data-i18n="n.price.laterh">隨著紀錄累積逐漸填滿</p>
+<ul>
+<li data-i18n="n.price.p3">報告中會開啟七個深度分析面板</li>
+<li class="tilesli"><ul class="tiles">
+<li data-i18n="n.price.t1">乳酸閾值（估計）</li>
+<li data-i18n="n.price.t2">耐力訓練量</li>
+<li data-i18n="n.price.t3">坡度暴露</li>
+<li data-i18n="n.price.t4">熱暴露指數</li>
+<li data-i18n="n.price.t5">教練煞車</li>
+<li data-i18n="n.price.t6">強度分布</li>
+<li data-i18n="n.price.t7">教練的紀錄雷達（區間最速，最近 90 天）</li>
+</ul></li>
 <li data-i18n="n.price.p5">每週教練摘要卡：計畫達成分數、本週區間最速、剩餘跑量預算、最近四週強度分布，以及下週該調整什麼的一句話。免費版看到的是這張卡的鎖定預覽。</li>
 </ul>
 <details class="gate">
 <summary data-i18n="n.price.gateh">數值什麼時候會填滿？</summary>
-<p data-i18n="n.price.gate">七項在付款當下就全部開啟，數值則隨著紀錄累積而填滿。乳酸閾值需要兩段維持在最大心率 85% 以上的 30 分鐘（或 20 分鐘）區段；若你只有沒有記錄路徑的跑步，就改用已設定的最大心率加上三次 20 分鐘以上的跑步來計算。耐力訓練量需要橫跨兩週以上、四週中的三週共六次；坡道需要兩次上坡跑步；熱需要三次 22°C 以上的跑步；強度分布需要八天、其中五次有心率；煞車需要兩週。在那之前，每一項都會自己寫出還缺什麼。</p>
+<p data-i18n="n.price.gatelead">七項在付款當下就全部開啟，數值則隨著紀錄累積而填滿。在那之前，每一項都會自己寫出還缺什麼。</p>
+<ul class="gatelist">
+<li data-i18n="n.price.g1">乳酸閾值（估計）— 兩段維持在最大心率 85% 以上的 30 分鐘（或 20 分鐘）區段。若你只有沒有記錄路徑的跑步，就改用已設定的最大心率加上三次 20 分鐘以上的跑步來計算。</li>
+<li data-i18n="n.price.g2">耐力訓練量 — 橫跨兩週以上、四週中的三週共六次。</li>
+<li data-i18n="n.price.g3">坡度暴露 — 兩次上坡跑步。</li>
+<li data-i18n="n.price.g4">熱暴露指數 — 三次 22°C 以上的跑步。</li>
+<li data-i18n="n.price.g5">強度分布 — 八天，其中五次有心率。</li>
+<li data-i18n="n.price.g6">教練煞車 — 兩週的跑步紀錄。</li>
+<li data-i18n="n.price.g7">教練的紀錄雷達 — 只要一次 1 公里以上的跑步就會開始抓到紀錄。</li>
+</ul>
 </details>
 </div>
 </div>
@@ -857,8 +928,8 @@
 <p data-i18n="n.faq.a2">需要 watchOS 10 以上（Apple Watch Series 4 以後的機型）與 iOS 17 以上。只要滿足這個條件，有心率與 GPS 就夠了。能量測觸地時間與垂直振幅的新機型，姿勢教練會更細緻；不能量測的則以步頻為準。</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q3">取消訂閱後紀錄會怎樣？</h3><p data-i18n="n.faq.a3">紀錄會留在 Apple 健康中，不受影響。取消後仍可免費使用記錄、檢視課表與運動詳細報告。</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q4">我的資料會去哪裡？</h3><p data-i18n="n.faq.a4">沒有帳號也沒有伺服器。只有查天氣、地區名稱與自動產生路線時會送出位置。除此之外還有 App Store 付款處理、下載公開的路線與跑鞋清單檔案，以及目前僅在韓國 App Store 提供、由你自己在跑鞋畫面點擊才會開啟的外部跑鞋搜尋頁面。運動與健康資料不會上傳。</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q5">六種語言的語音支援到什麼程度？</h3><p data-i18n="n.faq.a5">教練說出口的句子都翻譯成六種語言。若還有句子沒進到翻譯表，會以英文播出，不會變成韓文，這一點同樣有測試固定住。本保證只涵蓋教練的語音；App 畫面上的文字用的是另一份翻譯表。</p>
-<details class="gate"><summary data-i18n="n.faq.a5h">測試到底抓住哪些？</summary><p data-i18n="n.faq.a5g">四份翻譯表必須連鍵值與佔位符編號都彼此一致，表裡寫的每一行也都要能經由 App 實際使用的查表路徑取得。iPhone 教練會把一趟 45 分鐘的跑步以六種語言 × 公制與英制兩種設定逐秒重播，檢查那趟跑步發出的每一則提示是否都有翻譯，只要有一處對不上，當場就會失敗。含數字的提示也會照各語言自己的語序說出來（含分段報時、坡道預告、配速、心率區間與訓練步驟）。手錶上的即時教練迴圈不在這個測試套件裡，所以仍可能有還沒進到翻譯表的句子。</p></details></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q5">六種語言的語音支援到什麼程度？</h3><p data-i18n="n.faq.a5">iPhone 教練說出口的句子，六種語言都有測試固定住 — 每次建置都會把一趟 45 分鐘的跑步逐秒重播，檢查那趟跑步發出的每一則提示是否都有翻譯。手錶上的即時教練迴圈不在這個測試套件裡，所以仍可能有還沒進到翻譯表的句子；遇到這種情況會以英文播出，不會變成韓文，這個備援同樣有測試固定住。App 畫面上的文字用的是另一份翻譯表，跟教練語音不同。</p>
+<details class="gate"><summary data-i18n="n.faq.a5h">測試到底抓住哪些？</summary><p data-i18n="n.faq.a5g">四份翻譯表必須連鍵值與佔位符編號都彼此一致，表裡寫的每一行也都要能經由 App 實際使用的查表路徑取得。iPhone 教練那趟 45 分鐘的重播會以六種語言 × 公制與英制兩種設定跑過，只要有一處對不上，當場就會失敗。含數字的提示也會照各語言自己的語序說出來（含分段報時、坡道預告、配速、心率區間與訓練步驟）。</p></details></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q6">完全沒有紀錄也能用嗎？</h3><p data-i18n="n.faq.a6">可以。在手錶上跑一次 12 分鐘測驗，當天就會產生 5K、10K 的預估成績與第一份課表 — 這項測驗只在手錶上有。只有 iPhone 也一樣，第一天就能用 GPS 記錄、分段配速語音與查看訓練課表，課表的起點改以最近的週跑量決定。準備度要先累積戴著手錶入睡的夜晚做為基準線，通常兩週左右才會出現，ACWR 約四週。表現狀態則需要先設定最大心率，並在同一強度帶（輕鬆、中等、高強度）累積三次有心率記錄、超過十分鐘的跑步。最初幾次會拿還沒有依強度、也還沒有依測量時點區分的基準線來比較，App 會在那個畫面上寫明這件事。</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q7">免費試用是誰能拿到？</h3><p data-i18n="n.faq.a7">只有 App Store 判定仍符合本訂閱首購優惠資格的帳號才有。若你先前訂閱過或已用掉試用，第一次付款就會照常扣款。購買前，App 的購買畫面一定會先告訴你屬於哪一種。免費期間有多長，也是 App Store 隨商品一起送來的值，App 會在購買前照原樣顯示。若選了年繳，免費期間結束後就會一次收取一整年的費用。</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q8">終身版和年繳，哪個比較划算？</h3><p data-i18n="n.faq.a8">永久使用權是一次性買斷，沒有自動續訂。照價格卡上的算法，跟年繳相比約 2.6 年回本，跟月繳相比約 20 個月，所以若打算用得比這更久，買斷比較划算。它也是唯一支援 Apple 家人共享的方案 — 月繳與年繳訂閱都不適用。</p></div>
@@ -885,28 +956,32 @@
 <p class="sub" data-i18n="n.beta.sub" style="margin:0 auto">留下電子郵件，TestFlight Beta 開放時我們會寄出一封邀請函。開放日期決定的當天會寫在這裡，也會一併寄給已經申請的所有信箱。</p>
 <form action="https://formspree.io/f/xnjeyalr" id="betaForm" method="POST">
 <input name="email" placeholder="電子郵件地址" aria-label="電子郵件地址" data-i18n-attr="placeholder:ph.email,aria-label:ph.email" required="" type="email"/>
-<p class="order-note" data-i18n="n.beta.order">開放日期還沒有定。邀請依申請先後順序寄出，現在留下信箱就等於先排好位置。</p>
-<button class="btn" data-i18n="t160" id="betaSubmit" type="submit">取得 Beta 邀請</button>
-</form>
 <fieldset class="want">
 <legend data-i18n="n.beta.want">你希望收到哪一種？</legend>
-<label><input form="betaForm" name="want" type="radio" value="beta" checked=""/> <span data-i18n="n.beta.want1">參加 Beta — 請寄 TestFlight 邀請給我</span></label>
-<label><input form="betaForm" name="want" type="radio" value="launch"/> <span data-i18n="n.beta.want2">只要上市通知 — 推出時通知我一次就好</span></label>
+<label><input name="want" type="radio" value="beta" checked=""/> <span data-i18n="n.beta.want1">參加 Beta — 請寄 TestFlight 邀請給我</span></label>
+<label><input name="want" type="radio" value="launch"/> <span data-i18n="n.beta.want2">只要上市通知 — 推出時通知我一次就好</span></label>
 </fieldset>
-<p id="betaStatus" role="status" aria-live="polite" style="display:none;margin-top:14px;font-size:15px;font-weight:600"></p>
-<a class="btn ghost" id="betaNext" href="run.html" style="margin-top:14px" data-i18n="form.okcta">試跑 5 公里展示</a>
 <div class="consent">
 <div>· <b data-i18n="t161">蒐集目的</b><span data-i18n="cs.purpose">：寄送 TestFlight Beta 邀請</span></div>
-<div>· <b data-i18n="t162">保存期限</b>
-<span data-i18n="cs.retain">：於達成收集目的（如寄出 Beta 邀請）後即刻銷毀，最遲於收集日起一年內</span></div>
-<label><input form="betaForm" name="privacy_consent" type="checkbox" value="yes" required=""/> <span data-i18n="n.beta.required">（必填）我同意為寄送 Beta 邀請而蒐集並使用我的電子郵件。</span></label>
-<label><input form="betaForm" name="marketing_consent" type="checkbox" value="yes"/> <span data-i18n="cs.marketing">（選填）我同意接收上線消息與更新等行銷資訊。</span></label>
+<div>· <b data-i18n="t162">保存期限</b><span data-i18n="cs.retain">：於達成收集目的（如寄出 Beta 邀請）後即刻銷毀，最遲於收集日起一年內</span></div>
+<label><input name="privacy_consent" type="checkbox" value="yes" required=""/> <span data-i18n="n.beta.required">（必填）我同意為寄送 Beta 邀請而蒐集並使用我的電子郵件。</span></label>
+<label><input name="marketing_consent" type="checkbox" value="yes"/> <span data-i18n="cs.marketing">（選填）我同意接收上線消息與更新等行銷資訊。</span></label>
 <div style="margin-top:8px">· <a href="privacy.html" style="color:var(--green)" data-i18n="n.priv.link">隱私權政策</a></div>
 </div>
+<p class="order-note" data-i18n="n.beta.order">開放日期還沒有定。邀請依申請先後順序寄出，而 Apple 訂的 TestFlight 外部測試者名額上限是 1 萬人。現在留下信箱，就等於在那 1 萬個名額裡先排好位置。</p>
+<button class="btn" data-i18n="t160" id="betaSubmit" type="submit">取得 Beta 邀請</button>
+</form>
+<p id="betaStatus" role="status" aria-live="polite" style="display:none;margin-top:14px;font-size:15px;font-weight:600"></p>
+<a class="btn ghost" id="betaNext" href="run.html" style="margin-top:14px" data-i18n="form.okcta" hidden="">試跑 5 公里展示</a>
 <div class="nextsteps">
 <h4 data-i18n="n.beta.nowh">現在就能先看的東西</h4>
-<p data-i18n="n.beta.now"><a href="run.html">5 公里展示</a>會照實呈現教練何時說話、何時安靜；<a href="privacy.html">隱私權政策</a>則寫明資料會走到哪裡。</p>
-<p><a href="how-it-works.html" data-i18n="hw.link">規則全文與工具 — 心率區間計算、首爾路線 GPX、Beta 進行方式</a></p>
+<ul class="dolist">
+<li data-i18n="n.beta.do1"><a href="run.html">5 公里展示</a>— 直接聽教練什麼時候開口、什麼時候安靜，以及免費語音與訂閱語音是在哪裡分開的。</li>
+<li data-i18n="n.beta.do2"><a href="how-it-works.html#zones">心率區間計算機</a>— 用教練語音使用的同一套卡蒙內公式，現在就算出你的五個心率區間。只要年齡和安靜心率就夠了。</li>
+<li data-i18n="n.beta.do3"><a href="how-it-works.html#gpx">13 條首爾路線 GPX</a>— 不必安裝 App，現在就能下載，放進你原本在用的手錶或地圖 App。</li>
+<li data-i18n="n.beta.do4"><a href="how-it-works.html#beta">報名之後會這樣進行</a>— 受理、TestFlight 邀請、意見回饋、上市四個步驟。Beta 版本在 Beta 期間內，教練功能全部免費。</li>
+<li data-i18n="n.beta.do5"><a href="privacy.html">隱私權政策</a>— 寫明這份表單會收到什麼，以及 App 保存的資料最遠會離開裝置到哪裡。</li>
+</ul>
 </div>
 </div>
 </div>
@@ -1195,13 +1270,13 @@ const Voice=(()=>{
     const was=activeChip;
     chips().forEach(x=>{ x.classList.remove('playing'); x.setAttribute('aria-pressed','false'); });
     activeChip=null;
-    if(was && !quiet) announce('a11y.stopped','재생을 멈췄습니다');
+    if(was && !quiet) announce('a11y.stopped', '已停止播放');
   }
   function play(chip, text, tag){
     stop(true);
     const my=++gen;
     activeChip=chip; chip.classList.add('playing'); chip.setAttribute('aria-pressed','true');
-    announce('a11y.playing','예시 음성 재생 중');
+    announce('a11y.playing', '正在播放範例語音');
     const list=voiceCandidates(tag);
     const done=()=>{ if(my!==gen) return; chip.classList.remove('playing'); chip.setAttribute('aria-pressed','false'); activeChip=null; };
     (function attempt(i){
@@ -1345,9 +1420,11 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
       }, 60);
       betaForm.reset();
       // The signup used to end in an inbox. Hand the reader the one thing they
-      // can actually do next while they wait.
+      // can actually do next while they wait — and only now, because until the
+      // POST succeeded this link sat between the button and the consent
+      // checkbox the button was waiting on (round 13, -3).
       const next = document.getElementById('betaNext');
-      if (next) next.textContent = window.RunvisT('form.okcta', '試跑 5 公里展示');
+      if (next) { next.hidden = false; next.textContent = window.RunvisT('form.okcta', '試跑 5 公里展示'); }
     }
     else { const d = await res.json().catch(() => null); show(d?.errors?.[0]?.message || window.RunvisT('form.fail', '傳送失敗，請稍後再試一次。'), false); }
   } catch { show(window.RunvisT('form.neterr', '網路錯誤，請稍後再試一次。'), false); }

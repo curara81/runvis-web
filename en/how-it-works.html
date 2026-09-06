@@ -8,11 +8,13 @@
 <script>window.RunvisPageLang="en";window.RunvisBase="/";</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#000000">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <title data-i18n="hw.meta.title">Rules and tools — Runvis</title>
-<meta name="description" content="The full version of the rules the home page summarises: how often the coach speaks, and every exception to the 45-second floor. Work out your five heart-rate zones here, download 13 Seoul course GPX files, and see how the beta runs." data-i18n-attr="content:hw.meta.desc">
+<meta name="description" content="Metric by metric, the formulas Runvis uses for training load, recovery time and an estimated lactate threshold without a dedicated running watch. Plus the full speaking rules, a heart-rate zone calculator, 13 Seoul course GPX files, and how the beta runs." data-i18n-attr="content:hw.meta.desc">
 <meta name="robots" content="index,follow">
 <meta property="og:title" content="Rules and tools — Runvis" data-i18n-attr="content:hw.meta.title">
-<meta property="og:description" content="The full version of the rules the home page summarises: how often the coach speaks, and every exception to the 45-second floor. Work out your five heart-rate zones here, download 13 Seoul course GPX files, and see how the beta runs." data-i18n-attr="content:hw.meta.desc">
+<meta property="og:description" content="Metric by metric, the formulas Runvis uses for training load, recovery time and an estimated lactate threshold without a dedicated running watch. Plus the full speaking rules, a heart-rate zone calculator, 13 Seoul course GPX files, and how the beta runs." data-i18n-attr="content:hw.meta.desc">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://runvis.app/en/how-it-works.html">
 <meta property="og:site_name" content="Runvis">
@@ -74,7 +76,14 @@
   .langsel.open ul{display:block}
   .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
   .langsel li:hover{background:rgba(61,220,132,.15)}
-  .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
+  /* 2026-09-06 라운드 13 (-0.5): each item is a real link to that language's
+     prerendered copy, so picking a language changes the ADDRESS — a URL shared
+     from here keeps the language it was read in. The <li> keeps the row box,
+     the <a> fills it so the whole row stays clickable, and aria-checked moves
+     onto the anchor, which is the menuitemradio now. */
+  .langsel li{padding:0}
+  .langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
+  .langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
   .intro{color:var(--dim);font-size:.95rem;margin-bottom:8px}
   h2{scroll-margin-top:20px}
   ol{list-style:none;margin:12px 0;padding:0;counter-reset:ns}
@@ -106,6 +115,17 @@
   function norm(v){ if(!v) return null; v=String(v).toLowerCase();
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
+  // The BROWSER's language is the one source that must not fold every zh-*
+  // onto our table, because our zh table is Traditional (LANGS label 繁體中文,
+  // tts zh-TW, <html lang="zh-Hant">) and norm() above sent zh-Hans / zh-CN /
+  // zh-SG straight to it. Being handed the other script automatically reads as
+  // an accident, not a choice (2026-09-06 라운드 13, -0.3). Those visitors fall
+  // through to the x-default, English, and 繁體中文 is still one pick away in
+  // the language menu. An EXPLICIT zh — ?lang=zh, /zh/, the menu — still goes
+  // through norm() and still resolves, which is why this is a second function
+  // and not a change to the first.
+  function navLang(v){ var s=v?String(v).toLowerCase():"";
+    return (s.indexOf("zh")===0 && !/^zh-(hant|tw|hk|mo)\b/.test(s)) ? null : norm(s); }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
   // On a prerendered page (/en/, /ja/ …) the directory IS the language and
   // RunvisPageLang is set just above; it outranks the saved choice and the
@@ -117,7 +137,7 @@
   // Korean document. A Korean browser still resolves through
   // norm(navigator.language) and is unaffected, and ?lang= and the saved
   // choice still outrank this.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"en";
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||navLang(navigator.language)||"en";
   // A German browser landing on a ROOT url used to get German BODY text with a
   // Korean canonical, Korean og:* and no route to /de/ at all — the five
   // prerendered market pages existed and nothing ever sent anyone to them.
@@ -168,7 +188,7 @@
 </script>
 <script defer src="/i18n.js?v=20260906e"></script>
 <script id="pageld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Rules and tools — Runvis","description":"The full version of the rules the home page summarises: how often the coach speaks, and every exception to the 45-second floor. Work out your five heart-rate zones here, download 13 Seoul course GPX files, and see how the beta runs.","inLanguage":"en","url":"https://runvis.app/en/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/en/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/en/"},{"@type":"ListItem","position":2,"name":"Rules and tools — Runvis","item":"https://runvis.app/en/how-it-works.html"}]}}
+{"@context":"https://schema.org","@type":"WebPage","name":"Rules and tools — Runvis","description":"Metric by metric, the formulas Runvis uses for training load, recovery time and an estimated lactate threshold without a dedicated running watch. Plus the full speaking rules, a heart-rate zone calculator, 13 Seoul course GPX files, and how the beta runs.","inLanguage":"en","url":"https://runvis.app/en/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/en/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/en/"},{"@type":"ListItem","position":2,"name":"Rules and tools — Runvis","item":"https://runvis.app/en/how-it-works.html"}]}}
 </script>
 </head>
 <body>
@@ -197,6 +217,19 @@
     <li data-i18n="n.live.q.n3">Running with the iPhone alone the rules differ — there are fewer cues, so how often it speaks comes from a 20-second gap instead of 45, a 3-minute cooldown on pace and a 5-minute one on heart-rate zone, with no 30-minute cap at all.</li>
     <li data-i18n="n.live.q.n4">8 items switch on and off one by one: pace, heart-rate zone, form, hills, encouragement and scripts, running-tip cards, hydration, and the auto-pause/resume voice. Splits are not a switch but an interval — off, 0.5 or 1 (km or miles). Safety calls and core calls such as workout steps cannot be switched off. Music only dips while the coach is speaking.</li>
   </ul>
+
+  <h2 id="versus" data-i18n="hw.vs.h">How is this different from a dedicated running watch?</h2>
+  <p data-i18n="hw.vs.p">Training load, recovery time, an estimated lactate threshold, a race pace plan — the numbers people are told they need a separate running watch to see. Runvis computes the same numbers from the heart rate, GPS and barometric altitude your Apple Watch already recorded. A dedicated watch does not publish its formulas, so we will not claim they are the same ones. What we will do is name ours: every formula below is a published, named one. Inside the app each metric opens onto what it means, how it was computed and your own usual range.</p>
+  <div class="tablewrap"><table>
+    <tr><th data-i18n="hw.vs.th1">Metric</th><th data-i18n="hw.vs.th2">What Runvis computes it with, and what that formula is called</th></tr>
+    <tr><td data-i18n="hw.vs.r1a">Training load and form (TSB)</td><td data-i18n="hw.vs.r1b">Banister TRIMP fed into Coggan's 42-day and 7-day exponential moving averages (CTL and ATL); the difference between them is TSB.</td></tr>
+    <tr><td data-i18n="hw.vs.r2a">Recovery time</td><td data-i18n="hw.vs.r2b">Estimated from three things: the last run's TRIMP, your current TSB and your HRV status. The screen says "estimated" too.</td></tr>
+    <tr><td data-i18n="hw.vs.r3a">Lactate Threshold (est.)</td><td data-i18n="hw.vs.r3b">The pace and heart rate of your best 30-minute (or 20-minute) stretch held above 85% of maximum heart rate in the last 90 days. An estimate read off your runs, not a lab blood draw.</td></tr>
+    <tr><td data-i18n="hw.vs.r4a">Race prediction and segment pace plan</td><td data-i18n="hw.vs.r4b">Riegel extrapolation plus Runvis VDOT. Give it a course GPX and it splits the pace segment by segment along that course's elevation.</td></tr>
+    <tr><td data-i18n="hw.vs.r5a">Grade-adjusted pace (GAP)</td><td data-i18n="hw.vs.r5b">Minetti's (2002) running energy-cost curve, with the cost of climbing and descending worked out separately.</td></tr>
+    <tr><td data-i18n="hw.vs.r6a">The five heart-rate zones</td><td data-i18n="hw.vs.r6b">Karvonen, over heart-rate reserve; with no known maximum it falls back to 208 − 0.7 × age. The calculator below is the same arithmetic.</td></tr>
+  </table></div>
+  <p class="note" data-i18n="hw.vs.note">What a dedicated watch does and Runvis does not, written down too: there is no watch-face complication, no iPhone home-screen widget and no Live Activity in this version. And every number above is reference information, not medical advice.</p>
 
   <h2 id="zones" data-i18n="hz.h">Something to work out right now — your five heart-rate zones</h2>
   <p data-i18n="hz.p">The same Karvonen arithmetic Runvis speaks from. In the app the inputs keep refreshing — a seven-day resting heart rate from Apple Health, and the highest heart rate your watch has actually recorded — but the calculation is the one below.</p>

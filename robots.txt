@@ -1,9 +1,14 @@
 # Runvis — https://runvis.app/
 # Static site on GitHub Pages: nothing here is private and nothing is
 # generated per visitor, so everything is crawlable. The one thing a crawler
-# could not work out on its own is the list of 24 pages (4 root + 4 x 5
-# language directories), because hreflang only names alternates of a page it
-# has already found. sitemap.xml, written by tools/prerender.mjs, is that list.
+# could not work out on its own is the page list, because hreflang only names
+# alternates of a page it has already found. sitemap.xml, written by
+# tools/prerender.mjs, is that list.
+# The line below is written by tools/prerender.mjs out of the same arrays the
+# sitemap comes from, and check-content.mjs [11] compares it against the
+# sitemap. It was hand-counted until round 13 and still said 24 long after
+# how-it-works.html made it 30 — a number kept by hand is a number that rots.
+# Pages: 30 (5 root x 6 languages)
 User-agent: *
 Allow: /
 

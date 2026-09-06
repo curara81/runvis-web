@@ -8,11 +8,13 @@
 <script>window.RunvisPageLang="ja";window.RunvisBase="/";</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#000000">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <title data-i18n="hw.meta.title">ルールとツール — Runvis</title>
-<meta name="description" content="コーチが30分に何回話すか、45秒ルールの例外は何か、その全文。自分の心拍ゾーン5つをこの場で計算し、ソウルのコースGPX 13本をダウンロードし、ベータの進み方を確認できます。" data-i18n-attr="content:hw.meta.desc">
+<meta name="description" content="専用ランニングウォッチなしで、トレーニング負荷・回復時間・乳酸性作業閾値の推定をどの計算で出しているかを指標ごとに書いたページです。コーチが30分に何回話すかと45秒ルールの例外の全文、心拍ゾーン計算機、ソウルのコースGPX 13本、ベータの進み方も。" data-i18n-attr="content:hw.meta.desc">
 <meta name="robots" content="index,follow">
 <meta property="og:title" content="ルールとツール — Runvis" data-i18n-attr="content:hw.meta.title">
-<meta property="og:description" content="コーチが30分に何回話すか、45秒ルールの例外は何か、その全文。自分の心拍ゾーン5つをこの場で計算し、ソウルのコースGPX 13本をダウンロードし、ベータの進み方を確認できます。" data-i18n-attr="content:hw.meta.desc">
+<meta property="og:description" content="専用ランニングウォッチなしで、トレーニング負荷・回復時間・乳酸性作業閾値の推定をどの計算で出しているかを指標ごとに書いたページです。コーチが30分に何回話すかと45秒ルールの例外の全文、心拍ゾーン計算機、ソウルのコースGPX 13本、ベータの進み方も。" data-i18n-attr="content:hw.meta.desc">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://runvis.app/ja/how-it-works.html">
 <meta property="og:site_name" content="Runvis">
@@ -74,7 +76,14 @@
   .langsel.open ul{display:block}
   .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
   .langsel li:hover{background:rgba(61,220,132,.15)}
-  .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
+  /* 2026-09-06 라운드 13 (-0.5): each item is a real link to that language's
+     prerendered copy, so picking a language changes the ADDRESS — a URL shared
+     from here keeps the language it was read in. The <li> keeps the row box,
+     the <a> fills it so the whole row stays clickable, and aria-checked moves
+     onto the anchor, which is the menuitemradio now. */
+  .langsel li{padding:0}
+  .langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
+  .langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
   .intro{color:var(--dim);font-size:.95rem;margin-bottom:8px}
   h2{scroll-margin-top:20px}
   ol{list-style:none;margin:12px 0;padding:0;counter-reset:ns}
@@ -106,6 +115,17 @@
   function norm(v){ if(!v) return null; v=String(v).toLowerCase();
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
+  // The BROWSER's language is the one source that must not fold every zh-*
+  // onto our table, because our zh table is Traditional (LANGS label 繁體中文,
+  // tts zh-TW, <html lang="zh-Hant">) and norm() above sent zh-Hans / zh-CN /
+  // zh-SG straight to it. Being handed the other script automatically reads as
+  // an accident, not a choice (2026-09-06 라운드 13, -0.3). Those visitors fall
+  // through to the x-default, English, and 繁體中文 is still one pick away in
+  // the language menu. An EXPLICIT zh — ?lang=zh, /zh/, the menu — still goes
+  // through norm() and still resolves, which is why this is a second function
+  // and not a change to the first.
+  function navLang(v){ var s=v?String(v).toLowerCase():"";
+    return (s.indexOf("zh")===0 && !/^zh-(hant|tw|hk|mo)\b/.test(s)) ? null : norm(s); }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
   // On a prerendered page (/en/, /ja/ …) the directory IS the language and
   // RunvisPageLang is set just above; it outranks the saved choice and the
@@ -117,7 +137,7 @@
   // Korean document. A Korean browser still resolves through
   // norm(navigator.language) and is unaffected, and ?lang= and the saved
   // choice still outrank this.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"en";
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||navLang(navigator.language)||"en";
   // A German browser landing on a ROOT url used to get German BODY text with a
   // Korean canonical, Korean og:* and no route to /de/ at all — the five
   // prerendered market pages existed and nothing ever sent anyone to them.
@@ -168,7 +188,7 @@
 </script>
 <script defer src="/i18n.js?v=20260906e"></script>
 <script id="pageld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"ルールとツール — Runvis","description":"コーチが30分に何回話すか、45秒ルールの例外は何か、その全文。自分の心拍ゾーン5つをこの場で計算し、ソウルのコースGPX 13本をダウンロードし、ベータの進み方を確認できます。","inLanguage":"ja","url":"https://runvis.app/ja/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/ja/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/ja/"},{"@type":"ListItem","position":2,"name":"ルールとツール — Runvis","item":"https://runvis.app/ja/how-it-works.html"}]}}
+{"@context":"https://schema.org","@type":"WebPage","name":"ルールとツール — Runvis","description":"専用ランニングウォッチなしで、トレーニング負荷・回復時間・乳酸性作業閾値の推定をどの計算で出しているかを指標ごとに書いたページです。コーチが30分に何回話すかと45秒ルールの例外の全文、心拍ゾーン計算機、ソウルのコースGPX 13本、ベータの進み方も。","inLanguage":"ja","url":"https://runvis.app/ja/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/ja/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/ja/"},{"@type":"ListItem","position":2,"name":"ルールとツール — Runvis","item":"https://runvis.app/ja/how-it-works.html"}]}}
 </script>
 </head>
 <body>
@@ -197,6 +217,19 @@
     <li data-i18n="n.live.q.n3">iPhoneだけで走るときはルールが違います — 案内の種類が少ないため、45秒ではなく20秒の間隔、ペースは3分・心拍ゾーンは5分のクールダウンで話す回数を抑え、30分の上限は設けていません。</li>
     <li data-i18n="n.live.q.n4">オンオフできる項目は8つです — ペース、心拍ゾーン、フォーム、坂、励まし・スクリプト、ランニング豆知識カード、給水・補給、自動一時停止/再開の音声。スプリットはオンオフではなく間隔を選びます（オフ・0.5・1、kmまたはマイル）。安全の案内と、ワークアウトのステップのような中核の案内は切れません。音楽は案内している間だけ少し下がります。</li>
   </ul>
+
+  <h2 id="versus" data-i18n="hw.vs.h">ランニング専用ウォッチと何が違いますか</h2>
+  <p data-i18n="hw.vs.p">トレーニング負荷、回復時間、乳酸性作業閾値の推定、レースのペースプラン — ランニングウォッチを別に買わないと見られないと言われる値です。Runvisは同じ値を、Apple Watchがすでに記録した心拍・GPS・気圧高度から計算します。専用ウォッチの計算式は公開されていないので「同じ式です」とは言いません。代わりにこちらの式は名前を出します。以下はすべて公開された名前のある式です。アプリの中では、指標ごとに意味と計算根拠、自分のふだんの範囲を開いて確認できます。</p>
+  <div class="tablewrap"><table>
+    <tr><th data-i18n="hw.vs.th1">指標</th><th data-i18n="hw.vs.th2">Runvisが使う計算と、その名前</th></tr>
+    <tr><td data-i18n="hw.vs.r1a">トレーニング負荷・コンディション（TSB）</td><td data-i18n="hw.vs.r1b">Banister TRIMPをCogganの42日・7日指数移動平均（CTL・ATL）に入れ、その差をTSBとして使います。</td></tr>
+    <tr><td data-i18n="hw.vs.r2a">回復時間</td><td data-i18n="hw.vs.r2b">直近のランのTRIMP、いまのTSB、HRVの状態の3つから推定します。画面にも「推定」と書きます。</td></tr>
+    <tr><td data-i18n="hw.vs.r3a">乳酸性作業閾値（推定）</td><td data-i18n="hw.vs.r3b">直近90日で最大心拍の85%以上を保った30分（または20分）のベスト区間のペースと心拍です。採血ではなく、ランの記録から取った推定値です。</td></tr>
+    <tr><td data-i18n="hw.vs.r4a">レース予測・区間ペースプラン</td><td data-i18n="hw.vs.r4b">Riegelの外挿とRunvis VDOT。コースのGPXを入れると、そのコースの高低に合わせて区間ごとにペースを配分します。</td></tr>
+    <tr><td data-i18n="hw.vs.r5a">勾配補正ペース（GAP）</td><td data-i18n="hw.vs.r5b">Minetti（2002）のランニングのエネルギーコスト曲線です。上りと下りのコストは別々に計算します。</td></tr>
+    <tr><td data-i18n="hw.vs.r6a">心拍ゾーン5つ</td><td data-i18n="hw.vs.r6b">Karvonen（心拍予備能）方式で、最大心拍が分からない場合は208 − 0.7 × 年齢で推定します。下の計算機と同じ式です。</td></tr>
+  </table></div>
+  <p class="note" data-i18n="hw.vs.note">専用ウォッチにできてRunvisにまだできないことも書いておきます — ウォッチフェイスのコンプリケーション、iPhoneのホーム画面ウィジェット、ライブアクティビティは、このバージョンには入っていません。また上記の値はすべて参考情報であり、医学的助言ではありません。</p>
 
   <h2 id="zones" data-i18n="hz.h">いますぐ計算できること — 自分の心拍ゾーン5つ</h2>
   <p data-i18n="hz.p">Runvisがコーチ音声に使っているのと同じカルボーネン（Karvonen）式です。アプリではヘルスケアの7日間の安静時心拍と実際に観測された最高心拍で入力が更新され続けますが、計算そのものは下のとおりです。</p>

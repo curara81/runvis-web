@@ -8,6 +8,8 @@
 <script>window.RunvisPageLang="ja";window.RunvisBase="/";</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#000000">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <title data-i18n="tm.meta.title">利用規約 — Runvis</title>
 <meta name="description" content="Runvis利用規約 — サブスクリプションと買い切り版、自動更新と解約、安全上の注意と責任の範囲。" data-i18n-attr="content:tm.meta.desc">
 <meta name="robots" content="index,follow">
@@ -72,7 +74,14 @@
   .langsel.open ul{display:block}
   .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
   .langsel li:hover{background:rgba(61,220,132,.15)}
-  .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
+  /* 2026-09-06 라운드 13 (-0.5): each item is a real link to that language's
+     prerendered copy, so picking a language changes the ADDRESS — a URL shared
+     from here keeps the language it was read in. The <li> keeps the row box,
+     the <a> fills it so the whole row stays clickable, and aria-checked moves
+     onto the anchor, which is the menuitemradio now. */
+  .langsel li{padding:0}
+  .langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
+  .langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
 </style>
 <script>
 (function(){
@@ -80,6 +89,17 @@
   function norm(v){ if(!v) return null; v=String(v).toLowerCase();
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
+  // The BROWSER's language is the one source that must not fold every zh-*
+  // onto our table, because our zh table is Traditional (LANGS label 繁體中文,
+  // tts zh-TW, <html lang="zh-Hant">) and norm() above sent zh-Hans / zh-CN /
+  // zh-SG straight to it. Being handed the other script automatically reads as
+  // an accident, not a choice (2026-09-06 라운드 13, -0.3). Those visitors fall
+  // through to the x-default, English, and 繁體中文 is still one pick away in
+  // the language menu. An EXPLICIT zh — ?lang=zh, /zh/, the menu — still goes
+  // through norm() and still resolves, which is why this is a second function
+  // and not a change to the first.
+  function navLang(v){ var s=v?String(v).toLowerCase():"";
+    return (s.indexOf("zh")===0 && !/^zh-(hant|tw|hk|mo)\b/.test(s)) ? null : norm(s); }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
   // On a prerendered page (/en/, /ja/ …) the directory IS the language and
   // RunvisPageLang is set just above; it outranks the saved choice and the
@@ -91,7 +111,7 @@
   // Korean document. A Korean browser still resolves through
   // norm(navigator.language) and is unaffected, and ?lang= and the saved
   // choice still outrank this.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"en";
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||navLang(navigator.language)||"en";
   // A German browser landing on a ROOT url used to get German BODY text with a
   // Korean canonical, Korean og:* and no route to /de/ at all — the five
   // prerendered market pages existed and nothing ever sent anyone to them.
@@ -175,7 +195,7 @@
   <h2 data-i18n="tm.s3.h">3. 永久ライセンス</h2>
   <ul>
     <li data-i18n="tm.s3.li1">永久ライセンスは<b>1回の支払いで完結する非消耗型商品</b>で、自動更新はありません。サブスクと同じコーチ機能をアンロックします</li>
-    <li data-i18n="tm.s3.li2">現在の価格は<b>リリース記念価格</b>で、リリースから3か月後に値上げを予定しています。値上げは<b>その後の新規購入にのみ</b>適用され、すでに購入したライセンスに追加請求はありません</li>
+    <li data-i18n="tm.s3.li2">現在の価格は<b>リリース記念価格</b>で、のちに値上げする場合があります。値上げは<b>その後の新規購入にのみ</b>適用され、すでに購入したライセンスに追加請求はありません</li>
     <li data-i18n="tm.s3.li3">買い切り版はAppleのファミリー共有の対象なので、同じファミリー共有グループのメンバーも一緒に利用できます — サブスク商品にファミリー共有対象はありません</li>
     <li data-i18n="tm.s3.li4">Runvisはアカウントを作らないため、端末を変更したりアプリを再インストールした場合は、購入画面の<b>購入の復元</b>でライセンスを復元します。復元は購入に使用したAppleアカウントでのみ可能です</li>
     <li data-i18n="tm.s3.li5">永久ライセンスは、RunvisアプリがApp Storeで提供されている間有効です。サービスが終了する場合は、第5項のサービスの限界に関する条項も併せて適用されます</li>

@@ -8,6 +8,8 @@
 <script>window.RunvisPageLang="zh";window.RunvisBase="/";</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#000000">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <title data-i18n="tm.meta.title">使用條款 — Runvis</title>
 <meta name="description" content="Runvis 使用條款 — 訂閱與終身版、自動續訂與取消、安全注意事項與責任範圍。" data-i18n-attr="content:tm.meta.desc">
 <meta name="robots" content="index,follow">
@@ -72,7 +74,14 @@
   .langsel.open ul{display:block}
   .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
   .langsel li:hover{background:rgba(61,220,132,.15)}
-  .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
+  /* 2026-09-06 라운드 13 (-0.5): each item is a real link to that language's
+     prerendered copy, so picking a language changes the ADDRESS — a URL shared
+     from here keeps the language it was read in. The <li> keeps the row box,
+     the <a> fills it so the whole row stays clickable, and aria-checked moves
+     onto the anchor, which is the menuitemradio now. */
+  .langsel li{padding:0}
+  .langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
+  .langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
 </style>
 <script>
 (function(){
@@ -80,6 +89,17 @@
   function norm(v){ if(!v) return null; v=String(v).toLowerCase();
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
+  // The BROWSER's language is the one source that must not fold every zh-*
+  // onto our table, because our zh table is Traditional (LANGS label 繁體中文,
+  // tts zh-TW, <html lang="zh-Hant">) and norm() above sent zh-Hans / zh-CN /
+  // zh-SG straight to it. Being handed the other script automatically reads as
+  // an accident, not a choice (2026-09-06 라운드 13, -0.3). Those visitors fall
+  // through to the x-default, English, and 繁體中文 is still one pick away in
+  // the language menu. An EXPLICIT zh — ?lang=zh, /zh/, the menu — still goes
+  // through norm() and still resolves, which is why this is a second function
+  // and not a change to the first.
+  function navLang(v){ var s=v?String(v).toLowerCase():"";
+    return (s.indexOf("zh")===0 && !/^zh-(hant|tw|hk|mo)\b/.test(s)) ? null : norm(s); }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
   // On a prerendered page (/en/, /ja/ …) the directory IS the language and
   // RunvisPageLang is set just above; it outranks the saved choice and the
@@ -91,7 +111,7 @@
   // Korean document. A Korean browser still resolves through
   // norm(navigator.language) and is unaffected, and ?lang= and the saved
   // choice still outrank this.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"en";
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||navLang(navigator.language)||"en";
   // A German browser landing on a ROOT url used to get German BODY text with a
   // Korean canonical, Korean og:* and no route to /de/ at all — the five
   // prerendered market pages existed and nothing ever sent anyone to them.
@@ -175,7 +195,7 @@
   <h2 data-i18n="tm.s3.h">3. 永久授權</h2>
   <ul>
     <li data-i18n="tm.s3.li1">永久授權為<b>一次付費即結束的非消耗性商品</b>，沒有自動續訂，解鎖與訂閱相同的教練功能</li>
-    <li data-i18n="tm.s3.li2">目前價格為<b>上市紀念價</b>，預計於上市三個月後調漲。調漲<b>僅適用於之後的新購買</b>，已購買的授權不會再被收費</li>
+    <li data-i18n="tm.s3.li2">目前價格為<b>上市紀念價</b>，日後可能調漲。調漲<b>僅適用於之後的新購買</b>，已購買的授權不會再被收費</li>
     <li data-i18n="tm.s3.li3">終身版適用 Apple 家庭共享，同一家庭共享群組的成員也可一同使用 — 訂閱商品皆不支援家庭共享</li>
     <li data-i18n="tm.s3.li4">由於 Runvis 不建立帳號，更換裝置或重新安裝 App 時，請於購買畫面使用<b>回復購買項目</b>還原授權。回復僅能透過當初購買所使用的 Apple 帳號進行</li>
     <li data-i18n="tm.s3.li5">永久授權在 Runvis App 於 App Store 上架期間有效。若服務終止，將一併適用第 5 節的服務限制條款</li>

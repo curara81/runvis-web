@@ -36,6 +36,8 @@
 <link href="https://runvis.app/zh/" hreflang="zh-Hant" rel="alternate"/>
 <link href="https://runvis.app/de/" hreflang="de" rel="alternate"/>
 <link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🏃&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="manifest" href="/site.webmanifest"/>
 <noscript><style>.reveal,.rv{opacity:1!important;transform:none!important}</style></noscript>
 <style>
   :root{
@@ -50,6 +52,9 @@
     font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
     line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:clip;word-break:keep-all}
   a{color:inherit;text-decoration:none}
+  /* .btn sets display:inline-flex, which outranks the UA rule for [hidden].
+     #betaNext is a .btn and is hidden until a submit succeeds. */
+  [hidden]{display:none!important}
   :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
   img{max-width:100%;height:auto;display:block}
   body{overflow-wrap:break-word;word-break:normal;line-break:normal}
@@ -171,7 +176,14 @@
   .langsel.open ul{display:block}
   .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text)}
   .langsel li:hover{background:rgba(61,220,132,.15)}
-  .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
+  /* 2026-09-06 라운드 13 (-0.5): each item is a real link to that language's
+     prerendered copy, so picking a language changes the ADDRESS — a URL shared
+     from here keeps the language it was read in. The <li> keeps the row box,
+     the <a> fills it so the whole row stays clickable, and aria-checked moves
+     onto the anchor, which is the menuitemradio now. */
+  .langsel li{padding:0}
+  .langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
+  .langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
   @media(max-width:700px){.langsel{margin-left:auto}.langsel button{padding:6px 9px;font-size:12px}}
 
   /* HERO */
@@ -380,6 +392,19 @@
   .plan ul{list-style:none;margin-top:18px}
   .plan li{padding:7px 0;font-size:15px;color:#dfe3e7;display:flex;gap:10px}
   .plan li::before{content:"✓";color:var(--green);font-weight:800}
+  /* The two headings the app's paywall uses over the same two groups. */
+  .plan .plisth{margin-top:18px;font-size:12.5px;font-weight:800;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--dim)}
+  .plan .plisth+ul{margin-top:6px}
+  /* The seven tile names, as a list rather than a comma sentence. Two columns
+     where there is room; no tick, because they are the CONTENTS of the ticked
+     line above, not seven more things. */
+  .plan .tilesli{padding:0}
+  .plan .tilesli::before{content:none}
+  .plan .tiles{margin:2px 0 4px 26px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}
+  @media(max-width:520px){.plan .tiles{grid-template-columns:minmax(0,1fr)}}
+  .plan .tiles li{padding:3px 0;font-size:13.5px;color:var(--dim);gap:7px}
+  .plan .tiles li::before{content:"·";color:var(--cyan)}
   .plan .terms-link{display:inline-block;margin-top:4px;font-size:12px;color:var(--dim);
     text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
   .plan .terms-link:hover{color:var(--text)}
@@ -401,6 +426,10 @@
   .gate[open] summary::before{transform:rotate(90deg)}
   .gate summary:hover{color:var(--text)}
   .gate p{margin-top:10px;font-size:13px;line-height:1.75;color:var(--dim)}
+  /* One condition per tile. Was a single 298-character paragraph. */
+  .plan .gatelist{margin-top:8px;list-style:none}
+  .plan .gatelist li{padding:5px 0;font-size:13px;line-height:1.7;color:var(--dim);gap:8px;align-items:flex-start}
+  .plan .gatelist li::before{content:"·";color:var(--green)}
   .note{text-align:center;color:var(--dim2);font-size:12.5px;margin-top:14px}
   /* Sits directly under the submit button: the one thing about timing that can
      honestly be said. */
@@ -414,7 +443,11 @@
   .nextsteps{max-width:520px;margin:24px auto 0;text-align:left}
   .nextsteps h4{font-size:14px;color:var(--dim);font-weight:700;letter-spacing:.02em}
   .nextsteps p{margin-top:10px;font-size:13.5px;color:var(--dim);line-height:1.7}
-  .nextsteps p a{color:var(--green);border-bottom:1px solid rgba(61,220,132,.4)}
+  .nextsteps p a,.dolist a{color:var(--green);border-bottom:1px solid rgba(61,220,132,.4)}
+  /* Five things a reader can do before there is anything to install. */
+  .dolist{list-style:none;margin-top:12px}
+  .dolist li{position:relative;padding-left:18px;margin-top:11px;font-size:13.5px;color:var(--dim);line-height:1.7}
+  .dolist li::before{content:"→";position:absolute;left:0;color:var(--cyan);font-weight:800}
   /* visible only to assistive tech — playback announcements for the chips */
   .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
   /* Without this the first Tab on every page landed on the language menu.
@@ -437,6 +470,10 @@
   /* Beta testing and "just tell me when it ships" are different intents and
      used to share one button. One Formspree field separates them. */
   .want{max-width:520px;margin:18px auto 0;text-align:left;font-size:13.5px;color:var(--dim);border:0;padding:0}
+  /* Both blocks moved inside the form (round 13, -3). The form is a centred
+     flex row, so each of them takes a row of its own rather than trying to
+     share one with the e-mail field. */
+  .signup form .want,.signup form .consent{flex:0 0 100%;max-width:none;margin-left:0;margin-right:0}
   .want legend{padding:0;color:var(--text);font-weight:700;font-size:14px;margin-bottom:6px}
   .want label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;margin-top:6px;line-height:1.7}
   .want label span,.consent label span{min-width:0;flex:1}
@@ -492,6 +529,17 @@
   function norm(v){ if(!v) return null; v=String(v).toLowerCase();
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
+  // The BROWSER's language is the one source that must not fold every zh-*
+  // onto our table, because our zh table is Traditional (LANGS label 繁體中文,
+  // tts zh-TW, <html lang="zh-Hant">) and norm() above sent zh-Hans / zh-CN /
+  // zh-SG straight to it. Being handed the other script automatically reads as
+  // an accident, not a choice (2026-09-06 라운드 13, -0.3). Those visitors fall
+  // through to the x-default, English, and 繁體中文 is still one pick away in
+  // the language menu. An EXPLICIT zh — ?lang=zh, /zh/, the menu — still goes
+  // through norm() and still resolves, which is why this is a second function
+  // and not a change to the first.
+  function navLang(v){ var s=v?String(v).toLowerCase():"";
+    return (s.indexOf("zh")===0 && !/^zh-(hant|tw|hk|mo)\b/.test(s)) ? null : norm(s); }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
   // On a prerendered page (/en/, /ja/ …) the directory IS the language and
   // RunvisPageLang is set just above; it outranks the saved choice and the
@@ -503,7 +551,7 @@
   // Korean document. A Korean browser still resolves through
   // norm(navigator.language) and is unaffected, and ?lang= and the saved
   // choice still outrank this.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"en";
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||navLang(navigator.language)||"en";
   // A German browser landing on a ROOT url used to get German BODY text with a
   // Korean canonical, Korean og:* and no route to /de/ at all — the five
   // prerendered market pages existed and nothing ever sent anyone to them.
@@ -575,7 +623,7 @@
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"de","url":"https://runvis.app/","description":"Du brauchst keine zweite Laufuhr. Der Coach liest Schlaf und Puls, die deine Apple Watch aufgezeichnet hat, legt fest, was du heute läufst, und sagt es dir im Lauf per Stimme. Kein Konto, kein Server.","image":"https://runvis.app/assets/og-card.png","screenshot":"https://runvis.app/assets/framed-phone-dash.de.png","author":{"@type":"Organization","name":"Runvis","url":"https://runvis.app/"},"offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}}]}
 </script>
 <script id="faqld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"de","mainEntity":[{"@type":"Question","name":"Brauche ich eine Watch?","acceptedAnswer":{"@type":"Answer","text":"Das iPhone allein zeichnet GPS auf und sagt dein Tempo pro Kilometer an — pro Meile, wenn das deine Einheit ist. Ohne Abo ist dieser Split das Einzige, was das Telefon sagt. Mit Abo coacht das Telefon auch dein Tempo; die Herzfrequenzzonen-Ansagen brauchen einen Puls, und ein iPhone hat keinen Herzfrequenzsensor — sie kommen also nur, wenn ein Bluetooth-Brustgurt (ein normaler BLE-Herzfrequenzgurt wie Polar H10 oder Wahoo TICKR) verbunden ist. Technik-Coaching, Bergwarnungen und Abweichungswarnungen gibt es nur beim Laufen mit der Uhr."}},{"@type":"Question","name":"Welche Apple Watch brauche ich?","acceptedAnswer":{"@type":"Answer","text":"Nötig sind watchOS 10 oder neuer (Apple Watch Series 4 und aufwärts) und iOS 17 oder neuer. Oberhalb dieser Grenze genügen Puls und GPS. Auf neueren Modellen, die Bodenkontaktzeit und Vertikalbewegung messen, wird das Technik-Coaching feiner; sonst arbeitet es über die Schrittfrequenz."}},{"@type":"Question","name":"Was passiert bei einer Kündigung mit meinen Daten?","acceptedAnswer":{"@type":"Answer","text":"Deine Läufe bleiben unangetastet in Apple Health. Nach der Kündigung bleiben Aufzeichnung, Planansicht und der Detailbericht kostenlos."}},{"@type":"Question","name":"Wohin gehen meine Daten?","acceptedAnswer":{"@type":"Answer","text":"Es gibt weder Account noch Server. Standortdaten gehen nur für Wetter, Ortsnamen und automatisch erzeugte Routen raus. Dazu kommen die App-Store-Zahlung, der Download der öffentlichen Strecken- und Schuhlisten und — vorerst nur im koreanischen App Store — eine externe Schuh-Suchseite, die sich öffnet, wenn du sie im Schuh-Bildschirm selbst antippst. Trainings- und Gesundheitsdaten werden nie hochgeladen."}},{"@type":"Question","name":"Wie weit reichen die sechs Sprachen?","acceptedAnswer":{"@type":"Answer","text":"Jeder Satz, den der Coach ausspricht, ist in sechs Sprachen übersetzt. Hat es ein Satz noch nicht in die Tabellen geschafft, hörst du Englisch, nie Koreanisch — auch das ist per Test festgenagelt. Diese Zusage gilt nur für die Stimme des Coachs; die Texte auf den App-Bildschirmen nutzen eine andere Tabelle."}},{"@type":"Question","name":"Kann ich ganz ohne Historie starten?","acceptedAnswer":{"@type":"Answer","text":"Ja. Ein 12-Minuten-Testlauf auf der Uhr ergibt noch am selben Tag eine geschätzte 5-km- und 10-km-Zeit und deinen ersten Plan — diesen Test gibt es nur auf der Uhr. Mit dem iPhone allein bekommst du trotzdem ab dem ersten Tag GPS-Aufzeichnung, Ansagen zum Abschnittstempo und den Trainingsplan; der Plan startet dann bei deiner zuletzt gelaufenen Wochendistanz. Die Bereitschaft braucht erst Nächte, die du mit der Uhr geschlafen hast, für ihre Basislinie — sie erscheint meist nach etwa zwei Wochen, der ACWR nach etwa vier. Die Leistungskondition erscheint, sobald eine maximale Herzfrequenz gesetzt ist und drei Läufe über zehn Minuten mit aufgezeichneter Herzfrequenz im selben Intensitätsbereich (locker, mittel, hart) zusammengekommen sind. Die ersten Male wird gegen eine Basislinie verglichen, die weder nach Intensität noch nach dem Messzeitpunkt getrennt ist — die App schreibt das auf genau diesem Bildschirm dazu."}},{"@type":"Question","name":"Wer bekommt die Gratis-Testphase?","acceptedAnswer":{"@type":"Answer","text":"Nur Accounts, die der App Store noch als berechtigt für das Einführungsangebot dieses Abos führt. Wer schon einmal abonniert oder die Testphase verbraucht hat, zahlt ab der ersten Abrechnung. Der Kaufbildschirm der App sagt dir vor dem Kauf immer, welcher Fall gilt. Wie lang der freie Zeitraum ist, liefert der App Store ebenfalls mit dem Produkt aus — die App zeigt dir direkt vor dem Kauf genau das, was sie bekommen hat. Beim Jahresabo wird das ganze Jahr auf einmal abgerechnet, sobald dieser freie Zeitraum endet."}},{"@type":"Question","name":"Lebenslang oder jährlich — was lohnt sich?","acceptedAnswer":{"@type":"Answer","text":"Der Lifetime-Zugang ist ein einmaliger Kauf ohne automatische Verlängerung. Nach der Rechnung auf der Preiskarte lohnt er sich gegenüber dem Jahresabo nach etwa 2,6 Jahren, gegenüber dem Monatsabo nach etwa 20 Monaten — wer länger dabeibleiben will, fährt damit günstiger. Er ist außerdem der einzige Tarif, den Apples Familienfreigabe abdeckt; Monats- und Jahresabo sind es nicht."}},{"@type":"Question","name":"Was passiert beim Gerätewechsel?","acceptedAnswer":{"@type":"Answer","text":"Die Läufe selbst liegen in Apple Health, die Health-App des neuen Geräts holt sie also mit. Was nur in Runvis lag — Profil, Herzfrequenzzonen, Schuhliste und die Baselines, die der Coach aufgebaut hat — geht über Einstellungen → Daten → „Meine Daten exportieren“ als eine Datei hinaus und kommt auf dem neuen Gerät über „Aus Backup importieren“ zurück. Die Datei bleibt nur dort, wo du sie speicherst; Runvis schickt sie nirgendwohin. Das Abo holst du über „Käufe wiederherstellen“ im App Store zurück."}},{"@type":"Question","name":"Gibt es eine Zifferblatt-Komplikation oder ein Widget?","acceptedAnswer":{"@type":"Answer","text":"Noch nicht. Zifferblatt-Komplikationen, ein iPhone-Home-Widget und Live-Aktivitäten sind in diesem Build nicht enthalten. Sie sind geplant, ein Datum gibt es noch nicht."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"de","mainEntity":[{"@type":"Question","name":"Brauche ich eine Watch?","acceptedAnswer":{"@type":"Answer","text":"Das iPhone allein zeichnet GPS auf und sagt dein Tempo pro Kilometer an — pro Meile, wenn das deine Einheit ist. Ohne Abo ist dieser Split das Einzige, was das Telefon sagt. Mit Abo coacht das Telefon auch dein Tempo; die Herzfrequenzzonen-Ansagen brauchen einen Puls, und ein iPhone hat keinen Herzfrequenzsensor — sie kommen also nur, wenn ein Bluetooth-Brustgurt (ein normaler BLE-Herzfrequenzgurt wie Polar H10 oder Wahoo TICKR) verbunden ist. Technik-Coaching, Bergwarnungen und Abweichungswarnungen gibt es nur beim Laufen mit der Uhr."}},{"@type":"Question","name":"Welche Apple Watch brauche ich?","acceptedAnswer":{"@type":"Answer","text":"Nötig sind watchOS 10 oder neuer (Apple Watch Series 4 und aufwärts) und iOS 17 oder neuer. Oberhalb dieser Grenze genügen Puls und GPS. Auf neueren Modellen, die Bodenkontaktzeit und Vertikalbewegung messen, wird das Technik-Coaching feiner; sonst arbeitet es über die Schrittfrequenz."}},{"@type":"Question","name":"Was passiert bei einer Kündigung mit meinen Daten?","acceptedAnswer":{"@type":"Answer","text":"Deine Läufe bleiben unangetastet in Apple Health. Nach der Kündigung bleiben Aufzeichnung, Planansicht und der Detailbericht kostenlos."}},{"@type":"Question","name":"Wohin gehen meine Daten?","acceptedAnswer":{"@type":"Answer","text":"Es gibt weder Account noch Server. Standortdaten gehen nur für Wetter, Ortsnamen und automatisch erzeugte Routen raus. Dazu kommen die App-Store-Zahlung, der Download der öffentlichen Strecken- und Schuhlisten und — vorerst nur im koreanischen App Store — eine externe Schuh-Suchseite, die sich öffnet, wenn du sie im Schuh-Bildschirm selbst antippst. Trainings- und Gesundheitsdaten werden nie hochgeladen."}},{"@type":"Question","name":"Wie weit reichen die sechs Sprachen?","acceptedAnswer":{"@type":"Answer","text":"Jeder Satz, den der iPhone-Coach ausspricht, ist in allen sechs Sprachen per Test festgenagelt — bei jedem Build wird ein 45-Minuten-Lauf sekundenweise nachgespielt, um zu prüfen, dass jede dabei entstehende Ansage übersetzt ist. Die Live-Coaching-Schleife der Uhr liegt außerhalb dieses Testbündels, dort kann also noch ein Satz in den Tabellen fehlen; dann hörst du Englisch, nie Koreanisch, und auch dieser Rückfall ist per Test festgenagelt. Die Texte auf den App-Bildschirmen nutzen eine andere Tabelle als die Stimme des Coachs."}},{"@type":"Question","name":"Kann ich ganz ohne Historie starten?","acceptedAnswer":{"@type":"Answer","text":"Ja. Ein 12-Minuten-Testlauf auf der Uhr ergibt noch am selben Tag eine geschätzte 5-km- und 10-km-Zeit und deinen ersten Plan — diesen Test gibt es nur auf der Uhr. Mit dem iPhone allein bekommst du trotzdem ab dem ersten Tag GPS-Aufzeichnung, Ansagen zum Abschnittstempo und den Trainingsplan; der Plan startet dann bei deiner zuletzt gelaufenen Wochendistanz. Die Bereitschaft braucht erst Nächte, die du mit der Uhr geschlafen hast, für ihre Basislinie — sie erscheint meist nach etwa zwei Wochen, der ACWR nach etwa vier. Die Leistungskondition erscheint, sobald eine maximale Herzfrequenz gesetzt ist und drei Läufe über zehn Minuten mit aufgezeichneter Herzfrequenz im selben Intensitätsbereich (locker, mittel, hart) zusammengekommen sind. Die ersten Male wird gegen eine Basislinie verglichen, die weder nach Intensität noch nach dem Messzeitpunkt getrennt ist — die App schreibt das auf genau diesem Bildschirm dazu."}},{"@type":"Question","name":"Wer bekommt die Gratis-Testphase?","acceptedAnswer":{"@type":"Answer","text":"Nur Accounts, die der App Store noch als berechtigt für das Einführungsangebot dieses Abos führt. Wer schon einmal abonniert oder die Testphase verbraucht hat, zahlt ab der ersten Abrechnung. Der Kaufbildschirm der App sagt dir vor dem Kauf immer, welcher Fall gilt. Wie lang der freie Zeitraum ist, liefert der App Store ebenfalls mit dem Produkt aus — die App zeigt dir direkt vor dem Kauf genau das, was sie bekommen hat. Beim Jahresabo wird das ganze Jahr auf einmal abgerechnet, sobald dieser freie Zeitraum endet."}},{"@type":"Question","name":"Lebenslang oder jährlich — was lohnt sich?","acceptedAnswer":{"@type":"Answer","text":"Der Lifetime-Zugang ist ein einmaliger Kauf ohne automatische Verlängerung. Nach der Rechnung auf der Preiskarte lohnt er sich gegenüber dem Jahresabo nach etwa 2,6 Jahren, gegenüber dem Monatsabo nach etwa 20 Monaten — wer länger dabeibleiben will, fährt damit günstiger. Er ist außerdem der einzige Tarif, den Apples Familienfreigabe abdeckt; Monats- und Jahresabo sind es nicht."}},{"@type":"Question","name":"Was passiert beim Gerätewechsel?","acceptedAnswer":{"@type":"Answer","text":"Die Läufe selbst liegen in Apple Health, die Health-App des neuen Geräts holt sie also mit. Was nur in Runvis lag — Profil, Herzfrequenzzonen, Schuhliste und die Baselines, die der Coach aufgebaut hat — geht über Einstellungen → Daten → „Meine Daten exportieren“ als eine Datei hinaus und kommt auf dem neuen Gerät über „Aus Backup importieren“ zurück. Die Datei bleibt nur dort, wo du sie speicherst; Runvis schickt sie nirgendwohin. Das Abo holst du über „Käufe wiederherstellen“ im App Store zurück."}},{"@type":"Question","name":"Gibt es eine Zifferblatt-Komplikation oder ein Widget?","acceptedAnswer":{"@type":"Answer","text":"Noch nicht. Zifferblatt-Komplikationen, ein iPhone-Home-Widget und Live-Aktivitäten sind in diesem Build nicht enthalten. Sie sind geplant, ein Datum gibt es noch nicht."}}]}
 </script>
 </head>
 <body>
@@ -616,11 +664,11 @@
 <script>(function(){var h=window.RunvisCritical; if(!h) return;
   for(var k in h){ var e=document.querySelector('[data-i18n="'+k+'"]'); if(e) e.innerHTML=h[k]; }
 })();</script>
-<p class="note" data-i18n="n.hero.note">Aufzeichnen ist kostenlos. Der Coach kostet ₩1,900 im Monat im koreanischen App Store — dort startet Runvis zuerst.</p>
+<p class="note" data-i18n="n.hero.note">Aufzeichnen ist kostenlos. Der Coach ist ein Abo; alle drei Preise stehen in der Tabelle unten. Runvis startet zuerst im koreanischen App Store, weitere Regionen folgen.</p>
 <div class="trust">
 <div class="tbadge"><b>100%</b><span data-i18n="n.hero.b1">Berechnung auf dem Gerät</span></div>
 <div class="tbadge"><b data-i18n="n.hero.b3n">6 Sprachen</b><span data-i18n="n.hero.b3">Sprach-Coaching</span></div>
-<a class="tbadge" href="#price"><b data-i18n="n.hero.b4n">Zuerst Korea</b><span data-i18n="n.hero.b4">weitere Stores folgen</span></a>
+<a class="tbadge" href="#why"><b data-i18n="n.hero.b4n">41</b><span data-i18n="n.hero.b4">Kennzahlen, jede erklärt</span></a>
 </div>
 <div class="stage">
 <div class="ring" aria-hidden="true" data-depth="-.15"><svg viewBox="0 0 200 200"><defs><linearGradient id="rg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#3DDC84"/><stop offset="1" stop-color="#4CCBD9"/></linearGradient></defs>
@@ -657,7 +705,7 @@
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s2">Vorbereitete Coach-Sätze</small><b data-i18n="n.why.s2v">über 270</b><em class="st-good" data-i18n="n.why.s2n">in allen sechs Sprachen</em></div>
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">Automatische Tests</small><b data-i18n="n.why.s3v">über 500</b><em class="st-good" data-i18n="n.why.s3n">bei jedem Build</em></div>
 </div>
-<p class="honest reveal" data-i18n="n.why.cost">Es gibt kein weiteres Gerät zu kaufen — die Apple Watch an deinem Handgelenk ist die Hardware. Bezahlt wird nur der Coach: ₩1,900 im Monat, ₩15,000 im Jahr oder einmalig ₩39,000 für den lebenslangen Zugang, zu Preisen des koreanischen App Store.</p>
+<p class="honest reveal" data-i18n="n.why.cost">Es gibt kein weiteres Gerät zu kaufen — die Apple Watch an deinem Handgelenk ist die Hardware. Bezahlt wird nur der Coach: ₩1,900 im Monat, ₩15,000 im Jahr oder einmalig ₩39,000 für den lebenslangen Zugang, zu Preisen des koreanischen App Store. Eine Uhr wird pro Person gekauft, die sie trägt; der lebenslange Zugang endet bei einmalig ₩39,000 und gilt für eine Apple-Familienfreigabe-Gruppe. Was eine Laufuhr anders macht, steht <a href="how-it-works.html#versus">Kennzahl für Kennzahl geschrieben</a>.</p>
 <p class="honest reveal" data-i18n="n.why.phone">Du brauchst noch keine Uhr. Das iPhone allein zeichnet GPS auf und sagt dein Tempo pro Kilometer an — pro Meile, wenn das deine Einheit ist — und ohne Abo ist dieser Split das Einzige, was es sagt. Technik-Coaching braucht die Handgelenkssensoren und bleibt deshalb auf der Uhr.</p>
 </div>
 </section>
@@ -738,7 +786,7 @@
 </div>
 <p class="honest reveal" data-i18n="n.after.honest"><b>Wo geschätzt wird, steht „geschätzt“ dabei.</b> Fehlt die Grundlage, zeigen wir „lernt noch“ statt einer Zahl. Was wir nicht belegen können, steht gar nicht erst drin.</p>
 <div class="row flip reveal">
-<div class="frame"><img alt="iPhone Körper- und Laufbericht — Trainingslast-Verlauf, Trainingslast, Laktatschwelle (geschätzt), Ausdauer und Anstiege" data-i18n-attr="alt:alt.phone.glance" loading="lazy" src="/assets/framed-phone-glance.de.png" data-shot="framed-phone-glance" width="640" height="1308" decoding="async"/></div>
+<div class="frame"><img alt="iPhone Körper- und Laufbericht — Kacheln Trainingslast-Verlauf, Trainingslast, Laktatschwelle (geschätzt), Ausdauer-Trainingsumfang und Hügelanteil" data-i18n-attr="alt:alt.phone.glance" loading="lazy" src="/assets/framed-phone-glance.de.png" data-shot="framed-phone-glance" width="640" height="1308" decoding="async"/></div>
 <div class="desc">
 <h3 data-i18n="n.after.h3">Tippe einen Wert an und sieh ihn vor deinem gewohnten Bereich</h3>
 <p data-i18n="n.after.p">Du siehst, ob der heutige Wert in deinem 28-Tage-Bereich liegt und wo er im Vergleich zu vor vier Wochen steht. Fachbegriffe musst du nicht kennen. Zu jedem Wert stehen Bedeutung und Berechnungsgrundlage dabei.</p>
@@ -828,16 +876,39 @@
 <p data-i18n="n.price.year">Jährlich <b>₩15,000</b> — rund ₩1,250 pro Monat, im koreanischen App Store etwa 34% weniger als monatlich zu zahlen. Andere Stores rechnen in eigenen Preisstufen, das Verhältnis kann also abweichen; die echte Ersparnis rechnet der Kaufbildschirm der App aus den beiden Preisen aus, die ihm angeboten werden. Bei einem berechtigten Account startet auch das Jahresabo mit einem freien Zeitraum, danach wird das ganze Jahr auf einmal abgerechnet.</p>
 <p data-i18n="n.price.life">Statt Abo <b>lebenslang für ₩39,000</b> — ein Startpreis. Steigt er später, gilt die Erhöhung nie für alle, die schon gekauft haben. Zu den Preisen des koreanischen App Store sind das rund 2,6 Jahre des Jahresabos oder rund 20 Monate des Monatsabos; in deinem Store können die Preisstufen ein anderes Verhältnis ergeben. Es ist der einzige Tarif, den Apples Familienfreigabe abdeckt.</p>
 </details>
+<p class="plisth" data-i18n="n.price.nowh">Ab dem Abo sofort aktiv</p>
 <ul>
 <li data-i18n="n.price.p1">Die Stimme des Coachs beim Laufen: Technik, Anstiege meistern, Erholung, Zuspruch</li>
 <li data-i18n="n.price.p2">Plan-Ausführung: Führung durch jeden Abschnitt, am Ende eine Punktzahl im Vergleich zum Plan</li>
-<li data-i18n="n.price.p3">Sieben Analysekacheln: Laktatschwelle (geschätzt), Ausdauerumfang, Bergexposition, Hitzeexpositions-Index, Coach-Bremse, Intensitätsverteilung, Coach-Rekordradar (schnellste Abschnitte, letzte 90 Tage). Dazu Runvis-VDOT.</li>
 <li data-i18n="n.price.p4">Rennstrategie: Abschnittstempo-Plan, Verpflegungsplan, Generalprobe</li>
+<li data-i18n="n.price.p6">Der Runvis-VDOT, aus deinem besten Abschnitt zurückgerechnet, prognostiziert Zeiten von 5 km bis Marathon</li>
+</ul>
+<p class="plisth" data-i18n="n.price.laterh">Füllt sich, während deine Läufe zusammenkommen</p>
+<ul>
+<li data-i18n="n.price.p3">Sieben Kacheln der Tiefenanalyse öffnen sich im Bericht</li>
+<li class="tilesli"><ul class="tiles">
+<li data-i18n="n.price.t1">Laktatschwelle (geschätzt)</li>
+<li data-i18n="n.price.t2">Ausdauer-Trainingsumfang</li>
+<li data-i18n="n.price.t3">Hügelanteil</li>
+<li data-i18n="n.price.t4">Hitzebelastungsindex</li>
+<li data-i18n="n.price.t5">Coach-Bremse</li>
+<li data-i18n="n.price.t6">Intensitätsverteilung</li>
+<li data-i18n="n.price.t7">Rekord-Radar des Coachs (schnellste Abschnitte, letzte 90 Tage)</li>
+</ul></li>
 <li data-i18n="n.price.p5">Die wöchentliche Coach-Zusammenfassung: Plan-Score, schnellster Abschnitt dieser Woche, verbleibendes Laufbudget, Intensitätsverteilung der letzten vier Wochen und eine Zeile dazu, was du nächste Woche änderst. Kostenlos ist diese Karte eine gesperrte Vorschau.</li>
 </ul>
 <details class="gate">
 <summary data-i18n="n.price.gateh">Wann füllen sich die Werte?</summary>
-<p data-i18n="n.price.gate">Alle sieben öffnen sich mit dem Kauf und füllen sich, während Läufe zusammenkommen. Die Laktatschwelle braucht zwei 30-Minuten-Abschnitte (oder 20-Minuten-Abschnitte) über 85% deiner maximalen Herzfrequenz; gibt es nur Läufe ohne aufgezeichnete Route, wird sie aus einer hinterlegten maximalen Herzfrequenz und drei Läufen ab 20 Minuten berechnet. Der Ausdauerumfang braucht 6 Läufe in 3 von 4 Wochen, verteilt über mindestens zwei Wochen, die Berge 2 Anstiege, die Hitze 3 Läufe an Tagen über 22 °C, die Intensitätsverteilung 8 Tage mit 5 Läufen mit Herzfrequenz, die Bremse 2 Wochen. Bis dahin schreibt jede Kachel selbst, was ihr noch fehlt.</p>
+<p data-i18n="n.price.gatelead">Alle sieben öffnen sich mit dem Kauf und füllen sich, während Läufe zusammenkommen. Bis dahin schreibt jede Kachel selbst, was ihr noch fehlt.</p>
+<ul class="gatelist">
+<li data-i18n="n.price.g1">Laktatschwelle (geschätzt) — zwei 30-Minuten-Abschnitte (oder 20-Minuten-Abschnitte) über 85% deiner maximalen Herzfrequenz. Gibt es nur Läufe ohne aufgezeichnete Route, wird sie aus einer hinterlegten maximalen Herzfrequenz und drei Läufen ab 20 Minuten berechnet.</li>
+<li data-i18n="n.price.g2">Ausdauer-Trainingsumfang — 6 Läufe in 3 von 4 Wochen, verteilt über mindestens zwei Wochen.</li>
+<li data-i18n="n.price.g3">Hügelanteil — 2 Anstiege.</li>
+<li data-i18n="n.price.g4">Hitzebelastungsindex — 3 Läufe an Tagen über 22 °C.</li>
+<li data-i18n="n.price.g5">Intensitätsverteilung — 8 Tage mit 5 Läufen mit Herzfrequenz.</li>
+<li data-i18n="n.price.g6">Coach-Bremse — 2 Wochen Laufen.</li>
+<li data-i18n="n.price.g7">Rekord-Radar des Coachs — Rekorde werden ab einem einzigen Lauf von 1 km oder mehr erfasst.</li>
+</ul>
 </details>
 </div>
 </div>
@@ -857,8 +928,8 @@
 <p data-i18n="n.faq.a2">Nötig sind watchOS 10 oder neuer (Apple Watch Series 4 und aufwärts) und iOS 17 oder neuer. Oberhalb dieser Grenze genügen Puls und GPS. Auf neueren Modellen, die Bodenkontaktzeit und Vertikalbewegung messen, wird das Technik-Coaching feiner; sonst arbeitet es über die Schrittfrequenz.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q3">Was passiert bei einer Kündigung mit meinen Daten?</h3><p data-i18n="n.faq.a3">Deine Läufe bleiben unangetastet in Apple Health. Nach der Kündigung bleiben Aufzeichnung, Planansicht und der Detailbericht kostenlos.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q4">Wohin gehen meine Daten?</h3><p data-i18n="n.faq.a4">Es gibt weder Account noch Server. Standortdaten gehen nur für Wetter, Ortsnamen und automatisch erzeugte Routen raus. Dazu kommen die App-Store-Zahlung, der Download der öffentlichen Strecken- und Schuhlisten und — vorerst nur im koreanischen App Store — eine externe Schuh-Suchseite, die sich öffnet, wenn du sie im Schuh-Bildschirm selbst antippst. Trainings- und Gesundheitsdaten werden nie hochgeladen.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q5">Wie weit reichen die sechs Sprachen?</h3><p data-i18n="n.faq.a5">Jeder Satz, den der Coach ausspricht, ist in sechs Sprachen übersetzt. Hat es ein Satz noch nicht in die Tabellen geschafft, hörst du Englisch, nie Koreanisch — auch das ist per Test festgenagelt. Diese Zusage gilt nur für die Stimme des Coachs; die Texte auf den App-Bildschirmen nutzen eine andere Tabelle.</p>
-<details class="gate"><summary data-i18n="n.faq.a5h">Was halten die Tests genau fest?</summary><p data-i18n="n.faq.a5g">Die vier Übersetzungstabellen müssen Schlüssel für Schlüssel und Platzhalter für Platzhalter übereinstimmen, und jede in einer Tabelle stehende Zeile muss über den Weg auffindbar sein, den die App tatsächlich nimmt. Der iPhone-Coach spielt einen 45-Minuten-Lauf sekundenweise in sechs Sprachen × metrisch und imperial nach, um zu prüfen, dass jede dabei entstehende Ansage übersetzt ist; eine Abweichung, und es schlägt sofort fehl. Auch Ansagen mit Zahlen kommen in der Wortstellung der jeweiligen Sprache (Splits, Bergwarnung, Tempo, Herzfrequenzzone und Trainingsschritte inbegriffen). Die Live-Coaching-Schleife der Uhr liegt außerhalb dieses Testbündels — deshalb kann noch ein Satz in den Tabellen fehlen.</p></details></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q5">Wie weit reichen die sechs Sprachen?</h3><p data-i18n="n.faq.a5">Jeder Satz, den der iPhone-Coach ausspricht, ist in allen sechs Sprachen per Test festgenagelt — bei jedem Build wird ein 45-Minuten-Lauf sekundenweise nachgespielt, um zu prüfen, dass jede dabei entstehende Ansage übersetzt ist. Die Live-Coaching-Schleife der Uhr liegt außerhalb dieses Testbündels, dort kann also noch ein Satz in den Tabellen fehlen; dann hörst du Englisch, nie Koreanisch, und auch dieser Rückfall ist per Test festgenagelt. Die Texte auf den App-Bildschirmen nutzen eine andere Tabelle als die Stimme des Coachs.</p>
+<details class="gate"><summary data-i18n="n.faq.a5h">Was halten die Tests genau fest?</summary><p data-i18n="n.faq.a5g">Die vier Übersetzungstabellen müssen Schlüssel für Schlüssel und Platzhalter für Platzhalter übereinstimmen, und jede in einer Tabelle stehende Zeile muss über den Weg auffindbar sein, den die App tatsächlich nimmt. Der 45-Minuten-Nachlauf des iPhone-Coachs läuft in sechs Sprachen × metrisch und imperial; eine Abweichung, und es schlägt sofort fehl. Auch Ansagen mit Zahlen kommen in der Wortstellung der jeweiligen Sprache (Splits, Bergwarnung, Tempo, Herzfrequenzzone und Trainingsschritte inbegriffen).</p></details></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q6">Kann ich ganz ohne Historie starten?</h3><p data-i18n="n.faq.a6">Ja. Ein 12-Minuten-Testlauf auf der Uhr ergibt noch am selben Tag eine geschätzte 5-km- und 10-km-Zeit und deinen ersten Plan — diesen Test gibt es nur auf der Uhr. Mit dem iPhone allein bekommst du trotzdem ab dem ersten Tag GPS-Aufzeichnung, Ansagen zum Abschnittstempo und den Trainingsplan; der Plan startet dann bei deiner zuletzt gelaufenen Wochendistanz. Die Bereitschaft braucht erst Nächte, die du mit der Uhr geschlafen hast, für ihre Basislinie — sie erscheint meist nach etwa zwei Wochen, der ACWR nach etwa vier. Die Leistungskondition erscheint, sobald eine maximale Herzfrequenz gesetzt ist und drei Läufe über zehn Minuten mit aufgezeichneter Herzfrequenz im selben Intensitätsbereich (locker, mittel, hart) zusammengekommen sind. Die ersten Male wird gegen eine Basislinie verglichen, die weder nach Intensität noch nach dem Messzeitpunkt getrennt ist — die App schreibt das auf genau diesem Bildschirm dazu.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q7">Wer bekommt die Gratis-Testphase?</h3><p data-i18n="n.faq.a7">Nur Accounts, die der App Store noch als berechtigt für das Einführungsangebot dieses Abos führt. Wer schon einmal abonniert oder die Testphase verbraucht hat, zahlt ab der ersten Abrechnung. Der Kaufbildschirm der App sagt dir vor dem Kauf immer, welcher Fall gilt. Wie lang der freie Zeitraum ist, liefert der App Store ebenfalls mit dem Produkt aus — die App zeigt dir direkt vor dem Kauf genau das, was sie bekommen hat. Beim Jahresabo wird das ganze Jahr auf einmal abgerechnet, sobald dieser freie Zeitraum endet.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q8">Lebenslang oder jährlich — was lohnt sich?</h3><p data-i18n="n.faq.a8">Der Lifetime-Zugang ist ein einmaliger Kauf ohne automatische Verlängerung. Nach der Rechnung auf der Preiskarte lohnt er sich gegenüber dem Jahresabo nach etwa 2,6 Jahren, gegenüber dem Monatsabo nach etwa 20 Monaten — wer länger dabeibleiben will, fährt damit günstiger. Er ist außerdem der einzige Tarif, den Apples Familienfreigabe abdeckt; Monats- und Jahresabo sind es nicht.</p></div>
@@ -885,28 +956,32 @@
 <p class="sub" data-i18n="n.beta.sub" style="margin:0 auto">Hinterlass eine E-Mail-Adresse und du bekommst eine Einladung, sobald die TestFlight-Beta öffnet. Sobald der Starttermin feststeht, steht er hier und geht an alle bereits eingetragenen Adressen.</p>
 <form action="https://formspree.io/f/xnjeyalr" id="betaForm" method="POST">
 <input name="email" placeholder="E-Mail-Adresse" aria-label="E-Mail-Adresse" data-i18n-attr="placeholder:ph.email,aria-label:ph.email" required="" type="email"/>
-<p class="order-note" data-i18n="n.beta.order">Einen Starttermin gibt es noch nicht. Die Einladungen gehen in der Reihenfolge der Anmeldungen raus — jetzt eintragen legt also deinen Platz in dieser Reihenfolge fest.</p>
-<button class="btn" data-i18n="t160" id="betaSubmit" type="submit">Beta-Einladung erhalten</button>
-</form>
 <fieldset class="want">
 <legend data-i18n="n.beta.want">Was möchtest du bekommen?</legend>
-<label><input form="betaForm" name="want" type="radio" value="beta" checked=""/> <span data-i18n="n.beta.want1">An der Beta teilnehmen — schickt mir die TestFlight-Einladung</span></label>
-<label><input form="betaForm" name="want" type="radio" value="launch"/> <span data-i18n="n.beta.want2">Nur die Release-Info — sagt mir einmal Bescheid, wenn sie da ist</span></label>
+<label><input name="want" type="radio" value="beta" checked=""/> <span data-i18n="n.beta.want1">An der Beta teilnehmen — schickt mir die TestFlight-Einladung</span></label>
+<label><input name="want" type="radio" value="launch"/> <span data-i18n="n.beta.want2">Nur die Release-Info — sagt mir einmal Bescheid, wenn sie da ist</span></label>
 </fieldset>
-<p id="betaStatus" role="status" aria-live="polite" style="display:none;margin-top:14px;font-size:15px;font-weight:600"></p>
-<a class="btn ghost" id="betaNext" href="run.html" style="margin-top:14px" data-i18n="form.okcta">Die 5-km-Demo laufen</a>
 <div class="consent">
 <div>· <b data-i18n="t161">Was wir erfassen</b><span data-i18n="cs.purpose">: Versand deiner TestFlight-Beta-Einladung</span></div>
-<div>· <b data-i18n="t162">Aufbewahrungsdauer</b>
-<span data-i18n="cs.retain">: wird unverzüglich gelöscht, sobald der Zweck erfüllt ist (Beta-Einladung versendet), spätestens ein Jahr nach der Erhebung</span></div>
-<label><input form="betaForm" name="privacy_consent" type="checkbox" value="yes" required=""/> <span data-i18n="n.beta.required">(Erforderlich) Ich stimme zu, dass meine E-Mail-Adresse zum Versand der Beta-Einladung erhoben und genutzt wird.</span></label>
-<label><input form="betaForm" name="marketing_consent" type="checkbox" value="yes"/> <span data-i18n="cs.marketing">(Optional) Ich möchte Neuigkeiten zum Start und Produkt-Updates erhalten.</span></label>
+<div>· <b data-i18n="t162">Aufbewahrungsdauer</b><span data-i18n="cs.retain">: wird unverzüglich gelöscht, sobald der Zweck erfüllt ist (Beta-Einladung versendet), spätestens ein Jahr nach der Erhebung</span></div>
+<label><input name="privacy_consent" type="checkbox" value="yes" required=""/> <span data-i18n="n.beta.required">(Erforderlich) Ich stimme zu, dass meine E-Mail-Adresse zum Versand der Beta-Einladung erhoben und genutzt wird.</span></label>
+<label><input name="marketing_consent" type="checkbox" value="yes"/> <span data-i18n="cs.marketing">(Optional) Ich möchte Neuigkeiten zum Start und Produkt-Updates erhalten.</span></label>
 <div style="margin-top:8px">· <a href="privacy.html" style="color:var(--green)" data-i18n="n.priv.link">Datenschutzerklärung</a></div>
 </div>
+<p class="order-note" data-i18n="n.beta.order">Einen Starttermin gibt es noch nicht. Die Einladungen gehen in der Reihenfolge der Anmeldungen raus, und Apple begrenzt externe TestFlight-Tester auf 10.000 Plätze. Jetzt eintragen legt deinen Platz innerhalb dieser 10.000 fest.</p>
+<button class="btn" data-i18n="t160" id="betaSubmit" type="submit">Beta-Einladung erhalten</button>
+</form>
+<p id="betaStatus" role="status" aria-live="polite" style="display:none;margin-top:14px;font-size:15px;font-weight:600"></p>
+<a class="btn ghost" id="betaNext" href="run.html" style="margin-top:14px" data-i18n="form.okcta" hidden="">Die 5-km-Demo laufen</a>
 <div class="nextsteps">
 <h4 data-i18n="n.beta.nowh">Was du schon jetzt ansehen kannst</h4>
-<p data-i18n="n.beta.now">Die <a href="run.html">5-km-Demo</a> zeigt genau, wann der Coach spricht und wann er still bleibt, und die <a href="privacy.html">Datenschutzerklärung</a> sagt, wie weit deine Daten gehen.</p>
-<p><a href="how-it-works.html" data-i18n="hw.link">Die vollständigen Regeln und die Werkzeuge — Herzfrequenzzonen-Rechner, Seouler Strecken als GPX, Ablauf der Beta</a></p>
+<ul class="dolist">
+<li data-i18n="n.beta.do1"><a href="run.html">Die 5-km-Demo</a> — hör genau, wann der Coach spricht und wann er schweigt, und wo die kostenlosen Ansagen enden und die des Abos beginnen.</li>
+<li data-i18n="n.beta.do2"><a href="how-it-works.html#zones">Der Herzfrequenzzonen-Rechner</a> — deine fünf Zonen, hier mit derselben Karvonen-Formel gerechnet, die auch die Stimme des Coachs nutzt. Alter und Ruhepuls genügen.</li>
+<li data-i18n="n.beta.do3"><a href="how-it-works.html#gpx">Dreizehn GPX-Dateien für Strecken in Seoul</a> — jetzt herunterladen, ohne Installation, und in die Uhr oder Karten-App laden, die du ohnehin nutzt.</li>
+<li data-i18n="n.beta.do4"><a href="how-it-works.html#beta">Was auf die Anmeldung folgt</a> — die vier Schritte: Anmeldung, TestFlight-Einladung, Rückmeldung, Start. Im Beta-Build sind für die Dauer der Beta alle Coach-Funktionen kostenlos.</li>
+<li data-i18n="n.beta.do5"><a href="privacy.html">Die Datenschutzerklärung</a> — was dieses Formular erhebt und wie weit das, was die App hält, das Gerät überhaupt verlässt. Beides schriftlich.</li>
+</ul>
 </div>
 </div>
 </div>
@@ -1195,13 +1270,13 @@ const Voice=(()=>{
     const was=activeChip;
     chips().forEach(x=>{ x.classList.remove('playing'); x.setAttribute('aria-pressed','false'); });
     activeChip=null;
-    if(was && !quiet) announce('a11y.stopped','재생을 멈췄습니다');
+    if(was && !quiet) announce('a11y.stopped', 'Wiedergabe gestoppt');
   }
   function play(chip, text, tag){
     stop(true);
     const my=++gen;
     activeChip=chip; chip.classList.add('playing'); chip.setAttribute('aria-pressed','true');
-    announce('a11y.playing','예시 음성 재생 중');
+    announce('a11y.playing', 'Beispielansage läuft');
     const list=voiceCandidates(tag);
     const done=()=>{ if(my!==gen) return; chip.classList.remove('playing'); chip.setAttribute('aria-pressed','false'); activeChip=null; };
     (function attempt(i){
@@ -1345,9 +1420,11 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
       }, 60);
       betaForm.reset();
       // The signup used to end in an inbox. Hand the reader the one thing they
-      // can actually do next while they wait.
+      // can actually do next while they wait — and only now, because until the
+      // POST succeeded this link sat between the button and the consent
+      // checkbox the button was waiting on (round 13, -3).
       const next = document.getElementById('betaNext');
-      if (next) next.textContent = window.RunvisT('form.okcta', 'Die 5-km-Demo laufen');
+      if (next) { next.hidden = false; next.textContent = window.RunvisT('form.okcta', 'Die 5-km-Demo laufen'); }
     }
     else { const d = await res.json().catch(() => null); show(d?.errors?.[0]?.message || window.RunvisT('form.fail', 'Das hat nicht geklappt. Bitte versuch es gleich noch einmal.'), false); }
   } catch { show(window.RunvisT('form.neterr', 'Netzwerkfehler. Bitte versuch es gleich noch einmal.'), false); }

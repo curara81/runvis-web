@@ -36,6 +36,8 @@
 <link href="https://runvis.app/zh/" hreflang="zh-Hant" rel="alternate"/>
 <link href="https://runvis.app/de/" hreflang="de" rel="alternate"/>
 <link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🏃&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="manifest" href="/site.webmanifest"/>
 <noscript><style>.reveal,.rv{opacity:1!important;transform:none!important}</style></noscript>
 <style>
   :root{
@@ -50,6 +52,9 @@
     font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
     line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:clip;word-break:keep-all}
   a{color:inherit;text-decoration:none}
+  /* .btn sets display:inline-flex, which outranks the UA rule for [hidden].
+     #betaNext is a .btn and is hidden until a submit succeeds. */
+  [hidden]{display:none!important}
   :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
   img{max-width:100%;height:auto;display:block}
   body{overflow-wrap:break-word;word-break:normal;line-break:normal}
@@ -171,7 +176,14 @@
   .langsel.open ul{display:block}
   .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text)}
   .langsel li:hover{background:rgba(61,220,132,.15)}
-  .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
+  /* 2026-09-06 라운드 13 (-0.5): each item is a real link to that language's
+     prerendered copy, so picking a language changes the ADDRESS — a URL shared
+     from here keeps the language it was read in. The <li> keeps the row box,
+     the <a> fills it so the whole row stays clickable, and aria-checked moves
+     onto the anchor, which is the menuitemradio now. */
+  .langsel li{padding:0}
+  .langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
+  .langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
   @media(max-width:700px){.langsel{margin-left:auto}.langsel button{padding:6px 9px;font-size:12px}}
 
   /* HERO */
@@ -380,6 +392,19 @@
   .plan ul{list-style:none;margin-top:18px}
   .plan li{padding:7px 0;font-size:15px;color:#dfe3e7;display:flex;gap:10px}
   .plan li::before{content:"✓";color:var(--green);font-weight:800}
+  /* The two headings the app's paywall uses over the same two groups. */
+  .plan .plisth{margin-top:18px;font-size:12.5px;font-weight:800;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--dim)}
+  .plan .plisth+ul{margin-top:6px}
+  /* The seven tile names, as a list rather than a comma sentence. Two columns
+     where there is room; no tick, because they are the CONTENTS of the ticked
+     line above, not seven more things. */
+  .plan .tilesli{padding:0}
+  .plan .tilesli::before{content:none}
+  .plan .tiles{margin:2px 0 4px 26px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}
+  @media(max-width:520px){.plan .tiles{grid-template-columns:minmax(0,1fr)}}
+  .plan .tiles li{padding:3px 0;font-size:13.5px;color:var(--dim);gap:7px}
+  .plan .tiles li::before{content:"·";color:var(--cyan)}
   .plan .terms-link{display:inline-block;margin-top:4px;font-size:12px;color:var(--dim);
     text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
   .plan .terms-link:hover{color:var(--text)}
@@ -401,6 +426,10 @@
   .gate[open] summary::before{transform:rotate(90deg)}
   .gate summary:hover{color:var(--text)}
   .gate p{margin-top:10px;font-size:13px;line-height:1.75;color:var(--dim)}
+  /* One condition per tile. Was a single 298-character paragraph. */
+  .plan .gatelist{margin-top:8px;list-style:none}
+  .plan .gatelist li{padding:5px 0;font-size:13px;line-height:1.7;color:var(--dim);gap:8px;align-items:flex-start}
+  .plan .gatelist li::before{content:"·";color:var(--green)}
   .note{text-align:center;color:var(--dim2);font-size:12.5px;margin-top:14px}
   /* Sits directly under the submit button: the one thing about timing that can
      honestly be said. */
@@ -414,7 +443,11 @@
   .nextsteps{max-width:520px;margin:24px auto 0;text-align:left}
   .nextsteps h4{font-size:14px;color:var(--dim);font-weight:700;letter-spacing:.02em}
   .nextsteps p{margin-top:10px;font-size:13.5px;color:var(--dim);line-height:1.7}
-  .nextsteps p a{color:var(--green);border-bottom:1px solid rgba(61,220,132,.4)}
+  .nextsteps p a,.dolist a{color:var(--green);border-bottom:1px solid rgba(61,220,132,.4)}
+  /* Five things a reader can do before there is anything to install. */
+  .dolist{list-style:none;margin-top:12px}
+  .dolist li{position:relative;padding-left:18px;margin-top:11px;font-size:13.5px;color:var(--dim);line-height:1.7}
+  .dolist li::before{content:"→";position:absolute;left:0;color:var(--cyan);font-weight:800}
   /* visible only to assistive tech — playback announcements for the chips */
   .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
   /* Without this the first Tab on every page landed on the language menu.
@@ -437,6 +470,10 @@
   /* Beta testing and "just tell me when it ships" are different intents and
      used to share one button. One Formspree field separates them. */
   .want{max-width:520px;margin:18px auto 0;text-align:left;font-size:13.5px;color:var(--dim);border:0;padding:0}
+  /* Both blocks moved inside the form (round 13, -3). The form is a centred
+     flex row, so each of them takes a row of its own rather than trying to
+     share one with the e-mail field. */
+  .signup form .want,.signup form .consent{flex:0 0 100%;max-width:none;margin-left:0;margin-right:0}
   .want legend{padding:0;color:var(--text);font-weight:700;font-size:14px;margin-bottom:6px}
   .want label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;margin-top:6px;line-height:1.7}
   .want label span,.consent label span{min-width:0;flex:1}
@@ -492,6 +529,17 @@
   function norm(v){ if(!v) return null; v=String(v).toLowerCase();
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
+  // The BROWSER's language is the one source that must not fold every zh-*
+  // onto our table, because our zh table is Traditional (LANGS label 繁體中文,
+  // tts zh-TW, <html lang="zh-Hant">) and norm() above sent zh-Hans / zh-CN /
+  // zh-SG straight to it. Being handed the other script automatically reads as
+  // an accident, not a choice (2026-09-06 라운드 13, -0.3). Those visitors fall
+  // through to the x-default, English, and 繁體中文 is still one pick away in
+  // the language menu. An EXPLICIT zh — ?lang=zh, /zh/, the menu — still goes
+  // through norm() and still resolves, which is why this is a second function
+  // and not a change to the first.
+  function navLang(v){ var s=v?String(v).toLowerCase():"";
+    return (s.indexOf("zh")===0 && !/^zh-(hant|tw|hk|mo)\b/.test(s)) ? null : norm(s); }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
   // On a prerendered page (/en/, /ja/ …) the directory IS the language and
   // RunvisPageLang is set just above; it outranks the saved choice and the
@@ -503,7 +551,7 @@
   // Korean document. A Korean browser still resolves through
   // norm(navigator.language) and is unaffected, and ?lang= and the saved
   // choice still outrank this.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"en";
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||navLang(navigator.language)||"en";
   // A German browser landing on a ROOT url used to get German BODY text with a
   // Korean canonical, Korean og:* and no route to /de/ at all — the five
   // prerendered market pages existed and nothing ever sent anyone to them.
@@ -575,7 +623,7 @@
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"ja","url":"https://runvis.app/","description":"ランニングウォッチをもう一台買う必要はありません。Apple Watchが記録した睡眠と心拍を読んで、今日何を走るかコーチが決めます。走っている間は声で伝えます。アカウントもサーバーもありません。","image":"https://runvis.app/assets/og-card.png","screenshot":"https://runvis.app/assets/framed-phone-dash.ja.png","author":{"@type":"Organization","name":"Runvis","url":"https://runvis.app/"},"offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}}]}
 </script>
 <script id="faqld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"Watchがなくても使えますか？","acceptedAnswer":{"@type":"Answer","text":"iPhoneだけでもGPS記録と1km（マイル設定なら1マイル）ごとのスプリット案内ができます。サブスクなしでiPhoneだけで走るときに流れる音声はこのスプリットだけです。登録すればiPhoneでもペース案内が流れますが、心拍ゾーンの案内はiPhoneに心拍センサーがないため、Bluetooth心拍ベルト（Polar H10やWahoo TICKRのような標準BLE心拍バンド）を接続したときだけ流れます。フォームのコーチング・坂予告・コース逸脱の警告はウォッチでの走行のみです。"}},{"@type":"Question","name":"どのApple Watchが必要ですか？","acceptedAnswer":{"@type":"Answer","text":"watchOS 10以降（Apple Watch Series 4以降）とiOS 17以降が必要です。その条件さえ満たせば、心拍とGPSだけで十分です。接地時間と上下動を測れる新しいモデルではフォームコーチングがより細かくなり、測れないモデルではケイデンス基準で動きます。"}},{"@type":"Question","name":"解約したら記録はどうなりますか？","acceptedAnswer":{"@type":"Answer","text":"記録はApple ヘルスケアにそのまま残ります。解約後も記録・プランの閲覧・ワークアウト詳細レポートは無料で使えます。"}},{"@type":"Question","name":"データはどこへ行きますか？","acceptedAnswer":{"@type":"Answer","text":"アカウントもサーバーもありません。位置情報は天気・地域名・コースの自動生成の照会時にだけ外に出ます。このほかにApp Storeの決済処理と、公開されたコース・シューズ一覧ファイルのダウンロードがあり、さらに今のところ韓国App Storeでのみ、シューズ画面で自分でタップしたときに外部のランニングシューズ検索ページが開きます。運動・健康データはアップロードしません。"}},{"@type":"Question","name":"6言語の音声はどこまで対応していますか？","acceptedAnswer":{"@type":"Answer","text":"コーチが声に出す文は6言語に翻訳されています。まだ表に載っていない文が残っていた場合は、韓国語ではなく英語で流れます。この動作もテストで固定しています。この保証はコーチの音声に限ったもので、アプリの画面の文言は別の翻訳表を使います。"}},{"@type":"Question","name":"記録がまったくなくても使えますか？","acceptedAnswer":{"@type":"Answer","text":"使えます。時計で12分の測定ランを一度走れば、その日のうちに5K・10Kの予想タイムと最初のプランができます — この測定は時計専用です。iPhoneだけでも初日からGPS記録、区間ペースの音声、トレーニングプランの閲覧は使え、プランの開始地点は直近の週間距離から決めます。準備度は時計をつけて眠った夜がベースラインに溜まるまで出ないので、ふつうは2週間ほど、ACWRは4週間ほどかかります。パフォーマンスコンディションは、最大心拍を設定したうえで、心拍が記録された10分超のランニングを同じ強度帯（イージー・中間・高強度）で3回そろえると出ます。最初の数回は、強度でも測定した時点でもまだ分けられていない基準線と比較され、アプリはそのことをその画面に書きます。"}},{"@type":"Question","name":"無料体験は誰が受けられますか？","acceptedAnswer":{"@type":"Answer","text":"App Storeがこの定期購読の体験をまだ使っていないと判断したアカウントだけです。以前に同じ購読を使った、または体験を消化済みのアカウントは、最初の支払いから課金されます。アプリの購入画面が、購入前にどちらなのかを必ず表示します。無料期間の長さもApp Storeが商品情報として渡してくる値なので、アプリは受け取ったとおりに購入直前に表示します。年額を選んだ場合は、その無料期間が終わってから1年分がまとめて請求されます。"}},{"@type":"Question","name":"買い切りと年間、どちらが得ですか？","acceptedAnswer":{"@type":"Answer","text":"買い切りは自動更新のない1回きりの購入です。価格カードの計算どおり、年額なら約2.6年、月額なら約20か月で元が取れるので、それより長く使うつもりなら買い切りのほうが安くなります。Appleのファミリー共有に対応する料金プランもこれだけです — 月額・年額の定期購読は対象外です。"}},{"@type":"Question","name":"端末を買い替えたらどうなりますか？","acceptedAnswer":{"@type":"Answer","text":"ランの記録そのものはAppleヘルスケアに保存されているので、新しい端末のヘルスケアアプリがそのまま引き継ぎます。Runvisの中だけにあった値 — プロフィール、心拍ゾーン、シューズ一覧、コーチが作った基準線 — は、設定 → データ → 「自分のデータを書き出す」でファイル1つにまとめて取り出し、新しい端末で「バックアップから読み込む」で戻します。ファイルは自分が保存した場所にだけ残り、Runvisはどこにも送りません。サブスクはApp Storeの購入の復元で戻します。"}},{"@type":"Question","name":"ウォッチフェイスのコンプリケーションやウィジェットはありますか？","acceptedAnswer":{"@type":"Answer","text":"まだありません。ウォッチフェイスのコンプリケーション、iPhoneのホーム画面ウィジェット、ライブアクティビティは今回のバージョンには入っていません。入れる予定はありますが、時期はまだ決まっていません。"}}]}
+{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"Watchがなくても使えますか？","acceptedAnswer":{"@type":"Answer","text":"iPhoneだけでもGPS記録と1km（マイル設定なら1マイル）ごとのスプリット案内ができます。サブスクなしでiPhoneだけで走るときに流れる音声はこのスプリットだけです。登録すればiPhoneでもペース案内が流れますが、心拍ゾーンの案内はiPhoneに心拍センサーがないため、Bluetooth心拍ベルト（Polar H10やWahoo TICKRのような標準BLE心拍バンド）を接続したときだけ流れます。フォームのコーチング・坂予告・コース逸脱の警告はウォッチでの走行のみです。"}},{"@type":"Question","name":"どのApple Watchが必要ですか？","acceptedAnswer":{"@type":"Answer","text":"watchOS 10以降（Apple Watch Series 4以降）とiOS 17以降が必要です。その条件さえ満たせば、心拍とGPSだけで十分です。接地時間と上下動を測れる新しいモデルではフォームコーチングがより細かくなり、測れないモデルではケイデンス基準で動きます。"}},{"@type":"Question","name":"解約したら記録はどうなりますか？","acceptedAnswer":{"@type":"Answer","text":"記録はApple ヘルスケアにそのまま残ります。解約後も記録・プランの閲覧・ワークアウト詳細レポートは無料で使えます。"}},{"@type":"Question","name":"データはどこへ行きますか？","acceptedAnswer":{"@type":"Answer","text":"アカウントもサーバーもありません。位置情報は天気・地域名・コースの自動生成の照会時にだけ外に出ます。このほかにApp Storeの決済処理と、公開されたコース・シューズ一覧ファイルのダウンロードがあり、さらに今のところ韓国App Storeでのみ、シューズ画面で自分でタップしたときに外部のランニングシューズ検索ページが開きます。運動・健康データはアップロードしません。"}},{"@type":"Question","name":"6言語の音声はどこまで対応していますか？","acceptedAnswer":{"@type":"Answer","text":"iPhoneコーチが話す文は6言語すべてテストで固定されています — 45分のランを1秒刻みに再生し、そのランで出た合図がすべて翻訳されているかをビルドのたびに検査します。Watchのリアルタイム・コーチング処理はそのテストの外にあるため、まだ表に載っていない文が残る可能性があります。その場合は韓国語ではなく英語で流れ、そのフォールバックもテストで固定しています。アプリの画面の文言は、コーチの音声とは別の翻訳表を使います。"}},{"@type":"Question","name":"記録がまったくなくても使えますか？","acceptedAnswer":{"@type":"Answer","text":"使えます。時計で12分の測定ランを一度走れば、その日のうちに5K・10Kの予想タイムと最初のプランができます — この測定は時計専用です。iPhoneだけでも初日からGPS記録、区間ペースの音声、トレーニングプランの閲覧は使え、プランの開始地点は直近の週間距離から決めます。準備度は時計をつけて眠った夜がベースラインに溜まるまで出ないので、ふつうは2週間ほど、ACWRは4週間ほどかかります。パフォーマンスコンディションは、最大心拍を設定したうえで、心拍が記録された10分超のランニングを同じ強度帯（イージー・中間・高強度）で3回そろえると出ます。最初の数回は、強度でも測定した時点でもまだ分けられていない基準線と比較され、アプリはそのことをその画面に書きます。"}},{"@type":"Question","name":"無料体験は誰が受けられますか？","acceptedAnswer":{"@type":"Answer","text":"App Storeがこの定期購読の体験をまだ使っていないと判断したアカウントだけです。以前に同じ購読を使った、または体験を消化済みのアカウントは、最初の支払いから課金されます。アプリの購入画面が、購入前にどちらなのかを必ず表示します。無料期間の長さもApp Storeが商品情報として渡してくる値なので、アプリは受け取ったとおりに購入直前に表示します。年額を選んだ場合は、その無料期間が終わってから1年分がまとめて請求されます。"}},{"@type":"Question","name":"買い切りと年間、どちらが得ですか？","acceptedAnswer":{"@type":"Answer","text":"買い切りは自動更新のない1回きりの購入です。価格カードの計算どおり、年額なら約2.6年、月額なら約20か月で元が取れるので、それより長く使うつもりなら買い切りのほうが安くなります。Appleのファミリー共有に対応する料金プランもこれだけです — 月額・年額の定期購読は対象外です。"}},{"@type":"Question","name":"端末を買い替えたらどうなりますか？","acceptedAnswer":{"@type":"Answer","text":"ランの記録そのものはAppleヘルスケアに保存されているので、新しい端末のヘルスケアアプリがそのまま引き継ぎます。Runvisの中だけにあった値 — プロフィール、心拍ゾーン、シューズ一覧、コーチが作った基準線 — は、設定 → データ → 「自分のデータを書き出す」でファイル1つにまとめて取り出し、新しい端末で「バックアップから読み込む」で戻します。ファイルは自分が保存した場所にだけ残り、Runvisはどこにも送りません。サブスクはApp Storeの購入の復元で戻します。"}},{"@type":"Question","name":"ウォッチフェイスのコンプリケーションやウィジェットはありますか？","acceptedAnswer":{"@type":"Answer","text":"まだありません。ウォッチフェイスのコンプリケーション、iPhoneのホーム画面ウィジェット、ライブアクティビティは今回のバージョンには入っていません。入れる予定はありますが、時期はまだ決まっていません。"}}]}
 </script>
 </head>
 <body>
@@ -616,11 +664,11 @@
 <script>(function(){var h=window.RunvisCritical; if(!h) return;
   for(var k in h){ var e=document.querySelector('[data-i18n="'+k+'"]'); if(e) e.innerHTML=h[k]; }
 })();</script>
-<p class="note" data-i18n="n.hero.note">記録は無料。コーチは韓国App Storeで月₩1,900、まずその韓国から公開します。</p>
+<p class="note" data-i18n="n.hero.note">記録は無料です。コーチはサブスクで、3つの料金は下の価格表にあります。まず韓国App Storeで公開し、その他の地域は順次です。</p>
 <div class="trust">
 <div class="tbadge"><b>100%</b><span data-i18n="n.hero.b1">端末の中で計算</span></div>
 <div class="tbadge"><b data-i18n="n.hero.b3n">6言語</b><span data-i18n="n.hero.b3">音声コーチング</span></div>
-<a class="tbadge" href="#price"><b data-i18n="n.hero.b4n">まず韓国から</b><span data-i18n="n.hero.b4">他の地域は順次</span></a>
+<a class="tbadge" href="#why"><b data-i18n="n.hero.b4n">41個</b><span data-i18n="n.hero.b4">指標ごとに意味と根拠</span></a>
 </div>
 <div class="stage">
 <div class="ring" aria-hidden="true" data-depth="-.15"><svg viewBox="0 0 200 200"><defs><linearGradient id="rg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#3DDC84"/><stop offset="1" stop-color="#4CCBD9"/></linearGradient></defs>
@@ -657,7 +705,7 @@
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s2">コーチが用意した文</small><b data-i18n="n.why.s2v">270以上</b><em class="st-good" data-i18n="n.why.s2n">6言語すべて</em></div>
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">自動テスト</small><b data-i18n="n.why.s3v">500件以上</b><em class="st-good" data-i18n="n.why.s3n">ビルドごとに全部</em></div>
 </div>
-<p class="honest reveal" data-i18n="n.why.cost">買い足す機器はありません。手首にあるApple Watchをそのまま使います。かかるのはコーチの費用だけで、韓国App Store基準で月₩1,900・年₩15,000・買い切り₩39,000の一度きりです。</p>
+<p class="honest reveal" data-i18n="n.why.cost">買い足す機器はありません。手首にあるApple Watchをそのまま使います。かかるのはコーチの費用だけで、韓国App Store基準で月₩1,900・年₩15,000・買い切り₩39,000の一度きりです。時計は使う人数だけ買う必要がありますが、買い切りは₩39,000の一度で終わり、Appleのファミリー共有グループで一緒に使えます。専用ウォッチと何が同じで何が違うかは<a href="how-it-works.html#versus">指標ごとに書いてあります</a>。</p>
 <p class="honest reveal" data-i18n="n.why.phone">ウォッチはまだなくても大丈夫です。iPhoneだけでGPS記録と1km（マイル設定なら1マイル）ごとのスプリット案内ができます — サブスクなしでiPhoneだけで走るときに流れる音声はこのスプリットだけです。フォームのコーチングは手首のセンサーが必要なので、ウォッチだけの機能です。</p>
 </div>
 </section>
@@ -738,7 +786,7 @@
 </div>
 <p class="honest reveal" data-i18n="n.after.honest"><b>推定値には「推定」と書きます。</b> 根拠が足りないときは数字の代わりに「学習中」と表示します。確信が持てない指標は入れていません。</p>
 <div class="row flip reveal">
-<div class="frame"><img alt="iPhone からだ・ランレポート — トレーニング負荷の推移・トレーニング負荷・乳酸性作業閾値（推定）・持久力・起伏のタイル" data-i18n-attr="alt:alt.phone.glance" loading="lazy" src="/assets/framed-phone-glance.ja.png" data-shot="framed-phone-glance" width="640" height="1308" decoding="async"/></div>
+<div class="frame"><img alt="iPhone からだ・ランレポート — トレーニング負荷の流れ・トレーニング負荷・乳酸性作業閾値（推定）・持久力トレーニング量・ヒル曝露のタイル" data-i18n-attr="alt:alt.phone.glance" loading="lazy" src="/assets/framed-phone-glance.ja.png" data-shot="framed-phone-glance" width="640" height="1308" decoding="async"/></div>
 <div class="desc">
 <h3 data-i18n="n.after.h3">指標をタップすると、自分の普段の範囲と重ねて見られます</h3>
 <p data-i18n="n.after.p">今日の値が自分の28日範囲の中にあるか、4週間前と比べてどのあたりかを表示します。用語を知らなくても大丈夫です。指標ごとに意味と計算の根拠が付いています。</p>
@@ -828,16 +876,39 @@
 <p data-i18n="n.price.year">年間は <b>₩15,000</b>。韓国App Store基準で月あたり約 ₩1,250、月払いよりおよそ34%お得です。他の地域は価格帯が異なるため比率も変わることがあり、実際の割引率はアプリの購入画面がその場の2つの価格から計算して表示します。体験の対象アカウントなら年額も最初の期間が無料で、そのあと1年分がまとめて請求されます。</p>
 <p data-i18n="n.price.life">サブスクの代わりに <b>買い切り版 ₩39,000</b>。リリース記念価格です。あとで値上げしても、すでに購入した方には適用されません。韓国App Storeの価格で計算すると年額の約2.6年分、月額の約20か月分にあたります。お住まいの地域は価格帯が違うので、この比率も変わることがあります。Appleのファミリー共有が使えるのはこのプランだけです。</p>
 </details>
+<p class="plisth" data-i18n="n.price.nowh">登録した瞬間から使えます</p>
 <ul>
 <li data-i18n="n.price.p1">走行中のコーチ音声 — フォーム、坂の走り方、回復、励まし</li>
 <li data-i18n="n.price.p2">プランの実行：区間ごとに進めて、終わると計画に対するスコア</li>
-<li data-i18n="n.price.p3">詳細分析7タイル：乳酸性作業閾値（推定）、持久力トレーニング量、坂の露出、暑さ露出指数、コーチブレーキ、強度の配分、コーチ記録レーダー（区間最速・直近90日）。さらにRunvis VDOT。</li>
 <li data-i18n="n.price.p4">レース戦略：区間ペースのプラン、補給スケジュール、本番リハーサル</li>
+<li data-i18n="n.price.p6">Runvis VDOTがベストエフォートから逆算し、5Kからフルまでの記録を予測します</li>
+</ul>
+<p class="plisth" data-i18n="n.price.laterh">記録がたまるにつれて埋まります</p>
+<ul>
+<li data-i18n="n.price.p3">詳細分析7タイルがレポートに開きます</li>
+<li class="tilesli"><ul class="tiles">
+<li data-i18n="n.price.t1">乳酸性作業閾値（推定）</li>
+<li data-i18n="n.price.t2">持久力トレーニング量</li>
+<li data-i18n="n.price.t3">ヒル曝露</li>
+<li data-i18n="n.price.t4">暑熱曝露指数</li>
+<li data-i18n="n.price.t5">コーチのブレーキ</li>
+<li data-i18n="n.price.t6">強度の配分</li>
+<li data-i18n="n.price.t7">コーチの記録レーダー（区間最速・直近90日）</li>
+</ul></li>
 <li data-i18n="n.price.p5">週間コーチ要約カード：計画達成スコア、今週の区間最速、残りのランニング予算、直近4週の強度配分、来週どこを変えるかの一行。無料ではこのカードはロックされたプレビューとして表示されます。</li>
 </ul>
 <details class="gate">
 <summary data-i18n="n.price.gateh">値はいつ埋まりますか？</summary>
-<p data-i18n="n.price.gate">7タイルは購入した時点ですべて開き、値は記録が溜まるにつれて埋まります。乳酸性作業閾値は最大心拍の85%以上を保った30分（または20分）区間が2本必要で、経路が記録されないランしかない場合は最大心拍の設定と20分以上のラン3本から計算します。持久力トレーニング量は2週間以上にわたって4週のうち3週・6回、坂の露出は上りのラン2回、暑さ露出指数は22°Cを超えた日のラン3回、強度の配分は心拍のあるラン5回を含む8日分、コーチブレーキはラン2週間分が必要です。それまでは各タイルが「あと何が足りないか」を自分で書きます。</p>
+<p data-i18n="n.price.gatelead">7タイルは購入した時点ですべて開き、値は記録が溜まるにつれて埋まります。それまでは各タイルが「あと何が足りないか」を自分で書きます。</p>
+<ul class="gatelist">
+<li data-i18n="n.price.g1">乳酸性作業閾値（推定） — 最大心拍の85%以上を保った30分（または20分）区間が2本。経路が記録されないランしかない場合は、最大心拍の設定と20分以上のラン3本から計算します。</li>
+<li data-i18n="n.price.g2">持久力トレーニング量 — 2週間以上にわたって4週のうち3週・6回。</li>
+<li data-i18n="n.price.g3">ヒル曝露 — 上りのラン2回。</li>
+<li data-i18n="n.price.g4">暑熱曝露指数 — 22°Cを超えた日のラン3回。</li>
+<li data-i18n="n.price.g5">強度の配分 — 心拍のあるラン5回を含む8日分。</li>
+<li data-i18n="n.price.g6">コーチのブレーキ — ラン2週間分。</li>
+<li data-i18n="n.price.g7">コーチの記録レーダー — 1km以上のランを1回すれば記録が取れ始めます。</li>
+</ul>
 </details>
 </div>
 </div>
@@ -857,8 +928,8 @@
 <p data-i18n="n.faq.a2">watchOS 10以降（Apple Watch Series 4以降）とiOS 17以降が必要です。その条件さえ満たせば、心拍とGPSだけで十分です。接地時間と上下動を測れる新しいモデルではフォームコーチングがより細かくなり、測れないモデルではケイデンス基準で動きます。</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q3">解約したら記録はどうなりますか？</h3><p data-i18n="n.faq.a3">記録はApple ヘルスケアにそのまま残ります。解約後も記録・プランの閲覧・ワークアウト詳細レポートは無料で使えます。</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q4">データはどこへ行きますか？</h3><p data-i18n="n.faq.a4">アカウントもサーバーもありません。位置情報は天気・地域名・コースの自動生成の照会時にだけ外に出ます。このほかにApp Storeの決済処理と、公開されたコース・シューズ一覧ファイルのダウンロードがあり、さらに今のところ韓国App Storeでのみ、シューズ画面で自分でタップしたときに外部のランニングシューズ検索ページが開きます。運動・健康データはアップロードしません。</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q5">6言語の音声はどこまで対応していますか？</h3><p data-i18n="n.faq.a5">コーチが声に出す文は6言語に翻訳されています。まだ表に載っていない文が残っていた場合は、韓国語ではなく英語で流れます。この動作もテストで固定しています。この保証はコーチの音声に限ったもので、アプリの画面の文言は別の翻訳表を使います。</p>
-<details class="gate"><summary data-i18n="n.faq.a5h">テストはどこまで押さえていますか？</summary><p data-i18n="n.faq.a5g">4つの翻訳表はキーの集合も置き換え番号も互いに完全に一致していること、表に書かれたすべての行がアプリの実際の照会経路で引けること。さらにiPhoneコーチは45分のランを6言語×メートル/マイルの2設定で1秒刻みに再生し、そのランで出た合図がすべて翻訳されているかを検査します。ひとつでもずれればその場で失敗します。数字が入る案内も、言語ごとにその言語の語順で話します（スプリット、坂の予告、ペース、心拍ゾーン、トレーニングのステップを含む）。Watchのリアルタイム・コーチング処理はこのテストバンドルの外にあるため、まだ表に載っていない文が残る可能性があります。</p></details></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q5">6言語の音声はどこまで対応していますか？</h3><p data-i18n="n.faq.a5">iPhoneコーチが話す文は6言語すべてテストで固定されています — 45分のランを1秒刻みに再生し、そのランで出た合図がすべて翻訳されているかをビルドのたびに検査します。Watchのリアルタイム・コーチング処理はそのテストの外にあるため、まだ表に載っていない文が残る可能性があります。その場合は韓国語ではなく英語で流れ、そのフォールバックもテストで固定しています。アプリの画面の文言は、コーチの音声とは別の翻訳表を使います。</p>
+<details class="gate"><summary data-i18n="n.faq.a5h">テストはどこまで押さえていますか？</summary><p data-i18n="n.faq.a5g">4つの翻訳表はキーの集合も置き換え番号も互いに完全に一致していること、表に書かれたすべての行がアプリの実際の照会経路で引けること。iPhoneコーチの45分再生は6言語×メートル/マイルの2設定で回り、ひとつでもずれればその場で失敗します。数字が入る案内も、言語ごとにその言語の語順で話します（スプリット、坂の予告、ペース、心拍ゾーン、トレーニングのステップを含む）。</p></details></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q6">記録がまったくなくても使えますか？</h3><p data-i18n="n.faq.a6">使えます。時計で12分の測定ランを一度走れば、その日のうちに5K・10Kの予想タイムと最初のプランができます — この測定は時計専用です。iPhoneだけでも初日からGPS記録、区間ペースの音声、トレーニングプランの閲覧は使え、プランの開始地点は直近の週間距離から決めます。準備度は時計をつけて眠った夜がベースラインに溜まるまで出ないので、ふつうは2週間ほど、ACWRは4週間ほどかかります。パフォーマンスコンディションは、最大心拍を設定したうえで、心拍が記録された10分超のランニングを同じ強度帯（イージー・中間・高強度）で3回そろえると出ます。最初の数回は、強度でも測定した時点でもまだ分けられていない基準線と比較され、アプリはそのことをその画面に書きます。</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q7">無料体験は誰が受けられますか？</h3><p data-i18n="n.faq.a7">App Storeがこの定期購読の体験をまだ使っていないと判断したアカウントだけです。以前に同じ購読を使った、または体験を消化済みのアカウントは、最初の支払いから課金されます。アプリの購入画面が、購入前にどちらなのかを必ず表示します。無料期間の長さもApp Storeが商品情報として渡してくる値なので、アプリは受け取ったとおりに購入直前に表示します。年額を選んだ場合は、その無料期間が終わってから1年分がまとめて請求されます。</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q8">買い切りと年間、どちらが得ですか？</h3><p data-i18n="n.faq.a8">買い切りは自動更新のない1回きりの購入です。価格カードの計算どおり、年額なら約2.6年、月額なら約20か月で元が取れるので、それより長く使うつもりなら買い切りのほうが安くなります。Appleのファミリー共有に対応する料金プランもこれだけです — 月額・年額の定期購読は対象外です。</p></div>
@@ -885,28 +956,32 @@
 <p class="sub" data-i18n="n.beta.sub" style="margin:0 auto">メールアドレスを残していただければ、TestFlightベータが開くときに招待状を1通お送りします。公開日が決まった日にこの場所に書き、すでにお申し込みいただいた住所にも同時にお送りします。</p>
 <form action="https://formspree.io/f/xnjeyalr" id="betaForm" method="POST">
 <input name="email" placeholder="メールアドレス" aria-label="メールアドレス" data-i18n-attr="placeholder:ph.email,aria-label:ph.email" required="" type="email"/>
-<p class="order-note" data-i18n="n.beta.order">公開日はまだありません。招待はお申し込みの順に出しますので、いま登録すればその順番が決まります。</p>
-<button class="btn" data-i18n="t160" id="betaSubmit" type="submit">ベータ招待を受け取る</button>
-</form>
 <fieldset class="want">
 <legend data-i18n="n.beta.want">どちらをご希望ですか？</legend>
-<label><input form="betaForm" name="want" type="radio" value="beta" checked=""/> <span data-i18n="n.beta.want1">ベータに参加 — TestFlightの招待をください</span></label>
-<label><input form="betaForm" name="want" type="radio" value="launch"/> <span data-i18n="n.beta.want2">リリース通知だけ — 出たら一度だけ知らせてください</span></label>
+<label><input name="want" type="radio" value="beta" checked=""/> <span data-i18n="n.beta.want1">ベータに参加 — TestFlightの招待をください</span></label>
+<label><input name="want" type="radio" value="launch"/> <span data-i18n="n.beta.want2">リリース通知だけ — 出たら一度だけ知らせてください</span></label>
 </fieldset>
-<p id="betaStatus" role="status" aria-live="polite" style="display:none;margin-top:14px;font-size:15px;font-weight:600"></p>
-<a class="btn ghost" id="betaNext" href="run.html" style="margin-top:14px" data-i18n="form.okcta">5kmデモを走ってみる</a>
 <div class="consent">
 <div>· <b data-i18n="t161">収集目的</b><span data-i18n="cs.purpose">：TestFlightベータ招待の送付</span></div>
-<div>· <b data-i18n="t162">保管期間</b>
-<span data-i18n="cs.retain">：ベータ招待の送付など収集目的を達成した時点で遅滞なく破棄・遅くとも収集日から1年以内</span></div>
-<label><input form="betaForm" name="privacy_consent" type="checkbox" value="yes" required=""/> <span data-i18n="n.beta.required">（必須）ベータ招待の送付のためにメールアドレスを収集・利用することに同意します。</span></label>
-<label><input form="betaForm" name="marketing_consent" type="checkbox" value="yes"/> <span data-i18n="cs.marketing">（任意）リリース情報やアップデートなどのお知らせを受け取ることに同意します。</span></label>
+<div>· <b data-i18n="t162">保管期間</b><span data-i18n="cs.retain">：ベータ招待の送付など収集目的を達成した時点で遅滞なく破棄・遅くとも収集日から1年以内</span></div>
+<label><input name="privacy_consent" type="checkbox" value="yes" required=""/> <span data-i18n="n.beta.required">（必須）ベータ招待の送付のためにメールアドレスを収集・利用することに同意します。</span></label>
+<label><input name="marketing_consent" type="checkbox" value="yes"/> <span data-i18n="cs.marketing">（任意）リリース情報やアップデートなどのお知らせを受け取ることに同意します。</span></label>
 <div style="margin-top:8px">· <a href="privacy.html" style="color:var(--green)" data-i18n="n.priv.link">プライバシーポリシー</a></div>
 </div>
+<p class="order-note" data-i18n="n.beta.order">公開日はまだありません。招待はお申し込みの順に出し、Appleが定めるTestFlight外部テスターの上限は1万人です。いま登録すれば、その1万枠のなかで順番が決まります。</p>
+<button class="btn" data-i18n="t160" id="betaSubmit" type="submit">ベータ招待を受け取る</button>
+</form>
+<p id="betaStatus" role="status" aria-live="polite" style="display:none;margin-top:14px;font-size:15px;font-weight:600"></p>
+<a class="btn ghost" id="betaNext" href="run.html" style="margin-top:14px" data-i18n="form.okcta" hidden="">5kmデモを走ってみる</a>
 <div class="nextsteps">
 <h4 data-i18n="n.beta.nowh">いま確認できること</h4>
-<p data-i18n="n.beta.now"><a href="run.html">5kmデモ</a>はコーチがいつ話していつ黙るかをそのまま見せます。データがどこまで出るかは<a href="privacy.html">プライバシーポリシー</a>に書いてあります。</p>
-<p><a href="how-it-works.html" data-i18n="hw.link">ルール全文とツール — 心拍ゾーン計算、ソウルのコースGPX、ベータの進み方</a></p>
+<ul class="dolist">
+<li data-i18n="n.beta.do1"><a href="run.html">5kmデモ</a> — コーチがいつ話していつ黙るのか、無料で聞ける音声とサブスクで聞ける音声がどこで分かれるのかを、そのまま聞けます。</li>
+<li data-i18n="n.beta.do2"><a href="how-it-works.html#zones">心拍ゾーン計算</a> — コーチ音声が使うのと同じカルボーネン式で、いまの心拍ゾーン5つを計算します。年齢と安静時心拍だけあれば十分です。</li>
+<li data-i18n="n.beta.do3"><a href="how-it-works.html#gpx">ソウルのコースGPX 13本</a> — アプリを入れなくても今すぐダウンロードして、いま使っている時計や地図アプリに入れられます。</li>
+<li data-i18n="n.beta.do4"><a href="how-it-works.html#beta">申し込むとこう進みます</a> — 受付・TestFlight招待・フィードバック・リリースの4段階。ベータで配るビルドでは、ベータ期間に限りコーチ機能がすべて無料です。</li>
+<li data-i18n="n.beta.do5"><a href="privacy.html">プライバシーポリシー</a> — このフォームが受け取るものと、アプリが端末の外に出すものが、それぞれどこまでなのかを書いた文書です。</li>
+</ul>
 </div>
 </div>
 </div>
@@ -1195,13 +1270,13 @@ const Voice=(()=>{
     const was=activeChip;
     chips().forEach(x=>{ x.classList.remove('playing'); x.setAttribute('aria-pressed','false'); });
     activeChip=null;
-    if(was && !quiet) announce('a11y.stopped','재생을 멈췄습니다');
+    if(was && !quiet) announce('a11y.stopped', '再生を停止しました');
   }
   function play(chip, text, tag){
     stop(true);
     const my=++gen;
     activeChip=chip; chip.classList.add('playing'); chip.setAttribute('aria-pressed','true');
-    announce('a11y.playing','예시 음성 재생 중');
+    announce('a11y.playing', 'サンプル音声を再生中');
     const list=voiceCandidates(tag);
     const done=()=>{ if(my!==gen) return; chip.classList.remove('playing'); chip.setAttribute('aria-pressed','false'); activeChip=null; };
     (function attempt(i){
@@ -1345,9 +1420,11 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
       }, 60);
       betaForm.reset();
       // The signup used to end in an inbox. Hand the reader the one thing they
-      // can actually do next while they wait.
+      // can actually do next while they wait — and only now, because until the
+      // POST succeeded this link sat between the button and the consent
+      // checkbox the button was waiting on (round 13, -3).
       const next = document.getElementById('betaNext');
-      if (next) next.textContent = window.RunvisT('form.okcta', '5kmデモを走ってみる');
+      if (next) { next.hidden = false; next.textContent = window.RunvisT('form.okcta', '5kmデモを走ってみる'); }
     }
     else { const d = await res.json().catch(() => null); show(d?.errors?.[0]?.message || window.RunvisT('form.fail', '送信に失敗しました。しばらくしてからもう一度お試しください。'), false); }
   } catch { show(window.RunvisT('form.neterr', 'ネットワークエラーです。しばらくしてからもう一度お試しください。'), false); }

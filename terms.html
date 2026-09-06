@@ -8,6 +8,13 @@
      the terms watched the browser chrome flip from black to white on iOS
      Safari and Android Chrome. Same value as index.html:49. -->
 <meta name="theme-color" content="#000000">
+<!-- "Add to Home Screen" used to save a screenshot of the page under a
+     browser-generated name: the favicon is a data-URI SVG, which iOS ignores,
+     and there was no manifest at all (2026-09-06 라운드 13, -0.4). Both are
+     absolute paths on purpose — the prerendered copies under /en/ … are served
+     from a subdirectory and there is one icon, at the root. -->
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <!-- Korean only, like index.html. The head used to run both languages
      together in one line; /en/terms.html and its siblings are the finished
      pages for the other five markets and hreflang points at them. -->
@@ -81,7 +88,14 @@
   .langsel.open ul{display:block}
   .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
   .langsel li:hover{background:rgba(61,220,132,.15)}
-  .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
+  /* 2026-09-06 라운드 13 (-0.5): each item is a real link to that language's
+     prerendered copy, so picking a language changes the ADDRESS — a URL shared
+     from here keeps the language it was read in. The <li> keeps the row box,
+     the <a> fills it so the whole row stays clickable, and aria-checked moves
+     onto the anchor, which is the menuitemradio now. */
+  .langsel li{padding:0}
+  .langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
+  .langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
 </style>
 <!-- Language boot — same script as index.html. Runs before the body is parsed
      so <html lang>, the canonical and og:locale are already right at first
@@ -92,6 +106,17 @@
   function norm(v){ if(!v) return null; v=String(v).toLowerCase();
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
+  // The BROWSER's language is the one source that must not fold every zh-*
+  // onto our table, because our zh table is Traditional (LANGS label 繁體中文,
+  // tts zh-TW, <html lang="zh-Hant">) and norm() above sent zh-Hans / zh-CN /
+  // zh-SG straight to it. Being handed the other script automatically reads as
+  // an accident, not a choice (2026-09-06 라운드 13, -0.3). Those visitors fall
+  // through to the x-default, English, and 繁體中文 is still one pick away in
+  // the language menu. An EXPLICIT zh — ?lang=zh, /zh/, the menu — still goes
+  // through norm() and still resolves, which is why this is a second function
+  // and not a change to the first.
+  function navLang(v){ var s=v?String(v).toLowerCase():"";
+    return (s.indexOf("zh")===0 && !/^zh-(hant|tw|hk|mo)\b/.test(s)) ? null : norm(s); }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
   // On a prerendered page (/en/, /ja/ …) the directory IS the language and
   // RunvisPageLang is set just above; it outranks the saved choice and the
@@ -103,7 +128,7 @@
   // Korean document. A Korean browser still resolves through
   // norm(navigator.language) and is unaffected, and ?lang= and the saved
   // choice still outrank this.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"en";
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||navLang(navigator.language)||"en";
   // A German browser landing on a ROOT url used to get German BODY text with a
   // Korean canonical, Korean og:* and no route to /de/ at all — the five
   // prerendered market pages existed and nothing ever sent anyone to them.
@@ -193,7 +218,7 @@
   <h2 data-i18n="tm.s3.h">3. 평생 이용권</h2>
   <ul>
     <li data-i18n="tm.s3.li1">평생 이용권은 <b>1회 결제로 끝나는 비소모성 상품</b>이며 자동 갱신이 없습니다. 구독과 동일한 코치 기능을 잠금 해제합니다</li>
-    <li data-i18n="tm.s3.li2">현재 가격은 <b>출시 기념 가격</b>이며 출시 3개월 뒤 인상될 예정입니다. 인상은 <b>이후의 신규 구매에만</b> 적용되며, 이미 구매한 이용권에 추가로 청구되지 않습니다</li>
+    <li data-i18n="tm.s3.li2">현재 가격은 <b>출시 기념 가격</b>이며 이후 인상될 수 있습니다. 인상은 <b>이후의 신규 구매에만</b> 적용되며, 이미 구매한 이용권에 추가로 청구되지 않습니다</li>
     <li data-i18n="tm.s3.li3">평생 이용권은 Apple 가족 공유 대상이므로 같은 가족 공유 그룹 구성원이 함께 사용할 수 있습니다 — 구독 상품 중에는 가족 공유가 되는 것이 없습니다</li>
     <li data-i18n="tm.s3.li4">Runvis는 계정을 만들지 않으므로, 기기를 바꾸거나 앱을 다시 설치했을 때는 결제 화면의 <b>구매 복원</b>으로 이용권을 되살립니다. 복원은 구매에 사용한 Apple 계정으로만 가능합니다</li>
     <li data-i18n="tm.s3.li5">평생 이용권은 Runvis 앱이 App Store에서 제공되는 동안 유효합니다. 서비스가 중단되는 경우 5항의 서비스 한계 조항이 함께 적용됩니다</li>

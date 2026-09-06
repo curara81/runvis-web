@@ -34,7 +34,13 @@
  *      languages, each tied to a fact in the app repository
  *  13  the app constants the page repeats in prose (cue budgets, the minimum
  *      gap, how many cue switches exist) still equal what the app declares
- *  14  the three prices are the same three numbers in all six dictionaries
+ *  14  the three prices are the same three numbers in all six dictionaries,
+ *      and the hero note carries no figure at all
+ *  15  the seven paid tiles are called what the APP calls them, in all six —
+ *      the alt text had carried a name the app retired nine rounds earlier
+ *  16  t-zh.js sets no space between two Han characters
+ *  17  every document links an apple-touch-icon and a manifest, and every
+ *      file those point at exists
  *
  * And, before all of them, [0]: tools/app-facts.json is a CURRENT measurement
  * of the app repository. [9] only compares the dictionaries against that file,
@@ -61,6 +67,17 @@ const ALL = [];
 for (const p of PAGES) ALL.push({ file: p, code: 'ko', gen: false });
 for (const c of CODES.filter(c => c !== 'ko')) for (const p of PAGES) ALL.push({ file: `${c}/${p}`, code: c, gen: true });
 
+/** Documents that carry dictionary bindings but are NOT part of the page set:
+ *  no prerendered copies, no hreflang alternates, no sitemap entry. 404.html is
+ *  the only one — GitHub Pages serves it for any path it cannot find, at
+ *  whatever depth, so there is nothing for a /de/ copy of it to be reached by.
+ *  It still goes through [2] (its keys exist in all six), [3] (its inline
+ *  Korean matches the dictionary) and [8] (its tags balance); it is kept out of
+ *  [6] and [11], which are about the indexable page set. Without this list the
+ *  file would be the one document on the site nothing checked. */
+const EXTRA = [{ file: '404.html', code: 'ko', gen: false }];
+const ALL_DOCS = [...ALL, ...EXTRA];
+
 // ---- 0. app-facts.json is a current measurement --------------------------
 console.log('\n[0] tools/app-facts.json == a fresh count of the app repo');
 {
@@ -75,10 +92,13 @@ console.log('\n[0] tools/app-facts.json == a fresh count of the app repo');
       + `against the ${stored.measuredAt} snapshot, unverified`);
   } else {
     const fresh = measure(appRepo);
-    const drift = Object.keys(fresh).filter(k => k !== 'measuredAt' && stored[k] !== fresh[k]);
+    // JSON, not ===: `tiles` is an object and two structurally identical
+    // objects are never === , which would report drift on every run.
+    const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+    const drift = Object.keys(fresh).filter(k => k !== 'measuredAt' && !same(stored[k], fresh[k]));
     if (drift.length) {
       fail('tools/app-facts.json is behind the app repo — '
-        + drift.map(k => `${k}: file ${stored[k]} vs repo ${fresh[k]}`).join(', ')
+        + drift.map(k => `${k}: file ${JSON.stringify(stored[k])} vs repo ${JSON.stringify(fresh[k])}`).join(', ')
         + '\n       run `node tools/app-facts.mjs`, then update whichever dictionary values [9] and [13] name');
     } else {
       ok(`measured ${stored.measuredAt} and still current (${Object.keys(fresh).length - 1} fields)`);
@@ -100,7 +120,7 @@ for (const c of CODES) {
 // ---- 2. keys used in markup exist everywhere ----------------------------
 console.log('\n[2] markup keys present in all six dictionaries');
 const used = new Set();
-for (const { file } of ALL) {
+for (const { file } of ALL_DOCS) {
   const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
   for (const el of findI18nElements(html)) used.add(el.key);
   for (const a of findI18nAttrs(html)) used.add(a.key);
@@ -127,7 +147,7 @@ for (const c of CODES) {
 const BILINGUAL_BY_DESIGN = {};
 const squash = (s) => String(s).replace(/\s+/g, ' ').trim();
 console.log('\n[3] inline default text == dictionary value');
-for (const { file, code } of ALL) {
+for (const { file, code } of ALL_DOCS) {
   const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
   const dict = dicts[code];
   const exempt = new Set(BILINGUAL_BY_DESIGN[file] || []);
@@ -237,7 +257,7 @@ for (const { file } of ALL) {
 // ---- 7 + 8. structure ----------------------------------------------------
 console.log('\n[7] index sections and [8] tag balance');
 const VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
-for (const { file } of ALL) {
+for (const { file } of ALL_DOCS) {
   const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
   if (file.endsWith('index.html')) {
     const n = (html.match(/<section id="/g) || []).length;
@@ -292,6 +312,11 @@ console.log('\n[9] app counts in the dictionaries == tools/app-facts.json');
       'n.trust.l2': ['coachTable'],
       'n.trust.l3': ['glossary'],
       'n.why.s1v': ['glossary'],
+      // The hero's third trust badge took this slot in round 13 (it used to
+      // carry the launch-region caveat). It states the same glossary count the
+      // why section does, so it is bound to the same measurement rather than
+      // being a second hand-typed 41 that can drift away from the first.
+      'n.hero.b4n': ['glossary'],
     };
     // n.why.s2v states a floor ("270개 이상" / "270+"), so the repo only has to
     // stay above the number written there — adding a cue can never make it false.
@@ -356,7 +381,12 @@ for (const { file, code } of ALL) {
   let checked = 0;
   // Both arguments must be single-quoted literals; a call passing a variable
   // (RunvisT(key, fallback)) has nothing to compare and is skipped.
-  for (const m of html.matchAll(/RunvisT\(\s*'([^']+)'\s*,\s*'((?:[^'\\]|\\.)*)'\s*\)/g)) {
+  // `announce(key, fallback)` is index.html's live-region wrapper around
+  // RunvisT with the same two-literal shape. It was invisible to this check
+  // and to prerender step 7b, so /de/ and /ja/ shipped Korean fallbacks for
+  // the two screen-reader announcements — the one place a fallback is heard
+  // rather than read. Same regex, both names.
+  for (const m of html.matchAll(/(?:RunvisT|announce)\(\s*'([^']+)'\s*,\s*'((?:[^'\\]|\\.)*)'\s*\)/g)) {
     const key = m[1];
     const got = m[2].replace(/\\'/g, "'").replace(/\\\\/g, '\\');
     const want = dicts[code][key];
@@ -394,8 +424,19 @@ console.log('\n[11] sitemap.xml == the files on disk');
     else ok(`sitemap.xml: ${locs.length} URLs, one per page, all resolve`);
     const robots = path.join(ROOT, 'robots.txt');
     if (!fs.existsSync(robots)) fail('robots.txt missing');
-    else if (!fs.readFileSync(robots, 'utf8').includes('https://runvis.app/sitemap.xml')) fail('robots.txt does not point at the sitemap');
-    else ok('robots.txt points at sitemap.xml');
+    else {
+      const text = fs.readFileSync(robots, 'utf8');
+      if (!text.includes('https://runvis.app/sitemap.xml')) fail('robots.txt does not point at the sitemap');
+      else ok('robots.txt points at sitemap.xml');
+      // robots.txt used to state the page count in prose and it was counted by
+      // hand: it still said 24 after how-it-works.html made it 30, and nothing
+      // compared the two (round 13, -0.25). prerender.mjs writes the line now;
+      // this is what makes a hand-edit of it fail instead of shipping.
+      const m = /^# Pages: (\d+) /m.exec(text);
+      if (!m) fail('robots.txt has no "# Pages: <n> …" line — run `node tools/prerender.mjs`');
+      else if (Number(m[1]) !== locs.length) fail(`robots.txt says ${m[1]} pages, sitemap.xml lists ${locs.length} — run \`node tools/prerender.mjs\``);
+      else ok(`robots.txt states ${m[1]} pages, matching sitemap.xml`);
+    }
   }
 }
 
@@ -420,6 +461,26 @@ console.log('\n[12] claims that carry a condition');
          + 'nil when heartRate is 0, so the phone zone cue REQUIRES a chest strap — '
          + 'saying it "arrives on the phone with a subscription" without that '
          + 'condition sells a cue the subscriber may never hear',
+    },
+    {
+      // The launch store is Korea and the shoe-search link only exists there.
+      // Five dictionaries carried the clause and the Korean one did not — and
+      // pv.legalNote declares the Korean text the binding version, so the
+      // binding version was the weakest of the six (2026-09-06 라운드 13, -0.5).
+      // One of these six spellings has to survive every future rewording.
+      key: 'n.faq.a4',
+      need: ['대한민국 App Store', 'Korean App Store', '韓国App Store', 'App Store de Corea', '韓國 App Store', 'koreanischen App Store'],
+      why: 'the external shoe-search page (iOSShoesView → the Coupang search URL) '
+         + 'only opens on the Korean storefront, and privacy.html pv.s3.r6c already '
+         + 'names it; an answer about what leaves the device that drops the '
+         + 'condition in one language is answering a different question there',
+    },
+    {
+      key: 'n.priv.p',
+      need: ['대한민국 App Store', 'Korean App Store', '韓国App Store', 'App Store de Corea', '韓國 App Store', 'koreanischen App Store'],
+      why: 'the same clause in the privacy summary on the landing page — same '
+         + 'reason, and this is the paragraph that claims to list every exception '
+         + 'without leaving one out',
     },
     {
       key: 'r20',
@@ -501,7 +562,6 @@ console.log('\n[14] the three prices are identical in all six dictionaries');
   // Sentences that quote a price. Each must carry the amounts listed, so a
   // reworded translation cannot drop or change one.
   const IN_PROSE = [
-    ['n.hero.note', ['1,900']],
     ['n.why.cost', ['1,900', '15,000', '39,000']],
     ['n.price.year', ['15,000']],
     ['n.price.life', ['39,000']],
@@ -516,6 +576,134 @@ console.log('\n[14] the three prices are identical in all six dictionaries');
     if (bad.length) fail(`${key} — ${bad.join('; ')}`);
     else ok(`${key} quotes ${amounts.map(a => `₩${a}`).join(' · ')} in all six`);
   }
+  // The hero note is the one price sentence that must NOT carry a figure.
+  // It used to say ₩1,900 to all six markets and five of them have no sense
+  // of how big that is (2026-09-06 라운드 13, -0.8). A converted figure is not
+  // the fix either: Apple charges by price point, not by exchange rate — which
+  // is exactly what pr.approx2 tells the reader — so any number written here
+  // would be wrong on the day someone pays and would have to be maintained by
+  // hand in six files. The amount belongs to the price table, next to the
+  // store note that says which store it is. This is the invariant that keeps
+  // it from creeping back into one language and not the others.
+  {
+    const bad = CODES.filter(c => /₩\s*[\d.,]/.test(String(dicts[c]['n.hero.note'] ?? '')));
+    if (bad.length) fail(`n.hero.note carries a ₩ figure in ${bad.join(', ')} — the hero states no amount; the three prices live in the price table (pr.month/year/life)`);
+    else ok('n.hero.note states no ₩ figure in any of the six');
+  }
+}
+
+
+// ---- 15. the tile names the copy repeats == the app's own tile names ------
+// The seven paid tiles have a name in each of the six Localizable.strings, and
+// the site says those names in three places: the price list, the gate
+// conditions and the screenshot alt text. Nothing compared the two
+// vocabularies, so they drifted, and one of the drifts had survived nine
+// rounds: alt.phone.glance still said 언덕 점수, a name the app retired in
+// round 4 when it decided it had no grounds to GRADE hills and switched to
+// measuring EXPOSURE. Three more were live in the price list (坂の露出 /
+// 坡道暴露 / Bergexposition, none of which the app uses).
+//
+// Compared case-insensitively on purpose: Spanish and German write a tile name
+// differently at the head of a sentence than inside one ("Umbral de lactato"
+// vs "…, umbral de lactato"), and forcing the app's capitalisation on a
+// mid-sentence noun would be a translation bug, not a fix.
+console.log('\n[15] tile names in the copy == the app tile names');
+{
+  const facts = readFacts();
+  if (!facts) {
+    fail('tools/app-facts.json missing — run `node tools/app-facts.mjs`');
+  } else if (!facts.tiles) {
+    fail('tools/app-facts.json has no `tiles` — re-run `node tools/app-facts.mjs`');
+  } else {
+    const T = facts.tiles;
+    // dictionary key → the tiles its value has to name, by the app's Korean key.
+    const BOUND = [
+      ['n.price.t1', ['젖산 역치(추정)']],
+      ['n.price.t2', ['지구력 훈련량']],
+      ['n.price.t3', ['언덕 노출']],
+      ['n.price.t4', ['더위 노출 지수']],
+      ['n.price.t5', ['코치 브레이크']],
+      ['n.price.t6', ['강도 분포']],
+      ['n.price.t7', ['코치 기록 레이더']],
+      ['n.price.g1', ['젖산 역치(추정)']],
+      ['n.price.g2', ['지구력 훈련량']],
+      ['n.price.g3', ['언덕 노출']],
+      ['n.price.g4', ['더위 노출 지수']],
+      ['n.price.g5', ['강도 분포']],
+      ['n.price.g6', ['코치 브레이크']],
+      ['n.price.g7', ['코치 기록 레이더']],
+      // The drift that started this check. The screenshot shows these three
+      // paid tiles, so the alt text names them — by the names on the screen.
+      ['alt.phone.glance', ['젖산 역치(추정)', '지구력 훈련량', '언덕 노출']],
+      ['hw.vs.r3a', ['젖산 역치(추정)']],
+    ];
+    for (const [key, wanted] of BOUND) {
+      const bad = [];
+      for (const c of CODES) {
+        const value = String(dicts[c][key] ?? '').toLowerCase();
+        if (dicts[c][key] == null) { bad.push(`${c}: key missing`); continue; }
+        for (const tile of wanted) {
+          const name = T[tile]?.[c];
+          if (name == null) { bad.push(`${c}: app-facts has no ${tile}`); continue; }
+          if (!value.includes(name.toLowerCase())) bad.push(`${c}: no "${name}" (${tile})`);
+        }
+      }
+      if (bad.length) fail(`${key} does not use the app's tile name — ${bad.join('; ')}`);
+      else ok(`${key} uses the app's own name for ${wanted.length} tile(s) in all six`);
+    }
+  }
+}
+
+// ---- 16. Chinese typesetting: no space between two Han characters ---------
+// Chinese sets no space between Han characters; the space between a digit or a
+// Latin word and a Han character is a convention and stays. t-zh.js carried 14
+// of the wrong kind, including the sentence the hero's voice chip speaks
+// ("800公尺 的上坡") and eight of the thirteen Seoul course names — the
+// giveaway that they had been carried over from Korean word spacing rather
+// than typeset (2026-09-06 라운드 13, -0.5).
+console.log('\n[16] t-zh.js sets no space between two Han characters');
+{
+  const HAN_SPACE = /[一-鿿㐀-䶿][  ][一-鿿㐀-䶿]/;
+  const offenders = Object.keys(dicts.zh)
+    .filter(k => HAN_SPACE.test(String(dicts.zh[k])))
+    .map(k => `${k} ("${String(dicts.zh[k]).match(new RegExp(HAN_SPACE.source, 'g')).join('", "')}")`);
+  if (offenders.length) fail(`${offenders.length} zh value(s) put a space between two Han characters — ${offenders.join('; ')}`);
+  else ok(`no Han-space-Han in any of the ${Object.keys(dicts.zh).length} zh values`);
+}
+
+
+// ---- 17. the icon and manifest every page promises actually exist ---------
+// A <link rel="apple-touch-icon"> pointing at nothing is worse than none: iOS
+// stops falling back to a screenshot and saves a blank tile. These files are
+// referenced by absolute path from six documents including 404.html, so one
+// rename breaks all six at once and nothing else on the site would notice.
+console.log('\n[17] the icon files and manifest the pages link to');
+{
+  const REFERENCED = ['apple-touch-icon.png', 'site.webmanifest'];
+  for (const f of REFERENCED) {
+    if (!fs.existsSync(path.join(ROOT, f))) fail(`${f} is linked from every page and does not exist`);
+    else ok(`${f} exists`);
+  }
+  const manifestPath = path.join(ROOT, 'site.webmanifest');
+  if (fs.existsSync(manifestPath)) {
+    let manifest = null;
+    try { manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8')); }
+    catch (e) { fail('site.webmanifest is not valid JSON'); }
+    if (manifest) {
+      const missing = (manifest.icons || []).map(i => i.src)
+        .filter(src => !fs.existsSync(path.join(ROOT, src.replace(/^\//, ''))));
+      if (!manifest.icons || !manifest.icons.length) fail('site.webmanifest lists no icons');
+      else if (missing.length) fail(`site.webmanifest points at ${missing.length} icon(s) that do not exist — ${[...new Set(missing)].join(', ')}`);
+      else ok(`site.webmanifest: ${manifest.icons.length} icon entries, all resolve`);
+    }
+  }
+  const want = ['rel="apple-touch-icon"', 'rel="manifest"'];
+  for (const { file } of ALL_DOCS) {
+    const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+    const gone = want.filter(w => !html.includes(w));
+    if (gone.length) fail(`${file}: no ${gone.join(' and no ')}`);
+  }
+  ok(`all ${ALL_DOCS.length} documents link both`);
 }
 
 console.log(failures ? `\nFAILED — ${failures} problem(s)` : '\nPASS — no drift');
