@@ -7,6 +7,7 @@
 <meta charset="utf-8">
 <script>window.RunvisPageLang="zh";window.RunvisBase="/";</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#000000">
 <title data-i18n="pv.meta.title">隱私權政策 — Runvis</title>
 <meta name="description" content="Runvis 只在你的裝置內處理跑步與健康資料。沒有伺服器、沒有帳號，所有會離開裝置的例外都寫在這裡。" data-i18n-attr="content:pv.meta.desc">
 <meta name="robots" content="index,follow">
@@ -21,7 +22,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://runvis.app/assets/og-card.png?v=2">
 <link rel="canonical" href="https://runvis.app/zh/privacy.html">
-<link rel="alternate" hreflang="x-default" href="https://runvis.app/privacy.html">
+<link rel="alternate" hreflang="x-default" href="https://runvis.app/en/privacy.html">
 <link rel="alternate" hreflang="ko" href="https://runvis.app/privacy.html">
 <link rel="alternate" hreflang="en" href="https://runvis.app/en/privacy.html">
 <link rel="alternate" hreflang="ja" href="https://runvis.app/ja/privacy.html">
@@ -44,7 +45,11 @@
   a{color:var(--green);text-decoration:none}
   :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
   img{max-width:100%;height:auto;display:block}
-  body{overflow-wrap:break-word;word-break:keep-all;line-break:normal}
+  body{overflow-wrap:break-word;word-break:normal;line-break:normal}
+  /* keep-all keeps Korean words whole, but it also stops Japanese and
+     Chinese from breaking at all — a price bullet overflowed its card by
+     164px on ja (2026-09-06 라운드 12). Scope it to Korean only. */
+  :lang(ko) body,body:lang(ko){word-break:keep-all}
   h1{font-size:1.7rem;margin-bottom:6px}
   .updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}
   /* Without this the first Tab on every page landed on the language menu.
@@ -86,7 +91,13 @@
   // RunvisPageLang is set just above; it outranks the saved choice and the
   // browser's. ?lang= still wins over it.
   var saved=null; try{ saved=norm(localStorage.getItem("runvis_lang")); }catch(e){}
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"ko";
+  // Last resort when nothing has spoken and the browser's language is not one
+  // of the six: English, not Korean. norm() passes only ko/en/ja/es/zh/de, so
+  // fr, pt, it, ru … all fell through to "ko" and a French reader landed on a
+  // Korean document. A Korean browser still resolves through
+  // norm(navigator.language) and is unaffected, and ?lang= and the saved
+  // choice still outrank this.
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"en";
   // A German browser landing on a ROOT url used to get German BODY text with a
   // Korean canonical, Korean og:* and no route to /de/ at all — the five
   // prerendered market pages existed and nothing ever sent anyone to them.

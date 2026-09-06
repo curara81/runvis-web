@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const CODES = ['ko', 'en', 'ja', 'es', 'zh', 'de'];
-export const PAGES = ['index.html', 'run.html', 'privacy.html', 'terms.html'];
+export const PAGES = ['index.html', 'run.html', 'how-it-works.html', 'privacy.html', 'terms.html'];
 
 /** <html lang> / og:locale / JSON-LD inLanguage per code. */
 export const HTML_LANG = { ko: 'ko', en: 'en', ja: 'ja', es: 'es', zh: 'zh-Hant', de: 'de' };
@@ -211,6 +211,7 @@ export function appLd(dict, code) {
 /** Which dictionary keys carry the name and description of each sub-page. */
 export const PAGE_META = {
   'run.html': { title: 'r1', desc: 'r2' },
+  'how-it-works.html': { title: 'hw.meta.title', desc: 'hw.meta.desc' },
   'privacy.html': { title: 'pv.meta.title', desc: 'pv.meta.desc' },
   'terms.html': { title: 'tm.meta.title', desc: 'tm.meta.desc' },
 };

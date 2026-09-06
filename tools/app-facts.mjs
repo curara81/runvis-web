@@ -24,9 +24,21 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import { pathToFileURL } from 'node:url';
 import { ROOT } from './i18n-lib.mjs';
 
-const OUT = path.join(ROOT, 'tools/app-facts.json');
+export const OUT = path.join(ROOT, 'tools/app-facts.json');
+
+/** The app checkout, or null when this machine has none. `measure()` still
+ *  throws for a caller that needs it; check-content.mjs [0] asks first so it
+ *  can print "skipped" rather than failing on a site-only checkout. */
+export function locateAppRepo() {
+  try { return findAppRepo(); } catch { return null; }
+}
+
+export function readFacts() {
+  try { return JSON.parse(fs.readFileSync(OUT, 'utf8')); } catch { return null; }
+}
 
 function findAppRepo() {
   const tries = [
@@ -110,6 +122,27 @@ export function measure(app = findAppRepo()) {
     }
   }
 
+  // 6. the coach-density constants the homepage repeats in prose. The app fixed
+  //    this class of drift in round 7 by passing its constants into the paywall
+  //    copy as format arguments; the site still writes them as literals in six
+  //    dictionaries, so the next best thing is to MEASURE them here and let
+  //    check-content [13] fail when a dictionary stops agreeing. Every one of
+  //    these is a single literal in Shared/Services/CoachSessionProfile.swift,
+  //    and a miss throws rather than silently reporting 0 — a check built on a
+  //    quietly-failed regex is worse than no check.
+  const profile = fs.readFileSync(path.join(app, 'Shared/Services/CoachSessionProfile.swift'), 'utf8');
+  const one = (label, re) => {
+    const m = re.exec(profile);
+    if (!m) throw new Error(`${label}: not found in CoachSessionProfile.swift — the declaration was reworded`);
+    return Number(m[1]);
+  };
+  const cueBudgetEasy = one('spokenBudgetPer30Min .easy', /case \.easy, \.long, \.runWalk: return (\d+)/);
+  const cueBudgetTempo = one('spokenBudgetPer30Min .tempo', /case \.tempo, \.race, \.free: return (\d+)/);
+  const cueMinGap = one('CoachCueSpacing.minGap', /static let minGap: TimeInterval = (\d+)/);
+  const toggleList = /static let userToggleable:[^=]*=\s*\[([^\]]*)\]/.exec(profile);
+  if (!toggleList) throw new Error('CoachCueCategory.userToggleable: not found in CoachSessionProfile.swift');
+  const cueToggles = toggleList[1].split(',').map(t => t.trim()).filter(Boolean).length;
+
   return {
     measuredAt: new Date().toISOString().slice(0, 10),
     appRepo: path.basename(app),
@@ -120,17 +153,32 @@ export function measure(app = findAppRepo()) {
     coachTable,
     glossary,
     cueSites,
-    // Bumped by hand when the screenshots in assets/ are re-shot. index.html's
-    // sc.build tells the reader which build they are looking at, and a number
-    // that is only true until someone re-shoots cannot be measured from here.
+    // Held against the six dictionaries by check-content [13].
+    cueToggles,
+    cueBudgetEasy,
+    cueBudgetTempo,
+    cueMinGap,
+    // Bumped by hand when the screenshots in assets/ are re-shot. Nothing on
+    // the page prints this any more (sc.build is gone — sc.note now says only
+    // that the shipping build moves on after a capture, which stays true
+    // whoever re-shoots and when). It is kept as the repo's own record of when
+    // assets/framed-*.png were last regenerated.
     screensCapturedAt: readPrevious()?.screensCapturedAt ?? '2026-09-06',
   };
 }
 
-function readPrevious() {
-  try { return JSON.parse(fs.readFileSync(OUT, 'utf8')); } catch { return null; }
-}
+const readPrevious = readFacts;
 
+/** Fields that are a measurement of the app, not bookkeeping about this run. */
+export const MEASURED = (facts) => Object.fromEntries(
+  Object.entries(facts).filter(([k]) => k !== 'measuredAt'));
+
+// Importable: check-content.mjs [0] calls measure() itself. Only run the CLI
+// when this file IS the entry point — importing it must not write the JSON.
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+if (isMain) main();
+
+function main() {
 const mode = process.argv[2] || '--write';
 const facts = measure();
 const body = JSON.stringify(facts, null, 2) + '\n';
@@ -151,4 +199,5 @@ if (mode === '--check') {
   fs.writeFileSync(OUT, body);
   console.log('app-facts: wrote tools/app-facts.json');
   console.log(body.trim());
+}
 }

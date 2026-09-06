@@ -174,6 +174,20 @@ function render(page, code) {
   const pgNode = pageLd(dict, code, page);
   if (pg && pgNode) html = html.slice(0, pg.start) + '\n' + JSON.stringify(pgNode) + '\n' + html.slice(pg.end);
 
+  // ---- 8b. this market's share card, when one exists ---------------------
+  // One neutral card (mark, watch, pulse, domain) served all six markets
+  // because GitHub Pages hands every ?lang= the same file. That reason is
+  // gone: these ARE separate files, so each can declare its own og:image and
+  // put a sentence on it. The swap is conditional on the file being present —
+  // assets/ is regenerated in another session, and a partial set must degrade
+  // to the neutral card rather than to a 404 preview. Covers og:image,
+  // twitter:image and the SoftwareApplication `image`, which all name the same
+  // path.
+  const card = `assets/og-card.${code}.png`;
+  if (fs.existsSync(path.join(ROOT, card))) {
+    html = replaceAll(html, 'assets/og-card.png', card);
+  }
+
   // ---- 9. drop what this copy cannot use ---------------------------------
   // 9a. The boot script inlines the hero copy and the four meta strings for
   // the five non-Korean languages so the LCP heading never changes language in
@@ -246,8 +260,11 @@ console.log(`prerender: ${written} files written for ${OUT_CODES.length} languag
   for (const page of PAGES) urls.push(pageUrl('ko', page));
   for (const code of OUT_CODES) for (const page of PAGES) urls.push(pageUrl(code, page));
 
+  // x-default is English, matching the pages' own <head> and the boot script's
+  // last resort: a visitor whose language is none of the six gets English, not
+  // the Korean root.
   const alternatesFor = (page) => [
-    ['x-default', pageUrl('ko', page)],
+    ['x-default', pageUrl('en', page)],
     ...CODES.map(c => [HREFLANG[c], pageUrl(c, page)]),
   ];
   const lines = ['<?xml version="1.0" encoding="UTF-8"?>',

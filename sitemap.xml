@@ -3,7 +3,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://runvis.app/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/"/>
@@ -13,7 +13,7 @@
   </url>
   <url>
     <loc>https://runvis.app/en/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/"/>
@@ -23,7 +23,7 @@
   </url>
   <url>
     <loc>https://runvis.app/ja/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/"/>
@@ -33,7 +33,7 @@
   </url>
   <url>
     <loc>https://runvis.app/es/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/"/>
@@ -43,7 +43,7 @@
   </url>
   <url>
     <loc>https://runvis.app/zh/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/"/>
@@ -53,7 +53,7 @@
   </url>
   <url>
     <loc>https://runvis.app/de/</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/"/>
@@ -63,7 +63,7 @@
   </url>
   <url>
     <loc>https://runvis.app/run.html</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/run.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/run.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/run.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/run.html"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/run.html"/>
@@ -73,7 +73,7 @@
   </url>
   <url>
     <loc>https://runvis.app/en/run.html</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/run.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/run.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/run.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/run.html"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/run.html"/>
@@ -83,7 +83,7 @@
   </url>
   <url>
     <loc>https://runvis.app/ja/run.html</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/run.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/run.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/run.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/run.html"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/run.html"/>
@@ -93,7 +93,7 @@
   </url>
   <url>
     <loc>https://runvis.app/es/run.html</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/run.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/run.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/run.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/run.html"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/run.html"/>
@@ -103,7 +103,7 @@
   </url>
   <url>
     <loc>https://runvis.app/zh/run.html</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/run.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/run.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/run.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/run.html"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/run.html"/>
@@ -113,7 +113,7 @@
   </url>
   <url>
     <loc>https://runvis.app/de/run.html</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/run.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/run.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/run.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/run.html"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/run.html"/>
@@ -122,8 +122,68 @@
     <xhtml:link rel="alternate" hreflang="de" href="https://runvis.app/de/run.html"/>
   </url>
   <url>
+    <loc>https://runvis.app/how-it-works.html</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://runvis.app/es/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://runvis.app/de/how-it-works.html"/>
+  </url>
+  <url>
+    <loc>https://runvis.app/en/how-it-works.html</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://runvis.app/es/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://runvis.app/de/how-it-works.html"/>
+  </url>
+  <url>
+    <loc>https://runvis.app/ja/how-it-works.html</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://runvis.app/es/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://runvis.app/de/how-it-works.html"/>
+  </url>
+  <url>
+    <loc>https://runvis.app/es/how-it-works.html</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://runvis.app/es/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://runvis.app/de/how-it-works.html"/>
+  </url>
+  <url>
+    <loc>https://runvis.app/zh/how-it-works.html</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://runvis.app/es/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://runvis.app/de/how-it-works.html"/>
+  </url>
+  <url>
+    <loc>https://runvis.app/de/how-it-works.html</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://runvis.app/es/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/how-it-works.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://runvis.app/de/how-it-works.html"/>
+  </url>
+  <url>
     <loc>https://runvis.app/privacy.html</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/privacy.html"/>
@@ -133,7 +193,7 @@
   </url>
   <url>
     <loc>https://runvis.app/en/privacy.html</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/privacy.html"/>
@@ -143,7 +203,7 @@
   </url>
   <url>
     <loc>https://runvis.app/ja/privacy.html</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/privacy.html"/>
@@ -153,7 +213,7 @@
   </url>
   <url>
     <loc>https://runvis.app/es/privacy.html</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/privacy.html"/>
@@ -163,7 +223,7 @@
   </url>
   <url>
     <loc>https://runvis.app/zh/privacy.html</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/privacy.html"/>
@@ -173,7 +233,7 @@
   </url>
   <url>
     <loc>https://runvis.app/de/privacy.html</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/privacy.html"/>
@@ -183,7 +243,7 @@
   </url>
   <url>
     <loc>https://runvis.app/terms.html</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/terms.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/terms.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/terms.html"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/terms.html"/>
@@ -193,7 +253,7 @@
   </url>
   <url>
     <loc>https://runvis.app/en/terms.html</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/terms.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/terms.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/terms.html"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/terms.html"/>
@@ -203,7 +263,7 @@
   </url>
   <url>
     <loc>https://runvis.app/ja/terms.html</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/terms.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/terms.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/terms.html"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/terms.html"/>
@@ -213,7 +273,7 @@
   </url>
   <url>
     <loc>https://runvis.app/es/terms.html</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/terms.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/terms.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/terms.html"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/terms.html"/>
@@ -223,7 +283,7 @@
   </url>
   <url>
     <loc>https://runvis.app/zh/terms.html</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/terms.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/terms.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/terms.html"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/terms.html"/>
@@ -233,7 +293,7 @@
   </url>
   <url>
     <loc>https://runvis.app/de/terms.html</loc>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/terms.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/terms.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/terms.html"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/terms.html"/>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<!-- GENERATED FILE — do not edit.
+     tools/prerender.mjs built this from /how-it-works.html and t-es.js.
+     Edit those and run: node tools/prerender.mjs -->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<script>window.RunvisPageLang="es";window.RunvisBase="/";</script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#000000">
+<title data-i18n="hw.meta.title">Reglas y herramientas — Runvis</title>
+<meta name="description" content="La versión completa de las reglas que la portada resume: cuántas veces habla el coach y todas las excepciones al mínimo de 45 segundos. Calcula aquí tus cinco zonas de FC, descarga 13 GPX de rutas de Seúl y mira cómo funciona la beta." data-i18n-attr="content:hw.meta.desc">
+<meta name="robots" content="index,follow">
+<meta property="og:title" content="Reglas y herramientas — Runvis" data-i18n-attr="content:hw.meta.title">
+<meta property="og:description" content="La versión completa de las reglas que la portada resume: cuántas veces habla el coach y todas las excepciones al mínimo de 45 segundos. Calcula aquí tus cinco zonas de FC, descarga 13 GPX de rutas de Seúl y mira cómo funciona la beta." data-i18n-attr="content:hw.meta.desc">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://runvis.app/es/how-it-works.html">
+<meta property="og:site_name" content="Runvis">
+<meta property="og:locale" content="es_ES">
+<meta property="og:image" content="https://runvis.app/assets/og-card.png?v=2">
+<meta property="og:image:alt" content="Runvis — Apple Watch running coach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://runvis.app/assets/og-card.png?v=2">
+<link rel="canonical" href="https://runvis.app/es/how-it-works.html">
+<link rel="alternate" hreflang="x-default" href="https://runvis.app/en/how-it-works.html">
+<link rel="alternate" hreflang="ko" href="https://runvis.app/how-it-works.html">
+<link rel="alternate" hreflang="en" href="https://runvis.app/en/how-it-works.html">
+<link rel="alternate" hreflang="ja" href="https://runvis.app/ja/how-it-works.html">
+<link rel="alternate" hreflang="es" href="https://runvis.app/es/how-it-works.html">
+<link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/how-it-works.html">
+<link rel="alternate" hreflang="de" href="https://runvis.app/de/how-it-works.html">
+<style>
+  :root{
+    --green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;
+    /* --dim2 was #6a6f76 = 4.15:1 on black, under the 4.5:1 AA floor; the
+       "last updated" line and the legal note used it. #878d95 is 6.27:1,
+       the same token index.html uses. */
+    --text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
+    line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
+  .wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}
+  a{color:var(--green);text-decoration:none}
+  :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+  img{max-width:100%;height:auto;display:block}
+  body{overflow-wrap:break-word;word-break:keep-all;line-break:normal}
+  h1{font-size:1.7rem;margin-bottom:6px}
+  .updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}
+  /* Without this the first Tab on every page landed on the language menu.
+     Visually hidden until it takes focus, then it becomes a real button. */
+  .skip{position:absolute;left:-9999px;top:0;z-index:200}
+  .skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
+    padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
+  h2{font-size:1.15rem;margin:36px 0 12px;color:var(--green)}
+  p,li{color:var(--dim);font-size:.95rem}
+  ul{padding-left:20px;margin:10px 0}
+  li{margin:6px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0}
+  .card b{color:var(--text)}
+  .tablewrap{overflow-x:auto;margin:14px 0}
+  table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:520px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--dim)}
+  th{color:var(--text);font-weight:600}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
+  .back{color:var(--dim);font-size:.9rem}
+  .legalnote{color:var(--dim2);font-size:.8rem;margin-bottom:22px}
+  /* language selector — same ids i18n.js looks for (#langsel/#langbtn/#langmenu) */
+  .langsel{position:relative;display:inline-block}
+  .langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
+  .langsel button:hover{border-color:var(--green)}
+  .langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+  .langsel.open ul{display:block}
+  .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
+  .langsel li:hover{background:rgba(61,220,132,.15)}
+  .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
+  .intro{color:var(--dim);font-size:.95rem;margin-bottom:8px}
+  h2{scroll-margin-top:20px}
+  ol{list-style:none;margin:12px 0;padding:0;counter-reset:ns}
+  ol li{counter-increment:ns;display:flex;gap:10px;padding:7px 0;line-height:1.7}
+  ol li::before{content:counter(ns);flex:0 0 20px;height:20px;margin-top:4px;border-radius:999px;
+    background:rgba(61,220,132,.16);color:var(--green);font-size:11.5px;font-weight:800;display:grid;place-items:center}
+  /* The app's own zone arithmetic, run here: no install, no address, no
+     network. UserProfile.karvonenZoneLowerBounds — 50/60/70/80/90 % of heart
+     rate reserve over effectiveMaxHR, with the Tanaka fallback for an empty
+     maximum. Same markup and same script as the block that used to sit under
+     the sign-up form on index.html. */
+  .hzcalc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+  @media(max-width:520px){.hzcalc{grid-template-columns:1fr 1fr}.hzcalc label:last-child{grid-column:1/-1}}
+  .hzcalc label{display:block;font-size:12px;color:var(--dim);line-height:1.4}
+  .hzcalc input{width:100%;margin-top:5px;background:#0d1013;border:1px solid var(--line);color:var(--text);
+    border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;font-variant-numeric:tabular-nums}
+  .hzcalc input:focus{border-color:var(--green);outline:none}
+  .hzout{margin-top:12px;font-size:.9rem;line-height:1.9;color:#dfe3e7}
+  .hzout b{color:var(--green);font-variant-numeric:tabular-nums}
+  .hzout .hzmax{display:block;color:var(--dim);font-size:.8rem;margin-top:4px}
+  .gpxlist{font-size:.82rem;line-height:2.1;color:var(--dim2)}
+  .gpxlist a{white-space:nowrap}
+  .note{color:var(--dim2);font-size:.8rem;margin-top:8px}
+  .backhome{margin-top:44px;padding-top:20px;border-top:1px solid var(--line)}
+</style>
+<script>
+(function(){
+  var L=["ko","en","ja","es","zh","de"];
+  function norm(v){ if(!v) return null; v=String(v).toLowerCase();
+    v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
+    return L.indexOf(v)>=0 ? v : null; }
+  var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
+  // On a prerendered page (/en/, /ja/ …) the directory IS the language and
+  // RunvisPageLang is set just above; it outranks the saved choice and the
+  // browser's. ?lang= still wins over it.
+  var saved=null; try{ saved=norm(localStorage.getItem("runvis_lang")); }catch(e){}
+  // Last resort when nothing has spoken and the browser's language is not one
+  // of the six: English, not Korean. norm() passes only ko/en/ja/es/zh/de, so
+  // fr, pt, it, ru … all fell through to "ko" and a French reader landed on a
+  // Korean document. A Korean browser still resolves through
+  // norm(navigator.language) and is unaffected, and ?lang= and the saved
+  // choice still outrank this.
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"en";
+  // A German browser landing on a ROOT url used to get German BODY text with a
+  // Korean canonical, Korean og:* and no route to /de/ at all — the five
+  // prerendered market pages existed and nothing ever sent anyone to them.
+  // GitHub Pages cannot redirect, so it happens here, and only in the one case
+  // where nothing else has spoken: no ?lang= (an explicit choice), no saved
+  // choice, not already on a prerendered page, and not Korean (this IS the
+  // Korean document and the x-default). replace() keeps the back button
+  // working and the sessionStorage flag makes a second hop impossible even if
+  // the target ever failed to set RunvisPageLang.
+  try{
+    if(!window.RunvisPageLang && !urlLang && !saved && code!=="ko"
+       && /(^|\.)runvis\.app$/.test(location.hostname)
+       && !sessionStorage.getItem("runvis_sent")){
+      sessionStorage.setItem("runvis_sent","1");
+      var file=location.pathname.split("/").pop()||"";
+      if(file==="index.html") file="";      // /de/, the URL hreflang and canonical name
+      location.replace("/"+code+"/"+file+location.hash);
+      return;
+    }
+  }catch(e){}
+  window.RunvisLang=code; window.RunvisUrlLang=urlLang;
+  var html=document.documentElement;
+  html.lang = code==="zh" ? "zh-Hant" : code;
+  html.className += (html.className?" ":"") + "js";
+  var BASE=window.RunvisBase||"";              // "" at the root, "/" under /en/ …
+  var d=document.createElement("script");
+  d.src=BASE+"t-"+code+".js?v=20260906e"; d.async=false; document.head.appendChild(d);
+  function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
+  // ?lang=de on a ROOT url shows the same page the prerendered /de/ copy shows,
+  // so the canonical points there instead of at itself — otherwise the two
+  // compete for the same market and neither wins. Without ?lang, and on the
+  // prerendered pages themselves, the canonical is the page's own address.
+  var link=document.querySelector('link[rel="canonical"]');
+  if(link){
+    // Remember the page's OWN address before rewriting it. i18n.js recomputes
+    // the canonical on every language switch and would otherwise read back the
+    // value this script just wrote and prefix it a second time (/ja/ja/).
+    var base=link.getAttribute("data-base")||(link.getAttribute("href")||"").split("?")[0].split("#")[0];
+    link.setAttribute("data-base",base);
+    var url=base;
+    if(!window.RunvisPageLang && urlLang && urlLang!=="ko"){
+      try{ var u=new URL(base); u.pathname="/"+urlLang+u.pathname; url=u.href; }catch(e){}
+    }
+    link.setAttribute("href",url); meta("property","og:url",url); }
+  var OGL={ko:"ko_KR",en:"en_US",ja:"ja_JP",es:"es_ES",zh:"zh_TW",de:"de_DE"};
+  meta("property","og:locale",OGL[code]);
+})();
+</script>
+<script defer src="/i18n.js?v=20260906e"></script>
+<script id="pageld" type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"Reglas y herramientas — Runvis","description":"La versión completa de las reglas que la portada resume: cuántas veces habla el coach y todas las excepciones al mínimo de 45 segundos. Calcula aquí tus cinco zonas de FC, descarga 13 GPX de rutas de Seúl y mira cómo funciona la beta.","inLanguage":"es","url":"https://runvis.app/es/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/es/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/es/"},{"@type":"ListItem","position":2,"name":"Reglas y herramientas — Runvis","item":"https://runvis.app/es/how-it-works.html"}]}}
+</script>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="a11y.skip">Saltar al contenido principal</a>
+<div class="wrap">
+  <div class="topbar">
+    <a class="back" href="index.html" data-i18n="pv.back">← Volver a Runvis</a>
+    <div class="langsel" id="langsel">
+      <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="Idioma de la página">🌐 <span id="langlabel" data-i18n="a11y.langname">Español</span> ▾</button>
+      <ul id="langmenu" role="menu" aria-labelledby="langbtn" tabindex="-1"></ul>
+    </div>
+  </div>
+  <h1 id="main" tabindex="-1" data-i18n="hw.h1">Reglas y herramientas</h1>
+  <p class="intro" data-i18n="hw.intro">La versión completa de lo que la portada resume en una línea. Nada de esto exige un correo ni instalar nada.</p>
+
+  <h2 id="rules" data-i18n="hw.s1.h">Todos los topes y todas las excepciones</h2>
+  <div class="tablewrap"><table>
+    <tr><th data-i18n="n.live.q.th1">Sesión</th><th data-i18n="n.live.q.th2">Otros avisos por 30 min (sin parciales, cuestas ni pausas)</th></tr>
+    <tr><td data-i18n="n.live.q.r1a">Suave · larga · correr-caminar</td><td data-i18n="n.live.q.r1b">hasta 8</td></tr>
+    <tr><td data-i18n="n.live.q.r2a">Tempo · carrera · carrera libre</td><td data-i18n="n.live.q.r2b">hasta 6</td></tr>
+    <tr><td data-i18n="n.live.q.r3a">Series</td><td data-i18n="n.live.q.r3b">sin tope: lo que dejes activado decide cuánto habla. A cambio, en las series solo suenan el aviso del bloque, la zona de FC, el ritmo y la pausa automática: parciales, cuestas, técnica y ánimos se callan</td></tr>
+  </table></div>
+  <ul>
+    <li data-i18n="n.live.q.n1">El intervalo mínimo es de 45 segundos. Los avisos de seguridad, los avisos esenciales como los pasos del entrenamiento y los parciales no esperan a ese intervalo, y los siguientes tampoco.</li>
+    <li data-i18n="n.live.q.n2">Los parciales, el aviso de cuestas y los de pausa y reanudación automáticas siguen cada uno su propia regla y nunca consumen el tope de 30 minutos. El aviso de pasar de andar a correr y la cuenta de respiración también quedan fuera de la regla de 45 segundos: tarde no significan nada. Y también el saludo con el que reconoce un recorrido que ya has corrido.</li>
+    <li data-i18n="n.live.q.n3">Corriendo solo con el iPhone las reglas cambian: hay menos avisos, así que la frecuencia con la que habla la fijan un intervalo de 20 segundos en vez de 45, un tiempo de espera de 3 minutos en ritmo y de 5 en zona de FC, y no hay tope de 30 minutos.</li>
+    <li data-i18n="n.live.q.n4">Hay 8 elementos que se activan uno a uno: ritmo, zona de FC, técnica, cuestas, ánimos y guiones, tarjetas de consejos, hidratación y la voz de pausa y reanudación automáticas. Los parciales no son un interruptor sino un intervalo: apagado, 0,5 o 1 (km o millas). Los avisos de seguridad y los avisos centrales, como los pasos del entrenamiento, no se pueden apagar. La música solo baja mientras el coach habla.</li>
+  </ul>
+
+  <h2 id="zones" data-i18n="hz.h">Algo que puedes calcular ahora mismo: tus cinco zonas de pulso</h2>
+  <p data-i18n="hz.p">La misma aritmética de Karvonen que usa Runvis para hablarte. En la app las entradas se actualizan solas —el pulso en reposo de siete días de Salud y la frecuencia máxima que tu reloj ha registrado de verdad—, pero el cálculo es el de abajo.</p>
+  <div class="hzcalc">
+    <label><span data-i18n="hz.age">Edad</span><input id="hzAge" type="number" min="10" max="99" step="1" value="35" inputmode="numeric"/></label>
+    <label><span data-i18n="hz.rest">Pulso en reposo</span><input id="hzRest" type="number" min="30" max="110" step="1" value="60" inputmode="numeric"/></label>
+    <label><span data-i18n="hz.max">Frecuencia máxima (déjalo vacío si no la sabes)</span><input id="hzMax" type="number" min="120" max="230" step="1" inputmode="numeric"/></label>
+  </div>
+  <p class="hzout" id="hzOut" role="status" aria-live="polite"></p>
+  <p class="note" data-i18n="hz.note">Límite inferior de zona = (FC máx − FC en reposo) × 50/60/70/80/90% + FC en reposo. Si dejas la máxima vacía, se estima como 208 − 0,7 × edad. Es un cálculo orientativo, no un consejo médico.</p>
+
+  <h2 id="gpx" data-i18n="n.beta.gpxh">Si corres en Seúl: 13 archivos GPX de recorridos</h2>
+  <p data-i18n="n.beta.gpx">Los archivos GPX de los 13 recorridos de Seúl que usa la app. Sin registro y sin instalar nada: descárgalos ya y cárgalos en otro reloj o app de mapas. Las distancias van en km en los seis idiomas: un archivo GPX no lleva unidad propia y la conversión la hace el dispositivo donde lo cargues.</p>
+  <p class="gpxlist"><a href="/gpx/seoul-namsan-bukcheuk.gpx" download><span data-i18n="gpx.namsan.north">Namsan, circuito norte</span> <span style="color:var(--dim2)">6.7km</span></a> · <a href="/gpx/seoul-namsan-summit.gpx" download><span data-i18n="gpx.namsan.summit">Subida a la cima del Namsan</span> <span style="color:var(--dim2)">4.0km</span></a> · <a href="/gpx/seoul-bukak-skyway.gpx" download><span data-i18n="gpx.bukak">Bugak Skyway</span> <span style="color:var(--dim2)">5.2km</span></a> · <a href="/gpx/seoul-ansan-jarak.gpx" download><span data-i18n="gpx.ansan">Sendero Jarak del Ansan</span> <span style="color:var(--dim2)">6.1km</span></a> · <a href="/gpx/seoul-inwangsan.gpx" download><span data-i18n="gpx.inwangsan">Sendero Jarak del Inwangsan</span> <span style="color:var(--dim2)">2.9km</span></a> · <a href="/gpx/seoul-naksan.gpx" download><span data-i18n="gpx.naksan">Muralla de Seúl, parque Naksan</span> <span style="color:var(--dim2)">2.1km</span></a> · <a href="/gpx/seoul-eungbong.gpx" download><span data-i18n="gpx.eungbong">Escaleras del Eungbongsan</span> <span style="color:var(--dim2)">1.6km</span></a> · <a href="/gpx/seoul-dorimcheon.gpx" download><span data-i18n="gpx.dorimcheon">Arroyo Dorimcheon</span> <span style="color:var(--dim2)">14.5km</span></a> · <a href="/gpx/seoul-banpo-hangang.gpx" download><span data-i18n="gpx.banpo">Parque del río Han en Banpo</span> <span style="color:var(--dim2)">5.0km</span></a> · <a href="/gpx/seoul-tancheon.gpx" download><span data-i18n="gpx.tancheon">Arroyo Tancheon</span> <span style="color:var(--dim2)">7.1km</span></a> · <a href="/gpx/seoul-yangjaecheon.gpx" download><span data-i18n="gpx.yangjaecheon">Arroyo Yangjaecheon</span> <span style="color:var(--dim2)">3.9km</span></a> · <a href="/gpx/seoul-cheonggyecheon.gpx" download><span data-i18n="gpx.cheonggyecheon">Arroyo Cheonggyecheon</span> <span style="color:var(--dim2)">5.5km</span></a> · <a href="/gpx/seoul-seoulsup.gpx" download><span data-i18n="gpx.seoulsup">Circuito del Bosque de Seúl</span> <span style="color:var(--dim2)">2.0km</span></a></p>
+  <p class="note" data-i18n="n.beta.gpxattr">Trazados a partir de datos de carreteras y senderos de OpenStreetMap; altitud de Copernicus DEM / NASA SRTMGL1 (dominio público). © OpenStreetMap contributors · ODbL 1.0.</p>
+
+  <h2 id="beta" data-i18n="n.beta.stepsh">Qué pasa después de apuntarte</h2>
+  <ol>
+    <li data-i18n="n.beta.s1">Registro: solo guardamos tu correo. No hay que crear ninguna cuenta.</li>
+    <li data-i18n="n.beta.s2">Invitación de TestFlight: cuando se abra la beta, los enlaces salen en el mismo orden en que se pidieron. Apple limita a 10.000 las plazas de probadores externos. Solo hace falta una cuenta de Apple y no hay nada que pagar: en una compilación de beta todas las funciones del coach son gratis mientras dure la beta. Si no aceptas el correo comercial, esa invitación es el único mensaje que recibirás.</li>
+    <li data-i18n="n.beta.s3">Comentarios: envíalos desde la propia app o a help@runvis.app.</li>
+    <li data-i18n="n.beta.s4">Lanzamiento: la fecha se decide cuando termine la beta. Primero llega a la App Store de Corea del Sur y las demás regiones se abren por fases.</li>
+  </ol>
+  <p class="backhome"><a href="index.html#beta" data-i18n="n.price.cta">Pruébalo antes en la beta, o solo recibe el aviso de lanzamiento</a></p>
+</div>
+<script>
+// --- heart-rate zones, worked out here, with no address and no install -------
+// The same arithmetic the app runs: UserProfile.karvonenZoneLowerBounds maps
+// 50/60/70/80/90 % of heart-rate reserve over effectiveMaxHR, and an empty max
+// falls back to the Tanaka estimate 208 - 0.7 x age (UserProfile.estimatedMaxHR).
+// Zone names are the app's own five labels, translated in the same six tables.
+(() => {
+  const age = document.getElementById('hzAge'), rest = document.getElementById('hzRest'),
+        mx = document.getElementById('hzMax'), out = document.getElementById('hzOut');
+  if (!age || !rest || !mx || !out) return;
+  // Named RunvisT on purpose. This block paints during parsing, before the
+  // deferred i18n.js has defined window.RunvisT, so every string needs an
+  // inline fallback - and tools/check-content.mjs [10] only compares fallbacks
+  // written as a call whose two arguments are both quoted literals, the shape
+  // tools/prerender.mjs rewrites for /en/ ... . The local name delegates to the
+  // global one once it exists; `window.RunvisT` inside is the global, not this.
+  const RunvisT = (k, f) => (window.RunvisT ? window.RunvisT(k, f) : f);
+  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+  const render = () => {
+    const a = clamp(Math.round(Number(age.value) || 0), 10, 99);
+    const r = clamp(Math.round(Number(rest.value) || 0), 30, 110);
+    const typed = Math.round(Number(mx.value) || 0);
+    const estimated = Math.round(208 - 0.7 * a);
+    const max = typed >= 120 && typed <= 230 ? typed : estimated;
+    if (max - r < 20) { out.textContent = RunvisT('hz.bad', 'El pulso en reposo está demasiado cerca del máximo para repartir zonas.'); return; }
+    const names = [RunvisT('hz.z1', 'Z1 Recuperación'), RunvisT('hz.z2', 'Z2 Aeróbico'), RunvisT('hz.z3', 'Z3 Tempo'), RunvisT('hz.z4', 'Z4 VO2max'), RunvisT('hz.z5', 'Z5 Anaeróbico')];
+    const lower = [.5, .6, .7, .8, .9].map(p => Math.round((max - r) * p + r));
+    const rows = names.map((n, i) => {
+      const hi = i === 4 ? max : lower[i + 1] - 1;
+      return n + ' <b>' + lower[i] + '\u2013' + hi + '</b>';
+    });
+    const bpm = RunvisT('hz.bpm', 'ppm');
+    const line = typed >= 120 && typed <= 230
+      ? RunvisT('hz.maxtyped', 'Con la frecuencia máxima que has introducido')
+      : RunvisT('hz.maxest', 'Máxima estimada como 208 − 0,7 × edad');
+    out.innerHTML = rows.join(' · ') + ' ' + bpm
+      + '<span class="hzmax">' + line + ': ' + max + ' ' + bpm + '</span>';
+  };
+  [age, rest, mx].forEach(el => el.addEventListener('input', render));
+  addEventListener('runvis:lang', () => setTimeout(render, 0));
+  render();
+})();
+</script>
+</body>
+</html>

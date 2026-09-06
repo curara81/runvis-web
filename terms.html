@@ -3,6 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- All four pages are pure black. Only index.html declared this, so a
+     visitor moving from the home page to the demo, the privacy policy or
+     the terms watched the browser chrome flip from black to white on iOS
+     Safari and Android Chrome. Same value as index.html:49. -->
+<meta name="theme-color" content="#000000">
 <!-- Korean only, like index.html. The head used to run both languages
      together in one line; /en/terms.html and its siblings are the finished
      pages for the other five markets and hreflang points at them. -->
@@ -20,7 +25,13 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://runvis.app/assets/og-card.png?v=2">
 <link rel="canonical" href="https://runvis.app/terms.html">
-<link rel="alternate" hreflang="x-default" href="https://runvis.app/terms.html">
+<!-- x-default is the alternate for a visitor whose language matches none of
+     the six. That used to be this Korean document, which meant a French or
+     Portuguese reader was routed to Korean by both the boot script and the
+     search engine. Both now end at English: the boot script's last resort is
+     "en" and this points at /en/. The Korean page keeps its own hreflang="ko"
+     alternate below and stays the canonical home. -->
+<link rel="alternate" hreflang="x-default" href="https://runvis.app/en/terms.html">
 <link rel="alternate" hreflang="ko" href="https://runvis.app/terms.html">
 <link rel="alternate" hreflang="en" href="https://runvis.app/en/terms.html">
 <link rel="alternate" hreflang="ja" href="https://runvis.app/ja/terms.html">
@@ -43,7 +54,11 @@
   a{color:var(--green);text-decoration:none}
   :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
   img{max-width:100%;height:auto;display:block}
-  body{overflow-wrap:break-word;word-break:keep-all;line-break:normal}
+  body{overflow-wrap:break-word;word-break:normal;line-break:normal}
+  /* keep-all keeps Korean words whole, but it also stops Japanese and
+     Chinese from breaking at all — a price bullet overflowed its card by
+     164px on ja (2026-09-06 라운드 12). Scope it to Korean only. */
+  :lang(ko) body,body:lang(ko){word-break:keep-all}
   h1{font-size:1.7rem;margin-bottom:6px}
   .updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}
   /* Without this the first Tab on every page landed on the language menu.
@@ -82,7 +97,13 @@
   // RunvisPageLang is set just above; it outranks the saved choice and the
   // browser's. ?lang= still wins over it.
   var saved=null; try{ saved=norm(localStorage.getItem("runvis_lang")); }catch(e){}
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"ko";
+  // Last resort when nothing has spoken and the browser's language is not one
+  // of the six: English, not Korean. norm() passes only ko/en/ja/es/zh/de, so
+  // fr, pt, it, ru … all fell through to "ko" and a French reader landed on a
+  // Korean document. A Korean browser still resolves through
+  // norm(navigator.language) and is unaffected, and ?lang= and the saved
+  // choice still outrank this.
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"en";
   // A German browser landing on a ROOT url used to get German BODY text with a
   // Korean canonical, Korean og:* and no route to /de/ at all — the five
   // prerendered market pages existed and nothing ever sent anyone to them.
@@ -157,75 +178,52 @@
   <p class="updated" data-i18n="tm.updated">시행일: 2026년 9월 6일 · 버전 1.2</p>
 
   <h2 data-i18n="tm.s1.h">1. 서비스 개요</h2>
-  <p data-i18n="tm.s1.p">Runvis는 Apple Watch와 iPhone에서 동작하는 러닝 기록·코칭 앱입니다. GPS 기록, 랩,
-  Apple 건강 저장, 기록 열람, 훈련 플랜 보기, 운동 상세 리포트, 준비운동 화면은 무료입니다.
-  코치의 자세·회복·격려 음성, 훈련 플랜의 구간별 실행과 계획 대비 점수, 심층 분석, 레이스 전략,
-  주간 코치 요약은 앱 내 구독 또는 평생 이용권으로 제공됩니다. Runvis는 계정을 만들지 않으며
-  자체 서버를 운영하지 않습니다.</p>
+  <p data-i18n="tm.s1.p">Runvis는 Apple Watch와 iPhone에서 동작하는 러닝 기록·코칭 앱입니다. GPS 기록, 랩, Apple 건강 저장, 기록 열람, 훈련 플랜 보기, 운동 상세 리포트, 준비운동 화면은 무료입니다. 코치의 자세·회복·격려 음성, 훈련 플랜의 구간별 실행과 계획 대비 점수, 심층 분석, 레이스 전략, 주간 코치 요약은 앱 내 구독 또는 평생 이용권으로 제공됩니다. Runvis는 계정을 만들지 않으며 자체 서버를 운영하지 않습니다.</p>
 
   <h2 data-i18n="tm.s2.h">2. 구독</h2>
   <ul>
-    <li data-i18n="tm.s2.li1">구독 결제·갱신·해지는 Apple App Store 계정을 통해 처리되며, Apple의 표준 구독
-    약관을 따릅니다</li>
-    <li data-i18n="tm.s2.li2">월간·연간 구독은 <b>자동 갱신</b> 상품입니다. 현재 구독 기간이 끝나기
-    <b>24시간 전까지</b> 해지하지 않으면 자동으로 갱신되며, 갱신 요금은 현재 기간 종료 전
-    24시간 이내에 Apple 계정으로 청구됩니다</li>
-    <li data-i18n="tm.s2.li3">무료 체험이 제공되는 경우, 체험 기간이 끝나기 24시간 전까지 해지하지 않으면
-    유료 구독으로 자동 전환되어 요금이 청구됩니다. 체험 제공 여부는 Apple이 해당 계정의 자격을
-    판단하며, 자격이 있을 때만 결제 화면에 표시됩니다</li>
-    <li data-i18n="tm.s2.li4">해지는 iOS 설정 → Apple 계정 → 구독에서 언제든 가능하며, 해지 후에도 결제된
-    기간이 끝날 때까지 이용할 수 있습니다</li>
+    <li data-i18n="tm.s2.li1">구독 결제·갱신·해지는 Apple App Store 계정을 통해 처리되며, Apple의 표준 구독 약관을 따릅니다</li>
+    <li data-i18n="tm.s2.li2">월간·연간 구독은 <b>자동 갱신</b> 상품입니다. 현재 구독 기간이 끝나기 <b>24시간 전까지</b> 해지하지 않으면 자동으로 갱신되며, 갱신 요금은 현재 기간 종료 전 24시간 이내에 Apple 계정으로 청구됩니다</li>
+    <li data-i18n="tm.s2.li3">무료 체험이 제공되는 경우, 체험 기간이 끝나기 24시간 전까지 해지하지 않으면 유료 구독으로 자동 전환되어 요금이 청구됩니다. 체험 제공 여부는 Apple이 해당 계정의 자격을 판단하며, 자격이 있을 때만 결제 화면에 표시됩니다</li>
+    <li data-i18n="tm.s2.li4">해지는 iOS 설정 → Apple 계정 → 구독에서 언제든 가능하며, 해지 후에도 결제된 기간이 끝날 때까지 이용할 수 있습니다</li>
     <li data-i18n="tm.s2.li5">월간·연간 구독은 Apple 가족 공유 대상이 아닙니다. 가족 공유로 함께 쓸 수 있는 상품은 3절의 평생 이용권뿐입니다</li>
     <li data-i18n="tm.s2.li6">환불은 Apple의 환불 정책과 절차를 따릅니다</li>
   </ul>
 
   <h2 data-i18n="tm.s3.h">3. 평생 이용권</h2>
   <ul>
-    <li data-i18n="tm.s3.li1">평생 이용권은 <b>1회 결제로 끝나는 비소모성 상품</b>이며 자동 갱신이 없습니다.
-    구독과 동일한 코치 기능을 잠금 해제합니다</li>
-    <li data-i18n="tm.s3.li2">현재 가격은 <b>출시 기념 가격</b>이며 출시 3개월 뒤 인상될 예정입니다. 인상은
-    <b>이후의 신규 구매에만</b> 적용되며, 이미 구매한 이용권에 추가로 청구되지 않습니다</li>
+    <li data-i18n="tm.s3.li1">평생 이용권은 <b>1회 결제로 끝나는 비소모성 상품</b>이며 자동 갱신이 없습니다. 구독과 동일한 코치 기능을 잠금 해제합니다</li>
+    <li data-i18n="tm.s3.li2">현재 가격은 <b>출시 기념 가격</b>이며 출시 3개월 뒤 인상될 예정입니다. 인상은 <b>이후의 신규 구매에만</b> 적용되며, 이미 구매한 이용권에 추가로 청구되지 않습니다</li>
     <li data-i18n="tm.s3.li3">평생 이용권은 Apple 가족 공유 대상이므로 같은 가족 공유 그룹 구성원이 함께 사용할 수 있습니다 — 구독 상품 중에는 가족 공유가 되는 것이 없습니다</li>
-    <li data-i18n="tm.s3.li4">Runvis는 계정을 만들지 않으므로, 기기를 바꾸거나 앱을 다시 설치했을 때는
-    결제 화면의 <b>구매 복원</b>으로 이용권을 되살립니다. 복원은 구매에 사용한 Apple 계정으로만 가능합니다</li>
-    <li data-i18n="tm.s3.li5">평생 이용권은 Runvis 앱이 App Store에서 제공되는 동안 유효합니다. 서비스가
-    중단되는 경우 5항의 서비스 한계 조항이 함께 적용됩니다</li>
+    <li data-i18n="tm.s3.li4">Runvis는 계정을 만들지 않으므로, 기기를 바꾸거나 앱을 다시 설치했을 때는 결제 화면의 <b>구매 복원</b>으로 이용권을 되살립니다. 복원은 구매에 사용한 Apple 계정으로만 가능합니다</li>
+    <li data-i18n="tm.s3.li5">평생 이용권은 Runvis 앱이 App Store에서 제공되는 동안 유효합니다. 서비스가 중단되는 경우 5항의 서비스 한계 조항이 함께 적용됩니다</li>
     <li data-i18n="tm.s3.li6">환불은 Apple의 환불 정책과 절차를 따릅니다</li>
-    <li data-i18n="tm.s3.li7">팁 저금통(커피·점심·하트)은 <b>일회성 감사의 표시</b>이며 어떤 기능도 잠금
-    해제하지 않습니다 — 구독이나 평생 이용권을 대신하지 않습니다</li>
+    <li data-i18n="tm.s3.li7">팁 저금통(커피·점심·하트)은 <b>일회성 감사의 표시</b>이며 어떤 기능도 잠금 해제하지 않습니다 — 구독이나 평생 이용권을 대신하지 않습니다</li>
   </ul>
 
   <h2 data-i18n="tm.s4.h">4. 이용자의 책임</h2>
   <ul>
     <li data-i18n="tm.s4.li1">운동은 본인의 건강 상태를 고려하여 스스로의 판단과 책임 하에 수행해야 합니다</li>
-    <li data-i18n="tm.s4.li2">도로·트랙 등 야외 러닝 시 교통 상황과 주변 환경에 항상 주의해야 하며, 음성 안내는
-    주변 소리를 차단하지 않는 범위에서 사용하세요</li>
-    <li data-i18n="tm.s4.li3">이상 증상(흉통, 어지럼, 호흡 곤란 등)이 있으면 즉시 운동을 중단하고 전문가와
-    상담하세요</li>
+    <li data-i18n="tm.s4.li2">도로·트랙 등 야외 러닝 시 교통 상황과 주변 환경에 항상 주의해야 하며, 음성 안내는 주변 소리를 차단하지 않는 범위에서 사용하세요</li>
+    <li data-i18n="tm.s4.li3">이상 증상(흉통, 어지럼, 호흡 곤란 등)이 있으면 즉시 운동을 중단하고 전문가와 상담하세요</li>
   </ul>
 
   <h2 data-i18n="tm.s5.h">5. 서비스의 한계와 면책</h2>
   <ul>
-    <li data-i18n="tm.s5.li1">Runvis의 모든 수치·예측·코칭은 공개된 운동과학 공식에 기반한 <b>참고용 정보</b>이며,
-    의학적 진단·치료·처방이 아닙니다</li>
-    <li data-i18n="tm.s5.li2">센서 특성상 심박·GPS·러닝 다이내믹스 측정에는 오차가 있을 수 있으며, 측정값의
-    정확성을 보증하지 않습니다</li>
-    <li data-i18n="tm.s5.li3">참고 정보에 따른 운동 결과(기록 변화, 부상 등)에 대해 개발자는 법적 책임을 지지
-    않습니다. 단, 고의 또는 중대한 과실로 인한 손해는 예외로 합니다</li>
-    <li data-i18n="tm.s5.li4">서비스는 "있는 그대로" 제공되며, Apple 플랫폼·외부 API(날씨 등)의 변경으로 일부
-    기능이 변경·중단될 수 있습니다</li>
+    <li data-i18n="tm.s5.li1">Runvis의 모든 수치·예측·코칭은 공개된 운동과학 공식에 기반한 <b>참고용 정보</b>이며, 의학적 진단·치료·처방이 아닙니다</li>
+    <li data-i18n="tm.s5.li2">센서 특성상 심박·GPS·러닝 다이내믹스 측정에는 오차가 있을 수 있으며, 측정값의 정확성을 보증하지 않습니다</li>
+    <li data-i18n="tm.s5.li3">참고 정보에 따른 운동 결과(기록 변화, 부상 등)에 대해 개발자는 법적 책임을 지지 않습니다. 단, 고의 또는 중대한 과실로 인한 손해는 예외로 합니다</li>
+    <li data-i18n="tm.s5.li4">서비스는 "있는 그대로" 제공되며, Apple 플랫폼·외부 API(날씨 등)의 변경으로 일부 기능이 변경·중단될 수 있습니다</li>
   </ul>
 
   <h2 data-i18n="tm.s6.h">6. 지식재산</h2>
-  <p data-i18n="tm.s6.p">앱과 홈페이지의 디자인·문구·코드는 개발자에게 권리가 있습니다. 사용자의 운동·건강
-  데이터는 전적으로 사용자 소유입니다.</p>
+  <p data-i18n="tm.s6.p">앱과 홈페이지의 디자인·문구·코드는 개발자에게 권리가 있습니다. 사용자의 운동·건강 데이터는 전적으로 사용자 소유입니다.</p>
 
   <h2 data-i18n="tm.s7.h">7. 약관 변경</h2>
   <p data-i18n="tm.s7.p">약관이 바뀌면 이 페이지의 시행일을 갱신하며, 중요한 변경은 앱 내에서 고지합니다.</p>
 
   <h2 data-i18n="tm.s8.h">8. 문의</h2>
-  <p data-i18n="tm.s8.p"><a href="mailto:help@runvis.app">help@runvis.app</a> ·
-  개인정보 처리는 <a href="privacy.html">개인정보 처리방침</a>을 참고하세요.</p>
+  <p data-i18n="tm.s8.p"><a href="mailto:help@runvis.app">help@runvis.app</a> · 개인정보 처리는 <a href="privacy.html">개인정보 처리방침</a>을 참고하세요.</p>
 </div>
 <!-- No renderDynamicI18n hook here any more. It existed to repair a title
      that i18n.js used to hard-code to the homepage's meta.title on every

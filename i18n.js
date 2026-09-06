@@ -58,7 +58,9 @@
     var saved = null;
     try { saved = localStorage.getItem('runvis_lang'); } catch (e) {}
     if (norm(saved)) return norm(saved);
-    return norm(navigator.language) || 'ko';
+    // Same last resort as the pages' boot scripts: a browser language outside
+    // the six resolves to English, not to the Korean document.
+    return norm(navigator.language) || 'en';
   }
 
   // ---- dictionary loading ------------------------------------------------
@@ -289,12 +291,14 @@
     });
   }
 
-  // run.html / privacy.html / terms.html carry a WebPage + BreadcrumbList node
+  // Every page except index.html carries a WebPage + BreadcrumbList node
   // instead of the app and FAQ nodes. Same shape tools/i18n-lib.mjs pageLd
-  // builds and tools/prerender.mjs writes; this one is for a reader who
-  // switched language on a root page with ?lang=.
+  // builds and tools/prerender.mjs writes — keep this table and PAGE_META
+  // there in step — and this one is for a reader who switched language on a
+  // root page with ?lang=.
   var PAGE_META = {
     'run.html': { title: 'r1', desc: 'r2' },
+    'how-it-works.html': { title: 'hw.meta.title', desc: 'hw.meta.desc' },
     'privacy.html': { title: 'pv.meta.title', desc: 'pv.meta.desc' },
     'terms.html': { title: 'tm.meta.title', desc: 'tm.meta.desc' }
   };

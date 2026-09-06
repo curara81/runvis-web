@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- All four pages are pure black. Only index.html declared this, so a
+     visitor moving from the home page to the demo, the privacy policy or
+     the terms watched the browser chrome flip from black to white on iOS
+     Safari and Android Chrome. Same value as index.html:49. -->
+<meta name="theme-color" content="#000000">
+<!-- Korean only, like index.html. /en/how-it-works.html and its siblings are
+     the finished pages for the other five markets and hreflang points at them.
+
+     WHY this page exists. index.html measured 16,408 px at 1280 px wide across
+     ten sections, and #beta alone was 2,653 px of it: the sign-up form, the
+     consent block, a heart-rate calculator, thirteen GPX links and a four-step
+     procedure, stacked under one heading. Folding more of that into <details>
+     was not the answer — the page already folds a great deal, and folding
+     hides a level rather than adding one. This is the second level: the
+     reference material and the take-away tools, one link away, with the home
+     page keeping one sentence and a link where each block used to be.
+
+     Nothing was deleted. Every string here is the same dictionary key it was
+     on index.html, so check-content [2] and [3] still hold it, and the six
+     copies are still built by tools/prerender.mjs. -->
+<title data-i18n="hw.meta.title">규칙과 도구 — Runvis</title>
+<meta name="description" content="코치가 30분에 몇 번 말하는지, 45초 규칙의 예외가 무엇인지 전문. 내 심박존 5개를 지금 계산해 보고, 서울 코스 GPX 13개를 받고, 베타가 어떻게 진행되는지 봅니다." data-i18n-attr="content:hw.meta.desc">
+<meta name="robots" content="index,follow">
+<meta property="og:title" content="규칙과 도구 — Runvis" data-i18n-attr="content:hw.meta.title">
+<meta property="og:description" content="코치가 30분에 몇 번 말하는지, 45초 규칙의 예외가 무엇인지 전문. 내 심박존 5개를 지금 계산해 보고, 서울 코스 GPX 13개를 받고, 베타가 어떻게 진행되는지 봅니다." data-i18n-attr="content:hw.meta.desc">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://runvis.app/how-it-works.html">
+<meta property="og:site_name" content="Runvis">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://runvis.app/assets/og-card.png?v=2">
+<meta property="og:image:alt" content="Runvis — Apple Watch running coach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://runvis.app/assets/og-card.png?v=2">
+<link rel="canonical" href="https://runvis.app/how-it-works.html">
+<!-- x-default is the alternate for a visitor whose language matches none of
+     the six. That used to be this Korean document, which meant a French or
+     Portuguese reader was routed to Korean by both the boot script and the
+     search engine. Both now end at English: the boot script's last resort is
+     "en" and this points at /en/. The Korean page keeps its own hreflang="ko"
+     alternate below and stays the canonical home. -->
+<link rel="alternate" hreflang="x-default" href="https://runvis.app/en/how-it-works.html">
+<link rel="alternate" hreflang="ko" href="https://runvis.app/how-it-works.html">
+<link rel="alternate" hreflang="en" href="https://runvis.app/en/how-it-works.html">
+<link rel="alternate" hreflang="ja" href="https://runvis.app/ja/how-it-works.html">
+<link rel="alternate" hreflang="es" href="https://runvis.app/es/how-it-works.html">
+<link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/how-it-works.html">
+<link rel="alternate" hreflang="de" href="https://runvis.app/de/how-it-works.html">
+<style>
+  :root{
+    --green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;
+    /* --dim2 was #6a6f76 = 4.15:1 on black, under the 4.5:1 AA floor; the
+       "last updated" line and the legal note used it. #878d95 is 6.27:1,
+       the same token index.html uses. */
+    --text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
+    line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
+  .wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}
+  a{color:var(--green);text-decoration:none}
+  :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+  img{max-width:100%;height:auto;display:block}
+  body{overflow-wrap:break-word;word-break:keep-all;line-break:normal}
+  h1{font-size:1.7rem;margin-bottom:6px}
+  .updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}
+  /* Without this the first Tab on every page landed on the language menu.
+     Visually hidden until it takes focus, then it becomes a real button. */
+  .skip{position:absolute;left:-9999px;top:0;z-index:200}
+  .skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
+    padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
+  h2{font-size:1.15rem;margin:36px 0 12px;color:var(--green)}
+  p,li{color:var(--dim);font-size:.95rem}
+  ul{padding-left:20px;margin:10px 0}
+  li{margin:6px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0}
+  .card b{color:var(--text)}
+  .tablewrap{overflow-x:auto;margin:14px 0}
+  table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:520px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--dim)}
+  th{color:var(--text);font-weight:600}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
+  .back{color:var(--dim);font-size:.9rem}
+  .legalnote{color:var(--dim2);font-size:.8rem;margin-bottom:22px}
+  /* language selector — same ids i18n.js looks for (#langsel/#langbtn/#langmenu) */
+  .langsel{position:relative;display:inline-block}
+  .langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
+  .langsel button:hover{border-color:var(--green)}
+  .langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+  .langsel.open ul{display:block}
+  .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
+  .langsel li:hover{background:rgba(61,220,132,.15)}
+  .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
+  .intro{color:var(--dim);font-size:.95rem;margin-bottom:8px}
+  h2{scroll-margin-top:20px}
+  ol{list-style:none;margin:12px 0;padding:0;counter-reset:ns}
+  ol li{counter-increment:ns;display:flex;gap:10px;padding:7px 0;line-height:1.7}
+  ol li::before{content:counter(ns);flex:0 0 20px;height:20px;margin-top:4px;border-radius:999px;
+    background:rgba(61,220,132,.16);color:var(--green);font-size:11.5px;font-weight:800;display:grid;place-items:center}
+  /* The app's own zone arithmetic, run here: no install, no address, no
+     network. UserProfile.karvonenZoneLowerBounds — 50/60/70/80/90 % of heart
+     rate reserve over effectiveMaxHR, with the Tanaka fallback for an empty
+     maximum. Same markup and same script as the block that used to sit under
+     the sign-up form on index.html. */
+  .hzcalc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+  @media(max-width:520px){.hzcalc{grid-template-columns:1fr 1fr}.hzcalc label:last-child{grid-column:1/-1}}
+  .hzcalc label{display:block;font-size:12px;color:var(--dim);line-height:1.4}
+  .hzcalc input{width:100%;margin-top:5px;background:#0d1013;border:1px solid var(--line);color:var(--text);
+    border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;font-variant-numeric:tabular-nums}
+  .hzcalc input:focus{border-color:var(--green);outline:none}
+  .hzout{margin-top:12px;font-size:.9rem;line-height:1.9;color:#dfe3e7}
+  .hzout b{color:var(--green);font-variant-numeric:tabular-nums}
+  .hzout .hzmax{display:block;color:var(--dim);font-size:.8rem;margin-top:4px}
+  .gpxlist{font-size:.82rem;line-height:2.1;color:var(--dim2)}
+  .gpxlist a{white-space:nowrap}
+  .note{color:var(--dim2);font-size:.8rem;margin-top:8px}
+  .backhome{margin-top:44px;padding-top:20px;border-top:1px solid var(--line)}
+</style>
+<!-- Language boot — same script as index.html. Runs before the body is parsed
+     so <html lang>, the canonical and og:locale are already right at first
+     paint, and pulls exactly one dictionary (~37-49 KB) instead of six. -->
+<script>
+(function(){
+  var L=["ko","en","ja","es","zh","de"];
+  function norm(v){ if(!v) return null; v=String(v).toLowerCase();
+    v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
+    return L.indexOf(v)>=0 ? v : null; }
+  var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
+  // On a prerendered page (/en/, /ja/ …) the directory IS the language and
+  // RunvisPageLang is set just above; it outranks the saved choice and the
+  // browser's. ?lang= still wins over it.
+  var saved=null; try{ saved=norm(localStorage.getItem("runvis_lang")); }catch(e){}
+  // Last resort when nothing has spoken and the browser's language is not one
+  // of the six: English, not Korean. norm() passes only ko/en/ja/es/zh/de, so
+  // fr, pt, it, ru … all fell through to "ko" and a French reader landed on a
+  // Korean document. A Korean browser still resolves through
+  // norm(navigator.language) and is unaffected, and ?lang= and the saved
+  // choice still outrank this.
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"en";
+  // A German browser landing on a ROOT url used to get German BODY text with a
+  // Korean canonical, Korean og:* and no route to /de/ at all — the five
+  // prerendered market pages existed and nothing ever sent anyone to them.
+  // GitHub Pages cannot redirect, so it happens here, and only in the one case
+  // where nothing else has spoken: no ?lang= (an explicit choice), no saved
+  // choice, not already on a prerendered page, and not Korean (this IS the
+  // Korean document and the x-default). replace() keeps the back button
+  // working and the sessionStorage flag makes a second hop impossible even if
+  // the target ever failed to set RunvisPageLang.
+  try{
+    if(!window.RunvisPageLang && !urlLang && !saved && code!=="ko"
+       && /(^|\.)runvis\.app$/.test(location.hostname)
+       && !sessionStorage.getItem("runvis_sent")){
+      sessionStorage.setItem("runvis_sent","1");
+      var file=location.pathname.split("/").pop()||"";
+      if(file==="index.html") file="";      // /de/, the URL hreflang and canonical name
+      location.replace("/"+code+"/"+file+location.hash);
+      return;
+    }
+  }catch(e){}
+  window.RunvisLang=code; window.RunvisUrlLang=urlLang;
+  var html=document.documentElement;
+  html.lang = code==="zh" ? "zh-Hant" : code;
+  html.className += (html.className?" ":"") + "js";
+  var BASE=window.RunvisBase||"";              // "" at the root, "/" under /en/ …
+  var d=document.createElement("script");
+  d.src=BASE+"t-"+code+".js?v=20260906e"; d.async=false; document.head.appendChild(d);
+  function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
+  // ?lang=de on a ROOT url shows the same page the prerendered /de/ copy shows,
+  // so the canonical points there instead of at itself — otherwise the two
+  // compete for the same market and neither wins. Without ?lang, and on the
+  // prerendered pages themselves, the canonical is the page's own address.
+  var link=document.querySelector('link[rel="canonical"]');
+  if(link){
+    // Remember the page's OWN address before rewriting it. i18n.js recomputes
+    // the canonical on every language switch and would otherwise read back the
+    // value this script just wrote and prefix it a second time (/ja/ja/).
+    var base=link.getAttribute("data-base")||(link.getAttribute("href")||"").split("?")[0].split("#")[0];
+    link.setAttribute("data-base",base);
+    var url=base;
+    if(!window.RunvisPageLang && urlLang && urlLang!=="ko"){
+      try{ var u=new URL(base); u.pathname="/"+urlLang+u.pathname; url=u.href; }catch(e){}
+    }
+    link.setAttribute("href",url); meta("property","og:url",url); }
+  var OGL={ko:"ko_KR",en:"en_US",ja:"ja_JP",es:"es_ES",zh:"zh_TW",de:"de_DE"};
+  meta("property","og:locale",OGL[code]);
+})();
+</script>
+<script defer src="i18n.js?v=20260906e"></script>
+<!-- WebPage + BreadcrumbList. This page used to ship no structured data at
+     all in any of the six languages: a crawler got a title and nothing that
+     said what site the page belongs to or where it sits in it. Built from the
+     same dictionary the visible text reads, by tools/i18n-lib.mjs pageLd, so
+     the two cannot drift; tools/prerender.mjs rewrites it per language and
+     check-content [4] compares it byte for byte. -->
+<script id="pageld" type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"규칙과 도구 — Runvis","description":"코치가 30분에 몇 번 말하는지, 45초 규칙의 예외가 무엇인지 전문. 내 심박존 5개를 지금 계산해 보고, 서울 코스 GPX 13개를 받고, 베타가 어떻게 진행되는지 봅니다.","inLanguage":"ko","url":"https://runvis.app/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/"},{"@type":"ListItem","position":2,"name":"규칙과 도구 — Runvis","item":"https://runvis.app/how-it-works.html"}]}}
+</script>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="a11y.skip">본문 바로가기</a>
+<div class="wrap">
+  <div class="topbar">
+    <a class="back" href="index.html" data-i18n="pv.back">← Runvis 홈으로</a>
+    <div class="langsel" id="langsel">
+      <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="표시 언어">🌐 <span id="langlabel" data-i18n="a11y.langname">한국어</span> ▾</button>
+      <ul id="langmenu" role="menu" aria-labelledby="langbtn" tabindex="-1"></ul>
+    </div>
+  </div>
+  <h1 id="main" tabindex="-1" data-i18n="hw.h1">규칙과 도구</h1>
+  <p class="intro" data-i18n="hw.intro">홈페이지가 한 줄로 줄여 둔 것들의 전문입니다. 신청하지 않아도, 앱을 깔지 않아도 지금 읽고 써 볼 수 있습니다.</p>
+
+  <!-- 1. The speech-density table. index.html keeps n.live.q.sum, the one
+       sentence, and links here for the table and the four exception notes.
+       The header carries the exclusions because a reader who only scans the
+       table would otherwise read "8 per 30 min" as the whole of what they will
+       hear: CoachCueCategory.countsTowardBudget excludes .safety, .core,
+       .split, .pauseResume and .hill, so a runner gets the 8 PLUS every split.
+       The numbers are held against the app by check-content [13]. -->
+  <h2 id="rules" data-i18n="hw.s1.h">코치가 말하는 상한과 예외 전부</h2>
+  <div class="tablewrap"><table>
+    <tr><th data-i18n="n.live.q.th1">세션</th><th data-i18n="n.live.q.th2">30분당 그 밖의 안내 (스플릿·언덕·일시정지 제외)</th></tr>
+    <tr><td data-i18n="n.live.q.r1a">이지런 · 롱런 · 달리기·걷기 반복</td><td data-i18n="n.live.q.r1b">8회까지</td></tr>
+    <tr><td data-i18n="n.live.q.r2a">템포 · 레이스 · 자유 러닝</td><td data-i18n="n.live.q.r2b">6회까지</td></tr>
+    <tr><td data-i18n="n.live.q.r3a">인터벌</td><td data-i18n="n.live.q.r3b">상한 없음 — 켜 둔 항목이 얼마나 자주 말할지를 정합니다. 대신 인터벌에서는 스텝·심박존·페이스·자동 일시정지 안내만 나가고 스플릿·언덕·자세·격려는 쉽니다</td></tr>
+  </table></div>
+  <ul>
+    <li data-i18n="n.live.q.n1">최소 간격은 45초입니다. 안전 안내, 훈련 스텝 같은 핵심 안내, 스플릿은 이 간격을 기다리지 않고, 아래 항목도 예외입니다.</li>
+    <li data-i18n="n.live.q.n2">스플릿, 언덕 예고, 자동 일시정지·재개 안내는 각자 자기 규칙이 있어 30분 상한을 쓰지 않습니다. 걷기·달리기 전환 안내와 호흡 구령도 그 순간을 놓치면 뜻이 없어져 45초 규칙 밖입니다. 지난번과 같은 코스를 알아봤을 때의 첫 인사도 45초 규칙을 거치지 않습니다.</li>
+    <li data-i18n="n.live.q.n3">아이폰만 들고 달릴 때는 규칙이 다릅니다 — 코치 항목이 더 적어서 45초 대신 20초 간격, 페이스는 3분·심박존은 5분 쿨다운으로 말하는 빈도를 잡고 30분 상한은 두지 않습니다.</li>
+    <li data-i18n="n.live.q.n4">끄고 켤 수 있는 항목은 8개입니다 — 페이스, 심박존, 자세, 언덕, 격려·대본, 러닝 상식 카드, 수분·보급, 일시정지·재개 음성. 스플릿은 끄고 켜는 대신 간격을 고릅니다(끔 · 0.5 · 1, km 또는 마일). 안전 안내와 훈련 스텝 같은 핵심 안내는 끌 수 없습니다. 음악은 안내하는 동안만 살짝 줄어듭니다.</li>
+  </ul>
+
+  <!-- 2. The calculator. It moved off index.html with the rest of #beta's
+       take-away block; it is the same script and the same six translations. -->
+  <h2 id="zones" data-i18n="hz.h">지금 계산해 볼 수 있는 것 — 내 심박존 5개</h2>
+  <p data-i18n="hz.p">런비스가 코치 음성에 쓰는 것과 같은 카르보넨(Karvonen) 공식입니다. 앱은 이 값을 애플 건강의 7일 안정시 심박과 실제로 관측된 최고 심박으로 계속 갱신하지만, 계산 자체는 아래와 같습니다.</p>
+  <div class="hzcalc">
+    <label><span data-i18n="hz.age">나이</span><input id="hzAge" type="number" min="10" max="99" step="1" value="35" inputmode="numeric"/></label>
+    <label><span data-i18n="hz.rest">안정시 심박</span><input id="hzRest" type="number" min="30" max="110" step="1" value="60" inputmode="numeric"/></label>
+    <label><span data-i18n="hz.max">최대심박 (모르면 비워 두세요)</span><input id="hzMax" type="number" min="120" max="230" step="1" inputmode="numeric"/></label>
+  </div>
+  <p class="hzout" id="hzOut" role="status" aria-live="polite"></p>
+  <p class="note" data-i18n="hz.note">존 하한 = (최대심박 − 안정시 심박) × 50·60·70·80·90% + 안정시 심박. 최대심박을 비워 두면 208 − 0.7 × 나이로 추정합니다. 참고용 계산이며 의학적 조언이 아닙니다.</p>
+
+  <!-- 3. Thirteen GPX files, all of them in Seoul — which is exactly why they
+       are here rather than on the home page of a site written for six markets.
+       ODbL requires the attribution line below. -->
+  <h2 id="gpx" data-i18n="n.beta.gpxh">서울에서 달린다면 — 코스 GPX 13개</h2>
+  <p data-i18n="n.beta.gpx">앱이 쓰는 서울 코스 13개의 GPX 파일입니다. 신청하지 않아도, 앱을 깔지 않아도 지금 받아서 다른 시계나 지도 앱에 넣을 수 있습니다. 거리는 여섯 언어 모두 km로 적었습니다 — GPX 파일 자체는 단위가 없고, 마일 표시는 받는 쪽 기기가 합니다.</p>
+  <p class="gpxlist"><a href="gpx/seoul-namsan-bukcheuk.gpx" download><span data-i18n="gpx.namsan.north">남산 북측순환로</span> <span style="color:var(--dim2)">6.7km</span></a> · <a href="gpx/seoul-namsan-summit.gpx" download><span data-i18n="gpx.namsan.summit">남산 정상 업힐</span> <span style="color:var(--dim2)">4.0km</span></a> · <a href="gpx/seoul-bukak-skyway.gpx" download><span data-i18n="gpx.bukak">북악스카이웨이</span> <span style="color:var(--dim2)">5.2km</span></a> · <a href="gpx/seoul-ansan-jarak.gpx" download><span data-i18n="gpx.ansan">안산 자락길</span> <span style="color:var(--dim2)">6.1km</span></a> · <a href="gpx/seoul-inwangsan.gpx" download><span data-i18n="gpx.inwangsan">인왕산 자락길</span> <span style="color:var(--dim2)">2.9km</span></a> · <a href="gpx/seoul-naksan.gpx" download><span data-i18n="gpx.naksan">낙산공원 한양도성길</span> <span style="color:var(--dim2)">2.1km</span></a> · <a href="gpx/seoul-eungbong.gpx" download><span data-i18n="gpx.eungbong">응봉산 계단</span> <span style="color:var(--dim2)">1.6km</span></a> · <a href="gpx/seoul-dorimcheon.gpx" download><span data-i18n="gpx.dorimcheon">도림천</span> <span style="color:var(--dim2)">14.5km</span></a> · <a href="gpx/seoul-banpo-hangang.gpx" download><span data-i18n="gpx.banpo">반포 한강공원</span> <span style="color:var(--dim2)">5.0km</span></a> · <a href="gpx/seoul-tancheon.gpx" download><span data-i18n="gpx.tancheon">탄천</span> <span style="color:var(--dim2)">7.1km</span></a> · <a href="gpx/seoul-yangjaecheon.gpx" download><span data-i18n="gpx.yangjaecheon">양재천</span> <span style="color:var(--dim2)">3.9km</span></a> · <a href="gpx/seoul-cheonggyecheon.gpx" download><span data-i18n="gpx.cheonggyecheon">청계천</span> <span style="color:var(--dim2)">5.5km</span></a> · <a href="gpx/seoul-seoulsup.gpx" download><span data-i18n="gpx.seoulsup">서울숲 순환</span> <span style="color:var(--dim2)">2.0km</span></a></p>
+  <p class="note" data-i18n="n.beta.gpxattr">경로는 OpenStreetMap 도로·산책로 데이터, 고도는 Copernicus DEM / NASA SRTMGL1(공개 도메인) 기준입니다. © OpenStreetMap contributors · ODbL 1.0.</p>
+
+  <!-- 4. What a sign-up leads to. It belongs next to the form in spirit, but
+       four numbered paragraphs under a form is the reference material this
+       page exists for; index.html keeps the form, the consent block and the
+       one line about the queue. -->
+  <h2 id="beta" data-i18n="n.beta.stepsh">신청하면 이렇게 진행됩니다</h2>
+  <ol>
+    <li data-i18n="n.beta.s1">접수 — 이메일 주소만 받습니다. 계정을 만들 필요는 없습니다.</li>
+    <li data-i18n="n.beta.s2">TestFlight 초대 — 베타가 열리면 신청 순서 그대로 초대 링크를 보냅니다. 애플이 정한 외부 테스터 상한은 1만 명입니다. 애플 계정만 있으면 되고 결제는 없습니다 — 베타로 받은 빌드에서는 베타 기간에 한해 코치 기능이 전부 무료입니다. 마케팅 수신에 동의하지 않으면 이 초대 한 통 외에 다른 메일은 가지 않습니다.</li>
+    <li data-i18n="n.beta.s3">피드백 — 앱 안에서 바로 의견을 보낼 수 있고, help@runvis.app 으로도 받습니다.</li>
+    <li data-i18n="n.beta.s4">출시 — 출시 시점은 베타가 끝난 뒤에 정해집니다. 대한민국 App Store에 먼저 나오고 다른 지역은 순차적으로 열립니다.</li>
+  </ol>
+  <p class="backhome"><a href="index.html#beta" data-i18n="n.price.cta">베타로 먼저 써보거나, 출시 알림만 받기</a></p>
+</div>
+<script>
+// --- heart-rate zones, worked out here, with no address and no install -------
+// The same arithmetic the app runs: UserProfile.karvonenZoneLowerBounds maps
+// 50/60/70/80/90 % of heart-rate reserve over effectiveMaxHR, and an empty max
+// falls back to the Tanaka estimate 208 - 0.7 x age (UserProfile.estimatedMaxHR).
+// Zone names are the app's own five labels, translated in the same six tables.
+(() => {
+  const age = document.getElementById('hzAge'), rest = document.getElementById('hzRest'),
+        mx = document.getElementById('hzMax'), out = document.getElementById('hzOut');
+  if (!age || !rest || !mx || !out) return;
+  // Named RunvisT on purpose. This block paints during parsing, before the
+  // deferred i18n.js has defined window.RunvisT, so every string needs an
+  // inline fallback - and tools/check-content.mjs [10] only compares fallbacks
+  // written as a call whose two arguments are both quoted literals, the shape
+  // tools/prerender.mjs rewrites for /en/ ... . The local name delegates to the
+  // global one once it exists; `window.RunvisT` inside is the global, not this.
+  const RunvisT = (k, f) => (window.RunvisT ? window.RunvisT(k, f) : f);
+  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+  const render = () => {
+    const a = clamp(Math.round(Number(age.value) || 0), 10, 99);
+    const r = clamp(Math.round(Number(rest.value) || 0), 30, 110);
+    const typed = Math.round(Number(mx.value) || 0);
+    const estimated = Math.round(208 - 0.7 * a);
+    const max = typed >= 120 && typed <= 230 ? typed : estimated;
+    if (max - r < 20) { out.textContent = RunvisT('hz.bad', '안정시 심박이 최대심박에 너무 가까워 존을 나눌 수 없습니다.'); return; }
+    const names = [RunvisT('hz.z1', 'Z1 회복'), RunvisT('hz.z2', 'Z2 유산소'), RunvisT('hz.z3', 'Z3 템포'), RunvisT('hz.z4', 'Z4 VO2max'), RunvisT('hz.z5', 'Z5 무산소')];
+    const lower = [.5, .6, .7, .8, .9].map(p => Math.round((max - r) * p + r));
+    const rows = names.map((n, i) => {
+      const hi = i === 4 ? max : lower[i + 1] - 1;
+      return n + ' <b>' + lower[i] + '\u2013' + hi + '</b>';
+    });
+    const bpm = RunvisT('hz.bpm', 'bpm');
+    const line = typed >= 120 && typed <= 230
+      ? RunvisT('hz.maxtyped', '입력하신 최대심박 기준')
+      : RunvisT('hz.maxest', '최대심박은 208 − 0.7 × 나이로 추정했습니다');
+    out.innerHTML = rows.join(' · ') + ' ' + bpm
+      + '<span class="hzmax">' + line + ': ' + max + ' ' + bpm + '</span>';
+  };
+  [age, rest, mx].forEach(el => el.addEventListener('input', render));
+  addEventListener('runvis:lang', () => setTimeout(render, 0));
+  render();
+})();
+</script>
+</body>
+</html>

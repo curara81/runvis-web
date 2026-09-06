@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- All four pages are pure black. Only index.html declared this, so a
+     visitor moving from the home page to the demo, the privacy policy or
+     the terms watched the browser chrome flip from black to white on iOS
+     Safari and Android Chrome. Same value as index.html:49. -->
+<meta name="theme-color" content="#000000">
 <!-- Korean only — see the same note in index.html. The bilingual head this
      page used to carry gave a Korean reader a title that trailed off into
      English and an English reader one that began in Hangul; /en/run.html and
@@ -27,7 +32,13 @@
 <meta name="twitter:image" content="https://runvis.app/assets/og-card.png?v=2">
 <link rel="canonical" href="https://runvis.app/run.html">
 <noscript><style>.rv,.reveal{opacity:1!important;transform:none!important}</style></noscript>
-<link rel="alternate" hreflang="x-default" href="https://runvis.app/run.html">
+<!-- x-default is the alternate for a visitor whose language matches none of
+     the six. That used to be this Korean document, which meant a French or
+     Portuguese reader was routed to Korean by both the boot script and the
+     search engine. Both now end at English: the boot script's last resort is
+     "en" and this points at /en/. The Korean page keeps its own hreflang="ko"
+     alternate below and stays the canonical home. -->
+<link rel="alternate" hreflang="x-default" href="https://runvis.app/en/run.html">
 <link rel="alternate" hreflang="ko" href="https://runvis.app/run.html">
 <link rel="alternate" hreflang="en" href="https://runvis.app/en/run.html">
 <link rel="alternate" hreflang="ja" href="https://runvis.app/ja/run.html">
@@ -44,6 +55,9 @@
        #8A9990 is 7.04:1 on black and 6.50:1 on --panel. */
     --text:#EDF2EE; --dim:#9BA8A0; --dim2:#8A9990;
     --mono:'SF Mono',ui-monospace,'JetBrains Mono',Menlo,monospace;
+    /* The fixed metrics strip's height, declared once. Anything that has to
+       clear it reads this instead of copying 56 into another rule. */
+    --hud-h:56px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -58,7 +72,11 @@
      language button and the two footer buttons were invisible to a keyboard. */
   :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
   img{max-width:100%;height:auto;display:block}
-  body{overflow-wrap:break-word;word-break:keep-all;line-break:normal}
+  body{overflow-wrap:break-word;word-break:normal;line-break:normal}
+  /* keep-all keeps Korean words whole, but it also stops Japanese and
+     Chinese from breaking at all — a price bullet overflowed its card by
+     164px on ja (2026-09-06 라운드 12). Scope it to Korean only. */
+  :lang(ko) body,body:lang(ko){word-break:keep-all}
   ::selection{background:rgba(61,220,132,.3)}
 
   /* free / subscription badges — same markup and keys as index.html */
@@ -99,10 +117,22 @@
   .hud-top .exit:hover{border-color:var(--green);color:var(--green)}
 
   /* live metrics bar */
+  /* This strip is fixed over a scroll-driven page, so whatever is scrolling
+     underneath passes behind it. Its background used to be a gradient that
+     stayed transparent for the top 40% (22 px of a 56 px band), and the hero's
+     "SCROLL TO START" cue read straight through that window — at 375x812 the
+     two overlapped by 18 px and rendered as "페이스 L TO STA 심박". A gradient
+     cannot fix that for the next element either, so the band has a ground of
+     its own now: an opaque wash, a blur behind it and a hairline top edge, so
+     anything passing under it is hidden rather than blended. The cue's own
+     offset is fixed below as well — two independent guards, because the strip
+     is the one element on this page that overlaps everything. */
   .hud-metrics{
-    position:fixed;left:0;right:0;bottom:0;z-index:60;height:56px;
+    position:fixed;left:0;right:0;bottom:0;z-index:60;height:var(--hud-h);
     display:flex;align-items:stretch;justify-content:center;gap:0;
-    background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.92) 40%);
+    background:rgba(0,0,0,.86);
+    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+    border-top:1px solid var(--line2);
     font-family:var(--mono);
   }
   .hud-metrics .m{
@@ -188,7 +218,20 @@
   #s0{flex-direction:column;justify-content:center;text-align:left}
   #s0 .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
   @media(max-width:900px){#s0 .wrap{grid-template-columns:1fr}}
-  .scroll-cue{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;color:var(--dim2);animation:bob 2.2s infinite}
+  /* This was position:absolute with bottom:80px — 80 px from the bottom of
+     #s0, not of the screen. #s0 is min-height:72vh and taller than that
+     whenever its content is (measured 865 px inside an 812 px viewport at
+     375 px wide), so the cue landed at y 767-785 and the fixed metrics strip
+     starts at 756: they overlapped by 18 px and rendered as "페이스 L TO STA
+     심박". Any offset from the section's bottom edge is a guess about content
+     height, so the cue is measured from the VIEWPORT now, above the strip it
+     must clear, and it fades out the moment the reader does what it asks.
+     pointer-events:none because it is a label, not a control — the section
+     underneath stays clickable. */
+  .scroll-cue{position:fixed;bottom:calc(var(--hud-h) + 26px);left:50%;transform:translateX(-50%);
+    z-index:55;pointer-events:none;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+    color:var(--dim2);animation:bob 2.2s infinite;transition:opacity .25s ease}
+  html.scrolled .scroll-cue{opacity:0}
   @keyframes bob{50%{transform:translate(-50%,8px)}}
 
   /* watch mock in hero */
@@ -282,7 +325,13 @@
   // RunvisPageLang is set just above; it outranks the saved choice and the
   // browser's. ?lang= still wins over it.
   var saved=null; try{ saved=norm(localStorage.getItem("runvis_lang")); }catch(e){}
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"ko";
+  // Last resort when nothing has spoken and the browser's language is not one
+  // of the six: English, not Korean. norm() passes only ko/en/ja/es/zh/de, so
+  // fr, pt, it, ru … all fell through to "ko" and a French reader landed on a
+  // Korean document. A Korean browser still resolves through
+  // norm(navigator.language) and is unaffected, and ?lang= and the saved
+  // choice still outrank this.
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||norm(navigator.language)||"en";
   // A German browser landing on a ROOT url used to get German BODY text with a
   // Korean canonical, Korean og:* and no route to /de/ at all — the five
   // prerendered market pages existed and nothing ever sent anyone to them.
@@ -376,8 +425,7 @@
     <div>
       <div class="tag rv" data-i18n="r10">RUNVIS // LIVE COACHING DEMO</div>
       <h1 class="rv" data-i18n="r11">오늘의 러닝에<br><span class="outline">코치가 함께</span>합니다.</h1>
-      <p class="lead rv" data-i18n="r12">지금부터 <b>스크롤이 곧 러닝</b>입니다. 아래로 내리면 5km 러닝이 시작되고,
-      하단의 거리·페이스·심박이 함께 움직입니다. 런비스가 <b>언제, 왜 말을 거는지</b> — 그리고 언제 조용히 있는지 직접 확인하세요.</p>
+      <p class="lead rv" data-i18n="r12">지금부터 <b>스크롤이 곧 러닝</b>입니다. 아래로 내리면 5km 러닝이 시작되고, 하단의 거리·페이스·심박이 함께 움직입니다. 런비스가 <b>언제, 왜 말을 거는지</b> — 그리고 언제 조용히 있는지 직접 확인하세요.</p>
       <p class="footnote rv" data-i18n="r13">화면 속 수치는 시연용 예시 데이터입니다 · 실제 앱은 Apple Watch 센서로 동작합니다</p>
     </div>
     <div class="rv">
@@ -398,7 +446,7 @@
       </svg>
     </div>
   </div>
-  <div class="scroll-cue">SCROLL TO START ▾</div>
+  <div class="scroll-cue" data-i18n="r.cue">스크롤해서 출발 ▾</div>
 </section>
 
 <!-- ============ 01 브리핑+준비운동 ============ -->
@@ -538,7 +586,11 @@
       <div class="row"><span class="k" data-i18n="r53">거리 · 시간</span><span class="v">5.00 km · 29:24</span></div>
       <div class="row"><span class="k" data-i18n="r54">평균 페이스 · 심박</span><span class="v">5:52 /km · 145 bpm</span></div>
       <div class="row"><span class="k" data-i18n="r55">운동 부하</span><span class="v" data-i18n="r56">TRIMP 54 · 드리프트 +1.8%</span></div>
-      <div class="row"><span class="k" data-i18n="r57">코치 한 줄</span><span class="v" style="color:var(--green)" data-i18n="r58">심박 효율이 끝까지 유지됐어요</span></div>
+      <div class="row"><span class="k" data-i18n="r57">코치 한 줄</span><!-- Quoted verbatim from the app: the key
+           "후반에도 심박 효율이 유지됐습니다." in Shared/Resources/*.lproj/
+           Localizable.strings. The demo had a paraphrase here while the
+           recovery cue two rows up was already exact. -->
+        <span class="v" style="color:var(--green)" data-i18n="r58">후반에도 심박 효율이 유지됐습니다.</span></div>
       <div class="row"><span class="k" data-i18n="r59">내보내기</span><span class="v" data-i18n="r60">✨ AI 분석용 · GPX</span></div>
     </div>
     <div class="tier rv">
@@ -592,6 +644,9 @@ const prog = document.getElementById('prog');
 addEventListener('scroll', () => {
   const h = document.documentElement;
   prog.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+  // The hero cue is fixed to the viewport, so it would otherwise ride the whole
+  // 5 km. It has said its piece as soon as the page moves.
+  h.classList.toggle('scrolled', h.scrollTop > 60);
 }, {passive:true});
 
 // ---------- reveal ----------

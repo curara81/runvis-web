@@ -32,6 +32,16 @@
  *      at it
  *  12  a short list of claims that must survive being reworded in six
  *      languages, each tied to a fact in the app repository
+ *  13  the app constants the page repeats in prose (cue budgets, the minimum
+ *      gap, how many cue switches exist) still equal what the app declares
+ *  14  the three prices are the same three numbers in all six dictionaries
+ *
+ * And, before all of them, [0]: tools/app-facts.json is a CURRENT measurement
+ * of the app repository. [9] only compares the dictionaries against that file,
+ * so a file that had gone stale let the dictionaries pass while the claim
+ * "counted straight out of the app repository" was no longer true. On a
+ * machine with no app checkout [0] prints "skip" and says so, which is the
+ * point: a skip that announces itself is not a silent pass.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -39,6 +49,7 @@ import {
   ROOT, CODES, PAGES, loadDicts, findI18nElements, findI18nAttrs,
   faqLd, appLd, pageLd, readLd,
 } from './i18n-lib.mjs';
+import { locateAppRepo, readFacts, measure } from './app-facts.mjs';
 
 const dicts = loadDicts();
 let failures = 0;
@@ -49,6 +60,31 @@ const ok = (m) => console.log('  ok   ' + m);
 const ALL = [];
 for (const p of PAGES) ALL.push({ file: p, code: 'ko', gen: false });
 for (const c of CODES.filter(c => c !== 'ko')) for (const p of PAGES) ALL.push({ file: `${c}/${p}`, code: c, gen: true });
+
+// ---- 0. app-facts.json is a current measurement --------------------------
+console.log('\n[0] tools/app-facts.json == a fresh count of the app repo');
+{
+  const appRepo = locateAppRepo();
+  const stored = readFacts();
+  if (!stored) {
+    fail('tools/app-facts.json missing — run `node tools/app-facts.mjs`');
+  } else if (!appRepo) {
+    // Not a pass and not a failure: this checkout cannot see the app, so [9]
+    // is checking the dictionaries against a snapshot nobody re-measured.
+    console.log('  skip  no app checkout here (set RUNVIS_APP_REPO) — [9] runs '
+      + `against the ${stored.measuredAt} snapshot, unverified`);
+  } else {
+    const fresh = measure(appRepo);
+    const drift = Object.keys(fresh).filter(k => k !== 'measuredAt' && stored[k] !== fresh[k]);
+    if (drift.length) {
+      fail('tools/app-facts.json is behind the app repo — '
+        + drift.map(k => `${k}: file ${stored[k]} vs repo ${fresh[k]}`).join(', ')
+        + '\n       run `node tools/app-facts.mjs`, then update whichever dictionary values [9] and [13] name');
+    } else {
+      ok(`measured ${stored.measuredAt} and still current (${Object.keys(fresh).length - 1} fields)`);
+    }
+  }
+}
 
 // ---- 1. dictionary key sets --------------------------------------------
 console.log('\n[1] dictionary key sets');
@@ -407,6 +443,78 @@ console.log('\n[12] claims that carry a condition');
     }
     if (bad.length) fail(`${claim.key} — ${claim.why}\n       ${bad.join('\n       ')}`);
     else ok(`${claim.key}: holds in all six languages`);
+  }
+}
+
+// ---- 13. app constants quoted as literals in six dictionaries -------------
+// The app stopped hand-copying its own constants into copy in round 7: the
+// paywall's gate paragraph takes them as String(format:) arguments. The
+// homepage cannot do that — its copy is six translated sentences — so the
+// binding is made here instead. Every number below is measured out of
+// Shared/Services/CoachSessionProfile.swift by tools/app-facts.mjs, and the
+// sentences are written with digits in all six languages precisely so this
+// check can see them ("eight cues" would have been invisible to it).
+console.log('\n[13] coach constants in the copy == the app declaration');
+{
+  const facts = readFacts();
+  if (!facts) {
+    fail('tools/app-facts.json missing — run `node tools/app-facts.mjs`');
+  } else {
+    const BOUND = [
+      { key: 'n.live.q.n4', field: 'cueToggles',
+        why: 'CoachCueCategory.userToggleable is the list iOSSettingsView and the watch SettingsView render' },
+      { key: 'n.live.q.sum', field: 'cueBudgetEasy',
+        why: 'CoachSessionProfile.spokenBudgetPer30Min for .easy/.long/.runWalk' },
+      { key: 'n.live.q.sum', field: 'cueBudgetTempo',
+        why: 'CoachSessionProfile.spokenBudgetPer30Min for .tempo/.race/.free' },
+      { key: 'n.live.q.sum', field: 'cueMinGap', why: 'CoachCueSpacing.minGap' },
+      { key: 'n.live.q.n1', field: 'cueMinGap', why: 'CoachCueSpacing.minGap' },
+      { key: 'n.live.q.r1b', field: 'cueBudgetEasy', why: 'the easy-run row of the same table' },
+      { key: 'n.live.q.r2b', field: 'cueBudgetTempo', why: 'the tempo/race row of the same table' },
+    ];
+    for (const b of BOUND) {
+      const want = String(facts[b.field]);
+      if (facts[b.field] == null) { fail(`${b.field} missing from app-facts.json — re-run tools/app-facts.mjs`); continue; }
+      const bad = CODES.filter(c => !String(dicts[c][b.key] ?? '').includes(want));
+      if (bad.length) fail(`${b.key} does not carry ${b.field}=${want} in ${bad.join(', ')} — ${b.why}`);
+      else ok(`${b.key} carries ${b.field}=${want} in all six`);
+    }
+  }
+}
+
+// ---- 14. one set of prices, six dictionaries ------------------------------
+// Six hand-maintained copies of three numbers. Nothing compared them, so a
+// rewrite in one language could quietly reprice the product for that market —
+// and the same three figures also appear inside four sentences (the hero note,
+// the why-section cost line, the yearly and lifetime paragraphs), where a
+// reworded translation is even easier to get wrong. The KRW amounts are the
+// app's StoreKit products and the JSON-LD Offers in tools/i18n-lib.mjs, so
+// they are stated here once and held against every dictionary.
+console.log('\n[14] the three prices are identical in all six dictionaries');
+{
+  const PRICE = { month: '1,900', year: '15,000', life: '39,000' };
+  for (const [slot, amount] of Object.entries(PRICE)) {
+    const bad = CODES.filter(c => dicts[c][`pr.${slot}`] !== `₩${amount}`);
+    if (bad.length) fail(`pr.${slot} is not "₩${amount}" in ${bad.join(', ')}`);
+    else ok(`pr.${slot} = ₩${amount} in all six`);
+  }
+  // Sentences that quote a price. Each must carry the amounts listed, so a
+  // reworded translation cannot drop or change one.
+  const IN_PROSE = [
+    ['n.hero.note', ['1,900']],
+    ['n.why.cost', ['1,900', '15,000', '39,000']],
+    ['n.price.year', ['15,000']],
+    ['n.price.life', ['39,000']],
+  ];
+  for (const [key, amounts] of IN_PROSE) {
+    const bad = [];
+    for (const c of CODES) {
+      const v = String(dicts[c][key] ?? '');
+      const missing = amounts.filter(a => !v.includes(`₩${a}`));
+      if (missing.length) bad.push(`${c}: no ${missing.map(a => `₩${a}`).join(' / ')}`);
+    }
+    if (bad.length) fail(`${key} — ${bad.join('; ')}`);
+    else ok(`${key} quotes ${amounts.map(a => `₩${a}`).join(' · ')} in all six`);
   }
 }
 
