@@ -132,6 +132,16 @@
 
   /* ---------- sections ---------- */
   section{min-height:100vh;display:flex;align-items:center;position:relative;padding:110px 24px}
+  /* At 768px and under, a 100vh section whose content is vertically centred
+     leaves 20+ scroll ticks of black between two cues, which reads as a failed
+     asset load rather than as the coach staying quiet. 72vh keeps the beat of
+     one screen per cue and takes roughly a third out of the empty stretch. */
+  @media(max-width:820px){section{min-height:72vh;padding:80px 20px}}
+  /* Names the quiet stretch instead of leaving it blank: distance to the next
+     cue, filled in from the neighbouring sections' own data-km. */
+  .silence{margin-top:34px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    color:var(--dim2);border-top:1px dashed var(--line2);padding-top:12px;max-width:520px}
+  .silence::before{content:"···";color:var(--green);margin-right:10px;letter-spacing:.3em}
   .wrap{max-width:1060px;margin:0 auto;width:100%}
   .tag{font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--green);margin-bottom:18px;display:flex;align-items:center;gap:10px}
   .tag::before{content:"";width:26px;height:1px;background:var(--green)}
@@ -349,12 +359,12 @@
         <rect x="317" y="186" width="9" height="64" rx="4.5" fill="url(#hbz)"/>
         <rect x="8" y="8" width="314" height="384" rx="60" fill="url(#hbz)"/>
         <rect x="18" y="18" width="294" height="364" rx="52" fill="#000"/>
-        <text x="165" y="70" fill="#5E6B64" font-size="13" letter-spacing="2" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">READY</text>
+        <text x="165" y="70" fill="#7E8B84" font-size="13" letter-spacing="2" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">READY</text>
         <text x="165" y="190" fill="#3DDC84" font-size="72" font-weight="800" text-anchor="middle">5.0</text>
         <text x="165" y="220" fill="#9BA8A0" font-size="15" text-anchor="middle" data-i18n="r14">킬로미터 · 오늘의 목표</text>
         <text x="165" y="300" fill="#EDF2EE" font-size="17" font-weight="700" text-anchor="middle" data-i18n="r15">런비스와 달리기</text>
         <rect x="70" y="272" width="190" height="44" rx="22" fill="none" stroke="#3DDC84" stroke-opacity=".5"/>
-        <text x="165" y="345" fill="#5E6B64" font-size="11" text-anchor="middle" data-i18n="r16">브리핑 · 준비운동 · 코칭</text>
+        <text x="165" y="345" fill="#7E8B84" font-size="11" text-anchor="middle" data-i18n="r16">브리핑 · 준비운동 · 코칭</text>
       </svg>
     </div>
   </div>
@@ -439,7 +449,7 @@
     <div class="voice rv">
       <span class="pill pro" data-i18n="n.pill.pro">구독</span>
       <p data-i18n="r37">"시작할 때보다 발걸음이 5퍼센트 느려지고 접지가 7퍼센트 길어졌어요. 보폭을 줄이면 회전이 살아나면서 자세가 돌아옵니다."</p>
-      <div class="why" data-i18n="r38">WHY · 케이던스·접지·수직진폭 중 <b>둘 이상이 함께 흔들릴 때</b>, 또는 한 신호가 크게 흔들릴 때 · 페이스가 일정한 평지에서 30초 이상 이어져야 합니다</div>
+      <div class="why" data-i18n="r38">WHY · 접지·수직진폭을 재는 워치: 케이던스·접지·수직진폭 중 <b>둘 이상이 함께 흔들리거나</b> 한 신호가 크게 흔들린 상태로 30초 · 케이던스만 재는 워치: 케이던스 6% 하락이 60초 · 어느 쪽이든 페이스가 일정한 평지에서만</div>
     </div>
     <div class="voice rv" style="border-color:rgba(61,220,132,.4)">
       <span class="pill pro" data-i18n="n.pill.pro">구독</span>
@@ -593,6 +603,29 @@ addEventListener('resize', hudSchedule);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) hudSchedule(); });
 hudSchedule();
 
+// ---------- name the silence between two cues ----------
+// Between 0.4 km and 1.8 km the page showed nothing but the moving HUD for
+// twenty-odd scroll ticks, which is indistinguishable from a page that failed
+// to load. Each gap of half a kilometre or more now says how far the next
+// intervention is; the distance comes from the two sections' own data-km, so it
+// cannot drift away from the demo it describes.
+function paintSilence() {
+  const t = window.RunvisT ? window.RunvisT('r.silence', '다음 개입까지 {km}km · 이 구간에서 코치가 하는 말은 1km 스플릿 안내뿐입니다') : null;
+  if (!t) return;
+  document.querySelectorAll('p.silence').forEach(el => el.remove());
+  for (let i = 0; i < secs.length - 1; i++) {
+    const gap = (+secs[i + 1].dataset.km) - (+secs[i].dataset.km);
+    if (!(gap >= 0.5)) continue;
+    const wrap = secs[i].querySelector('.wrap');
+    if (!wrap) continue;
+    const el = document.createElement('p');
+    el.className = 'silence';
+    el.textContent = t.replace('{km}', gap.toFixed(1));
+    wrap.appendChild(el);
+  }
+}
+paintSilence();
+
 // ---------- rail highlight ----------
 const rail = [...document.querySelectorAll('.rail a')];
 const io2 = new IntersectionObserver(es => es.forEach(e => {
@@ -621,6 +654,7 @@ window.renderDynamicI18n = function () {
   set('meta[property="og:description"]', d);
   set('meta[name="twitter:title"]', t);
   set('meta[name="twitter:description"]', d);
+  paintSilence();                       // the gap markers follow the language
 };
 
 // ---------- inline beta signup at the finish ----------

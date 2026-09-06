@@ -7,15 +7,6 @@
 <meta charset="utf-8"/>
 <script>window.RunvisPageLang="ja";window.RunvisBase="/";</script>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<!-- Prerendered ja copy. Every crawler-visible string on this page is
-     already ja: title, description, og:*, canonical, the JSON-LD below and
-     the body text were substituted at build time out of t-ja.js, so a
-     search engine or link preview that runs no JavaScript still reads this
-     market's page. i18n.js still runs and still lets a reader switch
-     languages; it just has nothing left to correct on first paint. -->
-<!-- Do not hand-edit the six *language* copies — regenerate them:
-       node tools/prerender.mjs      (writes en/ ja/ es/ zh/ de/)
-       node tools/check-content.mjs  (fails on FAQ JSON-LD ≠ dictionary etc.) -->
 <title data-i18n="meta.title">Runvis — Apple Watchがあれば十分です。Apple Watchランニングコーチ</title>
 <meta content="ランニングウォッチをもう一台買う必要はありません。Apple Watchが記録した睡眠と心拍を読んで、今日何を走るかコーチが決めます。走っている間は声で伝えます。アカウントもサーバーもありません。" name="description" data-i18n-attr="content:meta.desc"/>
 <meta content="Runvis — Apple Watchランニングコーチ" property="og:title" data-i18n-attr="content:meta.ogtitle"/>
@@ -32,17 +23,11 @@
 <meta content="https://runvis.app/assets/og-card.png?v=2" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
-<!-- The share card carries no sentence in any language (mark, watch, pulse,
-     domain), so one image serves every market. -->
 <meta content="Runvis — Apple Watch running coach" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://runvis.app/assets/og-card.png?v=2" name="twitter:image"/>
 <meta content="#000000" name="theme-color"/>
 <link href="https://runvis.app/ja/" id="canonical" rel="canonical"/>
-<!-- The LCP image is language-specific (assets/framed-phone-dash.<code>.png).
-     A static preload here always named the Korean file, so five languages
-     downloaded ~60 KB they then threw away and repainted the hero. The boot
-     script below injects the preload for the language it just resolved. -->
 <link href="https://runvis.app/" hreflang="x-default" rel="alternate"/>
 <link href="https://runvis.app/" hreflang="ko" rel="alternate"/>
 <link href="https://runvis.app/en/" hreflang="en" rel="alternate"/>
@@ -216,6 +201,16 @@
     .trust{gap:8px;margin-top:22px}
     .tbadge{padding:8px 14px;min-width:0;flex:1 1 30%}
   }
+  /* Three badges across a 375 px phone leave ~75 px of content per badge, and
+     the value line is 19px/900 — "6 languages", "6 Sprachen" and "Free trial"
+     do not fit, so overflow-wrap broke them mid-word ("6 langua|ges") in the
+     first thing an English, German or Spanish reader sees. Two per row gives
+     each value ~127 px, which fits every language's badge, and the third badge
+     takes the second row on its own. */
+  @media(max-width:430px){
+    .tbadge{flex:1 1 44%}
+    .tbadge b{font-size:18px;overflow-wrap:normal}
+  }
   .caption{margin:26px auto 0;max-width:420px;min-height:54px;background:rgba(22,25,30,.8);border:1px solid var(--line);border-radius:14px;padding:14px 18px;
     font-size:15px;color:#dfe3e7;text-align:left;display:flex;align-items:center;gap:10px;backdrop-filter:blur(8px)}
   .caption .mic{color:var(--green);font-size:18px;flex-shrink:0}
@@ -305,7 +300,10 @@
   @media(max-width:900px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media(max-width:560px){.tiles{grid-template-columns:minmax(0,1fr)}}
   .tile{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:22px}
-  .tile h4{font-size:17px;font-weight:800;display:flex;align-items:center;flex-wrap:wrap;gap:4px}
+  /* h3, not h4: #after and #faq sit directly under their section's h2, so an
+     h4 here skipped a level and the tiles fell out of the heading outline.
+     Nothing nests inside a tile, so h3 is the honest level. Size unchanged. */
+  .tile h3{font-size:17px;font-weight:800;display:flex;align-items:center;flex-wrap:wrap;gap:4px}
   .tile p{color:var(--dim);font-size:14px;margin-top:8px}
   .honest{margin-top:26px;color:var(--dim2);font-size:14px;max-width:700px}
   .honest b{color:var(--dim)}
@@ -390,7 +388,12 @@
   .want input{margin-top:5px;flex:none}
   .signup form{display:flex;gap:12px;max-width:480px;margin:22px auto 0;flex-wrap:wrap;justify-content:center}
   .signup input[type=email]{flex:1;min-width:220px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px 18px;color:var(--text);font-size:16px}
-  .signup input[type=email]:focus{outline:none;border-color:var(--green)}
+  /* :focus-visible only. The old `:focus{outline:none}` had specificity (0,2,1)
+     and beat the global :focus-visible outline (0,1,0), so the page's one
+     conversion control lost its keyboard focus ring. Mouse focus still gets the
+     green border and no ring; keyboard focus keeps the ring. */
+  .signup input[type=email]:focus{border-color:var(--green)}
+  .signup input[type=email]:focus:not(:focus-visible){outline:none}
   .consent{margin-top:18px;font-size:13px;color:var(--dim2);max-width:520px;margin-left:auto;margin-right:auto;text-align:left;line-height:1.7}
   .consent label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;margin-top:8px}
   .consent input{margin-top:4px}
@@ -404,7 +407,12 @@
   .sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;padding:10px 16px calc(10px + env(safe-area-inset-bottom));
     background:rgba(0,0,0,.82);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
   .sticky-cta a{display:block;text-align:center}
-  @media(max-width:820px){.sticky-cta{display:block} footer{padding-bottom:96px}}
+  /* Hidden until the script says otherwise: at scrollY=0 the hero's own CTA is
+     on screen, so the bar used to repeat the same words in the same colour
+     250px below it and take 64px of a 812px phone for nothing. The observer
+     below shows it only while BOTH the hero CTA and #beta are off screen; with
+     no JS it never appears and never covers the hero. */
+  @media(max-width:820px){.sticky-cta.armed{display:block} footer{padding-bottom:96px}}
 
   @media(prefers-reduced-motion:reduce){
     .reveal{opacity:1!important;transform:none!important;transition:none}
@@ -415,11 +423,6 @@
     html{scroll-behavior:auto}
   }
 </style>
-<!-- Language boot. Runs before the body is parsed, so <html lang>, the title,
-     the og: tags and the hero copy are already in the visitor's language at
-     first paint instead of being swapped afterwards. It also pulls exactly ONE
-     dictionary (t-<code>.js, ~37-49 KB) instead of the old 245 KB table of six.
-     Everything else still happens in the deferred i18n.js. -->
 <script>
 (function(){
   var L=["ko","en","ja","es","zh","de"];
@@ -470,7 +473,7 @@
   // only text duplicated out of the dictionary, and it exists so the LCP heading
   // never changes language in place. RunvisCritical is applied by the small
   // script that sits directly under the hero markup.
-  var C={"en":{"h":{"n.hero.eb":"Apple Watch running coach","n.hero.h1":"Your Apple Watch<br/><span class=\"grad\">is enough</span>","n.hero.sub":"You don't need a second running watch. Your coach reads the data already on your wrist, picks today's workout, and talks you through the run.","n.hero.cta1":"Join the beta","n.hero.cta2":"Run the 5K demo"},"m":{"meta.title":"Runvis: your Apple Watch is enough. Apple Watch running coach","meta.desc":"You don't need a second running watch. Runvis reads the sleep and heart rate your Apple Watch recorded, picks today's workout, and talks you through the run. No account, no server.","meta.ogtitle":"Runvis: Apple Watch running coach","meta.ogdesc":"You don't need a second running watch. Your coach picks today's workout and talks you through the run."}},"ja":{"h":{"n.hero.eb":"Apple Watchランニングコーチ","n.hero.h1":"Apple Watchが<br/><span class=\"grad\">あれば十分です</span>","n.hero.sub":"ランニングウォッチをもう一台買う必要はありません。すでに手首にあるデータから、今日何を走るかコーチが決めます。走っている間は声で伝えます。","n.hero.cta1":"ベータに申し込む","n.hero.cta2":"5kmデモを走ってみる"},"m":{"meta.title":"Runvis — Apple Watchがあれば十分です。Apple Watchランニングコーチ","meta.desc":"ランニングウォッチをもう一台買う必要はありません。Apple Watchが記録した睡眠と心拍を読んで、今日何を走るかコーチが決めます。走っている間は声で伝えます。アカウントもサーバーもありません。","meta.ogtitle":"Runvis — Apple Watchランニングコーチ","meta.ogdesc":"ランニングウォッチをもう一台買う必要はありません。今日何を走るかコーチが決めて、走っている間は声で伝えます。"}},"es":{"h":{"n.hero.eb":"Entrenador de running para Apple Watch","n.hero.h1":"Con el Apple Watch<br/><span class=\"grad\">ya basta</span>","n.hero.sub":"No hace falta comprar otro reloj de running. Con los datos que ya tienes en la muñeca, el entrenador decide qué corres hoy y te lo va contando por voz mientras corres.","n.hero.cta1":"Apúntate a la beta","n.hero.cta2":"Corre la demo de 5 km"},"m":{"meta.title":"Runvis — con el Apple Watch ya basta. Entrenador de running para Apple Watch","meta.desc":"No hace falta comprar otro reloj de running. El entrenador lee el sueño y el pulso que registra tu Apple Watch, decide qué corres hoy y te lo cuenta por voz mientras corres. Sin cuenta y sin servidores.","meta.ogtitle":"Runvis — entrenador de running para Apple Watch","meta.ogdesc":"No hace falta comprar otro reloj de running. El entrenador decide qué corres hoy y te lo cuenta por voz mientras corres."}},"zh":{"h":{"n.hero.eb":"Apple Watch 跑步教練","n.hero.h1":"有 Apple Watch<br/><span class=\"grad\">就夠了</span>","n.hero.sub":"不必再買第二支跑錶。用你手腕上已經有的資料，教練決定今天跑什麼，跑步時再用聲音告訴你。","n.hero.cta1":"報名 Beta","n.hero.cta2":"試跑 5 公里展示"},"m":{"meta.title":"Runvis — 有 Apple Watch 就夠了。Apple Watch 跑步教練","meta.desc":"不必再買第二支跑錶。讀取 Apple Watch 記錄的睡眠與心率，教練決定今天跑什麼，跑步時用聲音告訴你。沒有帳號，也沒有伺服器。","meta.ogtitle":"Runvis — Apple Watch 跑步教練","meta.ogdesc":"不必再買第二支跑錶。今天跑什麼由教練決定，跑步時用聲音告訴你。"}},"de":{"h":{"n.hero.eb":"Lauf-Coach für die Apple Watch","n.hero.h1":"Deine Apple Watch<br/><span class=\"grad\">reicht aus</span>","n.hero.sub":"Du brauchst keine zweite Laufuhr. Der Coach nimmt die Daten, die schon an deinem Handgelenk liegen, und legt fest, was du heute läufst. Im Lauf sagt er es dir per Stimme.","n.hero.cta1":"Für die Beta anmelden","n.hero.cta2":"Die 5-km-Demo laufen"},"m":{"meta.title":"Runvis — Die Apple Watch reicht aus. Lauf-Coach für die Apple Watch","meta.desc":"Du brauchst keine zweite Laufuhr. Der Coach liest Schlaf und Puls, die deine Apple Watch aufgezeichnet hat, legt fest, was du heute läufst, und sagt es dir im Lauf per Stimme. Kein Konto, kein Server.","meta.ogtitle":"Runvis — Lauf-Coach für die Apple Watch","meta.ogdesc":"Du brauchst keine zweite Laufuhr. Der Coach legt fest, was du heute läufst, und sagt es dir im Lauf per Stimme."}}};
+  var C={"ja":{"h":{"n.hero.eb":"Apple Watchランニングコーチ","n.hero.h1":"Apple Watchが<br/><span class=\"grad\">あれば十分です</span>","n.hero.sub":"ランニングウォッチをもう一台買う必要はありません。すでに手首にあるデータから、今日何を走るかコーチが決めます。走っている間は声で伝えます。","n.hero.cta1":"ベータに申し込む","n.hero.cta2":"5kmデモを走ってみる"},"m":{"meta.title":"Runvis — Apple Watchがあれば十分です。Apple Watchランニングコーチ","meta.desc":"ランニングウォッチをもう一台買う必要はありません。Apple Watchが記録した睡眠と心拍を読んで、今日何を走るかコーチが決めます。走っている間は声で伝えます。アカウントもサーバーもありません。","meta.ogtitle":"Runvis — Apple Watchランニングコーチ","meta.ogdesc":"ランニングウォッチをもう一台買う必要はありません。今日何を走るかコーチが決めて、走っている間は声で伝えます。"}}};
   var d2=C[code]; if(!d2) return;
   document.title=d2.m["meta.title"];
   meta("name","description",d2.m["meta.desc"]);
@@ -480,19 +483,11 @@
 })();
 </script>
 <script defer src="/i18n.js?v=20260906e"></script>
-<!-- The FAQ rich result must carry the same questions the page shows. This is
-     the Korean copy, word for word from the n.faq.* dictionary; i18n.js
-     rewrites this node (and inLanguage) whenever the reader picks another
-     language, so the markup and the visible tiles cannot drift apart. -->
-<!-- The page quotes three prices; say so in structured data as well. i18n.js
-     rewrites name/description/inLanguage when the reader picks a language.
-     Currency is KRW because that is what the Korean App Store actually
-     charges — the page's other figures are labelled approximations. -->
 <script id="appld" type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"ja","url":"https://runvis.app/","description":"ランニングウォッチをもう一台買う必要はありません。Apple Watchが記録した睡眠と心拍を読んで、今日何を走るかコーチが決めます。走っている間は声で伝えます。アカウントもサーバーもありません。","offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time","eligibleRegion":{"@type":"Country","name":"KR"}}]}
 </script>
 <script id="faqld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"Watchがなくても使えますか？","acceptedAnswer":{"@type":"Answer","text":"iPhoneだけでもGPS記録と1km（マイル設定なら1マイル）ごとのスプリット案内ができます。サブスクなしでiPhoneだけで走るときに流れる音声はこのスプリットだけで、心拍ゾーンと目標ペースの案内は登録すればiPhoneでも流れます。フォームのコーチング・坂予告・コース逸脱の警告はウォッチでの走行のみです。"}},{"@type":"Question","name":"どのApple Watchが必要ですか？","acceptedAnswer":{"@type":"Answer","text":"心拍とGPSがあるモデルなら大丈夫です。接地時間と上下動を測れる新しいモデルではフォームコーチングがより細かくなり、測れないモデルではケイデンス基準で動きます。"}},{"@type":"Question","name":"解約したら記録はどうなりますか？","acceptedAnswer":{"@type":"Answer","text":"記録はApple ヘルスケアにそのまま残ります。解約後も記録・プランの閲覧・ワークアウト詳細レポートは無料で使えます。"}},{"@type":"Question","name":"データはどこへ行きますか？","acceptedAnswer":{"@type":"Answer","text":"アカウントもサーバーもありません。位置情報は天気・地域名・コースの自動生成の照会時にだけ外に出ます。このほかにApp Storeの決済処理と、公開されたコース・シューズ一覧ファイルのダウンロードがあり、さらに今のところ韓国App Storeでのみ、シューズ画面で自分でタップしたときに外部のランニングシューズ検索ページが開きます。運動・健康データはアップロードしません。"}},{"@type":"Question","name":"6言語の音声はどこまで対応していますか？","acceptedAnswer":{"@type":"Answer","text":"コーチが声に出す文は6言語に翻訳されています。テストが実際に押さえている範囲はこうです — 4つの翻訳表はキーの集合も置き換え番号も互いに完全に一致していること、表に書かれたすべての行がアプリの実際の照会経路で引けること、そしてiPhoneコーチは45分のランを6言語×メートル/マイルの2設定で1秒刻みに再生し、そのランで出た合図がすべて翻訳されているかを検査します。ひとつでもずれればその場で失敗します。数字が入る案内も、言語ごとにその言語の語順で話します（スプリット、坂の予告、ペース、心拍ゾーン、トレーニングのステップを含む）。Watchのリアルタイム・コーチング処理はこのテストバンドルの外にあるため、まだ表に載っていない文が残っている可能性はあります — そのときは韓国語ではなく英語で流れます。それもテストで固定しています。この保証はコーチの音声に限ったもので、アプリの画面の文言は別の翻訳表を使います。"}},{"@type":"Question","name":"記録がまったくなくても使えますか？","acceptedAnswer":{"@type":"Answer","text":"使えます。時計で12分の測定ランを一度走れば、その日のうちに5K・10Kの予想タイムと最初のプランができます — この測定は時計専用です。iPhoneだけでも初日からGPS記録、区間ペースの音声、トレーニングプランの閲覧は使え、プランの開始地点は直近の週間距離から決めます。準備度は時計をつけて眠った夜がベースラインに溜まるまで出ないので、ふつうは2週間ほど、ACWRは4週間ほどかかります。パフォーマンスコンディションは、最大心拍を設定したうえで、心拍が記録された10分超のランニングを同じ強度帯（イージー・中間・高強度）で3回そろえると出ます。"}},{"@type":"Question","name":"初月無料は誰が受けられますか？","acceptedAnswer":{"@type":"Answer","text":"App Storeがこの定期購読の体験をまだ使っていないと判断したアカウントだけです。以前に同じ購読を使った、または体験を消化済みのアカウントは、最初の支払いから課金されます。アプリの購入画面が、購入前にどちらなのかを必ず表示します。体験期間は月額・年額どちらも1か月です — 年額を選んでも無料なのは1か月で、そのあと1年分がまとめて請求されます。"}},{"@type":"Question","name":"買い切りと年間、どちらが得ですか？","acceptedAnswer":{"@type":"Answer","text":"買い切りは自動更新のない1回きりの購入です。価格カードの計算どおり、年額なら約2.6年、月額なら約20か月で元が取れるので、それより長く使うつもりなら買い切りのほうが安くなります。Appleのファミリー共有に対応する料金プランもこれだけです — 月額・年額の定期購読は対象外です。"}},{"@type":"Question","name":"端末を買い替えたらどうなりますか？","acceptedAnswer":{"@type":"Answer","text":"ランの記録そのものはAppleヘルスケアに保存されているので、新しい端末のヘルスケアアプリがそのまま引き継ぎます。Runvisの中だけにあった値 — プロフィール、心拍ゾーン、シューズ一覧、コーチが作った基準線 — は、設定 → データ → 「自分のデータを書き出す」でファイル1つにまとめて取り出し、新しい端末で「バックアップから読み込む」で戻します。ファイルは自分が保存した場所にだけ残り、Runvisはどこにも送りません。サブスクはApp Storeの購入の復元で戻します。"}},{"@type":"Question","name":"ウォッチフェイスのコンプリケーションやウィジェットはありますか？","acceptedAnswer":{"@type":"Answer","text":"まだありません。ウォッチフェイスのコンプリケーション、iPhoneのホーム画面ウィジェット、ライブアクティビティは今回のバージョンには入っていません。入れる予定はありますが、時期はまだ決まっていません。"}}]}
+{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"Watchがなくても使えますか？","acceptedAnswer":{"@type":"Answer","text":"iPhoneだけでもGPS記録と1km（マイル設定なら1マイル）ごとのスプリット案内ができます。サブスクなしでiPhoneだけで走るときに流れる音声はこのスプリットだけで、心拍ゾーンと目標ペースの案内は登録すればiPhoneでも流れます。フォームのコーチング・坂予告・コース逸脱の警告はウォッチでの走行のみです。"}},{"@type":"Question","name":"どのApple Watchが必要ですか？","acceptedAnswer":{"@type":"Answer","text":"心拍とGPSがあるモデルなら大丈夫です。接地時間と上下動を測れる新しいモデルではフォームコーチングがより細かくなり、測れないモデルではケイデンス基準で動きます。"}},{"@type":"Question","name":"解約したら記録はどうなりますか？","acceptedAnswer":{"@type":"Answer","text":"記録はApple ヘルスケアにそのまま残ります。解約後も記録・プランの閲覧・ワークアウト詳細レポートは無料で使えます。"}},{"@type":"Question","name":"データはどこへ行きますか？","acceptedAnswer":{"@type":"Answer","text":"アカウントもサーバーもありません。位置情報は天気・地域名・コースの自動生成の照会時にだけ外に出ます。このほかにApp Storeの決済処理と、公開されたコース・シューズ一覧ファイルのダウンロードがあり、さらに今のところ韓国App Storeでのみ、シューズ画面で自分でタップしたときに外部のランニングシューズ検索ページが開きます。運動・健康データはアップロードしません。"}},{"@type":"Question","name":"6言語の音声はどこまで対応していますか？","acceptedAnswer":{"@type":"Answer","text":"コーチが声に出す文は6言語に翻訳されています。まだ表に載っていない文が残っていた場合は、韓国語ではなく英語で流れます。この動作もテストで固定しています。この保証はコーチの音声に限ったもので、アプリの画面の文言は別の翻訳表を使います。"}},{"@type":"Question","name":"記録がまったくなくても使えますか？","acceptedAnswer":{"@type":"Answer","text":"使えます。時計で12分の測定ランを一度走れば、その日のうちに5K・10Kの予想タイムと最初のプランができます — この測定は時計専用です。iPhoneだけでも初日からGPS記録、区間ペースの音声、トレーニングプランの閲覧は使え、プランの開始地点は直近の週間距離から決めます。準備度は時計をつけて眠った夜がベースラインに溜まるまで出ないので、ふつうは2週間ほど、ACWRは4週間ほどかかります。パフォーマンスコンディションは、最大心拍を設定したうえで、心拍が記録された10分超のランニングを同じ強度帯（イージー・中間・高強度）で3回そろえると出ます。"}},{"@type":"Question","name":"無料体験は誰が受けられますか？","acceptedAnswer":{"@type":"Answer","text":"App Storeがこの定期購読の体験をまだ使っていないと判断したアカウントだけです。以前に同じ購読を使った、または体験を消化済みのアカウントは、最初の支払いから課金されます。アプリの購入画面が、購入前にどちらなのかを必ず表示します。無料期間の長さもApp Storeが商品情報として渡してくる値なので、アプリは受け取ったとおりに購入直前に表示します。年額を選んだ場合は、その無料期間が終わってから1年分がまとめて請求されます。"}},{"@type":"Question","name":"買い切りと年間、どちらが得ですか？","acceptedAnswer":{"@type":"Answer","text":"買い切りは自動更新のない1回きりの購入です。価格カードの計算どおり、年額なら約2.6年、月額なら約20か月で元が取れるので、それより長く使うつもりなら買い切りのほうが安くなります。Appleのファミリー共有に対応する料金プランもこれだけです — 月額・年額の定期購読は対象外です。"}},{"@type":"Question","name":"端末を買い替えたらどうなりますか？","acceptedAnswer":{"@type":"Answer","text":"ランの記録そのものはAppleヘルスケアに保存されているので、新しい端末のヘルスケアアプリがそのまま引き継ぎます。Runvisの中だけにあった値 — プロフィール、心拍ゾーン、シューズ一覧、コーチが作った基準線 — は、設定 → データ → 「自分のデータを書き出す」でファイル1つにまとめて取り出し、新しい端末で「バックアップから読み込む」で戻します。ファイルは自分が保存した場所にだけ残り、Runvisはどこにも送りません。サブスクはApp Storeの購入の復元で戻します。"}},{"@type":"Question","name":"ウォッチフェイスのコンプリケーションやウィジェットはありますか？","acceptedAnswer":{"@type":"Answer","text":"まだありません。ウォッチフェイスのコンプリケーション、iPhoneのホーム画面ウィジェット、ライブアクティビティは今回のバージョンには入っていません。入れる予定はありますが、時期はまだ決まっていません。"}}]}
 </script>
 </head>
 <body>
@@ -518,16 +513,9 @@
 </div>
 </nav>
 
-<!-- HERO -->
 <header class="hero" id="hero">
 <div class="hero-bg"><div class="grid"></div><div class="blob b1" data-depth="-.4"></div><div class="blob b2" data-depth=".5"></div><div class="blob b3" data-depth=".25"></div></div>
 <div class="wrap">
-<!-- Deliberately NOT .reveal. html.js .reveal starts at opacity 0 and waits for
-     an IntersectionObserver that only runs after the deferred i18n.js, so on a
-     cold load the largest text on the page — the H1, the sub and both CTAs —
-     was invisible for the first seconds while the eyebrow-less page showed
-     nothing but a grey price line. Above the fold paints immediately; the
-     reveal cascade starts at #why, below the fold. -->
 <div class="eyebrow" data-i18n="n.hero.eb">Apple Watchランニングコーチ</div>
 <h1 data-i18n="n.hero.h1">Apple Watchが<br/><span class="grad">あれば十分です</span></h1>
 <p class="sub" data-i18n="n.hero.sub">ランニングウォッチをもう一台買う必要はありません。すでに手首にあるデータから、今日何を走るかコーチが決めます。走っている間は声で伝えます。</p>
@@ -535,10 +523,6 @@
 <a class="btn" data-i18n="n.hero.cta1" href="#beta">ベータに申し込む</a>
 <a class="btn ghost" data-i18n="n.hero.cta2" href="run.html">5kmデモを走ってみる</a>
 </div>
-<!-- The eyebrow, the H1, the sub and the two CTAs are parsed by now, so the
-     five strings the boot script inlined go in before the first paint. Without
-     this the largest text on the page was Korean until the dictionary landed
-     and then changed under the reader. -->
 <script>(function(){var h=window.RunvisCritical; if(!h) return;
   for(var k in h){ var e=document.querySelector('[data-i18n="'+k+'"]'); if(e) e.innerHTML=h[k]; }
 })();</script>
@@ -546,43 +530,21 @@
 <div class="trust">
 <div class="tbadge"><b>100%</b><span data-i18n="n.hero.b1">端末の中で計算</span></div>
 <div class="tbadge"><b data-i18n="n.hero.b3n">6言語</b><span data-i18n="n.hero.b3">音声コーチング</span></div>
-<!-- Offer first, condition as the label under it — the split used to read
-     "첫 구독 / 이면 무료 체험", which put a fragment of a sentence in the slot
-     the other two badges use for a value. It points straight at the FAQ answer
-     that states the rule (q7) rather than at the price card, so the badge, the
-     price ribbon and the card's own link all land on the same sentence. The
-     app shows the trial line only when StoreKit reports the account eligible,
-     so the page must not promise it flatly. -->
 <a class="tbadge" href="#faq"><b data-i18n="n.hero.b4n">無料体験</b><span data-i18n="n.hero.b4">対象アカウントのみ</span></a>
 </div>
-<!-- Also not .reveal: the phone bezel below is the LCP element, and an element
-     sitting at opacity 0 does not count as painted, so keeping the reveal here
-     pushed LCP out to whenever the deferred script got round to the observer.
-     The reveal cascade now starts at #why, below the fold. -->
 <div class="stage">
 <div class="ring" aria-hidden="true" data-depth="-.15"><svg viewBox="0 0 200 200"><defs><linearGradient id="rg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#3DDC84"/><stop offset="1" stop-color="#4CCBD9"/></linearGradient></defs>
 <g class="spin"><circle cx="100" cy="100" r="92" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/><circle class="arc" cx="100" cy="100" r="92" fill="none" stroke="url(#rg)" stroke-width="3.5" stroke-linecap="round" transform="rotate(-90 100 100)" opacity=".95"/><circle cx="100" cy="100" r="70" fill="none" stroke="rgba(76,203,217,.12)" stroke-width="1" stroke-dasharray="2 6"/></g></svg></div>
 <div class="devices" data-depth=".35">
 <div class="phone"><img alt="iPhoneホーム — 今日の判断は休養（完全休養または軽い散歩）" data-i18n-attr="alt:alt.phone.hero" src="/assets/framed-phone-dash.ja.png" data-shot="framed-phone-dash" width="640" height="1308" fetchpriority="high" decoding="sync"/></div>
-<!-- The LCP picture, corrected to the resolved language the instant the tag is
-     parsed — i18n.js only gets to it after DOMContentLoaded, which is late
-     enough that five languages saw the Korean home screen paint and then
-     change. The markup keeps the Korean src so a crawler and a no-JS reader
-     still get a picture; on /en/ … the prerender writes the right one in. -->
 <script>(function(){var s=window.RunvisShot; if(!s) return;
   var i=document.querySelector('img[data-shot="framed-phone-dash"]');
   if(i&&i.getAttribute("src")!==s) i.setAttribute("src",s);
 })();</script>
-<!-- Running screens only. The decision, the evidence and the start card live in
-     #today and used to be repeated here, so the first scroll rewound instead of
-     moving on; the two duplicates are gone and the phone above already carries
-     the morning decision. Only the visible frame is fetched eagerly. -->
-<div class="watch-stack" id="watchStack">
+<div class="watch-stack" id="watchStack" role="group" data-i18n-attr="aria-label:a11y.watchstack" aria-label="ランニング中のApple Watch画面3枚が順に切り替わります">
 <img alt="Apple Watch Ultra — Runvis ラン中の現在ペース5:12/km、平均・速度・GAP・勾配" data-i18n-attr="alt:alt.watch.pace" class="on" src="/assets/framed-watch-pace.png" data-shot="framed-watch-pace" width="480" height="768" fetchpriority="high" decoding="sync"/>
 <img alt="Apple Watch Ultra — Runvis 心拍ゾーンアーク：135bpm、ゾーン2" data-i18n-attr="alt:alt.watch.zone" src="/assets/framed-watch-hr.png" data-shot="framed-watch-hr" width="480" height="768" fetchpriority="low" decoding="async"/>
 <img alt="Apple Watch Ultra — Runvis ラン中のリアルタイムGPS地図と距離・時間・ペース" data-i18n-attr="alt:alt.watch.map" src="/assets/framed-watch-map.png" data-shot="framed-watch-map" width="480" height="768" fetchpriority="low" decoding="async"/>
-<!-- Says it here, in the hero, instead of leaving the reader to find sc.note a
-     section below: these three are Korean captures in every language. -->
 <p class="wnote" data-i18n="sc.note.watch">このApple Watch画面3枚は韓国語版のキャプチャです。</p>
 </div>
 </div>
@@ -591,51 +553,29 @@
 </div>
 </header>
 
-<!-- WHY -->
-<section id="why">
+<section id="why" aria-labelledby="why-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.why.eb">なぜRunvis</div>
-<h2 class="reveal" data-i18n="n.why.h2">ランニングウォッチを<br/>もう一台買う必要はありません</h2>
+<h2 id="why-h" class="reveal" data-i18n="n.why.h2">ランニングウォッチを<br/>もう一台買う必要はありません</h2>
 <p class="sub reveal" data-i18n="n.why.sub">トレーニング負荷や回復時間といった指標を見るには、専用のランニングウォッチが要ると言われます。でも計算に必要なセンサーは、Apple Watchにすべて入っています。</p>
 <div class="cards">
 <div class="card tilt reveal" data-tilt="8"><div class="ic">⌚️</div><h3 data-i18n="n.why.c1h">センサーはもう手首にあります</h3><p data-i18n="n.why.c1p">心拍、GPS、ケイデンス、高度。最近のウォッチは接地時間と上下動も測ります。</p></div>
 <div class="card tilt reveal" data-tilt="8"><div class="ic">📐</div><h3 data-i18n="n.why.c2h">計算式は公開されています</h3><p data-i18n="n.why.c2p">トレーニング負荷、回復時間、閾値の推定は、公開されたスポーツ科学の公式です。Runvisはその式を端末の中で計算します。</p></div>
 <div class="card tilt reveal" data-tilt="8"><div class="ic">🗣️</div><h3 data-i18n="n.why.c3h">足りなかったのはコーチでした</h3><p data-i18n="n.why.c3p">数字を読んで今日やることを決めて、走っている間そばで声をかける存在。その役目をRunvisが担います。</p></div>
 </div>
-<!-- All three are grepped out of the app, not estimated. The third slot used to
-     hold the monthly price, which made this a row of two counts and a currency
-     — three different units side by side read as padding rather than evidence,
-     and the price is already stated three times on this page (hero note, hero
-     badge, price section). It is a count now, and it is the one hard trust
-     signal a pre-launch page can offer.
-     s1v 40  = `grep -c "return Entry(" Shared/Services/MetricGlossary.swift`
-               (40 explanations; 39 distinct titles because "평균" and
-                "평균 페이스" carry the same title with different bodies).
-     s2v 270+ = `Cue( ko:` construction sites across the shipping sources,
-               tests excluded: 287 repo-wide on 2026-09-06 (CoachEngine 188,
-               WorkoutManager 45, WarmupView 15, PhoneCoachPlan 10,
-               IntervalWorkout 9, CustomWorkoutsView 8, CooldownView 6,
-               RouteSuggestions 2, MetricsEngine 2, WorkoutStartView 1,
-               CoachLanguage 1). Cue is "one spoken line" by its own
-               definition, so this counts lines, not triggers. The page states
-               a floor, so adding a cue can never make it false.
-     s3v 506 = unique `func test…` names across the 34 files in Tests/.
-     All three are re-measured by `node tools/app-facts.mjs`; check-content [9]
-     compares the dictionaries against what that wrote. -->
 <div class="mini reveal" style="max-width:760px;margin-top:26px">
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s1">意味まで説明する項目</small><b data-i18n="n.why.s1v">40個</b><em class="st-good" data-i18n="n.why.s1n">端末内で</em></div>
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s2">コーチが用意した文</small><b data-i18n="n.why.s2v">270以上</b><em class="st-good" data-i18n="n.why.s2n">6言語すべて</em></div>
-<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">自動テスト</small><b data-i18n="n.why.s3v">506件</b><em class="st-good" data-i18n="n.why.s3n">ビルドごとに全部</em></div>
+<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">自動テスト</small><b data-i18n="n.why.s3v">500件以上</b><em class="st-good" data-i18n="n.why.s3n">ビルドごとに全部</em></div>
 </div>
 <p class="honest reveal" data-i18n="n.why.phone">ウォッチはまだなくても大丈夫です。iPhoneだけでGPS記録と1km（マイル設定なら1マイル）ごとのスプリット案内ができます — サブスクなしでiPhoneだけで走るときに流れる音声はこのスプリットだけです。フォームのコーチングは手首のセンサーが必要なので、ウォッチだけの機能です。</p>
 </div>
 </section>
 
-<!-- TODAY -->
-<section id="today">
+<section id="today" aria-labelledby="today-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.today.eb">今日の決定</div>
-<h2 class="reveal" data-i18n="n.today.h2">朝に開くと<br/>今日の練習が決まっています</h2>
+<h2 id="today-h" class="reveal" data-i18n="n.today.h2">朝に開くと<br/>今日の練習が決まっています</h2>
 <p class="sub reveal" data-i18n="n.today.sub">昨夜の睡眠、HRV、安静時心拍、昨日のトレーニング負荷を、自分の28日基準と比べます。そこから今日の練習を選び、その理由を一行で添えます。</p>
 <div class="row reveal">
 <div class="frame"><img alt="iPhoneの指標詳細 — トレーニング負荷(CTL)の7日推移、自分の28日レンジ、指標の説明" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.ja.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></div>
@@ -659,25 +599,15 @@
 <div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 今日の根拠：睡眠7.2h・HRV 48ms・昨日の負荷70" data-i18n-attr="alt:alt.watch.evidence" loading="lazy" src="/assets/framed-watch-evidence.png" data-shot="framed-watch-evidence" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w2">今日の根拠</b><span data-i18n="n.today.w2p">睡眠、HRV、昨日の負荷を自分の基準と比べて、良好、普通、注意で表示します。</span></div>
 <div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis ワークアウト開始画面、今日のトレーニングカード（ラン・ウォーク反復）" data-i18n-attr="alt:alt.watch.start" loading="lazy" src="/assets/framed-watch-start.png" data-shot="framed-watch-start" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w3">ワンタップで開始</b><span data-i18n="n.today.w3p">今日の練習がスタート画面の一番上にあります。タップすると、コーチが区間ごとに進めます。</span></div>
 </div>
-<!-- The full disclosure sits under the FIRST screenshot section rather than
-     under the hero: it belongs next to the captures, not across the opening. -->
 <p class="sc-note reveal" data-i18n="sc.note">このページのiPhone画面5枚は、アプリをこの言語で動かして撮影した実際のキャプチャです。Apple Watchの画面6枚はまだ韓国語版です — Watchシミュレータが合成タップを受け付けず、キャプチャを自動化できていません。音声コーチングとこのページの文章はすでに6言語で動作します。</p>
-<!-- Which BUILD the captures came from, not just which language. The 30 iPhone
-     PNGs in assets/ are all stamped 2026-09-06 07:30; RunvisDesignSystem.swift
-     (FactorRow's status label) gained .lineLimit(1).minimumScaleFactor(0.8)
-     after that, so the German and Spanish captures still show Achtung/Atención
-     broken over two lines and the shipping app does not. Re-shooting is the
-     real fix; until then the page says so rather than letting a reader take a
-     fixed bug for current behaviour. -->
 <p class="sc-note reveal" data-i18n="sc.build">iPhoneのキャプチャ30枚は2026年9月6日のビルドで撮ったものです。そのあと状態ラベルが1行に収まるよう修正したため、ドイツ語とスペイン語のキャプチャでだけ注意ラベル（Achtung・Atención）が2行に折り返して見えます — 現在のアプリでは1行です。撮り直して差し替える予定の箇所です。</p>
 </div>
 </section>
 
-<!-- LIVE -->
-<section id="live">
+<section id="live" aria-labelledby="live-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.live.eb">走っている間</div>
-<h2 class="reveal" data-i18n="n.live.h2">必要な言葉だけを、<br/>必要なときに</h2>
+<h2 id="live-h" class="reveal" data-i18n="n.live.h2">必要な言葉だけを、<br/>必要なときに</h2>
 <p class="sub reveal" data-i18n="n.live.sub">コーチが話すことには、すべてセンサーが捉えた根拠があります。タップして実際の案内を聞いてみてください。</p>
 <div class="voice-grid reveal">
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="サンプル音声を再生：ペース案内（無料）" data-i18n-attr="aria-label:n.vc1.aria" data-say="목표보다 25초 빠릅니다"><div class="sensor" data-i18n="n.vc1.sensor">📡 目標より20秒以上ずれた状態が20秒以上続いたとき</div><div class="play"><span data-i18n="n.vc1.play">ペース</span><span class="pill free" data-i18n="n.pill.free">無料</span></div><div class="line" data-i18n="n.vc1.line">"目標より25秒速いです"</div></div>
@@ -689,22 +619,11 @@
 <div class="quiet reveal"><span>🤫</span><div class="qbody">
 <b data-i18n="n.live.q.h">おしゃべりではありません</b>
 <div class="qtable"><table>
-<!-- The header carries the exclusions because a reader who only scans the table
-     would otherwise read "8 per 30 min" as the whole of what they will hear.
-     CoachCueCategory.countsTowardBudget excludes .safety, .core, .split,
-     .pauseResume and .hill, so a runner gets the 8 PLUS every split. -->
 <tr><th data-i18n="n.live.q.th1">セッション</th><th data-i18n="n.live.q.th2">30分あたりのその他の案内（スプリット・坂・一時停止を除く）</th></tr>
 <tr><td data-i18n="n.live.q.r1a">イージー・ロング・ランウォーク</td><td data-i18n="n.live.q.r1b">8回まで</td></tr>
 <tr><td data-i18n="n.live.q.r2a">テンポ・レース・自由ラン</td><td data-i18n="n.live.q.r2b">6回まで</td></tr>
 <tr><td data-i18n="n.live.q.r3a">インターバル</td><td data-i18n="n.live.q.r3b">上限なし — オンにしてある項目が、どれくらい話すかを決めます。そのかわりインターバルではステップ・心拍ゾーン・ペース・自動一時停止の案内だけが流れ、スプリット・坂・フォーム・励ましは黙ります</td></tr>
 </table></div>
-<!-- The four notes below used to sit open under the table: three rows of
-     summary followed by four paragraphs of exception, in the middle of a
-     landing page and directly above the price section. Everything in them is
-     true and worth keeping — a reader who wants to know exactly when the coach
-     is allowed to talk should be able to find it — but it is reference
-     material, so it folds the way the price gate does (:838). A closed
-     <details> is still in the markup for a crawler and still Ctrl-F-able. -->
 <details class="gate">
 <summary data-i18n="n.live.q.moreh">間隔と例外のルールをすべて見る</summary>
 <ul>
@@ -719,26 +638,26 @@
 <p class="honest reveal" style="margin-top:8px" data-i18n="n.steps.note">画面とタイマー、自動スタートの検出は無料です。コーチが音声で一緒に進めるのが登録の部分です。</p>
 <div class="steps reveal">
 <div class="step tilt" data-tilt="5"><div class="sn">1</div><h4 data-i18n="n.step1h">天気のブリーフィング</h4><p class="q" data-i18n="n.step1q">「現在の気温は26度、湿度は78パーセントです。蒸し暑くて汗が蒸発しにくい日です。」</p><p data-i18n="n.step1p">今いる地域のリアルタイムの天気です。</p></div>
-<div class="step tilt" data-tilt="5"><div class="sn">2</div><h4 data-i18n="n.step2h">ウォームアップ</h4><p class="q" data-i18n="n.step2q">「首回し、20秒。反対方向に。3、2、1。」</p><p data-i18n="n.step2p">ステップごとにタイマーが進め、コーチをオンにすると音声も一緒に。</p></div>
+<div class="step tilt" data-tilt="5"><div class="sn">2</div><h4 data-i18n="n.step2h">ウォームアップ</h4><p class="q" data-i18n="n.step2q">「肩回し、20秒。今度は反対まわりに。3、2、1。」</p><p data-i18n="n.step2p">ステップごとにタイマーが進め、コーチをオンにすると音声も一緒に。</p></div>
 <div class="step tilt" data-tilt="5"><div class="sn">3</div><h4 data-i18n="n.step3h">そのまま走り出してください</h4><p class="q" data-i18n="n.step3q">「走り始めましたね。記録を開始します。」</p><p data-i18n="n.step3p">手首のランニングのリズムを検知して、記録を始めます。</p></div>
 </div>
 <p class="reveal" style="text-align:center;margin-top:34px"><a class="btn ghost" data-i18n="n.live.demo" href="run.html">5kmデモで、いつ話していつ静かなのかを見る</a></p>
 </div>
 </section>
 
-<!-- AFTER -->
-<section id="after">
+<section id="after" aria-labelledby="after-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.after.eb">ラン後</div>
-<h2 class="reveal" data-i18n="n.after.h2">終わったあとは数字の代わりに<br/>理由を見ます</h2>
+<h2 id="after-h" class="reveal" data-i18n="n.after.h2">終わったあとは数字の代わりに<br/>理由を見ます</h2>
 <p class="sub reveal" data-i18n="n.after.sub">区間ラップ、心拍ゾーン、ランニングダイナミクス、一行コーチングは無料です。サブスクに入ると、ランの中で一番速かった区間を探すPRブック、乳酸性閾値の推定、今週の距離の予算が見られます。</p>
 <div class="tiles">
-<div class="tile tilt reveal" data-tilt="7"><h4><span data-i18n="n.after.t1">ワークアウト詳細レポート</span><span class="pill free" data-i18n="n.pill.free">無料</span></h4><p data-i18n="n.after.t1p">区間ごとのペース、心拍ゾーンの分布、ケイデンスと接地時間の平均。そして今回のランへの一行コーチング。</p></div>
-<div class="tile tilt reveal" data-tilt="7"><h4><span data-i18n="n.after.t2">からだレポート</span><span class="pill free" data-i18n="n.pill.free">無料</span></h4><p data-i18n="n.after.t2p">準備度、睡眠、HRV、安静時心拍、VO₂max。タップするとチャートと自分の28日基準範囲が開きます。</p></div>
-<div class="tile tilt reveal" data-tilt="7"><h4><span data-i18n="n.after.t3">区間最速記録（PRブック）</span><span class="pill pro" data-i18n="n.pill.pro">サブスク</span></h4><p data-i18n="n.after.t3p">完走記録ではなく、直近90日のランニングの中で最も速かった1K・5K・10K・ハーフの区間を探して記録します。前回との差も表示します。</p></div>
-<div class="tile tilt reveal" data-tilt="7"><h4><span data-i18n="n.after.t4">乳酸性閾値の推定</span><span class="pill pro" data-i18n="n.pill.pro">サブスク</span></h4><p data-i18n="n.after.t4p">直近90日のランから30分のベスト区間を2本以上選び、閾値ペースと心拍を推定します。最大心拍を設定していれば、最大心拍の85%以上を保った区間だけが候補になります。30分の区間がなければ20分の区間、それもなければ — この場合は最大心拍の設定が必須です — 最大心拍の85%以上で走った20分以上のラン3本の全体平均で推定します。3つのどれで計算したかは画面に必ず書きます。</p></div>
-<div class="tile tilt reveal" data-tilt="7"><h4><span data-i18n="n.after.t5">コーチブレーキ</span><span class="pill pro" data-i18n="n.pill.pro">サブスク</span></h4><p data-i18n="n.after.t5p">直近4週間の練習量から、今週走ってよい距離をお知らせします。痛みがあると答えると、その距離を減らします。</p></div>
-<div class="tile tilt reveal" data-tilt="7"><h4><span data-i18n="n.after.t6">Runvis VDOT</span><span class="pill pro" data-i18n="n.pill.pro">サブスク</span></h4><p data-i18n="n.after.t6p">ベストエフォートから逆算したVDOTで、距離ごとの記録を予測します。Apple WatchのVO₂maxと並べて表示します。</p></div>
+<div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t1">ワークアウト詳細レポート</span><span class="pill free" data-i18n="n.pill.free">無料</span></h3><p data-i18n="n.after.t1p">区間ごとのペース、心拍ゾーンの分布、ケイデンスと接地時間の平均。そして今回のランへの一行コーチング。</p></div>
+<div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t2">からだレポート</span><span class="pill free" data-i18n="n.pill.free">無料</span></h3><p data-i18n="n.after.t2p">準備度、睡眠、HRV、安静時心拍、VO₂max。タップするとチャートと自分の28日基準範囲が開きます。</p></div>
+<div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t3">コーチ記録レーダー（区間最速・PRブック）</span><span class="pill pro" data-i18n="n.pill.pro">サブスク</span></h3><p data-i18n="n.after.t3p">完走記録ではなく、直近90日のランニングの中で最も速かった1K・5K・10K・ハーフの区間を探して記録します。前回との差も表示します。</p></div>
+<div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t4">乳酸性閾値の推定</span><span class="pill pro" data-i18n="n.pill.pro">サブスク</span></h3><p data-i18n="n.after.t4p">直近90日のランから30分のベスト区間を2本以上選び、閾値ペースと心拍を推定します。最大心拍を設定していれば、最大心拍の85%以上を保った区間だけが候補になります。</p>
+<details class="gate"><summary data-i18n="n.after.t4h">30分の区間がないときは？</summary><p data-i18n="n.after.t4g">30分の区間がなければ20分の区間を使います。それもなければ、最大心拍の85%以上で走った20分以上のラン3本の全体平均で推定します。この最後の経路は最大心拍の設定が必須です。3つのどれで計算したかは画面に必ず書きます。</p></details></div>
+<div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t5">コーチブレーキ</span><span class="pill pro" data-i18n="n.pill.pro">サブスク</span></h3><p data-i18n="n.after.t5p">直近4週間の練習量から、今週走ってよい距離をお知らせします。痛みがあると答えると、その距離を減らします。</p></div>
+<div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t6">Runvis VDOT</span><span class="pill pro" data-i18n="n.pill.pro">サブスク</span></h3><p data-i18n="n.after.t6p">ベストエフォートから逆算したVDOTで、距離ごとの記録を予測します。Apple WatchのVO₂maxと並べて表示します。</p></div>
 </div>
 <p class="honest reveal" data-i18n="n.after.honest"><b>推定値には「推定」と書きます。</b> 根拠が足りないときは数字の代わりに「学習中」と表示します。確信が持てない指標は入れていません。</p>
 <div class="row flip reveal">
@@ -756,11 +675,10 @@
 </div>
 </section>
 
-<!-- RACE -->
-<section id="race">
+<section id="race" aria-labelledby="race-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.race.eb">レース準備</div>
-<h2 class="reveal" data-i18n="n.race.h2">レースまでは週ごとのプラン、<br/>当日は区間の戦略</h2>
+<h2 id="race-h" class="reveal" data-i18n="n.race.h2">レースまでは週ごとのプラン、<br/>当日は区間の戦略</h2>
 <p class="sub reveal" data-i18n="n.race.sub">目標のレースとタイムを入れると、週ごとのロードマップを組みます。今の体力で届く目標かどうかも正直にお伝えします。プランを見るのは無料です。ウォッチでコーチが区間ごとに進めるのはサブスクです。</p>
 <div class="row reveal">
 <div class="frame"><img alt="iPhoneの週間トレーニングプラン画面" data-i18n-attr="alt:alt.phone.plan" loading="lazy" src="/assets/framed-phone-plan.ja.png" data-shot="framed-phone-plan" width="640" height="1308" decoding="async"/></div>
@@ -790,20 +708,18 @@
 </div>
 </section>
 
-<!-- PRIVACY -->
-<section id="privacy">
+<section id="privacy" aria-labelledby="privacy-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.priv.eb">プライバシー</div>
-<div class="big reveal" data-i18n="n.priv.big">アカウントも、サーバーもありません。<br/>トンネルの中でもコーチは話します。</div>
+<h2 id="privacy-h" class="big reveal" data-i18n="n.priv.big">アカウントも、サーバーもありません。<br/>トンネルの中でもコーチは話します。</h2>
 <p class="reveal"><span data-i18n="n.priv.p">記録も分析もすべてWatchとiPhoneの中で行います。天気の取得では約1km単位に丸めた座標を、地域名とコースの自動生成ではその瞬間だけAppleのサービスに現在の座標を送ります。このほかにApp Storeの決済処理、公開されたコース・シューズ一覧ファイルのダウンロード、そして今のところ韓国App Storeでのみ、シューズ画面でご自身がタップしたときに開く外部のランニングシューズ検索ページがあります。これらの例外はひとつ残らずプライバシーポリシーに書いています。運動・健康データはどこにもアップロードしません。</span> <a href="privacy.html" data-i18n="n.priv.link">プライバシーポリシー</a></p>
 </div>
 </section>
 
-<!-- PRICE -->
-<section id="price">
+<section id="price" aria-labelledby="price-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.price.eb">価格</div>
-<h2 class="reveal" data-i18n="n.price.h2">記録は無料 —<br/>お金がかかるのはコーチだけ</h2>
+<h2 id="price-h" class="reveal" data-i18n="n.price.h2">記録は無料 —<br/>お金がかかるのはコーチだけ</h2>
 <p class="sub reveal" data-i18n="n.price.sub">記録とプランの閲覧、レポートは無料です。コーチが声で伝えて分析するところがサブスクにあたります。Runvisはまず韓国のApp Storeで先行リリースし、そこでのコーチは月₩1,900です。他の地域ではお住まいの地域のApp Storeの価格が適用され、その金額は決まった日にこのページへ載せます。App Storeが体験の対象と判断したアカウントは最初の期間を無料で試せます。</p>
 <div class="price">
 <div class="plan tilt reveal" data-tilt="5">
@@ -816,115 +732,71 @@
 <li data-i18n="n.price.f4">ウォッチで走るとき — スプリット音声（kmでもマイルでも、端末の単位設定に従います）、心拍ゾーンの案内、目標ペースの案内、コースの坂予告、コース逸脱の警告。iPhoneだけで走る場合、無料の音声はスプリットだけです。</li>
 <li data-i18n="n.price.f5">GPX書き出し、AI分析用レポート</li>
 </ul>
-<!-- The free card had no action at all, so a reader weighing "is the free tier
-     enough for me?" had nowhere to go and the coach card was the only thing on
-     this screen you could click. The demo is the honest answer to that
-     question: it plays the free cues and the paid ones and labels which is
-     which. Ghost button, so it does not compete with the beta CTA below. -->
 <a class="btn ghost" href="run.html" style="margin-top:18px" data-i18n="n.price.freecta">無料でどこまでできるか、5kmデモで見る</a>
 </div>
 <div class="plan pro tilt reveal" data-tilt="5">
-<span class="ribbon" data-i18n="pl.ribbon">対象アカウントなら初月無料</span>
+<span class="ribbon" data-i18n="pl.ribbon">対象アカウントなら最初の期間が無料</span>
 <div class="name" data-i18n="pl.coach">Runvisコーチ</div>
-<!-- The ribbon used to promise the trial in the indicative ("첫 구독이면 무료
-     체험") while the app only prints that line when StoreKit reports
-     introEligible true. The subject is the ACCOUNT now, and the rule itself is
-     one link away in FAQ q7 — the same answer the hero badge points at. -->
 <a class="terms-link" href="#faq" data-i18n="pl.terms">対象になるのは？</a>
 <div class="amt"><span data-i18n="pr.month">₩1,900</span><small data-i18n="t144">/ 月</small></div>
 <div class="amt-approx" data-i18n="pr.approx">韓国App Storeの価格です — 先行リリースは韓国です。他の地域ではお住まいの地域のApp Storeの現地通貨価格が適用されます。ここに換算額は載せません。Appleは為替ではなく価格帯で課金するので、換算値は肝心の日にずれるからです。実際の金額は他ストアの設定が済みしだいこのページに載せます。</div>
-<div class="amt-year" data-i18n="n.price.year">年間は <b>₩15,000</b>。月あたり約 ₩1,250 で、月払いよりおよそ34%お得です。この比率はどの地域のストアでも変わりません（金額は韓国のものです）。体験の対象アカウントなら年額も最初の<b>1か月</b>が無料で、そのあと1年分がまとめて請求されます。</div>
-<div class="amt-year" data-i18n="n.price.life">サブスクの代わりに <b>買い切り版 ₩39,000</b>。リリース記念価格で、<b>リリース3か月後に値上げ予定</b>です — 値上げはその後の新規購入だけに適用されます。年額なら約2.6年分、月額なら約20か月分にあたります（この比率は通貨が変わっても同じです）。Appleのファミリー共有が使えるのはこのプランだけです。</div>
+<div class="amt-year" data-i18n="n.price.year">年間は <b>₩15,000</b>。韓国App Store基準で月あたり約 ₩1,250、月払いよりおよそ34%お得です。他の地域は価格帯が異なるため比率も変わることがあり、実際の割引率はアプリの購入画面がその場の2つの価格から計算して表示します。体験の対象アカウントなら年額も最初の期間が無料で、そのあと1年分がまとめて請求されます。</div>
+<div class="amt-year" data-i18n="n.price.life">サブスクの代わりに <b>買い切り版 ₩39,000</b>。リリース記念価格です。あとで値上げしても、すでに購入した方には適用されません。韓国App Storeの価格で計算すると年額の約2.6年分、月額の約20か月分にあたります。お住まいの地域は価格帯が違うので、この比率も変わることがあります。Appleのファミリー共有が使えるのはこのプランだけです。</div>
 <ul>
 <li data-i18n="n.price.p1">走行中のコーチ音声 — フォーム、坂の走り方、回復、励まし</li>
 <li data-i18n="n.price.p2">プランの実行：区間ごとに進めて、終わると計画に対するスコア</li>
 <li data-i18n="n.price.p3">詳細分析7タイル：乳酸性作業閾値（推定）、持久力トレーニング量、坂の露出、暑さ露出指数、コーチブレーキ、強度の配分、コーチ記録レーダー（区間最速・直近90日）。さらにRunvis VDOT。</li>
 <li data-i18n="n.price.p4">レース戦略：区間ペースのプラン、補給スケジュール、本番リハーサル</li>
-<!-- The weekly recap card is genuinely locked (WeeklyRecapCard `locked`
-     blanks the plan score, the week's fastest segment, the remaining budget,
-     the four-week intensity mix and the next-week line). run.html's tier list
-     and the terms already said so; this card was the only place that did not. -->
 <li data-i18n="n.price.p5">週間コーチ要約カード：計画達成スコア、今週の区間最速、残りのランニング予算、直近4週の強度配分、来週どこを変えるかの一行。無料ではこのカードはロックされたプレビューとして表示されます。</li>
 </ul>
-<!-- The gate conditions used to be a five-line paragraph inside the bullet
-     above — a reference document parked in a comparison table. Folded, exactly
-     as the app's paywall folds the same text (PaywallView.gateDisclosure,
-     "무엇이 언제 채워지나요?"). A crawler still reads a closed <details>. -->
 <details class="gate">
 <summary data-i18n="n.price.gateh">値はいつ埋まりますか？</summary>
 <p data-i18n="n.price.gate">7タイルは購入した時点ですべて開き、値は記録が溜まるにつれて埋まります。乳酸性作業閾値は最大心拍の85%以上を保った30分（または20分）区間が2本必要で、経路が記録されないランしかない場合は最大心拍の設定と20分以上のラン3本から計算します。持久力トレーニング量は2週間以上にわたって4週のうち3週・6回、坂の露出は上りのラン2回、暑さ露出指数は22°Cを超えた日のラン3回、強度の配分は心拍のあるラン5回を含む8日分、コーチブレーキはラン2週間分が必要です。それまでは各タイルが「あと何が足りないか」を自分で書きます。</p>
 </details>
 </div>
 </div>
-<!-- Three stacked notes used to sit here and the first of them (pr.note) said
-     what pr.approx already says inside the card, one line from the price. The
-     region note now lives only on the card — the place a buyer is actually
-     looking — and the launch and cancellation lines share one paragraph. -->
 <p class="note"><span data-i18n="pr.launch">Runvisはまず韓国のApp Storeで先行リリースし、その他の地域には順次拡大していきます。リリース時期はTestFlightベータの終了後に決まり、決まりしだいこのページに最初に記載します。</span> <span data-i18n="n.price.cancel">サブスクリプションはApp Storeのアカウント設定でいつでも解約できます。解約しても期間の終わりまで使え、自動更新が止まります。返金はAppleの返金ポリシーに従います。</span></p>
 <div class="reveal" style="text-align:center;margin-top:26px"><a class="btn" href="#beta" data-i18n="n.price.cta">ベータで先に試す、またはリリース通知だけ受け取る</a></div>
 </div>
 </section>
 
-<!-- FAQ -->
-<section id="faq">
+<section id="faq" aria-labelledby="faq-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.faq.eb">よくある質問</div>
-<h2 class="reveal" data-i18n="n.faq.h2">最初に気になること</h2>
+<h2 id="faq-h" class="reveal" data-i18n="n.faq.h2">最初に気になること</h2>
 <div class="tiles">
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q1">Watchがなくても使えますか？</h4><p data-i18n="n.faq.a1">iPhoneだけでもGPS記録と1km（マイル設定なら1マイル）ごとのスプリット案内ができます。サブスクなしでiPhoneだけで走るときに流れる音声はこのスプリットだけで、心拍ゾーンと目標ペースの案内は登録すればiPhoneでも流れます。フォームのコーチング・坂予告・コース逸脱の警告はウォッチでの走行のみです。</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q2">どのApple Watchが必要ですか？</h4><p data-i18n="n.faq.a2">心拍とGPSがあるモデルなら大丈夫です。接地時間と上下動を測れる新しいモデルではフォームコーチングがより細かくなり、測れないモデルではケイデンス基準で動きます。</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q3">解約したら記録はどうなりますか？</h4><p data-i18n="n.faq.a3">記録はApple ヘルスケアにそのまま残ります。解約後も記録・プランの閲覧・ワークアウト詳細レポートは無料で使えます。</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q4">データはどこへ行きますか？</h4><p data-i18n="n.faq.a4">アカウントもサーバーもありません。位置情報は天気・地域名・コースの自動生成の照会時にだけ外に出ます。このほかにApp Storeの決済処理と、公開されたコース・シューズ一覧ファイルのダウンロードがあり、さらに今のところ韓国App Storeでのみ、シューズ画面で自分でタップしたときに外部のランニングシューズ検索ページが開きます。運動・健康データはアップロードしません。</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q5">6言語の音声はどこまで対応していますか？</h4><p data-i18n="n.faq.a5">コーチが声に出す文は6言語に翻訳されています。テストが実際に押さえている範囲はこうです — 4つの翻訳表はキーの集合も置き換え番号も互いに完全に一致していること、表に書かれたすべての行がアプリの実際の照会経路で引けること、そしてiPhoneコーチは45分のランを6言語×メートル/マイルの2設定で1秒刻みに再生し、そのランで出た合図がすべて翻訳されているかを検査します。ひとつでもずれればその場で失敗します。数字が入る案内も、言語ごとにその言語の語順で話します（スプリット、坂の予告、ペース、心拍ゾーン、トレーニングのステップを含む）。Watchのリアルタイム・コーチング処理はこのテストバンドルの外にあるため、まだ表に載っていない文が残っている可能性はあります — そのときは韓国語ではなく英語で流れます。それもテストで固定しています。この保証はコーチの音声に限ったもので、アプリの画面の文言は別の翻訳表を使います。</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q6">記録がまったくなくても使えますか？</h4><p data-i18n="n.faq.a6">使えます。時計で12分の測定ランを一度走れば、その日のうちに5K・10Kの予想タイムと最初のプランができます — この測定は時計専用です。iPhoneだけでも初日からGPS記録、区間ペースの音声、トレーニングプランの閲覧は使え、プランの開始地点は直近の週間距離から決めます。準備度は時計をつけて眠った夜がベースラインに溜まるまで出ないので、ふつうは2週間ほど、ACWRは4週間ほどかかります。パフォーマンスコンディションは、最大心拍を設定したうえで、心拍が記録された10分超のランニングを同じ強度帯（イージー・中間・高強度）で3回そろえると出ます。</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q7">初月無料は誰が受けられますか？</h4><p data-i18n="n.faq.a7">App Storeがこの定期購読の体験をまだ使っていないと判断したアカウントだけです。以前に同じ購読を使った、または体験を消化済みのアカウントは、最初の支払いから課金されます。アプリの購入画面が、購入前にどちらなのかを必ず表示します。体験期間は月額・年額どちらも1か月です — 年額を選んでも無料なのは1か月で、そのあと1年分がまとめて請求されます。</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q8">買い切りと年間、どちらが得ですか？</h4><p data-i18n="n.faq.a8">買い切りは自動更新のない1回きりの購入です。価格カードの計算どおり、年額なら約2.6年、月額なら約20か月で元が取れるので、それより長く使うつもりなら買い切りのほうが安くなります。Appleのファミリー共有に対応する料金プランもこれだけです — 月額・年額の定期購読は対象外です。</p></div>
-<!-- Two questions the page had been leaving to the download: there is no
-     iCloud sync (no paid developer account), and there is no complication,
-     widget or Live Activity in this build (0 WidgetKit/ActivityKit imports in
-     the repo). Both are better answered before the install than after. -->
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q9">端末を買い替えたらどうなりますか？</h4><p data-i18n="n.faq.a9">ランの記録そのものはAppleヘルスケアに保存されているので、新しい端末のヘルスケアアプリがそのまま引き継ぎます。Runvisの中だけにあった値 — プロフィール、心拍ゾーン、シューズ一覧、コーチが作った基準線 — は、設定 → データ → 「自分のデータを書き出す」でファイル1つにまとめて取り出し、新しい端末で「バックアップから読み込む」で戻します。ファイルは自分が保存した場所にだけ残り、Runvisはどこにも送りません。サブスクはApp Storeの購入の復元で戻します。</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q10">ウォッチフェイスのコンプリケーションやウィジェットはありますか？</h4><p data-i18n="n.faq.a10">まだありません。ウォッチフェイスのコンプリケーション、iPhoneのホーム画面ウィジェット、ライブアクティビティは今回のバージョンには入っていません。入れる予定はありますが、時期はまだ決まっていません。</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q1">Watchがなくても使えますか？</h3><p data-i18n="n.faq.a1">iPhoneだけでもGPS記録と1km（マイル設定なら1マイル）ごとのスプリット案内ができます。サブスクなしでiPhoneだけで走るときに流れる音声はこのスプリットだけで、心拍ゾーンと目標ペースの案内は登録すればiPhoneでも流れます。フォームのコーチング・坂予告・コース逸脱の警告はウォッチでの走行のみです。</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q2">どのApple Watchが必要ですか？</h3><p data-i18n="n.faq.a2">心拍とGPSがあるモデルなら大丈夫です。接地時間と上下動を測れる新しいモデルではフォームコーチングがより細かくなり、測れないモデルではケイデンス基準で動きます。</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q3">解約したら記録はどうなりますか？</h3><p data-i18n="n.faq.a3">記録はApple ヘルスケアにそのまま残ります。解約後も記録・プランの閲覧・ワークアウト詳細レポートは無料で使えます。</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q4">データはどこへ行きますか？</h3><p data-i18n="n.faq.a4">アカウントもサーバーもありません。位置情報は天気・地域名・コースの自動生成の照会時にだけ外に出ます。このほかにApp Storeの決済処理と、公開されたコース・シューズ一覧ファイルのダウンロードがあり、さらに今のところ韓国App Storeでのみ、シューズ画面で自分でタップしたときに外部のランニングシューズ検索ページが開きます。運動・健康データはアップロードしません。</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q5">6言語の音声はどこまで対応していますか？</h3><p data-i18n="n.faq.a5">コーチが声に出す文は6言語に翻訳されています。まだ表に載っていない文が残っていた場合は、韓国語ではなく英語で流れます。この動作もテストで固定しています。この保証はコーチの音声に限ったもので、アプリの画面の文言は別の翻訳表を使います。</p>
+<details class="gate"><summary data-i18n="n.faq.a5h">テストはどこまで押さえていますか？</summary><p data-i18n="n.faq.a5g">4つの翻訳表はキーの集合も置き換え番号も互いに完全に一致していること、表に書かれたすべての行がアプリの実際の照会経路で引けること。さらにiPhoneコーチは45分のランを6言語×メートル/マイルの2設定で1秒刻みに再生し、そのランで出た合図がすべて翻訳されているかを検査します。ひとつでもずれればその場で失敗します。数字が入る案内も、言語ごとにその言語の語順で話します（スプリット、坂の予告、ペース、心拍ゾーン、トレーニングのステップを含む）。Watchのリアルタイム・コーチング処理はこのテストバンドルの外にあるため、まだ表に載っていない文が残る可能性があります。</p></details></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q6">記録がまったくなくても使えますか？</h3><p data-i18n="n.faq.a6">使えます。時計で12分の測定ランを一度走れば、その日のうちに5K・10Kの予想タイムと最初のプランができます — この測定は時計専用です。iPhoneだけでも初日からGPS記録、区間ペースの音声、トレーニングプランの閲覧は使え、プランの開始地点は直近の週間距離から決めます。準備度は時計をつけて眠った夜がベースラインに溜まるまで出ないので、ふつうは2週間ほど、ACWRは4週間ほどかかります。パフォーマンスコンディションは、最大心拍を設定したうえで、心拍が記録された10分超のランニングを同じ強度帯（イージー・中間・高強度）で3回そろえると出ます。</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q7">無料体験は誰が受けられますか？</h3><p data-i18n="n.faq.a7">App Storeがこの定期購読の体験をまだ使っていないと判断したアカウントだけです。以前に同じ購読を使った、または体験を消化済みのアカウントは、最初の支払いから課金されます。アプリの購入画面が、購入前にどちらなのかを必ず表示します。無料期間の長さもApp Storeが商品情報として渡してくる値なので、アプリは受け取ったとおりに購入直前に表示します。年額を選んだ場合は、その無料期間が終わってから1年分がまとめて請求されます。</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q8">買い切りと年間、どちらが得ですか？</h3><p data-i18n="n.faq.a8">買い切りは自動更新のない1回きりの購入です。価格カードの計算どおり、年額なら約2.6年、月額なら約20か月で元が取れるので、それより長く使うつもりなら買い切りのほうが安くなります。Appleのファミリー共有に対応する料金プランもこれだけです — 月額・年額の定期購読は対象外です。</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q9">端末を買い替えたらどうなりますか？</h3><p data-i18n="n.faq.a9">ランの記録そのものはAppleヘルスケアに保存されているので、新しい端末のヘルスケアアプリがそのまま引き継ぎます。Runvisの中だけにあった値 — プロフィール、心拍ゾーン、シューズ一覧、コーチが作った基準線 — は、設定 → データ → 「自分のデータを書き出す」でファイル1つにまとめて取り出し、新しい端末で「バックアップから読み込む」で戻します。ファイルは自分が保存した場所にだけ残り、Runvisはどこにも送りません。サブスクはApp Storeの購入の復元で戻します。</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q10">ウォッチフェイスのコンプリケーションやウィジェットはありますか？</h3><p data-i18n="n.faq.a10">まだありません。ウォッチフェイスのコンプリケーション、iPhoneのホーム画面ウィジェット、ライブアクティビティは今回のバージョンには入っていません。入れる予定はありますが、時期はまだ決まっていません。</p></div>
 </div>
 </div>
 </section>
 
-<!-- BETA -->
-<section id="beta">
+<section id="beta" aria-labelledby="beta-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.beta.eb">ベータ申し込み</div>
-<h2 class="reveal" data-i18n="n.beta.h2">ベータで先に試してみてください</h2>
-<!-- Trust block. The page had no signal that was not a self-description: no
-     reviews, no press, no ratings — an unshipped app cannot have them. Rather
-     than invent a number, every line below is counted straight out of the app
-     repository and can be re-counted by anyone with a checkout:
-       506   unique `func test…` names across the 34 files in Tests/
-       2,162 distinct keys, identical in all six Shared/Resources/*.lproj/
-             Localizable.strings (2,130 key=value lines; 8 keys are written more
-             than once, so the count of DISTINCT strings is 2,162)
-       396   entries in each of the four CoachTranslations+{ja,es,zh,de}.swift tables
-       40    `return Entry(` sites in Shared/Services/MetricGlossary.swift
-     Do not hand-edit these. `node tools/app-facts.mjs` re-measures them out of
-     the app checkout and writes tools/app-facts.json; check-content.mjs [9]
-     then fails if the six dictionaries and that file disagree. This block has
-     now gone stale three rounds running because it was maintained by hand. -->
+<h2 id="beta-h" class="reveal" data-i18n="n.beta.h2">ベータで先に試してみてください</h2>
 <div class="proof reveal">
 <h3 data-i18n="n.trust.h">レビューはまだありません — 代わりに、いま確認できること</h3>
 <ul>
-<li data-i18n="n.trust.l1">自動テスト506件 — コーチが話す文、無料と有料の境界、プランの計算を、ビルドのたびに検査します。</li>
-<li data-i18n="n.trust.l2">画面の文言2,162個が6言語の表でキーまで一致し、コーチ音声の翻訳表4つはそれぞれ396行です。ひとつでもずれればテストはその場で失敗します。</li>
+<li data-i18n="n.trust.l1">自動テスト500件以上が、コーチが話す文、無料と有料の境界、プランの計算を、ビルドのたびに検査します。</li>
+<li data-i18n="n.trust.l2">画面の文言2,100個以上が6言語の表でキーまで一致し、コーチ音声の翻訳表4つはそれぞれ396行です。ひとつでもずれればテストはその場で失敗します。</li>
 <li data-i18n="n.trust.l3">指標の説明40件がアプリの中に入っています — 分からない数字をタップすると、意味と計算の根拠、自分のふだんの範囲が出ます。</li>
 </ul>
 <p data-i18n="n.trust.p">ひとりで作っているアプリです。評価も報道もまだありません — リリース前ですから。だから作れてしまう数字ではなく、アプリのリポジトリからそのまま数えられるものだけを書きました。ほかに知りたいことがあれば help@runvis.app へどうぞ。返事は私が書きます。</p>
 </div>
 <div class="signup reveal">
-<p class="sub" data-i18n="n.beta.sub" style="margin:0 auto">メールアドレスを残していただければ、TestFlightベータが開くときに招待状を1通お送りします。開始日はまだ決まっていません — 決まった日にこの場所に書き、すでに申し込まれた宛先にも同時にお送りします。</p>
+<p class="sub" data-i18n="n.beta.sub" style="margin:0 auto">メールアドレスを残していただければ、TestFlightベータが開くときに招待状を1通お送りします。招待はお申し込みの順に出します。公開日はまだ決まっていません。決まった日にこの場所に書き、すでにお申し込みいただいた住所にも同時にお送りします。</p>
 <form action="https://formspree.io/f/xnjeyalr" id="betaForm" method="POST">
 <input name="email" placeholder="メールアドレス" data-i18n-attr="placeholder:ph.email" required="" type="email"/>
-<!-- The binding STAYS, so the prerendered copies and a no-JS reader get this
-     label in their own language. The script at the bottom of the page then
-     swaps it for 출시 알림 받기 when the second radio is picked, and re-runs
-     after runvis:lang so i18n.js writing the beta label back is harmless. -->
 <button class="btn" data-i18n="t160" id="betaSubmit" type="submit">ベータ招待を受け取る</button>
 </form>
 <fieldset class="want">
@@ -933,32 +805,17 @@
 <label><input form="betaForm" name="want" type="radio" value="launch"/> <span data-i18n="n.beta.want2">リリース通知だけ — 出たら一度だけ知らせてください</span></label>
 </fieldset>
 <p id="betaStatus" role="status" aria-live="polite" style="display:none;margin-top:14px;font-size:15px;font-weight:600"></p>
-<!-- Always on screen, not only after a successful submit: a visitor who will
-     not leave an e-mail still needs one thing to do next. -->
 <a class="btn ghost" id="betaNext" href="run.html" style="margin-top:14px" data-i18n="form.okcta">5kmデモを走ってみる</a>
 <div class="consent">
 <div>· <b data-i18n="t161">収集目的</b><span data-i18n="cs.purpose">：TestFlightベータ招待の送付</span></div>
 <div>· <b data-i18n="t162">保管期間</b><span data-i18n="cs.retain">：ベータ終了、または同意撤回まで</span></div>
 <label><input form="betaForm" name="privacy_consent" type="checkbox" value="yes" required=""/> <span data-i18n="n.beta.required">（必須）ベータ招待の送付のためにメールアドレスを収集・利用することに同意します。</span></label>
 <label><input form="betaForm" name="marketing_consent" type="checkbox" value="yes"/> <span data-i18n="cs.marketing">（任意）リリース情報やアップデートなどのお知らせを受け取ることに同意します。</span></label>
-<!-- run.html has carried this line next to its identical consent block all
-     along; index.html only linked the policy much further down, inside
-     n.beta.now. The document to read before ticking a box belongs beside the
-     box. Key already exists in all six dictionaries. -->
 <div style="margin-top:8px">· <a href="privacy.html" style="color:var(--green)" data-i18n="n.priv.link">プライバシーポリシー</a></div>
 </div>
 <div class="nextsteps">
-<!-- A second thing to do that is not "wait for an e-mail". These are the same
-     files the app downloads from this domain (CourseLibrary reads
-     https://runvis.app/course-catalog.json), so nothing new is exposed — the
-     visitor just gets to keep them. ODbL requires the attribution line below. -->
 <h4 data-i18n="n.beta.gpxh">いますぐ持ち帰れるもの</h4>
 <p data-i18n="n.beta.gpx">アプリが使っているソウルの13コースのGPXファイルです。申し込みもインストールも要りません。いま受け取って、別の時計や地図アプリに読み込めます。距離は6言語ともkm表記です — GPXファイル自体に単位はなく、マイル表示は読み込んだ機器側が行います。</p>
-<!-- The course NAMES carry their own keys. This list is the only immediate
-     value on the page for a visitor who leaves no e-mail, and until now the
-     thirteen names were hard-coded Korean in every language — the file names
-     are romanised but the link text was not. The distance stays outside the
-     binding so one number is not repeated in six dictionaries. -->
 <p class="gpxlist"><a href="/gpx/seoul-namsan-bukcheuk.gpx" download><span data-i18n="gpx.namsan.north">南山 北側循環路</span> <span style="color:var(--dim2)">6.7km</span></a> · <a href="/gpx/seoul-namsan-summit.gpx" download><span data-i18n="gpx.namsan.summit">南山 山頂ヒル</span> <span style="color:var(--dim2)">4.0km</span></a> · <a href="/gpx/seoul-bukak-skyway.gpx" download><span data-i18n="gpx.bukak">北岳スカイウェイ</span> <span style="color:var(--dim2)">5.2km</span></a> · <a href="/gpx/seoul-ansan-jarak.gpx" download><span data-i18n="gpx.ansan">鞍山 チャラクキル</span> <span style="color:var(--dim2)">6.1km</span></a> · <a href="/gpx/seoul-inwangsan.gpx" download><span data-i18n="gpx.inwangsan">仁王山 チャラクキル</span> <span style="color:var(--dim2)">2.9km</span></a> · <a href="/gpx/seoul-naksan.gpx" download><span data-i18n="gpx.naksan">駱山公園 漢陽都城路</span> <span style="color:var(--dim2)">2.1km</span></a> · <a href="/gpx/seoul-eungbong.gpx" download><span data-i18n="gpx.eungbong">鷹峰山 階段</span> <span style="color:var(--dim2)">1.6km</span></a> · <a href="/gpx/seoul-dorimcheon.gpx" download><span data-i18n="gpx.dorimcheon">道林川</span> <span style="color:var(--dim2)">14.5km</span></a> · <a href="/gpx/seoul-banpo-hangang.gpx" download><span data-i18n="gpx.banpo">盤浦 漢江公園</span> <span style="color:var(--dim2)">5.0km</span></a> · <a href="/gpx/seoul-tancheon.gpx" download><span data-i18n="gpx.tancheon">炭川</span> <span style="color:var(--dim2)">7.1km</span></a> · <a href="/gpx/seoul-yangjaecheon.gpx" download><span data-i18n="gpx.yangjaecheon">良才川</span> <span style="color:var(--dim2)">3.9km</span></a> · <a href="/gpx/seoul-cheonggyecheon.gpx" download><span data-i18n="gpx.cheonggyecheon">清渓川</span> <span style="color:var(--dim2)">5.5km</span></a> · <a href="/gpx/seoul-seoulsup.gpx" download><span data-i18n="gpx.seoulsup">ソウルの森 循環</span> <span style="color:var(--dim2)">2.0km</span></a></p>
 <p class="gpxattr" data-i18n="n.beta.gpxattr">経路はOpenStreetMapの道路・遊歩道データ、標高はCopernicus DEM / NASA SRTMGL1（パブリックドメイン）に基づきます。© OpenStreetMap contributors · ODbL 1.0。</p>
 <h4 class="sep" data-i18n="n.beta.stepsh">申し込み後の流れ</h4>
@@ -1160,9 +1017,14 @@ window.renderDynamicI18n=heroRestart;
 // --- hero watch screen rotation ---
 (() => {
   const slides = document.querySelectorAll('#watchStack img');
+  if (!slides.length) return;
+  // aria-current says which frame is the visible one; without it a screen
+  // reader read all three alt texts as if all three were on screen.
+  const mark = n => slides.forEach((s, k) => k === n ? s.setAttribute('aria-current', 'true') : s.removeAttribute('aria-current'));
+  mark(0);
   if (slides.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   let i = 0;
-  setInterval(() => { slides[i].classList.remove('on'); i = (i + 1) % slides.length; slides[i].classList.add('on'); }, 3800);
+  setInterval(() => { slides[i].classList.remove('on'); i = (i + 1) % slides.length; slides[i].classList.add('on'); mark(i); }, 3800);
 })();
 
 // --- voice playback (Web Speech API, follows the selected language) ---
@@ -1303,11 +1165,23 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
   // The form never navigates, so this line is the only feedback there is.
   // It is a live region: empty it first so an identical repeat message is
   // still announced, and make it visible before the text lands.
+  // On failure the page used to end the conversation: the form is the site's
+  // only conversion point, and a reader whose POST bounced was left with a
+  // plain-text address elsewhere on the page. The banner now carries the way
+  // out itself.
   const show = (msg, ok) => {
     status.textContent = '';
     status.style.display = 'block';
     status.style.color = ok ? 'var(--green)' : 'var(--red)';
-    setTimeout(() => { status.textContent = msg; }, 50);
+    setTimeout(() => {
+      status.textContent = msg;
+      if (ok) return;
+      const a = document.createElement('a');
+      a.href = 'mailto:help@runvis.app?subject=Runvis%20beta';
+      a.textContent = window.RunvisT('form.mailto', 'メールで申し込む: help@runvis.app');
+      a.style.cssText = 'margin-left:8px;color:var(--green);text-decoration:underline';
+      status.appendChild(a);
+    }, 50);
   };
   if (betaForm.action.includes('YOUR_FORM_ID')) { show(window.RunvisT('form.busy', '受付の準備中です。もう少しお待ちください！'), false); return; }
   btn.disabled = true;
@@ -1334,12 +1208,19 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
   finally { btn.disabled = false; btn.textContent = original; }
 });
 
-// The sticky CTA is redundant once the signup form itself is on screen.
+// The sticky CTA is redundant twice over: once while the signup form itself is
+// on screen, and once at the top of the page, where the hero's own "베타 신청"
+// button is already visible. Watch both and show the bar only when neither is.
 (() => {
   const cta = document.getElementById('stickyCta'), beta = document.getElementById('beta');
+  const heroCta = document.querySelector('.hero .cta');
   if (!cta || !beta) return;
-  new IntersectionObserver(es => es.forEach(e => { cta.style.display = e.isIntersecting ? 'none' : ''; }),
-                           { threshold: .15 }).observe(beta);
+  const seen = new Map();
+  const sync = () => { cta.classList.toggle('armed', ![...seen.values()].some(Boolean)); };
+  const io = new IntersectionObserver(es => { es.forEach(e => seen.set(e.target, e.isIntersecting)); sync(); },
+                                      { threshold: .15 });
+  io.observe(beta);
+  if (heroCta) io.observe(heroCta);
 })();
 
 // --- in-page anchor navigation ---

@@ -225,6 +225,16 @@
     .trust{gap:8px;margin-top:22px}
     .tbadge{padding:8px 14px;min-width:0;flex:1 1 30%}
   }
+  /* Three badges across a 375 px phone leave ~75 px of content per badge, and
+     the value line is 19px/900 — "6 languages", "6 Sprachen" and "Free trial"
+     do not fit, so overflow-wrap broke them mid-word ("6 langua|ges") in the
+     first thing an English, German or Spanish reader sees. Two per row gives
+     each value ~127 px, which fits every language's badge, and the third badge
+     takes the second row on its own. */
+  @media(max-width:430px){
+    .tbadge{flex:1 1 44%}
+    .tbadge b{font-size:18px;overflow-wrap:normal}
+  }
   .caption{margin:26px auto 0;max-width:420px;min-height:54px;background:rgba(22,25,30,.8);border:1px solid var(--line);border-radius:14px;padding:14px 18px;
     font-size:15px;color:#dfe3e7;text-align:left;display:flex;align-items:center;gap:10px;backdrop-filter:blur(8px)}
   .caption .mic{color:var(--green);font-size:18px;flex-shrink:0}
@@ -314,7 +324,10 @@
   @media(max-width:900px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media(max-width:560px){.tiles{grid-template-columns:minmax(0,1fr)}}
   .tile{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:22px}
-  .tile h4{font-size:17px;font-weight:800;display:flex;align-items:center;flex-wrap:wrap;gap:4px}
+  /* h3, not h4: #after and #faq sit directly under their section's h2, so an
+     h4 here skipped a level and the tiles fell out of the heading outline.
+     Nothing nests inside a tile, so h3 is the honest level. Size unchanged. */
+  .tile h3{font-size:17px;font-weight:800;display:flex;align-items:center;flex-wrap:wrap;gap:4px}
   .tile p{color:var(--dim);font-size:14px;margin-top:8px}
   .honest{margin-top:26px;color:var(--dim2);font-size:14px;max-width:700px}
   .honest b{color:var(--dim)}
@@ -399,7 +412,12 @@
   .want input{margin-top:5px;flex:none}
   .signup form{display:flex;gap:12px;max-width:480px;margin:22px auto 0;flex-wrap:wrap;justify-content:center}
   .signup input[type=email]{flex:1;min-width:220px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px 18px;color:var(--text);font-size:16px}
-  .signup input[type=email]:focus{outline:none;border-color:var(--green)}
+  /* :focus-visible only. The old `:focus{outline:none}` had specificity (0,2,1)
+     and beat the global :focus-visible outline (0,1,0), so the page's one
+     conversion control lost its keyboard focus ring. Mouse focus still gets the
+     green border and no ring; keyboard focus keeps the ring. */
+  .signup input[type=email]:focus{border-color:var(--green)}
+  .signup input[type=email]:focus:not(:focus-visible){outline:none}
   .consent{margin-top:18px;font-size:13px;color:var(--dim2);max-width:520px;margin-left:auto;margin-right:auto;text-align:left;line-height:1.7}
   .consent label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;margin-top:8px}
   .consent input{margin-top:4px}
@@ -413,7 +431,12 @@
   .sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;padding:10px 16px calc(10px + env(safe-area-inset-bottom));
     background:rgba(0,0,0,.82);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
   .sticky-cta a{display:block;text-align:center}
-  @media(max-width:820px){.sticky-cta{display:block} footer{padding-bottom:96px}}
+  /* Hidden until the script says otherwise: at scrollY=0 the hero's own CTA is
+     on screen, so the bar used to repeat the same words in the same colour
+     250px below it and take 64px of a 812px phone for nothing. The observer
+     below shows it only while BOTH the hero CTA and #beta are off screen; with
+     no JS it never appears and never covers the hero. */
+  @media(max-width:820px){.sticky-cta.armed{display:block} footer{padding-bottom:96px}}
 
   @media(prefers-reduced-motion:reduce){
     .reveal{opacity:1!important;transform:none!important;transition:none}
@@ -501,7 +524,7 @@
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"ko","url":"https://runvis.app/","description":"러닝 시계를 하나 더 살 필요 없어요. 애플워치가 기록한 수면과 심박을 읽고 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다. 계정도 서버도 없습니다.","offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time","eligibleRegion":{"@type":"Country","name":"KR"}}]}
 </script>
 <script id="faqld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"워치가 없어도 되나요?","acceptedAnswer":{"@type":"Answer","text":"아이폰만으로 GPS 기록과 1km(마일 설정이면 1마일)마다 구간 페이스 안내가 됩니다. 구독 없이 아이폰만 들고 달릴 때 나오는 음성은 이 스플릿 하나뿐이고, 심박존·목표 페이스 안내는 구독하면 아이폰에서도 나옵니다. 자세 코칭·언덕 예고·경로 이탈 경보는 워치 러닝에만 있습니다."}},{"@type":"Question","name":"어떤 애플워치가 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"심박과 GPS가 있는 모델이면 됩니다. 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 촘촘해지고, 못 재는 모델에서는 케이던스 기준으로 동작합니다."}},{"@type":"Question","name":"해지하면 기록은 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 Apple 건강에 남아 그대로입니다. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 씁니다."}},{"@type":"Question","name":"데이터는 어디로 가나요?","acceptedAnswer":{"@type":"Answer","text":"계정도 서버도 없습니다. 날씨와 동네 이름, 코스 자동 생성을 조회할 때만 위치가 나갑니다. 이 밖에 App Store 결제 처리와 공개 코스·신발 목록 파일 내려받기가 있고, 신발 화면에서 사용자가 직접 누를 때만 외부 러닝화 검색 페이지가 열립니다. 운동과 건강 데이터는 업로드하지 않습니다."}},{"@type":"Question","name":"6개 언어 음성은 어디까지 되나요?","acceptedAnswer":{"@type":"Answer","text":"코치가 소리 내어 말하는 문장은 여섯 언어로 번역돼 있습니다. 테스트가 실제로 붙잡고 있는 범위는 이렇습니다 — 네 개의 번역표는 키 집합도 자리표시자 번호도 서로 정확히 일치해야 하고, 표에 적힌 모든 줄이 실제 조회 경로로 닿아야 하며, 아이폰 코치는 45분짜리 러닝을 여섯 언어 × 미터·마일 두 설정으로 초 단위 재생해 그 러닝에서 나온 큐가 전부 번역돼 있는지 검사합니다. 하나라도 어긋나면 그 자리에서 실패합니다. 숫자가 들어가는 안내도 언어마다 그 언어의 어순으로 말합니다(스플릿, 언덕 예고, 페이스, 심박존, 훈련 스텝 포함). 워치의 실시간 코칭 루프는 이 테스트 번들 밖에 있어서, 아직 표에 없는 문장이 남아 있을 수 있습니다 — 그럴 때는 한국어가 아니라 영어로 나옵니다. 그것도 테스트로 고정돼 있습니다. 이 보증은 코치 음성에 한한 것이고, 앱 화면에 적히는 문구는 다른 번역표를 씁니다."}},{"@type":"Question","name":"기록이 하나도 없어도 쓸 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"됩니다. 워치에서 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 만들어집니다 — 이 측정은 워치 전용입니다. 아이폰만 있으면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기가 되고 플랜의 시작 지점은 최근 주간 거리로 잡습니다. 준비도는 워치를 차고 잔 밤이 기준선에 쌓여야 해서 보통 2주쯤, ACWR은 4주쯤 걸립니다. 퍼포먼스 컨디션은 최대심박을 설정한 뒤 심박이 기록된 10분 넘는 러닝을 같은 강도대(이지·중간·고강도)로 3회 채우면 나옵니다."}},{"@type":"Question","name":"첫 달 무료는 누가 받나요?","acceptedAnswer":{"@type":"Answer","text":"App Store가 이 구독의 체험을 아직 쓰지 않았다고 판단하는 계정만 받습니다. 전에 같은 구독을 썼거나 체험을 이미 소진한 계정은 첫 결제부터 바로 청구됩니다. 앱의 구매 화면이 지금 어느 쪽인지 사기 전에 항상 알려줍니다. 체험 기간은 월간·연간 모두 한 달입니다 — 연간을 골라도 무료 구간은 한 달이고, 그 뒤 1년 요금이 한 번에 청구됩니다."}},{"@type":"Question","name":"평생 이용권과 연간 중 뭐가 유리한가요?","acceptedAnswer":{"@type":"Answer","text":"평생 이용권은 자동 갱신이 없는 1회 구매입니다. 가격 카드의 계산대로 연간 기준 약 2.6년, 월간 기준 약 20개월이면 본전이니 그보다 오래 쓸 생각이면 평생 쪽이 쌉니다. Apple 가족 공유가 되는 요금제도 이것 하나뿐입니다 — 월간·연간 구독은 대상이 아닙니다."}},{"@type":"Question","name":"기기를 바꾸면 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"러닝 기록 자체는 Apple 건강에 저장돼 있어 새 기기의 건강 앱이 그대로 가져옵니다. 런비스 안에만 있던 값 — 프로필, 심박존, 신발 목록, 코치가 만든 기준선 — 은 설정 → 데이터 → '내 데이터 내보내기'로 파일 하나에 담아 빼내고, 새 기기에서 '백업에서 가져오기'로 되돌립니다. 파일은 사용자가 저장하는 곳에만 남고 런비스가 어디로도 보내지 않습니다. 구독은 App Store의 구매 복원으로 살립니다."}},{"@type":"Question","name":"워치 페이스 컴플리케이션이나 위젯이 있나요?","acceptedAnswer":{"@type":"Answer","text":"아직 없습니다. 워치 페이스 컴플리케이션, 아이폰 홈 화면 위젯, 라이브 액티비티는 이번 버전에 들어 있지 않습니다. 넣을 계획은 있지만 날짜는 아직 정해지지 않았습니다."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"워치가 없어도 되나요?","acceptedAnswer":{"@type":"Answer","text":"아이폰만으로 GPS 기록과 1km(마일 설정이면 1마일)마다 구간 페이스 안내가 됩니다. 구독 없이 아이폰만 들고 달릴 때 나오는 음성은 이 스플릿 하나뿐이고, 심박존·목표 페이스 안내는 구독하면 아이폰에서도 나옵니다. 자세 코칭·언덕 예고·경로 이탈 경보는 워치 러닝에만 있습니다."}},{"@type":"Question","name":"어떤 애플워치가 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"심박과 GPS가 있는 모델이면 됩니다. 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 촘촘해지고, 못 재는 모델에서는 케이던스 기준으로 동작합니다."}},{"@type":"Question","name":"해지하면 기록은 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 Apple 건강에 남아 그대로입니다. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 씁니다."}},{"@type":"Question","name":"데이터는 어디로 가나요?","acceptedAnswer":{"@type":"Answer","text":"계정도 서버도 없습니다. 날씨와 동네 이름, 코스 자동 생성을 조회할 때만 위치가 나갑니다. 이 밖에 App Store 결제 처리와 공개 코스·신발 목록 파일 내려받기가 있고, 신발 화면에서 사용자가 직접 누를 때만 외부 러닝화 검색 페이지가 열립니다. 운동과 건강 데이터는 업로드하지 않습니다."}},{"@type":"Question","name":"6개 언어 음성은 어디까지 되나요?","acceptedAnswer":{"@type":"Answer","text":"코치가 소리 내어 말하는 문장은 여섯 언어로 번역돼 있습니다. 아직 표에 닿지 않은 문장이 남아 있으면 한국어가 아니라 영어로 나오고, 그 폴백도 테스트로 고정돼 있습니다. 이 보증은 코치 음성에 한한 것이고, 앱 화면에 적히는 문구는 다른 번역표를 씁니다."}},{"@type":"Question","name":"기록이 하나도 없어도 쓸 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"됩니다. 워치에서 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 만들어집니다. 이 측정은 워치 전용입니다. 아이폰만 있으면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기가 되고 플랜의 시작 지점은 최근 주간 거리로 잡습니다. 준비도는 워치를 차고 잔 밤이 기준선에 쌓여야 해서 보통 2주쯤, ACWR은 4주쯤 걸립니다. 퍼포먼스 컨디션은 최대심박을 설정한 뒤 심박이 기록된 10분 넘는 러닝을 같은 강도대(이지·중간·고강도)로 3회 채우면 나옵니다."}},{"@type":"Question","name":"무료 체험은 누가 받나요?","acceptedAnswer":{"@type":"Answer","text":"App Store가 이 구독의 체험을 아직 쓰지 않았다고 판단하는 계정만 받습니다. 전에 같은 구독을 썼거나 체험을 이미 소진한 계정은 첫 결제부터 바로 청구됩니다. 앱의 구매 화면이 지금 어느 쪽인지 사기 전에 항상 알려줍니다. 무료 기간의 길이도 App Store가 상품에 실어 내려보내는 값이라, 앱이 받은 그대로 구매 직전에 표시합니다. 연간을 골랐다면 그 무료 기간이 끝난 뒤 1년 요금이 한 번에 청구됩니다."}},{"@type":"Question","name":"평생 이용권과 연간 중 뭐가 유리한가요?","acceptedAnswer":{"@type":"Answer","text":"평생 이용권은 자동 갱신이 없는 1회 구매입니다. 가격 카드의 계산대로 연간 기준 약 2.6년, 월간 기준 약 20개월이면 본전이니 그보다 오래 쓸 생각이면 평생 쪽이 쌉니다. Apple 가족 공유가 되는 요금제도 이것 하나뿐입니다. 월간·연간 구독은 대상이 아닙니다."}},{"@type":"Question","name":"기기를 바꾸면 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"러닝 기록 자체는 Apple 건강에 저장돼 있어 새 기기의 건강 앱이 그대로 가져옵니다. 런비스 안에만 있던 값(프로필, 심박존, 신발 목록, 코치가 만든 기준선)은 설정 → 데이터 → '내 데이터 내보내기'로 파일 하나에 담아 빼내고, 새 기기에서 '백업에서 가져오기'로 되돌립니다. 파일은 사용자가 저장하는 곳에만 남고 런비스가 어디로도 보내지 않습니다. 구독은 App Store의 구매 복원으로 살립니다."}},{"@type":"Question","name":"워치 페이스 컴플리케이션이나 위젯이 있나요?","acceptedAnswer":{"@type":"Answer","text":"아직 없습니다. 워치 페이스 컴플리케이션, 아이폰 홈 화면 위젯, 라이브 액티비티는 이번 버전에 들어 있지 않습니다. 넣을 계획은 있지만 날짜는 아직 정해지지 않았습니다."}}]}
 </script>
 </head>
 <body>
@@ -551,7 +574,7 @@
 <script>(function(){var h=window.RunvisCritical; if(!h) return;
   for(var k in h){ var e=document.querySelector('[data-i18n="'+k+'"]'); if(e) e.innerHTML=h[k]; }
 })();</script>
-<p class="note" data-i18n="n.hero.note">기록은 무료. 코치는 월 ₩1,900이고, App Store가 체험 대상으로 판단하는 계정은 첫 기간이 무료입니다 — 어느 쪽인지 앱이 사기 전에 알려줍니다.</p>
+<p class="note" data-i18n="n.hero.note">기록은 무료. 코치는 월 ₩1,900이고, App Store가 체험 대상으로 판단하는 계정은 첫 기간이 무료입니다. 어느 쪽인지는 앱이 사기 전에 알려줍니다.</p>
 <div class="trust">
 <div class="tbadge"><b>100%</b><span data-i18n="n.hero.b1">기기 안에서 계산</span></div>
 <div class="tbadge"><b data-i18n="n.hero.b3n">6개 언어</b><span data-i18n="n.hero.b3">음성 코칭</span></div>
@@ -562,7 +585,7 @@
      price ribbon and the card's own link all land on the same sentence. The
      app shows the trial line only when StoreKit reports the account eligible,
      so the page must not promise it flatly. -->
-<a class="tbadge" href="#faq"><b data-i18n="n.hero.b4n">체험 가능</b><span data-i18n="n.hero.b4">대상 계정이면 첫 달 무료</span></a>
+<a class="tbadge" href="#faq"><b data-i18n="n.hero.b4n">체험 가능</b><span data-i18n="n.hero.b4">대상 계정이면 첫 기간 무료</span></a>
 </div>
 <!-- Also not .reveal: the phone bezel below is the LCP element, and an element
      sitting at opacity 0 does not count as painted, so keeping the reveal here
@@ -586,7 +609,10 @@
      #today and used to be repeated here, so the first scroll rewound instead of
      moving on; the two duplicates are gone and the phone above already carries
      the morning decision. Only the visible frame is fetched eagerly. -->
-<div class="watch-stack" id="watchStack">
+<!-- The three frames swap on a timer with nothing but a CSS class, so assistive
+     tech met three images and no way to tell which one is on screen. The group
+     names itself, and the rotation below moves aria-current with .on. -->
+<div class="watch-stack" id="watchStack" role="group" data-i18n-attr="aria-label:a11y.watchstack" aria-label="러닝 중 애플워치 화면 3장이 번갈아 나옵니다">
 <img alt="Apple Watch Ultra — Runvis 러닝 중 현재 페이스 5:12/km, 평균·속도·GAP·경사" data-i18n-attr="alt:alt.watch.pace" class="on" src="assets/framed-watch-pace.png" data-shot="framed-watch-pace" width="480" height="768" fetchpriority="high" decoding="sync"/>
 <img alt="Apple Watch Ultra — Runvis 심박존 아크: 135bpm, 존 2" data-i18n-attr="alt:alt.watch.zone" src="assets/framed-watch-hr.png" data-shot="framed-watch-hr" width="480" height="768" fetchpriority="low" decoding="async"/>
 <img alt="Apple Watch Ultra — Runvis 러닝 중 실시간 GPS 지도와 거리·시간·페이스" data-i18n-attr="alt:alt.watch.map" src="assets/framed-watch-map.png" data-shot="framed-watch-map" width="480" height="768" fetchpriority="low" decoding="async"/>
@@ -601,10 +627,10 @@
 </header>
 
 <!-- WHY -->
-<section id="why">
+<section id="why" aria-labelledby="why-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.why.eb">왜 런비스</div>
-<h2 class="reveal" data-i18n="n.why.h2">러닝 시계를 하나 더<br/>살 필요는 없습니다</h2>
+<h2 id="why-h" class="reveal" data-i18n="n.why.h2">러닝 시계를 하나 더<br/>살 필요는 없습니다</h2>
 <p class="sub reveal" data-i18n="n.why.sub">훈련 부하나 회복 시간 같은 지표를 보려면 전용 러닝 시계를 사야 한다고들 합니다. 그런데 계산에 필요한 센서는 애플워치에 이미 다 있습니다.</p>
 <div class="cards">
 <div class="card tilt reveal" data-tilt="8"><div class="ic">⌚️</div><h3 data-i18n="n.why.c1h">센서는 이미 손목에 있어요</h3><p data-i18n="n.why.c1p">심박, GPS, 케이던스, 고도. 최근 워치는 접지 시간과 수직 진폭도 잽니다.</p></div>
@@ -634,17 +660,17 @@
 <div class="mini reveal" style="max-width:760px;margin-top:26px">
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s1">뜻까지 설명하는 항목</small><b data-i18n="n.why.s1v">40개</b><em class="st-good" data-i18n="n.why.s1n">기기 안에서</em></div>
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s2">코치가 준비한 문장</small><b data-i18n="n.why.s2v">270개 이상</b><em class="st-good" data-i18n="n.why.s2n">6개 언어 전부</em></div>
-<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">자동 테스트</small><b data-i18n="n.why.s3v">506개</b><em class="st-good" data-i18n="n.why.s3n">빌드마다 전부</em></div>
+<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">자동 테스트</small><b data-i18n="n.why.s3v">500개 이상</b><em class="st-good" data-i18n="n.why.s3n">빌드마다 전부</em></div>
 </div>
 <p class="honest reveal" data-i18n="n.why.phone">워치가 아직 없어도 됩니다. 아이폰만으로 GPS 기록과 1km(마일 설정이면 1마일)마다 구간 페이스 안내가 됩니다 — 구독 없이 아이폰만으로 달릴 때 나오는 음성은 이 스플릿 하나입니다. 자세 코칭은 손목 센서가 필요해서 워치에서만 됩니다.</p>
 </div>
 </section>
 
 <!-- TODAY -->
-<section id="today">
+<section id="today" aria-labelledby="today-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.today.eb">오늘의 결정</div>
-<h2 class="reveal" data-i18n="n.today.h2">아침에 열면<br/>오늘 훈련이 정해져 있습니다</h2>
+<h2 id="today-h" class="reveal" data-i18n="n.today.h2">아침에 열면<br/>오늘 훈련이 정해져 있습니다</h2>
 <p class="sub reveal" data-i18n="n.today.sub">어젯밤 수면, HRV, 안정시 심박, 어제 훈련 부하를 내 28일 기준과 비교합니다. 그걸로 오늘 훈련을 고르고, 왜 그런지 한 줄로 붙입니다.</p>
 <div class="row reveal">
 <div class="frame"><img alt="iPhone 지표 상세 — 훈련 부하(CTL) 7일 추세, 내 28일 범위, 지표 설명" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="assets/framed-phone-detail.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></div>
@@ -683,10 +709,10 @@
 </section>
 
 <!-- LIVE -->
-<section id="live">
+<section id="live" aria-labelledby="live-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.live.eb">달리는 동안</div>
-<h2 class="reveal" data-i18n="n.live.h2">필요한 말만,<br/>필요한 순간에</h2>
+<h2 id="live-h" class="reveal" data-i18n="n.live.h2">필요한 말만,<br/>필요한 순간에</h2>
 <p class="sub reveal" data-i18n="n.live.sub">코치가 하는 말에는 전부 센서가 잡은 근거가 있습니다. 눌러서 실제 안내를 들어 보세요.</p>
 <div class="voice-grid reveal">
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 페이스 안내 (무료)" data-i18n-attr="aria-label:n.vc1.aria" data-say="목표보다 25초 빠릅니다"><div class="sensor" data-i18n="n.vc1.sensor">📡 목표보다 20초 이상 벗어난 상태가 20초 넘게 이어질 때</div><div class="play"><span data-i18n="n.vc1.play">페이스</span><span class="pill free" data-i18n="n.pill.free">무료</span></div><div class="line" data-i18n="n.vc1.line">"목표보다 25초 빠릅니다"</div></div>
@@ -736,18 +762,24 @@
 </section>
 
 <!-- AFTER -->
-<section id="after">
+<section id="after" aria-labelledby="after-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.after.eb">러닝 후</div>
-<h2 class="reveal" data-i18n="n.after.h2">끝나면 숫자 대신<br/>이유를 봅니다</h2>
+<h2 id="after-h" class="reveal" data-i18n="n.after.h2">끝나면 숫자 대신<br/>이유를 봅니다</h2>
 <p class="sub reveal" data-i18n="n.after.sub">스플릿, 심박 존, 러닝 다이내믹스와 한 줄 코칭은 무료입니다. 구독하면 러닝 안에서 가장 빨랐던 구간을 찾는 PR 북과 젖산 역치 추정, 이번 주 거리 예산을 봅니다.</p>
 <div class="tiles">
-<div class="tile tilt reveal" data-tilt="7"><h4><span data-i18n="n.after.t1">운동 상세 리포트</span><span class="pill free" data-i18n="n.pill.free">무료</span></h4><p data-i18n="n.after.t1p">구간별 페이스, 심박 존 분포, 케이던스와 접지 시간 평균. 그리고 이번 러닝에 대한 한 줄 코칭.</p></div>
-<div class="tile tilt reveal" data-tilt="7"><h4><span data-i18n="n.after.t2">몸 리포트</span><span class="pill free" data-i18n="n.pill.free">무료</span></h4><p data-i18n="n.after.t2p">준비도, 수면, HRV, 안정시 심박, VO₂max. 누르면 차트와 내 28일 기준 범위가 열립니다.</p></div>
-<div class="tile tilt reveal" data-tilt="7"><h4><span data-i18n="n.after.t3">구간 최속 기록 (PR 북)</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></h4><p data-i18n="n.after.t3p">완주 기록이 아니라 러닝 안에서 가장 빨랐던 1K, 5K, 10K, 하프 구간을 최근 90일에서 찾아 기록합니다. 이전 기록과 얼마나 차이 나는지도 보여줍니다.</p></div>
-<div class="tile tilt reveal" data-tilt="7"><h4><span data-i18n="n.after.t4">젖산 역치 추정</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></h4><p data-i18n="n.after.t4p">최근 90일 러닝에서 30분 최적 구간을 2회 이상 찾아 역치 페이스와 심박을 추정합니다. 최대심박을 설정해 두면 최대심박 85% 이상으로 버틴 구간만 후보가 됩니다. 30분 구간이 없으면 20분 구간, 그것도 없으면 — 이때는 최대심박 설정이 필수입니다 — 최대심박 85% 이상으로 달린 20분 이상 러닝 세 번의 전체 평균으로 추정합니다. 셋 중 어느 쪽이었는지 화면에 항상 적습니다.</p></div>
-<div class="tile tilt reveal" data-tilt="7"><h4><span data-i18n="n.after.t5">코치 브레이크</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></h4><p data-i18n="n.after.t5p">최근 4주 훈련량을 보고 이번 주에 뛰어도 되는 거리를 알려줍니다. 통증이 있다고 답하면 그 거리를 줄입니다.</p></div>
-<div class="tile tilt reveal" data-tilt="7"><h4><span data-i18n="n.after.t6">런비스 VDOT</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></h4><p data-i18n="n.after.t6p">베스트 에포트에서 역산한 VDOT로 거리별 기록을 예측합니다. 애플워치 VO₂max와 나란히 보여줍니다.</p></div>
+<div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t1">운동 상세 리포트</span><span class="pill free" data-i18n="n.pill.free">무료</span></h3><p data-i18n="n.after.t1p">구간별 페이스, 심박 존 분포, 케이던스와 접지 시간 평균. 그리고 이번 러닝에 대한 한 줄 코칭.</p></div>
+<div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t2">몸 리포트</span><span class="pill free" data-i18n="n.pill.free">무료</span></h3><p data-i18n="n.after.t2p">준비도, 수면, HRV, 안정시 심박, VO₂max. 누르면 차트와 내 28일 기준 범위가 열립니다.</p></div>
+<div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t3">코치 기록 레이더 (구간 최속 · PR 북)</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></h3><p data-i18n="n.after.t3p">완주 기록이 아니라 러닝 안에서 가장 빨랐던 1K, 5K, 10K, 하프 구간을 최근 90일에서 찾아 기록합니다. 이전 기록과 얼마나 차이 나는지도 보여줍니다.</p></div>
+<!-- The fallback chain (30 min → 20 min → three whole runs) is a spec, not
+     landing copy: five sibling tiles run one or two sentences and this one ran
+     a four-clause, three-branch conditional. Folded behind the same <details
+     class="gate"> the price card already uses for exactly this kind of text —
+     a closed <details> is still in the DOM for crawlers and for Ctrl+F. -->
+<div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t4">젖산 역치 추정</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></h3><p data-i18n="n.after.t4p">최근 90일 러닝에서 30분 최적 구간을 2회 이상 찾아 역치 페이스와 심박을 추정합니다. 최대심박을 설정해 두면 최대심박 85% 이상으로 버틴 구간만 후보가 됩니다.</p>
+<details class="gate"><summary data-i18n="n.after.t4h">30분 구간이 없으면 어떻게 되나요?</summary><p data-i18n="n.after.t4g">30분 구간이 없으면 20분 구간을 씁니다. 그것도 없으면 최대심박 85% 이상으로 달린 20분 이상 러닝 세 번의 전체 평균으로 추정하고, 이 마지막 경로는 최대심박 설정이 있어야 동작합니다. 셋 중 어느 쪽이었는지 화면에 항상 적습니다.</p></details></div>
+<div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t5">코치 브레이크</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></h3><p data-i18n="n.after.t5p">최근 4주 훈련량을 보고 이번 주에 뛰어도 되는 거리를 알려줍니다. 통증이 있다고 답하면 그 거리를 줄입니다.</p></div>
+<div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t6">런비스 VDOT</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></h3><p data-i18n="n.after.t6p">베스트 에포트에서 역산한 VDOT로 거리별 기록을 예측합니다. 애플워치 VO₂max와 나란히 보여줍니다.</p></div>
 </div>
 <p class="honest reveal" data-i18n="n.after.honest"><b>추정값에는 '추정'이라고 씁니다.</b> 근거가 부족하면 숫자 대신 "학습 중"이라고 보여줍니다. 확신할 수 없는 지표는 넣지 않았습니다.</p>
 <div class="row flip reveal">
@@ -766,10 +798,10 @@
 </section>
 
 <!-- RACE -->
-<section id="race">
+<section id="race" aria-labelledby="race-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.race.eb">대회 준비</div>
-<h2 class="reveal" data-i18n="n.race.h2">대회까지 주차별 플랜,<br/>당일엔 구간 전략</h2>
+<h2 id="race-h" class="reveal" data-i18n="n.race.h2">대회까지 주차별 플랜,<br/>당일엔 구간 전략</h2>
 <p class="sub reveal" data-i18n="n.race.sub">목표 대회와 기록을 넣으면 주차별 로드맵을 짭니다. 지금 체력으로 가능한 목표인지도 솔직하게 말합니다. 플랜을 보는 건 무료이고, 워치에서 코치가 구간마다 진행하는 건 구독입니다.</p>
 <div class="row reveal">
 <div class="frame"><img alt="iPhone 주간 훈련 플랜 화면" data-i18n-attr="alt:alt.phone.plan" loading="lazy" src="assets/framed-phone-plan.png" data-shot="framed-phone-plan" width="640" height="1308" decoding="async"/></div>
@@ -800,19 +832,19 @@
 </section>
 
 <!-- PRIVACY -->
-<section id="privacy">
+<section id="privacy" aria-labelledby="privacy-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.priv.eb">프라이버시</div>
-<div class="big reveal" data-i18n="n.priv.big">계정도, 서버도 없습니다.<br/>터널에서도 코치는 말합니다.</div>
+<h2 id="privacy-h" class="big reveal" data-i18n="n.priv.big">계정도, 서버도 없습니다.<br/>터널에서도 코치는 말합니다.</h2>
 <p class="reveal"><span data-i18n="n.priv.p">기록과 분석은 전부 워치와 아이폰 안에서 처리합니다. 날씨를 조회할 때는 약 1km 단위로 반올림한 좌표를, 동네 이름과 코스 자동 생성에는 애플 서비스에 현재 좌표를 그 순간에만 보냅니다. 이 밖에 App Store 결제 처리와 공개 코스·신발 목록 파일 내려받기가 있고, 워치와 아이폰의 신발 화면에서 사용자가 직접 누를 때만 외부 러닝화 검색 페이지가 열립니다. 이 예외를 하나도 빼지 않고 개인정보처리방침에 적어 두었습니다. 운동과 건강 데이터는 어디로도 올라가지 않습니다.</span> <a href="privacy.html" data-i18n="n.priv.link">개인정보처리방침</a></p>
 </div>
 </section>
 
 <!-- PRICE -->
-<section id="price">
+<section id="price" aria-labelledby="price-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.price.eb">가격</div>
-<h2 class="reveal" data-i18n="n.price.h2">기록은 무료,<br/>코치는 월 1,900원</h2>
+<h2 id="price-h" class="reveal" data-i18n="n.price.h2">기록은 무료,<br/>코치는 월 1,900원</h2>
 <p class="sub reveal" data-i18n="n.price.sub">기록과 플랜 보기, 리포트는 무료입니다. 코치가 직접 말하고 분석하는 건 구독이고, App Store가 체험 대상으로 판단하는 계정은 첫 기간을 무료로 써볼 수 있습니다.</p>
 <div class="price">
 <div class="plan tilt reveal" data-tilt="5">
@@ -833,7 +865,7 @@
 <a class="btn ghost" href="run.html" style="margin-top:18px" data-i18n="n.price.freecta">무료로 어디까지 되는지 5km 데모에서 보기</a>
 </div>
 <div class="plan pro tilt reveal" data-tilt="5">
-<span class="ribbon" data-i18n="pl.ribbon">체험 대상 계정이면 첫 달 무료</span>
+<span class="ribbon" data-i18n="pl.ribbon">체험 대상 계정이면 첫 기간 무료</span>
 <div class="name" data-i18n="pl.coach">런비스 코치</div>
 <!-- The ribbon used to promise the trial in the indicative ("첫 구독이면 무료
      체험") while the app only prints that line when StoreKit reports
@@ -842,8 +874,8 @@
 <a class="terms-link" href="#faq" data-i18n="pl.terms">누가 대상인가요?</a>
 <div class="amt"><span data-i18n="pr.month">₩1,900</span><small data-i18n="t144">/ 월</small></div>
 <div class="amt-approx" data-i18n="pr.approx">대한민국 App Store 가격입니다. 다른 지역에서는 그 지역 App Store의 현지 통화 가격이 적용됩니다.</div>
-<div class="amt-year" data-i18n="n.price.year">연간은 <b>₩15,000</b>. 월 1,250원꼴로 약 34% 저렴합니다. 체험 대상 계정이면 연간도 첫 <b>한 달</b>이 무료이고, 그 뒤 1년 요금이 한 번에 청구됩니다.</div>
-<div class="amt-year" data-i18n="n.price.life">구독 대신 <b>평생 이용권 ₩39,000</b>. 출시 기념가이고 <b>출시 3개월 뒤 인상될 예정</b>입니다 — 인상은 그 뒤의 신규 구매에만 적용됩니다. 연간 ₩15,000으로 치면 약 2.6년, 월 ₩1,900으로 치면 약 20개월이면 본전입니다. Apple 가족 공유가 되는 요금제는 이것뿐입니다.</div>
+<div class="amt-year" data-i18n="n.price.year">연간은 <b>₩15,000</b>. 대한민국 App Store 기준으로 월 1,250원꼴, 월간보다 약 34% 저렴합니다. 다른 지역은 가격대가 달라 이 비율도 달라질 수 있어서, 실제 절약률은 앱의 구매 화면이 그 자리의 두 가격으로 계산해 보여줍니다. 체험 대상 계정이면 연간도 첫 기간이 무료이고, 그 뒤 1년 요금이 한 번에 청구됩니다.</div>
+<div class="amt-year" data-i18n="n.price.life">구독 대신 <b>평생 이용권 ₩39,000</b>. 출시 기념 가격이고, 가격이 오르더라도 이미 구매한 분께는 적용되지 않습니다. 대한민국 App Store 가격으로 치면 연간 ₩15,000 기준 약 2.6년, 월 ₩1,900 기준 약 20개월이면 본전입니다. Apple 가족 공유가 되는 요금제는 이것뿐입니다.</div>
 <ul>
 <li data-i18n="n.price.p1">달리는 중 코치 음성 — 자세, 언덕 주행법, 회복, 격려</li>
 <li data-i18n="n.price.p2">플랜 실행: 구간마다 진행하고 끝나면 계획 대비 점수</li>
@@ -875,34 +907,40 @@
 </section>
 
 <!-- FAQ -->
-<section id="faq">
+<section id="faq" aria-labelledby="faq-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.faq.eb">자주 묻는 것</div>
-<h2 class="reveal" data-i18n="n.faq.h2">먼저 궁금해할 것들</h2>
+<h2 id="faq-h" class="reveal" data-i18n="n.faq.h2">먼저 궁금해할 것들</h2>
 <div class="tiles">
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q1">워치가 없어도 되나요?</h4><p data-i18n="n.faq.a1">아이폰만으로 GPS 기록과 1km(마일 설정이면 1마일)마다 구간 페이스 안내가 됩니다. 구독 없이 아이폰만 들고 달릴 때 나오는 음성은 이 스플릿 하나뿐이고, 심박존·목표 페이스 안내는 구독하면 아이폰에서도 나옵니다. 자세 코칭·언덕 예고·경로 이탈 경보는 워치 러닝에만 있습니다.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q2">어떤 애플워치가 필요한가요?</h4><p data-i18n="n.faq.a2">심박과 GPS가 있는 모델이면 됩니다. 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 촘촘해지고, 못 재는 모델에서는 케이던스 기준으로 동작합니다.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q3">해지하면 기록은 어떻게 되나요?</h4><p data-i18n="n.faq.a3">기록은 Apple 건강에 남아 그대로입니다. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 씁니다.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q4">데이터는 어디로 가나요?</h4><p data-i18n="n.faq.a4">계정도 서버도 없습니다. 날씨와 동네 이름, 코스 자동 생성을 조회할 때만 위치가 나갑니다. 이 밖에 App Store 결제 처리와 공개 코스·신발 목록 파일 내려받기가 있고, 신발 화면에서 사용자가 직접 누를 때만 외부 러닝화 검색 페이지가 열립니다. 운동과 건강 데이터는 업로드하지 않습니다.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q5">6개 언어 음성은 어디까지 되나요?</h4><p data-i18n="n.faq.a5">코치가 소리 내어 말하는 문장은 여섯 언어로 번역돼 있습니다. 테스트가 실제로 붙잡고 있는 범위는 이렇습니다 — 네 개의 번역표는 키 집합도 자리표시자 번호도 서로 정확히 일치해야 하고, 표에 적힌 모든 줄이 실제 조회 경로로 닿아야 하며, 아이폰 코치는 45분짜리 러닝을 여섯 언어 × 미터·마일 두 설정으로 초 단위 재생해 그 러닝에서 나온 큐가 전부 번역돼 있는지 검사합니다. 하나라도 어긋나면 그 자리에서 실패합니다. 숫자가 들어가는 안내도 언어마다 그 언어의 어순으로 말합니다(스플릿, 언덕 예고, 페이스, 심박존, 훈련 스텝 포함). 워치의 실시간 코칭 루프는 이 테스트 번들 밖에 있어서, 아직 표에 없는 문장이 남아 있을 수 있습니다 — 그럴 때는 한국어가 아니라 영어로 나옵니다. 그것도 테스트로 고정돼 있습니다. 이 보증은 코치 음성에 한한 것이고, 앱 화면에 적히는 문구는 다른 번역표를 씁니다.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q6">기록이 하나도 없어도 쓸 수 있나요?</h4><p data-i18n="n.faq.a6">됩니다. 워치에서 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 만들어집니다 — 이 측정은 워치 전용입니다. 아이폰만 있으면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기가 되고 플랜의 시작 지점은 최근 주간 거리로 잡습니다. 준비도는 워치를 차고 잔 밤이 기준선에 쌓여야 해서 보통 2주쯤, ACWR은 4주쯤 걸립니다. 퍼포먼스 컨디션은 최대심박을 설정한 뒤 심박이 기록된 10분 넘는 러닝을 같은 강도대(이지·중간·고강도)로 3회 채우면 나옵니다.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q7">첫 달 무료는 누가 받나요?</h4><p data-i18n="n.faq.a7">App Store가 이 구독의 체험을 아직 쓰지 않았다고 판단하는 계정만 받습니다. 전에 같은 구독을 썼거나 체험을 이미 소진한 계정은 첫 결제부터 바로 청구됩니다. 앱의 구매 화면이 지금 어느 쪽인지 사기 전에 항상 알려줍니다. 체험 기간은 월간·연간 모두 한 달입니다 — 연간을 골라도 무료 구간은 한 달이고, 그 뒤 1년 요금이 한 번에 청구됩니다.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q8">평생 이용권과 연간 중 뭐가 유리한가요?</h4><p data-i18n="n.faq.a8">평생 이용권은 자동 갱신이 없는 1회 구매입니다. 가격 카드의 계산대로 연간 기준 약 2.6년, 월간 기준 약 20개월이면 본전이니 그보다 오래 쓸 생각이면 평생 쪽이 쌉니다. Apple 가족 공유가 되는 요금제도 이것 하나뿐입니다 — 월간·연간 구독은 대상이 아닙니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q1">워치가 없어도 되나요?</h3><p data-i18n="n.faq.a1">아이폰만으로 GPS 기록과 1km(마일 설정이면 1마일)마다 구간 페이스 안내가 됩니다. 구독 없이 아이폰만 들고 달릴 때 나오는 음성은 이 스플릿 하나뿐이고, 심박존·목표 페이스 안내는 구독하면 아이폰에서도 나옵니다. 자세 코칭·언덕 예고·경로 이탈 경보는 워치 러닝에만 있습니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q2">어떤 애플워치가 필요한가요?</h3><p data-i18n="n.faq.a2">심박과 GPS가 있는 모델이면 됩니다. 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 촘촘해지고, 못 재는 모델에서는 케이던스 기준으로 동작합니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q3">해지하면 기록은 어떻게 되나요?</h3><p data-i18n="n.faq.a3">기록은 Apple 건강에 남아 그대로입니다. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 씁니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q4">데이터는 어디로 가나요?</h3><p data-i18n="n.faq.a4">계정도 서버도 없습니다. 날씨와 동네 이름, 코스 자동 생성을 조회할 때만 위치가 나갑니다. 이 밖에 App Store 결제 처리와 공개 코스·신발 목록 파일 내려받기가 있고, 신발 화면에서 사용자가 직접 누를 때만 외부 러닝화 검색 페이지가 열립니다. 운동과 건강 데이터는 업로드하지 않습니다.</p></div>
+<!-- The test-harness description is a spec sheet, not an answer: it ran past
+     350 characters inside a landing tile. The answer keeps the two sentences a
+     reader came for (six languages; English, never Korean, when a line is
+     missing) and the harness folds into the same <details class="gate"> the
+     price card uses. The FAQ JSON-LD now carries the short answer. -->
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q5">6개 언어 음성은 어디까지 되나요?</h3><p data-i18n="n.faq.a5">코치가 소리 내어 말하는 문장은 여섯 언어로 번역돼 있습니다. 아직 표에 닿지 않은 문장이 남아 있으면 한국어가 아니라 영어로 나오고, 그 폴백도 테스트로 고정돼 있습니다. 이 보증은 코치 음성에 한한 것이고, 앱 화면에 적히는 문구는 다른 번역표를 씁니다.</p>
+<details class="gate"><summary data-i18n="n.faq.a5h">테스트는 어디까지 붙잡고 있나요?</summary><p data-i18n="n.faq.a5g">네 개의 번역표는 키 집합도 자리표시자 번호도 서로 정확히 일치해야 하고, 표에 적힌 모든 줄이 실제 조회 경로로 닿아야 합니다. 아이폰 코치는 45분짜리 러닝을 여섯 언어 × 미터·마일 두 설정으로 초 단위 재생해 그 러닝에서 나온 큐가 전부 번역돼 있는지 검사하고, 하나라도 어긋나면 그 자리에서 실패합니다. 숫자가 들어가는 안내도 언어마다 그 언어의 어순으로 말합니다(스플릿, 언덕 예고, 페이스, 심박존, 훈련 스텝 포함). 워치의 실시간 코칭 루프는 이 테스트 번들 밖에 있어서, 아직 표에 없는 문장이 남아 있을 수 있습니다.</p></details></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q6">기록이 하나도 없어도 쓸 수 있나요?</h3><p data-i18n="n.faq.a6">됩니다. 워치에서 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 만들어집니다. 이 측정은 워치 전용입니다. 아이폰만 있으면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기가 되고 플랜의 시작 지점은 최근 주간 거리로 잡습니다. 준비도는 워치를 차고 잔 밤이 기준선에 쌓여야 해서 보통 2주쯤, ACWR은 4주쯤 걸립니다. 퍼포먼스 컨디션은 최대심박을 설정한 뒤 심박이 기록된 10분 넘는 러닝을 같은 강도대(이지·중간·고강도)로 3회 채우면 나옵니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q7">무료 체험은 누가 받나요?</h3><p data-i18n="n.faq.a7">App Store가 이 구독의 체험을 아직 쓰지 않았다고 판단하는 계정만 받습니다. 전에 같은 구독을 썼거나 체험을 이미 소진한 계정은 첫 결제부터 바로 청구됩니다. 앱의 구매 화면이 지금 어느 쪽인지 사기 전에 항상 알려줍니다. 무료 기간의 길이도 App Store가 상품에 실어 내려보내는 값이라, 앱이 받은 그대로 구매 직전에 표시합니다. 연간을 골랐다면 그 무료 기간이 끝난 뒤 1년 요금이 한 번에 청구됩니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q8">평생 이용권과 연간 중 뭐가 유리한가요?</h3><p data-i18n="n.faq.a8">평생 이용권은 자동 갱신이 없는 1회 구매입니다. 가격 카드의 계산대로 연간 기준 약 2.6년, 월간 기준 약 20개월이면 본전이니 그보다 오래 쓸 생각이면 평생 쪽이 쌉니다. Apple 가족 공유가 되는 요금제도 이것 하나뿐입니다. 월간·연간 구독은 대상이 아닙니다.</p></div>
 <!-- Two questions the page had been leaving to the download: there is no
      iCloud sync (no paid developer account), and there is no complication,
      widget or Live Activity in this build (0 WidgetKit/ActivityKit imports in
      the repo). Both are better answered before the install than after. -->
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q9">기기를 바꾸면 어떻게 되나요?</h4><p data-i18n="n.faq.a9">러닝 기록 자체는 Apple 건강에 저장돼 있어 새 기기의 건강 앱이 그대로 가져옵니다. 런비스 안에만 있던 값 — 프로필, 심박존, 신발 목록, 코치가 만든 기준선 — 은 설정 → 데이터 → '내 데이터 내보내기'로 파일 하나에 담아 빼내고, 새 기기에서 '백업에서 가져오기'로 되돌립니다. 파일은 사용자가 저장하는 곳에만 남고 런비스가 어디로도 보내지 않습니다. 구독은 App Store의 구매 복원으로 살립니다.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q10">워치 페이스 컴플리케이션이나 위젯이 있나요?</h4><p data-i18n="n.faq.a10">아직 없습니다. 워치 페이스 컴플리케이션, 아이폰 홈 화면 위젯, 라이브 액티비티는 이번 버전에 들어 있지 않습니다. 넣을 계획은 있지만 날짜는 아직 정해지지 않았습니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q9">기기를 바꾸면 어떻게 되나요?</h3><p data-i18n="n.faq.a9">러닝 기록 자체는 Apple 건강에 저장돼 있어 새 기기의 건강 앱이 그대로 가져옵니다. 런비스 안에만 있던 값(프로필, 심박존, 신발 목록, 코치가 만든 기준선)은 설정 → 데이터 → '내 데이터 내보내기'로 파일 하나에 담아 빼내고, 새 기기에서 '백업에서 가져오기'로 되돌립니다. 파일은 사용자가 저장하는 곳에만 남고 런비스가 어디로도 보내지 않습니다. 구독은 App Store의 구매 복원으로 살립니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q10">워치 페이스 컴플리케이션이나 위젯이 있나요?</h3><p data-i18n="n.faq.a10">아직 없습니다. 워치 페이스 컴플리케이션, 아이폰 홈 화면 위젯, 라이브 액티비티는 이번 버전에 들어 있지 않습니다. 넣을 계획은 있지만 날짜는 아직 정해지지 않았습니다.</p></div>
 </div>
 </div>
 </section>
 
 <!-- BETA -->
-<section id="beta">
+<section id="beta" aria-labelledby="beta-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.beta.eb">베타 신청</div>
-<h2 class="reveal" data-i18n="n.beta.h2">베타로 먼저 써 보세요</h2>
+<h2 id="beta-h" class="reveal" data-i18n="n.beta.h2">베타로 먼저 써 보세요</h2>
 <!-- Trust block. The page had no signal that was not a self-description: no
      reviews, no press, no ratings — an unshipped app cannot have them. Rather
      than invent a number, every line below is counted straight out of the app
@@ -918,16 +956,16 @@
      then fails if the six dictionaries and that file disagree. This block has
      now gone stale three rounds running because it was maintained by hand. -->
 <div class="proof reveal">
-<h3 data-i18n="n.trust.h">후기는 아직 없습니다 — 대신 지금 확인되는 것</h3>
+<h3 data-i18n="n.trust.h">후기는 아직 없습니다. 대신 지금 확인되는 것</h3>
 <ul>
-<li data-i18n="n.trust.l1">자동 테스트 506개 — 코치가 말하는 문장, 무료·유료 경계, 플랜 계산을 빌드할 때마다 검사합니다.</li>
-<li data-i18n="n.trust.l2">화면 문구 2,162개가 여섯 언어 표에서 키까지 똑같고, 코치 음성 번역표 넷은 각각 396개입니다. 하나라도 어긋나면 테스트가 그 자리에서 실패합니다.</li>
-<li data-i18n="n.trust.l3">지표 설명 40개가 앱 안에 들어 있습니다 — 모르는 숫자를 누르면 뜻과 계산 근거, 내 평소 범위가 나옵니다.</li>
+<li data-i18n="n.trust.l1">자동 테스트 500개 이상이 코치가 말하는 문장, 무료·유료 경계, 플랜 계산을 빌드할 때마다 검사합니다.</li>
+<li data-i18n="n.trust.l2">화면 문구 2,100개 이상이 여섯 언어 표에서 키까지 똑같고, 코치 음성 번역표 넷은 각각 396개입니다. 하나라도 어긋나면 테스트가 그 자리에서 실패합니다.</li>
+<li data-i18n="n.trust.l3">지표 설명 40개가 앱 안에 들어 있습니다. 모르는 숫자를 누르면 뜻과 계산 근거, 내 평소 범위가 나옵니다.</li>
 </ul>
-<p data-i18n="n.trust.p">혼자 만드는 앱입니다. 별점도, 언론 언급도 아직 없습니다 — 출시 전이니까요. 그래서 지어낼 수 있는 숫자 대신, 앱 저장소에서 그대로 세어 나오는 것만 적었습니다. 더 궁금한 게 있으면 help@runvis.app 으로 바로 물어보세요. 답은 제가 씁니다.</p>
+<p data-i18n="n.trust.p">혼자 만드는 앱입니다. 별점도, 언론 언급도 아직 없습니다. 출시 전이니까요. 그래서 지어낼 수 있는 숫자 대신, 앱 저장소에서 그대로 세어 나오는 것만 적었습니다. 더 궁금한 게 있으면 help@runvis.app 으로 바로 물어보세요. 답은 제가 씁니다.</p>
 </div>
 <div class="signup reveal">
-<p class="sub" data-i18n="n.beta.sub" style="margin:0 auto">이메일을 남기면 TestFlight 베타가 열릴 때 초대장을 한 통 보내드립니다. 여는 날짜는 아직 정해지지 않았습니다 — 정해지는 날 이 자리에 적고, 이미 신청하신 주소로도 같이 보냅니다.</p>
+<p class="sub" data-i18n="n.beta.sub" style="margin:0 auto">이메일을 남기면 TestFlight 베타가 열릴 때 초대장을 한 통 보내드립니다. 초대는 신청하신 순서대로 나갑니다. 여는 날짜는 아직 정해지지 않았습니다. 정해지는 날 이 자리에 적고, 이미 신청하신 주소로도 같이 보냅니다.</p>
 <form action="https://formspree.io/f/xnjeyalr" id="betaForm" method="POST">
 <input name="email" placeholder="이메일 주소" data-i18n-attr="placeholder:ph.email" required="" type="email"/>
 <!-- The binding STAYS, so the prerendered copies and a no-JS reader get this
@@ -1169,9 +1207,14 @@ window.renderDynamicI18n=heroRestart;
 // --- hero watch screen rotation ---
 (() => {
   const slides = document.querySelectorAll('#watchStack img');
+  if (!slides.length) return;
+  // aria-current says which frame is the visible one; without it a screen
+  // reader read all three alt texts as if all three were on screen.
+  const mark = n => slides.forEach((s, k) => k === n ? s.setAttribute('aria-current', 'true') : s.removeAttribute('aria-current'));
+  mark(0);
   if (slides.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   let i = 0;
-  setInterval(() => { slides[i].classList.remove('on'); i = (i + 1) % slides.length; slides[i].classList.add('on'); }, 3800);
+  setInterval(() => { slides[i].classList.remove('on'); i = (i + 1) % slides.length; slides[i].classList.add('on'); mark(i); }, 3800);
 })();
 
 // --- voice playback (Web Speech API, follows the selected language) ---
@@ -1312,11 +1355,23 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
   // The form never navigates, so this line is the only feedback there is.
   // It is a live region: empty it first so an identical repeat message is
   // still announced, and make it visible before the text lands.
+  // On failure the page used to end the conversation: the form is the site's
+  // only conversion point, and a reader whose POST bounced was left with a
+  // plain-text address elsewhere on the page. The banner now carries the way
+  // out itself.
   const show = (msg, ok) => {
     status.textContent = '';
     status.style.display = 'block';
     status.style.color = ok ? 'var(--green)' : 'var(--red)';
-    setTimeout(() => { status.textContent = msg; }, 50);
+    setTimeout(() => {
+      status.textContent = msg;
+      if (ok) return;
+      const a = document.createElement('a');
+      a.href = 'mailto:help@runvis.app?subject=Runvis%20beta';
+      a.textContent = window.RunvisT('form.mailto', '메일로 신청하기: help@runvis.app');
+      a.style.cssText = 'margin-left:8px;color:var(--green);text-decoration:underline';
+      status.appendChild(a);
+    }, 50);
   };
   if (betaForm.action.includes('YOUR_FORM_ID')) { show(window.RunvisT('form.busy', '신청 접수 준비 중입니다. 조금만 기다려 주세요!'), false); return; }
   btn.disabled = true;
@@ -1343,12 +1398,19 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
   finally { btn.disabled = false; btn.textContent = original; }
 });
 
-// The sticky CTA is redundant once the signup form itself is on screen.
+// The sticky CTA is redundant twice over: once while the signup form itself is
+// on screen, and once at the top of the page, where the hero's own "베타 신청"
+// button is already visible. Watch both and show the bar only when neither is.
 (() => {
   const cta = document.getElementById('stickyCta'), beta = document.getElementById('beta');
+  const heroCta = document.querySelector('.hero .cta');
   if (!cta || !beta) return;
-  new IntersectionObserver(es => es.forEach(e => { cta.style.display = e.isIntersecting ? 'none' : ''; }),
-                           { threshold: .15 }).observe(beta);
+  const seen = new Map();
+  const sync = () => { cta.classList.toggle('armed', ![...seen.values()].some(Boolean)); };
+  const io = new IntersectionObserver(es => { es.forEach(e => seen.set(e.target, e.isIntersecting)); sync(); },
+                                      { threshold: .15 });
+  io.observe(beta);
+  if (heroCta) io.observe(heroCta);
 })();
 
 // --- in-page anchor navigation ---

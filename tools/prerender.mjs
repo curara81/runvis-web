@@ -169,6 +169,39 @@ function render(page, code) {
   const app = readLd(html, 'appld');
   if (app) html = html.slice(0, app.start) + '\n' + JSON.stringify(appLd(dict, code)) + '\n' + html.slice(app.end);
 
+  // ---- 9. drop what this copy cannot use ---------------------------------
+  // 9a. The boot script inlines the hero copy and the four meta strings for
+  // the five non-Korean languages so the LCP heading never changes language in
+  // place. On a prerendered page the markup is ALREADY in one language and
+  // window.RunvisPageLang pins `code`, so four fifths of that object can never
+  // be read here. Keep this language's entry, drop the rest. The root page
+  // still ships all five, because ?lang= there can be any of them.
+  html = html.replace(/var C=(\{.*?\});\n/s, (whole, obj) => {
+    try {
+      const all = JSON.parse(obj);
+      if (!all[code]) return whole;                  // shape changed — leave it
+      return `var C=${JSON.stringify({ [code]: all[code] })};\n`;
+    } catch { return whole; }                        // never mangle on a parse error
+  });
+
+  // 9b. HTML comments. The root pages carry ~14 KB of them and they earn their
+  // place THERE — they are why the markup looks the way it does. These files
+  // are build output that says "do not edit" in its first line, so shipping the
+  // rationale to twenty copies is 14 KB per page of freight a reader of the
+  // source already has. Script and style bodies are skipped so a `-->` inside
+  // code could never be treated as a comment end.
+  {
+    const parts = [];
+    const re = /<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi;
+    let last = 0, m;
+    while ((m = re.exec(html)) !== null) {
+      parts.push(html.slice(last, m.index).replace(/\n?[ \t]*<!--[\s\S]*?-->/g, ''), m[0]);
+      last = m.index + m[0].length;
+    }
+    parts.push(html.slice(last).replace(/\n?[ \t]*<!--[\s\S]*?-->/g, ''));
+    html = parts.join('');
+  }
+
   // The banner goes AFTER the doctype — a comment in front of it puts some
   // browsers into quirks mode.
   const dt = /<!DOCTYPE[^>]*>\s*/i.exec(html);

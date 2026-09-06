@@ -20,8 +20,13 @@
  *   8  tags balance
  *   9  the counts the trust block quotes about the app match
  *      tools/app-facts.json (written by tools/app-facts.mjs out of the app
- *      repository) — 502 vs 506 and 2,077 vs 2,118 went out three rounds
- *      running because this number lived only in six hand-edited files
+ *      repository). Counts that GROW as the app grows — tests, interface
+ *      strings, coach cues — are written as floors ("500개 이상", "2,100개
+ *      이상", "270개 이상") and checked as floors, because the exact spelling
+ *      of them went stale in four rounds running (502 vs 506, 2,077 vs 2,118,
+ *      2,118 vs 2,162, 506 vs 554): every string or test the app repo adds
+ *      falsified six hand-edited dictionaries at once. Fixed inventories
+ *      (glossary entries, the coach translation table) stay exact
  *  10  every RunvisT('key', 'inline fallback') matches that page's dictionary
  *  11  sitemap.xml lists exactly the pages that exist, and robots.txt points
  *      at it
@@ -243,15 +248,28 @@ console.log('\n[9] app counts in the dictionaries == tools/app-facts.json');
     const num = (code, n) => forms(code, n)[0];
     // key → the counts it must contain, exactly as that language writes them.
     const EXACT = {
-      'n.trust.l1': ['tests'],
-      'n.trust.l2': ['stringKeys', 'coachTable'],
+      'n.trust.l2': ['coachTable'],
       'n.trust.l3': ['glossary'],
       'n.why.s1v': ['glossary'],
-      'n.why.s3v': ['tests'],
     };
     // n.why.s2v states a floor ("270개 이상" / "270+"), so the repo only has to
     // stay above the number written there — adding a cue can never make it false.
-    const FLOOR = { 'n.why.s2v': 'cueSites' };
+    // n.why.s3v joined it for the same reason: the app repo gained 48 tests in
+    // one session of round 10 and an exact "506" in six dictionaries was wrong
+    // the moment it did.
+    const FLOOR = { 'n.why.s2v': 'cueSites', 'n.why.s3v': 'tests' };
+    // Same idea for the interface-string count, and for the same reason it was
+    // needed here more than anywhere: an exact count in six dictionaries went
+    // stale in rounds 7, 8, 9 and 10 (502 vs 506, 2,077 vs 2,118, 2,118 vs
+    // 2,162), because every string the app repo adds falsifies it and the two
+    // repositories are edited in different sessions. n.trust.l2 states a floor
+    // now ("2,100개 이상" / "Over 2,100"), so the sentence stays true while the
+    // app grows and only an actual SHRINK below the floor fails. The exact
+    // measurement still lives in tools/app-facts.json and is still re-measured
+    // by `node tools/app-facts.mjs --check`. FLOOR_FIRST reads the FIRST number
+    // in the value, because n.trust.l2 also carries the 396-line coach table
+    // (checked exactly, above) and a digits-only scan would glue the two.
+    const FLOOR_FIRST = { 'n.trust.l2': 'stringKeys', 'n.trust.l1': 'tests' };
     for (const c of CODES) {
       const bad = [];
       for (const [key, fields] of Object.entries(EXACT)) {
@@ -265,6 +283,16 @@ console.log('\n[9] app counts in the dictionaries == tools/app-facts.json');
       for (const [key, field] of Object.entries(FLOOR)) {
         const digits = String(dicts[c][key] ?? '').replace(/[^0-9]/g, '');
         const floor = digits ? Number(digits) : NaN;
+        if (!Number.isFinite(floor)) bad.push(`${key} states no number`);
+        else if (facts[field] < floor) bad.push(`${key} claims ${floor}+ but the repo has ${facts[field]}`);
+      }
+      for (const [key, field] of Object.entries(FLOOR_FIRST)) {
+        // Drop this locale's group separator (2.162 → 2162, 2,162 → 2162) and
+        // take the first run of digits that remains.
+        const sep = groupSep(c);
+        const flat = String(dicts[c][key] ?? '').split(sep).join('');
+        const m = flat.match(/\d+/);
+        const floor = m ? Number(m[0]) : NaN;
         if (!Number.isFinite(floor)) bad.push(`${key} states no number`);
         else if (facts[field] < floor) bad.push(`${key} claims ${floor}+ but the repo has ${facts[field]}`);
       }

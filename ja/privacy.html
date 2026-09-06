@@ -7,12 +7,6 @@
 <meta charset="utf-8">
 <script>window.RunvisPageLang="ja";window.RunvisBase="/";</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<!-- Prerendered ja copy. Every crawler-visible string on this page is
-     already ja: title, description, og:*, canonical, the JSON-LD below and
-     the body text were substituted at build time out of t-ja.js, so a
-     search engine or link preview that runs no JavaScript still reads this
-     market's page. i18n.js still runs and still lets a reader switch
-     languages; it just has nothing left to correct on first paint. -->
 <title data-i18n="pv.meta.title">プライバシーポリシー — Runvis</title>
 <meta name="description" content="Runvisはランニング・健康データを端末の中だけで処理します。サーバーもアカウントもなく、端末の外に出る例外をすべて書いています。" data-i18n-attr="content:pv.meta.desc">
 <meta name="robots" content="index,follow">
@@ -81,9 +75,6 @@
   .langsel li:hover{background:rgba(61,220,132,.15)}
   .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
 </style>
-<!-- Language boot — same script as index.html. Runs before the body is parsed
-     so <html lang>, the canonical and og:locale are already right at first
-     paint, and pulls exactly one dictionary (~37-49 KB) instead of six. -->
 <script>
 (function(){
   var L=["ko","en","ja","es","zh","de"];
@@ -219,11 +210,5 @@
   <h2 data-i18n="pv.s10.h">10. 変更およびお問い合わせ</h2>
   <p data-i18n="pv.s10.p">ポリシーが変更された場合は、このページの施行日を更新します。利用規約は<a href="terms.html">利用規約</a>をご覧ください。お問い合わせ: <a href="mailto:help@runvis.app">help@runvis.app</a></p>
 </div>
-<!-- No renderDynamicI18n hook here any more. It existed to repair a title
-     that i18n.js used to hard-code to the homepage's meta.title on every
-     language switch; i18n.js stopped doing that, and this page's own
-     <title data-i18n> is applied by the ordinary [data-i18n] pass. The comment
-     was still describing the old bug, which is how a reader ends up keeping
-     dead code for a reason that no longer exists. -->
 </body>
 </html>

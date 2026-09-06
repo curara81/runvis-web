@@ -7,12 +7,6 @@
 <meta charset="utf-8">
 <script>window.RunvisPageLang="zh";window.RunvisBase="/";</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<!-- Prerendered zh copy. Every crawler-visible string on this page is
-     already zh: title, description, og:*, canonical, the JSON-LD below and
-     the body text were substituted at build time out of t-zh.js, so a
-     search engine or link preview that runs no JavaScript still reads this
-     market's page. i18n.js still runs and still lets a reader switch
-     languages; it just has nothing left to correct on first paint. -->
 <title data-i18n="tm.meta.title">使用條款 — Runvis</title>
 <meta name="description" content="Runvis 使用條款 — 訂閱與終身版、自動續訂與取消、安全注意事項與責任範圍。" data-i18n-attr="content:tm.meta.desc">
 <meta name="robots" content="index,follow">
@@ -75,9 +69,6 @@
   .langsel li:hover{background:rgba(61,220,132,.15)}
   .langsel li[aria-checked="true"]{color:var(--green);font-weight:700}
 </style>
-<!-- Language boot — same script as index.html. Runs before the body is parsed
-     so <html lang>, the canonical and og:locale are already right at first
-     paint, and pulls exactly one dictionary (~37-49 KB) instead of six. -->
 <script>
 (function(){
   var L=["ko","en","ja","es","zh","de"];
@@ -183,11 +174,5 @@
   <h2 data-i18n="tm.s8.h">8. 聯絡方式</h2>
   <p data-i18n="tm.s8.p"><a href="mailto:help@runvis.app">help@runvis.app</a> · 個人資料的處理方式請參閱<a href="privacy.html">隱私權政策</a>。</p>
 </div>
-<!-- No renderDynamicI18n hook here any more. It existed to repair a title
-     that i18n.js used to hard-code to the homepage's meta.title on every
-     language switch; i18n.js stopped doing that, and this page's own
-     <title data-i18n> is applied by the ordinary [data-i18n] pass. The comment
-     was still describing the old bug, which is how a reader ends up keeping
-     dead code for a reason that no longer exists. -->
 </body>
 </html>

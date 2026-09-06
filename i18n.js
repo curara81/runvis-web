@@ -100,9 +100,10 @@
   // language. They are not in SHOTS below, so nothing is swapped for them and
   // no request 404s — the capture script cannot reach those screens because the
   // watchOS simulator ignores synthetic taps (only drags and hardware buttons
-  // register), and three of them are mid-run screens on top of that. The
-  // `sc.note` caption under the FIRST screenshot section (#today) is the place
-  // that tells the reader which half is which, in all six languages.
+  // register), and three of them are mid-run screens on top of that. The hero
+  // carries that disclosure inline, next to the frames it is about
+  // (`sc.note.watch`, index.html); `sc.note` under #today states the
+  // phone/watch split for readers who scroll. Both are in all six languages.
   var SHOT_LANGS = { en: 1, ja: 1, es: 1, zh: 1, de: 1 };   // ko = the base file
   var SHOTS = {
     'framed-phone-dash': 1, 'framed-phone-detail': 1, 'framed-phone-glance': 1,
