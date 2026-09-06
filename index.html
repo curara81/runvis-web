@@ -36,22 +36,23 @@
 <meta content="es_ES" property="og:locale:alternate"/>
 <meta content="zh_TW" property="og:locale:alternate"/>
 <meta content="de_DE" property="og:locale:alternate"/>
-<meta content="https://runvis.app/assets/og-card.png?v=2" property="og:image"/>
+<meta content="https://runvis.app/assets/og-card.png?v=3" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
-<!-- The share card carries no sentence in any language (mark, watch, pulse,
-     domain). It used to be a photo of three Korean watch screens, and because
-     GitHub Pages hands every ?lang= the same file and crawlers run no
-     JavaScript, that one card went out for all six languages.
-     That constraint is gone now that /en/ /ja/ /es/ /zh/ /de/ are separate
-     documents: tools/prerender.mjs (step 8b) points a market's og:image at
-     assets/og-card.<code>.png the moment that file exists, so a card can carry
-     this market's own headline. Until the six are drawn, every page falls back
-     to this neutral one — the check is on the file, not on a list, so a
-     partial set never produces a 404 preview. -->
-<meta content="Runvis — Apple Watch running coach" property="og:image:alt"/>
+<!-- Six share cards, one per market. The card used to be wordless in every
+     language — a mark, a watch, a pulse and the domain — because GitHub Pages
+     hands every ?lang= the same file and crawlers run no JavaScript, so one
+     image had to serve all six. Separate documents removed that constraint two
+     rounds ago and tools/prerender.mjs (step 8b) has pointed each market at
+     assets/og-card.<code>.png since; what was missing until round 14 (-0.3)
+     were the files. tools/og_cards.py draws them: this market's own n.hero.h1
+     on tools/og-card-base.png, in a face that covers its script. og:image:alt
+     is a dictionary key now too, so the alternative text is not English for
+     everyone. The version query is bumped when the artwork changes — a link
+     preview is cached by every platform that ever rendered it. -->
+<meta content="Runvis 공유 카드 — 애플워치면 충분합니다" property="og:image:alt" data-i18n-attr="content:meta.ogalt"/>
 <meta content="summary_large_image" name="twitter:card"/>
-<meta content="https://runvis.app/assets/og-card.png?v=2" name="twitter:image"/>
+<meta content="https://runvis.app/assets/og-card.png?v=3" name="twitter:image"/>
 <meta content="#000000" name="theme-color"/>
 <link href="https://runvis.app/" id="canonical" rel="canonical"/>
 <!-- The LCP image is language-specific (assets/framed-phone-dash.<code>.png).
@@ -61,9 +62,18 @@
 <!-- x-default is the alternate for a visitor whose language matches none of
      the six. That used to be this Korean document, which meant a French or
      Portuguese reader was routed to Korean by both the boot script and the
-     search engine. Both now end at English: the boot script's last resort is
-     "en" and this points at /en/. The Korean page keeps its own hreflang="ko"
-     alternate below and stays the canonical home. -->
+     search engine. Both now end at English: this points at /en/, and English
+     is what the in-page language banner OFFERS a browser outside the six.
+     What changed in round 14 is who acts on that offer. The boot script used
+     to act on it itself — it replaced the location of a root URL whenever
+     navigator.language was not Korean, which is precisely what a crawler
+     looks like, so the document that declares hreflang="ko" for "/" sent the
+     crawler away from "/" before it could read it (-4). These alternates are
+     now a promise the page keeps: rendering "/" gives you the Korean page,
+     hreflang and sitemap.xml both say so, and the reader is handed a visible
+     link to their own market instead of being moved without being asked.
+     The Korean page keeps its hreflang="ko" alternate below and stays the
+     canonical home. -->
 <link href="https://runvis.app/en/" hreflang="x-default" rel="alternate"/>
 <link href="https://runvis.app/" hreflang="ko" rel="alternate"/>
 <link href="https://runvis.app/en/" hreflang="en" rel="alternate"/>
@@ -98,6 +108,11 @@
   [hidden]{display:none!important}
   :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
   img{max-width:100%;height:auto;display:block}
+  /* Every device capture is a <picture> now (AVIF, then lossless WebP, then the
+     PNG the markup names) — see tools/encode_shots.py. <picture> is an inline
+     element and would otherwise put a text-baseline gap under each frame and
+     take its width from the inline box rather than the container. */
+  picture{display:block;width:100%}
   body{overflow-wrap:break-word;word-break:normal;line-break:normal}
   /* keep-all keeps Korean words whole, but it also stops Japanese and
      Chinese from breaking at all — a price bullet overflowed its card by
@@ -268,7 +283,12 @@
   .watch-stack{position:relative;width:300px;max-width:100%;filter:drop-shadow(0 34px 60px rgba(0,0,0,.65));animation:float 7s ease-in-out -3.5s infinite}
   .watch-stack img{width:100%;opacity:0;transition:opacity .9s ease}
   .watch-stack img.on{opacity:1}
-  .watch-stack img:not(:first-child){position:absolute;top:0;left:0}
+  /* The three running screens overlap and cross-fade. The stacking used to be
+     '.watch-stack img:not(:first-child)', which stopped matching the moment each
+     <img> became the only child of its own <picture>: all three would have laid
+     out in flow, three watches tall. The position moves to the picture; the
+     opacity stays on the img, where the .on class is. */
+  .watch-stack picture:not(:first-child){position:absolute;top:0;left:0}
   .watch-stack .wnote{margin-top:10px;font-size:11.5px;line-height:1.5;color:var(--dim2);text-align:center}
   @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
   @media(max-width:640px){.devices{flex-direction:column;align-items:center;gap:26px}.phone{width:220px}.ring{width:420px;height:420px}}
@@ -565,9 +585,13 @@
   }
 </style>
 <!-- Language boot. Runs before the body is parsed, so <html lang>, the title,
-     the og: tags and the hero copy are already in the visitor's language at
-     first paint instead of being swapped afterwards. It also pulls exactly ONE
-     dictionary (t-<code>.js, ~37-49 KB) instead of the old 245 KB table of six.
+     the og: tags and the hero copy are already right at first paint instead of
+     being swapped afterwards.
+     It pulls a dictionary only when the reader asked for a language this file
+     is not written in. It used to pull one unconditionally — 57-73 KB to
+     repaint the page with what it already said, for every first-time visitor
+     (라운드 14, -0.6). The eight strings the hero caption loop and the voice
+     chips read are not in the markup, so those are inlined below instead.
      Everything else still happens in the deferred i18n.js. -->
 <script>
 (function(){
@@ -591,52 +615,117 @@
   // RunvisPageLang is set just above; it outranks the saved choice and the
   // browser's, so /de/ never renders in English. ?lang= still wins over it.
   var saved=null; try{ saved=norm(localStorage.getItem("runvis_lang")); }catch(e){}
-  // Last resort when nothing has spoken and the browser's language is not one
-  // of the six: English, not Korean. norm() passes only ko/en/ja/es/zh/de, so
-  // fr, pt, it, ru … all fell through to "ko" and a French reader landed on a
-  // Korean document. A Korean browser still resolves through
-  // norm(navigator.language) and is unaffected, and ?lang= and the saved
-  // choice still outrank this.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||navLang(navigator.language)||"en";
-  // A German browser landing on a ROOT url used to get German BODY text with a
-  // Korean canonical, Korean og:* and no route to /de/ at all — the five
-  // prerendered market pages existed and nothing ever sent anyone to them.
-  // GitHub Pages cannot redirect, so it happens here, and only in the one case
-  // where nothing else has spoken: no ?lang= (an explicit choice), no saved
-  // choice, not already on a prerendered page, and not Korean (this IS the
-  // Korean document and the x-default). replace() keeps the back button
-  // working and the sessionStorage flag makes a second hop impossible even if
-  // the target ever failed to set RunvisPageLang.
+  // ---- what language does THIS document render in? -----------------------
+  // The root IS the Korean page: hreflang="ko" names "/", sitemap.xml lists
+  // "/" as the Korean URL, and the canonical here is "/". So the root has to
+  // still be Korean when it is rendered by a visitor who brought nothing but a
+  // browser language — and a crawler is exactly that visitor. Googlebot runs
+  // this script with navigator.language="en-US" and empty storage, so the line
+  // that used to stand here resolved the ROOT to English and the block below
+  // then replaced the location with /en/, while the same document went on
+  // declaring "/" as the Korean original (2026-09-06 라운드 14, -4). Render
+  // and declaration cannot both be right, and the declaration is the one
+  // sitemap.xml, robots.txt and thirty hreflang clusters are built out of.
+  //
+  // So navigator.language no longer decides what is RENDERED. It decides what
+  // is OFFERED: i18n.js puts a banner at the top of the page linking to this
+  // reader's own market page. That is also what Google documents for a site
+  // that cannot redirect server-side (GitHub Pages cannot), and it is the only
+  // "send the visitor onward" that a person and a crawler can both be handed
+  // without one of them being told something the other is not.
+  var pageLang=norm(window.RunvisPageLang)||"ko";   // "ko" at the root; the directory name under /en/ …
+  // What to OFFER — never what to render. English for a browser outside the
+  // six (fr, pt, it, ru …), which is also what hreflang="x-default" points at,
+  // so the banner and the search engine send that reader to the same place.
+  var prefer=navLang(navigator.language)||"en";
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||pageLang;
+  // The one automatic navigation that is left, and the reason the five market
+  // pages are not "five pages nobody is sent to" again (라운드 9). It fires on
+  // a SAVED choice only: i18n.js writes runvis_lang when the URL or the
+  // language menu NAMED a language, never when the page merely fell back to
+  // its own (applyLang's `remember` argument). So this acts on something this
+  // reader did, not on a header that arrived unasked — and a crawler, whose
+  // localStorage is empty, can never reach it, which is what keeps the root's
+  // rendered language equal to its declared one.
+  // Only a ROOT url can send: under /en/ … the directory is the language.
+  // replace() keeps the back button working, and the sessionStorage flag makes
+  // a second hop impossible even if the target failed to set RunvisPageLang.
   try{
-    if(!window.RunvisPageLang && !urlLang && !saved && code!=="ko"
+    if(!window.RunvisPageLang && !urlLang && saved && saved!=="ko"
        && /(^|\.)runvis\.app$/.test(location.hostname)
        && !sessionStorage.getItem("runvis_sent")){
       sessionStorage.setItem("runvis_sent","1");
       var file=location.pathname.split("/").pop()||"";
       if(file==="index.html") file="";      // /de/, the URL hreflang and canonical name
-      location.replace("/"+code+"/"+file+location.hash);
+      location.replace("/"+saved+"/"+file+location.hash);
       return;
     }
   }catch(e){}
   window.RunvisLang=code; window.RunvisUrlLang=urlLang;
+  // Published for i18n.js: the document's own language and the one to offer.
+  window.RunvisDocLang=pageLang; window.RunvisPrefer=prefer;
   var html=document.documentElement;
   html.lang = code==="zh" ? "zh-Hant" : code;
   html.className += (html.className?" ":"") + "js";   // .reveal only hides when JS is alive
   var BASE=window.RunvisBase||"";                     // "" at the root, "/" on the prerendered /en/ … copies
-  var d=document.createElement("script");
-  d.src=BASE+"t-"+code+".js?v=20260906e"; d.async=false; document.head.appendChild(d);
+  // The dictionary is fetched only when it would CHANGE something. Every
+  // [data-i18n] node, every data-i18n-attr, both JSON-LD blocks and every
+  // RunvisT() fallback in this file are already written in `pageLang` — and
+  // check-content [3], [4] and [10] hold all of them to that same dictionary
+  // byte for byte. So for the reader who is already on their own language,
+  // t-<code>.js (57-73 KB) was being downloaded to repaint the page with what
+  // it already said (2026-09-06 라운드 14, -0.6). i18n.js fetches one on demand
+  // if the reader switches language in place; the language MENU navigates to
+  // the market page, which arrives with its own.
+  if(code!==pageLang){
+    var d=document.createElement("script");
+    d.src=BASE+"t-"+code+".js?v=20260906f"; d.async=false; document.head.appendChild(d);
+    window.RunvisDictLoaded=code;                     // i18n.js: "one is already in flight"
+  }
+  // The eight strings the hero caption loop and the four voice chips read are
+  // the only text on this page that does NOT live in the markup, so they were
+  // the last reason a reader already on their own language had to download a
+  // whole dictionary. They are inlined instead.
+  // RunvisT() here is a build-time hook, not a lookup — the function returns
+  // its own second argument. tools/prerender.mjs (step 7b) rewrites that
+  // argument per language and check-content [10] holds every one of them to
+  // the dictionary, which is the same machinery the form messages already use.
+  function RunvisT(k,v){ return v; }
+  window.RunvisSelfDyn={
+    hero:[RunvisT('hero0', '현재 기온 3도, 습도 60퍼센트입니다. 기온이 낮아 근육이 굳기 쉬우니 준비운동을 평소보다 길게 하겠습니다.'),
+          RunvisT('hero1', '300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요.'),
+          RunvisT('hero2', '목표보다 25초 빠릅니다'),
+          RunvisT('hero3', '심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요.')],
+    vchip:[RunvisT('vchip0', '목표보다 25초 빠릅니다'),
+           RunvisT('vchip1', '300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요.'),
+           RunvisT('vchip2', '케이던스가 기준보다 5퍼센트 낮아요 — 보폭을 조금 줄여볼까요.'),
+           RunvisT('vchip3', '심박이 존 쓰리까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요.')]
+  };
   // LCP image, in THIS language — one download instead of Korean-then-swap.
   // Published as a global too, so the script under the hero <img> can correct
   // the markup's src before the picture is painted rather than after.
-  window.RunvisShot = BASE+"assets/framed-phone-dash"+(code==="ko"?"":"."+code)+".png";
+  window.RunvisShotBase = BASE+"assets/framed-phone-dash"+(code==="ko"?"":"."+code);
+  // Preload the AVIF, not the PNG. The hero <picture> offers AVIF first, so a
+  // preload naming the PNG would have fetched a file the browser then did not
+  // use — 60 KB spent twice. type= is honoured by the preload scanner: a
+  // browser that cannot decode AVIF skips this link entirely and loads the
+  // WebP or PNG from the <picture> without a preload, which is the right
+  // trade at AVIF's coverage (Safari 16+, Chrome 85+, Firefox 93+). Preloading
+  // all three would download all three.
   var pl=document.createElement("link");
-  pl.rel="preload"; pl.as="image"; pl.setAttribute("fetchpriority","high");
-  pl.href=window.RunvisShot; document.head.appendChild(pl);
+  pl.rel="preload"; pl.as="image"; pl.type="image/avif"; pl.setAttribute("fetchpriority","high");
+  pl.href=window.RunvisShotBase+".avif"; document.head.appendChild(pl);
   function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
-  // ?lang=de on a ROOT url shows the same page the prerendered /de/ copy shows,
-  // so the canonical points there instead of at itself — otherwise the two
-  // compete for the same market and neither wins. Without ?lang, and on the
-  // prerendered pages themselves, the canonical is the page's own address.
+  // The canonical follows the language ON SCREEN, not the spelling of the URL.
+  // /?lang=de and /de/ show the same German page, so both have to name /de/ or
+  // one market's signal is split between two addresses. Until round 14 this
+  // rewrite fired for ?lang= only, which left the OTHER way German reaches a
+  // root URL — a saved choice — rendering German under canonical "/" and
+  // og:url "/" (라운드 14, -1.5). One rule, "shown language ≠ this document's
+  // own language", covers ?lang=, a saved choice and an in-place switch alike.
+  // The old narrow rule was there to stop the root canonicalising to /en/ for
+  // an English browser; that case no longer exists, because a browser header
+  // no longer changes what the root renders.
   var link=document.querySelector('link[rel="canonical"]');
   if(link){
     // Remember the page's OWN address before rewriting it. i18n.js recomputes
@@ -645,8 +734,10 @@
     var base=link.getAttribute("data-base")||(link.getAttribute("href")||"").split("?")[0].split("#")[0];
     link.setAttribute("data-base",base);
     var url=base;
-    if(!window.RunvisPageLang && urlLang && urlLang!=="ko"){
-      try{ var u=new URL(base); u.pathname="/"+urlLang+u.pathname; url=u.href; }catch(e){}
+    if(code!==pageLang){
+      try{ var u=new URL(base), p=u.pathname;
+           if(window.RunvisPageLang && p.indexOf("/"+pageLang+"/")===0) p=p.slice(pageLang.length+1);
+           u.pathname=(code==="ko"?"":"/"+code)+p; url=u.href; }catch(e){}
     }
     link.setAttribute("href",url); meta("property","og:url",url); }
   var OGL={ko:"ko_KR",en:"en_US",ja:"ja_JP",es:"es_ES",zh:"zh_TW",de:"de_DE"};
@@ -664,7 +755,7 @@
   window.RunvisCritical=d2.h;
 })();
 </script>
-<script defer src="i18n.js?v=20260906e"></script>
+<script defer src="i18n.js?v=20260906f"></script>
 <!-- The FAQ rich result must carry the same questions the page shows. This is
      the Korean copy, word for word from the n.faq.* dictionary; i18n.js
      rewrites this node (and inLanguage) whenever the reader picks another
@@ -677,7 +768,7 @@
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"ko","url":"https://runvis.app/","description":"러닝 시계를 하나 더 살 필요 없어요. 애플워치가 기록한 수면과 심박을 읽고 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다. 계정도 서버도 없습니다.","image":"https://runvis.app/assets/og-card.png","screenshot":"https://runvis.app/assets/framed-phone-dash.png","author":{"@type":"Organization","name":"Runvis","url":"https://runvis.app/"},"offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}}]}
 </script>
 <script id="faqld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"워치가 없어도 되나요?","acceptedAnswer":{"@type":"Answer","text":"아이폰만으로 GPS 기록과 1km(마일 설정이면 1마일)마다 구간 페이스 안내가 됩니다. 구독 없이 아이폰만 들고 달릴 때 나오는 음성은 이 스플릿 하나뿐입니다. 구독하면 아이폰에서도 페이스 안내가 나오고, 심박존 안내는 아이폰에 심박 센서가 없어서 블루투스 심박 밴드(폴라 H10, 와후 TICKR 같은 표준 BLE 심박 스트랩)를 연결했을 때만 나옵니다. 자세 코칭·언덕 예고·경로 이탈 경보는 워치 러닝에만 있습니다."}},{"@type":"Question","name":"어떤 애플워치가 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"watchOS 10 이상(Apple Watch Series 4 이상)과 iOS 17 이상이 필요합니다. 그 조건만 넘으면 심박과 GPS로 충분합니다. 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 촘촘해지고, 못 재는 모델에서는 케이던스 기준으로 동작합니다."}},{"@type":"Question","name":"해지하면 기록은 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 Apple 건강에 남아 그대로입니다. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 씁니다."}},{"@type":"Question","name":"데이터는 어디로 가나요?","acceptedAnswer":{"@type":"Answer","text":"계정도 서버도 없습니다. 날씨와 동네 이름, 코스 자동 생성을 조회할 때만 위치가 나갑니다. 이 밖에 App Store 결제 처리와 공개 코스·신발 목록 파일 내려받기가 있고, 지금은 대한민국 App Store에서만, 신발 화면에서 사용자가 직접 누를 때만 외부 러닝화 검색 페이지가 열립니다. 운동과 건강 데이터는 업로드하지 않습니다."}},{"@type":"Question","name":"6개 언어 음성은 어디까지 되나요?","acceptedAnswer":{"@type":"Answer","text":"아이폰 코치가 말하는 문장은 여섯 언어 전부 테스트로 고정돼 있습니다 — 45분짜리 러닝을 초 단위로 재생해, 그 러닝에서 나온 큐가 전부 번역돼 있는지 빌드할 때마다 검사합니다. 워치의 실시간 코칭 루프는 그 테스트 밖이라 아직 표에 닿지 않은 문장이 남아 있을 수 있고, 그럴 때는 한국어가 아니라 영어로 나옵니다. 그 폴백도 테스트로 고정돼 있습니다. 앱 화면에 적히는 문구는 코치 음성과 다른 번역표를 씁니다."}},{"@type":"Question","name":"기록이 하나도 없어도 쓸 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"됩니다. 워치에서 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 만들어집니다. 이 측정은 워치 전용입니다. 아이폰만 있으면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기가 되고 플랜의 시작 지점은 최근 주간 거리로 잡습니다. 준비도는 워치를 차고 잔 밤이 기준선에 쌓여야 해서 보통 2주쯤, ACWR은 4주쯤 걸립니다. 퍼포먼스 컨디션은 최대심박을 설정한 뒤 심박이 기록된 10분 넘는 러닝을 같은 강도대(이지·중간·고강도)로 3회 채우면 나옵니다. 처음 몇 번은 강도나 측정 시점을 아직 구분하지 못한 기준선과 비교되고, 앱이 그 사실을 그 화면에 적습니다."}},{"@type":"Question","name":"무료 체험은 누가 받나요?","acceptedAnswer":{"@type":"Answer","text":"App Store가 이 구독의 체험을 아직 쓰지 않았다고 판단하는 계정만 받습니다. 전에 같은 구독을 썼거나 체험을 이미 소진한 계정은 첫 결제부터 바로 청구됩니다. 앱의 구매 화면이 지금 어느 쪽인지 사기 전에 항상 알려줍니다. 무료 기간의 길이도 App Store가 상품에 실어 내려보내는 값이라, 앱이 받은 그대로 구매 직전에 표시합니다. 연간을 골랐다면 그 무료 기간이 끝난 뒤 1년 요금이 한 번에 청구됩니다."}},{"@type":"Question","name":"평생 이용권과 연간 중 뭐가 유리한가요?","acceptedAnswer":{"@type":"Answer","text":"평생 이용권은 자동 갱신이 없는 1회 구매입니다. 가격 카드의 계산대로 연간 기준 약 2.6년, 월간 기준 약 20개월이면 본전이니 그보다 오래 쓸 생각이면 평생 쪽이 쌉니다. Apple 가족 공유가 되는 요금제도 이것 하나뿐입니다. 월간·연간 구독은 대상이 아닙니다."}},{"@type":"Question","name":"기기를 바꾸면 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"러닝 기록 자체는 Apple 건강에 저장돼 있어 새 기기의 건강 앱이 그대로 가져옵니다. 런비스 안에만 있던 값(프로필, 심박존, 신발 목록, 코치가 만든 기준선)은 설정 → 데이터 → '내 데이터 내보내기'로 파일 하나에 담아 빼내고, 새 기기에서 '백업에서 가져오기'로 되돌립니다. 파일은 사용자가 저장하는 곳에만 남고 런비스가 어디로도 보내지 않습니다. 구독은 App Store의 구매 복원으로 살립니다."}},{"@type":"Question","name":"워치 페이스 컴플리케이션이나 위젯이 있나요?","acceptedAnswer":{"@type":"Answer","text":"아직 없습니다. 워치 페이스 컴플리케이션, 아이폰 홈 화면 위젯, 라이브 액티비티는 이번 버전에 들어 있지 않습니다. 넣을 계획은 있지만 날짜는 아직 정해지지 않았습니다."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"워치가 없어도 되나요?","acceptedAnswer":{"@type":"Answer","text":"아이폰만으로 GPS 기록과 1km(마일 설정이면 1마일)마다 구간 페이스 안내가 됩니다. 구독 없이 아이폰만 들고 달릴 때 나오는 음성은 이 스플릿 하나뿐입니다. 구독하면 아이폰에서도 페이스 안내가 나오고, 심박존 안내는 아이폰에 심박 센서가 없어서 블루투스 심박 밴드(폴라 H10, 와후 TICKR 같은 표준 BLE 심박 스트랩)를 연결했을 때만 나옵니다. 자세 코칭·언덕 예고·경로 이탈 경보는 워치 러닝에만 있습니다."}},{"@type":"Question","name":"어떤 애플워치가 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"watchOS 10 이상(Apple Watch Series 4 이상)과 iOS 17 이상이 필요합니다. 그 조건만 넘으면 심박과 GPS로 충분합니다. 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 촘촘해지고, 못 재는 모델에서는 케이던스 기준으로 동작합니다."}},{"@type":"Question","name":"해지하면 기록은 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 Apple 건강에 남아 그대로입니다. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 씁니다."}},{"@type":"Question","name":"데이터는 어디로 가나요?","acceptedAnswer":{"@type":"Answer","text":"계정도 서버도 없습니다. 날씨와 동네 이름, 코스 자동 생성을 조회할 때만 위치가 나갑니다. 이 밖에 App Store 결제 처리와 공개 코스·신발 목록 파일 내려받기가 있고, 지금은 대한민국 App Store에서만, 신발 화면에서 사용자가 직접 누를 때만 외부 러닝화 검색 페이지가 열립니다. 운동과 건강 데이터는 업로드하지 않습니다."}},{"@type":"Question","name":"6개 언어 음성은 어디까지 되나요?","acceptedAnswer":{"@type":"Answer","text":"아이폰 코치가 말하는 문장은 여섯 언어 전부 테스트로 고정돼 있습니다 — 45분짜리 러닝을 초 단위로 재생해, 그 러닝에서 나온 큐가 전부 번역돼 있는지 빌드할 때마다 검사합니다. 워치의 실시간 코칭 루프는 그 테스트 밖이라 아직 표에 닿지 않은 문장이 남아 있을 수 있고, 그럴 때는 한국어가 아니라 영어로 나옵니다. 그 폴백도 테스트로 고정돼 있습니다. 앱 화면에 적히는 문구는 코치 음성과 다른 번역표를 씁니다."}},{"@type":"Question","name":"기록이 하나도 없어도 쓸 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"됩니다. 워치에서 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 만들어집니다. 이 측정은 워치 전용입니다. 아이폰만 있으면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기가 되고 플랜의 시작 지점은 최근 주간 거리로 잡습니다. 준비도는 워치를 차고 잔 밤이 기준선에 쌓여야 해서 보통 2주쯤, ACWR은 4주쯤 걸립니다. 퍼포먼스 컨디션은 최대심박을 설정한 뒤 심박이 기록된 10분 넘는 러닝을 같은 강도대(이지·중간·고강도)로 3회 채우면 나옵니다. 처음 몇 번은 강도나 측정 시점을 아직 구분하지 못한 기준선과 비교되고, 앱이 그 사실을 그 화면에 적습니다."}},{"@type":"Question","name":"무료 체험은 누가 받나요?","acceptedAnswer":{"@type":"Answer","text":"App Store가 이 구독의 체험을 아직 쓰지 않았다고 판단하는 계정만 받습니다. 전에 같은 구독을 썼거나 체험을 이미 소진한 계정은 첫 결제부터 바로 청구됩니다. 앱의 구매 화면이 지금 어느 쪽인지 사기 전에 항상 알려줍니다. 지금 설정된 무료 기간은 월간도 연간도 1개월입니다. 연간을 고른다고 1년이 공짜가 되지는 않습니다. 길이 자체는 App Store가 상품에 실어 내려보내는 값이라, 앱이 받은 그대로 구매 직전에 다시 표시합니다. 연간이면 그 1개월이 끝난 뒤 1년 요금이 한 번에 청구됩니다."}},{"@type":"Question","name":"평생 이용권과 연간 중 뭐가 유리한가요?","acceptedAnswer":{"@type":"Answer","text":"평생 이용권은 자동 갱신이 없는 1회 구매입니다. 가격 카드의 계산대로 연간 기준 약 2.6년, 월간 기준 약 20개월이면 본전이니 그보다 오래 쓸 생각이면 평생 쪽이 쌉니다. Apple 가족 공유가 되는 요금제도 이것 하나뿐입니다. 월간·연간 구독은 대상이 아닙니다."}},{"@type":"Question","name":"기기를 바꾸면 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"러닝 기록 자체는 Apple 건강에 저장돼 있어 새 기기의 건강 앱이 그대로 가져옵니다. 런비스 안에만 있던 값(프로필, 심박존, 신발 목록, 코치가 만든 기준선)은 설정 → 데이터 → '내 데이터 내보내기'로 파일 하나에 담아 빼내고, 새 기기에서 '백업에서 가져오기'로 되돌립니다. 파일은 사용자가 저장하는 곳에만 남고 런비스가 어디로도 보내지 않습니다. 구독은 App Store의 구매 복원으로 살립니다."}},{"@type":"Question","name":"워치 페이스 컴플리케이션이나 위젯이 있나요?","acceptedAnswer":{"@type":"Answer","text":"아직 없습니다. 워치 페이스 컴플리케이션, 아이폰 홈 화면 위젯, 라이브 액티비티는 이번 버전에 들어 있지 않습니다. 넣을 계획은 있지만 날짜는 아직 정해지지 않았습니다."}}]}
 </script>
 </head>
 <body>
@@ -748,8 +839,8 @@
      check-content [14] now FAILS if a ₩ figure comes back into this key. -->
 <p class="note" data-i18n="n.hero.note">기록은 무료입니다. 코치는 구독이고, 세 가지 요금은 아래 가격표에 있습니다. 대한민국 App Store에 먼저 나오고 다른 지역은 순차 출시입니다.</p>
 <div class="trust">
-<div class="tbadge"><b>100%</b><span data-i18n="n.hero.b1">기기 안에서 계산</span></div>
-<div class="tbadge"><b data-i18n="n.hero.b3n">6개 언어</b><span data-i18n="n.hero.b3">음성 코칭</span></div>
+<a class="tbadge" href="#privacy"><b data-i18n="n.hero.b1n">분석 계산</b><span data-i18n="n.hero.b1">전부 기기 안에서 — 조회는 예외</span></a>
+<a class="tbadge" href="#faq"><b data-i18n="n.hero.b3n">6개 언어</b><span data-i18n="n.hero.b3">코치 음성 · 예외는 FAQ에</span></a>
 <!-- This slot has now held, in turn, a trial promise, a test count and the
      launch-region caveat. The test count was a development metric; the caveat
      was worse — the most visible of the three badges on the first screen read
@@ -772,15 +863,23 @@
 <div class="ring" aria-hidden="true" data-depth="-.15"><svg viewBox="0 0 200 200"><defs><linearGradient id="rg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#3DDC84"/><stop offset="1" stop-color="#4CCBD9"/></linearGradient></defs>
 <g class="spin"><circle cx="100" cy="100" r="92" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/><circle class="arc" cx="100" cy="100" r="92" fill="none" stroke="url(#rg)" stroke-width="3.5" stroke-linecap="round" transform="rotate(-90 100 100)" opacity=".95"/><circle cx="100" cy="100" r="70" fill="none" stroke="rgba(76,203,217,.12)" stroke-width="1" stroke-dasharray="2 6"/></g></svg></div>
 <div class="devices" data-depth=".35">
-<div class="phone"><img alt="iPhone 홈 — 오늘의 결정은 휴식(완전 휴식 또는 가벼운 산책)" data-i18n-attr="alt:alt.phone.hero" src="assets/framed-phone-dash.png" data-shot="framed-phone-dash" width="640" height="1308" fetchpriority="high" decoding="sync"/></div>
+<div class="phone"><picture><source srcset="assets/framed-phone-dash.avif" type="image/avif"/><source srcset="assets/framed-phone-dash.webp" type="image/webp"/><img alt="iPhone 홈 — 오늘의 결정은 휴식(완전 휴식 또는 가벼운 산책)" data-i18n-attr="alt:alt.phone.hero" src="assets/framed-phone-dash.png" data-shot="framed-phone-dash" width="640" height="1308" fetchpriority="high" decoding="sync"/></picture></div>
 <!-- The LCP picture, corrected to the resolved language the instant the tag is
      parsed — i18n.js only gets to it after DOMContentLoaded, which is late
      enough that five languages saw the Korean home screen paint and then
      change. The markup keeps the Korean src so a crawler and a no-JS reader
      still get a picture; on /en/ … the prerender writes the right one in. -->
-<script>(function(){var s=window.RunvisShot; if(!s) return;
+<script>(function(){var b=window.RunvisShotBase; if(!b) return;
   var i=document.querySelector('img[data-shot="framed-phone-dash"]');
-  if(i&&i.getAttribute("src")!==s) i.setAttribute("src",s);
+  if(!i) return;
+  if(i.getAttribute("src")!==b+".png") i.setAttribute("src",b+".png");
+  // The <source>s outrank src, so correcting only the img would have left the
+  // Korean AVIF painting on /en/ … under an English <img src>.
+  var p=i.parentNode;
+  if(p&&p.tagName==="PICTURE") p.querySelectorAll("source").forEach(function(so){
+    var ext=so.type==="image/avif"?".avif":".webp";
+    if(so.getAttribute("srcset")!==b+ext) so.setAttribute("srcset",b+ext);
+  });
 })();</script>
 <!-- Running screens only. The decision, the evidence and the start card live in
      #today and used to be repeated here, so the first scroll rewound instead of
@@ -790,9 +889,9 @@
      tech met three images and no way to tell which one is on screen. The group
      names itself, and the rotation below moves aria-current with .on. -->
 <div class="watch-stack" id="watchStack" role="group" data-i18n-attr="aria-label:a11y.watchstack" aria-label="러닝 중 애플워치 화면 3장이 번갈아 나옵니다">
-<img alt="Apple Watch Ultra — Runvis 러닝 중 현재 페이스와 평균·속도·GAP·경사" data-i18n-attr="alt:alt.watch.pace" class="on" src="assets/framed-watch-pace.png" data-shot="framed-watch-pace" width="480" height="768" fetchpriority="high" decoding="sync"/>
-<img alt="Apple Watch Ultra — Runvis 심박존 아크" data-i18n-attr="alt:alt.watch.zone" src="assets/framed-watch-hr.png" data-shot="framed-watch-hr" width="480" height="768" fetchpriority="low" decoding="async"/>
-<img alt="Apple Watch Ultra — Runvis 러닝 중 실시간 GPS 지도와 거리·시간·페이스" data-i18n-attr="alt:alt.watch.map" src="assets/framed-watch-map.png" data-shot="framed-watch-map" width="480" height="768" fetchpriority="low" decoding="async"/>
+<picture><source srcset="assets/framed-watch-pace.avif" type="image/avif"/><source srcset="assets/framed-watch-pace.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 러닝 중 현재 페이스와 평균·속도·GAP·경사" data-i18n-attr="alt:alt.watch.pace" class="on" src="assets/framed-watch-pace.png" data-shot="framed-watch-pace" width="480" height="768" fetchpriority="high" decoding="sync"/></picture>
+<picture><source srcset="assets/framed-watch-hr.avif" type="image/avif"/><source srcset="assets/framed-watch-hr.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 심박존 아크" data-i18n-attr="alt:alt.watch.zone" src="assets/framed-watch-hr.png" data-shot="framed-watch-hr" width="480" height="768" fetchpriority="low" decoding="async"/></picture>
+<picture><source srcset="assets/framed-watch-map.avif" type="image/avif"/><source srcset="assets/framed-watch-map.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 러닝 중 실시간 GPS 지도와 거리·시간·페이스" data-i18n-attr="alt:alt.watch.map" src="assets/framed-watch-map.png" data-shot="framed-watch-map" width="480" height="768" fetchpriority="low" decoding="async"/></picture>
 <!-- These three used to be the Korean capture in every language and this
      comment said so. They are not any more: assets/framed-watch-{pace,hr,map}
      exist in six languages, i18n.js SHOTS lists them and the prerender writes
@@ -861,7 +960,7 @@
 <h2 id="today-h" class="reveal" data-i18n="n.today.h2">아침에 열면<br/>오늘 훈련이 정해져 있습니다</h2>
 <p class="sub reveal" data-i18n="n.today.sub">어젯밤 수면, HRV, 안정시 심박, 어제 훈련 부하를 내 28일 기준과 비교합니다. 그걸로 오늘 훈련을 고르고, 왜 그런지 한 줄로 붙입니다.</p>
 <div class="row reveal">
-<div class="frame"><img alt="iPhone 지표 상세 — 훈련 부하(CTL) 7일 추세, 내 28일 범위, 지표 설명" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="assets/framed-phone-detail.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></div>
+<div class="frame"><picture><source srcset="assets/framed-phone-detail.avif" type="image/avif"/><source srcset="assets/framed-phone-detail.webp" type="image/webp"/><img alt="iPhone 지표 상세 — 훈련 부하(CTL) 7일 추세, 내 28일 범위, 지표 설명" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="assets/framed-phone-detail.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture></div>
 <div class="desc">
 <h3 data-i18n="n.today.h3">판단이 먼저, 근거는 그 아래</h3>
 <p data-i18n="n.today.p">맨 위에 오늘 할 훈련, 그 아래에 그렇게 정한 근거가 있습니다. 나머지 지표는 참고로 내려갑니다. 지표를 누르면 뜻과 계산 근거, 내 평소 범위가 보입니다.</p>
@@ -883,9 +982,9 @@
 </div>
 </div>
 <div class="watch3">
-<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 오늘의 결정: 준비도 링과 휴식 판정" data-i18n-attr="alt:alt.watch.decision" loading="lazy" src="assets/framed-watch-hero.png" data-shot="framed-watch-hero" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w1">오늘의 결정</b><span data-i18n="n.today.w1p">준비도 링과 오늘 훈련이 손목에서 바로 보입니다.</span></div>
-<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 오늘의 근거: 수면과 HRV" data-i18n-attr="alt:alt.watch.evidence" loading="lazy" src="assets/framed-watch-evidence.png" data-shot="framed-watch-evidence" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w2">오늘의 근거</b><span data-i18n="n.today.w2p">수면, HRV, 어제 부하를 내 기준과 비교해 좋음, 보통, 주의로 표시합니다.</span></div>
-<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 운동 시작 목록: 러닝·실내 러닝" data-i18n-attr="alt:alt.watch.start" loading="lazy" src="assets/framed-watch-start.png" data-shot="framed-watch-start" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w3">한 번에 시작</b><span data-i18n="n.today.w3p">오늘 훈련이 시작 화면 맨 위에 있습니다. 누르면 코치가 구간마다 진행합니다.</span></div>
+<div class="w3 reveal"><div class="frame"><picture><source srcset="assets/framed-watch-hero.avif" type="image/avif"/><source srcset="assets/framed-watch-hero.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 오늘의 결정: 준비도 링과 휴식 판정" data-i18n-attr="alt:alt.watch.decision" loading="lazy" src="assets/framed-watch-hero.png" data-shot="framed-watch-hero" width="480" height="768" decoding="async"/></picture></div><b data-i18n="n.today.w1">오늘의 결정</b><span data-i18n="n.today.w1p">준비도 링과 오늘 훈련이 손목에서 바로 보입니다.</span></div>
+<div class="w3 reveal"><div class="frame"><picture><source srcset="assets/framed-watch-evidence.avif" type="image/avif"/><source srcset="assets/framed-watch-evidence.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 오늘의 근거: 수면과 HRV" data-i18n-attr="alt:alt.watch.evidence" loading="lazy" src="assets/framed-watch-evidence.png" data-shot="framed-watch-evidence" width="480" height="768" decoding="async"/></picture></div><b data-i18n="n.today.w2">오늘의 근거</b><span data-i18n="n.today.w2p">수면, HRV, 어제 부하를 내 기준과 비교해 좋음, 보통, 주의로 표시합니다.</span></div>
+<div class="w3 reveal"><div class="frame"><picture><source srcset="assets/framed-watch-start.avif" type="image/avif"/><source srcset="assets/framed-watch-start.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 운동 시작 목록: 러닝·실내 러닝" data-i18n-attr="alt:alt.watch.start" loading="lazy" src="assets/framed-watch-start.png" data-shot="framed-watch-start" width="480" height="768" decoding="async"/></picture></div><b data-i18n="n.today.w3">한 번에 시작</b><span data-i18n="n.today.w3p">오늘 훈련이 시작 화면 맨 위에 있습니다. 누르면 코치가 구간마다 진행합니다.</span></div>
 </div>
 <!-- The full disclosure sits under the FIRST screenshot section rather than
      under the hero: it belongs next to the captures, not across the opening.
@@ -910,7 +1009,7 @@
 <div class="voice-grid reveal">
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 페이스 안내 (무료)" data-i18n-attr="aria-label:n.vc1.aria" data-say="목표보다 25초 빠릅니다"><div class="sensor" data-i18n="n.vc1.sensor">📡 목표보다 20초 이상 벗어난 상태가 20초 넘게 이어질 때</div><div class="play"><span data-i18n="n.vc1.play">페이스</span><span class="pill free" data-i18n="n.pill.free">무료</span></div><div class="line" data-i18n="n.vc1.line">"목표보다 25초 빠릅니다"</div></div>
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 언덕 예고 (무료)" data-i18n-attr="aria-label:n.vc2.aria" data-say="300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="n.vc2.sensor">📡 코스 고도를 미리 읽습니다. 늘 달리던 길이면 500m쯤에서 알아보고 언덕을 예고합니다</div><div class="play"><span data-i18n="n.vc2.play">언덕 예고</span><span class="pill free" data-i18n="n.pill.free">무료</span></div><div class="line" data-i18n="n.vc2.line">"300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 자세 코칭 (구독)" data-i18n-attr="aria-label:n.vc3.aria" data-say="케이던스가 기준보다 5퍼센트 낮아요 — 보폭을 조금 줄여볼까요."><div class="sensor" data-i18n="n.vc3.sensor">📡 평지에서 페이스가 일정한데 케이던스가 분당 130~160보 사이이면서 내 기준보다 5% 낮은 상태가 30초 이어질 때. 접지 시간이 300ms를 넘거나 수직 진폭이 커져도 같은 한 줄이고, 이 둘에는 케이던스 상한이 없습니다 · 러닝 6분 뒤부터, 한 러닝에 두 번까지</div><div class="play"><span data-i18n="n.vc3.play">자세</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></div><div class="line" data-i18n="n.vc3.line">"케이던스가 기준보다 5퍼센트 낮아요 — 보폭을 조금 줄여볼까요."</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 보폭 큐 (구독)" data-i18n-attr="aria-label:n.vc3.aria" data-say="케이던스가 기준보다 5퍼센트 낮아요 — 보폭을 조금 줄여볼까요."><div class="sensor" data-i18n="n.vc3.sensor">📡 보폭 큐 · 평지에서 페이스가 일정할 때만 봅니다. 케이던스가 분당 130~160보 사이이면서 내 기준보다 5% 낮은 상태로 30초. 접지 300ms 초과나 수직 진폭 증가도 같은 한 줄을 냅니다(이 둘은 케이던스 상한 없음). 러닝 6분 뒤부터, 한 러닝에 2번까지. 설정의 ‘자세’ 항목이 이 큐와 폼 큐를 함께 켭니다.</div><div class="play"><span data-i18n="n.vc3.play">보폭</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></div><div class="line" data-i18n="n.vc3.line">"케이던스가 기준보다 5퍼센트 낮아요 — 보폭을 조금 줄여볼까요."</div></div>
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 회복 안내 (구독)" data-i18n-attr="aria-label:n.vc4.aria" data-say="심박이 존 쓰리까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor" data-i18n="n.vc4.sensor">📡 걷기 회복 중 심박 존이 한 칸 내려올 때 · 화면에는 '존 3', 워치는 '존 쓰리'로 읽습니다 — 한국어 TTS가 존 일·존 이를 헷갈려서 숫자만 영어로 말합니다</div><div class="play"><span data-i18n="n.vc4.play">회복</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></div><div class="line" data-i18n="n.vc4.line">"심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."</div></div>
 </div>
 <p class="sr-only" id="voiceStatus" role="status" aria-live="polite"></p>
@@ -973,7 +1072,7 @@
 </div>
 <p class="honest reveal" data-i18n="n.after.honest"><b>추정값에는 '추정'이라고 씁니다.</b> 근거가 부족하면 숫자 대신 "학습 중"이라고 보여줍니다. 확신할 수 없는 지표는 넣지 않았습니다.</p>
 <div class="row flip reveal">
-<div class="frame"><img alt="iPhone 몸·러닝 리포트 — 훈련 부하 흐름·훈련 부하·젖산 역치(추정)·지구력 훈련량·언덕 노출 타일" data-i18n-attr="alt:alt.phone.glance" loading="lazy" src="assets/framed-phone-glance.png" data-shot="framed-phone-glance" width="640" height="1308" decoding="async"/></div>
+<div class="frame"><picture><source srcset="assets/framed-phone-glance.avif" type="image/avif"/><source srcset="assets/framed-phone-glance.webp" type="image/webp"/><img alt="iPhone 몸·러닝 리포트 — 훈련 부하 흐름·훈련 부하·젖산 역치(추정)·지구력 훈련량·언덕 노출 타일" data-i18n-attr="alt:alt.phone.glance" loading="lazy" src="assets/framed-phone-glance.png" data-shot="framed-phone-glance" width="640" height="1308" decoding="async"/></picture></div>
 <div class="desc">
 <h3 data-i18n="n.after.h3">지표를 누르면 내 평소 범위 위에서 봅니다</h3>
 <p data-i18n="n.after.p">오늘 값이 내 28일 범위 안에 있는지, 4주 전과 비교해 어디쯤인지 보여줍니다. 용어를 몰라도 됩니다. 지표마다 뜻과 계산 근거가 붙어 있습니다.</p>
@@ -994,7 +1093,7 @@
 <h2 id="race-h" class="reveal" data-i18n="n.race.h2">대회까지 주차별 플랜,<br/>당일엔 구간 전략</h2>
 <p class="sub reveal" data-i18n="n.race.sub">목표 대회와 기록을 넣으면 주차별 로드맵을 짭니다. 지금 체력으로 가능한 목표인지도 솔직하게 말합니다. 플랜을 보는 건 무료이고, 워치에서 코치가 구간마다 진행하는 건 구독입니다.</p>
 <div class="row reveal">
-<div class="frame"><img alt="iPhone 주간 훈련 플랜 화면" data-i18n-attr="alt:alt.phone.plan" loading="lazy" src="assets/framed-phone-plan.png" data-shot="framed-phone-plan" width="640" height="1308" decoding="async"/></div>
+<div class="frame"><picture><source srcset="assets/framed-phone-plan.avif" type="image/avif"/><source srcset="assets/framed-phone-plan.webp" type="image/webp"/><img alt="iPhone 주간 훈련 플랜 화면" data-i18n-attr="alt:alt.phone.plan" loading="lazy" src="assets/framed-phone-plan.png" data-shot="framed-phone-plan" width="640" height="1308" decoding="async"/></picture></div>
 <div class="desc">
 <h3 data-i18n="n.race.h3">코치를 고르면 플랜과 말투가 달라집니다</h3>
 <p data-i18n="n.race.p">완주 우선, 균형, 기록 도전. 셋 중 하나를 고르면 훈련 구성과 달리는 중 말투가 함께 바뀝니다. 초보는 어느 코치를 골라도 무리한 인터벌은 받지 않습니다.</p>
@@ -1006,7 +1105,7 @@
 </div>
 </div>
 <div class="row flip reveal">
-<div class="frame"><img alt="iPhone 레이스 예측 화면" data-i18n-attr="alt:alt.phone.race" loading="lazy" src="assets/framed-phone-race.png" data-shot="framed-phone-race" width="640" height="1308" decoding="async"/></div>
+<div class="frame"><picture><source srcset="assets/framed-phone-race.avif" type="image/avif"/><source srcset="assets/framed-phone-race.webp" type="image/webp"/><img alt="iPhone 레이스 예측 화면" data-i18n-attr="alt:alt.phone.race" loading="lazy" src="assets/framed-phone-race.png" data-shot="framed-phone-race" width="640" height="1308" decoding="async"/></picture></div>
 <div class="desc">
 <h3 data-i18n="n.race.h3b">대회 코스를 미리 아는 코치</h3>
 <p data-i18n="n.race.pb">대회 코스 GPX를 넣으면 어디서 오르막이 나오는지 먼저 압니다. 경사를 반영한 구간 페이스와 보급 시점을 워치로 보내면, 당일엔 안내만 따라오면 됩니다.</p>
@@ -1040,7 +1139,7 @@
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.price.eb">가격</div>
 <h2 id="price-h" class="reveal" data-i18n="n.price.h2">기록은 무료,<br/>코치는 월 ₩1,900</h2>
-<p class="sub reveal" data-i18n="n.price.sub">기록과 플랜 보기, 리포트는 무료입니다. 코치가 직접 말하고 분석하는 건 구독이고, App Store가 체험 대상으로 판단하는 계정은 첫 기간을 무료로 써볼 수 있습니다.</p>
+<p class="sub reveal" data-i18n="n.price.sub">기록과 플랜 보기, 리포트는 무료입니다. 코치가 직접 말하고 분석하는 건 구독이고, App Store가 체험 대상으로 판단하는 계정은 첫 1개월을 무료로 써볼 수 있고, 이 1개월은 월간이든 연간이든 같습니다.</p>
 <div class="price">
 <div class="plan tilt reveal" data-tilt="5">
 <div class="name" data-i18n="n.price.freeName">기본</div>
@@ -1053,7 +1152,8 @@
      언덕), so this list and run.html's r.tier.free name the same five things in
      the same words; the tip card was in run.html's free list and missing here,
      which is why the two pages disagreed on how long the free tier is. -->
-<li data-i18n="n.price.f4">워치로 달릴 때 — 스플릿(km 또는 마일 — 기기 단위 설정을 따릅니다), 심박존, 페이스, 코스 언덕 예고, 경로 이탈 경보 음성. 아이폰만 들고 달리면 무료 음성은 스플릿뿐입니다.</li>
+<li data-i18n="n.price.f4">워치로 달릴 때: 스플릿(단위는 기기 설정을 따릅니다), 심박존, 페이스, 언덕 예고, 경로 이탈 경보 음성</li>
+<li data-i18n="n.price.f4b">아이폰만 들고 달리면 무료 음성은 스플릿뿐입니다</li>
 <li data-i18n="n.price.f6">러닝 후 팁 카드</li>
 <li data-i18n="n.price.f5">GPX 내보내기, AI 분석용 리포트</li>
 </ul>
@@ -1065,7 +1165,7 @@
 <a class="btn ghost" href="run.html" style="margin-top:18px" data-i18n="n.price.freecta">무료로 어디까지 되는지 5km 데모에서 보기</a>
 </div>
 <div class="plan pro tilt reveal" data-tilt="5">
-<span class="ribbon" data-i18n="pl.ribbon">체험 대상 계정이면 첫 기간 무료</span>
+<span class="ribbon" data-i18n="pl.ribbon">체험 대상 계정이면 1개월 무료</span>
 <div class="name" data-i18n="pl.coach">런비스 코치</div>
 <!-- The ribbon used to promise the trial in the indicative ("첫 구독이면 무료
      체험") while the app only prints that line when StoreKit reports
@@ -1097,7 +1197,7 @@
 <details class="gate">
 <summary data-i18n="n.price.moreh">다른 지역 가격, 절약률, 본전 계산</summary>
 <p data-i18n="pr.approx2">환산액은 여기 적지 않습니다. 애플은 환율이 아니라 가격대로 청구하기 때문에, 환산해 둔 숫자는 정작 결제하는 날 틀립니다. 다른 스토어의 가격이 정해지는 대로 실제 숫자를 이 페이지에 적습니다.</p>
-<p data-i18n="n.price.year">연간은 <b>₩15,000</b>. 대한민국 App Store 기준으로 월 1,250원꼴, 월간보다 약 34% 저렴합니다. 다른 지역은 가격대가 달라 이 비율도 달라질 수 있어서, 실제 절약률은 앱의 구매 화면이 그 자리의 두 가격으로 계산해 보여줍니다. 체험 대상 계정이면 연간도 첫 기간이 무료이고, 그 뒤 1년 요금이 한 번에 청구됩니다.</p>
+<p data-i18n="n.price.year">연간은 <b>₩15,000</b>. 대한민국 App Store 기준으로 월 1,250원꼴, 월간보다 약 34% 저렴합니다. 다른 지역은 가격대가 달라 이 비율도 달라질 수 있어서, 실제 절약률은 앱의 구매 화면이 그 자리의 두 가격으로 계산해 보여줍니다. 체험 대상 계정이면 연간에도 무료 기간이 붙지만, 그 길이는 월간과 똑같은 1개월입니다 — 1년이 아닙니다. 1개월이 지나면 1년 요금 ₩15,000이 한 번에 청구됩니다.</p>
 <p data-i18n="n.price.life">구독 대신 <b>평생 이용권 ₩39,000</b>. 출시 기념 가격이고, 가격이 오르더라도 이미 구매한 분께는 적용되지 않습니다. 대한민국 App Store 가격으로 치면 연간 ₩15,000 기준 약 2.6년, 월 ₩1,900 기준 약 20개월이면 본전입니다. Apple 가족 공유가 되는 요금제는 이것뿐입니다.</p>
 </details>
 <!-- 2026-09-06 라운드 13 (-0.6): five flat bullets, and three of them only
@@ -1202,7 +1302,7 @@
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q5">6개 언어 음성은 어디까지 되나요?</h3><p data-i18n="n.faq.a5">아이폰 코치가 말하는 문장은 여섯 언어 전부 테스트로 고정돼 있습니다 — 45분짜리 러닝을 초 단위로 재생해, 그 러닝에서 나온 큐가 전부 번역돼 있는지 빌드할 때마다 검사합니다. 워치의 실시간 코칭 루프는 그 테스트 밖이라 아직 표에 닿지 않은 문장이 남아 있을 수 있고, 그럴 때는 한국어가 아니라 영어로 나옵니다. 그 폴백도 테스트로 고정돼 있습니다. 앱 화면에 적히는 문구는 코치 음성과 다른 번역표를 씁니다.</p>
 <details class="gate"><summary data-i18n="n.faq.a5h">테스트는 어디까지 붙잡고 있나요?</summary><p data-i18n="n.faq.a5g">네 개의 번역표는 키 집합도 자리표시자 번호도 서로 정확히 일치해야 하고, 표에 적힌 모든 줄이 실제 조회 경로로 닿아야 합니다. 아이폰 코치의 45분 재생은 여섯 언어 × 미터·마일 두 설정으로 돌아가고, 하나라도 어긋나면 그 자리에서 실패합니다. 숫자가 들어가는 안내도 언어마다 그 언어의 어순으로 말합니다(스플릿, 언덕 예고, 페이스, 심박존, 훈련 스텝 포함).</p></details></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q6">기록이 하나도 없어도 쓸 수 있나요?</h3><p data-i18n="n.faq.a6">됩니다. 워치에서 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 만들어집니다. 이 측정은 워치 전용입니다. 아이폰만 있으면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기가 되고 플랜의 시작 지점은 최근 주간 거리로 잡습니다. 준비도는 워치를 차고 잔 밤이 기준선에 쌓여야 해서 보통 2주쯤, ACWR은 4주쯤 걸립니다. 퍼포먼스 컨디션은 최대심박을 설정한 뒤 심박이 기록된 10분 넘는 러닝을 같은 강도대(이지·중간·고강도)로 3회 채우면 나옵니다. 처음 몇 번은 강도나 측정 시점을 아직 구분하지 못한 기준선과 비교되고, 앱이 그 사실을 그 화면에 적습니다.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q7">무료 체험은 누가 받나요?</h3><p data-i18n="n.faq.a7">App Store가 이 구독의 체험을 아직 쓰지 않았다고 판단하는 계정만 받습니다. 전에 같은 구독을 썼거나 체험을 이미 소진한 계정은 첫 결제부터 바로 청구됩니다. 앱의 구매 화면이 지금 어느 쪽인지 사기 전에 항상 알려줍니다. 무료 기간의 길이도 App Store가 상품에 실어 내려보내는 값이라, 앱이 받은 그대로 구매 직전에 표시합니다. 연간을 골랐다면 그 무료 기간이 끝난 뒤 1년 요금이 한 번에 청구됩니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q7">무료 체험은 누가 받나요?</h3><p data-i18n="n.faq.a7">App Store가 이 구독의 체험을 아직 쓰지 않았다고 판단하는 계정만 받습니다. 전에 같은 구독을 썼거나 체험을 이미 소진한 계정은 첫 결제부터 바로 청구됩니다. 앱의 구매 화면이 지금 어느 쪽인지 사기 전에 항상 알려줍니다. 지금 설정된 무료 기간은 월간도 연간도 1개월입니다. 연간을 고른다고 1년이 공짜가 되지는 않습니다. 길이 자체는 App Store가 상품에 실어 내려보내는 값이라, 앱이 받은 그대로 구매 직전에 다시 표시합니다. 연간이면 그 1개월이 끝난 뒤 1년 요금이 한 번에 청구됩니다.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q8">평생 이용권과 연간 중 뭐가 유리한가요?</h3><p data-i18n="n.faq.a8">평생 이용권은 자동 갱신이 없는 1회 구매입니다. 가격 카드의 계산대로 연간 기준 약 2.6년, 월간 기준 약 20개월이면 본전이니 그보다 오래 쓸 생각이면 평생 쪽이 쌉니다. Apple 가족 공유가 되는 요금제도 이것 하나뿐입니다. 월간·연간 구독은 대상이 아닙니다.</p></div>
 <!-- Two questions the page had been leaving to the download: there is no
      iCloud sync (no paid developer account), and there is no complication,
@@ -1632,13 +1732,13 @@ const Voice=(()=>{
     const was=activeChip;
     chips().forEach(x=>{ x.classList.remove('playing'); x.setAttribute('aria-pressed','false'); });
     activeChip=null;
-    if(was && !quiet) announce('a11y.stopped','재생을 멈췄습니다');
+    if(was && !quiet) announce('a11y.stopped', '재생을 멈췄습니다');
   }
   function play(chip, text, tag){
     stop(true);
     const my=++gen;
     activeChip=chip; chip.classList.add('playing'); chip.setAttribute('aria-pressed','true');
-    announce('a11y.playing','예시 음성 재생 중');
+    announce('a11y.playing', '예시 음성 재생 중');
     const list=voiceCandidates(tag);
     const done=()=>{ if(my!==gen) return; chip.classList.remove('playing'); chip.setAttribute('aria-pressed','false'); activeChip=null; };
     (function attempt(i){

@@ -39,17 +39,26 @@
 <meta property="og:url" content="https://runvis.app/how-it-works.html">
 <meta property="og:site_name" content="Runvis">
 <meta property="og:locale" content="ko_KR">
-<meta property="og:image" content="https://runvis.app/assets/og-card.png?v=2">
-<meta property="og:image:alt" content="Runvis — Apple Watch running coach">
+<meta property="og:image" content="https://runvis.app/assets/og-card.png?v=3">
+<meta property="og:image:alt" content="Runvis 공유 카드 — 애플워치면 충분합니다" data-i18n-attr="content:meta.ogalt">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://runvis.app/assets/og-card.png?v=2">
+<meta name="twitter:image" content="https://runvis.app/assets/og-card.png?v=3">
 <link rel="canonical" href="https://runvis.app/how-it-works.html">
 <!-- x-default is the alternate for a visitor whose language matches none of
      the six. That used to be this Korean document, which meant a French or
      Portuguese reader was routed to Korean by both the boot script and the
-     search engine. Both now end at English: the boot script's last resort is
-     "en" and this points at /en/. The Korean page keeps its own hreflang="ko"
-     alternate below and stays the canonical home. -->
+     search engine. Both now end at English: this points at /en/, and English
+     is what the in-page language banner OFFERS a browser outside the six.
+     What changed in round 14 is who acts on that offer. The boot script used
+     to act on it itself — it replaced the location of a root URL whenever
+     navigator.language was not Korean, which is precisely what a crawler
+     looks like, so the document that declares hreflang="ko" for "/" sent the
+     crawler away from "/" before it could read it (-4). These alternates are
+     now a promise the page keeps: rendering "/" gives you the Korean page,
+     hreflang and sitemap.xml both say so, and the reader is handed a visible
+     link to their own market instead of being moved without being asked.
+     The Korean page keeps its hreflang="ko" alternate below and stays the
+     canonical home. -->
 <link rel="alternate" hreflang="x-default" href="https://runvis.app/en/how-it-works.html">
 <link rel="alternate" hreflang="ko" href="https://runvis.app/how-it-works.html">
 <link rel="alternate" hreflang="en" href="https://runvis.app/en/how-it-works.html">
@@ -137,7 +146,8 @@
 </style>
 <!-- Language boot — same script as index.html. Runs before the body is parsed
      so <html lang>, the canonical and og:locale are already right at first
-     paint, and pulls exactly one dictionary (~37-49 KB) instead of six. -->
+     paint, and pulls a dictionary only when the reader asked for a language
+     this file is not written in (라운드 14, -0.6). -->
 <script>
 (function(){
   var L=["ko","en","ja","es","zh","de"];
@@ -160,45 +170,84 @@
   // RunvisPageLang is set just above; it outranks the saved choice and the
   // browser's. ?lang= still wins over it.
   var saved=null; try{ saved=norm(localStorage.getItem("runvis_lang")); }catch(e){}
-  // Last resort when nothing has spoken and the browser's language is not one
-  // of the six: English, not Korean. norm() passes only ko/en/ja/es/zh/de, so
-  // fr, pt, it, ru … all fell through to "ko" and a French reader landed on a
-  // Korean document. A Korean browser still resolves through
-  // norm(navigator.language) and is unaffected, and ?lang= and the saved
-  // choice still outrank this.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||navLang(navigator.language)||"en";
-  // A German browser landing on a ROOT url used to get German BODY text with a
-  // Korean canonical, Korean og:* and no route to /de/ at all — the five
-  // prerendered market pages existed and nothing ever sent anyone to them.
-  // GitHub Pages cannot redirect, so it happens here, and only in the one case
-  // where nothing else has spoken: no ?lang= (an explicit choice), no saved
-  // choice, not already on a prerendered page, and not Korean (this IS the
-  // Korean document and the x-default). replace() keeps the back button
-  // working and the sessionStorage flag makes a second hop impossible even if
-  // the target ever failed to set RunvisPageLang.
+  // ---- what language does THIS document render in? -----------------------
+  // The root IS the Korean page: hreflang="ko" names "/", sitemap.xml lists
+  // "/" as the Korean URL, and the canonical here is "/". So the root has to
+  // still be Korean when it is rendered by a visitor who brought nothing but a
+  // browser language — and a crawler is exactly that visitor. Googlebot runs
+  // this script with navigator.language="en-US" and empty storage, so the line
+  // that used to stand here resolved the ROOT to English and the block below
+  // then replaced the location with /en/, while the same document went on
+  // declaring "/" as the Korean original (2026-09-06 라운드 14, -4). Render
+  // and declaration cannot both be right, and the declaration is the one
+  // sitemap.xml, robots.txt and thirty hreflang clusters are built out of.
+  //
+  // So navigator.language no longer decides what is RENDERED. It decides what
+  // is OFFERED: i18n.js puts a banner at the top of the page linking to this
+  // reader's own market page. That is also what Google documents for a site
+  // that cannot redirect server-side (GitHub Pages cannot), and it is the only
+  // "send the visitor onward" that a person and a crawler can both be handed
+  // without one of them being told something the other is not.
+  var pageLang=norm(window.RunvisPageLang)||"ko";   // "ko" at the root; the directory name under /en/ …
+  // What to OFFER — never what to render. English for a browser outside the
+  // six (fr, pt, it, ru …), which is also what hreflang="x-default" points at,
+  // so the banner and the search engine send that reader to the same place.
+  var prefer=navLang(navigator.language)||"en";
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||pageLang;
+  // The one automatic navigation that is left, and the reason the five market
+  // pages are not "five pages nobody is sent to" again (라운드 9). It fires on
+  // a SAVED choice only: i18n.js writes runvis_lang when the URL or the
+  // language menu NAMED a language, never when the page merely fell back to
+  // its own (applyLang's `remember` argument). So this acts on something this
+  // reader did, not on a header that arrived unasked — and a crawler, whose
+  // localStorage is empty, can never reach it, which is what keeps the root's
+  // rendered language equal to its declared one.
+  // Only a ROOT url can send: under /en/ … the directory is the language.
+  // replace() keeps the back button working, and the sessionStorage flag makes
+  // a second hop impossible even if the target failed to set RunvisPageLang.
   try{
-    if(!window.RunvisPageLang && !urlLang && !saved && code!=="ko"
+    if(!window.RunvisPageLang && !urlLang && saved && saved!=="ko"
        && /(^|\.)runvis\.app$/.test(location.hostname)
        && !sessionStorage.getItem("runvis_sent")){
       sessionStorage.setItem("runvis_sent","1");
       var file=location.pathname.split("/").pop()||"";
       if(file==="index.html") file="";      // /de/, the URL hreflang and canonical name
-      location.replace("/"+code+"/"+file+location.hash);
+      location.replace("/"+saved+"/"+file+location.hash);
       return;
     }
   }catch(e){}
   window.RunvisLang=code; window.RunvisUrlLang=urlLang;
+  // Published for i18n.js: the document's own language and the one to offer.
+  window.RunvisDocLang=pageLang; window.RunvisPrefer=prefer;
   var html=document.documentElement;
   html.lang = code==="zh" ? "zh-Hant" : code;
   html.className += (html.className?" ":"") + "js";
   var BASE=window.RunvisBase||"";              // "" at the root, "/" under /en/ …
-  var d=document.createElement("script");
-  d.src=BASE+"t-"+code+".js?v=20260906e"; d.async=false; document.head.appendChild(d);
+  // The dictionary is fetched only when it would CHANGE something. Every
+  // [data-i18n] node, every data-i18n-attr, both JSON-LD blocks and every
+  // RunvisT() fallback in this file are already written in `pageLang` — and
+  // check-content [3], [4] and [10] hold all of them to that same dictionary
+  // byte for byte. So for the reader who is already on their own language,
+  // t-<code>.js (57-73 KB) was being downloaded to repaint the page with what
+  // it already said (2026-09-06 라운드 14, -0.6). i18n.js fetches one on demand
+  // if the reader switches language in place; the language MENU navigates to
+  // the market page, which arrives with its own.
+  if(code!==pageLang){
+    var d=document.createElement("script");
+    d.src=BASE+"t-"+code+".js?v=20260906f"; d.async=false; document.head.appendChild(d);
+    window.RunvisDictLoaded=code;                     // i18n.js: "one is already in flight"
+  }
   function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
-  // ?lang=de on a ROOT url shows the same page the prerendered /de/ copy shows,
-  // so the canonical points there instead of at itself — otherwise the two
-  // compete for the same market and neither wins. Without ?lang, and on the
-  // prerendered pages themselves, the canonical is the page's own address.
+  // The canonical follows the language ON SCREEN, not the spelling of the URL.
+  // /?lang=de and /de/ show the same German page, so both have to name /de/ or
+  // one market's signal is split between two addresses. Until round 14 this
+  // rewrite fired for ?lang= only, which left the OTHER way German reaches a
+  // root URL — a saved choice — rendering German under canonical "/" and
+  // og:url "/" (라운드 14, -1.5). One rule, "shown language ≠ this document's
+  // own language", covers ?lang=, a saved choice and an in-place switch alike.
+  // The old narrow rule was there to stop the root canonicalising to /en/ for
+  // an English browser; that case no longer exists, because a browser header
+  // no longer changes what the root renders.
   var link=document.querySelector('link[rel="canonical"]');
   if(link){
     // Remember the page's OWN address before rewriting it. i18n.js recomputes
@@ -207,15 +256,17 @@
     var base=link.getAttribute("data-base")||(link.getAttribute("href")||"").split("?")[0].split("#")[0];
     link.setAttribute("data-base",base);
     var url=base;
-    if(!window.RunvisPageLang && urlLang && urlLang!=="ko"){
-      try{ var u=new URL(base); u.pathname="/"+urlLang+u.pathname; url=u.href; }catch(e){}
+    if(code!==pageLang){
+      try{ var u=new URL(base), p=u.pathname;
+           if(window.RunvisPageLang && p.indexOf("/"+pageLang+"/")===0) p=p.slice(pageLang.length+1);
+           u.pathname=(code==="ko"?"":"/"+code)+p; url=u.href; }catch(e){}
     }
     link.setAttribute("href",url); meta("property","og:url",url); }
   var OGL={ko:"ko_KR",en:"en_US",ja:"ja_JP",es:"es_ES",zh:"zh_TW",de:"de_DE"};
   meta("property","og:locale",OGL[code]);
 })();
 </script>
-<script defer src="i18n.js?v=20260906e"></script>
+<script defer src="i18n.js?v=20260906f"></script>
 <!-- WebPage + BreadcrumbList. This page used to ship no structured data at
      all in any of the six languages: a crawler got a title and nothing that
      said what site the page belongs to or where it sits in it. Built from the

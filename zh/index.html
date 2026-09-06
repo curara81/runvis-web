@@ -5,7 +5,9 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"/>
-<script>window.RunvisPageLang="zh";window.RunvisBase="/";</script>
+<script>
+window.RunvisPageLang="zh";window.RunvisBase="/";
+</script>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title data-i18n="meta.title">Runvis — 有 Apple Watch 就夠了。Apple Watch 跑步教練</title>
 <meta content="不必再買第二支跑錶。讀取 Apple Watch 記錄的睡眠與心率，教練決定今天跑什麼，跑步時用聲音告訴你。沒有帳號，也沒有伺服器。" name="description" data-i18n-attr="content:meta.desc"/>
@@ -20,12 +22,12 @@
 <meta content="es_ES" property="og:locale:alternate"/>
 <meta content="ko_KR" property="og:locale:alternate"/>
 <meta content="de_DE" property="og:locale:alternate"/>
-<meta content="https://runvis.app/assets/og-card.png?v=2" property="og:image"/>
+<meta content="https://runvis.app/assets/og-card.zh.png?v=3" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
-<meta content="Runvis — Apple Watch running coach" property="og:image:alt"/>
+<meta content="Runvis 分享卡 — 有 Apple Watch 就夠了" property="og:image:alt" data-i18n-attr="content:meta.ogalt"/>
 <meta content="summary_large_image" name="twitter:card"/>
-<meta content="https://runvis.app/assets/og-card.png?v=2" name="twitter:image"/>
+<meta content="https://runvis.app/assets/og-card.zh.png?v=3" name="twitter:image"/>
 <meta content="#000000" name="theme-color"/>
 <link href="https://runvis.app/zh/" id="canonical" rel="canonical"/>
 <link href="https://runvis.app/en/" hreflang="x-default" rel="alternate"/>
@@ -38,490 +40,325 @@
 <link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🏃&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <link rel="manifest" href="/site.webmanifest"/>
-<noscript><style>.reveal,.rv{opacity:1!important;transform:none!important}</style></noscript>
+<noscript><style>
+.reveal,.rv{opacity:1!important;transform:none!important}
+</style></noscript>
 <style>
-  :root{
-    --green:#3DDC84; --green-d:#27b368; --cyan:#4CCBD9; --orange:#FFB340; --red:#FF6B6B;
-    --bg:#000; --bg1:#0b0d10; --bg2:#14171c; --card:#16191e; --card2:#1b1f25;
-    --line:#24282e; --line2:#2e333a; --text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;
-    --ease:cubic-bezier(.22,.61,.36,1);
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--text);
-    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
-    line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:clip;word-break:keep-all}
-  a{color:inherit;text-decoration:none}
-  /* .btn sets display:inline-flex, which outranks the UA rule for [hidden].
-     #betaNext is a .btn and is hidden until a submit succeeds. */
-  [hidden]{display:none!important}
-  :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
-  img{max-width:100%;height:auto;display:block}
-  body{overflow-wrap:break-word;word-break:normal;line-break:normal}
-  /* keep-all keeps Korean words whole, but it also stops Japanese and
-     Chinese from breaking at all — a price bullet overflowed its card by
-     164px on ja (2026-09-06 라운드 12). Scope it to Korean only. */
-  :lang(ko) body,body:lang(ko){word-break:keep-all}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
-  .grad{background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(120deg,var(--green),var(--cyan));
-    color:#04120c;font-weight:800;font-size:17px;padding:15px 30px;border-radius:14px;border:none;cursor:pointer;
-    transition:transform .25s var(--ease),box-shadow .25s var(--ease);box-shadow:0 8px 30px rgba(61,220,132,.25);will-change:transform}
-  .btn:hover{box-shadow:0 14px 44px rgba(61,220,132,.42)}
-  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line2);box-shadow:none}
-  .btn.ghost:hover{border-color:var(--green);box-shadow:0 0 0 4px rgba(61,220,132,.10)}
-  .eyebrow{color:var(--green);font-weight:700;font-size:13.5px;letter-spacing:1.6px;text-transform:uppercase}
-  section{padding:88px 0;position:relative;scroll-margin-top:72px}
-  section+section{border-top:1px solid var(--line)}
-  h2{font-size:clamp(30px,4.6vw,44px);font-weight:800;letter-spacing:-.025em;line-height:1.18;margin-top:10px}
-  .sub{color:var(--dim);font-size:18px;margin-top:16px;max-width:660px}
-  .sub b{color:var(--text);font-weight:700}
-  /* The reveal no longer touches opacity, and that is the whole fix for the
-     black screen. It used to fade 0 -> 1 over .8s; measured on the deployed
-     page, a fling at ~120 px per frame left 65 of 137 sampled frames at
-     1280x900 — and 76 of 248 at 375x812 — with more than half the viewport
-     occupied by text still at opacity 0. No observer tuning can beat that:
-     to finish a .45s fade before a block arrives, it would have to start
-     several viewports early. A block that only SLIDES is legible from the
-     first frame it is on screen, and the settle still reads as motion.
-     Phones drop even the slide, below. */
-  html.js .reveal{transform:translateY(28px) scale(.985);transition:transform .45s var(--ease) var(--d,0ms)}
-  html.js .reveal.in{transform:none}
-  .pill{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.04em;padding:3px 9px;border-radius:999px;vertical-align:middle;margin-left:8px}
-  .pill.free{background:rgba(255,255,255,.08);color:var(--dim)}
-  .pill.pro{background:rgba(61,220,132,.16);color:var(--green)}
-
-  /* tilt cards */
-  .tilt{position:relative;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(0);
-    transition:transform .45s var(--ease),box-shadow .45s var(--ease),border-color .3s;transform-style:preserve-3d;will-change:transform}
-  .tilt::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .35s;
-    background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.16),rgba(255,255,255,0) 55%)}
-  .tilt.tilting{transition:transform .08s linear,box-shadow .45s var(--ease);box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(61,220,132,.25)}
-  .tilt.tilting::after{opacity:1}
-  .card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:20px;padding:28px}
-  .card:hover{border-color:rgba(61,220,132,.5)}
-  .card .ic{font-size:30px;margin-bottom:14px;line-height:1}
-  .card h3{font-size:20px;font-weight:800;margin-bottom:8px;letter-spacing:-.01em}
-  .card p{color:var(--dim);font-size:15px}
-  .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:44px}
-  @media(max-width:820px){.cards{grid-template-columns:minmax(0,1fr)}}
-
-  /* NAV */
-  nav{position:sticky;top:0;z-index:50;background:rgba(0,0,0,.66);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
-  nav .wrap{display:flex;align-items:center;gap:18px;height:60px}
-  .logo{font-weight:900;font-size:20px;letter-spacing:-.02em}
-  .logo b{color:var(--green)}
-  nav .links{display:flex;gap:24px;font-size:15px;color:var(--dim);margin:0 auto;white-space:nowrap;min-width:0;overflow:hidden}
-  /* German and Spanish labels are long: tighten before they wrap into the logo */
-  @media(max-width:1180px){nav .links{gap:16px;font-size:14px}}
-  @media(max-width:1000px){nav .links{gap:12px;font-size:13px}}
-  /* 821–920px (iPad Air/Pro portrait is 820 and 834) kept .nav-cta on screen
-     while .links was still overflow:hidden, so the last link — "5km 데모" —
-     was clipped off the right edge in Spanish and German with no way to reach
-     it. The phone rule below already scrolls the row; this extends the same
-     escape hatch up to the width where .nav-cta disappears, without taking
-     the desktop call to action away. */
-  /* The scrollbar is hidden here, so the row has to say "there is more" some
-     other way: whichever end still has links off-screen fades out. The mask is
-     set from script (see navFade below) rather than in this rule, because a row
-     that happens to FIT must not be dimmed — at 768 px the German nav fits
-     exactly, and a permanent fade would have greyed out "5-km-Demo" for no
-     reason. */
-  @media(min-width:701px) and (max-width:920px){
-    nav .links{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-    nav .links::-webkit-scrollbar{display:none}
-  }
-  nav .links a{transition:color .2s}
-  nav .links a:hover{color:var(--text)}
-  /* Phone: measured at 384 px the row was 479 px wide inside 336 px, so
-     가격, FAQ and 5km 데모 were all off-screen with the scrollbar hidden. The
-     five section anchors used to be display:none here, which left an
-     eleven-section document with three links and no other table of contents.
-     They scroll instead, with the same hidden scrollbar and the same navFade
-     mask the 701–920 px rule uses — so nothing is removed and the fade says
-     there is more. justify-content is flex-start, because a centred row cannot
-     be scrolled back to its first item. */
-  @media(max-width:700px){
-    nav .wrap{height:auto;padding-top:8px;padding-bottom:8px;flex-wrap:wrap;row-gap:6px}
-    nav .links{order:3;width:100%;gap:18px;font-size:13.5px;justify-content:flex-start;margin-left:0;
-      overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-    nav .links::-webkit-scrollbar{display:none}
-    nav .links a{white-space:nowrap}
-    /* Measured at 375 px: the row is 493 px inside 342 px, so three links sit
-       past the right edge — and they were 가격, FAQ and the demo, the only
-       three on this bar that lead to a decision. The five section anchors are
-       a table of contents for a page the reader is already scrolling; these
-       three are not reachable any other way from the top of the document. So
-       at phone width the order is conversion-first and the anchors follow.
-       Source order is left alone — it is the document's own order, which is
-       what the desktop row and the keyboard follow — and every item stays
-       reachable by scrolling either way. */
-    nav .links a{order:5}
-    nav .links a[href="#why"]{order:1}
-    nav .links a[href="#price"]{order:2}
-    nav .links a[href="run.html"]{order:3}
-    nav .links a[href="#faq"]{order:4}
-  }
-  /* Desktop had no standing call to action: the sticky bar below is phone-only,
-     so a reader scrolling this long page had to find the hero, the price
-     section or the very bottom. This sits in the nav and hides itself at the
-     width where the sticky bar takes over. */
-  .nav-cta{flex:none;padding:7px 14px;font-size:13px;white-space:nowrap;box-shadow:none}
-  .nav-cta:hover{box-shadow:0 8px 26px rgba(61,220,132,.35)}
-  @media(max-width:820px){.nav-cta{display:none}}
-  .langsel{position:relative;display:inline-block;margin-left:14px}
-  .langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
-  .langsel button:hover{border-color:var(--green)}
-  .langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}
-  .langsel.open ul{display:block}
-  .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text)}
-  .langsel li:hover{background:rgba(61,220,132,.15)}
-  /* 2026-09-06 라운드 13 (-0.5): each item is a real link to that language's
-     prerendered copy, so picking a language changes the ADDRESS — a URL shared
-     from here keeps the language it was read in. The <li> keeps the row box,
-     the <a> fills it so the whole row stays clickable, and aria-checked moves
-     onto the anchor, which is the menuitemradio now. */
-  .langsel li{padding:0}
-  .langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
-  .langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
-  @media(max-width:700px){.langsel{margin-left:auto}.langsel button{padding:6px 9px;font-size:12px}}
-
-  /* HERO */
-  .hero{padding:104px 0 72px;text-align:center;position:relative;overflow:hidden}
-  .hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
-  .hero-bg .blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:drift 22s ease-in-out infinite alternate}
-  .hero-bg .b1{width:52vw;height:52vw;left:-12vw;top:-18vw;background:radial-gradient(circle,rgba(61,220,132,.28),transparent 62%)}
-  .hero-bg .b2{width:46vw;height:46vw;right:-10vw;top:-6vw;background:radial-gradient(circle,rgba(76,203,217,.24),transparent 62%);animation-delay:-8s}
-  .hero-bg .b3{width:60vw;height:30vw;left:20vw;bottom:-14vw;background:radial-gradient(ellipse,rgba(61,220,132,.16),transparent 65%);animation-delay:-14s}
-  .hero-bg .grid{position:absolute;inset:0;background:
-      linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px,
-      linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px;
-    mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 80%)}
-  @keyframes drift{from{transform:translate3d(-3%,-2%,0) scale(1)}to{transform:translate3d(4%,3%,0) scale(1.12)}}
-  .hero .wrap{position:relative;z-index:1}
-  .hero h1{font-size:clamp(36px,6.2vw,64px);font-weight:900;letter-spacing:-.035em;line-height:1.1;margin-top:14px}
-  .hero .sub{margin:22px auto 0;font-size:clamp(17px,2.3vw,21px)}
-  .hero .cta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-  .hero .note{margin-top:16px;font-size:13.5px;color:var(--dim2)}
-  .trust{margin:30px auto 0;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-  .tbadge{background:rgba(22,25,30,.6);border:1px solid var(--line);border-radius:12px;padding:10px 18px;min-width:110px;backdrop-filter:blur(6px)}
-  .tbadge b{display:block;font-size:19px;font-weight:900;background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .tbadge span{display:block;font-size:12px;color:var(--dim);margin-top:2px}
-  /* The trial badge is a link to the FAQ answer that states the condition,
-     so it needs a visible affordance where the other two badges have none. */
-  a.tbadge{display:block;transition:border-color .2s var(--ease)}
-  a.tbadge:hover{border-color:var(--green)}
-  a.tbadge span{text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
-
-  /* hero devices: Apple bezels are shown flat (Apple's guidelines forbid angled product images) — they float, they don't tilt */
-  .stage{margin:64px auto 0;position:relative;width:min(100%,680px)}
-  .ring{position:absolute;left:50%;top:44%;width:600px;height:600px;transform:translate(-50%,-50%);pointer-events:none;z-index:0}
-  .ring::before{content:"";position:absolute;inset:18%;border-radius:50%;background:radial-gradient(circle,rgba(61,220,132,.22),rgba(76,203,217,.08) 55%,transparent 72%);filter:blur(28px)}
-  .ring svg{width:100%;height:100%;filter:drop-shadow(0 0 24px rgba(61,220,132,.25))}
-  .ring .arc{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 2.6s var(--ease) .4s forwards}
-  .ring .spin{transform-origin:50% 50%;animation:spin 40s linear infinite}
-  @keyframes draw{to{stroke-dashoffset:120}}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .devices{position:relative;z-index:1;display:flex;gap:36px;justify-content:center;align-items:flex-end}
-  .phone{width:250px;flex-shrink:0;filter:drop-shadow(0 34px 60px rgba(0,0,0,.65));animation:float 7s ease-in-out infinite}
-  .watch-stack{position:relative;width:300px;max-width:100%;filter:drop-shadow(0 34px 60px rgba(0,0,0,.65));animation:float 7s ease-in-out -3.5s infinite}
-  .watch-stack img{width:100%;opacity:0;transition:opacity .9s ease}
-  .watch-stack img.on{opacity:1}
-  .watch-stack img:not(:first-child){position:absolute;top:0;left:0}
-  .watch-stack .wnote{margin-top:10px;font-size:11.5px;line-height:1.5;color:var(--dim2);text-align:center}
-  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-  @media(max-width:640px){.devices{flex-direction:column;align-items:center;gap:26px}.phone{width:220px}.ring{width:420px;height:420px}}
-  /* Phone hero was 3,018 px at 384 px wide — the argument the page is making
-     started three screens down. On desktop the watch stack sits BESIDE the
-     phone and pulls the eye across; stacked under it on a phone it costs ~500 px
-     for pictures that #today shows again, larger, a screen later. So below
-     768 px the hero is eyebrow + H1 + sub + two CTAs + note + three badges +
-     one phone + the caption, and the watch screens wait for #today. */
-  @media(max-width:768px){
-    .hero{padding:88px 0 52px}
-    .stage{margin-top:34px}
-    .hero .watch-stack{display:none}
-    .trust{gap:8px;margin-top:22px}
-    .tbadge{padding:8px 14px;min-width:0;flex:1 1 30%}
-  }
-  /* Three badges across a 375 px phone leave ~75 px of content per badge, and
-     the value line is 19px/900 — "6 languages", "6 Sprachen" and "Free trial"
-     do not fit, so overflow-wrap broke them mid-word ("6 langua|ges") in the
-     first thing an English, German or Spanish reader sees. Two per row gives
-     each value ~127 px, which fits every language's badge, and the third badge
-     takes the second row on its own. */
-  @media(max-width:430px){
-    .tbadge{flex:1 1 44%}
-    .tbadge b{font-size:18px;overflow-wrap:normal}
-  }
-  .caption{margin:26px auto 0;max-width:420px;min-height:54px;background:rgba(22,25,30,.8);border:1px solid var(--line);border-radius:14px;padding:14px 18px;
-    font-size:15px;color:#dfe3e7;text-align:left;display:flex;align-items:center;gap:10px;backdrop-filter:blur(8px)}
-  .caption .mic{color:var(--green);font-size:18px;flex-shrink:0}
-  .caption .txt::after{content:"▌";color:var(--green);animation:blink 1s steps(1) infinite}
-  @keyframes blink{50%{opacity:0}}
-  .sc-note{margin-top:12px;font-size:12.5px;color:var(--dim2)}
-  .sc-note:empty{display:none}
-
-  /* two-column rows with device */
-  .row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:56px;align-items:center;margin-top:52px}
-  .row.flip{grid-template-columns:minmax(0,1fr) auto}
-  .row.flip .frame{order:2}
-  @media(max-width:860px){.row,.row.flip{grid-template-columns:minmax(0,1fr);gap:28px;justify-items:stretch;text-align:center}.row .desc{min-width:0}.row.flip .frame{order:0}.row ul{text-align:left;display:inline-block;max-width:100%}}
-  /* max-width, not just width: at 320 px (iPhone SE 1st gen) the .wrap content
-     box is 272 px and a flat 280 px bezel pushed the document 8 px wider than
-     the viewport, which overflow-x:clip then made unreachable. */
-  .frame{width:280px;max-width:100%;flex-shrink:0;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6))}
-  .frame.watch{width:240px}
-  .desc h3{font-size:24px;font-weight:800;margin-bottom:12px;letter-spacing:-.015em}
-  .desc p{color:var(--dim);font-size:16px;margin-bottom:12px}
-  .desc ul{list-style:none;margin-top:14px}
-  .desc li{color:#dfe3e7;font-size:15px;margin:9px 0;padding-left:26px;position:relative}
-  .desc li::before{content:"";position:absolute;left:0;top:9px;width:14px;height:14px;border-radius:50%;background:linear-gradient(120deg,var(--green),var(--cyan));opacity:.85;box-shadow:0 0 12px rgba(61,220,132,.4)}
-  /* minmax(0,…) rather than 1fr: a grid item's default min-width is auto, so a
-     long unbroken value (Japanese and German both produce them here) pushed the
-     track past the viewport instead of wrapping inside it. Below 560 px three
-     tracks leave ~73 px of text per tile, which is narrower than the status
-     pill, so the row folds to two and the third tile takes the width. */
-  .mini{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}
-  @media(max-width:560px){.mini{grid-template-columns:repeat(2,minmax(0,1fr))}.mini .m:nth-child(3){grid-column:1/-1}}
-  .mini .m{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 14px 12px;text-align:left}
-  .mini .m small{display:block;color:var(--dim);font-size:12px}
-  .mini .m b{display:block;font-size:20px;font-weight:900;margin:2px 0 4px;font-variant-numeric:tabular-nums}
-  .mini .m em{font-style:normal;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px}
-  .st-good{color:#3DDC84;background:rgba(61,220,132,.14)} .st-fair{color:#FFB340;background:rgba(255,179,64,.14)} .st-caution{color:#FF6B6B;background:rgba(255,107,107,.14)}
-  .watch3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:52px}
-  @media(max-width:820px){.watch3{grid-template-columns:1fr;max-width:340px;margin-left:auto;margin-right:auto}}
-  .w3{text-align:center}
-  .w3 .frame{width:230px;margin:0 auto;transition:transform .5s var(--ease)}
-  .w3:hover .frame{transform:translateY(-8px)}
-  .w3 b{display:block;font-size:17px;font-weight:800;margin:16px 0 6px}
-  .w3 span{display:block;color:var(--dim);font-size:14px;line-height:1.55;max-width:280px;margin:0 auto}
-
-  /* voice chips */
-  .voice-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:40px}
-  @media(max-width:1000px){.voice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media(max-width:560px){.voice-grid{grid-template-columns:minmax(0,1fr)}}
-  .vchip{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:16px;padding:20px;cursor:pointer;text-align:left}
-  .vchip .sensor{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;color:var(--cyan);letter-spacing:.02em;line-height:1.5;padding-bottom:10px;margin-bottom:12px;border-bottom:1px dashed var(--line)}
-  .vchip .play{display:inline-flex;align-items:center;gap:8px;color:var(--green);font-weight:700;font-size:14px;margin-bottom:10px}
-  .vchip .play .pill{margin-left:2px}
-  .vchip .play::before{content:"";width:0;height:0;border-left:9px solid var(--green);border-top:6px solid transparent;border-bottom:6px solid transparent}
-  .vchip.playing .play::before{border:none;width:9px;height:12px;background:var(--green);border-radius:1px}
-  .vchip .line{color:#dfe3e7;font-size:15px}
-  .vchip.playing{border-color:var(--green);box-shadow:0 0 0 3px rgba(61,220,132,.14),0 20px 50px rgba(0,0,0,.5)}
-  .quiet{margin-top:28px;display:flex;gap:14px;align-items:flex-start;background:rgba(61,220,132,.05);border-left:2px solid var(--green);border-radius:0 12px 12px 0;padding:14px 18px;color:var(--dim);font-size:14.5px;max-width:760px}
-  /* The density rules used to be one six-sentence paragraph; the numbers that
-     differ per session belong in a table and the rules that are the same for
-     every session belong under it. */
-  .qbody{flex:1;min-width:0}
-  .qbody>b{display:block;color:var(--text);font-size:16px;font-weight:800;margin-bottom:10px}
-  /* One sentence above the fold of this block; the table it summarises is
-     inside the <details> under it. */
-  .qsum{font-size:14.5px;color:#dfe3e7;margin-top:8px;line-height:1.7}
-  .qtable{overflow-x:auto;margin:10px -4px 0}
-  .qtable table{width:100%;border-collapse:collapse;font-size:14px}
-  .qtable th,.qtable td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-  .qtable th{color:var(--dim2);font-weight:700;font-size:12.5px}
-  .qtable tr:last-child td{border-bottom:0}
-  .qtable td:last-child{color:var(--text);font-weight:700}
-  .qbody ul{margin:12px 0 0;padding-left:18px}
-  .qbody li{margin-top:6px;line-height:1.6}
-
-  /* start steps */
-  .steps-h{margin-top:56px;font-size:22px;font-weight:800;letter-spacing:-.01em}
-  .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:18px}
-  @media(max-width:820px){.steps{grid-template-columns:minmax(0,1fr)}}
-  .step{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:22px;position:relative}
-  .step .sn{position:absolute;top:16px;right:18px;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:12px;color:var(--dim2);letter-spacing:.2em}
-  .step h4{font-size:17px;font-weight:800;margin-bottom:10px}
-  .step .q{background:rgba(0,0,0,.35);border-left:2px solid var(--green);border-radius:0 10px 10px 0;padding:10px 12px;font-size:13.5px;color:#cfe3d6;line-height:1.6;margin-bottom:10px}
-  .step p{color:var(--dim);font-size:14px}
-
-  /* analysis tiles */
-  /* align-items:start, not the default stretch. The FAQ answers run from two
-     lines to eight, and a stretched row made the short tile a slab of empty
-     card as tall as the longest answer beside it. Each tile is now its own
-     height and the row closes up. */
-  .tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:40px;align-items:start}
-  @media(max-width:900px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media(max-width:560px){.tiles{grid-template-columns:minmax(0,1fr)}}
-  .tile{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:22px}
-  /* h3, not h4: #after and #faq sit directly under their section's h2, so an
-     h4 here skipped a level and the tiles fell out of the heading outline.
-     Nothing nests inside a tile, so h3 is the honest level. Size unchanged. */
-  .tile h3{font-size:17px;font-weight:800;display:flex;align-items:center;flex-wrap:wrap;gap:4px}
-  .tile p{color:var(--dim);font-size:14px;margin-top:8px}
-  .honest{margin-top:26px;color:var(--dim2);font-size:14px;max-width:700px}
-  .honest b{color:var(--dim)}
-
-  /* privacy band */
-  #privacy{background:linear-gradient(180deg,rgba(61,220,132,.06),rgba(76,203,217,.05));text-align:center}
-  #privacy .big{font-size:clamp(24px,3.4vw,36px);font-weight:800;line-height:1.35;letter-spacing:-.02em;margin-top:10px}
-  #privacy p{color:var(--dim);font-size:15.5px;max-width:680px;margin:18px auto 0}
-  #privacy p a{color:var(--dim);border-bottom:1px solid var(--line)}
-
-  /* pricing */
-  .price{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;margin-top:44px}
-  @media(max-width:640px){.price{grid-template-columns:minmax(0,1fr)}}
-  .plan{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:22px;padding:32px;position:relative}
-  .plan.pro{border-color:rgba(61,220,132,.6)}
-  /* the ribbon now carries the introEligible condition, so it is longer in
-     every language — cap it at the card so it can never run off the edge. */
-  .plan .ribbon{position:absolute;top:-11px;right:20px;max-width:calc(100% - 40px);background:var(--green);color:#04120c;font-size:12px;font-weight:800;padding:4px 12px;border-radius:8px}
-  .plan .name{font-size:15px;color:var(--dim);font-weight:700}
-  .plan .amt{font-size:36px;font-weight:900;margin:8px 0 4px;letter-spacing:-.02em}
-  /* .amt-approx / .amt-year are gone with the paragraphs they styled — the
-     three prices are .ptable rows and the prose they carried is inside the
-     .gate below the table. --dim2 on the .plan gradient is only 4.94:1, so
-     everything small in this card uses --dim (6.27:1). */
-  .plan .gate p b{color:var(--green);font-weight:700}
-  /* Three rows, three prices, one shape. The label carries its single
-     qualifying clause; everything longer folds into the .gate below it. */
-  .plan .ptable{width:100%;border-collapse:collapse;margin:10px 0 2px}
-  .plan .ptable th{text-align:left;font-weight:700;font-size:15px;padding:9px 0;vertical-align:baseline}
-  .plan .ptable th small{display:block;font-weight:500;font-size:12px;color:var(--dim);line-height:1.5;margin-top:2px}
-  .plan .ptable td.pv{text-align:right;white-space:nowrap;font-size:21px;font-weight:900;letter-spacing:-.02em;
-    padding:9px 0 9px 12px;vertical-align:baseline;font-variant-numeric:tabular-nums}
-  .plan .ptable tr.lead td.pv{font-size:32px}
-  .plan .ptable tr+tr th,.plan .ptable tr+tr td{border-top:1px solid var(--line)}
-  /* The "which store" line, visible under the table rather than folded into
-     the gate — five of the six markets need it to read the figures at all.
-     (A second, identical `.plan .amt` rule stood here and is gone; the one at
-     the top of this block is the only declaration.) */
-  .plan .storenote{margin-top:10px;font-size:12.5px;line-height:1.65;color:var(--dim)}
-  .plan ul{list-style:none;margin-top:18px}
-  .plan li{padding:7px 0;font-size:15px;color:#dfe3e7;display:flex;gap:10px}
-  .plan li::before{content:"✓";color:var(--green);font-weight:800}
-  /* The two headings the app's paywall uses over the same two groups. */
-  .plan .plisth{margin-top:18px;font-size:12.5px;font-weight:800;letter-spacing:.06em;
-    text-transform:uppercase;color:var(--dim)}
-  .plan .plisth+ul{margin-top:6px}
-  /* The seven tile names, as a list rather than a comma sentence. Two columns
-     where there is room; no tick, because they are the CONTENTS of the ticked
-     line above, not seven more things. */
-  .plan .tilesli{padding:0}
-  .plan .tilesli::before{content:none}
-  .plan .tiles{margin:2px 0 4px 26px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}
-  @media(max-width:520px){.plan .tiles{grid-template-columns:minmax(0,1fr)}}
-  .plan .tiles li{padding:3px 0;font-size:13.5px;color:var(--dim);gap:7px}
-  .plan .tiles li::before{content:"·";color:var(--cyan)}
-  .plan .terms-link{display:inline-block;margin-top:4px;font-size:12px;color:var(--dim);
-    text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
-  .plan .terms-link:hover{color:var(--text)}
-  /* Same shape as the app's paywall disclosure: the price stays on the first
-     screen and the gate conditions are one tap under a label that is itself
-     the question a buyer is asking. */
-  /* Replaces the <details> that held the speech-density table; same weight and
-     colour as a .gate summary so the row reads as the same affordance, with an
-     arrow instead of a disclosure triangle because it now leaves the page. */
-  .qmore{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px;font-weight:700}
-  .qmore a{color:var(--dim);border-bottom:1px solid var(--line2)}
-  .qmore a:hover{color:var(--text);border-bottom-color:var(--green)}
-  .qmore a::after{content:" →";color:var(--green)}
-  .gate{margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
-  .gate summary{cursor:pointer;font-size:13.5px;font-weight:700;color:var(--dim);list-style:none;
-    display:flex;align-items:center;gap:8px}
-  .gate summary::-webkit-details-marker{display:none}
-  .gate summary::before{content:"▸";color:var(--green);transition:transform .2s var(--ease)}
-  .gate[open] summary::before{transform:rotate(90deg)}
-  .gate summary:hover{color:var(--text)}
-  .gate p{margin-top:10px;font-size:13px;line-height:1.75;color:var(--dim)}
-  /* One condition per tile. Was a single 298-character paragraph. */
-  .plan .gatelist{margin-top:8px;list-style:none}
-  .plan .gatelist li{padding:5px 0;font-size:13px;line-height:1.7;color:var(--dim);gap:8px;align-items:flex-start}
-  .plan .gatelist li::before{content:"·";color:var(--green)}
-  .note{text-align:center;color:var(--dim2);font-size:12.5px;margin-top:14px}
-  /* Sits directly under the submit button: the one thing about timing that can
-     honestly be said. */
-  /* It sits inside the form now, above the button. The form is a wrap-flex
-     row, so the note claims a whole line of its own instead of squeezing in
-     between the e-mail field and the submit button. */
-  .order-note{flex:0 0 100%;margin:0;font-size:13px;color:var(--dim);line-height:1.6;text-align:center}
-  /* beta funnel: the one thing to do that is not "wait for an e-mail". The
-     calculator, the thirteen GPX links and the four-step procedure that used
-     to live here are on how-it-works.html, and their rules went with them. */
-  .nextsteps{max-width:520px;margin:24px auto 0;text-align:left}
-  .nextsteps h4{font-size:14px;color:var(--dim);font-weight:700;letter-spacing:.02em}
-  .nextsteps p{margin-top:10px;font-size:13.5px;color:var(--dim);line-height:1.7}
-  .nextsteps p a,.dolist a{color:var(--green);border-bottom:1px solid rgba(61,220,132,.4)}
-  /* Five things a reader can do before there is anything to install. */
-  .dolist{list-style:none;margin-top:12px}
-  .dolist li{position:relative;padding-left:18px;margin-top:11px;font-size:13.5px;color:var(--dim);line-height:1.7}
-  .dolist li::before{content:"→";position:absolute;left:0;color:var(--cyan);font-weight:800}
-  /* visible only to assistive tech — playback announcements for the chips */
-  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-  /* Without this the first Tab on every page landed on the language menu.
-     Visually hidden until it takes focus, then it becomes a real button. */
-  .skip{position:absolute;left:-9999px;top:0;z-index:200}
-  .skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
-    padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
-
-  /* proof block: the only non-self-descriptive signal a pre-launch page has */
-  .proof{margin-top:28px;background:rgba(76,203,217,.05);border:1px solid var(--line);
-    border-left:2px solid var(--cyan);border-radius:0 18px 18px 0;padding:24px 26px}
-  .proof h3{font-size:17px;font-weight:800;letter-spacing:-.01em}
-  .proof ul{list-style:none;margin-top:14px}
-  .proof li{color:#dfe3e7;font-size:14.5px;line-height:1.7;margin:8px 0;padding-left:22px;position:relative}
-  .proof li::before{content:"✓";position:absolute;left:0;color:var(--cyan);font-weight:800}
-  .proof p{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);color:var(--dim);font-size:13.5px;line-height:1.75}
-
-  /* signup */
-  .signup{background:var(--bg1);border:1px solid var(--line);border-radius:22px;padding:40px;text-align:center;margin-top:28px}
-  /* Beta testing and "just tell me when it ships" are different intents and
-     used to share one button. One Formspree field separates them. */
-  .want{max-width:520px;margin:18px auto 0;text-align:left;font-size:13.5px;color:var(--dim);border:0;padding:0}
-  /* Both blocks moved inside the form (round 13, -3). The form is a centred
-     flex row, so each of them takes a row of its own rather than trying to
-     share one with the e-mail field. */
-  .signup form .want,.signup form .consent{flex:0 0 100%;max-width:none;margin-left:0;margin-right:0}
-  .want legend{padding:0;color:var(--text);font-weight:700;font-size:14px;margin-bottom:6px}
-  .want label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;margin-top:6px;line-height:1.7}
-  .want label span,.consent label span{min-width:0;flex:1}
-  .want input{margin-top:5px;flex:none}
-  .signup form{display:flex;gap:12px;max-width:480px;margin:22px auto 0;flex-wrap:wrap;justify-content:center}
-  .signup input[type=email]{flex:1;min-width:220px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px 18px;color:var(--text);font-size:16px}
-  /* :focus-visible only. The old `:focus{outline:none}` had specificity (0,2,1)
-     and beat the global :focus-visible outline (0,1,0), so the page's one
-     conversion control lost its keyboard focus ring. Mouse focus still gets the
-     green border and no ring; keyboard focus keeps the ring. */
-  .signup input[type=email]:focus{border-color:var(--green)}
-  .signup input[type=email]:focus:not(:focus-visible){outline:none}
-  .consent{margin-top:18px;font-size:13px;color:var(--dim2);max-width:520px;margin-left:auto;margin-right:auto;text-align:left;line-height:1.7}
-  .consent label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;margin-top:8px;min-width:0}
-  .consent input{margin-top:4px}
-
-  footer{padding:48px 0;border-top:1px solid var(--line);text-align:center;color:var(--dim2);font-size:14px}
-  footer a{color:var(--dim)}
-  footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
-  .disclaimer{max-width:640px;margin:20px auto 0;font-size:12px;color:var(--dim2);line-height:1.7}
-
-  /* sticky CTA (small screens): the page is long and the only action used to sit at the very bottom */
-  .sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;padding:10px 16px calc(10px + env(safe-area-inset-bottom));
-    background:rgba(0,0,0,.82);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
-  .sticky-cta.armed{gap:10px}
-  .sticky-cta a{display:block;text-align:center;flex:1 1 0;min-width:0;padding-left:12px;padding-right:12px;font-size:15.5px}
-  /* Hidden until the script says otherwise: at scrollY=0 the hero's own CTA is
-     on screen, so the bar used to repeat the same words in the same colour
-     250px below it and take 64px of a 812px phone for nothing. The observer
-     below shows it only while BOTH the hero CTA and #beta are off screen; with
-     no JS it never appears and never covers the hero. */
-  @media(max-width:820px){.sticky-cta.armed{display:flex} footer{padding-bottom:96px}}
-
-  /* Phones do not animate at all. A flick is the normal way to read here, the
-     slide costs a transform on every block during it, and the settle is not
-     worth that on a 375 px screen. */
-  @media(max-width:820px){
-    html.js .reveal{transform:none;transition:none}
-  }
-
-  @media(prefers-reduced-motion:reduce){
-    .reveal{opacity:1!important;transform:none!important;transition:none}
-    .hero-bg .blob,.phone,.watch-stack,.ring .spin{animation:none}
-    .ring .arc{animation:none;stroke-dashoffset:120}
-    .caption .txt::after{animation:none}
-    .tilt{transform:none!important}
-    html{scroll-behavior:auto}
-  }
+:root{
+--green:#3DDC84; --green-d:#27b368; --cyan:#4CCBD9; --orange:#FFB340; --red:#FF6B6B;
+--bg:#000; --bg1:#0b0d10; --bg2:#14171c; --card:#16191e; --card2:#1b1f25;
+--line:#24282e; --line2:#2e333a; --text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;
+--ease:cubic-bezier(.22,.61,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);
+font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
+line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:clip;word-break:keep-all}
+a{color:inherit;text-decoration:none}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+img{max-width:100%;height:auto;display:block}
+picture{display:block;width:100%}
+body{overflow-wrap:break-word;word-break:normal;line-break:normal}
+:lang(ko) body,body:lang(ko){word-break:keep-all}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.grad{background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(120deg,var(--green),var(--cyan));
+color:#04120c;font-weight:800;font-size:17px;padding:15px 30px;border-radius:14px;border:none;cursor:pointer;
+transition:transform .25s var(--ease),box-shadow .25s var(--ease);box-shadow:0 8px 30px rgba(61,220,132,.25);will-change:transform}
+.btn:hover{box-shadow:0 14px 44px rgba(61,220,132,.42)}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line2);box-shadow:none}
+.btn.ghost:hover{border-color:var(--green);box-shadow:0 0 0 4px rgba(61,220,132,.10)}
+.eyebrow{color:var(--green);font-weight:700;font-size:13.5px;letter-spacing:1.6px;text-transform:uppercase}
+section{padding:88px 0;position:relative;scroll-margin-top:72px}
+section+section{border-top:1px solid var(--line)}
+h2{font-size:clamp(30px,4.6vw,44px);font-weight:800;letter-spacing:-.025em;line-height:1.18;margin-top:10px}
+.sub{color:var(--dim);font-size:18px;margin-top:16px;max-width:660px}
+.sub b{color:var(--text);font-weight:700}
+html.js .reveal{transform:translateY(28px) scale(.985);transition:transform .45s var(--ease) var(--d,0ms)}
+html.js .reveal.in{transform:none}
+.pill{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.04em;padding:3px 9px;border-radius:999px;vertical-align:middle;margin-left:8px}
+.pill.free{background:rgba(255,255,255,.08);color:var(--dim)}
+.pill.pro{background:rgba(61,220,132,.16);color:var(--green)}
+.tilt{position:relative;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(0);
+transition:transform .45s var(--ease),box-shadow .45s var(--ease),border-color .3s;transform-style:preserve-3d;will-change:transform}
+.tilt::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .35s;
+background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.16),rgba(255,255,255,0) 55%)}
+.tilt.tilting{transition:transform .08s linear,box-shadow .45s var(--ease);box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(61,220,132,.25)}
+.tilt.tilting::after{opacity:1}
+.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:20px;padding:28px}
+.card:hover{border-color:rgba(61,220,132,.5)}
+.card .ic{font-size:30px;margin-bottom:14px;line-height:1}
+.card h3{font-size:20px;font-weight:800;margin-bottom:8px;letter-spacing:-.01em}
+.card p{color:var(--dim);font-size:15px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:44px}
+@media(max-width:820px){.cards{grid-template-columns:minmax(0,1fr)}}
+nav{position:sticky;top:0;z-index:50;background:rgba(0,0,0,.66);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:18px;height:60px}
+.logo{font-weight:900;font-size:20px;letter-spacing:-.02em}
+.logo b{color:var(--green)}
+nav .links{display:flex;gap:24px;font-size:15px;color:var(--dim);margin:0 auto;white-space:nowrap;min-width:0;overflow:hidden}
+@media(max-width:1180px){nav .links{gap:16px;font-size:14px}}
+@media(max-width:1000px){nav .links{gap:12px;font-size:13px}}
+@media(min-width:701px) and (max-width:920px){
+nav .links{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+nav .links::-webkit-scrollbar{display:none}
+}
+nav .links a{transition:color .2s}
+nav .links a:hover{color:var(--text)}
+@media(max-width:700px){
+nav .wrap{height:auto;padding-top:8px;padding-bottom:8px;flex-wrap:wrap;row-gap:6px}
+nav .links{order:3;width:100%;gap:18px;font-size:13.5px;justify-content:flex-start;margin-left:0;
+overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+nav .links::-webkit-scrollbar{display:none}
+nav .links a{white-space:nowrap}
+nav .links a{order:5}
+nav .links a[href="#why"]{order:1}
+nav .links a[href="#price"]{order:2}
+nav .links a[href="run.html"]{order:3}
+nav .links a[href="#faq"]{order:4}
+}
+.nav-cta{flex:none;padding:7px 14px;font-size:13px;white-space:nowrap;box-shadow:none}
+.nav-cta:hover{box-shadow:0 8px 26px rgba(61,220,132,.35)}
+@media(max-width:820px){.nav-cta{display:none}}
+.langsel{position:relative;display:inline-block;margin-left:14px}
+.langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
+.langsel button:hover{border-color:var(--green)}
+.langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langsel.open ul{display:block}
+.langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text)}
+.langsel li:hover{background:rgba(61,220,132,.15)}
+.langsel li{padding:0}
+.langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
+.langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
+@media(max-width:700px){.langsel{margin-left:auto}.langsel button{padding:6px 9px;font-size:12px}}
+.hero{padding:104px 0 72px;text-align:center;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero-bg .blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:drift 22s ease-in-out infinite alternate}
+.hero-bg .b1{width:52vw;height:52vw;left:-12vw;top:-18vw;background:radial-gradient(circle,rgba(61,220,132,.28),transparent 62%)}
+.hero-bg .b2{width:46vw;height:46vw;right:-10vw;top:-6vw;background:radial-gradient(circle,rgba(76,203,217,.24),transparent 62%);animation-delay:-8s}
+.hero-bg .b3{width:60vw;height:30vw;left:20vw;bottom:-14vw;background:radial-gradient(ellipse,rgba(61,220,132,.16),transparent 65%);animation-delay:-14s}
+.hero-bg .grid{position:absolute;inset:0;background:
+linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px,
+linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px;
+mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 80%)}
+@keyframes drift{from{transform:translate3d(-3%,-2%,0) scale(1)}to{transform:translate3d(4%,3%,0) scale(1.12)}}
+.hero .wrap{position:relative;z-index:1}
+.hero h1{font-size:clamp(36px,6.2vw,64px);font-weight:900;letter-spacing:-.035em;line-height:1.1;margin-top:14px}
+.hero .sub{margin:22px auto 0;font-size:clamp(17px,2.3vw,21px)}
+.hero .cta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.hero .note{margin-top:16px;font-size:13.5px;color:var(--dim2)}
+.trust{margin:30px auto 0;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.tbadge{background:rgba(22,25,30,.6);border:1px solid var(--line);border-radius:12px;padding:10px 18px;min-width:110px;backdrop-filter:blur(6px)}
+.tbadge b{display:block;font-size:19px;font-weight:900;background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tbadge span{display:block;font-size:12px;color:var(--dim);margin-top:2px}
+a.tbadge{display:block;transition:border-color .2s var(--ease)}
+a.tbadge:hover{border-color:var(--green)}
+a.tbadge span{text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
+.stage{margin:64px auto 0;position:relative;width:min(100%,680px)}
+.ring{position:absolute;left:50%;top:44%;width:600px;height:600px;transform:translate(-50%,-50%);pointer-events:none;z-index:0}
+.ring::before{content:"";position:absolute;inset:18%;border-radius:50%;background:radial-gradient(circle,rgba(61,220,132,.22),rgba(76,203,217,.08) 55%,transparent 72%);filter:blur(28px)}
+.ring svg{width:100%;height:100%;filter:drop-shadow(0 0 24px rgba(61,220,132,.25))}
+.ring .arc{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 2.6s var(--ease) .4s forwards}
+.ring .spin{transform-origin:50% 50%;animation:spin 40s linear infinite}
+@keyframes draw{to{stroke-dashoffset:120}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.devices{position:relative;z-index:1;display:flex;gap:36px;justify-content:center;align-items:flex-end}
+.phone{width:250px;flex-shrink:0;filter:drop-shadow(0 34px 60px rgba(0,0,0,.65));animation:float 7s ease-in-out infinite}
+.watch-stack{position:relative;width:300px;max-width:100%;filter:drop-shadow(0 34px 60px rgba(0,0,0,.65));animation:float 7s ease-in-out -3.5s infinite}
+.watch-stack img{width:100%;opacity:0;transition:opacity .9s ease}
+.watch-stack img.on{opacity:1}
+.watch-stack picture:not(:first-child){position:absolute;top:0;left:0}
+.watch-stack .wnote{margin-top:10px;font-size:11.5px;line-height:1.5;color:var(--dim2);text-align:center}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@media(max-width:640px){.devices{flex-direction:column;align-items:center;gap:26px}.phone{width:220px}.ring{width:420px;height:420px}}
+@media(max-width:768px){
+.hero{padding:88px 0 52px}
+.stage{margin-top:34px}
+.hero .watch-stack{display:none}
+.trust{gap:8px;margin-top:22px}
+.tbadge{padding:8px 14px;min-width:0;flex:1 1 30%}
+}
+@media(max-width:430px){
+.tbadge{flex:1 1 44%}
+.tbadge b{font-size:18px;overflow-wrap:normal}
+}
+.caption{margin:26px auto 0;max-width:420px;min-height:54px;background:rgba(22,25,30,.8);border:1px solid var(--line);border-radius:14px;padding:14px 18px;
+font-size:15px;color:#dfe3e7;text-align:left;display:flex;align-items:center;gap:10px;backdrop-filter:blur(8px)}
+.caption .mic{color:var(--green);font-size:18px;flex-shrink:0}
+.caption .txt::after{content:"▌";color:var(--green);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.sc-note{margin-top:12px;font-size:12.5px;color:var(--dim2)}
+.sc-note:empty{display:none}
+.row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:56px;align-items:center;margin-top:52px}
+.row.flip{grid-template-columns:minmax(0,1fr) auto}
+.row.flip .frame{order:2}
+@media(max-width:860px){.row,.row.flip{grid-template-columns:minmax(0,1fr);gap:28px;justify-items:stretch;text-align:center}.row .desc{min-width:0}.row.flip .frame{order:0}.row ul{text-align:left;display:inline-block;max-width:100%}}
+.frame{width:280px;max-width:100%;flex-shrink:0;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6))}
+.frame.watch{width:240px}
+.desc h3{font-size:24px;font-weight:800;margin-bottom:12px;letter-spacing:-.015em}
+.desc p{color:var(--dim);font-size:16px;margin-bottom:12px}
+.desc ul{list-style:none;margin-top:14px}
+.desc li{color:#dfe3e7;font-size:15px;margin:9px 0;padding-left:26px;position:relative}
+.desc li::before{content:"";position:absolute;left:0;top:9px;width:14px;height:14px;border-radius:50%;background:linear-gradient(120deg,var(--green),var(--cyan));opacity:.85;box-shadow:0 0 12px rgba(61,220,132,.4)}
+.mini{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}
+@media(max-width:560px){.mini{grid-template-columns:repeat(2,minmax(0,1fr))}.mini .m:nth-child(3){grid-column:1/-1}}
+.mini .m{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 14px 12px;text-align:left}
+.mini .m small{display:block;color:var(--dim);font-size:12px}
+.mini .m b{display:block;font-size:20px;font-weight:900;margin:2px 0 4px;font-variant-numeric:tabular-nums}
+.mini .m em{font-style:normal;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px}
+.st-good{color:#3DDC84;background:rgba(61,220,132,.14)} .st-fair{color:#FFB340;background:rgba(255,179,64,.14)} .st-caution{color:#FF6B6B;background:rgba(255,107,107,.14)}
+.watch3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:52px}
+@media(max-width:820px){.watch3{grid-template-columns:1fr;max-width:340px;margin-left:auto;margin-right:auto}}
+.w3{text-align:center}
+.w3 .frame{width:230px;margin:0 auto;transition:transform .5s var(--ease)}
+.w3:hover .frame{transform:translateY(-8px)}
+.w3 b{display:block;font-size:17px;font-weight:800;margin:16px 0 6px}
+.w3 span{display:block;color:var(--dim);font-size:14px;line-height:1.55;max-width:280px;margin:0 auto}
+.voice-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:40px}
+@media(max-width:1000px){.voice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.voice-grid{grid-template-columns:minmax(0,1fr)}}
+.vchip{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:16px;padding:20px;cursor:pointer;text-align:left}
+.vchip .sensor{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;color:var(--cyan);letter-spacing:.02em;line-height:1.5;padding-bottom:10px;margin-bottom:12px;border-bottom:1px dashed var(--line)}
+.vchip .play{display:inline-flex;align-items:center;gap:8px;color:var(--green);font-weight:700;font-size:14px;margin-bottom:10px}
+.vchip .play .pill{margin-left:2px}
+.vchip .play::before{content:"";width:0;height:0;border-left:9px solid var(--green);border-top:6px solid transparent;border-bottom:6px solid transparent}
+.vchip.playing .play::before{border:none;width:9px;height:12px;background:var(--green);border-radius:1px}
+.vchip .line{color:#dfe3e7;font-size:15px}
+.vchip.playing{border-color:var(--green);box-shadow:0 0 0 3px rgba(61,220,132,.14),0 20px 50px rgba(0,0,0,.5)}
+.quiet{margin-top:28px;display:flex;gap:14px;align-items:flex-start;background:rgba(61,220,132,.05);border-left:2px solid var(--green);border-radius:0 12px 12px 0;padding:14px 18px;color:var(--dim);font-size:14.5px;max-width:760px}
+.qbody{flex:1;min-width:0}
+.qbody>b{display:block;color:var(--text);font-size:16px;font-weight:800;margin-bottom:10px}
+.qsum{font-size:14.5px;color:#dfe3e7;margin-top:8px;line-height:1.7}
+.qtable{overflow-x:auto;margin:10px -4px 0}
+.qtable table{width:100%;border-collapse:collapse;font-size:14px}
+.qtable th,.qtable td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.qtable th{color:var(--dim2);font-weight:700;font-size:12.5px}
+.qtable tr:last-child td{border-bottom:0}
+.qtable td:last-child{color:var(--text);font-weight:700}
+.qbody ul{margin:12px 0 0;padding-left:18px}
+.qbody li{margin-top:6px;line-height:1.6}
+.steps-h{margin-top:56px;font-size:22px;font-weight:800;letter-spacing:-.01em}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:18px}
+@media(max-width:820px){.steps{grid-template-columns:minmax(0,1fr)}}
+.step{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:22px;position:relative}
+.step .sn{position:absolute;top:16px;right:18px;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:12px;color:var(--dim2);letter-spacing:.2em}
+.step h4{font-size:17px;font-weight:800;margin-bottom:10px}
+.step .q{background:rgba(0,0,0,.35);border-left:2px solid var(--green);border-radius:0 10px 10px 0;padding:10px 12px;font-size:13.5px;color:#cfe3d6;line-height:1.6;margin-bottom:10px}
+.step p{color:var(--dim);font-size:14px}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:40px;align-items:start}
+@media(max-width:900px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.tiles{grid-template-columns:minmax(0,1fr)}}
+.tile{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:22px}
+.tile h3{font-size:17px;font-weight:800;display:flex;align-items:center;flex-wrap:wrap;gap:4px}
+.tile p{color:var(--dim);font-size:14px;margin-top:8px}
+.honest{margin-top:26px;color:var(--dim2);font-size:14px;max-width:700px}
+.honest b{color:var(--dim)}
+#privacy{background:linear-gradient(180deg,rgba(61,220,132,.06),rgba(76,203,217,.05));text-align:center}
+#privacy .big{font-size:clamp(24px,3.4vw,36px);font-weight:800;line-height:1.35;letter-spacing:-.02em;margin-top:10px}
+#privacy p{color:var(--dim);font-size:15.5px;max-width:680px;margin:18px auto 0}
+#privacy p a{color:var(--dim);border-bottom:1px solid var(--line)}
+.price{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;margin-top:44px}
+@media(max-width:640px){.price{grid-template-columns:minmax(0,1fr)}}
+.plan{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:22px;padding:32px;position:relative}
+.plan.pro{border-color:rgba(61,220,132,.6)}
+.plan .ribbon{position:absolute;top:-11px;right:20px;max-width:calc(100% - 40px);background:var(--green);color:#04120c;font-size:12px;font-weight:800;padding:4px 12px;border-radius:8px}
+.plan .name{font-size:15px;color:var(--dim);font-weight:700}
+.plan .amt{font-size:36px;font-weight:900;margin:8px 0 4px;letter-spacing:-.02em}
+.plan .gate p b{color:var(--green);font-weight:700}
+.plan .ptable{width:100%;border-collapse:collapse;margin:10px 0 2px}
+.plan .ptable th{text-align:left;font-weight:700;font-size:15px;padding:9px 0;vertical-align:baseline}
+.plan .ptable th small{display:block;font-weight:500;font-size:12px;color:var(--dim);line-height:1.5;margin-top:2px}
+.plan .ptable td.pv{text-align:right;white-space:nowrap;font-size:21px;font-weight:900;letter-spacing:-.02em;
+padding:9px 0 9px 12px;vertical-align:baseline;font-variant-numeric:tabular-nums}
+.plan .ptable tr.lead td.pv{font-size:32px}
+.plan .ptable tr+tr th,.plan .ptable tr+tr td{border-top:1px solid var(--line)}
+.plan .storenote{margin-top:10px;font-size:12.5px;line-height:1.65;color:var(--dim)}
+.plan ul{list-style:none;margin-top:18px}
+.plan li{padding:7px 0;font-size:15px;color:#dfe3e7;display:flex;gap:10px}
+.plan li::before{content:"✓";color:var(--green);font-weight:800}
+.plan .plisth{margin-top:18px;font-size:12.5px;font-weight:800;letter-spacing:.06em;
+text-transform:uppercase;color:var(--dim)}
+.plan .plisth+ul{margin-top:6px}
+.plan .tilesli{padding:0}
+.plan .tilesli::before{content:none}
+.plan .tiles{margin:2px 0 4px 26px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}
+@media(max-width:520px){.plan .tiles{grid-template-columns:minmax(0,1fr)}}
+.plan .tiles li{padding:3px 0;font-size:13.5px;color:var(--dim);gap:7px}
+.plan .tiles li::before{content:"·";color:var(--cyan)}
+.plan .terms-link{display:inline-block;margin-top:4px;font-size:12px;color:var(--dim);
+text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
+.plan .terms-link:hover{color:var(--text)}
+.qmore{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px;font-weight:700}
+.qmore a{color:var(--dim);border-bottom:1px solid var(--line2)}
+.qmore a:hover{color:var(--text);border-bottom-color:var(--green)}
+.qmore a::after{content:" →";color:var(--green)}
+.gate{margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
+.gate summary{cursor:pointer;font-size:13.5px;font-weight:700;color:var(--dim);list-style:none;
+display:flex;align-items:center;gap:8px}
+.gate summary::-webkit-details-marker{display:none}
+.gate summary::before{content:"▸";color:var(--green);transition:transform .2s var(--ease)}
+.gate[open] summary::before{transform:rotate(90deg)}
+.gate summary:hover{color:var(--text)}
+.gate p{margin-top:10px;font-size:13px;line-height:1.75;color:var(--dim)}
+.plan .gatelist{margin-top:8px;list-style:none}
+.plan .gatelist li{padding:5px 0;font-size:13px;line-height:1.7;color:var(--dim);gap:8px;align-items:flex-start}
+.plan .gatelist li::before{content:"·";color:var(--green)}
+.note{text-align:center;color:var(--dim2);font-size:12.5px;margin-top:14px}
+.order-note{flex:0 0 100%;margin:0;font-size:13px;color:var(--dim);line-height:1.6;text-align:center}
+.nextsteps{max-width:520px;margin:24px auto 0;text-align:left}
+.nextsteps h4{font-size:14px;color:var(--dim);font-weight:700;letter-spacing:.02em}
+.nextsteps p{margin-top:10px;font-size:13.5px;color:var(--dim);line-height:1.7}
+.nextsteps p a,.dolist a{color:var(--green);border-bottom:1px solid rgba(61,220,132,.4)}
+.dolist{list-style:none;margin-top:12px}
+.dolist li{position:relative;padding-left:18px;margin-top:11px;font-size:13.5px;color:var(--dim);line-height:1.7}
+.dolist li::before{content:"→";position:absolute;left:0;color:var(--cyan);font-weight:800}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip{position:absolute;left:-9999px;top:0;z-index:200}
+.skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
+padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
+.proof{margin-top:28px;background:rgba(76,203,217,.05);border:1px solid var(--line);
+border-left:2px solid var(--cyan);border-radius:0 18px 18px 0;padding:24px 26px}
+.proof h3{font-size:17px;font-weight:800;letter-spacing:-.01em}
+.proof ul{list-style:none;margin-top:14px}
+.proof li{color:#dfe3e7;font-size:14.5px;line-height:1.7;margin:8px 0;padding-left:22px;position:relative}
+.proof li::before{content:"✓";position:absolute;left:0;color:var(--cyan);font-weight:800}
+.proof p{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);color:var(--dim);font-size:13.5px;line-height:1.75}
+.signup{background:var(--bg1);border:1px solid var(--line);border-radius:22px;padding:40px;text-align:center;margin-top:28px}
+.want{max-width:520px;margin:18px auto 0;text-align:left;font-size:13.5px;color:var(--dim);border:0;padding:0}
+.signup form .want,.signup form .consent{flex:0 0 100%;max-width:none;margin-left:0;margin-right:0}
+.want legend{padding:0;color:var(--text);font-weight:700;font-size:14px;margin-bottom:6px}
+.want label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;margin-top:6px;line-height:1.7}
+.want label span,.consent label span{min-width:0;flex:1}
+.want input{margin-top:5px;flex:none}
+.signup form{display:flex;gap:12px;max-width:480px;margin:22px auto 0;flex-wrap:wrap;justify-content:center}
+.signup input[type=email]{flex:1;min-width:220px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px 18px;color:var(--text);font-size:16px}
+.signup input[type=email]:focus{border-color:var(--green)}
+.signup input[type=email]:focus:not(:focus-visible){outline:none}
+.consent{margin-top:18px;font-size:13px;color:var(--dim2);max-width:520px;margin-left:auto;margin-right:auto;text-align:left;line-height:1.7}
+.consent label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;margin-top:8px;min-width:0}
+.consent input{margin-top:4px}
+footer{padding:48px 0;border-top:1px solid var(--line);text-align:center;color:var(--dim2);font-size:14px}
+footer a{color:var(--dim)}
+footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
+.disclaimer{max-width:640px;margin:20px auto 0;font-size:12px;color:var(--dim2);line-height:1.7}
+.sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+background:rgba(0,0,0,.82);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+.sticky-cta.armed{gap:10px}
+.sticky-cta a{display:block;text-align:center;flex:1 1 0;min-width:0;padding-left:12px;padding-right:12px;font-size:15.5px}
+@media(max-width:820px){.sticky-cta.armed{display:flex} footer{padding-bottom:96px}}
+@media(max-width:820px){
+html.js .reveal{transform:none;transition:none}
+}
+@media(prefers-reduced-motion:reduce){
+.reveal{opacity:1!important;transform:none!important;transition:none}
+.hero-bg .blob,.phone,.watch-stack,.ring .spin{animation:none}
+.ring .arc{animation:none;stroke-dashoffset:120}
+.caption .txt::after{animation:none}
+.tilt{transform:none!important}
+html{scroll-behavior:auto}
+}
 </style>
 <script>
 (function(){
@@ -529,86 +366,64 @@
   function norm(v){ if(!v) return null; v=String(v).toLowerCase();
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
-  // The BROWSER's language is the one source that must not fold every zh-*
-  // onto our table, because our zh table is Traditional (LANGS label 繁體中文,
-  // tts zh-TW, <html lang="zh-Hant">) and norm() above sent zh-Hans / zh-CN /
-  // zh-SG straight to it. Being handed the other script automatically reads as
-  // an accident, not a choice (2026-09-06 라운드 13, -0.3). Those visitors fall
-  // through to the x-default, English, and 繁體中文 is still one pick away in
-  // the language menu. An EXPLICIT zh — ?lang=zh, /zh/, the menu — still goes
-  // through norm() and still resolves, which is why this is a second function
-  // and not a change to the first.
   function navLang(v){ var s=v?String(v).toLowerCase():"";
     return (s.indexOf("zh")===0 && !/^zh-(hant|tw|hk|mo)\b/.test(s)) ? null : norm(s); }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
-  // On a prerendered page (/en/, /ja/ …) the directory IS the language and
-  // RunvisPageLang is set just above; it outranks the saved choice and the
-  // browser's, so /de/ never renders in English. ?lang= still wins over it.
   var saved=null; try{ saved=norm(localStorage.getItem("runvis_lang")); }catch(e){}
-  // Last resort when nothing has spoken and the browser's language is not one
-  // of the six: English, not Korean. norm() passes only ko/en/ja/es/zh/de, so
-  // fr, pt, it, ru … all fell through to "ko" and a French reader landed on a
-  // Korean document. A Korean browser still resolves through
-  // norm(navigator.language) and is unaffected, and ?lang= and the saved
-  // choice still outrank this.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||navLang(navigator.language)||"en";
-  // A German browser landing on a ROOT url used to get German BODY text with a
-  // Korean canonical, Korean og:* and no route to /de/ at all — the five
-  // prerendered market pages existed and nothing ever sent anyone to them.
-  // GitHub Pages cannot redirect, so it happens here, and only in the one case
-  // where nothing else has spoken: no ?lang= (an explicit choice), no saved
-  // choice, not already on a prerendered page, and not Korean (this IS the
-  // Korean document and the x-default). replace() keeps the back button
-  // working and the sessionStorage flag makes a second hop impossible even if
-  // the target ever failed to set RunvisPageLang.
+  var pageLang=norm(window.RunvisPageLang)||"ko";
+  var prefer=navLang(navigator.language)||"en";
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||pageLang;
   try{
-    if(!window.RunvisPageLang && !urlLang && !saved && code!=="ko"
+    if(!window.RunvisPageLang && !urlLang && saved && saved!=="ko"
        && /(^|\.)runvis\.app$/.test(location.hostname)
        && !sessionStorage.getItem("runvis_sent")){
       sessionStorage.setItem("runvis_sent","1");
       var file=location.pathname.split("/").pop()||"";
-      if(file==="index.html") file="";      // /de/, the URL hreflang and canonical name
-      location.replace("/"+code+"/"+file+location.hash);
+      if(file==="index.html") file="";
+      location.replace("/"+saved+"/"+file+location.hash);
       return;
     }
   }catch(e){}
   window.RunvisLang=code; window.RunvisUrlLang=urlLang;
+  window.RunvisDocLang=pageLang; window.RunvisPrefer=prefer;
   var html=document.documentElement;
   html.lang = code==="zh" ? "zh-Hant" : code;
-  html.className += (html.className?" ":"") + "js";   // .reveal only hides when JS is alive
-  var BASE=window.RunvisBase||"";                     // "" at the root, "/" on the prerendered /en/ … copies
-  var d=document.createElement("script");
-  d.src=BASE+"t-"+code+".js?v=20260906e"; d.async=false; document.head.appendChild(d);
-  // LCP image, in THIS language — one download instead of Korean-then-swap.
-  // Published as a global too, so the script under the hero <img> can correct
-  // the markup's src before the picture is painted rather than after.
-  window.RunvisShot = BASE+"assets/framed-phone-dash"+(code==="ko"?"":"."+code)+".png";
+  html.className += (html.className?" ":"") + "js";
+  var BASE=window.RunvisBase||"";
+  if(code!==pageLang){
+    var d=document.createElement("script");
+    d.src=BASE+"t-"+code+".js?v=20260906f"; d.async=false; document.head.appendChild(d);
+    window.RunvisDictLoaded=code;
+  }
+  function RunvisT(k,v){ return v; }
+  window.RunvisSelfDyn={
+    hero:[RunvisT('hero0', '目前氣溫3度，濕度百分之60。氣溫低，肌肉容易僵硬，今天的熱身會比平常長一些。'),
+          RunvisT('hero1', '300 公尺後開始 800 公尺的上坡。平均坡度 4%。縮小步幅，保持節奏。'),
+          RunvisT('hero2', '比目標快25秒'),
+          RunvisT('hero3', '心率已經降到第 3 區，恢復得很好。再一下下。')],
+    vchip:[RunvisT('vchip0', '比目標快25秒'),
+           RunvisT('vchip1', '前方 300 公尺開始一段 800 公尺的上坡，平均坡度 4%。縮小步幅，保持節奏。'),
+           RunvisT('vchip2', '步頻比基準低5%——試著把步幅縮小一點吧。'),
+           RunvisT('vchip3', '心率已經降到第3區了，恢復得很好，再一下下。')]
+  };
+  window.RunvisShotBase = BASE+"assets/framed-phone-dash"+(code==="ko"?"":"."+code);
   var pl=document.createElement("link");
-  pl.rel="preload"; pl.as="image"; pl.setAttribute("fetchpriority","high");
-  pl.href=window.RunvisShot; document.head.appendChild(pl);
+  pl.rel="preload"; pl.as="image"; pl.type="image/avif"; pl.setAttribute("fetchpriority","high");
+  pl.href=window.RunvisShotBase+".avif"; document.head.appendChild(pl);
   function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
-  // ?lang=de on a ROOT url shows the same page the prerendered /de/ copy shows,
-  // so the canonical points there instead of at itself — otherwise the two
-  // compete for the same market and neither wins. Without ?lang, and on the
-  // prerendered pages themselves, the canonical is the page's own address.
   var link=document.querySelector('link[rel="canonical"]');
   if(link){
-    // Remember the page's OWN address before rewriting it. i18n.js recomputes
-    // the canonical on every language switch and would otherwise read back the
-    // value this script just wrote and prefix it a second time (/ja/ja/).
     var base=link.getAttribute("data-base")||(link.getAttribute("href")||"").split("?")[0].split("#")[0];
     link.setAttribute("data-base",base);
     var url=base;
-    if(!window.RunvisPageLang && urlLang && urlLang!=="ko"){
-      try{ var u=new URL(base); u.pathname="/"+urlLang+u.pathname; url=u.href; }catch(e){}
+    if(code!==pageLang){
+      try{ var u=new URL(base), p=u.pathname;
+           if(window.RunvisPageLang && p.indexOf("/"+pageLang+"/")===0) p=p.slice(pageLang.length+1);
+           u.pathname=(code==="ko"?"":"/"+code)+p; url=u.href; }catch(e){}
     }
     link.setAttribute("href",url); meta("property","og:url",url); }
   var OGL={ko:"ko_KR",en:"en_US",ja:"ja_JP",es:"es_ES",zh:"zh_TW",de:"de_DE"};
   meta("property","og:locale",OGL[code]);
-  // Above-the-fold copy, inlined for the five non-Korean languages. This is the
-  // only text duplicated out of the dictionary, and it exists so the LCP heading
-  // never changes language in place. RunvisCritical is applied by the small
-  // script that sits directly under the hero markup.
   var C={"zh":{"h":{"n.hero.eb":"Apple Watch 跑步教練","n.hero.h1":"有 Apple Watch<br/><span class=\"grad\">就夠了</span>","n.hero.sub":"不必再買第二支跑錶。用你手腕上已經有的資料，教練決定今天跑什麼，跑步時再用聲音告訴你。","n.hero.cta1":"報名 Beta","n.hero.cta2":"試跑 5 公里展示"},"m":{"meta.title":"Runvis — 有 Apple Watch 就夠了。Apple Watch 跑步教練","meta.desc":"不必再買第二支跑錶。讀取 Apple Watch 記錄的睡眠與心率，教練決定今天跑什麼，跑步時用聲音告訴你。沒有帳號，也沒有伺服器。","meta.ogtitle":"Runvis — Apple Watch 跑步教練","meta.ogdesc":"不必再買第二支跑錶。今天跑什麼由教練決定，跑步時用聲音告訴你。"}}};
   var d2=C[code]; if(!d2) return;
   document.title=d2.m["meta.title"];
@@ -618,12 +433,12 @@
   window.RunvisCritical=d2.h;
 })();
 </script>
-<script defer src="/i18n.js?v=20260906e"></script>
+<script defer src="/i18n.js?v=20260906f"></script>
 <script id="appld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"zh-Hant","url":"https://runvis.app/","description":"不必再買第二支跑錶。讀取 Apple Watch 記錄的睡眠與心率，教練決定今天跑什麼，跑步時用聲音告訴你。沒有帳號，也沒有伺服器。","image":"https://runvis.app/assets/og-card.png","screenshot":"https://runvis.app/assets/framed-phone-dash.zh.png","author":{"@type":"Organization","name":"Runvis","url":"https://runvis.app/"},"offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}}]}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"zh-Hant","url":"https://runvis.app/","description":"不必再買第二支跑錶。讀取 Apple Watch 記錄的睡眠與心率，教練決定今天跑什麼，跑步時用聲音告訴你。沒有帳號，也沒有伺服器。","image":"https://runvis.app/assets/og-card.zh.png","screenshot":"https://runvis.app/assets/framed-phone-dash.zh.png","author":{"@type":"Organization","name":"Runvis","url":"https://runvis.app/"},"offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}}]}
 </script>
 <script id="faqld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-Hant","mainEntity":[{"@type":"Question","name":"沒有手錶也能用嗎？","acceptedAnswer":{"@type":"Answer","text":"只用 iPhone 也能記錄 GPS，並在每公里（若單位設定為英里則每英里）報一次分段配速。沒有訂閱時，手機只會說這個分段。訂閱後手機也會提示配速；心率區間提示需要心率，而 iPhone 沒有心率感測器，所以只有在連接藍牙心率帶（Polar H10、Wahoo TICKR 這類標準 BLE 心率裝置）時才會出現。姿勢指導、坡道預告與偏離路線提醒只在用手錶跑步時才有。"}},{"@type":"Question","name":"需要哪一款 Apple Watch？","acceptedAnswer":{"@type":"Answer","text":"需要 watchOS 10 以上（Apple Watch Series 4 以後的機型）與 iOS 17 以上。只要滿足這個條件，有心率與 GPS 就夠了。能量測觸地時間與垂直振幅的新機型，姿勢教練會更細緻；不能量測的則以步頻為準。"}},{"@type":"Question","name":"取消訂閱後紀錄會怎樣？","acceptedAnswer":{"@type":"Answer","text":"紀錄會留在 Apple 健康中，不受影響。取消後仍可免費使用記錄、檢視課表與運動詳細報告。"}},{"@type":"Question","name":"我的資料會去哪裡？","acceptedAnswer":{"@type":"Answer","text":"沒有帳號也沒有伺服器。只有查天氣、地區名稱與自動產生路線時會送出位置。除此之外還有 App Store 付款處理、下載公開的路線與跑鞋清單檔案，以及目前僅在韓國 App Store 提供、由你自己在跑鞋畫面點擊才會開啟的外部跑鞋搜尋頁面。運動與健康資料不會上傳。"}},{"@type":"Question","name":"六種語言的語音支援到什麼程度？","acceptedAnswer":{"@type":"Answer","text":"iPhone 教練說出口的句子，六種語言都有測試固定住 — 每次建置都會把一趟 45 分鐘的跑步逐秒重播，檢查那趟跑步發出的每一則提示是否都有翻譯。手錶上的即時教練迴圈不在這個測試套件裡，所以仍可能有還沒進到翻譯表的句子；遇到這種情況會以英文播出，不會變成韓文，這個備援同樣有測試固定住。App 畫面上的文字用的是另一份翻譯表，跟教練語音不同。"}},{"@type":"Question","name":"完全沒有紀錄也能用嗎？","acceptedAnswer":{"@type":"Answer","text":"可以。在手錶上跑一次 12 分鐘測驗，當天就會產生 5K、10K 的預估成績與第一份課表 — 這項測驗只在手錶上有。只有 iPhone 也一樣，第一天就能用 GPS 記錄、分段配速語音與查看訓練課表，課表的起點改以最近的週跑量決定。準備度要先累積戴著手錶入睡的夜晚做為基準線，通常兩週左右才會出現，ACWR 約四週。表現狀態則需要先設定最大心率，並在同一強度帶（輕鬆、中等、高強度）累積三次有心率記錄、超過十分鐘的跑步。最初幾次會拿還沒有依強度、也還沒有依測量時點區分的基準線來比較，App 會在那個畫面上寫明這件事。"}},{"@type":"Question","name":"免費試用是誰能拿到？","acceptedAnswer":{"@type":"Answer","text":"只有 App Store 判定仍符合本訂閱首購優惠資格的帳號才有。若你先前訂閱過或已用掉試用，第一次付款就會照常扣款。購買前，App 的購買畫面一定會先告訴你屬於哪一種。免費期間有多長，也是 App Store 隨商品一起送來的值，App 會在購買前照原樣顯示。若選了年繳，免費期間結束後就會一次收取一整年的費用。"}},{"@type":"Question","name":"終身版和年繳，哪個比較划算？","acceptedAnswer":{"@type":"Answer","text":"永久使用權是一次性買斷，沒有自動續訂。照價格卡上的算法，跟年繳相比約 2.6 年回本，跟月繳相比約 20 個月，所以若打算用得比這更久，買斷比較划算。它也是唯一支援 Apple 家人共享的方案 — 月繳與年繳訂閱都不適用。"}},{"@type":"Question","name":"換手機或換錶之後會怎樣？","acceptedAnswer":{"@type":"Answer","text":"跑步紀錄本身存在 Apple 健康裡，新裝置的健康 App 會直接帶過去。只存在 Runvis 裡的資料 — 個人資料、心率區間、鞋子清單、教練建立的基準線 — 可以從設定 → 資料 →「匯出我的資料」存成一個檔案，在新裝置用「從備份匯入」還原。檔案只會留在你指定的地方，Runvis 不會傳送到任何地方。訂閱則用 App Store 的「回復購買項目」取回。"}},{"@type":"Question","name":"有錶面複雜功能或小工具嗎？","acceptedAnswer":{"@type":"Answer","text":"還沒有。錶面複雜功能、iPhone 主畫面小工具與即時動態都不在這個版本裡。有計畫要做，但日期還沒定。"}}]}
+{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-Hant","mainEntity":[{"@type":"Question","name":"沒有手錶也能用嗎？","acceptedAnswer":{"@type":"Answer","text":"只用 iPhone 也能記錄 GPS，並在每公里（若單位設定為英里則每英里）報一次分段配速。沒有訂閱時，手機只會說這個分段。訂閱後手機也會提示配速；心率區間提示需要心率，而 iPhone 沒有心率感測器，所以只有在連接藍牙心率帶（Polar H10、Wahoo TICKR 這類標準 BLE 心率裝置）時才會出現。姿勢指導、坡道預告與偏離路線提醒只在用手錶跑步時才有。"}},{"@type":"Question","name":"需要哪一款 Apple Watch？","acceptedAnswer":{"@type":"Answer","text":"需要 watchOS 10 以上（Apple Watch Series 4 以後的機型）與 iOS 17 以上。只要滿足這個條件，有心率與 GPS 就夠了。能量測觸地時間與垂直振幅的新機型，姿勢教練會更細緻；不能量測的則以步頻為準。"}},{"@type":"Question","name":"取消訂閱後紀錄會怎樣？","acceptedAnswer":{"@type":"Answer","text":"紀錄會留在 Apple 健康中，不受影響。取消後仍可免費使用記錄、檢視課表與運動詳細報告。"}},{"@type":"Question","name":"我的資料會去哪裡？","acceptedAnswer":{"@type":"Answer","text":"沒有帳號也沒有伺服器。只有查天氣、地區名稱與自動產生路線時會送出位置。除此之外還有 App Store 付款處理、下載公開的路線與跑鞋清單檔案，以及目前僅在韓國 App Store 提供、由你自己在跑鞋畫面點擊才會開啟的外部跑鞋搜尋頁面。運動與健康資料不會上傳。"}},{"@type":"Question","name":"六種語言的語音支援到什麼程度？","acceptedAnswer":{"@type":"Answer","text":"iPhone 教練說出口的句子，六種語言都有測試固定住 — 每次建置都會把一趟 45 分鐘的跑步逐秒重播，檢查那趟跑步發出的每一則提示是否都有翻譯。手錶上的即時教練迴圈不在這個測試套件裡，所以仍可能有還沒進到翻譯表的句子；遇到這種情況會以英文播出，不會變成韓文，這個備援同樣有測試固定住。App 畫面上的文字用的是另一份翻譯表，跟教練語音不同。"}},{"@type":"Question","name":"完全沒有紀錄也能用嗎？","acceptedAnswer":{"@type":"Answer","text":"可以。在手錶上跑一次 12 分鐘測驗，當天就會產生 5K、10K 的預估成績與第一份課表 — 這項測驗只在手錶上有。只有 iPhone 也一樣，第一天就能用 GPS 記錄、分段配速語音與查看訓練課表，課表的起點改以最近的週跑量決定。準備度要先累積戴著手錶入睡的夜晚做為基準線，通常兩週左右才會出現，ACWR 約四週。表現狀態則需要先設定最大心率，並在同一強度帶（輕鬆、中等、高強度）累積三次有心率記錄、超過十分鐘的跑步。最初幾次會拿還沒有依強度、也還沒有依測量時點區分的基準線來比較，App 會在那個畫面上寫明這件事。"}},{"@type":"Question","name":"免費試用是誰能拿到？","acceptedAnswer":{"@type":"Answer","text":"只有 App Store 判定仍符合本訂閱首購優惠資格的帳號才有。若你先前訂閱過或已用掉試用，第一次付款就會照常扣款。購買前，App 的購買畫面一定會先告訴你屬於哪一種。目前設定的免費期間，月繳和年繳都是 1 個月；選年繳並不會讓一整年免費。長度本身也是 App Store 隨商品一起送來的值，App 會在購買前照原樣顯示。年繳的話，這 1 個月結束後就會一次收取一整年的費用。"}},{"@type":"Question","name":"終身版和年繳，哪個比較划算？","acceptedAnswer":{"@type":"Answer","text":"永久使用權是一次性買斷，沒有自動續訂。照價格卡上的算法，跟年繳相比約 2.6 年回本，跟月繳相比約 20 個月，所以若打算用得比這更久，買斷比較划算。它也是唯一支援 Apple 家人共享的方案 — 月繳與年繳訂閱都不適用。"}},{"@type":"Question","name":"換手機或換錶之後會怎樣？","acceptedAnswer":{"@type":"Answer","text":"跑步紀錄本身存在 Apple 健康裡，新裝置的健康 App 會直接帶過去。只存在 Runvis 裡的資料 — 個人資料、心率區間、鞋子清單、教練建立的基準線 — 可以從設定 → 資料 →「匯出我的資料」存成一個檔案，在新裝置用「從備份匯入」還原。檔案只會留在你指定的地方，Runvis 不會傳送到任何地方。訂閱則用 App Store 的「回復購買項目」取回。"}},{"@type":"Question","name":"有錶面複雜功能或小工具嗎？","acceptedAnswer":{"@type":"Answer","text":"還沒有。錶面複雜功能、iPhone 主畫面小工具與即時動態都不在這個版本裡。有計畫要做，但日期還沒定。"}}]}
 </script>
 </head>
 <body>
@@ -661,28 +476,38 @@
 <a class="btn" data-i18n="n.hero.cta1" href="#beta">報名 Beta</a>
 <a class="btn ghost" data-i18n="n.hero.cta2" href="run.html">試跑 5 公里展示</a>
 </div>
-<script>(function(){var h=window.RunvisCritical; if(!h) return;
+<script>
+(function(){var h=window.RunvisCritical; if(!h) return;
   for(var k in h){ var e=document.querySelector('[data-i18n="'+k+'"]'); if(e) e.innerHTML=h[k]; }
-})();</script>
+})();
+</script>
 <p class="note" data-i18n="n.hero.note">記錄免費。教練是訂閱制，三種價格都列在下面的價目表。Runvis 先在韓國 App Store 開放，其他地區陸續跟進。</p>
 <div class="trust">
-<div class="tbadge"><b>100%</b><span data-i18n="n.hero.b1">在裝置內計算</span></div>
-<div class="tbadge"><b data-i18n="n.hero.b3n">6 種語言</b><span data-i18n="n.hero.b3">語音指導</span></div>
+<a class="tbadge" href="#privacy"><b data-i18n="n.hero.b1n">分析計算</b><span data-i18n="n.hero.b1">全都在裝置內（查詢除外）</span></a>
+<a class="tbadge" href="#faq"><b data-i18n="n.hero.b3n">6 種語言</b><span data-i18n="n.hero.b3">教練語音 · 例外寫在 FAQ</span></a>
 <a class="tbadge" href="#why"><b data-i18n="n.hero.b4n">41 項</b><span data-i18n="n.hero.b4">項指標，每項都有說明</span></a>
 </div>
 <div class="stage">
 <div class="ring" aria-hidden="true" data-depth="-.15"><svg viewBox="0 0 200 200"><defs><linearGradient id="rg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#3DDC84"/><stop offset="1" stop-color="#4CCBD9"/></linearGradient></defs>
 <g class="spin"><circle cx="100" cy="100" r="92" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/><circle class="arc" cx="100" cy="100" r="92" fill="none" stroke="url(#rg)" stroke-width="3.5" stroke-linecap="round" transform="rotate(-90 100 100)" opacity=".95"/><circle cx="100" cy="100" r="70" fill="none" stroke="rgba(76,203,217,.12)" stroke-width="1" stroke-dasharray="2 6"/></g></svg></div>
 <div class="devices" data-depth=".35">
-<div class="phone"><img alt="iPhone 首頁 — 今天的判斷是休息（完全休息或輕鬆散步）" data-i18n-attr="alt:alt.phone.hero" src="/assets/framed-phone-dash.zh.png" data-shot="framed-phone-dash" width="640" height="1308" fetchpriority="high" decoding="sync"/></div>
-<script>(function(){var s=window.RunvisShot; if(!s) return;
+<div class="phone"><picture><source srcset="/assets/framed-phone-dash.zh.avif" type="image/avif"/><source srcset="/assets/framed-phone-dash.zh.webp" type="image/webp"/><img alt="iPhone 首頁 — 今天的判斷是休息（完全休息或輕鬆散步）" data-i18n-attr="alt:alt.phone.hero" src="/assets/framed-phone-dash.zh.png" data-shot="framed-phone-dash" width="640" height="1308" fetchpriority="high" decoding="sync"/></picture></div>
+<script>
+(function(){var b=window.RunvisShotBase; if(!b) return;
   var i=document.querySelector('img[data-shot="framed-phone-dash"]');
-  if(i&&i.getAttribute("src")!==s) i.setAttribute("src",s);
-})();</script>
+  if(!i) return;
+  if(i.getAttribute("src")!==b+".png") i.setAttribute("src",b+".png");
+  var p=i.parentNode;
+  if(p&&p.tagName==="PICTURE") p.querySelectorAll("source").forEach(function(so){
+    var ext=so.type==="image/avif"?".avif":".webp";
+    if(so.getAttribute("srcset")!==b+ext) so.setAttribute("srcset",b+ext);
+  });
+})();
+</script>
 <div class="watch-stack" id="watchStack" role="group" data-i18n-attr="aria-label:a11y.watchstack" aria-label="跑步中的三張 Apple Watch 畫面輪流顯示">
-<img alt="Apple Watch Ultra — Runvis 跑步中的目前配速與平均、速度、GAP、坡度" data-i18n-attr="alt:alt.watch.pace" class="on" src="/assets/framed-watch-pace.zh.png" data-shot="framed-watch-pace" width="480" height="768" fetchpriority="high" decoding="sync"/>
-<img alt="Apple Watch Ultra — Runvis 心率區間弧線" data-i18n-attr="alt:alt.watch.zone" src="/assets/framed-watch-hr.zh.png" data-shot="framed-watch-hr" width="480" height="768" fetchpriority="low" decoding="async"/>
-<img alt="Apple Watch Ultra — Runvis 跑步中即時 GPS 地圖與距離、時間、配速" data-i18n-attr="alt:alt.watch.map" src="/assets/framed-watch-map.zh.png" data-shot="framed-watch-map" width="480" height="768" fetchpriority="low" decoding="async"/>
+<picture><source srcset="/assets/framed-watch-pace.zh.avif" type="image/avif"/><source srcset="/assets/framed-watch-pace.zh.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 跑步中的目前配速與平均、速度、GAP、坡度" data-i18n-attr="alt:alt.watch.pace" class="on" src="/assets/framed-watch-pace.zh.png" data-shot="framed-watch-pace" width="480" height="768" fetchpriority="high" decoding="sync"/></picture>
+<picture><source srcset="/assets/framed-watch-hr.zh.avif" type="image/avif"/><source srcset="/assets/framed-watch-hr.zh.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 心率區間弧線" data-i18n-attr="alt:alt.watch.zone" src="/assets/framed-watch-hr.zh.png" data-shot="framed-watch-hr" width="480" height="768" fetchpriority="low" decoding="async"/></picture>
+<picture><source srcset="/assets/framed-watch-map.zh.avif" type="image/avif"/><source srcset="/assets/framed-watch-map.zh.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 跑步中即時 GPS 地圖與距離、時間、配速" data-i18n-attr="alt:alt.watch.map" src="/assets/framed-watch-map.zh.png" data-shot="framed-watch-map" width="480" height="768" fetchpriority="low" decoding="async"/></picture>
 </div>
 </div>
 <div class="caption"><span class="mic">🔊</span><span class="txt" id="heroCaption"></span></div>
@@ -705,7 +530,7 @@
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s2">教練備妥的語句</small><b data-i18n="n.why.s2v">270 句以上</b><em class="st-good" data-i18n="n.why.s2n">六種語言皆有</em></div>
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">自動化測試</small><b data-i18n="n.why.s3v">500 項以上</b><em class="st-good" data-i18n="n.why.s3n">每次建置全跑</em></div>
 </div>
-<p class="honest reveal" data-i18n="n.why.cost">不必再添購任何裝置，手腕上的 Apple Watch 就是硬體。要花錢的只有教練：以韓國 App Store 的價格計算，每月 ₩1,900、每年 ₩15,000，或終身版一次 ₩39,000。跑錶有幾個人用就得買幾支，終身版則是 ₩39,000 一次就結束，而且整個 Apple 家庭共享群組都能一起用。專用跑錶和 Runvis 哪裡一樣、哪裡不一樣，<a href="how-it-works.html#versus">我們逐項寫下來了</a>。</p>
+<p class="honest reveal" data-i18n="n.why.cost">不必再添購任何裝置，手腕上的 Apple Watch 就是硬體。要花錢的只有教練：以韓國 App Store 的價格計算，每月 ₩1,900、每年 ₩15,000，或終身版一次 ₩39,000。跑錶有幾個人用就得買幾支，終身版只需付 ₩39,000 一次，整個 Apple 家庭共享群組都能一起用。專用跑錶和 Runvis 哪裡一樣、哪裡不一樣，<a href="how-it-works.html#versus">我們逐項寫下來了</a>。</p>
 <p class="honest reveal" data-i18n="n.why.phone">還沒有手錶也沒關係。只用 iPhone 就能記錄 GPS，並在每公里（若單位設定為英里則每英里）報一次分段配速 — 沒有訂閱時，手機只會說這個分段。姿勢指導需要手腕感測器，只有手錶才有。</p>
 </div>
 </section>
@@ -716,7 +541,7 @@
 <h2 id="today-h" class="reveal" data-i18n="n.today.h2">早上打開，<br/>今天的訓練已經排好了</h2>
 <p class="sub reveal" data-i18n="n.today.sub">把昨晚的睡眠、HRV、靜止心率和昨天的訓練負荷，拿來跟你自己的 28 日基準比較。用這些挑出今天的訓練，再附上一句原因。</p>
 <div class="row reveal">
-<div class="frame"><img alt="iPhone 指標詳情 — 訓練負荷(CTL) 7 日趨勢、我的 28 日範圍與指標說明" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.zh.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></div>
+<div class="frame"><picture><source srcset="/assets/framed-phone-detail.zh.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.zh.webp" type="image/webp"/><img alt="iPhone 指標詳情 — 訓練負荷(CTL) 7 日趨勢、我的 28 日範圍與指標說明" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.zh.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture></div>
 <div class="desc">
 <h3 data-i18n="n.today.h3">先給判斷，理由放在下面</h3>
 <p data-i18n="n.today.p">最上面是今天要做的訓練，下面是這樣安排的理由。其他指標往下排，當作參考。點一下指標，就能看到它的意思、計算依據，還有你平常的範圍。</p>
@@ -734,9 +559,9 @@
 </div>
 </div>
 <div class="watch3">
-<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 今天的判斷：準備度圓環與休息日" data-i18n-attr="alt:alt.watch.decision" loading="lazy" src="/assets/framed-watch-hero.zh.png" data-shot="framed-watch-hero" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w1">今日決定</b><span data-i18n="n.today.w1p">準備度圓環與今天的訓練，在手腕上直接看得到。</span></div>
-<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 今天的依據：睡眠與 HRV" data-i18n-attr="alt:alt.watch.evidence" loading="lazy" src="/assets/framed-watch-evidence.zh.png" data-shot="framed-watch-evidence" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w2">今日依據</b><span data-i18n="n.today.w2p">把睡眠、HRV、昨日負荷跟你的基準比較，標成良好、普通、注意。</span></div>
-<div class="w3 reveal"><div class="frame"><img alt="Apple Watch Ultra — Runvis 運動選擇：跑步與室內跑步" data-i18n-attr="alt:alt.watch.start" loading="lazy" src="/assets/framed-watch-start.zh.png" data-shot="framed-watch-start" width="480" height="768" decoding="async"/></div><b data-i18n="n.today.w3">一下就開始</b><span data-i18n="n.today.w3p">今天的訓練就在開始畫面最上面。按下去，教練會一段一段帶你走。</span></div>
+<div class="w3 reveal"><div class="frame"><picture><source srcset="/assets/framed-watch-hero.zh.avif" type="image/avif"/><source srcset="/assets/framed-watch-hero.zh.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 今天的判斷：準備度圓環與休息日" data-i18n-attr="alt:alt.watch.decision" loading="lazy" src="/assets/framed-watch-hero.zh.png" data-shot="framed-watch-hero" width="480" height="768" decoding="async"/></picture></div><b data-i18n="n.today.w1">今日決定</b><span data-i18n="n.today.w1p">準備度圓環與今天的訓練，在手腕上直接看得到。</span></div>
+<div class="w3 reveal"><div class="frame"><picture><source srcset="/assets/framed-watch-evidence.zh.avif" type="image/avif"/><source srcset="/assets/framed-watch-evidence.zh.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 今天的依據：睡眠與 HRV" data-i18n-attr="alt:alt.watch.evidence" loading="lazy" src="/assets/framed-watch-evidence.zh.png" data-shot="framed-watch-evidence" width="480" height="768" decoding="async"/></picture></div><b data-i18n="n.today.w2">今日依據</b><span data-i18n="n.today.w2p">把睡眠、HRV、昨日負荷跟你的基準比較，標成良好、普通、注意。</span></div>
+<div class="w3 reveal"><div class="frame"><picture><source srcset="/assets/framed-watch-start.zh.avif" type="image/avif"/><source srcset="/assets/framed-watch-start.zh.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 運動選擇：跑步與室內跑步" data-i18n-attr="alt:alt.watch.start" loading="lazy" src="/assets/framed-watch-start.zh.png" data-shot="framed-watch-start" width="480" height="768" decoding="async"/></picture></div><b data-i18n="n.today.w3">一下就開始</b><span data-i18n="n.today.w3p">今天的訓練就在開始畫面最上面。按下去，教練會一段一段帶你走。</span></div>
 </div>
 <p class="sc-note reveal" data-i18n="sc.note">本頁的 11 張截圖（iPhone 5 張、Apple Watch 6 張）都是以你目前的語言執行 App 後拍下的實際畫面。跑步中的畫面來自真實的跑步記錄。截圖之後 App 仍在持續修正，你實際安裝到的版本可能比這裡看到的畫面更新。</p>
 </div>
@@ -750,7 +575,7 @@
 <div class="voice-grid reveal">
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="播放範例語音：配速提示（免費）" data-i18n-attr="aria-label:n.vc1.aria" data-say="목표보다 25초 빠릅니다"><div class="sensor" data-i18n="n.vc1.sensor">📡 偏離目標配速超過 20 秒且持續 20 秒以上時</div><div class="play"><span data-i18n="n.vc1.play">配速</span><span class="pill free" data-i18n="n.pill.free">免費</span></div><div class="line" data-i18n="n.vc1.line">"比目標快25秒"</div></div>
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="播放範例語音：坡道預告（免費）" data-i18n-attr="aria-label:n.vc2.aria" data-say="300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="n.vc2.sensor">📡 事先讀取路線高度。常跑的路線約在 500 公尺處就會認出來並預告坡道</div><div class="play"><span data-i18n="n.vc2.play">上坡預告</span><span class="pill free" data-i18n="n.pill.free">免費</span></div><div class="line" data-i18n="n.vc2.line">"前方 300 公尺開始一段 800 公尺的上坡，平均坡度 4%。縮小步幅，保持節奏。"</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="播放範例語音：姿勢指導（訂閱）" data-i18n-attr="aria-label:n.vc3.aria" data-say="케이던스가 기준보다 5퍼센트 낮아요 — 보폭을 조금 줄여볼까요."><div class="sensor" data-i18n="n.vc3.sensor">📡 在平地、配速穩定時，步頻介於每分鐘 130～160 步之間且低於自己基準 5%，並持續 30 秒。觸地時間超過 300 毫秒或垂直振幅變大時也是同一句，而這兩項沒有步頻上限 · 起跑 6 分鐘後開始，每次跑步最多兩次</div><div class="play"><span data-i18n="n.vc3.play">跑姿</span><span class="pill pro" data-i18n="n.pill.pro">訂閱</span></div><div class="line" data-i18n="n.vc3.line">"步頻比基準低5%——試著把步幅縮小一點吧。"</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="播放範例語音：步幅提示（訂閱）" data-i18n-attr="aria-label:n.vc3.aria" data-say="케이던스가 기준보다 5퍼센트 낮아요 — 보폭을 조금 줄여볼까요."><div class="sensor" data-i18n="n.vc3.sensor">📡 步幅提示 · 只在平地、配速穩定時判定。步頻介於每分鐘 130～160 步之間且低於自己基準 5%，持續 30 秒。觸地超過 300 毫秒或垂直振幅變大也會給同一句（這兩項沒有步頻上限）。起跑 6 分鐘後開始，每次跑步最多 2 次。設定裡的「跑姿」開關同時控制這個提示和跑姿提示。</div><div class="play"><span data-i18n="n.vc3.play">步幅</span><span class="pill pro" data-i18n="n.pill.pro">訂閱</span></div><div class="line" data-i18n="n.vc3.line">"步頻比基準低5%——試著把步幅縮小一點吧。"</div></div>
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="播放範例語音：恢復提示（訂閱）" data-i18n-attr="aria-label:n.vc4.aria" data-say="심박이 존 쓰리까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor" data-i18n="n.vc4.sensor">📡 走路恢復期間心率區間下降一階時</div><div class="play"><span data-i18n="n.vc4.play">恢復</span><span class="pill pro" data-i18n="n.pill.pro">訂閱</span></div><div class="line" data-i18n="n.vc4.line">"心率已經降到第3區了，恢復得很好，再一下下。"</div></div>
 </div>
 <p class="sr-only" id="voiceStatus" role="status" aria-live="polite"></p>
@@ -786,7 +611,7 @@
 </div>
 <p class="honest reveal" data-i18n="n.after.honest"><b>估算出來的數值，就寫上「估算」。</b> 依據不足時會顯示「學習中」，而不是一個數字。沒有把握的指標，我們不放進來。</p>
 <div class="row flip reveal">
-<div class="frame"><img alt="iPhone 身體與跑步報告 — 訓練負荷走勢、訓練負荷、乳酸閾值（估計）、耐力訓練量、坡度暴露等資訊方塊" data-i18n-attr="alt:alt.phone.glance" loading="lazy" src="/assets/framed-phone-glance.zh.png" data-shot="framed-phone-glance" width="640" height="1308" decoding="async"/></div>
+<div class="frame"><picture><source srcset="/assets/framed-phone-glance.zh.avif" type="image/avif"/><source srcset="/assets/framed-phone-glance.zh.webp" type="image/webp"/><img alt="iPhone 身體與跑步報告 — 訓練負荷走勢、訓練負荷、乳酸閾值（估計）、耐力訓練量、坡度暴露等資訊方塊" data-i18n-attr="alt:alt.phone.glance" loading="lazy" src="/assets/framed-phone-glance.zh.png" data-shot="framed-phone-glance" width="640" height="1308" decoding="async"/></picture></div>
 <div class="desc">
 <h3 data-i18n="n.after.h3">點一下指標，放在你平常的範圍上看</h3>
 <p data-i18n="n.after.p">今天的數值有沒有落在你的 28 日範圍內，和四週前比大概在哪裡，都看得到。不懂術語也沒關係。每個指標都附上意思和計算依據。</p>
@@ -806,7 +631,7 @@
 <h2 id="race-h" class="reveal" data-i18n="n.race.h2">到比賽為止的逐週計畫，<br/>比賽當天的分段策略</h2>
 <p class="sub reveal" data-i18n="n.race.sub">輸入目標賽事與成績，就會排出逐週路線圖。以現在的體能能不能達成，也會老實告訴你。看計畫是免費的，手錶上由教練一段一段帶著跑則需要訂閱。</p>
 <div class="row reveal">
-<div class="frame"><img alt="iPhone 每週訓練計畫畫面" data-i18n-attr="alt:alt.phone.plan" loading="lazy" src="/assets/framed-phone-plan.zh.png" data-shot="framed-phone-plan" width="640" height="1308" decoding="async"/></div>
+<div class="frame"><picture><source srcset="/assets/framed-phone-plan.zh.avif" type="image/avif"/><source srcset="/assets/framed-phone-plan.zh.webp" type="image/webp"/><img alt="iPhone 每週訓練計畫畫面" data-i18n-attr="alt:alt.phone.plan" loading="lazy" src="/assets/framed-phone-plan.zh.png" data-shot="framed-phone-plan" width="640" height="1308" decoding="async"/></picture></div>
 <div class="desc">
 <h3 data-i18n="n.race.h3">選了教練，計畫和說話方式都會不一樣</h3>
 <p data-i18n="n.race.p">完賽優先、均衡、挑戰成績。選其中一個，訓練組成和跑步中的語氣會一起改變。新手不管選哪一位教練，都不會拿到勉強的間歇。</p>
@@ -818,7 +643,7 @@
 </div>
 </div>
 <div class="row flip reveal">
-<div class="frame"><img alt="iPhone 比賽成績預測畫面" data-i18n-attr="alt:alt.phone.race" loading="lazy" src="/assets/framed-phone-race.zh.png" data-shot="framed-phone-race" width="640" height="1308" decoding="async"/></div>
+<div class="frame"><picture><source srcset="/assets/framed-phone-race.zh.avif" type="image/avif"/><source srcset="/assets/framed-phone-race.zh.webp" type="image/webp"/><img alt="iPhone 比賽成績預測畫面" data-i18n-attr="alt:alt.phone.race" loading="lazy" src="/assets/framed-phone-race.zh.png" data-shot="framed-phone-race" width="640" height="1308" decoding="async"/></picture></div>
 <div class="desc">
 <h3 data-i18n="n.race.h3b">先認識賽道的教練</h3>
 <p data-i18n="n.race.pb">放入賽事路線的 GPX，它會先知道哪裡有上坡。把含坡度校正的分段配速和補給時機送到手錶，比賽當天跟著語音走就好。</p>
@@ -845,7 +670,7 @@
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.price.eb">價格</div>
 <h2 id="price-h" class="reveal" data-i18n="n.price.h2">記錄免費 —<br/>要付費的只有教練</h2>
-<p class="sub reveal" data-i18n="n.price.sub">記錄、看計畫和報告都免費。教練親口說話和做分析屬於訂閱。Runvis 會先在韓國 App Store 推出，那裡的教練每月 ₩1,900；其他地區以你自己所在 App Store 的價格為準，確切金額一旦定案就會寫在這個頁面上。App Store 判定符合試用資格的帳號，可以免費試用第一期。</p>
+<p class="sub reveal" data-i18n="n.price.sub">記錄、看計畫和報告都免費。教練親口說話和做分析屬於訂閱。Runvis 會先在韓國 App Store 推出，那裡的教練每月 ₩1,900；其他地區以你自己所在 App Store 的價格為準，確切金額一旦定案就會寫在這個頁面上。App Store 判定符合試用資格的帳號，可以免費試用 1 個月；月繳和年繳都是同樣的 1 個月。</p>
 <div class="price">
 <div class="plan tilt reveal" data-tilt="5">
 <div class="name" data-i18n="n.price.freeName">基本</div>
@@ -854,14 +679,15 @@
 <li data-i18n="n.price.f1">GPS 記錄、配速、心率、圈數、儲存到 Apple Health</li>
 <li data-i18n="n.price.f2">運動詳細報告、身體報告、紀錄列表</li>
 <li data-i18n="n.price.f3">檢視課表、基本比賽預測、天氣簡報與熱身畫面、手錶的比賽模式與個人最佳幽靈</li>
-<li data-i18n="n.price.f4">用手錶跑步時 — 分段（每公里或每英里，依裝置的單位設定）、心率區間、配速、路線爬坡預告、偏離路線警示語音。只帶 iPhone 跑步時，免費語音只有分段。</li>
+<li data-i18n="n.price.f4">用手錶跑步時：分段（依裝置的單位設定）、心率區間、配速、爬坡預告、偏離路線警示語音</li>
+<li data-i18n="n.price.f4b">只帶 iPhone 跑步時，免費語音只有分段</li>
 <li data-i18n="n.price.f6">跑後小提示卡</li>
 <li data-i18n="n.price.f5">GPX 匯出、AI 分析用報告</li>
 </ul>
 <a class="btn ghost" href="run.html" style="margin-top:18px" data-i18n="n.price.freecta">在 5 公里示範中看看免費版能做到哪裡</a>
 </div>
 <div class="plan pro tilt reveal" data-tilt="5">
-<span class="ribbon" data-i18n="pl.ribbon">符合資格的帳號第一期免費</span>
+<span class="ribbon" data-i18n="pl.ribbon">符合資格的帳號 1 個月免費</span>
 <div class="name" data-i18n="pl.coach">Runvis 教練</div>
 <a class="terms-link" href="#faq" data-i18n="pl.terms">誰符合資格？</a>
 <table class="ptable">
@@ -873,7 +699,7 @@
 <details class="gate">
 <summary data-i18n="n.price.moreh">其他地區價格、實際折扣、回本試算</summary>
 <p data-i18n="pr.approx2">這裡不放換算金額：Apple 是按價格級距收費，不是按匯率，換算值在真正要用的那天就會失準。其他商店設定完成後，實際數字就會寫在這個頁面上。</p>
-<p data-i18n="n.price.year">年繳是 <b>₩15,000</b>，以韓國 App Store 計算平均每月約 ₩1,250，比按月付大約便宜 34%。其他地區的價格級距不同，比例也可能不一樣；實際省下多少，由 App 的購買畫面用當地的兩個價格算給你看。符合試用資格的帳號，年繳同樣有第一期免費，之後一次收取整年費用。</p>
+<p data-i18n="n.price.year">年繳是 <b>₩15,000</b>，以韓國 App Store 計算平均每月約 ₩1,250，比按月付大約便宜 34%。其他地區的價格級距不同，比例也可能不一樣；實際省下多少，由 App 的購買畫面用當地的兩個價格算給你看。符合試用資格的帳號，年繳也有免費期間，但長度和月繳一樣是 1 個月，不是一年。1 個月結束後，就會一次收取整年的 ₩15,000。</p>
 <p data-i18n="n.price.life">不想訂閱，也有<b>終身版 ₩39,000</b>，這是上市紀念價。日後若調漲，也不會套用到已經購買的人。以韓國 App Store 的價格換算，相當於年繳的 2.6 年或月繳的 20 個月；你所在商店的價格級距不同，算出來的比例也可能不一樣。這也是唯一支援 Apple 家庭共享的方案。</p>
 </details>
 <p class="plisth" data-i18n="n.price.nowh">訂閱後立刻開啟</p>
@@ -931,7 +757,7 @@
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q5">六種語言的語音支援到什麼程度？</h3><p data-i18n="n.faq.a5">iPhone 教練說出口的句子，六種語言都有測試固定住 — 每次建置都會把一趟 45 分鐘的跑步逐秒重播，檢查那趟跑步發出的每一則提示是否都有翻譯。手錶上的即時教練迴圈不在這個測試套件裡，所以仍可能有還沒進到翻譯表的句子；遇到這種情況會以英文播出，不會變成韓文，這個備援同樣有測試固定住。App 畫面上的文字用的是另一份翻譯表，跟教練語音不同。</p>
 <details class="gate"><summary data-i18n="n.faq.a5h">測試到底抓住哪些？</summary><p data-i18n="n.faq.a5g">四份翻譯表必須連鍵值與佔位符編號都彼此一致，表裡寫的每一行也都要能經由 App 實際使用的查表路徑取得。iPhone 教練那趟 45 分鐘的重播會以六種語言 × 公制與英制兩種設定跑過，只要有一處對不上，當場就會失敗。含數字的提示也會照各語言自己的語序說出來（含分段報時、坡道預告、配速、心率區間與訓練步驟）。</p></details></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q6">完全沒有紀錄也能用嗎？</h3><p data-i18n="n.faq.a6">可以。在手錶上跑一次 12 分鐘測驗，當天就會產生 5K、10K 的預估成績與第一份課表 — 這項測驗只在手錶上有。只有 iPhone 也一樣，第一天就能用 GPS 記錄、分段配速語音與查看訓練課表，課表的起點改以最近的週跑量決定。準備度要先累積戴著手錶入睡的夜晚做為基準線，通常兩週左右才會出現，ACWR 約四週。表現狀態則需要先設定最大心率，並在同一強度帶（輕鬆、中等、高強度）累積三次有心率記錄、超過十分鐘的跑步。最初幾次會拿還沒有依強度、也還沒有依測量時點區分的基準線來比較，App 會在那個畫面上寫明這件事。</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q7">免費試用是誰能拿到？</h3><p data-i18n="n.faq.a7">只有 App Store 判定仍符合本訂閱首購優惠資格的帳號才有。若你先前訂閱過或已用掉試用，第一次付款就會照常扣款。購買前，App 的購買畫面一定會先告訴你屬於哪一種。免費期間有多長，也是 App Store 隨商品一起送來的值，App 會在購買前照原樣顯示。若選了年繳，免費期間結束後就會一次收取一整年的費用。</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q7">免費試用是誰能拿到？</h3><p data-i18n="n.faq.a7">只有 App Store 判定仍符合本訂閱首購優惠資格的帳號才有。若你先前訂閱過或已用掉試用，第一次付款就會照常扣款。購買前，App 的購買畫面一定會先告訴你屬於哪一種。目前設定的免費期間，月繳和年繳都是 1 個月；選年繳並不會讓一整年免費。長度本身也是 App Store 隨商品一起送來的值，App 會在購買前照原樣顯示。年繳的話，這 1 個月結束後就會一次收取一整年的費用。</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q8">終身版和年繳，哪個比較划算？</h3><p data-i18n="n.faq.a8">永久使用權是一次性買斷，沒有自動續訂。照價格卡上的算法，跟年繳相比約 2.6 年回本，跟月繳相比約 20 個月，所以若打算用得比這更久，買斷比較划算。它也是唯一支援 Apple 家人共享的方案 — 月繳與年繳訂閱都不適用。</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q9">換手機或換錶之後會怎樣？</h3><p data-i18n="n.faq.a9">跑步紀錄本身存在 Apple 健康裡，新裝置的健康 App 會直接帶過去。只存在 Runvis 裡的資料 — 個人資料、心率區間、鞋子清單、教練建立的基準線 — 可以從設定 → 資料 →「匯出我的資料」存成一個檔案，在新裝置用「從備份匯入」還原。檔案只會留在你指定的地方，Runvis 不會傳送到任何地方。訂閱則用 App Store 的「回復購買項目」取回。</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q10">有錶面複雜功能或小工具嗎？</h3><p data-i18n="n.faq.a10">還沒有。錶面複雜功能、iPhone 主畫面小工具與即時動態都不在這個版本裡。有計畫要做，但日期還沒定。</p></div>
@@ -1005,11 +831,6 @@
 </footer>
 
 <script>
-// --- nav overflow affordance ------------------------------------------------
-// Between 701 and 920 px the link row scrolls with its scrollbar hidden, and a
-// hidden scrollbar on a row that overflows is a row whose last items simply do
-// not exist as far as the reader is concerned. Fade whichever end still has
-// something past it — and nothing at all when the row fits.
 (function () {
   const row = document.querySelector('nav .links');
   if (!row) return;
@@ -1024,21 +845,12 @@
   }
   row.addEventListener('scroll', fade, { passive: true });
   addEventListener('resize', fade);
-  // The row's width changes with the language, so redo it when one lands.
   addEventListener('runvis:lang', () => setTimeout(fade, 0));
   fade();
 })();
-
-// --- motion layer: tilt cards, glare, float, magnetic buttons, scroll depth ---
-// Everything here is decoration. Reduced-motion users get a static page, and
-// the Apple device bezels are never rotated (Apple's marketing guidelines
-// forbid angled or perspective-altered product images) — they only float.
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
-
-  // 1) Tilt + glare on [data-tilt]. Pointer position → rotateX/rotateY, a
-  //    radial highlight follows the cursor through --gx/--gy.
   if (!reduce && fine) {
     document.querySelectorAll('[data-tilt]').forEach(el => {
       const max = parseFloat(el.dataset.tilt) || 7;
@@ -1064,16 +876,8 @@
       });
     });
   }
-
-  // 2) Magnetic buttons: the button leans a few px toward the cursor.
   if (!reduce && fine) {
     document.querySelectorAll('.btn').forEach(b => {
-      // Same rAF coalescing as the tilt and hero-depth handlers above: a
-      // pointermove can fire several times per frame and each write to
-      // `style.transform` forces its own style recalculation. This one used
-      // to write straight from the event — the only handler on the page that
-      // did — so a fast cursor across the two hero buttons cost 2-3× the
-      // layout work of everything else moving.
       let raf = 0, dx = 0, dy = 0;
       const paint = () => { raf = 0; b.style.transform = `translate(${(dx * 6).toFixed(1)}px, ${(dy * 6).toFixed(1)}px)`; };
       b.addEventListener('pointermove', e => {
@@ -1088,9 +892,6 @@
       });
     });
   }
-
-  // 3) Hero depth: the device group and glow drift slightly against the
-  //    cursor (parallax by translate only — no rotation on the bezels).
   const hero = document.getElementById('hero');
   if (hero && !reduce && fine) {
     const layers = hero.querySelectorAll('[data-depth]');
@@ -1109,22 +910,6 @@
     });
     hero.addEventListener('pointerleave', () => { mx = my = 0; if (!raf) raf = requestAnimationFrame(paint); });
   }
-
-  // 4) Scroll reveal with staggered depth (translateZ via perspective wrapper).
-  //    Three things went wrong at threshold .12 with a negative bottom margin,
-  //    and a flick on a 375x812 phone reproduced all three at once — 62 of 68
-  //    .reveal elements still at opacity 0 with the whole viewport black:
-  //      a) a block TALLER than the viewport can never show 12% of itself
-  //         inside the viewport, so #price .plan.pro (1,029 px in Korean,
-  //         1,616 px in German) was never "intersecting" enough to fire;
-  //      b) rootMargin shrank the trigger box instead of growing it, so an
-  //         element had to be well inside the screen before it counted;
-  //      c) an element that scrolled PAST the viewport between two observer
-  //         callbacks was left behind with no second chance.
-  //    Fixed in that order: tall blocks are painted at once and never
-  //    observed, the box grows 15% past the bottom edge so a block fires
-  //    before it arrives, any threshold crossing counts, and anything already
-  //    above the top edge is shown immediately.
   const pending = new Set();
   const show = el => { el.classList.add('in'); pending.delete(el); io.unobserve(el); };
   const io = new IntersectionObserver(es => es.forEach(e => {
@@ -1135,15 +920,6 @@
     if (el.getBoundingClientRect().height > innerHeight * 0.9) { el.classList.add('in'); return; }
     pending.add(el); io.observe(el);
   });
-  // The safety net the observer cannot be: with threshold 0, an element that
-  // goes from "below the viewport" to "above the viewport" between two frames
-  // never CHANGES intersection state, so no callback is ever delivered for it
-  // and it stays at opacity 0 behind the reader. A flick down this page
-  // (23,000 px) reproduces that on a phone. One rAF-coalesced pass over
-  // whatever is still pending, on every scroll, closes it: anything whose top
-  // has reached the bottom edge is shown, whether it is still on screen or
-  // already gone past. The set empties as the page is read, so this costs
-  // nothing by the time the page has been scrolled once.
   let sweeping = 0;
   const sweep = () => {
     sweeping = 0;
@@ -1152,8 +928,6 @@
   };
   const onScroll = () => { if (!sweeping && pending.size) sweeping = requestAnimationFrame(sweep); };
   addEventListener('scroll', onScroll, { passive: true });
-
-  // 5) Count-up numbers on [data-count] when they enter the viewport.
   const cio = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return; cio.unobserve(e.target);
     const el = e.target, to = parseFloat(el.dataset.count), dec = (el.dataset.count.split('.')[1] || '').length;
@@ -1165,26 +939,15 @@
   }), { threshold: .6 });
   document.querySelectorAll('[data-count]').forEach(el => cio.observe(el));
 })();
-
 </script>
 <script>
-// --- hero caption typing loop (language-aware via window.RunvisDyn) ---
 const capEl=document.getElementById('heroCaption');
 let hl=0, heroTimer=null, heroPause=null, heroGen=0;
 function heroCurrentLines(){
   return (window.RunvisDyn&&window.RunvisDyn.hero&&window.RunvisDyn.hero[0])
     ? window.RunvisDyn.hero
-    // Same four sentences as hero0..hero3 in t-ko.js, word for word — they are
-    // quoted as things the coach actually says, so both copies come from
-    // CoachEngine/WorkoutManager originals. Keep them in step.
-    // Third element was "12초" while hero2 and the pace chip both said "25초";
-    // this array is what a crawler and a failed dictionary load actually see.
     : ["현재 기온 3도, 습도 60퍼센트입니다. 기온이 낮아 근육이 굳기 쉬우니 준비운동을 평소보다 길게 하겠습니다.","300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요.","목표보다 25초 빠릅니다","심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."];
 }
-// Every restart bumps `heroGen`. The typing interval and the 2.4 s pause that
-// follows a finished line both carry the generation they were started in, so a
-// language switch cannot let the old sentence keep typing — or its pause fire
-// and queue another line — over the new language.
 function heroStop(){heroGen++;clearInterval(heroTimer);clearTimeout(heroPause);heroTimer=heroPause=null}
 function typeLine(text,cb){
   const my=heroGen;let i=0;capEl.textContent="";
@@ -1194,7 +957,6 @@ function typeLine(text,cb){
     if(i>=text.length){clearInterval(heroTimer);heroPause=setTimeout(()=>{if(my===heroGen)cb()},2400)}
   },42)}
 function heroLoop(){
-  // A caption that retypes forever is motion; honour the setting.
   if(matchMedia('(prefers-reduced-motion: reduce)').matches){capEl.textContent=heroCurrentLines()[0];return}
   const lines=heroCurrentLines();typeLine(lines[hl%lines.length],()=>{hl++;heroLoop()})}
 function heroRestart(){heroStop();hl=0;heroLoop()}
@@ -1202,29 +964,16 @@ function heroRestart(){heroStop();hl=0;heroLoop()}
   if((window.RunvisDyn&&window.RunvisDyn.hero&&window.RunvisDyn.hero[0])||tries<=0){heroRestart();return}
   setTimeout(()=>startHero(tries-1),50);
 })(30);
-// i18n.js calls this after it swaps the dictionary — restart at once so the
-// caption is never a language behind.
 window.renderDynamicI18n=heroRestart;
-
-// --- hero watch screen rotation ---
 (() => {
   const slides = document.querySelectorAll('#watchStack img');
   if (!slides.length) return;
-  // aria-current says which frame is the visible one; without it a screen
-  // reader read all three alt texts as if all three were on screen.
   const mark = n => slides.forEach((s, k) => k === n ? s.setAttribute('aria-current', 'true') : s.removeAttribute('aria-current'));
   mark(0);
   if (slides.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   let i = 0;
   setInterval(() => { slides[i].classList.remove('on'); i = (i + 1) % slides.length; slides[i].classList.add('on'); mark(i); }, 3800);
 })();
-
-// --- voice playback (Web Speech API, follows the selected language) ---
-// One active playback at a time. Every tap bumps `gen`; anything the previous
-// chain still fires (onerror after cancel, the 700 ms silent-start fallback)
-// sees a stale generation and stops instead of restarting the OLD sentence
-// with the NEXT candidate voice — which is how two voices ended up talking
-// over each other. Tapping the chip that is speaking stops it.
 const VOICE_BLOCK=/^(albert|bad news|bahh|bells|boing|bubbles|cellos|fred|good news|jester|junior|kathy|organ|ralph|superstar|trinoids|whisper|wobble|zarvox|grandma|grandpa|eddy|flo|reed|rocko|sandy|shelley)\b/i;
 const VOICE_GOOD=/siri|premium|enhanced|neural|natural|online/i;
 const VOICE_PREF={ko:['유나','yuna','sora','소라'],en:['samantha','ava','allison','aria','zoe'],ja:['kyoko','o-ren','hattori'],
@@ -1242,8 +991,8 @@ function voiceCandidates(tag){
     const p=prefs.findIndex(x=>n.includes(x));
     if(p>=0) s+=40-p;
     if(VOICE_GOOD.test(n)) s+=10;
-    if(v.localService) s+=6;                                 // offline plays reliably
-    if(/^google/i.test(n)) s+=4;                             // Chrome's remote voices beat the compact set
+    if(v.localService) s+=6;
+    if(/^google/i.test(n)) s+=4;
     return s;
   };
   return voices.filter(v=>v.lang.toLowerCase().replace('_','-').startsWith(primary))
@@ -1251,13 +1000,10 @@ function voiceCandidates(tag){
                .sort((a,b)=>b.s-a.s).map(x=>x.v);
 }
 if('speechSynthesis' in window){speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();}
-
 const Voice=(()=>{
   let gen=0, activeChip=null;
   const chips=()=>document.querySelectorAll('.vchip');
   const status=()=>document.getElementById('voiceStatus');
-  // A sighted visitor sees the chip turn green; without these two lines a
-  // screen-reader user got no signal at all that anything had happened.
   function announce(key,fallback){
     const el=status(); if(!el) return;
     el.textContent='';
@@ -1280,7 +1026,7 @@ const Voice=(()=>{
     const list=voiceCandidates(tag);
     const done=()=>{ if(my!==gen) return; chip.classList.remove('playing'); chip.setAttribute('aria-pressed','false'); activeChip=null; };
     (function attempt(i){
-      if(my!==gen) return;                                   // superseded by a newer tap
+      if(my!==gen) return;
       const u=new SpeechSynthesisUtterance(text);
       u.lang=tag; u.rate=.95;
       const v=list[i]; if(v){u.voice=v;u.lang=v.lang;}
@@ -1292,7 +1038,6 @@ const Voice=(()=>{
       };
       u.onstart=()=>{started=true;};
       u.onerror=e=>{
-        // 'interrupted'/'canceled' = we stopped it on purpose; never fall through.
         if(e&&(e.error==='interrupted'||e.error==='canceled')) return;
         next();
       };
@@ -1303,37 +1048,25 @@ const Voice=(()=>{
   }
   return {stop, play, get active(){return activeChip;}};
 })();
-
 document.querySelectorAll('.vchip').forEach((c,idx)=>{
   c.addEventListener('keydown', e => {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); c.click(); }
   });
   c.addEventListener('click',()=>{
     if(!('speechSynthesis' in window)){
-      // The site speaks six languages; this warning used to speak only English.
       const msg='This browser does not support voice playback.';
       alert(window.RunvisT?window.RunvisT('form.novoice',msg):msg);
       return;
     }
-    if(Voice.active===c){ Voice.stop(); return; }           // tap again = stop
+    if(Voice.active===c){ Voice.stop(); return; }
     const dyn=window.RunvisDyn;
     const say=(dyn&&dyn.vchip&&dyn.vchip[idx])||c.dataset.say;
     Voice.play(c, say, (dyn&&dyn.tts)||'ko-KR');
   });
 });
-// Language switch or leaving the page: silence whatever is speaking.
 window.addEventListener('runvis:lang', ()=>Voice.stop());
 window.addEventListener('pagehide', ()=>Voice.stop());
 document.addEventListener('visibilitychange', ()=>{ if(document.hidden) Voice.stop(); });
-
-
-// --- signup intent: the button says what it will actually do ------------------
-// Testing the beta and "just tell me when it ships" used to share one button
-// labelled 베타 초대 받기, so the second intent had nowhere to go. The radio
-// picks the intent and this keeps the button honest. It re-runs after
-// runvis:lang, so i18n.js rewriting the button from its data-i18n binding —
-// which is what gives a no-JS reader the right language — cannot strand the
-// launch-notice label behind a language switch.
 (() => {
   const btn = document.getElementById('betaSubmit');
   const radios = document.querySelectorAll('input[name="want"]');
@@ -1347,11 +1080,6 @@ document.addEventListener('visibilitychange', ()=>{ if(document.hidden) Voice.st
   addEventListener('runvis:lang', () => setTimeout(sync, 0));
   sync();
 })();
-
-// --- the sticky bar's second action arrives with its intent set -------------
-// Otherwise "출시 알림 받기" dropped the reader at a form whose radio still said
-// 베타 참여 and whose button still said 베타 초대 받기 — the same dead end the bar
-// was added to remove.
 (() => {
   const link = document.getElementById('stickyLaunch');
   if (!link) return;
@@ -1360,23 +1088,11 @@ document.addEventListener('visibilitychange', ()=>{ if(document.hidden) Voice.st
     if (r && !r.checked) { r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); }
   });
 })();
-
-// The heart-rate zone calculator's script left with its markup — it lives in
-// how-it-works.html now, unchanged.
-
-// --- beta signup → Formspree (AJAX, no page navigation) ---
 const betaForm = document.getElementById('betaForm');
 if (betaForm) betaForm.addEventListener('submit', async e => {
   e.preventDefault();
   const status = document.getElementById('betaStatus');
   const btn = document.getElementById('betaSubmit');
-  // The form never navigates, so this line is the only feedback there is.
-  // It is a live region: empty it first so an identical repeat message is
-  // still announced, and make it visible before the text lands.
-  // On failure the page used to end the conversation: the form is the site's
-  // only conversion point, and a reader whose POST bounced was left with a
-  // plain-text address elsewhere on the page. The banner now carries the way
-  // out itself.
   const show = (msg, ok) => {
     status.textContent = '';
     status.style.display = 'block';
@@ -1398,18 +1114,6 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
   try {
     const res = await fetch(betaForm.action, { method: 'POST', body: new FormData(betaForm), headers: { Accept: 'application/json' } });
     if (res.ok) {
-      // The fallback is the Korean dictionary value, character for character:
-      // it is what shows if t-ko.js has not landed yet, and the shorter text
-      // that used to sit here dropped the deletion-request line, which is part
-      // of the privacy notice. check-content.mjs [10] compares every such
-      // fallback on a page against that page's dictionary, and prerender.mjs
-      // rewrites them for the five language copies.
-      // The address goes back on screen with the confirmation. There is no
-      // double opt-in and no autoresponder, so a mistyped address used to be
-      // lost in silence: the form said "등록됐습니다" and the invitation would
-      // later go nowhere. Echoing what was actually submitted is the one
-      // check that can be made without a server, and it happens while the
-      // reader is still looking at the form.
       const typed = (new FormData(betaForm).get('email') || '').toString();
       show(window.RunvisT('form.ok', '已登記。開放日期一決定就會寄到這個信箱，Beta 開放時再依報名順序寄出一封邀請。想刪除資料，隨時寄信到 help@runvis.app 告訴我們。等待期間，先試跑 5 公里展示吧。🏃'), true);
       if (typed) setTimeout(() => {
@@ -1419,10 +1123,6 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
         status.appendChild(p);
       }, 60);
       betaForm.reset();
-      // The signup used to end in an inbox. Hand the reader the one thing they
-      // can actually do next while they wait — and only now, because until the
-      // POST succeeded this link sat between the button and the consent
-      // checkbox the button was waiting on (round 13, -3).
       const next = document.getElementById('betaNext');
       if (next) { next.hidden = false; next.textContent = window.RunvisT('form.okcta', '試跑 5 公里展示'); }
     }
@@ -1430,10 +1130,6 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
   } catch { show(window.RunvisT('form.neterr', '網路錯誤，請稍後再試一次。'), false); }
   finally { btn.disabled = false; btn.textContent = original; }
 });
-
-// The sticky CTA is redundant twice over: once while the signup form itself is
-// on screen, and once at the top of the page, where the hero's own "베타 신청"
-// button is already visible. Watch both and show the bar only when neither is.
 (() => {
   const cta = document.getElementById('stickyCta'), beta = document.getElementById('beta');
   const heroCta = document.querySelector('.hero .cta');
@@ -1445,8 +1141,6 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
   io.observe(beta);
   if (heroCta) io.observe(heroCta);
 })();
-
-// --- in-page anchor navigation ---
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{
     const id=a.getAttribute('href');

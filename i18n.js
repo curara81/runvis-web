@@ -2,17 +2,24 @@
    demo text (hero captions, voice chips) across six languages.
 
    Dictionaries live one language per file (t-ko.js … t-de.js) and each one
-   assigns into window.RUNVIS_I18N and then calls window.RunvisOnDict. Only the
-   language the visitor actually reads is downloaded — the old single
-   translations.js shipped all six (245 KB) to everybody. The inline boot script
-   in each page's <head> resolves the language, sets <html lang>, and injects the
-   first dictionary before the body is parsed; this file does the rest and
-   fetches a second dictionary only if the reader picks another language.
+   assigns into window.RUNVIS_I18N and then calls window.RunvisOnDict. Since
+   round 14 the usual number downloaded is ZERO: every page is prerendered in
+   one language and check-content [3], [4] and [10] hold its markup, its JSON-LD
+   and its script fallbacks to that language's dictionary byte for byte, so
+   fetching the table would only repaint the page with what it already says
+   (-0.6). A table is fetched when the reader asks for a different language —
+   ?lang= at first paint, or the menu later.
 
-   Language resolution: ?lang= → the page's own language (set as
-   window.RunvisPageLang by the prerendered copies under /en/, /ja/ …) → saved
-   choice → browser language → Korean. The choice is remembered in localStorage
-   so a returning visitor keeps it. */
+   Language resolution: ?lang= → the page's own language (window.RunvisPageLang
+   on the prerendered copies under /en/, /ja/ …) → a saved choice → THIS
+   DOCUMENT'S OWN language. navigator.language is deliberately not in that list;
+   it decides only which language the banner at the top OFFERS. The reason is
+   the whole of README "언어 라우팅": the root declares hreflang="ko" for "/", so
+   rendering "/" has to produce Korean for everyone who renders it, crawlers
+   included (라운드 14, -4).
+
+   A choice is remembered in localStorage only when the URL NAMED the language,
+   which is what makes it safe for the boot script to act on. */
 (function () {
   var LANGS = [
     { code: 'ko', label: '한국어',   tts: 'ko-KR' },
@@ -23,7 +30,7 @@
     { code: 'de', label: 'Deutsch',  tts: 'de-DE' }
   ];
   var CODES = LANGS.map(function (l) { return l.code; });
-  var DICT_V = '20260906e';                  // must match the <head> boot script
+  var DICT_V = '20260906f';                  // must match the <head> boot script
   // "" on the root pages, "/" on the prerendered per-language copies under
   // /en/, /ja/ … so that dictionaries and screenshots resolve to the one copy
   // at the site root instead of 404ing inside the language directory.
@@ -62,18 +69,32 @@
     try { return norm(new URLSearchParams(location.search).get('lang')); } catch (e) { return null; }
   }
 
+  /// The language THIS document is written in: "ko" at the root, the directory
+  /// name on the prerendered copies. It is also the floor of resolve() — see
+  /// the long note in every page's boot script (2026-09-06 라운드 14, -4).
+  function docLang() { return norm(window.RunvisDocLang) || norm(window.RunvisPageLang) || 'ko'; }
+
+  /// The language to OFFER a reader whose browser is not this document's.
+  /// English for anyone outside the six, matching hreflang="x-default".
+  function preferred() { return norm(window.RunvisPrefer) || navLang(navigator.language) || 'en'; }
+
   function resolve() {
     // The boot script already did this before the body was parsed; trust it so
     // the two cannot disagree, and only redo the work if it did not run.
     if (norm(window.RunvisLang)) return norm(window.RunvisLang);
     var q = urlLang();
     if (q) return q;
+    var page = norm(window.RunvisPageLang);
+    if (page) return page;
     var saved = null;
     try { saved = localStorage.getItem('runvis_lang'); } catch (e) {}
     if (norm(saved)) return norm(saved);
-    // Same last resort as the pages' boot scripts: a browser language outside
-    // the six resolves to English, not to the Korean document.
-    return navLang(navigator.language) || 'en';
+    // NOT navigator.language. A browser header used to end up here and at the
+    // top of the boot script, where it decided that the Korean root should
+    // render in English — under a canonical, an hreflang and a sitemap entry
+    // that all say "/" is the Korean page. The header now only picks what the
+    // banner below OFFERS; what renders is this document's own language.
+    return docLang();
   }
 
   // ---- dictionary loading ------------------------------------------------
@@ -90,8 +111,13 @@
     if (I18N[code]) { cb(); return; }
     if (!waiting[code]) {
       waiting[code] = [];
-      // The boot script injected this one already — do not fetch it twice.
-      if (code !== window.RunvisLang) {
+      // The boot script injects a dictionary only when the reader asked for a
+      // language this document is not written in, and records which one in
+      // RunvisDictLoaded. Testing against that rather than against RunvisLang
+      // is what lets a later in-place switch BACK to the page's own language
+      // still fetch a table (which RunvisLang would have declared in flight
+      // forever, leaving the switch silently doing nothing).
+      if (code !== window.RunvisDictLoaded) {
         var s = document.createElement('script');
         s.src = BASE + 't-' + code + '.js?v=' + DICT_V;
         s.async = false;
@@ -130,19 +156,29 @@
     document.querySelectorAll('img[data-shot]').forEach(function (img) {
       var base = img.getAttribute('data-shot');
       if (!SHOTS[base]) return;                 // not a localized frame: leave the markup alone
-      var want = BASE + 'assets/' + base + (SHOT_LANGS[code] ? '.' + code : '') + '.png';
-      if (img.getAttribute('src') !== want) img.setAttribute('src', want);
+      var stem = BASE + 'assets/' + base + (SHOT_LANGS[code] ? '.' + code : '');
+      if (img.getAttribute('src') !== stem + '.png') img.setAttribute('src', stem + '.png');
+      // Each capture is a <picture> (AVIF, lossless WebP, then the PNG the
+      // markup names — tools/encode_shots.py). A <source> that matches OUTRANKS
+      // src, so moving src alone would leave the Korean AVIF on screen under an
+      // English <img src> in every browser that can decode AVIF, which is most
+      // of them.
+      var pic = img.parentNode;
+      if (pic && pic.tagName === 'PICTURE') {
+        pic.querySelectorAll('source').forEach(function (so) {
+          var ext = so.getAttribute('type') === 'image/avif' ? '.avif' : '.webp';
+          if (so.getAttribute('srcset') !== stem + ext) so.setAttribute('srcset', stem + ext);
+        });
+      }
     });
   }
 
-  // The share card (assets/og-card.png) is deliberately language-neutral —
-  // mark, watch silhouette, pulse, domain, no sentence — because og:image is
-  // read by crawlers that never run this file. og:title/og:description no
-  // longer depend on this file either: tools/prerender.mjs writes /en/, /ja/,
-  // /es/, /zh/, /de/ with their own <html lang>, title, meta, og, canonical
-  // and JSON-LD already in the markup, and the hreflang alternates point
-  // there. What this function still fixes is the ROOT document, which serves
-  // ?lang= and browser-language visitors and stays Korean in the markup.
+  // The share card is per market since round 14 — tools/og_cards.py draws each
+  // language's own n.hero.h1 onto it and tools/prerender.mjs (8b) points that
+  // market's og:image, twitter:image and JSON-LD `image` at it. og:title and
+  // og:description are in the markup for the same reason: a crawler never runs
+  // this file. What this function still fixes is the ROOT document, which
+  // serves ?lang= and a saved choice and stays Korean in its own markup.
 
   // Values are HTML (they carry <b>/<span>/<br>) and are written through
   // innerHTML, which replaces every child of the element. A value whose tags
@@ -210,15 +246,18 @@
   // would only split the signal. The bare root URL and each prerendered page
   // stay their own canonical.
   //
-  // It follows the URL, not the language being shown: the bare URL keeps
-  // pointing at itself even when a browser's Accept-Language resolves to
-  // English (otherwise "/" would canonicalise to "/en/" and orphan the
-  // x-default). Since round 13 the language MENU navigates to the prerendered
-  // copy, so the common case never reaches this code with a mismatched
-  // language at all; what still can is an in-place switch through
-  // window.RunvisSetLang, and for that the address bar is unchanged, so the
-  // canonical must not change either. og:locale does follow the shown
-  // language, because og:title and og:description already do.
+  // It follows the language ON SCREEN. It used to follow the URL instead —
+  // only ?lang= moved the canonical — on the argument that otherwise a browser
+  // whose Accept-Language said English would make "/" canonicalise to "/en/"
+  // and orphan the x-default. That argument died with the redirect in round
+  // 14: a browser header no longer changes what any document renders, so the
+  // only ways the shown language can differ from the document's own are ones
+  // the reader asked for (?lang=, a saved choice, an in-place switch through
+  // window.RunvisSetLang) and every one of them should name the market page
+  // that shows the same words. Leaving the saved-choice case out is what put
+  // an English body under canonical "/" (2026-09-06 라운드 14, -1.5).
+  // og:locale follows the shown language too, because og:title and
+  // og:description already do.
   function applyCanonical(code) {
     var link = document.querySelector('link[rel="canonical"]');
     // The page it belongs to decides the path — this file is shared with
@@ -229,9 +268,17 @@
       || (link.getAttribute('href') || '').split('?')[0].split('#')[0]) : '';
     if (link && base) link.setAttribute('data-base', base);
     if (base) {
-      var url = base, q = urlLang();
-      if (!window.RunvisPageLang && q && q !== 'ko') {
-        try { var u = new URL(base); u.pathname = '/' + q + u.pathname; url = u.href; } catch (e) {}
+      var url = base, own = docLang();
+      if (code !== own) {
+        try {
+          var u = new URL(base), p = u.pathname;
+          // Strip this document's own directory before adding the shown
+          // language's, so /en/run.html?lang=de canonicalises to /de/run.html
+          // and never to /de/en/run.html.
+          if (window.RunvisPageLang && p.indexOf('/' + own + '/') === 0) p = p.slice(own.length + 1);
+          u.pathname = (code === 'ko' ? '' : '/' + code) + p;
+          url = u.href;
+        } catch (e) {}
       }
       link.setAttribute('href', url);
       setMeta('property', 'og:url', url);
@@ -292,7 +339,9 @@
       inLanguage: code === 'zh' ? 'zh-Hant' : code,
       url: 'https://runvis.app/',
       description: plain(dict['meta.desc'] || ''),
-      image: 'https://runvis.app/assets/og-card.png',
+      // Six cards, one per market — tools/og_cards.py. Suffixed exactly like
+      // the screenshot below it, and exactly like tools/i18n-lib.mjs appLd.
+      image: 'https://runvis.app/assets/og-card' + (code === 'ko' ? '' : '.' + code) + '.png',
       screenshot: 'https://runvis.app/assets/framed-phone-dash' + (code === 'ko' ? '' : '.' + code) + '.png',
       author: { '@type': 'Organization', name: 'Runvis', url: 'https://runvis.app/' },
       offers: OFFERS.map(function (o) {
@@ -362,17 +411,30 @@
   // removed from the markup and its 17 keys are gone from the dictionaries, so
   // publishing them here only produced arrays full of undefined.
   function publishDynamic(code) {
-    var d = I18N[code] || {};
+    var d = I18N[code];
+    // No dictionary means the boot script deliberately skipped it: the page is
+    // already written in `code` and these eight strings are inlined in its
+    // <head> instead (window.RunvisSelfDyn). They are the only text on the
+    // page that the markup cannot carry, which is why they are the only text
+    // that had to be inlined when the download went away.
+    var self = !d && window.RunvisSelfDyn ? window.RunvisSelfDyn : null;
+    d = d || {};
     window.RunvisDyn = {
       code: code,
       tts: meta(code).tts,
-      hero: [d.hero0, d.hero1, d.hero2, d.hero3],
-      vchip: [d.vchip0, d.vchip1, d.vchip2, d.vchip3]
+      hero: self ? self.hero : [d.hero0, d.hero1, d.hero2, d.hero3],
+      vchip: self ? self.vchip : [d.vchip0, d.vchip1, d.vchip2, d.vchip3]
     };
     if (typeof window.renderDynamicI18n === 'function') window.renderDynamicI18n();
   }
 
-  function applyLang(code) {
+  /// `remember` is what makes localStorage mean "a language this reader
+  /// asked for" rather than "the last language a header happened to produce".
+  /// The boot script's one remaining navigation reads that key, so the
+  /// difference is load-bearing: a crawler, and a first-time reader who was
+  /// only ever shown the page's own language, must not leave a stored choice
+  /// behind that later moves someone off the root (라운드 14, -4).
+  function applyLang(code, remember) {
     current = code;
     document.documentElement.lang = code === 'zh' ? 'zh-Hant' : code;
     applyStatic(I18N[code]);
@@ -382,7 +444,7 @@
     applyAppLd(code, I18N[code]);
     applyPageLd(code, I18N[code]);
     publishDynamic(code);
-    try { localStorage.setItem('runvis_lang', code); } catch (e) {}
+    if (remember) { try { localStorage.setItem('runvis_lang', code); } catch (e) {} }
     // Anything mid-flight in the old language should stop — the voice demo
     // listens for this and silences itself instead of talking over the new one.
     try { window.dispatchEvent(new CustomEvent('runvis:lang', { detail: code })); } catch (e) {}
@@ -393,13 +455,36 @@
     });
   }
 
+  /// The page is ALREADY written in `code`: every [data-i18n] node, every
+  /// data-i18n-attr, both JSON-LD blocks and every RunvisT() fallback were
+  /// emitted in it, and check-content [3], [4] and [10] hold all of them to the
+  /// same dictionary byte for byte. Repainting them out of a 57-73 KB download
+  /// would replace the page with what it already says (2026-09-06 라운드 14,
+  /// -0.6), so this is what runs instead: the handful of things that are NOT in
+  /// the markup — the localized captures, the canonical, the dynamic demo
+  /// strings and the menu's own state.
+  function applySelf(code, remember) {
+    current = code;
+    applyShots(code);            // idempotent — prerender already named this language's files
+    applyCanonical(code);        // code === this document's language, so it self-canonicalises
+    publishDynamic(code);        // reads window.RunvisSelfDyn when there is no table
+    if (remember) { try { localStorage.setItem('runvis_lang', code); } catch (e) {} }
+    try { window.dispatchEvent(new CustomEvent('runvis:lang', { detail: code })); } catch (e) {}
+    var label = document.getElementById('langlabel');
+    if (label) label.textContent = meta(code).label;
+    document.querySelectorAll('#langmenu [data-code]').forEach(function (item) {
+      item.setAttribute('aria-checked', item.getAttribute('data-code') === code ? 'true' : 'false');
+    });
+  }
+
   /// Public entry point. The dictionary for `code` may not be here yet, so this
   /// fetches it first and applies nothing until it lands.
-  function setLang(code) {
+  function setLang(code, remember) {
     if (CODES.indexOf(code) < 0) code = 'ko';
-    ensureDict(code, function () { if (I18N[code]) applyLang(code); });
+    ensureDict(code, function () { if (I18N[code]) applyLang(code, remember); });
   }
-  window.RunvisSetLang = setLang;
+  /// The public entry point is always a deliberate switch, so it remembers.
+  window.RunvisSetLang = function (code) { setLang(code, true); };
 
   /// This page's filename with its language directory stripped — "" for a
   /// directory index, "run.html" for /de/run.html. The language menu builds its
@@ -495,13 +580,118 @@
     document.addEventListener('click', function () { close(false); });
   }
 
+  // ---- "read this page in your language" ---------------------------------
+  // This is what replaced the automatic redirect (2026-09-06 라운드 14, -4).
+  //
+  // The five market pages have to be reachable by a person who landed on the
+  // wrong one, and until round 14 the boot script did that by replacing the
+  // location of a root URL whenever navigator.language was not Korean. A
+  // crawler is exactly that visitor — an English-ish header, empty storage —
+  // so the document that declares hreflang="ko" for "/" and is listed in
+  // sitemap.xml as the Korean URL moved the crawler off "/" before it could
+  // read it. Render and declaration contradicted each other, and the Korean
+  // page deleted itself from the index it was asking to be in.
+  //
+  // A banner is the form Google documents for a site that cannot redirect
+  // server-side (GitHub Pages cannot): everyone — reader and crawler alike —
+  // gets the same document plus a visible link, and the reader decides. One
+  // click still lands on the market page, which is the round-9 requirement
+  // that five prerendered pages must not be pages nobody is sent to.
+  //
+  // The destination is READ OUT OF the page's own <link rel="alternate"
+  // hreflang="…"> rather than assembled from a path, so the banner can only
+  // ever offer an address this document already declares — the banner and the
+  // hreflang cluster cannot drift apart. 404.html declares no alternates and
+  // so gets no banner, which is correct: it has no per-language copy.
+  var OFFER = {
+    ko: { msg: '이 페이지는 한국어로도 볼 수 있습니다.', cta: '한국어로 보기', close: '닫기' },
+    en: { msg: 'This page is also available in English.', cta: 'Read in English', close: 'Dismiss' },
+    ja: { msg: 'このページは日本語でも読めます。', cta: '日本語で読む', close: '閉じる' },
+    es: { msg: 'Esta página también está en español.', cta: 'Leer en español', close: 'Cerrar' },
+    zh: { msg: '這個頁面也有繁體中文版。', cta: '用繁體中文閱讀', close: '關閉' },
+    de: { msg: 'Diese Seite gibt es auch auf Deutsch.', cta: 'Auf Deutsch lesen', close: 'Schließen' }
+  };
+
+  /// The URL this document's own hreflang gives for `code`, or null.
+  function alternateHref(code) {
+    var el = document.querySelector('link[rel="alternate"][hreflang="'
+      + (code === 'zh' ? 'zh-Hant' : code) + '"]');
+    var href = el ? el.getAttribute('href') : null;
+    return href || null;
+  }
+
+  /// `saved` is the stored choice as it was ON ARRIVAL. It has to be read
+  /// before applyLang/applySelf runs, because those WRITE it: reading it back
+  /// afterwards on /en/ would always find "en" and the banner would never
+  /// appear on the one page it exists for.
+  function offerLanguage(shown, saved) {
+    // ?lang= means this view was asked for by name; do not second-guess it.
+    if (urlLang()) return;
+    // A saved choice outranks the browser header, because it is a choice.
+    var want = saved || preferred();
+    if (!want || want === shown) return;
+    try { if (sessionStorage.getItem('runvis_offer_off')) return; } catch (e) {}
+    var t = OFFER[want], href = alternateHref(want);
+    if (!t || !href) return;
+
+    var css = document.createElement('style');
+    css.textContent = '.langoffer{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;'
+      + 'padding:10px 24px;background:#14171c;border-bottom:1px solid #24282e;'
+      + 'font-size:14.5px;color:#9aa0a6;line-height:1.5}'
+      + '.langoffer a{color:#3DDC84;font-weight:700;text-decoration:underline;text-underline-offset:3px}'
+      + '.langoffer button{margin-left:auto;background:none;border:1px solid #2e333a;color:#9aa0a6;'
+      + 'font:inherit;font-size:13px;padding:5px 12px;border-radius:9px;cursor:pointer}'
+      + '.langoffer button:hover{color:#f2f3f5;border-color:#3DDC84}';
+    document.head.appendChild(css);
+
+    var bar = document.createElement('div');
+    bar.className = 'langoffer';
+    // A landmark, not a bare div: it is the first thing in the document and a
+    // screen reader should be able to name it and skip it.
+    bar.setAttribute('role', 'region');
+    bar.setAttribute('aria-label', t.cta);
+    bar.setAttribute('lang', want === 'zh' ? 'zh-Hant' : want);
+    var span = document.createElement('span');
+    span.textContent = t.msg;
+    var a = document.createElement('a');
+    a.href = href;                      // absolute, straight out of the hreflang
+    a.textContent = t.cta + ' \u2192';
+    var x = document.createElement('button');
+    x.type = 'button';
+    x.textContent = t.close;
+    x.addEventListener('click', function () {
+      bar.remove();
+      try { sessionStorage.setItem('runvis_offer_off', '1'); } catch (e) {}
+    });
+    bar.appendChild(span); bar.appendChild(a); bar.appendChild(x);
+    // After the skip link, never before it: the skip link has to stay the
+    // first thing a keyboard reaches.
+    var skip = document.querySelector('body > a.skip');
+    if (skip && skip.nextSibling) document.body.insertBefore(bar, skip.nextSibling);
+    else if (skip) document.body.appendChild(bar);
+    else document.body.insertBefore(bar, document.body.firstChild);
+  }
+
   function init() {
     buildMenu();
     var code = resolve();
-    // The boot script already asked for this one; register it as in flight so
-    // ensureDict waits for RunvisOnDict instead of injecting a second copy.
-    if (!I18N[code] && code === window.RunvisLang) waiting[code] = waiting[code] || [];
-    setLang(code);
+    // Read before anything can write it — see offerLanguage.
+    var arrivedWith = null;
+    try { arrivedWith = norm(localStorage.getItem('runvis_lang')); } catch (e) {}
+    // Remember it only if the URL NAMED this language — ?lang=de, or the /de/
+    // directory the reader is standing in. A page that simply rendered its own
+    // language stores nothing, so a browser header can never leave behind a
+    // "choice" that the boot script would later act on (라운드 14, -4).
+    var remember = !!(urlLang() || norm(window.RunvisPageLang));
+    if (!I18N[code] && code !== window.RunvisDictLoaded && code === docLang()) {
+      applySelf(code, remember);            // nothing to download and nothing to repaint
+    } else {
+      // The boot script already asked for this one; register it as in flight so
+      // ensureDict waits for RunvisOnDict instead of injecting a second copy.
+      if (!I18N[code] && code === window.RunvisDictLoaded) waiting[code] = waiting[code] || [];
+      setLang(code, remember);
+    }
+    offerLanguage(code, arrivedWith);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();

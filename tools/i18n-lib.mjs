@@ -192,8 +192,11 @@ export function appLd(dict, code) {
     inLanguage: HTML_LANG[code], url: 'https://runvis.app/',
     description: plain(dict['meta.desc'] || ''),
     // The share card and this market's own home screenshot, so a rich result
-    // has a picture that is not the Korean build.
-    image: 'https://runvis.app/assets/og-card.png',
+    // has a picture that is not the Korean build. Both are language-suffixed
+    // the same way: the six cards are drawn by tools/og_cards.py out of the six
+    // n.hero.h1 values, so a rich result and a link preview say what this
+    // market's page says (2026-09-06 라운드 14, -0.3).
+    image: `https://runvis.app/assets/og-card${code === 'ko' ? '' : '.' + code}.png`,
     screenshot: `https://runvis.app/assets/framed-phone-dash${code === 'ko' ? '' : '.' + code}.png`,
     author: { '@type': 'Organization', name: 'Runvis', url: 'https://runvis.app/' },
     offers: offers.map(o => ({

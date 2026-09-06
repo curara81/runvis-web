@@ -5,7 +5,9 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<script>window.RunvisPageLang="zh";window.RunvisBase="/";</script>
+<script>
+window.RunvisPageLang="zh";window.RunvisBase="/";
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#000000">
 <title data-i18n="r1">RUN SESSION — 與 Runvis 跑 5km | Runvis</title>
@@ -16,16 +18,18 @@
 <meta property="og:url" content="https://runvis.app/zh/run.html">
 <meta property="og:site_name" content="Runvis">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://runvis.app/assets/og-card.png?v=2">
+<meta property="og:image" content="https://runvis.app/assets/og-card.zh.png?v=3">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Runvis — Apple Watch running coach">
+<meta property="og:image:alt" content="Runvis 分享卡 — 有 Apple Watch 就夠了" data-i18n-attr="content:meta.ogalt">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="RUN SESSION — 與 Runvis 跑 5km | Runvis" data-i18n-attr="content:r1">
 <meta name="twitter:description" content="滑動就是跑步。親身體驗 5km，看看 Runvis 從熱身到終點何時開口、為什麼開口。" data-i18n-attr="content:r2">
-<meta name="twitter:image" content="https://runvis.app/assets/og-card.png?v=2">
+<meta name="twitter:image" content="https://runvis.app/assets/og-card.zh.png?v=3">
 <link rel="canonical" href="https://runvis.app/zh/run.html">
-<noscript><style>.rv,.reveal{opacity:1!important;transform:none!important}</style></noscript>
+<noscript><style>
+.rv,.reveal{opacity:1!important;transform:none!important}
+</style></noscript>
 <link rel="alternate" hreflang="x-default" href="https://runvis.app/en/run.html">
 <link rel="alternate" hreflang="ko" href="https://runvis.app/run.html">
 <link rel="alternate" hreflang="en" href="https://runvis.app/en/run.html">
@@ -37,286 +41,180 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <style>
-  :root{
-    --bg:#000; --panel:#0b0e0c; --line:rgba(61,220,132,.14); --line2:rgba(255,255,255,.08);
-    --green:#3DDC84; --cyan:#4CCBD9; --orange:#FFA633; --red:#FF5B4D;
-    /* --dim2 was #5E6B64 = 3.76:1 on black, under the 4.5:1 AA floor, and it
-       carried the WHY lines and the footnote — the demo's whole argument.
-       #8A9990 is 7.04:1 on black and 6.50:1 on --panel. */
-    --text:#EDF2EE; --dim:#9BA8A0; --dim2:#8A9990;
-    --mono:'SF Mono',ui-monospace,'JetBrains Mono',Menlo,monospace;
-    /* The fixed metrics strip's height, declared once. Anything that has to
-       clear it reads this instead of copying 56 into another rule. */
-    --hud-h:56px;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{
-    background:var(--bg); color:var(--text);
-    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
-    line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:clip;
-    word-break:keep-all;
-  }
-  a{color:inherit;text-decoration:none}
-  /* Same keyboard focus ring as index.html — without it the EXIT link, the
-     language button and the two footer buttons were invisible to a keyboard. */
-  :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
-  img{max-width:100%;height:auto;display:block}
-  body{overflow-wrap:break-word;word-break:normal;line-break:normal}
-  /* keep-all keeps Korean words whole, but it also stops Japanese and
-     Chinese from breaking at all — a price bullet overflowed its card by
-     164px on ja (2026-09-06 라운드 12). Scope it to Korean only. */
-  :lang(ko) body,body:lang(ko){word-break:keep-all}
-  ::selection{background:rgba(61,220,132,.3)}
-
-  /* free / subscription badges — same markup and keys as index.html */
-  .pill{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;padding:3px 9px;border-radius:999px;vertical-align:middle;margin-left:8px;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif}
-  .pill.free{background:rgba(255,255,255,.08);color:var(--dim)}
-  .pill.pro{background:rgba(61,220,132,.16);color:var(--green)}
-  .voice .pill{position:absolute;top:-11px;right:12px}
-  .tier{margin-top:20px;border:1px solid var(--line2);padding:20px;max-width:560px;background:rgba(255,255,255,.02)}
-  .tier p{font-size:13.5px;color:var(--dim);line-height:1.7}
-  .tier p + p{margin-top:12px;padding-top:12px;border-top:1px solid var(--line2)}
-  .tier .pill{margin-left:0;margin-right:8px}
-  .tier .note{font-family:var(--mono);font-size:11.5px;color:var(--dim2);letter-spacing:.04em;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line2)}
-
-  /* language selector — same ids i18n.js looks for (#langsel/#langbtn/#langmenu) */
-  .langsel{position:relative;display:inline-block}
-  .langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line2);color:var(--text);border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;font-family:inherit}
-  .langsel button:hover{border-color:var(--green)}
-  .langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line2);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:80;box-shadow:0 12px 40px rgba(0,0,0,.5)}
-  .langsel.open ul{display:block}
-  .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;letter-spacing:0}
-  .langsel li:hover{background:rgba(61,220,132,.15)}
-  /* 2026-09-06 라운드 13 (-0.5): each item is a real link to that language's
-     prerendered copy, so picking a language changes the ADDRESS — a URL shared
-     from here keeps the language it was read in. The <li> keeps the row box,
-     the <a> fills it so the whole row stays clickable, and aria-checked moves
-     onto the anchor, which is the menuitemradio now. */
-  .langsel li{padding:0}
-  .langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
-  .langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
-  .hud-top .right{display:flex;align-items:center;gap:10px}
-
-  /* ---------- HUD frame (fixed chrome) ---------- */
-  .hud-top{
-    position:fixed;inset:0 0 auto 0;z-index:60;height:52px;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:0 20px;background:linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,0));
-    font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--dim);
-  }
-  .hud-top .brand{display:flex;align-items:center;gap:10px;color:var(--text);font-weight:700}
-  .hud-top .brand .sq{width:18px;height:18px;border:1px solid var(--green);display:grid;place-items:center;color:var(--green);font-size:10px}
-  .hud-top .status{display:flex;align-items:center;gap:8px}
-  .hud-top .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
-  @keyframes pulse{50%{opacity:.35}}
-  .hud-top .exit{border:1px solid var(--line2);padding:6px 14px;color:var(--dim);transition:.2s}
-  .hud-top .exit:hover{border-color:var(--green);color:var(--green)}
-
-  /* live metrics bar */
-  /* This strip is fixed over a scroll-driven page, so whatever is scrolling
-     underneath passes behind it. Its background used to be a gradient that
-     stayed transparent for the top 40% (22 px of a 56 px band), and the hero's
-     "SCROLL TO START" cue read straight through that window — at 375x812 the
-     two overlapped by 18 px and rendered as "페이스 L TO STA 심박". A gradient
-     cannot fix that for the next element either, so the band has a ground of
-     its own now: an opaque wash, a blur behind it and a hairline top edge, so
-     anything passing under it is hidden rather than blended. The cue's own
-     offset is fixed below as well — two independent guards, because the strip
-     is the one element on this page that overlaps everything. */
-  .hud-metrics{
-    position:fixed;left:0;right:0;bottom:0;z-index:60;height:var(--hud-h);
-    display:flex;align-items:stretch;justify-content:center;gap:0;
-    background:rgba(0,0,0,.86);
-    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
-    border-top:1px solid var(--line2);
-    font-family:var(--mono);
-  }
-  .hud-metrics .m{
-    /* flex:1 with a small basis instead of a 110 px floor: four cells at
-       110 px + 36 px padding are a hard 440 px, which overflowed every phone
-       narrower than that and cut the last metric off the screen. */
-    flex:1 1 0;min-width:0;padding:10px 8px 8px;text-align:center;border-left:1px solid var(--line2);
-  }
-  @media(min-width:460px){ .hud-metrics .m{padding:10px 18px 8px} }
-  .hud-metrics .m:first-child{border-left:none}
-  /* These five mono labels ran 9–10.5 px with .18–.3 em tracking. Letter-spacing
-     that wide makes a small glyph read thinner still, so both moved together:
-     nothing under 11 px, nothing over .14 em. They are labels beside a large
-     value, so the layout has the room. */
-  .hud-metrics .m .k{font-size:11.5px;letter-spacing:.14em;color:var(--dim)}
-  .hud-metrics .m .v{font-size:20px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
-  .hud-metrics .m .v em{font-style:normal;font-size:11px;color:var(--dim);margin-left:2px}
-  .hud-metrics .m .v.gr{color:var(--green)} .hud-metrics .m .v.or{color:var(--orange)}
-
-  /* progress rail (right) */
-  .rail{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:60;display:flex;flex-direction:column;gap:14px;font-family:var(--mono)}
-  .rail a{display:flex;align-items:center;gap:8px;color:var(--dim);font-size:11px;letter-spacing:.12em;transition:.2s}
-  .rail a .tick{width:14px;height:1px;background:var(--dim2);transition:.2s}
-  .rail a.on{color:var(--green)} .rail a.on .tick{background:var(--green);width:22px;box-shadow:0 0 6px var(--green)}
-  .rail a span.lbl{opacity:0;transform:translateX(4px);transition:.2s}
-  .rail a.on span.lbl,.rail a:hover span.lbl{opacity:1;transform:none}
-  @media(max-width:900px){.rail{display:none}}
-
-  /* scroll progress line */
-  .progress{position:fixed;left:0;top:0;height:2px;background:linear-gradient(90deg,var(--green),var(--cyan));width:0;z-index:70;box-shadow:0 0 10px rgba(61,220,132,.6)}
-
-  /* ---------- sections ---------- */
-  section{min-height:100vh;display:flex;align-items:center;position:relative;padding:110px 24px}
-  /* At 768px and under, a 100vh section whose content is vertically centred
-     leaves 20+ scroll ticks of black between two cues, which reads as a failed
-     asset load rather than as the coach staying quiet. 72vh keeps the beat of
-     one screen per cue and takes roughly a third out of the empty stretch. */
-  @media(max-width:820px){section{min-height:72vh;padding:80px 20px}}
-  /* Names the quiet stretch instead of leaving it blank: distance to the next
-     cue, filled in from the neighbouring sections' own data-km. */
-  .silence{margin-top:34px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
-    color:var(--dim2);border-top:1px dashed var(--line2);padding-top:12px;max-width:520px}
-  .silence::before{content:"···";color:var(--green);margin-right:10px;letter-spacing:.3em}
-  .wrap{max-width:1060px;margin:0 auto;width:100%}
-  .tag{font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--green);margin-bottom:18px;display:flex;align-items:center;gap:10px}
-  .tag::before{content:"";width:26px;height:1px;background:var(--green)}
-  h1,h2{font-weight:800;letter-spacing:-.02em;line-height:1.12}
-  h1{font-size:clamp(44px,8.5vw,96px)}
-  h2{font-size:clamp(32px,5.5vw,60px)}
-  .outline{color:transparent;-webkit-text-stroke:1.5px rgba(237,242,238,.55)}
-  .grad{background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .lead{color:var(--dim);font-size:clamp(15px,1.6vw,18px);max-width:560px;margin-top:22px}
-  .lead b{color:var(--text)}
-
-  /* voice bubble — 런비스 개입 순간 */
-  .voice{
-    margin-top:30px;max-width:520px;border:1px solid var(--line);
-    background:linear-gradient(160deg,rgba(61,220,132,.07),rgba(0,0,0,.4));
-    padding:18px 20px;border-radius:2px;position:relative;
-  }
-  .voice::before{content:"RUNVIS // VOICE";position:absolute;top:-9px;left:14px;background:var(--bg);padding:0 8px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--green)}
-  .voice p{font-size:15.5px;color:var(--text);line-height:1.7}
-  /* the WHY line is the evidence for every cue on this page — it reads at
-     12px / --dim (8.50:1), not 11px / 3.76:1. */
-  .voice .why{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line2);font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.03em;line-height:1.65}
-  .voice .why b{color:var(--cyan);font-weight:600}
-
-  .datastrip{display:flex;gap:26px;margin-top:26px;font-family:var(--mono);flex-wrap:wrap}
-  .datastrip .d .k{font-size:11.5px;letter-spacing:.14em;color:var(--dim)}
-  .datastrip .d .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
-  .datastrip .d .v.gr{color:var(--green)} .datastrip .d .v.or{color:var(--orange)} .datastrip .d .v.rd{color:var(--red)} .datastrip .d .v.cy{color:var(--cyan)}
-
-  /* corner deco */
-  .corner{position:absolute;width:22px;height:22px;border:1px solid rgba(61,220,132,.35);pointer-events:none}
-  .c-tl{top:84px;left:20px;border-right:none;border-bottom:none}
-  .c-br{bottom:76px;right:20px;border-left:none;border-top:none}
-
-  /* reveal
-     No opacity, and no .8s. This page tells the reader "스크롤이 곧 러닝"
-     (r12) and then rewards a fling with a black screen: a block fading 0 -> 1
-     over .8s is unreadable for most of the time it is on screen. index.html
-     made this same change first and left the measurement behind it in its own
-     stylesheet — a fling at ~120 px/frame left 65 of 137 sampled frames with
-     more than half the viewport at opacity 0. A block that only SLIDES is
-     legible from its first frame and the settle still reads as motion. Same
-     rule, same duration, same easing as index.html's .reveal. The no-script
-     and reduced-motion rules (lines 34 and below) are untouched — they neutral
-     both properties, so they keep working with one of them gone. */
-  html.js .rv{transform:translateY(28px) scale(.985);transition:transform .45s cubic-bezier(.22,.61,.36,1)}
-  html.js .rv.in{transform:none}
-
-  /* hero */
-  #s0{flex-direction:column;justify-content:center;text-align:left}
-  #s0 .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
-  @media(max-width:900px){#s0 .wrap{grid-template-columns:1fr}}
-  /* This was position:absolute with bottom:80px — 80 px from the bottom of
-     #s0, not of the screen. #s0 is min-height:72vh and taller than that
-     whenever its content is (measured 865 px inside an 812 px viewport at
-     375 px wide), so the cue landed at y 767-785 and the fixed metrics strip
-     starts at 756: they overlapped by 18 px and rendered as "페이스 L TO STA
-     심박". Any offset from the section's bottom edge is a guess about content
-     height, so the cue is measured from the VIEWPORT now, above the strip it
-     must clear, and it fades out the moment the reader does what it asks.
-     pointer-events:none because it is a label, not a control — the section
-     underneath stays clickable. */
-  .scroll-cue{position:fixed;bottom:calc(var(--hud-h) + 26px);left:50%;transform:translateX(-50%);
-    z-index:55;pointer-events:none;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
-    color:var(--dim2);animation:bob 2.2s infinite;transition:opacity .25s ease}
-  html.scrolled .scroll-cue{opacity:0}
-  @keyframes bob{50%{transform:translate(-50%,8px)}}
-
-  /* watch mock in hero */
-  .heroWatch{width:min(300px,70vw);margin:0 auto;filter:drop-shadow(0 30px 60px rgba(61,220,132,.14))}
-
-  /* elevation chart */
-  .elev{margin-top:30px;border:1px solid var(--line2);background:rgba(255,255,255,.02);padding:16px}
-  .elev .cap{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--dim2);display:flex;justify-content:space-between;margin-bottom:8px}
-  .elev svg{width:100%;height:auto;display:block}
-
-  /* zone ladder (recovery) */
-  .zones{display:flex;flex-direction:column;gap:6px;margin-top:26px;max-width:340px;font-family:var(--mono)}
-  .zone{display:flex;align-items:center;gap:12px;padding:9px 14px;border:1px solid var(--line2);font-size:12px;letter-spacing:.08em;color:var(--dim2);transition:.4s}
-  .zone .bar{height:6px;flex:1;background:rgba(255,255,255,.06)}
-  .zone.hot{border-color:rgba(255,91,77,.5);color:var(--red)} .zone.hot .bar{background:linear-gradient(90deg,rgba(255,91,77,.7),rgba(255,91,77,.15))}
-  .zone.mid{border-color:rgba(255,166,51,.5);color:var(--orange)} .zone.mid .bar{background:linear-gradient(90deg,rgba(255,166,51,.7),rgba(255,166,51,.15))}
-  .zone.ok{border-color:rgba(61,220,132,.6);color:var(--green)} .zone.ok .bar{background:linear-gradient(90deg,rgba(61,220,132,.8),rgba(61,220,132,.15))}
-
-  /* finish card */
-  .finish{margin-top:30px;border:1px solid var(--line);padding:26px;background:linear-gradient(160deg,rgba(61,220,132,.05),transparent);max-width:560px}
-  .finish .row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line2);font-size:14px}
-  .finish .row:last-child{border:none}
-  .finish .row .k{color:var(--dim)}
-  .finish .row .v{font-family:var(--mono);font-weight:700;font-variant-numeric:tabular-nums}
-  .btns{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
-  .btn{
-    display:inline-flex;align-items:center;gap:8px;padding:15px 28px;font-weight:800;font-size:16px;
-    background:linear-gradient(120deg,var(--green),var(--cyan));color:#04120c;border-radius:2px;
-    transition:transform .15s,box-shadow .15s;box-shadow:0 8px 30px rgba(61,220,132,.22)
-  }
-  .btn:hover{transform:translateY(-2px)}
-  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line2);box-shadow:none}
-  .btn.ghost:hover{border-color:var(--green)}
-
-  /* Inline sign-up at the finish. Borrows the page's own tokens rather than
-     importing index.html's .signup block, so the demo keeps its terminal look. */
-  .dsign{margin-top:30px;border:1px solid var(--line);padding:24px;max-width:560px;background:rgba(61,220,132,.04)}
-  .dsign h3{font-size:19px;letter-spacing:-.01em}
-  .dsign p{font-size:13.5px;color:var(--dim);line-height:1.7;margin-top:8px}
-  .dsign form{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
-  .dsign input[type=email]{flex:1 1 220px;min-width:0;padding:14px 16px;font-size:15px;color:var(--text);
-    background:#000;border:1px solid var(--line2);border-radius:2px;font-family:inherit}
-  .dsign input[type=email]::placeholder{color:var(--dim2)}
-  .dsign input[type=email]:focus{outline:none;border-color:var(--green)}
-  /* .btn was only ever used on <a>, so a <button> needs the UA border, font
-     and cursor reset or it renders grey with the system font. */
-  .dsign button.btn{border:none;cursor:pointer;font-family:inherit;line-height:1}
-  .dsign button.btn:disabled{opacity:.6;cursor:default;transform:none}
-  .dsign #demoStatus{font-size:14px;font-weight:700;margin-top:12px}
-  .dsign .consent{margin-top:14px;font-size:11.5px;color:var(--dim2);line-height:1.9}
-  .dsign .consent label{display:flex;gap:8px;align-items:flex-start;margin-top:6px;cursor:pointer}
-  .dsign .consent input{margin-top:4px;accent-color:var(--green)}
-
-  /* Without this the first Tab on every page landed on the language menu.
-     Visually hidden until it takes focus, then it becomes a real button. */
-  .skip{position:absolute;left:-9999px;top:0;z-index:200}
-  .skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
-    padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
-
-  .footnote{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.04em;margin-top:40px;line-height:1.8}
-
-  /* Four items in a 52 px bar wrap and overflow on a phone — the link-status
-     readout is decoration, so it is the one that goes, and the brand stops
-     wrapping so the bar keeps its height. Placed last so these win over the
-     .hud-top rules above them. */
-  .hud-top .brand,.hud-top .status{white-space:nowrap}
-  @media(max-width:860px){.hud-top .status{display:none}}
-  @media(max-width:520px){
-    .hud-top{padding:0 12px;font-size:11px}
-    .hud-top .exit{padding:6px 9px}
-    .langsel button{padding:5px 8px;font-size:11px}
-  }
-
-  @media(prefers-reduced-motion:reduce){
-    .rv{opacity:1!important;transform:none!important;transition:none}
-    html{scroll-behavior:auto}
-    .hud-top .dot,.scroll-cue{animation:none}
-  }
+:root{
+--bg:#000; --panel:#0b0e0c; --line:rgba(61,220,132,.14); --line2:rgba(255,255,255,.08);
+--green:#3DDC84; --cyan:#4CCBD9; --orange:#FFA633; --red:#FF5B4D;
+--text:#EDF2EE; --dim:#9BA8A0; --dim2:#8A9990;
+--mono:'SF Mono',ui-monospace,'JetBrains Mono',Menlo,monospace;
+--hud-h:56px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+background:var(--bg); color:var(--text);
+font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
+line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:clip;
+word-break:keep-all;
+}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+img{max-width:100%;height:auto;display:block}
+body{overflow-wrap:break-word;word-break:normal;line-break:normal}
+:lang(ko) body,body:lang(ko){word-break:keep-all}
+::selection{background:rgba(61,220,132,.3)}
+.pill{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;padding:3px 9px;border-radius:999px;vertical-align:middle;margin-left:8px;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif}
+.pill.free{background:rgba(255,255,255,.08);color:var(--dim)}
+.pill.pro{background:rgba(61,220,132,.16);color:var(--green)}
+.voice .pill{position:absolute;top:-11px;right:12px}
+.tier{margin-top:20px;border:1px solid var(--line2);padding:20px;max-width:560px;background:rgba(255,255,255,.02)}
+.tier p{font-size:13.5px;color:var(--dim);line-height:1.7}
+.tier p + p{margin-top:12px;padding-top:12px;border-top:1px solid var(--line2)}
+.tier .pill{margin-left:0;margin-right:8px}
+.tier .note{font-family:var(--mono);font-size:11.5px;color:var(--dim2);letter-spacing:.04em;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line2)}
+.langsel{position:relative;display:inline-block}
+.langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line2);color:var(--text);border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;font-family:inherit}
+.langsel button:hover{border-color:var(--green)}
+.langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line2);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:80;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langsel.open ul{display:block}
+.langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;letter-spacing:0}
+.langsel li:hover{background:rgba(61,220,132,.15)}
+.langsel li{padding:0}
+.langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
+.langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
+.hud-top .right{display:flex;align-items:center;gap:10px}
+.hud-top{
+position:fixed;inset:0 0 auto 0;z-index:60;height:52px;
+display:flex;align-items:center;justify-content:space-between;
+padding:0 20px;background:linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,0));
+font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--dim);
+}
+.hud-top .brand{display:flex;align-items:center;gap:10px;color:var(--text);font-weight:700}
+.hud-top .brand .sq{width:18px;height:18px;border:1px solid var(--green);display:grid;place-items:center;color:var(--green);font-size:10px}
+.hud-top .status{display:flex;align-items:center;gap:8px}
+.hud-top .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.hud-top .exit{border:1px solid var(--line2);padding:6px 14px;color:var(--dim);transition:.2s}
+.hud-top .exit:hover{border-color:var(--green);color:var(--green)}
+.hud-metrics{
+position:fixed;left:0;right:0;bottom:0;z-index:60;height:var(--hud-h);
+display:flex;align-items:stretch;justify-content:center;gap:0;
+background:rgba(0,0,0,.86);
+-webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+border-top:1px solid var(--line2);
+font-family:var(--mono);
+}
+.hud-metrics .m{
+flex:1 1 0;min-width:0;padding:10px 8px 8px;text-align:center;border-left:1px solid var(--line2);
+}
+@media(min-width:460px){ .hud-metrics .m{padding:10px 18px 8px} }
+.hud-metrics .m:first-child{border-left:none}
+.hud-metrics .m .k{font-size:11.5px;letter-spacing:.14em;color:var(--dim)}
+.hud-metrics .m .v{font-size:20px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
+.hud-metrics .m .v em{font-style:normal;font-size:11px;color:var(--dim);margin-left:2px}
+.hud-metrics .m .v.gr{color:var(--green)} .hud-metrics .m .v.or{color:var(--orange)}
+.rail{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:60;display:flex;flex-direction:column;gap:14px;font-family:var(--mono)}
+.rail a{display:flex;align-items:center;gap:8px;color:var(--dim);font-size:11px;letter-spacing:.12em;transition:.2s}
+.rail a .tick{width:14px;height:1px;background:var(--dim2);transition:.2s}
+.rail a.on{color:var(--green)} .rail a.on .tick{background:var(--green);width:22px;box-shadow:0 0 6px var(--green)}
+.rail a span.lbl{opacity:0;transform:translateX(4px);transition:.2s}
+.rail a.on span.lbl,.rail a:hover span.lbl{opacity:1;transform:none}
+@media(max-width:900px){.rail{display:none}}
+.progress{position:fixed;left:0;top:0;height:2px;background:linear-gradient(90deg,var(--green),var(--cyan));width:0;z-index:70;box-shadow:0 0 10px rgba(61,220,132,.6)}
+section{min-height:100vh;display:flex;align-items:center;position:relative;padding:110px 24px}
+@media(max-width:820px){section{min-height:72vh;padding:80px 20px}}
+.silence{margin-top:34px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+color:var(--dim2);border-top:1px dashed var(--line2);padding-top:12px;max-width:520px}
+.silence::before{content:"···";color:var(--green);margin-right:10px;letter-spacing:.3em}
+.wrap{max-width:1060px;margin:0 auto;width:100%}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--green);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.tag::before{content:"";width:26px;height:1px;background:var(--green)}
+h1,h2{font-weight:800;letter-spacing:-.02em;line-height:1.12}
+h1{font-size:clamp(44px,8.5vw,96px)}
+h2{font-size:clamp(32px,5.5vw,60px)}
+.outline{color:transparent;-webkit-text-stroke:1.5px rgba(237,242,238,.55)}
+.grad{background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--dim);font-size:clamp(15px,1.6vw,18px);max-width:560px;margin-top:22px}
+.lead b{color:var(--text)}
+.voice{
+margin-top:30px;max-width:520px;border:1px solid var(--line);
+background:linear-gradient(160deg,rgba(61,220,132,.07),rgba(0,0,0,.4));
+padding:18px 20px;border-radius:2px;position:relative;
+}
+.voice::before{content:"RUNVIS // VOICE";position:absolute;top:-9px;left:14px;background:var(--bg);padding:0 8px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--green)}
+.voice p{font-size:15.5px;color:var(--text);line-height:1.7}
+.voice .why{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line2);font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.03em;line-height:1.65}
+.voice .why b{color:var(--cyan);font-weight:600}
+.datastrip{display:flex;gap:26px;margin-top:26px;font-family:var(--mono);flex-wrap:wrap}
+.datastrip .d .k{font-size:11.5px;letter-spacing:.14em;color:var(--dim)}
+.datastrip .d .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.datastrip .d .v.gr{color:var(--green)} .datastrip .d .v.or{color:var(--orange)} .datastrip .d .v.rd{color:var(--red)} .datastrip .d .v.cy{color:var(--cyan)}
+.corner{position:absolute;width:22px;height:22px;border:1px solid rgba(61,220,132,.35);pointer-events:none}
+.c-tl{top:84px;left:20px;border-right:none;border-bottom:none}
+.c-br{bottom:76px;right:20px;border-left:none;border-top:none}
+html.js .rv{transform:translateY(28px) scale(.985);transition:transform .45s cubic-bezier(.22,.61,.36,1)}
+html.js .rv.in{transform:none}
+#s0{flex-direction:column;justify-content:center;text-align:left}
+#s0 .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+@media(max-width:900px){#s0 .wrap{grid-template-columns:1fr}}
+.scroll-cue{position:fixed;bottom:calc(var(--hud-h) + 26px);left:50%;transform:translateX(-50%);
+z-index:55;pointer-events:none;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+color:var(--dim2);animation:bob 2.2s infinite;transition:opacity .25s ease}
+html.scrolled .scroll-cue{opacity:0}
+@keyframes bob{50%{transform:translate(-50%,8px)}}
+.heroWatch{width:min(300px,70vw);margin:0 auto;filter:drop-shadow(0 30px 60px rgba(61,220,132,.14))}
+.elev{margin-top:30px;border:1px solid var(--line2);background:rgba(255,255,255,.02);padding:16px}
+.elev .cap{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--dim2);display:flex;justify-content:space-between;margin-bottom:8px}
+.elev svg{width:100%;height:auto;display:block}
+.zones{display:flex;flex-direction:column;gap:6px;margin-top:26px;max-width:340px;font-family:var(--mono)}
+.zone{display:flex;align-items:center;gap:12px;padding:9px 14px;border:1px solid var(--line2);font-size:12px;letter-spacing:.08em;color:var(--dim2);transition:.4s}
+.zone .bar{height:6px;flex:1;background:rgba(255,255,255,.06)}
+.zone.hot{border-color:rgba(255,91,77,.5);color:var(--red)} .zone.hot .bar{background:linear-gradient(90deg,rgba(255,91,77,.7),rgba(255,91,77,.15))}
+.zone.mid{border-color:rgba(255,166,51,.5);color:var(--orange)} .zone.mid .bar{background:linear-gradient(90deg,rgba(255,166,51,.7),rgba(255,166,51,.15))}
+.zone.ok{border-color:rgba(61,220,132,.6);color:var(--green)} .zone.ok .bar{background:linear-gradient(90deg,rgba(61,220,132,.8),rgba(61,220,132,.15))}
+.finish{margin-top:30px;border:1px solid var(--line);padding:26px;background:linear-gradient(160deg,rgba(61,220,132,.05),transparent);max-width:560px}
+.finish .row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line2);font-size:14px}
+.finish .row:last-child{border:none}
+.finish .row .k{color:var(--dim)}
+.finish .row .v{font-family:var(--mono);font-weight:700;font-variant-numeric:tabular-nums}
+.btns{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+.btn{
+display:inline-flex;align-items:center;gap:8px;padding:15px 28px;font-weight:800;font-size:16px;
+background:linear-gradient(120deg,var(--green),var(--cyan));color:#04120c;border-radius:2px;
+transition:transform .15s,box-shadow .15s;box-shadow:0 8px 30px rgba(61,220,132,.22)
+}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line2);box-shadow:none}
+.btn.ghost:hover{border-color:var(--green)}
+.dsign{margin-top:30px;border:1px solid var(--line);padding:24px;max-width:560px;background:rgba(61,220,132,.04)}
+.dsign h3{font-size:19px;letter-spacing:-.01em}
+.dsign p{font-size:13.5px;color:var(--dim);line-height:1.7;margin-top:8px}
+.dsign form{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.dsign input[type=email]{flex:1 1 220px;min-width:0;padding:14px 16px;font-size:15px;color:var(--text);
+background:#000;border:1px solid var(--line2);border-radius:2px;font-family:inherit}
+.dsign input[type=email]::placeholder{color:var(--dim2)}
+.dsign input[type=email]:focus{outline:none;border-color:var(--green)}
+.dsign button.btn{border:none;cursor:pointer;font-family:inherit;line-height:1}
+.dsign button.btn:disabled{opacity:.6;cursor:default;transform:none}
+.dsign #demoStatus{font-size:14px;font-weight:700;margin-top:12px}
+.dsign .consent{margin-top:14px;font-size:11.5px;color:var(--dim2);line-height:1.9}
+.dsign .consent label{display:flex;gap:8px;align-items:flex-start;margin-top:6px;cursor:pointer}
+.dsign .consent input{margin-top:4px;accent-color:var(--green)}
+.skip{position:absolute;left:-9999px;top:0;z-index:200}
+.skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
+padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
+.footnote{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.04em;margin-top:40px;line-height:1.8}
+.hud-top .brand,.hud-top .status{white-space:nowrap}
+@media(max-width:860px){.hud-top .status{display:none}}
+@media(max-width:520px){
+.hud-top{padding:0 12px;font-size:11px}
+.hud-top .exit{padding:6px 9px}
+.langsel button{padding:5px 8px;font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+.rv{opacity:1!important;transform:none!important;transition:none}
+html{scroll-behavior:auto}
+.hud-top .dot,.scroll-cue{animation:none}
+}
 </style>
 <script>
 (function(){
@@ -324,78 +222,52 @@
   function norm(v){ if(!v) return null; v=String(v).toLowerCase();
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
-  // The BROWSER's language is the one source that must not fold every zh-*
-  // onto our table, because our zh table is Traditional (LANGS label 繁體中文,
-  // tts zh-TW, <html lang="zh-Hant">) and norm() above sent zh-Hans / zh-CN /
-  // zh-SG straight to it. Being handed the other script automatically reads as
-  // an accident, not a choice (2026-09-06 라운드 13, -0.3). Those visitors fall
-  // through to the x-default, English, and 繁體中文 is still one pick away in
-  // the language menu. An EXPLICIT zh — ?lang=zh, /zh/, the menu — still goes
-  // through norm() and still resolves, which is why this is a second function
-  // and not a change to the first.
   function navLang(v){ var s=v?String(v).toLowerCase():"";
     return (s.indexOf("zh")===0 && !/^zh-(hant|tw|hk|mo)\b/.test(s)) ? null : norm(s); }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
-  // On a prerendered page (/en/, /ja/ …) the directory IS the language and
-  // RunvisPageLang is set just above; it outranks the saved choice and the
-  // browser's. ?lang= still wins over it.
   var saved=null; try{ saved=norm(localStorage.getItem("runvis_lang")); }catch(e){}
-  // Last resort when nothing has spoken and the browser's language is not one
-  // of the six: English, not Korean. norm() passes only ko/en/ja/es/zh/de, so
-  // fr, pt, it, ru … all fell through to "ko" and a French reader landed on a
-  // Korean document. A Korean browser still resolves through
-  // norm(navigator.language) and is unaffected, and ?lang= and the saved
-  // choice still outrank this.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||navLang(navigator.language)||"en";
-  // A German browser landing on a ROOT url used to get German BODY text with a
-  // Korean canonical, Korean og:* and no route to /de/ at all — the five
-  // prerendered market pages existed and nothing ever sent anyone to them.
-  // GitHub Pages cannot redirect, so it happens here, and only in the one case
-  // where nothing else has spoken: no ?lang= (an explicit choice), no saved
-  // choice, not already on a prerendered page, and not Korean (this IS the
-  // Korean document and the x-default). replace() keeps the back button
-  // working and the sessionStorage flag makes a second hop impossible even if
-  // the target ever failed to set RunvisPageLang.
+  var pageLang=norm(window.RunvisPageLang)||"ko";
+  var prefer=navLang(navigator.language)||"en";
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||pageLang;
   try{
-    if(!window.RunvisPageLang && !urlLang && !saved && code!=="ko"
+    if(!window.RunvisPageLang && !urlLang && saved && saved!=="ko"
        && /(^|\.)runvis\.app$/.test(location.hostname)
        && !sessionStorage.getItem("runvis_sent")){
       sessionStorage.setItem("runvis_sent","1");
       var file=location.pathname.split("/").pop()||"";
-      if(file==="index.html") file="";      // /de/, the URL hreflang and canonical name
-      location.replace("/"+code+"/"+file+location.hash);
+      if(file==="index.html") file="";
+      location.replace("/"+saved+"/"+file+location.hash);
       return;
     }
   }catch(e){}
   window.RunvisLang=code; window.RunvisUrlLang=urlLang;
+  window.RunvisDocLang=pageLang; window.RunvisPrefer=prefer;
   var html=document.documentElement;
   html.lang = code==="zh" ? "zh-Hant" : code;
   html.className += (html.className?" ":"") + "js";
-  var BASE=window.RunvisBase||"";              // "" at the root, "/" under /en/ …
-  var d=document.createElement("script");
-  d.src=BASE+"t-"+code+".js?v=20260906e"; d.async=false; document.head.appendChild(d);
+  var BASE=window.RunvisBase||"";
+  if(code!==pageLang){
+    var d=document.createElement("script");
+    d.src=BASE+"t-"+code+".js?v=20260906f"; d.async=false; document.head.appendChild(d);
+    window.RunvisDictLoaded=code;
+  }
   function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
-  // ?lang=de on a ROOT url shows the same page the prerendered /de/ copy shows,
-  // so the canonical points there instead of at itself — otherwise the two
-  // compete for the same market and neither wins. Without ?lang, and on the
-  // prerendered pages themselves, the canonical is the page's own address.
   var link=document.querySelector('link[rel="canonical"]');
   if(link){
-    // Remember the page's OWN address before rewriting it. i18n.js recomputes
-    // the canonical on every language switch and would otherwise read back the
-    // value this script just wrote and prefix it a second time (/ja/ja/).
     var base=link.getAttribute("data-base")||(link.getAttribute("href")||"").split("?")[0].split("#")[0];
     link.setAttribute("data-base",base);
     var url=base;
-    if(!window.RunvisPageLang && urlLang && urlLang!=="ko"){
-      try{ var u=new URL(base); u.pathname="/"+urlLang+u.pathname; url=u.href; }catch(e){}
+    if(code!==pageLang){
+      try{ var u=new URL(base), p=u.pathname;
+           if(window.RunvisPageLang && p.indexOf("/"+pageLang+"/")===0) p=p.slice(pageLang.length+1);
+           u.pathname=(code==="ko"?"":"/"+code)+p; url=u.href; }catch(e){}
     }
     link.setAttribute("href",url); meta("property","og:url",url); }
   var OGL={ko:"ko_KR",en:"en_US",ja:"ja_JP",es:"es_ES",zh:"zh_TW",de:"de_DE"};
   meta("property","og:locale",OGL[code]);
 })();
 </script>
-<script defer src="/i18n.js?v=20260906e"></script>
+<script defer src="/i18n.js?v=20260906f"></script>
 <script id="pageld" type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebPage","name":"RUN SESSION — 與 Runvis 跑 5km | Runvis","description":"滑動就是跑步。親身體驗 5km，看看 Runvis 從熱身到終點何時開口、為什麼開口。","inLanguage":"zh-Hant","url":"https://runvis.app/zh/run.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/zh/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/zh/"},{"@type":"ListItem","position":2,"name":"RUN SESSION — 與 Runvis 跑 5km | Runvis","item":"https://runvis.app/zh/run.html"}]}}
 </script>
@@ -529,11 +401,11 @@
   <div class="wrap">
     <div class="tag rv" data-i18n="r34">SEGMENT 03 — 3.0 → 4.0 KM · 疲勞累積</div>
     <h2 class="rv" data-i18n="r35">開始難受的那一刻，<br><span class="outline">拿著依據</span>介入</h2>
-    <p class="lead rv" data-i18n="r36">不是一句「姿勢不好」——而是告訴你<b>什麼變了、變了多少</b>的教練。</p>
+    <p class="lead rv" data-i18n="r36">不是一句「姿勢不好」——而是告訴你<b>什麼變了、變了多少</b>的跑姿提示。</p>
     <div class="voice rv">
       <span class="pill pro" data-i18n="n.pill.pro">訂閱</span>
-      <p data-i18n="r37">「和開跑時相比，你的步頻慢了 5%，觸地時間長了 7%。把步幅縮小，轉速回來，跑姿也會跟著回來。」</p>
-      <div class="why" data-i18n="r38">WHY · 會測觸地的錶：步頻、觸地、垂直振幅其中<b>兩項同時走樣</b>或單一項大幅走樣並持續 30 秒 · 只測步頻的錶：步頻下降 6% 並持續 60 秒 · 兩者都只在配速穩定的平地上判定</div>
+      <p data-i18n="r37">「和開跑時相比，你的步頻慢了 7%，觸地時間長了 10%。把步幅縮小，轉速回來，跑姿也會跟著回來。」</p>
+      <div class="why" data-i18n="r38">WHY · 跑姿提示 — 和步幅提示是不同的提示，規則也不同 · 會測觸地的錶：步頻、觸地、垂直振幅其中<b>兩項同時走樣</b>或單一項大幅走樣並持續 30 秒 · 只測步頻的錶：步頻下降 6% 並持續 60 秒 · 兩者都只在配速穩定的平地上判定 · 設定裡的「跑姿」開關同時控制這個提示和步幅提示 · 說過一次後，要等走樣平復才會再說</div>
     </div>
     <div class="voice rv" style="border-color:rgba(61,220,132,.4)">
       <span class="pill pro" data-i18n="n.pill.pro">訂閱</span>
@@ -625,34 +497,21 @@
 </div>
 
 <script>
-// ---------- scroll progress ----------
 const prog = document.getElementById('prog');
 addEventListener('scroll', () => {
   const h = document.documentElement;
   prog.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
-  // The hero cue is fixed to the viewport, so it would otherwise ride the whole
-  // 5 km. It has said its piece as soon as the page moves.
   h.classList.toggle('scrolled', h.scrollTop > 60);
 }, {passive:true});
-
-// ---------- reveal ----------
-// A POSITIVE bottom rootMargin grows the root box 12% of the viewport BELOW
-// the fold, so the class lands just before the block scrolls into view rather
-// than a fifth of the way in. (A negative value would shrink the box and fire
-// LATER, which is the opposite of what a page asking to be scrolled fast
-// needs.) The .45s settle is then finishing as the reader arrives.
 const io = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) e.target.classList.add('in');
 }), {threshold:.18, rootMargin:'0px 0px 12% 0px'});
 document.querySelectorAll('.rv').forEach(el => io.observe(el));
-
-// ---------- live HUD: interpolate metrics between section anchors ----------
 const secs = [...document.querySelectorAll('section')];
 const hKm = document.getElementById('hKm'), hPace = document.getElementById('hPace'),
       hHr = document.getElementById('hHr'), hZ = document.getElementById('hZ');
 const paceToSec = p => { if (!p || p.includes('-')) return 0; const [m, s] = p.split(':').map(Number); return m * 60 + s; };
 const secToPace = s => s <= 0 ? '--:--' : `${Math.floor(s/60)}:${String(Math.round(s%60)).padStart(2,'0')}`;
-
 function hudTick() {
   const mid = innerHeight * .55;
   let a = secs[0], b = secs[0], t = 0;
@@ -673,9 +532,6 @@ function hudTick() {
   hZ.style.color = z === 'Z4' ? 'var(--red)' : z === 'Z3' ? 'var(--orange)' : z === 'Z2' ? 'var(--green)' : 'var(--dim)';
   hudPending = false;
 }
-// The HUD only changes when the page scrolls or resizes, so it recomputes on
-// those events instead of every frame — a permanent rAF loop kept the CPU (and
-// the battery) busy on a page nobody is touching.
 let hudPending = false;
 function hudSchedule() {
   if (hudPending || document.hidden) return;
@@ -686,13 +542,6 @@ addEventListener('scroll', hudSchedule, { passive: true });
 addEventListener('resize', hudSchedule);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) hudSchedule(); });
 hudSchedule();
-
-// ---------- name the silence between two cues ----------
-// Between 0.4 km and 1.8 km the page showed nothing but the moving HUD for
-// twenty-odd scroll ticks, which is indistinguishable from a page that failed
-// to load. Each gap of half a kilometre or more now says how far the next
-// intervention is; the distance comes from the two sections' own data-km, so it
-// cannot drift away from the demo it describes.
 function paintSilence() {
   const t = window.RunvisT ? window.RunvisT('r.silence', '距離下一次介入還有 {km} 公里 · 這段路上唯一的語音是每公里的分段報時') : null;
   if (!t) return;
@@ -709,8 +558,6 @@ function paintSilence() {
   }
 }
 paintSilence();
-
-// ---------- rail highlight ----------
 const rail = [...document.querySelectorAll('.rail a')];
 const io2 = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) {
@@ -718,17 +565,8 @@ const io2 = new IntersectionObserver(es => es.forEach(e => {
   }
 }), {threshold:.5});
 secs.forEach(s => io2.observe(s));
-
-// ---------- i18n: this page's own meta, belt and braces ----------
-// i18n.js used to hard-code the *index* page's meta.title/meta.desc/og:* on
-// every language change, so this page had to put its own back afterwards. That
-// is fixed at the source now — the <title> and the four <meta> tags in the head
-// carry data-i18n / data-i18n-attr with the r1 and r2 keys, so i18n.js writes
-// the right values on its own. This stays as a second pass because it also runs
-// on the very first render and costs nothing.
 window.renderDynamicI18n = function () {
   if (!window.RunvisT) return;
-  // Korean fallbacks keep the run page's identity even before t-<code>.js lands.
   const t = window.RunvisT('r1', 'RUN SESSION — 與 Runvis 跑 5km | Runvis');
   const d = window.RunvisT('r2', '滑動就是跑步。親身體驗 5km，看看 Runvis 從熱身到終點何時開口、為什麼開口。');
   const set = (sel, v) => { const el = document.querySelector(sel); if (el && v != null) el.setAttribute('content', v); };
@@ -738,19 +576,14 @@ window.renderDynamicI18n = function () {
   set('meta[property="og:description"]', d);
   set('meta[name="twitter:title"]', t);
   set('meta[name="twitter:description"]', d);
-  paintSilence();                       // the gap markers follow the language
+  paintSilence();
 };
-
-// ---------- inline beta signup at the finish ----------
-// Same endpoint and same messages as index.html's #beta form; the demo used to
-// hand the reader back to the home page and lose them on the way.
 const demoForm = document.getElementById('demoForm');
 if (demoForm) demoForm.addEventListener('submit', async e => {
   e.preventDefault();
   const status = document.getElementById('demoStatus');
   const btn = document.getElementById('demoSubmit');
   const T = (k, f) => window.RunvisT ? window.RunvisT(k, f) : f;
-  // Live region: clear it first so an identical repeat message is announced.
   const show = (msg, ok) => {
     status.textContent = '';
     status.style.display = 'block';
@@ -768,8 +601,6 @@ if (demoForm) demoForm.addEventListener('submit', async e => {
   } catch { show(T('form.neterr', '네트워크 오류예요. 잠시 후 다시 시도해 주세요.'), false); }
   finally { btn.disabled = false; btn.textContent = original; }
 });
-
-// ---------- robust in-page anchors (same fix as index) ----------
 document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
   const el = document.querySelector(a.getAttribute('href'));
   if (!el) return;

@@ -141,6 +141,29 @@ export function measure(app = findAppRepo()) {
   const cueMinGap = one('CoachCueSpacing.minGap', /static let minGap: TimeInterval = (\d+)/);
   const toggleList = /static let userToggleable:[^=]*=\s*\[([^\]]*)\]/.exec(profile);
   if (!toggleList) throw new Error('CoachCueCategory.userToggleable: not found in CoachSessionProfile.swift');
+  // 6b. the two cues the site kept calling by one name. The site said "자세"
+  //     for the STRIDE cue (CoachTriggerRules.StrideCueRules) on index.html and
+  //     "자세" again for the FORM cue (FormDrift) on run.html, and printed one
+  //     rule as the rule for both (2026-09-06 라운드 14, -1.2). The two now have
+  //     the app's two names on the site, and both rules are measured here so a
+  //     future rewording of either sentence is held against the right source.
+  const strideCueSessionCap = one('CoachDensityRules.strideCueSessionCap',
+    /static let strideCueSessionCap = (\d+)/);
+  const drift = fs.readFileSync(path.join(app, 'Shared/Services/FormDrift.swift'), 'utf8');
+  const fromDrift = (label, re, scale = 1) => {
+    const m = re.exec(drift);
+    if (!m) throw new Error(`${label}: not found in FormDrift.swift — the rule was reworded`);
+    // toFixed keeps 0.08 * 100 from arriving as 8.000000000000002 in the JSON.
+    return Number((Number(m[1]) * scale).toFixed(6));
+  };
+  //     evaluate()'s two-signal path, as the percentages the copy writes.
+  const formCadDropSignalPct = fromDrift('cadDrop signal floor', /\(cadDrop > (0\.\d+) \? 1 : 0\)/, 100);
+  const formGctRiseSignalPct = fromDrift('gctRise signal floor', /\(gctRise > (0\.\d+) \? 1 : 0\)/, 100);
+  const formWarnDriftPct = fromDrift('two-signal drift threshold', /driftPct > ([\d.]+) && signals >= 2/);
+  const formStrongDriftPct = fromDrift('one-signal drift threshold', /driftPct > ([\d.]+) && signals >= 1/);
+  const formSustainSeconds = fromDrift('sustained seconds', /gctDriftSustainedSeconds >= (\d+)/);
+  const formCadenceOnlySeconds = fromDrift('cadence-only sustained seconds', /cadDropSustainedSeconds >= (\d+)/);
+  const formCadenceOnlyDropPct = fromDrift('cadence-only drop', /let warn = cadDrop >= (0\.\d+)/, 100);
   const cueToggles = toggleList[1].split(',').map(t => t.trim()).filter(Boolean).length;
 
   // 7. the seven paid tiles, under the app's OWN name for each, in all six
@@ -166,6 +189,25 @@ export function measure(app = findAppRepo()) {
     }
   }
 
+  // 8. the free period the price copy promises, out of the StoreKit config.
+  //    index.html said "첫 기간이 무료" for the YEARLY plan in all six
+  //    languages, which reads as a free year; the product's introductoryOffer
+  //    is P1M (2026-09-06 라운드 14, -2.5). The copy states the month now, and
+  //    stating it means it has to be measured — a hand-typed "1개월" in six
+  //    dictionaries is the same rot the test count had.
+  const storekit = JSON.parse(fs.readFileSync(path.join(app, 'Runvis.storekit'), 'utf8'));
+  const subs = (storekit.subscriptionGroups || []).flatMap(g => g.subscriptions || []);
+  if (!subs.length) throw new Error('Runvis.storekit: no subscriptions found — the file shape changed');
+  const months = (period, what) => {
+    const m = /^P(\d+)M$/.exec(period || '');
+    if (!m) throw new Error(`Runvis.storekit: ${what} is "${period}", which is not a whole number of months — the copy says months`);
+    return Number(m[1]);
+  };
+  const trials = subs.map(x => [x.referenceName, months(x.introductoryOffer?.subscriptionPeriod, `${x.referenceName} introductoryOffer`)]);
+  const trialMonths = agreed('introductoryOffer.subscriptionPeriod', trials);
+  const yearly = subs.find(x => x.recurringSubscriptionPeriod === 'P1Y');
+  if (!yearly) throw new Error('Runvis.storekit: no P1Y subscription — the yearly product was renamed or removed');
+
   return {
     measuredAt: new Date().toISOString().slice(0, 10),
     appRepo: path.basename(app),
@@ -181,6 +223,16 @@ export function measure(app = findAppRepo()) {
     cueBudgetEasy,
     cueBudgetTempo,
     cueMinGap,
+    strideCueSessionCap,
+    formCadDropSignalPct,
+    formGctRiseSignalPct,
+    formWarnDriftPct,
+    formStrongDriftPct,
+    formSustainSeconds,
+    formCadenceOnlySeconds,
+    formCadenceOnlyDropPct,
+    // Held against the six price paragraphs by check-content [18].
+    trialMonths,
     // Held against the six dictionaries by check-content [15].
     tiles,
     // Bumped by hand when the screenshots in assets/ are re-shot. Nothing on

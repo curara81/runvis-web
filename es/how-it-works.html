@@ -5,7 +5,9 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<script>window.RunvisPageLang="es";window.RunvisBase="/";</script>
+<script>
+window.RunvisPageLang="es";window.RunvisBase="/";
+</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#000000">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -19,10 +21,10 @@
 <meta property="og:url" content="https://runvis.app/es/how-it-works.html">
 <meta property="og:site_name" content="Runvis">
 <meta property="og:locale" content="es_ES">
-<meta property="og:image" content="https://runvis.app/assets/og-card.png?v=2">
-<meta property="og:image:alt" content="Runvis — Apple Watch running coach">
+<meta property="og:image" content="https://runvis.app/assets/og-card.es.png?v=3">
+<meta property="og:image:alt" content="Tarjeta de Runvis — con el Apple Watch ya basta" data-i18n-attr="content:meta.ogalt">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://runvis.app/assets/og-card.png?v=2">
+<meta name="twitter:image" content="https://runvis.app/assets/og-card.es.png?v=3">
 <link rel="canonical" href="https://runvis.app/es/how-it-works.html">
 <link rel="alternate" hreflang="x-default" href="https://runvis.app/en/how-it-works.html">
 <link rel="alternate" hreflang="ko" href="https://runvis.app/how-it-works.html">
@@ -32,82 +34,66 @@
 <link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/how-it-works.html">
 <link rel="alternate" hreflang="de" href="https://runvis.app/de/how-it-works.html">
 <style>
-  :root{
-    --green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;
-    /* --dim2 was #6a6f76 = 4.15:1 on black, under the 4.5:1 AA floor; the
-       "last updated" line and the legal note used it. #878d95 is 6.27:1,
-       the same token index.html uses. */
-    --text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--bg);color:var(--text);
-    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
-    line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
-  .wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}
-  a{color:var(--green);text-decoration:none}
-  :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
-  img{max-width:100%;height:auto;display:block}
-  body{overflow-wrap:break-word;word-break:keep-all;line-break:normal}
-  h1{font-size:1.7rem;margin-bottom:6px}
-  .updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}
-  /* Without this the first Tab on every page landed on the language menu.
-     Visually hidden until it takes focus, then it becomes a real button. */
-  .skip{position:absolute;left:-9999px;top:0;z-index:200}
-  .skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
-    padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
-  h2{font-size:1.15rem;margin:36px 0 12px;color:var(--green)}
-  p,li{color:var(--dim);font-size:.95rem}
-  ul{padding-left:20px;margin:10px 0}
-  li{margin:6px 0}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0}
-  .card b{color:var(--text)}
-  .tablewrap{overflow-x:auto;margin:14px 0}
-  table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:520px}
-  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--dim)}
-  th{color:var(--text);font-weight:600}
-  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
-  .back{color:var(--dim);font-size:.9rem}
-  .legalnote{color:var(--dim2);font-size:.8rem;margin-bottom:22px}
-  /* language selector — same ids i18n.js looks for (#langsel/#langbtn/#langmenu) */
-  .langsel{position:relative;display:inline-block}
-  .langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
-  .langsel button:hover{border-color:var(--green)}
-  .langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}
-  .langsel.open ul{display:block}
-  .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
-  .langsel li:hover{background:rgba(61,220,132,.15)}
-  /* 2026-09-06 라운드 13 (-0.5): each item is a real link to that language's
-     prerendered copy, so picking a language changes the ADDRESS — a URL shared
-     from here keeps the language it was read in. The <li> keeps the row box,
-     the <a> fills it so the whole row stays clickable, and aria-checked moves
-     onto the anchor, which is the menuitemradio now. */
-  .langsel li{padding:0}
-  .langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
-  .langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
-  .intro{color:var(--dim);font-size:.95rem;margin-bottom:8px}
-  h2{scroll-margin-top:20px}
-  ol{list-style:none;margin:12px 0;padding:0;counter-reset:ns}
-  ol li{counter-increment:ns;display:flex;gap:10px;padding:7px 0;line-height:1.7}
-  ol li::before{content:counter(ns);flex:0 0 20px;height:20px;margin-top:4px;border-radius:999px;
-    background:rgba(61,220,132,.16);color:var(--green);font-size:11.5px;font-weight:800;display:grid;place-items:center}
-  /* The app's own zone arithmetic, run here: no install, no address, no
-     network. UserProfile.karvonenZoneLowerBounds — 50/60/70/80/90 % of heart
-     rate reserve over effectiveMaxHR, with the Tanaka fallback for an empty
-     maximum. Same markup and same script as the block that used to sit under
-     the sign-up form on index.html. */
-  .hzcalc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
-  @media(max-width:520px){.hzcalc{grid-template-columns:1fr 1fr}.hzcalc label:last-child{grid-column:1/-1}}
-  .hzcalc label{display:block;font-size:12px;color:var(--dim);line-height:1.4}
-  .hzcalc input{width:100%;margin-top:5px;background:#0d1013;border:1px solid var(--line);color:var(--text);
-    border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;font-variant-numeric:tabular-nums}
-  .hzcalc input:focus{border-color:var(--green);outline:none}
-  .hzout{margin-top:12px;font-size:.9rem;line-height:1.9;color:#dfe3e7}
-  .hzout b{color:var(--green);font-variant-numeric:tabular-nums}
-  .hzout .hzmax{display:block;color:var(--dim);font-size:.8rem;margin-top:4px}
-  .gpxlist{font-size:.82rem;line-height:2.1;color:var(--dim2)}
-  .gpxlist a{white-space:nowrap}
-  .note{color:var(--dim2);font-size:.8rem;margin-top:8px}
-  .backhome{margin-top:44px;padding-top:20px;border-top:1px solid var(--line)}
+:root{
+--green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;
+--text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);
+font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
+line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
+.wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}
+a{color:var(--green);text-decoration:none}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+img{max-width:100%;height:auto;display:block}
+body{overflow-wrap:break-word;word-break:keep-all;line-break:normal}
+h1{font-size:1.7rem;margin-bottom:6px}
+.updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}
+.skip{position:absolute;left:-9999px;top:0;z-index:200}
+.skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
+padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
+h2{font-size:1.15rem;margin:36px 0 12px;color:var(--green)}
+p,li{color:var(--dim);font-size:.95rem}
+ul{padding-left:20px;margin:10px 0}
+li{margin:6px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0}
+.card b{color:var(--text)}
+.tablewrap{overflow-x:auto;margin:14px 0}
+table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:520px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--dim)}
+th{color:var(--text);font-weight:600}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
+.back{color:var(--dim);font-size:.9rem}
+.legalnote{color:var(--dim2);font-size:.8rem;margin-bottom:22px}
+.langsel{position:relative;display:inline-block}
+.langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
+.langsel button:hover{border-color:var(--green)}
+.langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langsel.open ul{display:block}
+.langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
+.langsel li:hover{background:rgba(61,220,132,.15)}
+.langsel li{padding:0}
+.langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
+.langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
+.intro{color:var(--dim);font-size:.95rem;margin-bottom:8px}
+h2{scroll-margin-top:20px}
+ol{list-style:none;margin:12px 0;padding:0;counter-reset:ns}
+ol li{counter-increment:ns;display:flex;gap:10px;padding:7px 0;line-height:1.7}
+ol li::before{content:counter(ns);flex:0 0 20px;height:20px;margin-top:4px;border-radius:999px;
+background:rgba(61,220,132,.16);color:var(--green);font-size:11.5px;font-weight:800;display:grid;place-items:center}
+.hzcalc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+@media(max-width:520px){.hzcalc{grid-template-columns:1fr 1fr}.hzcalc label:last-child{grid-column:1/-1}}
+.hzcalc label{display:block;font-size:12px;color:var(--dim);line-height:1.4}
+.hzcalc input{width:100%;margin-top:5px;background:#0d1013;border:1px solid var(--line);color:var(--text);
+border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;font-variant-numeric:tabular-nums}
+.hzcalc input:focus{border-color:var(--green);outline:none}
+.hzout{margin-top:12px;font-size:.9rem;line-height:1.9;color:#dfe3e7}
+.hzout b{color:var(--green);font-variant-numeric:tabular-nums}
+.hzout .hzmax{display:block;color:var(--dim);font-size:.8rem;margin-top:4px}
+.gpxlist{font-size:.82rem;line-height:2.1;color:var(--dim2)}
+.gpxlist a{white-space:nowrap}
+.note{color:var(--dim2);font-size:.8rem;margin-top:8px}
+.backhome{margin-top:44px;padding-top:20px;border-top:1px solid var(--line)}
 </style>
 <script>
 (function(){
@@ -115,78 +101,52 @@
   function norm(v){ if(!v) return null; v=String(v).toLowerCase();
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
-  // The BROWSER's language is the one source that must not fold every zh-*
-  // onto our table, because our zh table is Traditional (LANGS label 繁體中文,
-  // tts zh-TW, <html lang="zh-Hant">) and norm() above sent zh-Hans / zh-CN /
-  // zh-SG straight to it. Being handed the other script automatically reads as
-  // an accident, not a choice (2026-09-06 라운드 13, -0.3). Those visitors fall
-  // through to the x-default, English, and 繁體中文 is still one pick away in
-  // the language menu. An EXPLICIT zh — ?lang=zh, /zh/, the menu — still goes
-  // through norm() and still resolves, which is why this is a second function
-  // and not a change to the first.
   function navLang(v){ var s=v?String(v).toLowerCase():"";
     return (s.indexOf("zh")===0 && !/^zh-(hant|tw|hk|mo)\b/.test(s)) ? null : norm(s); }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
-  // On a prerendered page (/en/, /ja/ …) the directory IS the language and
-  // RunvisPageLang is set just above; it outranks the saved choice and the
-  // browser's. ?lang= still wins over it.
   var saved=null; try{ saved=norm(localStorage.getItem("runvis_lang")); }catch(e){}
-  // Last resort when nothing has spoken and the browser's language is not one
-  // of the six: English, not Korean. norm() passes only ko/en/ja/es/zh/de, so
-  // fr, pt, it, ru … all fell through to "ko" and a French reader landed on a
-  // Korean document. A Korean browser still resolves through
-  // norm(navigator.language) and is unaffected, and ?lang= and the saved
-  // choice still outrank this.
-  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||navLang(navigator.language)||"en";
-  // A German browser landing on a ROOT url used to get German BODY text with a
-  // Korean canonical, Korean og:* and no route to /de/ at all — the five
-  // prerendered market pages existed and nothing ever sent anyone to them.
-  // GitHub Pages cannot redirect, so it happens here, and only in the one case
-  // where nothing else has spoken: no ?lang= (an explicit choice), no saved
-  // choice, not already on a prerendered page, and not Korean (this IS the
-  // Korean document and the x-default). replace() keeps the back button
-  // working and the sessionStorage flag makes a second hop impossible even if
-  // the target ever failed to set RunvisPageLang.
+  var pageLang=norm(window.RunvisPageLang)||"ko";
+  var prefer=navLang(navigator.language)||"en";
+  var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||pageLang;
   try{
-    if(!window.RunvisPageLang && !urlLang && !saved && code!=="ko"
+    if(!window.RunvisPageLang && !urlLang && saved && saved!=="ko"
        && /(^|\.)runvis\.app$/.test(location.hostname)
        && !sessionStorage.getItem("runvis_sent")){
       sessionStorage.setItem("runvis_sent","1");
       var file=location.pathname.split("/").pop()||"";
-      if(file==="index.html") file="";      // /de/, the URL hreflang and canonical name
-      location.replace("/"+code+"/"+file+location.hash);
+      if(file==="index.html") file="";
+      location.replace("/"+saved+"/"+file+location.hash);
       return;
     }
   }catch(e){}
   window.RunvisLang=code; window.RunvisUrlLang=urlLang;
+  window.RunvisDocLang=pageLang; window.RunvisPrefer=prefer;
   var html=document.documentElement;
   html.lang = code==="zh" ? "zh-Hant" : code;
   html.className += (html.className?" ":"") + "js";
-  var BASE=window.RunvisBase||"";              // "" at the root, "/" under /en/ …
-  var d=document.createElement("script");
-  d.src=BASE+"t-"+code+".js?v=20260906e"; d.async=false; document.head.appendChild(d);
+  var BASE=window.RunvisBase||"";
+  if(code!==pageLang){
+    var d=document.createElement("script");
+    d.src=BASE+"t-"+code+".js?v=20260906f"; d.async=false; document.head.appendChild(d);
+    window.RunvisDictLoaded=code;
+  }
   function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
-  // ?lang=de on a ROOT url shows the same page the prerendered /de/ copy shows,
-  // so the canonical points there instead of at itself — otherwise the two
-  // compete for the same market and neither wins. Without ?lang, and on the
-  // prerendered pages themselves, the canonical is the page's own address.
   var link=document.querySelector('link[rel="canonical"]');
   if(link){
-    // Remember the page's OWN address before rewriting it. i18n.js recomputes
-    // the canonical on every language switch and would otherwise read back the
-    // value this script just wrote and prefix it a second time (/ja/ja/).
     var base=link.getAttribute("data-base")||(link.getAttribute("href")||"").split("?")[0].split("#")[0];
     link.setAttribute("data-base",base);
     var url=base;
-    if(!window.RunvisPageLang && urlLang && urlLang!=="ko"){
-      try{ var u=new URL(base); u.pathname="/"+urlLang+u.pathname; url=u.href; }catch(e){}
+    if(code!==pageLang){
+      try{ var u=new URL(base), p=u.pathname;
+           if(window.RunvisPageLang && p.indexOf("/"+pageLang+"/")===0) p=p.slice(pageLang.length+1);
+           u.pathname=(code==="ko"?"":"/"+code)+p; url=u.href; }catch(e){}
     }
     link.setAttribute("href",url); meta("property","og:url",url); }
   var OGL={ko:"ko_KR",en:"en_US",ja:"ja_JP",es:"es_ES",zh:"zh_TW",de:"de_DE"};
   meta("property","og:locale",OGL[code]);
 })();
 </script>
-<script defer src="/i18n.js?v=20260906e"></script>
+<script defer src="/i18n.js?v=20260906f"></script>
 <script id="pageld" type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebPage","name":"Reglas y herramientas — Runvis","description":"Métrica a métrica, las fórmulas con las que Runvis obtiene carga de entrenamiento, tiempo de recuperación y umbral de lactato estimado sin un reloj de running dedicado. Además, las reglas de habla completas, una calculadora de zonas de FC, 13 GPX de rutas de Seúl y cómo funciona la beta.","inLanguage":"es","url":"https://runvis.app/es/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/es/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/es/"},{"@type":"ListItem","position":2,"name":"Reglas y herramientas — Runvis","item":"https://runvis.app/es/how-it-works.html"}]}}
 </script>
@@ -256,21 +216,10 @@
   <p class="backhome"><a href="index.html#beta" data-i18n="n.price.cta">Pruébalo antes en la beta, o solo recibe el aviso de lanzamiento</a></p>
 </div>
 <script>
-// --- heart-rate zones, worked out here, with no address and no install -------
-// The same arithmetic the app runs: UserProfile.karvonenZoneLowerBounds maps
-// 50/60/70/80/90 % of heart-rate reserve over effectiveMaxHR, and an empty max
-// falls back to the Tanaka estimate 208 - 0.7 x age (UserProfile.estimatedMaxHR).
-// Zone names are the app's own five labels, translated in the same six tables.
 (() => {
   const age = document.getElementById('hzAge'), rest = document.getElementById('hzRest'),
         mx = document.getElementById('hzMax'), out = document.getElementById('hzOut');
   if (!age || !rest || !mx || !out) return;
-  // Named RunvisT on purpose. This block paints during parsing, before the
-  // deferred i18n.js has defined window.RunvisT, so every string needs an
-  // inline fallback - and tools/check-content.mjs [10] only compares fallbacks
-  // written as a call whose two arguments are both quoted literals, the shape
-  // tools/prerender.mjs rewrites for /en/ ... . The local name delegates to the
-  // global one once it exists; `window.RunvisT` inside is the global, not this.
   const RunvisT = (k, f) => (window.RunvisT ? window.RunvisT(k, f) : f);
   const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
   const render = () => {

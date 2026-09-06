@@ -19,6 +19,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { stripJs, stripCss, sameLiterals } from './strip-comments.mjs';
 import {
   ROOT, CODES, PAGES, HTML_LANG, HREFLANG, OG_LOCALE, SHOTS,
   loadDicts, attrEscape, findI18nElements, findI18nAttrs, spliceAll,
@@ -62,9 +63,9 @@ function retireBilingualNotes(html, code) {
   html = replaceBlock(html, '<!-- THIS file is the Korean document', 'the root now is. -->', note);
   html = replaceBlock(html, '<!-- Korean only — see the same note in index.html.', 'pages for the other markets. -->', note);
   html = replaceBlock(html, '<!-- Korean only, like index.html.', 'markets and hreflang points at them. -->', note);
-  html = replaceBlock(html, '<!-- The share card carries no sentence in any language', 'went out for all six languages. -->',
-    `<!-- The share card carries no sentence in any language (mark, watch, pulse,
-     domain), so one image serves every market. -->`);
+  html = replaceBlock(html, '<!-- Six share cards, one per market.', 'ever rendered it. -->',
+    `<!-- This market's share card: tools/og_cards.py drew its own n.hero.h1 onto
+     tools/og-card-base.png. -->`);
   html = replaceBlock(html, '<!-- Language-neutral card: mark, watch and pulse only, no sentence in any',
     'language. One HTML file serves every ?lang= and crawlers run no JS. -->',
     `<!-- Language-neutral card: mark, watch and pulse only, no sentence in any
@@ -138,14 +139,22 @@ function render(page, code) {
   // the markup exactly — otherwise a language switch would rewrite the link
   // back and check-content.mjs would report drift that is not drift.
   html = replaceAll(html, 'src="assets/', 'src="/assets/');
+  html = replaceAll(html, 'srcset="assets/', 'srcset="/assets/');
   html = replaceAll(html, 'href="gpx/', 'href="/gpx/');
   html = replaceAll(html, 'src="i18n.js?v=', 'src="/i18n.js?v=');
 
   // ---- 7. the localized iPhone captures, already in the markup ------------
   // Saves the runtime swap and, for the hero, the second download that used to
   // arrive after the Korean one had already painted.
+  // Three files per capture since round 14 — the PNG the <img> names and the
+  // AVIF and lossless WebP the two <source>s name (tools/encode_shots.py).
+  // Rewriting only the PNG would have left every prerendered page showing the
+  // KOREAN screenshot to any browser that can decode AVIF, under a correctly
+  // localized <img src> that never got used.
   for (const base of SHOTS) {
-    html = replaceAll(html, `/assets/${base}.png`, `/assets/${base}.${code}.png`);
+    for (const ext of ['png', 'avif', 'webp']) {
+      html = replaceAll(html, `/assets/${base}.${ext}`, `/assets/${base}.${code}.${ext}`);
+    }
   }
 
   // ---- 7b. the page scripts' own inline fallbacks -------------------------
@@ -177,19 +186,22 @@ function render(page, code) {
   const pgNode = pageLd(dict, code, page);
   if (pg && pgNode) html = html.slice(0, pg.start) + '\n' + JSON.stringify(pgNode) + '\n' + html.slice(pg.end);
 
-  // ---- 8b. this market's share card, when one exists ---------------------
-  // One neutral card (mark, watch, pulse, domain) served all six markets
-  // because GitHub Pages hands every ?lang= the same file. That reason is
-  // gone: these ARE separate files, so each can declare its own og:image and
-  // put a sentence on it. The swap is conditional on the file being present —
-  // assets/ is regenerated in another session, and a partial set must degrade
-  // to the neutral card rather than to a 404 preview. Covers og:image,
-  // twitter:image and the SoftwareApplication `image`, which all name the same
-  // path.
+  // ---- 8b. this market's share card --------------------------------------
+  // One neutral wordless card served all six markets because GitHub Pages
+  // hands every ?lang= the same file. That reason went away when these became
+  // separate files, and the six cards themselves arrived in round 14
+  // (tools/og_cards.py draws each market's own n.hero.h1 onto the card;
+  // tools/og-card-base.png is the background). The swap used to be conditional
+  // on the file existing, because for two rounds it did not; it is
+  // unconditional now, and check-content [21] resolves every image path in the
+  // markup AND in the JSON-LD against disk, so a card that goes missing fails
+  // the build instead of quietly reappearing as the wordless one.
+  // Covers og:image, twitter:image and the SoftwareApplication `image`.
   const card = `assets/og-card.${code}.png`;
-  if (fs.existsSync(path.join(ROOT, card))) {
-    html = replaceAll(html, 'assets/og-card.png', card);
+  if (!fs.existsSync(path.join(ROOT, card))) {
+    throw new Error(`prerender: ${card} is missing — run \`python3 tools/og_cards.py\``);
   }
+  html = replaceAll(html, 'assets/og-card.png', card);
 
   // ---- 9. drop what this copy cannot use ---------------------------------
   // 9a. The boot script inlines the hero copy and the four meta strings for
@@ -223,6 +235,43 @@ function render(page, code) {
     parts.push(html.slice(last).replace(/\n?[ \t]*<!--[\s\S]*?-->/g, ''));
     html = parts.join('');
   }
+
+  // 9c. …and the comments inside the <style> and the inline <script>s, which
+  // are the other two languages in this file and about 26 KB of the 132 KB a
+  // copy weighs (2026-09-06 라운드 14, -0.3). Same argument as 9b: the
+  // rationale belongs to the source, and a reader of a file whose first line
+  // says "do not edit" already has it. tools/strip-comments.mjs scans rather
+  // than pattern-matches, because "//" lives inside https:// and "/*" can live
+  // inside a CSS string; it hands back every literal it walked past, the same
+  // scan is run over its own output, and the two lists have to match. The
+  // stripped script is then PARSED before it is allowed into the file.
+  html = html.replace(/(<style\b[^>]*>)([\s\S]*?)(<\/style>)/g, (whole, open, body, close) => {
+    const r = stripCss(body);
+    const again = stripCss(r.text);
+    if (!sameLiterals(r.literals, again.literals)) {
+      throw new Error(`prerender: stripping CSS comments changed a string literal in ${code}/${page}`);
+    }
+    // Not "the same number of braces as before" — several comments in the
+    // sheet quote a rule, braces and all. What must hold is that what is LEFT
+    // is a balanced sheet.
+    const open_ = (r.text.match(/\{/g) || []).length, close_ = (r.text.match(/\}/g) || []).length;
+    if (open_ !== close_) {
+      throw new Error(`prerender: stripped CSS is unbalanced (${open_} { vs ${close_} }) in ${code}/${page}`);
+    }
+    return open + '\n' + r.text + '\n' + close;
+  });
+  html = html.replace(/(<script\b([^>]*)>)([\s\S]*?)(<\/script>)/g, (whole, open, attrs, body, close) => {
+    if (/\bsrc=/.test(attrs) || /application\/ld\+json/.test(attrs)) return whole;
+    const r = stripJs(body);
+    const again = stripJs(r.text);
+    if (!sameLiterals(r.literals, again.literals)) {
+      throw new Error(`prerender: stripping JS comments changed a literal in ${code}/${page}`);
+    }
+    try { new Function(r.text); }
+    catch (e) { throw new Error(`prerender: stripped script does not parse in ${code}/${page} — ${e.message}`); }
+    if (r.text.includes('</script')) throw new Error(`prerender: stripped script would close its own tag in ${code}/${page}`);
+    return open + '\n' + r.text + '\n' + close;
+  });
 
   // The banner goes AFTER the doctype — a comment in front of it puts some
   // browsers into quirks mode.

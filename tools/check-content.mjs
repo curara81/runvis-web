@@ -532,6 +532,18 @@ console.log('\n[13] coach constants in the copy == the app declaration');
       { key: 'n.live.q.n1', field: 'cueMinGap', why: 'CoachCueSpacing.minGap' },
       { key: 'n.live.q.r1b', field: 'cueBudgetEasy', why: 'the easy-run row of the same table' },
       { key: 'n.live.q.r2b', field: 'cueBudgetTempo', why: 'the tempo/race row of the same table' },
+      // The site printed one rule as the rule for two different cues, because
+      // it called both of them "자세" (2026-09-06 라운드 14, -1.2). Each
+      // sentence is bound to ITS OWN source now, so the next rewording of
+      // either cannot quietly adopt the other's numbers.
+      { key: 'n.vc3.sensor', field: 'strideCueSessionCap',
+        why: 'the index chip is the STRIDE cue — CoachDensityRules.strideCueSessionCap' },
+      { key: 'r38', field: 'formSustainSeconds',
+        why: 'the run.html SEGMENT 03 rule is FormDrift — gctDriftSustainedSeconds' },
+      { key: 'r38', field: 'formCadenceOnlySeconds',
+        why: 'FormDrift.evaluate cadence-only path — cadDropSustainedSeconds' },
+      { key: 'r38', field: 'formCadenceOnlyDropPct',
+        why: 'FormDrift.evaluate cadence-only path — cadDrop floor' },
     ];
     for (const b of BOUND) {
       const want = String(facts[b.field]);
@@ -704,6 +716,286 @@ console.log('\n[17] the icon files and manifest the pages link to');
     if (gone.length) fail(`${file}: no ${gone.join(' and no ')}`);
   }
   ok(`all ${ALL_DOCS.length} documents link both`);
+}
+
+// ---- 18. the free period the price copy promises == the StoreKit offer ----
+// index.html told all six markets that the YEARLY plan's first "period" is
+// free, next to a sentence saying the year is then charged in one go — which
+// reads as a free year. Runvis.storekit gives com.curara.runvis.coach.yearly
+// recurringSubscriptionPeriod P1Y and introductoryOffer.subscriptionPeriod
+// P1M: the free run is one month (2026-09-06 라운드 14, -2.5). The app says so
+// exactly, because PaywallView formats StoreKit's own offer period into the
+// sentence; the site cannot read StoreKit at runtime, so the number is written
+// into the copy and held here against the same file the app reads.
+//
+// Every sentence that mentions the free period has to carry the figure, in the
+// language it is written in. A vague "first period" passing this check is the
+// thing that went wrong, so the month word is required next to the digit.
+console.log('\n[18] the free-period copy == Runvis.storekit introductoryOffer');
+{
+  const facts = readFacts();
+  if (!facts) {
+    fail('tools/app-facts.json missing — run `node tools/app-facts.mjs`');
+  } else if (facts.trialMonths == null) {
+    fail('tools/app-facts.json has no `trialMonths` — re-run `node tools/app-facts.mjs`');
+  } else {
+    const n = facts.trialMonths;
+    // digit + that language's word for "month", with an optional space between.
+    const MONTH = { ko: '개월', en: 'months?', ja: 'か月', es: 'mes(?:es)?', zh: '個月', de: 'Monate?' };
+    const KEYS = ['pl.ribbon', 'n.price.sub', 'n.price.year', 'n.faq.a7'];
+    for (const key of KEYS) {
+      const bad = [];
+      for (const c of CODES) {
+        const v = String(dicts[c][key] ?? '');
+        if (!new RegExp(`(?<![\\d.,])${n}\\s*(?:${MONTH[c]})`).test(v)) bad.push(c);
+      }
+      if (bad.length) fail(`${key} does not state the free period as ${n} month(s) in ${bad.join(', ')} — Runvis.storekit introductoryOffer.subscriptionPeriod is P${n}M for every product, including the yearly one`);
+      else ok(`${key} states ${n} month(s) in all six`);
+    }
+  }
+}
+
+// ---- 19. the 5K demo's form line is a line FormDrift would actually say ---
+// run.html quoted "5 percent slower, ground contact 7 percent longer" one line
+// above its own rule, and FormDrift.evaluate rejects that combination: the
+// mean drift is 6.0 (needs > 6.5) and neither figure clears its signal floor,
+// so signals is 0 (2026-09-06 라운드 14, -1). On a page whose product IS
+// showing its reasoning, the example has to pass the rule printed under it.
+// The two numbers are declared here, run through the app's own arithmetic out
+// of tools/app-facts.json, and then required to appear in all six copies of
+// the line — so changing either the copy or the app's thresholds fails this.
+console.log('\n[19] the demo form line passes FormDrift.evaluate');
+{
+  const facts = readFacts();
+  const DEMO = { cadDropPct: 7, gctRisePct: 10 };     // what r37 quotes
+  if (!facts || facts.formWarnDriftPct == null) {
+    fail('tools/app-facts.json has no FormDrift constants — re-run `node tools/app-facts.mjs`');
+  } else {
+    const driftPct = (DEMO.cadDropPct + DEMO.gctRisePct) / 2;
+    const signals = (DEMO.cadDropPct > facts.formCadDropSignalPct ? 1 : 0)
+                  + (DEMO.gctRisePct > facts.formGctRiseSignalPct ? 1 : 0);
+    const warn = (driftPct > facts.formWarnDriftPct && signals >= 2)
+              || (driftPct > facts.formStrongDriftPct && signals >= 1);
+    if (!warn) fail(`the demo quotes ${DEMO.cadDropPct}% / ${DEMO.gctRisePct}%: drift ${driftPct}, signals ${signals} — FormDrift.evaluate would stay silent, so the app never says this line`);
+    else ok(`${DEMO.cadDropPct}% / ${DEMO.gctRisePct}% → drift ${driftPct} > ${facts.formWarnDriftPct} with ${signals} signals: FormDrift warns`);
+    const bad = CODES.filter(c => {
+      const v = String(dicts[c].r37 ?? '');
+      return !(new RegExp(`(?<![\\d.,])${DEMO.cadDropPct}(?![\\d.,])`).test(v)
+            && new RegExp(`(?<![\\d.,])${DEMO.gctRisePct}(?![\\d.,])`).test(v));
+    });
+    if (bad.length) fail(`r37 does not quote ${DEMO.cadDropPct} and ${DEMO.gctRisePct} in ${bad.join(', ')} — the demo line and the arithmetic above it must be the same two numbers`);
+    else ok(`r37 quotes ${DEMO.cadDropPct} and ${DEMO.gctRisePct} in all six`);
+  }
+}
+
+// ---- 20. what a crawler RENDERS == what the document DECLARES -------------
+// The one that cost the most in round 14 (-4). Every page's <head> boot script
+// resolves a language before the body is parsed, and it used to resolve a ROOT
+// url to navigator.language and then location.replace() to that market's
+// directory. Googlebot renders with an English-ish header and empty storage,
+// so rendering https://runvis.app/ moved the crawler to /en/ — while the same
+// document declared hreflang="ko" for "/", canonical "/", and sitemap.xml
+// listed "/" as the Korean URL. A page cannot both be the Korean original and
+// send everyone who renders it somewhere else.
+//
+// A comment saying "we fixed the redirect" is worth nothing here, because the
+// last three rounds each shipped a comment ahead of the code. So this RUNS the
+// boot script — the real one, cut out of the real file — against a crawler-like
+// environment, and compares what it did against what the same file declares.
+console.log('\n[20] the boot script renders each page in the language it declares');
+{
+  const vm = await import('node:vm');
+
+  /** Every attribute of one tag, as a map. */
+  const attrsOf = (tag) => {
+    const out = {};
+    for (const m of tag.matchAll(/([a-zA-Z-]+)\s*=\s*"([^"]*)"/g)) out[m[1]] = m[2];
+    return out;
+  };
+  /** A stand-in for the <head> elements the boot script reads and writes. */
+  function makeDom(head) {
+    const els = [];
+    for (const m of head.matchAll(/<(link|meta)\b([^>]*)>/g)) {
+      els.push({ tag: m[1], attrs: attrsOf(m[0]),
+        getAttribute(k) { return k in this.attrs ? this.attrs[k] : null; },
+        setAttribute(k, v) { this.attrs[k] = String(v); } });
+    }
+    return {
+      els,
+      query(sel) {
+        const m = /^([a-z]+)\[([a-zA-Z-]+)="([^"]*)"\]$/.exec(sel);
+        if (!m) return null;
+        return els.find(e => e.tag === m[1] && e.attrs[m[2]] === m[3]) || null;
+      },
+    };
+  }
+  /** The inline <head> scripts, in order, minus JSON-LD and external ones. */
+  function bootScripts(html) {
+    const head = html.slice(0, html.indexOf('</head>'));
+    const out = [];
+    for (const m of head.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)) {
+      if (/\bsrc=/.test(m[1]) || /application\/ld\+json/.test(m[1])) continue;
+      out.push(m[2]);
+    }
+    return { head, scripts: out };
+  }
+
+  /** Run a page's boot scripts and report what they did. */
+  function boot(html, env) {
+    const { head, scripts } = bootScripts(html);
+    const dom = makeDom(head);
+    const navigated = [];
+    const store = (backing) => backing === null
+      ? { getItem() { throw new Error('storage disabled'); }, setItem() { throw new Error('storage disabled'); } }
+      : { getItem: (k) => (k in backing ? backing[k] : null), setItem: (k, v) => { backing[k] = String(v); } };
+    const win = {
+      URL, URLSearchParams, console,
+      navigator: { language: env.language },
+      localStorage: store(env.local),
+      sessionStorage: store(env.session ?? {}),
+      location: {
+        hostname: 'runvis.app', protocol: 'https:', search: env.search || '', hash: '',
+        pathname: env.pathname,
+        replace(u) { navigated.push(u); throw { RUNVIS_NAVIGATED: true }; },
+      },
+      document: {
+        documentElement: { lang: /<html lang="([^"]*)"/.exec(html)?.[1] ?? '', className: '' },
+        title: /<title[^>]*>([\s\S]*?)<\/title>/.exec(html)?.[1] ?? '',
+        head: { appendChild() {} },
+        createElement: () => ({ setAttribute() {} }),
+        querySelector: (sel) => dom.query(sel),
+      },
+    };
+    win.window = win;
+    const ctx = vm.createContext(win);
+    for (const src of scripts) {
+      try { vm.runInContext(src, ctx, { timeout: 2000 }); }
+      catch (e) { if (e && e.RUNVIS_NAVIGATED) break; throw e; }
+    }
+    return {
+      navigated: navigated[0] ?? null,
+      lang: win.document.documentElement.lang,
+      canonical: dom.query('link[rel="canonical"]')?.getAttribute('href') ?? null,
+      ogUrl: dom.query('meta[property="og:url"]')?.getAttribute('content') ?? null,
+      resolved: win.RunvisLang ?? null,
+      dictFetched: win.RunvisDictLoaded ?? null,
+    };
+  }
+
+  const urlOf = (code, page) => 'https://runvis.app'
+    + (code === 'ko' ? '/' : `/${code}/`) + (page === 'index.html' ? '' : page);
+  const pathOf = (code, page) => (code === 'ko' ? '/' : `/${code}/`) + (page === 'index.html' ? '' : page);
+  const HTML_L = { ko: 'ko', en: 'en', ja: 'ja', es: 'es', zh: 'zh-Hant', de: 'de' };
+
+  // 20a. the crawler pass: an English-ish header, no storage at all. Every one
+  //      of the thirty pages must render itself and stay at its own address.
+  {
+    const bad = [];
+    for (const { file, code } of ALL) {
+      const page = file.split('/').pop();
+      const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+      const r = boot(html, { pathname: pathOf(code, page), language: 'en-US', local: null, session: null });
+      const want = urlOf(code, page);
+      if (r.navigated) bad.push(`${file}: navigated to ${r.navigated}`);
+      else if (r.lang !== HTML_L[code]) bad.push(`${file}: rendered <html lang="${r.lang}">, declares "${HTML_L[code]}"`);
+      else if (r.canonical !== want) bad.push(`${file}: canonical ${r.canonical} ≠ ${want}`);
+      else if (r.ogUrl !== want) bad.push(`${file}: og:url ${r.ogUrl} ≠ ${want}`);
+    }
+    if (bad.length) fail(`a crawler does not get the declared page:\n       ${bad.join('\n       ')}`);
+    else ok(`${ALL.length} pages: no navigation, <html lang> and canonical match the sitemap URL`);
+  }
+
+  // 20b. the same, with a German browser and empty (working) storage — the
+  //      exact visitor whose header used to move the Korean root to /de/.
+  {
+    const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+    const r = boot(html, { pathname: '/', language: 'de-DE', local: {}, session: {} });
+    if (r.navigated) fail(`a German browser is still redirected off the Korean root (to ${r.navigated}) — hreflang="ko" names "/" as the Korean page`);
+    else if (r.lang !== 'ko' || r.canonical !== 'https://runvis.app/') fail(`a German browser renders the root as <html lang="${r.lang}"> canonical ${r.canonical}`);
+    else ok('a German browser gets the Korean root, unmoved, canonical "/"');
+  }
+
+  // 20c. …and the offer still HAPPENS. Deleting the redirect outright would
+  //      put back round 9's "five market pages nobody is ever sent to", so the
+  //      one signal that is a CHOICE — a saved language — must still send.
+  {
+    const html = fs.readFileSync(path.join(ROOT, 'run.html'), 'utf8');
+    const r = boot(html, { pathname: '/run.html', language: 'en-US', local: { runvis_lang: 'de' }, session: {} });
+    if (r.navigated !== '/de/run.html') fail(`a reader whose saved choice is German is not sent to /de/run.html (got ${r.navigated}) — the market pages need a live route`);
+    else ok('a saved choice still routes: /run.html → /de/run.html');
+  }
+
+  // 20d. ?lang= on a root URL shows another market's page, so it has to name
+  //      that market's canonical rather than compete with it.
+  {
+    const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+    const r = boot(html, { pathname: '/', search: '?lang=ja', language: 'en-US', local: {}, session: {} });
+    if (r.navigated) fail(`?lang=ja navigated to ${r.navigated} — an explicit ?lang= renders in place`);
+    else if (r.canonical !== 'https://runvis.app/ja/' || r.ogUrl !== 'https://runvis.app/ja/')
+      fail(`/?lang=ja canonicalises to ${r.canonical} (og:url ${r.ogUrl}), not to https://runvis.app/ja/`);
+    else ok('/?lang=ja renders in place and canonicalises to /ja/');
+  }
+
+  // 20e. the dictionary is not downloaded to repaint a page with itself.
+  {
+    const bad = [];
+    for (const { file, code } of ALL) {
+      const page = file.split('/').pop();
+      const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+      const r = boot(html, { pathname: pathOf(code, page), language: 'en-US', local: null, session: null });
+      if (r.dictFetched) bad.push(`${file} fetched t-${r.dictFetched}.js`);
+    }
+    if (bad.length) fail(`a page in its own language still downloads a dictionary: ${bad.join(', ')}`);
+    else ok(`${ALL.length} pages fetch no dictionary when they are already in the reader's language`);
+  }
+}
+
+// ---- 21. every image the markup asks for exists, in all three formats ----
+// The eleven device captures are <picture> elements now: an AVIF, a lossless
+// WebP and the PNG (2026-09-06 라운드 14, -0.8 — the set was PNG-only, ~600 KB
+// a page). That turns one referenced file per capture into three, times six
+// languages, and the two new ones are named by <source srcset>, which fails
+// SILENTLY: a browser whose first matching source 404s does not fall through to
+// the next one, it shows nothing. So the references are resolved against disk.
+console.log('\n[21] every referenced image file exists');
+{
+  const seen = new Map();                       // path → the files that ask for it
+  for (const { file } of ALL_DOCS) {
+    const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+    // Markup (src, srcset), meta content (og:image, twitter:image) and the
+    // JSON-LD image/screenshot — every one of them is a URL a crawler or a
+    // browser will actually fetch, and every one of them has gone stale here
+    // at least once.
+    for (const m of html.matchAll(/(?:src|srcset|content)="(?:https:\/\/runvis\.app)?(\/?assets\/[^"\s?]+)/g)) {
+      const rel = m[1].replace(/^\//, '');
+      if (!seen.has(rel)) seen.set(rel, []);
+      seen.get(rel).push(file);
+    }
+    for (const m of html.matchAll(/"(?:image|screenshot)":"https:\/\/runvis\.app\/(assets\/[^"]+)"/g)) {
+      if (!seen.has(m[1])) seen.set(m[1], []);
+      seen.get(m[1]).push(file + ' (JSON-LD)');
+    }
+  }
+  const missing = [...seen.keys()].filter(p => !fs.existsSync(path.join(ROOT, p)));
+  if (missing.length) fail(`${missing.length} referenced image(s) do not exist — ${missing.slice(0, 6).join(', ')} (first asked for by ${seen.get(missing[0])[0]})`);
+  else ok(`${seen.size} distinct image paths across ${ALL_DOCS.length} documents, all present`);
+
+  // A <picture> whose sources are a different capture from its <img> would
+  // show one language and describe another; they have to be the same stem.
+  const bad = [];
+  for (const { file } of ALL_DOCS) {
+    const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+    for (const m of html.matchAll(/<picture>([\s\S]*?)<\/picture>/g)) {
+      const srcs = [...m[1].matchAll(/srcset="\/?assets\/([^"]+)\.(?:avif|webp)"/g)].map(x => x[1]);
+      const img = /src="\/?assets\/([^"]+)\.png"/.exec(m[1]);
+      if (!img) { bad.push(`${file}: a <picture> has no PNG <img>`); continue; }
+      const off = srcs.filter(x => x !== img[1]);
+      if (off.length) bad.push(`${file}: <picture> for ${img[1]} offers ${off.join(', ')}`);
+      if (srcs.length !== 2) bad.push(`${file}: <picture> for ${img[1]} has ${srcs.length} source(s), expected avif + webp`);
+    }
+  }
+  if (bad.length) fail(bad.join('\n       '));
+  else ok('every <picture> offers the AVIF and WebP of its own <img>');
 }
 
 console.log(failures ? `\nFAILED — ${failures} problem(s)` : '\nPASS — no drift');
