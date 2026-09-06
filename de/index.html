@@ -66,7 +66,8 @@
     line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:clip;word-break:keep-all}
   a{color:inherit;text-decoration:none}
   :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
-  img{max-width:100%;display:block}
+  img{max-width:100%;height:auto;display:block}
+  body{overflow-wrap:anywhere;word-break:normal;line-break:normal}
   .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
   .grad{background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
   .btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(120deg,var(--green),var(--cyan));
@@ -287,9 +288,9 @@
   .step p{color:var(--dim);font-size:14px}
 
   /* analysis tiles */
-  .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
-  @media(max-width:900px){.tiles{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:560px){.tiles{grid-template-columns:1fr}}
+  .tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:40px}
+  @media(max-width:900px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:560px){.tiles{grid-template-columns:minmax(0,1fr)}}
   .tile{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:22px}
   .tile h4{font-size:17px;font-weight:800;display:flex;align-items:center;flex-wrap:wrap;gap:4px}
   .tile p{color:var(--dim);font-size:14px;margin-top:8px}
