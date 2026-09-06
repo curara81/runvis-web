@@ -10,18 +10,23 @@
      substituted, so a crawler that runs no JavaScript still reads that market's
      page. The hreflang alternates below point at those directories, not at
      ?lang= variants of this one file.
-     The crawler-visible strings here stay BILINGUAL anyway: ?lang=en on the
-     root URL is still a valid address and still serves this file, and a share
-     of link previews will hit it. Korean leads because Korea is the launch
-     store; the second half is English because it is the only other language
-     all six locales can at least parse. -->
+     The crawler-visible strings here are now Korean ONLY. They used to be
+     bilingual — "…애플워치면 충분합니다 · Apple Watch running coach" — on the
+     argument that ?lang=en still resolves to this file. It does, but the cost
+     landed on both readers: a Korean saw a title that trailed off into English
+     and an English speaker saw one that began in a script they cannot read, so
+     neither got a finished sentence. This document is the Korean page and the
+     x-default; /en/, /ja/, /es/, /zh/ and /de/ are the pages for everyone else,
+     hreflang points at them, and og:locale:alternate lists them. A link
+     preview of the bare root is a preview of the Korean page, which is what
+     the root now is. -->
 <!-- Do not hand-edit the six *language* copies — regenerate them:
        node tools/prerender.mjs      (writes en/ ja/ es/ zh/ de/)
        node tools/check-content.mjs  (fails on FAQ JSON-LD ≠ dictionary etc.) -->
-<title data-i18n="meta.title">Runvis — 애플워치면 충분합니다 · Apple Watch running coach</title>
-<meta content="러닝 시계를 하나 더 살 필요 없어요. 애플워치가 읽은 수면·심박으로 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다. 계정도 서버도 없습니다. / Apple Watch running coach: it reads the sleep and heart rate your watch already recorded, picks today&#39;s run and talks you through it. Six languages, no account, no server." name="description" data-i18n-attr="content:meta.desc"/>
-<meta content="Runvis — 애플워치 러닝 코치 · Apple Watch running coach" property="og:title" data-i18n-attr="content:meta.ogtitle"/>
-<meta content="오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다. / Your Apple Watch picks today&#39;s run and talks you through it — six languages, no account, no server." property="og:description" data-i18n-attr="content:meta.ogdesc"/>
+<title data-i18n="meta.title">Runvis — 애플워치면 충분합니다. Apple Watch 러닝 코치</title>
+<meta content="러닝 시계를 하나 더 살 필요 없어요. 애플워치가 기록한 수면과 심박을 읽고 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다. 계정도 서버도 없습니다." name="description" data-i18n-attr="content:meta.desc"/>
+<meta content="Runvis — Apple Watch 러닝 코치" property="og:title" data-i18n-attr="content:meta.ogtitle"/>
+<meta content="러닝 시계를 하나 더 살 필요 없어요. 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다." property="og:description" data-i18n-attr="content:meta.ogdesc"/>
 <meta content="website" property="og:type"/>
 <meta content="https://runvis.app/" property="og:url"/>
 <meta content="Runvis" property="og:site_name"/>
@@ -493,10 +498,10 @@
      Currency is KRW because that is what the Korean App Store actually
      charges — the page's other figures are labelled approximations. -->
 <script id="appld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"ko","url":"https://runvis.app/","description":"러닝 시계를 하나 더 살 필요 없어요. 애플워치가 기록한 수면과 심박을 읽고 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다. 계정도 서버도 없습니다.","offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription"},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription"},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time"}]}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"ko","url":"https://runvis.app/","description":"러닝 시계를 하나 더 살 필요 없어요. 애플워치가 기록한 수면과 심박을 읽고 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다. 계정도 서버도 없습니다.","offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time","eligibleRegion":{"@type":"Country","name":"KR"}}]}
 </script>
 <script id="faqld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"워치가 없어도 되나요?","acceptedAnswer":{"@type":"Answer","text":"아이폰만으로 GPS 기록과 1km(마일 설정이면 1마일)마다 구간 페이스 안내가 됩니다. 구독 없이 아이폰만 들고 달릴 때 나오는 음성은 이 스플릿 하나뿐이고, 심박존·목표 페이스 안내는 구독하면 아이폰에서도 나옵니다. 자세 코칭·언덕 예고·경로 이탈 경보는 워치 러닝에만 있습니다."}},{"@type":"Question","name":"어떤 애플워치가 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"심박과 GPS가 있는 모델이면 됩니다. 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 촘촘해지고, 못 재는 모델에서는 케이던스 기준으로 동작합니다."}},{"@type":"Question","name":"해지하면 기록은 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 Apple 건강에 남아 그대로입니다. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 씁니다."}},{"@type":"Question","name":"데이터는 어디로 가나요?","acceptedAnswer":{"@type":"Answer","text":"계정도 서버도 없습니다. 날씨와 동네 이름, 코스 자동 생성을 조회할 때만 위치가 나갑니다. 이 밖에 App Store 결제 처리와 공개 코스·신발 목록 파일 내려받기가 있고, 신발 화면에서 사용자가 직접 누를 때만 외부 러닝화 검색 페이지가 열립니다. 운동과 건강 데이터는 업로드하지 않습니다."}},{"@type":"Question","name":"6개 언어 음성은 어디까지 되나요?","acceptedAnswer":{"@type":"Answer","text":"코치가 소리 내어 말하는 문장은 여섯 언어 모두에 번역돼 있고 빠진 문장은 하나도 없습니다 — 번역표끼리 키가 어긋나면 테스트가 그 자리에서 실패합니다. 숫자가 들어가는 안내도 언어마다 그 언어의 어순으로 말합니다(스플릿, 언덕 예고, 페이스, 심박존, 훈련 스텝 포함). 이 보증은 코치 음성에 한한 것입니다 — 앱 화면에 적히는 문구는 다른 번역표를 쓰며, 이 문장이 보증하는 범위가 아닙니다."}},{"@type":"Question","name":"기록이 하나도 없어도 쓸 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"됩니다. 워치에서 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 만들어집니다 — 이 측정은 워치 전용입니다. 아이폰만 있으면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기가 되고 플랜의 시작 지점은 최근 주간 거리로 잡습니다. 준비도는 워치를 차고 잔 밤이 기준선에 쌓여야 해서 보통 2주쯤, ACWR은 4주쯤 걸립니다. 퍼포먼스 컨디션은 최대심박을 설정한 뒤 심박이 기록된 10분 넘는 러닝을 같은 강도대(이지·중간·고강도)로 3회 채우면 나옵니다."}},{"@type":"Question","name":"첫 달 무료는 누가 받나요?","acceptedAnswer":{"@type":"Answer","text":"App Store가 이 구독의 체험을 아직 쓰지 않았다고 판단하는 계정만 받습니다. 전에 같은 구독을 썼거나 체험을 이미 소진한 계정은 첫 결제부터 바로 청구됩니다. 앱의 구매 화면이 지금 어느 쪽인지 사기 전에 항상 알려줍니다. 체험 기간은 월간·연간 모두 한 달입니다 — 연간을 골라도 무료 구간은 한 달이고, 그 뒤 1년 요금이 한 번에 청구됩니다."}},{"@type":"Question","name":"평생 이용권과 연간 중 뭐가 유리한가요?","acceptedAnswer":{"@type":"Answer","text":"평생 이용권은 자동 갱신이 없는 1회 구매입니다. 가격 카드의 계산대로 연간 기준 약 2.6년, 월간 기준 약 20개월이면 본전이니 그보다 오래 쓸 생각이면 평생 쪽이 쌉니다. Apple 가족 공유가 되는 요금제도 이것 하나뿐입니다 — 월간·연간 구독은 대상이 아닙니다."}},{"@type":"Question","name":"기기를 바꾸면 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"러닝 기록 자체는 Apple 건강에 저장돼 있어 새 기기의 건강 앱이 그대로 가져옵니다. 런비스 안에만 있던 값 — 프로필, 심박존, 신발 목록, 코치가 만든 기준선 — 은 설정 → 데이터 → '내 데이터 내보내기'로 파일 하나에 담아 빼내고, 새 기기에서 '백업에서 가져오기'로 되돌립니다. 파일은 사용자가 저장하는 곳에만 남고 런비스가 어디로도 보내지 않습니다. 구독은 App Store의 구매 복원으로 살립니다."}},{"@type":"Question","name":"워치 페이스 컴플리케이션이나 위젯이 있나요?","acceptedAnswer":{"@type":"Answer","text":"아직 없습니다. 워치 페이스 컴플리케이션, 아이폰 홈 화면 위젯, 라이브 액티비티는 이번 버전에 들어 있지 않습니다. 넣을 계획은 있지만 날짜는 아직 정해지지 않았습니다."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"워치가 없어도 되나요?","acceptedAnswer":{"@type":"Answer","text":"아이폰만으로 GPS 기록과 1km(마일 설정이면 1마일)마다 구간 페이스 안내가 됩니다. 구독 없이 아이폰만 들고 달릴 때 나오는 음성은 이 스플릿 하나뿐이고, 심박존·목표 페이스 안내는 구독하면 아이폰에서도 나옵니다. 자세 코칭·언덕 예고·경로 이탈 경보는 워치 러닝에만 있습니다."}},{"@type":"Question","name":"어떤 애플워치가 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"심박과 GPS가 있는 모델이면 됩니다. 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 촘촘해지고, 못 재는 모델에서는 케이던스 기준으로 동작합니다."}},{"@type":"Question","name":"해지하면 기록은 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 Apple 건강에 남아 그대로입니다. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 씁니다."}},{"@type":"Question","name":"데이터는 어디로 가나요?","acceptedAnswer":{"@type":"Answer","text":"계정도 서버도 없습니다. 날씨와 동네 이름, 코스 자동 생성을 조회할 때만 위치가 나갑니다. 이 밖에 App Store 결제 처리와 공개 코스·신발 목록 파일 내려받기가 있고, 신발 화면에서 사용자가 직접 누를 때만 외부 러닝화 검색 페이지가 열립니다. 운동과 건강 데이터는 업로드하지 않습니다."}},{"@type":"Question","name":"6개 언어 음성은 어디까지 되나요?","acceptedAnswer":{"@type":"Answer","text":"코치가 소리 내어 말하는 문장은 여섯 언어로 번역돼 있습니다. 테스트가 실제로 붙잡고 있는 범위는 이렇습니다 — 네 개의 번역표는 키 집합도 자리표시자 번호도 서로 정확히 일치해야 하고, 표에 적힌 모든 줄이 실제 조회 경로로 닿아야 하며, 아이폰 코치는 45분짜리 러닝을 여섯 언어 × 미터·마일 두 설정으로 초 단위 재생해 그 러닝에서 나온 큐가 전부 번역돼 있는지 검사합니다. 하나라도 어긋나면 그 자리에서 실패합니다. 숫자가 들어가는 안내도 언어마다 그 언어의 어순으로 말합니다(스플릿, 언덕 예고, 페이스, 심박존, 훈련 스텝 포함). 워치의 실시간 코칭 루프는 이 테스트 번들 밖에 있어서, 아직 표에 없는 문장이 남아 있을 수 있습니다 — 그럴 때는 한국어가 아니라 영어로 나옵니다. 그것도 테스트로 고정돼 있습니다. 이 보증은 코치 음성에 한한 것이고, 앱 화면에 적히는 문구는 다른 번역표를 씁니다."}},{"@type":"Question","name":"기록이 하나도 없어도 쓸 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"됩니다. 워치에서 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 만들어집니다 — 이 측정은 워치 전용입니다. 아이폰만 있으면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기가 되고 플랜의 시작 지점은 최근 주간 거리로 잡습니다. 준비도는 워치를 차고 잔 밤이 기준선에 쌓여야 해서 보통 2주쯤, ACWR은 4주쯤 걸립니다. 퍼포먼스 컨디션은 최대심박을 설정한 뒤 심박이 기록된 10분 넘는 러닝을 같은 강도대(이지·중간·고강도)로 3회 채우면 나옵니다."}},{"@type":"Question","name":"첫 달 무료는 누가 받나요?","acceptedAnswer":{"@type":"Answer","text":"App Store가 이 구독의 체험을 아직 쓰지 않았다고 판단하는 계정만 받습니다. 전에 같은 구독을 썼거나 체험을 이미 소진한 계정은 첫 결제부터 바로 청구됩니다. 앱의 구매 화면이 지금 어느 쪽인지 사기 전에 항상 알려줍니다. 체험 기간은 월간·연간 모두 한 달입니다 — 연간을 골라도 무료 구간은 한 달이고, 그 뒤 1년 요금이 한 번에 청구됩니다."}},{"@type":"Question","name":"평생 이용권과 연간 중 뭐가 유리한가요?","acceptedAnswer":{"@type":"Answer","text":"평생 이용권은 자동 갱신이 없는 1회 구매입니다. 가격 카드의 계산대로 연간 기준 약 2.6년, 월간 기준 약 20개월이면 본전이니 그보다 오래 쓸 생각이면 평생 쪽이 쌉니다. Apple 가족 공유가 되는 요금제도 이것 하나뿐입니다 — 월간·연간 구독은 대상이 아닙니다."}},{"@type":"Question","name":"기기를 바꾸면 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"러닝 기록 자체는 Apple 건강에 저장돼 있어 새 기기의 건강 앱이 그대로 가져옵니다. 런비스 안에만 있던 값 — 프로필, 심박존, 신발 목록, 코치가 만든 기준선 — 은 설정 → 데이터 → '내 데이터 내보내기'로 파일 하나에 담아 빼내고, 새 기기에서 '백업에서 가져오기'로 되돌립니다. 파일은 사용자가 저장하는 곳에만 남고 런비스가 어디로도 보내지 않습니다. 구독은 App Store의 구매 복원으로 살립니다."}},{"@type":"Question","name":"워치 페이스 컴플리케이션이나 위젯이 있나요?","acceptedAnswer":{"@type":"Answer","text":"아직 없습니다. 워치 페이스 컴플리케이션, 아이폰 홈 화면 위젯, 라이브 액티비티는 이번 버전에 들어 있지 않습니다. 넣을 계획은 있지만 날짜는 아직 정해지지 않았습니다."}}]}
 </script>
 </head>
 <body>
@@ -516,7 +521,7 @@
 </div>
 <a class="btn nav-cta" data-i18n="n.nav.cta" href="#beta">베타 신청</a>
 <div class="langsel" id="langsel">
-  <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="표시 언어">🌐 <span id="langlabel">한국어</span> ▾</button>
+  <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="표시 언어">🌐 <span id="langlabel" data-i18n="a11y.langname">한국어</span> ▾</button>
   <ul id="langmenu" role="menu" aria-labelledby="langbtn" tabindex="-1"></ul>
 </div>
 </div>
@@ -616,18 +621,20 @@
                (40 explanations; 39 distinct titles because "평균" and
                 "평균 페이스" carry the same title with different bodies).
      s2v 270+ = `Cue( ko:` construction sites across the shipping sources,
-               tests excluded: 287 repo-wide on 2026-09-06, of which 268 are in
-               the eight files that carry most of them (CoachEngine 188,
-               WorkoutManager 45, WarmupView 15, PhoneCoachPlan 10, CooldownView
-               6, MetricsEngine 2, CoachLanguage 1, WorkoutStartView 1 —
-               IntervalWorkout.swift no longer exists). Cue is "one spoken line"
-               by its own definition, so this counts lines, not triggers. The
-               page states a floor, so adding a cue can never make it false.
-     s3v 502 = unique `func test…` names across the 34 files in Tests/. -->
+               tests excluded: 287 repo-wide on 2026-09-06 (CoachEngine 188,
+               WorkoutManager 45, WarmupView 15, PhoneCoachPlan 10,
+               IntervalWorkout 9, CustomWorkoutsView 8, CooldownView 6,
+               RouteSuggestions 2, MetricsEngine 2, WorkoutStartView 1,
+               CoachLanguage 1). Cue is "one spoken line" by its own
+               definition, so this counts lines, not triggers. The page states
+               a floor, so adding a cue can never make it false.
+     s3v 506 = unique `func test…` names across the 34 files in Tests/.
+     All three are re-measured by `node tools/app-facts.mjs`; check-content [9]
+     compares the dictionaries against what that wrote. -->
 <div class="mini reveal" style="max-width:760px;margin-top:26px">
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s1">뜻까지 설명하는 항목</small><b data-i18n="n.why.s1v">40개</b><em class="st-good" data-i18n="n.why.s1n">기기 안에서</em></div>
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s2">코치가 준비한 문장</small><b data-i18n="n.why.s2v">270개 이상</b><em class="st-good" data-i18n="n.why.s2n">6개 언어 전부</em></div>
-<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">자동 테스트</small><b data-i18n="n.why.s3v">502개</b><em class="st-good" data-i18n="n.why.s3n">빌드마다 전부</em></div>
+<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">자동 테스트</small><b data-i18n="n.why.s3v">506개</b><em class="st-good" data-i18n="n.why.s3n">빌드마다 전부</em></div>
 </div>
 <p class="honest reveal" data-i18n="n.why.phone">워치가 아직 없어도 됩니다. 아이폰만으로 GPS 기록과 1km(마일 설정이면 1마일)마다 구간 페이스 안내가 됩니다 — 구독 없이 아이폰만으로 달릴 때 나오는 음성은 이 스플릿 하나입니다. 자세 코칭은 손목 센서가 필요해서 워치에서만 됩니다.</p>
 </div>
@@ -663,7 +670,15 @@
 </div>
 <!-- The full disclosure sits under the FIRST screenshot section rather than
      under the hero: it belongs next to the captures, not across the opening. -->
-<p class="sc-note reveal" data-i18n="sc.note">화면 사진은 모두 실제 앱 캡처입니다 — 언어를 바꾸면 아이폰 화면 5장이 그 언어로 촬영한 캡처로 바뀝니다. 애플워치 화면 6장은 아직 한국어판뿐입니다.</p>
+<p class="sc-note reveal" data-i18n="sc.note">이 페이지의 아이폰 화면 5장은 앱을 그 언어로 띄워 찍은 실제 캡처입니다. 애플워치 화면 6장은 아직 한국어판뿐입니다 — 워치 시뮬레이터가 합성 탭을 받지 않아 캡처를 자동화하지 못했습니다. 코치 음성과 이 페이지의 문장은 이미 여섯 언어로 나옵니다.</p>
+<!-- Which BUILD the captures came from, not just which language. The 30 iPhone
+     PNGs in assets/ are all stamped 2026-09-06 07:30; RunvisDesignSystem.swift
+     (FactorRow's status label) gained .lineLimit(1).minimumScaleFactor(0.8)
+     after that, so the German and Spanish captures still show Achtung/Atención
+     broken over two lines and the shipping app does not. Re-shooting is the
+     real fix; until then the page says so rather than letting a reader take a
+     fixed bug for current behaviour. -->
+<p class="sc-note reveal" data-i18n="sc.build">아이폰 캡처 30장은 2026년 9월 6일 빌드로 찍었습니다. 그 뒤 상태 라벨이 한 줄에 들어가도록 고쳐서, 독일어·스페인어 캡처에서만 '주의' 라벨(Achtung · Atención)이 두 줄로 접혀 보입니다 — 지금 앱에서는 한 줄입니다. 다시 촬영해서 교체할 자리입니다.</p>
 </div>
 </section>
 
@@ -690,14 +705,24 @@
 <tr><th data-i18n="n.live.q.th1">세션</th><th data-i18n="n.live.q.th2">30분당 그 밖의 안내 (스플릿·언덕·일시정지 제외)</th></tr>
 <tr><td data-i18n="n.live.q.r1a">이지런 · 롱런 · 달리기·걷기 반복</td><td data-i18n="n.live.q.r1b">8회까지</td></tr>
 <tr><td data-i18n="n.live.q.r2a">템포 · 레이스 · 자유 러닝</td><td data-i18n="n.live.q.r2b">6회까지</td></tr>
-<tr><td data-i18n="n.live.q.r3a">인터벌</td><td data-i18n="n.live.q.r3b">상한 없음 — 켜 둔 항목이 얼마나 자주 말할지를 정합니다. 대신 인터벌에서는 스텝·심박존·페이스만 나가고 스플릿·언덕·자세·격려는 쉽니다</td></tr>
+<tr><td data-i18n="n.live.q.r3a">인터벌</td><td data-i18n="n.live.q.r3b">상한 없음 — 켜 둔 항목이 얼마나 자주 말할지를 정합니다. 대신 인터벌에서는 스텝·심박존·페이스·자동 일시정지 안내만 나가고 스플릿·언덕·자세·격려는 쉽니다</td></tr>
 </table></div>
+<!-- The four notes below used to sit open under the table: three rows of
+     summary followed by four paragraphs of exception, in the middle of a
+     landing page and directly above the price section. Everything in them is
+     true and worth keeping — a reader who wants to know exactly when the coach
+     is allowed to talk should be able to find it — but it is reference
+     material, so it folds the way the price gate does (:838). A closed
+     <details> is still in the markup for a crawler and still Ctrl-F-able. -->
+<details class="gate">
+<summary data-i18n="n.live.q.moreh">간격과 예외 규칙 전부 보기</summary>
 <ul>
 <li data-i18n="n.live.q.n1">최소 간격은 45초입니다. 안전 안내, 훈련 스텝 같은 핵심 안내, 스플릿은 이 간격을 기다리지 않고, 아래 항목도 예외입니다.</li>
 <li data-i18n="n.live.q.n2">스플릿, 언덕 예고, 자동 일시정지·재개 안내는 각자 자기 규칙이 있어 30분 상한을 쓰지 않습니다. 걷기·달리기 전환 안내와 호흡 구령도 그 순간을 놓치면 뜻이 없어져 45초 규칙 밖입니다. 지난번과 같은 코스를 알아봤을 때의 첫 인사도 45초 규칙을 거치지 않습니다.</li>
 <li data-i18n="n.live.q.n3">아이폰만 들고 달릴 때는 규칙이 다릅니다 — 코치 항목이 더 적어서 45초 대신 20초 간격, 페이스는 3분·심박존은 5분 쿨다운으로 말하는 빈도를 잡고 30분 상한은 두지 않습니다.</li>
 <li data-i18n="n.live.q.n4">페이스, 심박존, 자세, 언덕, 격려는 하나씩 끄고 켤 수 있습니다. 음악은 안내하는 동안만 살짝 줄어듭니다.</li>
 </ul>
+</details>
 </div></div>
 <h3 class="steps-h reveal"><span data-i18n="n.steps.h">출발 버튼은 한 번이면 됩니다</span><span class="pill free" data-i18n="n.pill.free">무료</span></h3>
 <p class="honest reveal" style="margin-top:8px" data-i18n="n.steps.note">화면과 타이머, 자동 시작 감지는 무료입니다. 코치가 음성으로 함께 진행하는 것이 구독이에요.</p>
@@ -800,6 +825,12 @@
 <li data-i18n="n.price.f4">워치로 달릴 때 — 스플릿 음성(km 또는 마일 — 기기 단위 설정을 따릅니다), 심박존 안내, 목표 페이스 안내, 코스 언덕 예고, 경로 이탈 경보. 아이폰만 들고 달리면 무료 음성은 스플릿뿐입니다.</li>
 <li data-i18n="n.price.f5">GPX 내보내기, AI 분석용 리포트</li>
 </ul>
+<!-- The free card had no action at all, so a reader weighing "is the free tier
+     enough for me?" had nowhere to go and the coach card was the only thing on
+     this screen you could click. The demo is the honest answer to that
+     question: it plays the free cues and the paid ones and labels which is
+     which. Ghost button, so it does not compete with the beta CTA below. -->
+<a class="btn ghost" href="run.html" style="margin-top:18px" data-i18n="n.price.freecta">무료로 어디까지 되는지 5km 데모에서 보기</a>
 </div>
 <div class="plan pro tilt reveal" data-tilt="5">
 <span class="ribbon" data-i18n="pl.ribbon">체험 대상 계정이면 첫 달 무료</span>
@@ -853,7 +884,7 @@
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q2">어떤 애플워치가 필요한가요?</h4><p data-i18n="n.faq.a2">심박과 GPS가 있는 모델이면 됩니다. 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 촘촘해지고, 못 재는 모델에서는 케이던스 기준으로 동작합니다.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q3">해지하면 기록은 어떻게 되나요?</h4><p data-i18n="n.faq.a3">기록은 Apple 건강에 남아 그대로입니다. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 씁니다.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q4">데이터는 어디로 가나요?</h4><p data-i18n="n.faq.a4">계정도 서버도 없습니다. 날씨와 동네 이름, 코스 자동 생성을 조회할 때만 위치가 나갑니다. 이 밖에 App Store 결제 처리와 공개 코스·신발 목록 파일 내려받기가 있고, 신발 화면에서 사용자가 직접 누를 때만 외부 러닝화 검색 페이지가 열립니다. 운동과 건강 데이터는 업로드하지 않습니다.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q5">6개 언어 음성은 어디까지 되나요?</h4><p data-i18n="n.faq.a5">코치가 소리 내어 말하는 문장은 여섯 언어 모두에 번역돼 있고 빠진 문장은 하나도 없습니다 — 번역표끼리 키가 어긋나면 테스트가 그 자리에서 실패합니다. 숫자가 들어가는 안내도 언어마다 그 언어의 어순으로 말합니다(스플릿, 언덕 예고, 페이스, 심박존, 훈련 스텝 포함). 이 보증은 코치 음성에 한한 것입니다 — 앱 화면에 적히는 문구는 다른 번역표를 쓰며, 이 문장이 보증하는 범위가 아닙니다.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q5">6개 언어 음성은 어디까지 되나요?</h4><p data-i18n="n.faq.a5">코치가 소리 내어 말하는 문장은 여섯 언어로 번역돼 있습니다. 테스트가 실제로 붙잡고 있는 범위는 이렇습니다 — 네 개의 번역표는 키 집합도 자리표시자 번호도 서로 정확히 일치해야 하고, 표에 적힌 모든 줄이 실제 조회 경로로 닿아야 하며, 아이폰 코치는 45분짜리 러닝을 여섯 언어 × 미터·마일 두 설정으로 초 단위 재생해 그 러닝에서 나온 큐가 전부 번역돼 있는지 검사합니다. 하나라도 어긋나면 그 자리에서 실패합니다. 숫자가 들어가는 안내도 언어마다 그 언어의 어순으로 말합니다(스플릿, 언덕 예고, 페이스, 심박존, 훈련 스텝 포함). 워치의 실시간 코칭 루프는 이 테스트 번들 밖에 있어서, 아직 표에 없는 문장이 남아 있을 수 있습니다 — 그럴 때는 한국어가 아니라 영어로 나옵니다. 그것도 테스트로 고정돼 있습니다. 이 보증은 코치 음성에 한한 것이고, 앱 화면에 적히는 문구는 다른 번역표를 씁니다.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q6">기록이 하나도 없어도 쓸 수 있나요?</h4><p data-i18n="n.faq.a6">됩니다. 워치에서 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 만들어집니다 — 이 측정은 워치 전용입니다. 아이폰만 있으면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기가 되고 플랜의 시작 지점은 최근 주간 거리로 잡습니다. 준비도는 워치를 차고 잔 밤이 기준선에 쌓여야 해서 보통 2주쯤, ACWR은 4주쯤 걸립니다. 퍼포먼스 컨디션은 최대심박을 설정한 뒤 심박이 기록된 10분 넘는 러닝을 같은 강도대(이지·중간·고강도)로 3회 채우면 나옵니다.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q7">첫 달 무료는 누가 받나요?</h4><p data-i18n="n.faq.a7">App Store가 이 구독의 체험을 아직 쓰지 않았다고 판단하는 계정만 받습니다. 전에 같은 구독을 썼거나 체험을 이미 소진한 계정은 첫 결제부터 바로 청구됩니다. 앱의 구매 화면이 지금 어느 쪽인지 사기 전에 항상 알려줍니다. 체험 기간은 월간·연간 모두 한 달입니다 — 연간을 골라도 무료 구간은 한 달이고, 그 뒤 1년 요금이 한 번에 청구됩니다.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q8">평생 이용권과 연간 중 뭐가 유리한가요?</h4><p data-i18n="n.faq.a8">평생 이용권은 자동 갱신이 없는 1회 구매입니다. 가격 카드의 계산대로 연간 기준 약 2.6년, 월간 기준 약 20개월이면 본전이니 그보다 오래 쓸 생각이면 평생 쪽이 쌉니다. Apple 가족 공유가 되는 요금제도 이것 하나뿐입니다 — 월간·연간 구독은 대상이 아닙니다.</p></div>
@@ -876,17 +907,21 @@
      reviews, no press, no ratings — an unshipped app cannot have them. Rather
      than invent a number, every line below is counted straight out of the app
      repository and can be re-counted by anyone with a checkout:
-       502   unique `func test…` names across the 34 files in Tests/
-       2,077 keys, identical in all six Shared/Resources/*.lproj/Localizable.strings
+       506   unique `func test…` names across the 34 files in Tests/
+       2,118 distinct keys, identical in all six Shared/Resources/*.lproj/
+             Localizable.strings (2,130 key=value lines; 8 keys are written more
+             than once, so the count of DISTINCT strings is 2,118)
        396   entries in each of the four CoachTranslations+{ja,es,zh,de}.swift tables
        40    `return Entry(` sites in Shared/Services/MetricGlossary.swift
-     Re-measure these before changing them; a stale count here is worse than
-     no count at all. -->
+     Do not hand-edit these. `node tools/app-facts.mjs` re-measures them out of
+     the app checkout and writes tools/app-facts.json; check-content.mjs [9]
+     then fails if the six dictionaries and that file disagree. This block has
+     now gone stale three rounds running because it was maintained by hand. -->
 <div class="proof reveal">
 <h3 data-i18n="n.trust.h">후기는 아직 없습니다 — 대신 지금 확인되는 것</h3>
 <ul>
-<li data-i18n="n.trust.l1">자동 테스트 502개 — 코치가 말하는 문장, 무료·유료 경계, 플랜 계산을 빌드할 때마다 검사합니다.</li>
-<li data-i18n="n.trust.l2">화면 문구 2,077개가 여섯 언어 표에서 키까지 똑같고, 코치 음성 번역표 넷은 각각 396개입니다. 하나라도 어긋나면 테스트가 그 자리에서 실패합니다.</li>
+<li data-i18n="n.trust.l1">자동 테스트 506개 — 코치가 말하는 문장, 무료·유료 경계, 플랜 계산을 빌드할 때마다 검사합니다.</li>
+<li data-i18n="n.trust.l2">화면 문구 2,118개가 여섯 언어 표에서 키까지 똑같고, 코치 음성 번역표 넷은 각각 396개입니다. 하나라도 어긋나면 테스트가 그 자리에서 실패합니다.</li>
 <li data-i18n="n.trust.l3">지표 설명 40개가 앱 안에 들어 있습니다 — 모르는 숫자를 누르면 뜻과 계산 근거, 내 평소 범위가 나옵니다.</li>
 </ul>
 <p data-i18n="n.trust.p">혼자 만드는 앱입니다. 별점도, 언론 언급도 아직 없습니다 — 출시 전이니까요. 그래서 지어낼 수 있는 숫자 대신, 앱 저장소에서 그대로 세어 나오는 것만 적었습니다. 더 궁금한 게 있으면 help@runvis.app 으로 바로 물어보세요. 답은 제가 씁니다.</p>
@@ -915,6 +950,11 @@
 <div>· <b data-i18n="t162">보관 기간</b><span data-i18n="cs.retain">: 베타 종료 또는 수신 동의 철회 시까지</span></div>
 <label><input form="betaForm" name="privacy_consent" type="checkbox" value="yes" required=""/> <span data-i18n="n.beta.required">(필수) 베타 초대장 발송을 위한 이메일 수집·이용에 동의합니다.</span></label>
 <label><input form="betaForm" name="marketing_consent" type="checkbox" value="yes"/> <span data-i18n="cs.marketing">(선택) 출시 소식·업데이트 등 마케팅 정보 수신에 동의합니다.</span></label>
+<!-- run.html has carried this line next to its identical consent block all
+     along; index.html only linked the policy much further down, inside
+     n.beta.now. The document to read before ticking a box belongs beside the
+     box. Key already exists in all six dictionaries. -->
+<div style="margin-top:8px">· <a href="privacy.html" style="color:var(--green)" data-i18n="n.priv.link">개인정보처리방침</a></div>
 </div>
 <div class="nextsteps">
 <!-- A second thing to do that is not "wait for an e-mail". These are the same
@@ -922,8 +962,13 @@
      https://runvis.app/course-catalog.json), so nothing new is exposed — the
      visitor just gets to keep them. ODbL requires the attribution line below. -->
 <h4 data-i18n="n.beta.gpxh">지금 바로 받아 갈 수 있는 것</h4>
-<p data-i18n="n.beta.gpx">앱이 쓰는 서울 코스 13개의 GPX 파일입니다. 신청하지 않아도, 앱을 깔지 않아도 지금 받아서 다른 시계나 지도 앱에 넣을 수 있습니다.</p>
-<p class="gpxlist"><a href="gpx/seoul-namsan-bukcheuk.gpx" download>남산 북측순환로 <span style="color:var(--dim2)">6.7km</span></a> · <a href="gpx/seoul-namsan-summit.gpx" download>남산 정상 업힐 <span style="color:var(--dim2)">4.0km</span></a> · <a href="gpx/seoul-bukak-skyway.gpx" download>북악스카이웨이 <span style="color:var(--dim2)">5.2km</span></a> · <a href="gpx/seoul-ansan-jarak.gpx" download>안산 자락길 <span style="color:var(--dim2)">6.1km</span></a> · <a href="gpx/seoul-inwangsan.gpx" download>인왕산 자락길 <span style="color:var(--dim2)">2.9km</span></a> · <a href="gpx/seoul-naksan.gpx" download>낙산공원 한양도성길 <span style="color:var(--dim2)">2.1km</span></a> · <a href="gpx/seoul-eungbong.gpx" download>응봉산 계단 <span style="color:var(--dim2)">1.6km</span></a> · <a href="gpx/seoul-dorimcheon.gpx" download>도림천 <span style="color:var(--dim2)">14.5km</span></a> · <a href="gpx/seoul-banpo-hangang.gpx" download>반포 한강공원 <span style="color:var(--dim2)">5.0km</span></a> · <a href="gpx/seoul-tancheon.gpx" download>탄천 <span style="color:var(--dim2)">7.1km</span></a> · <a href="gpx/seoul-yangjaecheon.gpx" download>양재천 <span style="color:var(--dim2)">3.9km</span></a> · <a href="gpx/seoul-cheonggyecheon.gpx" download>청계천 <span style="color:var(--dim2)">5.5km</span></a> · <a href="gpx/seoul-seoulsup.gpx" download>서울숲 순환 <span style="color:var(--dim2)">2.0km</span></a></p>
+<p data-i18n="n.beta.gpx">앱이 쓰는 서울 코스 13개의 GPX 파일입니다. 신청하지 않아도, 앱을 깔지 않아도 지금 받아서 다른 시계나 지도 앱에 넣을 수 있습니다. 거리는 여섯 언어 모두 km로 적었습니다 — GPX 파일 자체는 단위가 없고, 마일 표시는 받는 쪽 기기가 합니다.</p>
+<!-- The course NAMES carry their own keys. This list is the only immediate
+     value on the page for a visitor who leaves no e-mail, and until now the
+     thirteen names were hard-coded Korean in every language — the file names
+     are romanised but the link text was not. The distance stays outside the
+     binding so one number is not repeated in six dictionaries. -->
+<p class="gpxlist"><a href="gpx/seoul-namsan-bukcheuk.gpx" download><span data-i18n="gpx.namsan.north">남산 북측순환로</span> <span style="color:var(--dim2)">6.7km</span></a> · <a href="gpx/seoul-namsan-summit.gpx" download><span data-i18n="gpx.namsan.summit">남산 정상 업힐</span> <span style="color:var(--dim2)">4.0km</span></a> · <a href="gpx/seoul-bukak-skyway.gpx" download><span data-i18n="gpx.bukak">북악스카이웨이</span> <span style="color:var(--dim2)">5.2km</span></a> · <a href="gpx/seoul-ansan-jarak.gpx" download><span data-i18n="gpx.ansan">안산 자락길</span> <span style="color:var(--dim2)">6.1km</span></a> · <a href="gpx/seoul-inwangsan.gpx" download><span data-i18n="gpx.inwangsan">인왕산 자락길</span> <span style="color:var(--dim2)">2.9km</span></a> · <a href="gpx/seoul-naksan.gpx" download><span data-i18n="gpx.naksan">낙산공원 한양도성길</span> <span style="color:var(--dim2)">2.1km</span></a> · <a href="gpx/seoul-eungbong.gpx" download><span data-i18n="gpx.eungbong">응봉산 계단</span> <span style="color:var(--dim2)">1.6km</span></a> · <a href="gpx/seoul-dorimcheon.gpx" download><span data-i18n="gpx.dorimcheon">도림천</span> <span style="color:var(--dim2)">14.5km</span></a> · <a href="gpx/seoul-banpo-hangang.gpx" download><span data-i18n="gpx.banpo">반포 한강공원</span> <span style="color:var(--dim2)">5.0km</span></a> · <a href="gpx/seoul-tancheon.gpx" download><span data-i18n="gpx.tancheon">탄천</span> <span style="color:var(--dim2)">7.1km</span></a> · <a href="gpx/seoul-yangjaecheon.gpx" download><span data-i18n="gpx.yangjaecheon">양재천</span> <span style="color:var(--dim2)">3.9km</span></a> · <a href="gpx/seoul-cheonggyecheon.gpx" download><span data-i18n="gpx.cheonggyecheon">청계천</span> <span style="color:var(--dim2)">5.5km</span></a> · <a href="gpx/seoul-seoulsup.gpx" download><span data-i18n="gpx.seoulsup">서울숲 순환</span> <span style="color:var(--dim2)">2.0km</span></a></p>
 <p class="gpxattr" data-i18n="n.beta.gpxattr">경로는 OpenStreetMap 도로·산책로 데이터, 고도는 Copernicus DEM / NASA SRTMGL1(공개 도메인) 기준입니다. © OpenStreetMap contributors · ODbL 1.0.</p>
 <h4 class="sep" data-i18n="n.beta.stepsh">신청하면 이렇게 진행됩니다</h4>
 <ol>
@@ -1280,7 +1325,13 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
   try {
     const res = await fetch(betaForm.action, { method: 'POST', body: new FormData(betaForm), headers: { Accept: 'application/json' } });
     if (res.ok) {
-      show(window.RunvisT('form.ok', '신청 완료! 베타가 열리면 신청 순서대로 초대장을 보내드릴게요. 기다리는 동안 5km 데모를 달려 보세요. 🏃'), true);
+      // The fallback is the Korean dictionary value, character for character:
+      // it is what shows if t-ko.js has not landed yet, and the shorter text
+      // that used to sit here dropped the deletion-request line, which is part
+      // of the privacy notice. check-content.mjs [10] compares every such
+      // fallback on a page against that page's dictionary, and prerender.mjs
+      // rewrites them for the five language copies.
+      show(window.RunvisT('form.ok', '등록됐습니다. 여는 날짜가 정해지면 이 주소로 알려 드리고, 베타가 열리면 신청 순서대로 초대장 한 통이 갑니다. 삭제를 원하시면 언제든 help@runvis.app 으로 알려 주세요. 기다리는 동안 5km 데모를 달려 보세요. 🏃'), true);
       betaForm.reset();
       // The signup used to end in an inbox. Hand the reader the one thing they
       // can actually do next while they wait.

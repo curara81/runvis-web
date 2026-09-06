@@ -20,7 +20,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {
-  ROOT, CODES, PAGES, HTML_LANG, OG_LOCALE, SHOTS,
+  ROOT, CODES, PAGES, HTML_LANG, HREFLANG, OG_LOCALE, SHOTS,
   loadDicts, attrEscape, findI18nElements, findI18nAttrs, spliceAll,
   faqLd, appLd, readLd,
 } from './i18n-lib.mjs';
@@ -45,7 +45,13 @@ function replaceBlock(html, startMark, endMark, text) {
 
 /** The "this file goes out to all six languages" notes are true of the Korean
  *  root pages and false of these copies — every string below is already in one
- *  language. Replacing them keeps the next reader from acting on a stale note. */
+ *  language. Replacing them keeps the next reader from acting on a stale note.
+ *
+ *  The markers below are literal slices of the root pages' comments. If you
+ *  reword one of those comments, reword the marker with it — replaceBlock is a
+ *  no-op when it cannot find the pair, and the copies would silently keep a
+ *  note that contradicts them. `node tools/check-content.mjs` catches the
+ *  drift, because [5] re-renders and compares. */
 function retireBilingualNotes(html, code) {
   const note = `<!-- Prerendered ${code} copy. Every crawler-visible string on this page is
      already ${code}: title, description, og:*, canonical, the JSON-LD below and
@@ -53,9 +59,9 @@ function retireBilingualNotes(html, code) {
      search engine or link preview that runs no JavaScript still reads this
      market's page. i18n.js still runs and still lets a reader switch
      languages; it just has nothing left to correct on first paint. -->`;
-  html = replaceBlock(html, '<!-- THIS file is the Korean document', 'locales can at least parse. -->', note);
-  html = replaceBlock(html, '<!-- Bilingual on purpose — see the same note in index.html.', 'title and description went out to all six languages. -->', note);
-  html = replaceBlock(html, '<!-- Bilingual like index.html: one file answers every ?lang=', 'It had no og tags at all before. -->', note);
+  html = replaceBlock(html, '<!-- THIS file is the Korean document', 'the root now is. -->', note);
+  html = replaceBlock(html, '<!-- Korean only — see the same note in index.html.', 'pages for the other markets. -->', note);
+  html = replaceBlock(html, '<!-- Korean only, like index.html.', 'markets and hreflang points at them. -->', note);
   html = replaceBlock(html, '<!-- The share card carries no sentence in any language', 'went out for all six languages. -->',
     `<!-- The share card carries no sentence in any language (mark, watch, pulse,
      domain), so one image serves every market. -->`);
@@ -142,6 +148,21 @@ function render(page, code) {
     html = replaceAll(html, `/assets/${base}.png`, `/assets/${base}.${code}.png`);
   }
 
+  // ---- 7b. the page scripts' own inline fallbacks -------------------------
+  // The form results and the demo's runtime strings are read as
+  // RunvisT(key, fallback) from the page's own script, which the [data-i18n]
+  // walk above deliberately skips. The fallback is what shows if the
+  // dictionary has not landed, and in these copies leaving it Korean means a
+  // German visitor could get a Korean form message. Swap the ones whose two
+  // arguments are both plain single-quoted literals; anything passing a
+  // variable is left alone.
+  html = html.replace(/RunvisT\(\s*'([^']+)'\s*,\s*'((?:[^'\\]|\\.)*)'\s*\)/g, (whole, key) => {
+    const v = dict[key];
+    if (v == null) return whole;                     // not ours to translate
+    if (v.includes('</')) throw new Error(`${code}/${page}: ${key} would close the <script>`);
+    return `RunvisT('${key}', '${v.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}')`;
+  });
+
   // ---- 8. structured data -------------------------------------------------
   const faq = readLd(html, 'faqld');
   if (faq) html = html.slice(0, faq.start) + '\n' + JSON.stringify(faqLd(dict, code)) + '\n' + html.slice(faq.end);
@@ -174,3 +195,37 @@ for (const code of OUT_CODES) {
   console.log(`  ${code}/  ${PAGES.join(' ')}`);
 }
 console.log(`prerender: ${written} files written for ${OUT_CODES.length} languages`);
+
+// ---- sitemap.xml ---------------------------------------------------------
+// 24 URLs (4 root + 4 × 5 languages) and no way for a crawler to enumerate
+// them: GitHub Pages serves no index, and hreflang only tells a crawler about
+// alternates of a page it has already found. Every entry carries the same
+// seven alternates the page's own <head> declares, which is the form Google
+// documents for a multilingual site — declaring them in the sitemap means the
+// set is stated once per page rather than once per (page × language) fetch.
+{
+  const urls = [];
+  for (const page of PAGES) urls.push(pageUrl('ko', page));
+  for (const code of OUT_CODES) for (const page of PAGES) urls.push(pageUrl(code, page));
+
+  const alternatesFor = (page) => [
+    ['x-default', pageUrl('ko', page)],
+    ...CODES.map(c => [HREFLANG[c], pageUrl(c, page)]),
+  ];
+  const lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+    '<!-- Generated by tools/prerender.mjs — do not hand-edit. -->',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'];
+  for (const page of PAGES) {
+    for (const code of ['ko', ...OUT_CODES]) {
+      lines.push('  <url>');
+      lines.push(`    <loc>${pageUrl(code, page)}</loc>`);
+      for (const [tag, href] of alternatesFor(page)) {
+        lines.push(`    <xhtml:link rel="alternate" hreflang="${tag}" href="${href}"/>`);
+      }
+      lines.push('  </url>');
+    }
+  }
+  lines.push('</urlset>', '');
+  fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), lines.join('\n'));
+  console.log(`prerender: sitemap.xml with ${urls.length} URLs`);
+}

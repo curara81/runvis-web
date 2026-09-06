@@ -489,10 +489,10 @@
      Currency is KRW because that is what the Korean App Store actually
      charges — the page's other figures are labelled approximations. -->
 <script id="appld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"en","url":"https://runvis.app/","description":"You don't need a second running watch. Runvis reads the sleep and heart rate your Apple Watch recorded, picks today's workout, and talks you through the run. No account, no server.","offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription"},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription"},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time"}]}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"en","url":"https://runvis.app/","description":"You don't need a second running watch. Runvis reads the sleep and heart rate your Apple Watch recorded, picks today's workout, and talks you through the run. No account, no server.","offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time","eligibleRegion":{"@type":"Country","name":"KR"}}]}
 </script>
 <script id="faqld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"en","mainEntity":[{"@type":"Question","name":"Do I need a watch?","acceptedAnswer":{"@type":"Answer","text":"The iPhone alone records GPS and calls your split pace every kilometre — every mile if that is your unit setting. Without a subscription that split is the only thing the phone says; heart-rate zone and target-pace calls arrive on the phone once you subscribe. Form coaching, hill warnings and off-route alerts exist only on a watch run."}},{"@type":"Question","name":"Which Apple Watch do I need?","acceptedAnswer":{"@type":"Answer","text":"Any model with heart rate and GPS. On newer models that measure ground contact time and vertical oscillation the form coaching is finer; on the others it works from cadence."}},{"@type":"Question","name":"What happens to my data if I cancel?","acceptedAnswer":{"@type":"Answer","text":"Your runs stay in Apple Health, untouched. After cancelling you keep recording, plan viewing and the workout detail report for free."}},{"@type":"Question","name":"Where does my data go?","acceptedAnswer":{"@type":"Answer","text":"There is no account and no server. Location leaves only for weather, the neighbourhood name and auto-generated routes. Beyond that there are App Store payments, the download of the public course and shoe list files, and an external shoe-search page that opens only when you tap it yourself on the shoes screen. Workout and health data are never uploaded."}},{"@type":"Question","name":"How complete are the six languages?","acceptedAnswer":{"@type":"Answer","text":"Every sentence the coach speaks aloud is translated into all six languages with none missing — if the tables ever disagree on a key, the test fails on the spot. Cues with numbers in them are spoken in each language's own word order too (splits, hill warnings, pace, heart-rate zone and training steps included). This guarantee covers the coach's voice only — the text drawn on the app's screens uses a different table and is not what this sentence promises."}},{"@type":"Question","name":"Can I start with no history at all?","acceptedAnswer":{"@type":"Answer","text":"Yes. One 12-minute test run on the watch produces an estimated 5K and 10K time and your first plan the same day — that test is watch-only. With the iPhone alone you still get GPS recording, split pace cues and the training plan from day one, and the plan starts from your recent weekly distance instead. Readiness needs nights slept with the watch before its baseline exists, so it usually appears around two weeks in, and ACWR around four. Performance condition appears once you have set a maximum heart rate and logged three runs longer than ten minutes, with heart rate, in the same intensity band (easy, moderate or hard)."}},{"@type":"Question","name":"Who gets the free first month?","acceptedAnswer":{"@type":"Answer","text":"Only accounts the App Store still counts as eligible for this subscription’s introductory offer. If you have subscribed before or already used the trial, you are charged from the first payment. The app’s purchase screen always tells you which case you are in before you buy. The trial is one month on both plans — picking yearly still gives you one free month, and the full year is then charged at once."}},{"@type":"Question","name":"Lifetime or yearly — which is better?","acceptedAnswer":{"@type":"Answer","text":"The lifetime pass is a one-time purchase with no auto-renewal. By the maths on the price card it breaks even at about 2.6 years against yearly, or about 20 months against monthly, so if you expect to use Runvis longer than that, lifetime is the cheaper side. It is also the only plan Apple Family Sharing covers — the monthly and yearly subscriptions are not eligible."}},{"@type":"Question","name":"What happens when I change device?","acceptedAnswer":{"@type":"Answer","text":"The runs themselves live in Apple Health, so the Health app on the new device brings them across. What lived only inside Runvis — your profile, heart-rate zones, shoe list and the baselines the coach built — goes out as a single file from Settings → Data → 'Export my data', and comes back on the new device with 'Import from backup'. The file stays only where you put it; Runvis sends it nowhere. The subscription comes back through the App Store's restore purchases."}},{"@type":"Question","name":"Is there a watch face complication or a widget?","acceptedAnswer":{"@type":"Answer","text":"Not yet. Watch face complications, an iPhone home screen widget and Live Activities are not in this build. They are planned, but there is no date."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"en","mainEntity":[{"@type":"Question","name":"Do I need a watch?","acceptedAnswer":{"@type":"Answer","text":"The iPhone alone records GPS and calls your split pace every kilometre — every mile if that is your unit setting. Without a subscription that split is the only thing the phone says; heart-rate zone and target-pace calls arrive on the phone once you subscribe. Form coaching, hill warnings and off-route alerts exist only on a watch run."}},{"@type":"Question","name":"Which Apple Watch do I need?","acceptedAnswer":{"@type":"Answer","text":"Any model with heart rate and GPS. On newer models that measure ground contact time and vertical oscillation the form coaching is finer; on the others it works from cadence."}},{"@type":"Question","name":"What happens to my data if I cancel?","acceptedAnswer":{"@type":"Answer","text":"Your runs stay in Apple Health, untouched. After cancelling you keep recording, plan viewing and the workout detail report for free."}},{"@type":"Question","name":"Where does my data go?","acceptedAnswer":{"@type":"Answer","text":"There is no account and no server. Location leaves only for weather, the neighbourhood name and auto-generated routes. Beyond that there are App Store payments, the download of the public course and shoe list files, and — on the Korean App Store only, for now — an external shoe-search page that opens when you tap it yourself on the shoes screen. Workout and health data are never uploaded."}},{"@type":"Question","name":"How complete are the six languages?","acceptedAnswer":{"@type":"Answer","text":"Every line the coach speaks aloud is translated into six languages. Here is exactly what the tests hold onto — the four translation tables must agree key for key and placeholder for placeholder, every line written in a table must be reachable through the lookup the app actually uses, and the iPhone coach replays a 45-minute run second by second in six languages × metric and imperial to check that every cue that run produces is translated. One mismatch and it fails on the spot. Cues with numbers in them are spoken in each language's own word order too (splits, hill warnings, pace, heart-rate zone and training steps included). The watch's live coaching loop sits outside that test bundle, so a line that has not reached the tables yet can still exist — and when it does you hear English, never Korean. That part is pinned by a test as well. This covers the coach's voice only; the text drawn on the app's screens uses a different table."}},{"@type":"Question","name":"Can I start with no history at all?","acceptedAnswer":{"@type":"Answer","text":"Yes. One 12-minute test run on the watch produces an estimated 5K and 10K time and your first plan the same day — that test is watch-only. With the iPhone alone you still get GPS recording, split pace cues and the training plan from day one, and the plan starts from your recent weekly distance instead. Readiness needs nights slept with the watch before its baseline exists, so it usually appears around two weeks in, and ACWR around four. Performance condition appears once you have set a maximum heart rate and logged three runs longer than ten minutes, with heart rate, in the same intensity band (easy, moderate or hard)."}},{"@type":"Question","name":"Who gets the free first month?","acceptedAnswer":{"@type":"Answer","text":"Only accounts the App Store still counts as eligible for this subscription’s introductory offer. If you have subscribed before or already used the trial, you are charged from the first payment. The app’s purchase screen always tells you which case you are in before you buy. The trial is one month on both plans — picking yearly still gives you one free month, and the full year is then charged at once."}},{"@type":"Question","name":"Lifetime or yearly — which is better?","acceptedAnswer":{"@type":"Answer","text":"The lifetime pass is a one-time purchase with no auto-renewal. By the maths on the price card it breaks even at about 2.6 years against yearly, or about 20 months against monthly, so if you expect to use Runvis longer than that, lifetime is the cheaper side. It is also the only plan Apple Family Sharing covers — the monthly and yearly subscriptions are not eligible."}},{"@type":"Question","name":"What happens when I change device?","acceptedAnswer":{"@type":"Answer","text":"The runs themselves live in Apple Health, so the Health app on the new device brings them across. What lived only inside Runvis — your profile, heart-rate zones, shoe list and the baselines the coach built — goes out as a single file from Settings → Data → 'Export my data', and comes back on the new device with 'Import from backup'. The file stays only where you put it; Runvis sends it nowhere. The subscription comes back through the App Store's restore purchases."}},{"@type":"Question","name":"Is there a watch face complication or a widget?","acceptedAnswer":{"@type":"Answer","text":"Not yet. Watch face complications, an iPhone home screen widget and Live Activities are not in this build. They are planned, but there is no date."}}]}
 </script>
 </head>
 <body>
@@ -512,7 +512,7 @@
 </div>
 <a class="btn nav-cta" data-i18n="n.nav.cta" href="#beta">Join the beta</a>
 <div class="langsel" id="langsel">
-  <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="Display language">🌐 <span id="langlabel">한국어</span> ▾</button>
+  <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="Display language">🌐 <span id="langlabel" data-i18n="a11y.langname">English</span> ▾</button>
   <ul id="langmenu" role="menu" aria-labelledby="langbtn" tabindex="-1"></ul>
 </div>
 </div>
@@ -542,7 +542,7 @@
 <script>(function(){var h=window.RunvisCritical; if(!h) return;
   for(var k in h){ var e=document.querySelector('[data-i18n="'+k+'"]'); if(e) e.innerHTML=h[k]; }
 })();</script>
-<p class="note" data-i18n="n.hero.note">Recording is free. The coach is ₩1,900 a month (≈ $1.40), and accounts the App Store judges eligible get their first period free — the app tells you which one you are before you buy.</p>
+<p class="note" data-i18n="n.hero.note">Recording is free. The coach is ₩1,900 a month on the Korean App Store — elsewhere your own store's price applies — and accounts the App Store judges eligible get their first period free; the app tells you which one you are before you buy.</p>
 <div class="trust">
 <div class="tbadge"><b>100%</b><span data-i18n="n.hero.b1">Computed on device</span></div>
 <div class="tbadge"><b data-i18n="n.hero.b3n">6 languages</b><span data-i18n="n.hero.b3">Voice coaching</span></div>
@@ -612,18 +612,20 @@
                (40 explanations; 39 distinct titles because "평균" and
                 "평균 페이스" carry the same title with different bodies).
      s2v 270+ = `Cue( ko:` construction sites across the shipping sources,
-               tests excluded: 287 repo-wide on 2026-09-06, of which 268 are in
-               the eight files that carry most of them (CoachEngine 188,
-               WorkoutManager 45, WarmupView 15, PhoneCoachPlan 10, CooldownView
-               6, MetricsEngine 2, CoachLanguage 1, WorkoutStartView 1 —
-               IntervalWorkout.swift no longer exists). Cue is "one spoken line"
-               by its own definition, so this counts lines, not triggers. The
-               page states a floor, so adding a cue can never make it false.
-     s3v 502 = unique `func test…` names across the 34 files in Tests/. -->
+               tests excluded: 287 repo-wide on 2026-09-06 (CoachEngine 188,
+               WorkoutManager 45, WarmupView 15, PhoneCoachPlan 10,
+               IntervalWorkout 9, CustomWorkoutsView 8, CooldownView 6,
+               RouteSuggestions 2, MetricsEngine 2, WorkoutStartView 1,
+               CoachLanguage 1). Cue is "one spoken line" by its own
+               definition, so this counts lines, not triggers. The page states
+               a floor, so adding a cue can never make it false.
+     s3v 506 = unique `func test…` names across the 34 files in Tests/.
+     All three are re-measured by `node tools/app-facts.mjs`; check-content [9]
+     compares the dictionaries against what that wrote. -->
 <div class="mini reveal" style="max-width:760px;margin-top:26px">
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s1">Entries with a plain-language note</small><b data-i18n="n.why.s1v">40</b><em class="st-good" data-i18n="n.why.s1n">on device</em></div>
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s2">Coach lines written</small><b data-i18n="n.why.s2v">270+</b><em class="st-good" data-i18n="n.why.s2n">all six languages</em></div>
-<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">Automated tests</small><b data-i18n="n.why.s3v">502</b><em class="st-good" data-i18n="n.why.s3n">every build</em></div>
+<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">Automated tests</small><b data-i18n="n.why.s3v">506</b><em class="st-good" data-i18n="n.why.s3n">every build</em></div>
 </div>
 <p class="honest reveal" data-i18n="n.why.phone">You don't need a watch yet. The iPhone alone records GPS and calls your split pace every kilometre — every mile if that is your unit setting — and without a subscription that split is the only thing it says. Form coaching needs the wrist sensors, so it stays on the watch.</p>
 </div>
@@ -659,7 +661,15 @@
 </div>
 <!-- The full disclosure sits under the FIRST screenshot section rather than
      under the hero: it belongs next to the captures, not across the opening. -->
-<p class="sc-note reveal" data-i18n="sc.note">The five iPhone screenshots on this page were captured with the app running in your language. The six Apple Watch screenshots are still from the Korean build and are being re-shot. Voice coaching and this page already run in all six languages.</p>
+<p class="sc-note reveal" data-i18n="sc.note">The five iPhone screenshots on this page were captured with the app running in your language. The six Apple Watch screenshots are still from the Korean build — the watch simulator does not accept synthetic taps, so those captures could not be automated. Voice coaching and this page already run in all six languages.</p>
+<!-- Which BUILD the captures came from, not just which language. The 30 iPhone
+     PNGs in assets/ are all stamped 2026-09-06 07:30; RunvisDesignSystem.swift
+     (FactorRow's status label) gained .lineLimit(1).minimumScaleFactor(0.8)
+     after that, so the German and Spanish captures still show Achtung/Atención
+     broken over two lines and the shipping app does not. Re-shooting is the
+     real fix; until then the page says so rather than letting a reader take a
+     fixed bug for current behaviour. -->
+<p class="sc-note reveal" data-i18n="sc.build">The 30 iPhone captures come from a build made on 6 September 2026. The status label was changed to fit on one line after that, so in the German and Spanish captures the caution label (Achtung · Atención) still wraps onto two lines — it does not in the current build. These are due to be re-shot.</p>
 </div>
 </section>
 
@@ -686,14 +696,24 @@
 <tr><th data-i18n="n.live.q.th1">Session</th><th data-i18n="n.live.q.th2">Other cues per 30 min (excl. splits, hills, pauses)</th></tr>
 <tr><td data-i18n="n.live.q.r1a">Easy · long · run-walk</td><td data-i18n="n.live.q.r1b">up to 8</td></tr>
 <tr><td data-i18n="n.live.q.r2a">Tempo · race · free run</td><td data-i18n="n.live.q.r2b">up to 6</td></tr>
-<tr><td data-i18n="n.live.q.r3a">Intervals</td><td data-i18n="n.live.q.r3b">no cap — what you leave switched on decides how often it speaks. In exchange, intervals carry only the step, heart-rate zone and pace cues: splits, hills, form and encouragement stay quiet</td></tr>
+<tr><td data-i18n="n.live.q.r3a">Intervals</td><td data-i18n="n.live.q.r3b">no cap — what you leave switched on decides how often it speaks. In exchange, intervals carry only the step, heart-rate zone, pace and auto-pause cues: splits, hills, form and encouragement stay quiet</td></tr>
 </table></div>
+<!-- The four notes below used to sit open under the table: three rows of
+     summary followed by four paragraphs of exception, in the middle of a
+     landing page and directly above the price section. Everything in them is
+     true and worth keeping — a reader who wants to know exactly when the coach
+     is allowed to talk should be able to find it — but it is reference
+     material, so it folds the way the price gate does (:838). A closed
+     <details> is still in the markup for a crawler and still Ctrl-F-able. -->
+<details class="gate">
+<summary data-i18n="n.live.q.moreh">All the spacing and exception rules</summary>
 <ul>
 <li data-i18n="n.live.q.n1">The floor is 45 seconds between cues. Safety calls, core calls such as workout steps, and splits do not wait for it — and neither do the items below.</li>
 <li data-i18n="n.live.q.n2">Splits, hill warnings and the auto-pause and resume calls each follow a rule of their own and never draw on the 30-minute cap. The walk-to-run change and the breathing count are outside the 45-second rule too — late, they mean nothing. So is the greeting when it recognises a route you have run before.</li>
 <li data-i18n="n.live.q.n3">Running with the iPhone alone the rules differ — there are fewer cues, so how often it speaks comes from a 20-second gap instead of 45, a 3-minute cooldown on pace and a 5-minute one on heart-rate zone, with no 30-minute cap at all.</li>
 <li data-i18n="n.live.q.n4">Pace, heart-rate zone, form, hills and encouragement each turn on and off on their own. Music only dips while the coach is speaking.</li>
 </ul>
+</details>
 </div></div>
 <h3 class="steps-h reveal"><span data-i18n="n.steps.h">You press start once</span><span class="pill free" data-i18n="n.pill.free">Free</span></h3>
 <p class="honest reveal" style="margin-top:8px" data-i18n="n.steps.note">The screen, the timer and the auto start are free. The coach walking you through it by voice is the subscription.</p>
@@ -775,7 +795,7 @@
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.priv.eb">Privacy</div>
 <div class="big reveal" data-i18n="n.priv.big">No account, no server.<br/>The coach still talks in a tunnel.</div>
-<p class="reveal"><span data-i18n="n.priv.p">Recording and analysis all happen on the watch and the iPhone. Weather look-ups send coordinates rounded to about a kilometre; the neighbourhood name and auto-generated routes send your current coordinates to Apple services, only at that moment. Beyond those there are App Store payments, the download of the public course and shoe list files, and an external running-shoe search page that opens only when you tap it yourself on the shoe screen of the watch or the iPhone. Every one of those exceptions is written out in the privacy policy. Your workout and health data are never uploaded.</span> <a href="privacy.html" data-i18n="n.priv.link">Privacy Policy</a></p>
+<p class="reveal"><span data-i18n="n.priv.p">Recording and analysis all happen on the watch and the iPhone. Weather look-ups send coordinates rounded to about a kilometre; the neighbourhood name and auto-generated routes send your current coordinates to Apple services, only at that moment. Beyond those there are App Store payments, the download of the public course and shoe list files, and — on the Korean App Store only, for now — an external running-shoe search page that opens when you tap it yourself on the shoe screen. Every one of those exceptions is written out in the privacy policy. Your workout and health data are never uploaded.</span> <a href="privacy.html" data-i18n="n.priv.link">Privacy Policy</a></p>
 </div>
 </section>
 
@@ -783,8 +803,8 @@
 <section id="price">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.price.eb">Pricing</div>
-<h2 class="reveal" data-i18n="n.price.h2">Recording is free,<br/>the coach is ₩1,900 a month</h2>
-<p class="sub reveal" data-i18n="n.price.sub">Recording, viewing plans, and reports are free. The coach speaking to you and the deeper analysis are part of the subscription, and accounts the App Store judges eligible get their first period free.</p>
+<h2 class="reveal" data-i18n="n.price.h2">Recording is free —<br/>you only pay for the coach</h2>
+<p class="sub reveal" data-i18n="n.price.sub">Recording, viewing plans, and reports are free. The coach speaking to you and the deeper analysis are the subscription. Runvis launches on the Korean App Store first, where the coach is ₩1,900 a month; in every other region your own App Store's price applies, and the exact figure for your store goes on this page the day it is set. Accounts the App Store judges eligible get their first period free.</p>
 <div class="price">
 <div class="plan tilt reveal" data-tilt="5">
 <div class="name" data-i18n="n.price.freeName">Basic</div>
@@ -796,6 +816,12 @@
 <li data-i18n="n.price.f4">Running with the watch — split calls every kilometre or mile (whichever your unit setting uses), heart-rate zone calls, target-pace calls, hill warnings on a course, off-route alerts. Running with the iPhone alone, splits are the only free voice.</li>
 <li data-i18n="n.price.f5">GPX export, AI analysis report</li>
 </ul>
+<!-- The free card had no action at all, so a reader weighing "is the free tier
+     enough for me?" had nowhere to go and the coach card was the only thing on
+     this screen you could click. The demo is the honest answer to that
+     question: it plays the free cues and the paid ones and labels which is
+     which. Ghost button, so it does not compete with the beta CTA below. -->
+<a class="btn ghost" href="run.html" style="margin-top:18px" data-i18n="n.price.freecta">See how far the free tier goes in the 5 km demo</a>
 </div>
 <div class="plan pro tilt reveal" data-tilt="5">
 <span class="ribbon" data-i18n="pl.ribbon">Eligible accounts: first month free</span>
@@ -806,9 +832,9 @@
      one link away in FAQ q7 — the same answer the hero badge points at. -->
 <a class="terms-link" href="#faq" data-i18n="pl.terms">Who is eligible?</a>
 <div class="amt"><span data-i18n="pr.month">₩1,900</span><small data-i18n="t144">/ mo</small></div>
-<div class="amt-approx" data-i18n="pr.approx">≈ $1.40 a month. That is the Korean App Store price converted at the 5 September 2026 rate — you are charged your own App Store's local price.</div>
-<div class="amt-year" data-i18n="n.price.year">Yearly is <b>₩15,000</b> (≈ $11) — about ₩1,250 a month, roughly 34% less. Your local App Store price applies. On an eligible account the yearly plan is free for the first <b>month</b> too, then the full year is charged at once.</div>
-<div class="amt-year" data-i18n="n.price.life">Instead of subscribing, <b>a lifetime pass for ₩39,000</b> (≈ $29) — a launch price that <b>is due to rise three months after launch</b>; the rise applies only to purchases made after it. That is roughly 2.6 years of the ₩15,000 yearly, or about 20 months of the ₩1,900 monthly. It is the only plan Apple Family Sharing covers.</div>
+<div class="amt-approx" data-i18n="pr.approx">That is the Korean App Store price — Korea is the launch store. Anywhere else you are charged your own App Store's local price. We are not printing a converted figure here: Apple charges by price point, not by exchange rate, so a conversion would be wrong on the day it matters. The real numbers go on this page once the other stores are set up.</div>
+<div class="amt-year" data-i18n="n.price.year">Yearly is <b>₩15,000</b> — about ₩1,250 a month, roughly 34% less than paying monthly. That ratio holds whatever your store charges; the amounts shown here are the Korean ones. On an eligible account the yearly plan is free for the first <b>month</b> too, then the full year is charged at once.</div>
+<div class="amt-year" data-i18n="n.price.life">Instead of subscribing, <b>a lifetime pass for ₩39,000</b> — a launch price that <b>is due to rise three months after launch</b>; the rise applies only to purchases made after it. That is roughly 2.6 years of the yearly plan, or about 20 months of the monthly one — a ratio that does not change with your store's currency. It is the only plan Apple Family Sharing covers.</div>
 <ul>
 <li data-i18n="n.price.p1">The coach’s voice while you run: form, how to run the hills, recovery, encouragement</li>
 <li data-i18n="n.price.p2">Plan execution: every segment driven, then a score against the plan</li>
@@ -848,8 +874,8 @@
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q1">Do I need a watch?</h4><p data-i18n="n.faq.a1">The iPhone alone records GPS and calls your split pace every kilometre — every mile if that is your unit setting. Without a subscription that split is the only thing the phone says; heart-rate zone and target-pace calls arrive on the phone once you subscribe. Form coaching, hill warnings and off-route alerts exist only on a watch run.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q2">Which Apple Watch do I need?</h4><p data-i18n="n.faq.a2">Any model with heart rate and GPS. On newer models that measure ground contact time and vertical oscillation the form coaching is finer; on the others it works from cadence.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q3">What happens to my data if I cancel?</h4><p data-i18n="n.faq.a3">Your runs stay in Apple Health, untouched. After cancelling you keep recording, plan viewing and the workout detail report for free.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q4">Where does my data go?</h4><p data-i18n="n.faq.a4">There is no account and no server. Location leaves only for weather, the neighbourhood name and auto-generated routes. Beyond that there are App Store payments, the download of the public course and shoe list files, and an external shoe-search page that opens only when you tap it yourself on the shoes screen. Workout and health data are never uploaded.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q5">How complete are the six languages?</h4><p data-i18n="n.faq.a5">Every sentence the coach speaks aloud is translated into all six languages with none missing — if the tables ever disagree on a key, the test fails on the spot. Cues with numbers in them are spoken in each language's own word order too (splits, hill warnings, pace, heart-rate zone and training steps included). This guarantee covers the coach's voice only — the text drawn on the app's screens uses a different table and is not what this sentence promises.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q4">Where does my data go?</h4><p data-i18n="n.faq.a4">There is no account and no server. Location leaves only for weather, the neighbourhood name and auto-generated routes. Beyond that there are App Store payments, the download of the public course and shoe list files, and — on the Korean App Store only, for now — an external shoe-search page that opens when you tap it yourself on the shoes screen. Workout and health data are never uploaded.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q5">How complete are the six languages?</h4><p data-i18n="n.faq.a5">Every line the coach speaks aloud is translated into six languages. Here is exactly what the tests hold onto — the four translation tables must agree key for key and placeholder for placeholder, every line written in a table must be reachable through the lookup the app actually uses, and the iPhone coach replays a 45-minute run second by second in six languages × metric and imperial to check that every cue that run produces is translated. One mismatch and it fails on the spot. Cues with numbers in them are spoken in each language's own word order too (splits, hill warnings, pace, heart-rate zone and training steps included). The watch's live coaching loop sits outside that test bundle, so a line that has not reached the tables yet can still exist — and when it does you hear English, never Korean. That part is pinned by a test as well. This covers the coach's voice only; the text drawn on the app's screens uses a different table.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q6">Can I start with no history at all?</h4><p data-i18n="n.faq.a6">Yes. One 12-minute test run on the watch produces an estimated 5K and 10K time and your first plan the same day — that test is watch-only. With the iPhone alone you still get GPS recording, split pace cues and the training plan from day one, and the plan starts from your recent weekly distance instead. Readiness needs nights slept with the watch before its baseline exists, so it usually appears around two weeks in, and ACWR around four. Performance condition appears once you have set a maximum heart rate and logged three runs longer than ten minutes, with heart rate, in the same intensity band (easy, moderate or hard).</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q7">Who gets the free first month?</h4><p data-i18n="n.faq.a7">Only accounts the App Store still counts as eligible for this subscription’s introductory offer. If you have subscribed before or already used the trial, you are charged from the first payment. The app’s purchase screen always tells you which case you are in before you buy. The trial is one month on both plans — picking yearly still gives you one free month, and the full year is then charged at once.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h4 data-i18n="n.faq.q8">Lifetime or yearly — which is better?</h4><p data-i18n="n.faq.a8">The lifetime pass is a one-time purchase with no auto-renewal. By the maths on the price card it breaks even at about 2.6 years against yearly, or about 20 months against monthly, so if you expect to use Runvis longer than that, lifetime is the cheaper side. It is also the only plan Apple Family Sharing covers — the monthly and yearly subscriptions are not eligible.</p></div>
@@ -872,17 +898,21 @@
      reviews, no press, no ratings — an unshipped app cannot have them. Rather
      than invent a number, every line below is counted straight out of the app
      repository and can be re-counted by anyone with a checkout:
-       502   unique `func test…` names across the 34 files in Tests/
-       2,077 keys, identical in all six Shared/Resources/*.lproj/Localizable.strings
+       506   unique `func test…` names across the 34 files in Tests/
+       2,118 distinct keys, identical in all six Shared/Resources/*.lproj/
+             Localizable.strings (2,130 key=value lines; 8 keys are written more
+             than once, so the count of DISTINCT strings is 2,118)
        396   entries in each of the four CoachTranslations+{ja,es,zh,de}.swift tables
        40    `return Entry(` sites in Shared/Services/MetricGlossary.swift
-     Re-measure these before changing them; a stale count here is worse than
-     no count at all. -->
+     Do not hand-edit these. `node tools/app-facts.mjs` re-measures them out of
+     the app checkout and writes tools/app-facts.json; check-content.mjs [9]
+     then fails if the six dictionaries and that file disagree. This block has
+     now gone stale three rounds running because it was maintained by hand. -->
 <div class="proof reveal">
 <h3 data-i18n="n.trust.h">No reviews yet — here is what can be checked today</h3>
 <ul>
-<li data-i18n="n.trust.l1">502 automated tests — they check the coach's spoken lines, the free/paid boundary and the plan maths on every build.</li>
-<li data-i18n="n.trust.l2">2,077 interface strings line up key for key across all six language tables, and the four coach-voice tables hold 396 lines each. One mismatch and the test fails on the spot.</li>
+<li data-i18n="n.trust.l1">506 automated tests — they check the coach's spoken lines, the free/paid boundary and the plan maths on every build.</li>
+<li data-i18n="n.trust.l2">2,118 interface strings line up key for key across all six language tables, and the four coach-voice tables hold 396 lines each. One mismatch and the test fails on the spot.</li>
 <li data-i18n="n.trust.l3">40 metric explanations ship inside the app — tap a number you do not know and you get its meaning, how it was calculated and your own usual range.</li>
 </ul>
 <p data-i18n="n.trust.p">One person builds this app. There are no ratings and no press yet — it has not shipped. So instead of numbers that could be invented, these are counted straight out of the app's repository. Anything else you want to know, write to help@runvis.app; the reply comes from me.</p>
@@ -911,6 +941,11 @@
 <div>· <b data-i18n="t162">Retention period</b><span data-i18n="cs.retain">: until the beta ends or you withdraw consent</span></div>
 <label><input form="betaForm" name="privacy_consent" type="checkbox" value="yes" required=""/> <span data-i18n="n.beta.required">(Required) I agree to my email being collected and used to send the beta invite.</span></label>
 <label><input form="betaForm" name="marketing_consent" type="checkbox" value="yes"/> <span data-i18n="cs.marketing">(Optional) I agree to receive launch news and product updates.</span></label>
+<!-- run.html has carried this line next to its identical consent block all
+     along; index.html only linked the policy much further down, inside
+     n.beta.now. The document to read before ticking a box belongs beside the
+     box. Key already exists in all six dictionaries. -->
+<div style="margin-top:8px">· <a href="privacy.html" style="color:var(--green)" data-i18n="n.priv.link">Privacy Policy</a></div>
 </div>
 <div class="nextsteps">
 <!-- A second thing to do that is not "wait for an e-mail". These are the same
@@ -918,8 +953,13 @@
      https://runvis.app/course-catalog.json), so nothing new is exposed — the
      visitor just gets to keep them. ODbL requires the attribution line below. -->
 <h4 data-i18n="n.beta.gpxh">What you can take away right now</h4>
-<p data-i18n="n.beta.gpx">The GPX files for the 13 Seoul courses the app uses. No signup, no install — download them now and load them into another watch or map app.</p>
-<p class="gpxlist"><a href="/gpx/seoul-namsan-bukcheuk.gpx" download>남산 북측순환로 <span style="color:var(--dim2)">6.7km</span></a> · <a href="/gpx/seoul-namsan-summit.gpx" download>남산 정상 업힐 <span style="color:var(--dim2)">4.0km</span></a> · <a href="/gpx/seoul-bukak-skyway.gpx" download>북악스카이웨이 <span style="color:var(--dim2)">5.2km</span></a> · <a href="/gpx/seoul-ansan-jarak.gpx" download>안산 자락길 <span style="color:var(--dim2)">6.1km</span></a> · <a href="/gpx/seoul-inwangsan.gpx" download>인왕산 자락길 <span style="color:var(--dim2)">2.9km</span></a> · <a href="/gpx/seoul-naksan.gpx" download>낙산공원 한양도성길 <span style="color:var(--dim2)">2.1km</span></a> · <a href="/gpx/seoul-eungbong.gpx" download>응봉산 계단 <span style="color:var(--dim2)">1.6km</span></a> · <a href="/gpx/seoul-dorimcheon.gpx" download>도림천 <span style="color:var(--dim2)">14.5km</span></a> · <a href="/gpx/seoul-banpo-hangang.gpx" download>반포 한강공원 <span style="color:var(--dim2)">5.0km</span></a> · <a href="/gpx/seoul-tancheon.gpx" download>탄천 <span style="color:var(--dim2)">7.1km</span></a> · <a href="/gpx/seoul-yangjaecheon.gpx" download>양재천 <span style="color:var(--dim2)">3.9km</span></a> · <a href="/gpx/seoul-cheonggyecheon.gpx" download>청계천 <span style="color:var(--dim2)">5.5km</span></a> · <a href="/gpx/seoul-seoulsup.gpx" download>서울숲 순환 <span style="color:var(--dim2)">2.0km</span></a></p>
+<p data-i18n="n.beta.gpx">The GPX files for the 13 Seoul courses the app uses. No signup, no install — download them now and load them into another watch or map app. Distances are written in km in all six languages: a GPX file carries no unit of its own, and the device you load it into does the converting.</p>
+<!-- The course NAMES carry their own keys. This list is the only immediate
+     value on the page for a visitor who leaves no e-mail, and until now the
+     thirteen names were hard-coded Korean in every language — the file names
+     are romanised but the link text was not. The distance stays outside the
+     binding so one number is not repeated in six dictionaries. -->
+<p class="gpxlist"><a href="/gpx/seoul-namsan-bukcheuk.gpx" download><span data-i18n="gpx.namsan.north">Namsan North Loop</span> <span style="color:var(--dim2)">6.7km</span></a> · <a href="/gpx/seoul-namsan-summit.gpx" download><span data-i18n="gpx.namsan.summit">Namsan Summit Climb</span> <span style="color:var(--dim2)">4.0km</span></a> · <a href="/gpx/seoul-bukak-skyway.gpx" download><span data-i18n="gpx.bukak">Bugak Skyway</span> <span style="color:var(--dim2)">5.2km</span></a> · <a href="/gpx/seoul-ansan-jarak.gpx" download><span data-i18n="gpx.ansan">Ansan Jarak Trail</span> <span style="color:var(--dim2)">6.1km</span></a> · <a href="/gpx/seoul-inwangsan.gpx" download><span data-i18n="gpx.inwangsan">Inwangsan Jarak Trail</span> <span style="color:var(--dim2)">2.9km</span></a> · <a href="/gpx/seoul-naksan.gpx" download><span data-i18n="gpx.naksan">Naksan Park City Wall</span> <span style="color:var(--dim2)">2.1km</span></a> · <a href="/gpx/seoul-eungbong.gpx" download><span data-i18n="gpx.eungbong">Eungbongsan Stairs</span> <span style="color:var(--dim2)">1.6km</span></a> · <a href="/gpx/seoul-dorimcheon.gpx" download><span data-i18n="gpx.dorimcheon">Dorimcheon Stream</span> <span style="color:var(--dim2)">14.5km</span></a> · <a href="/gpx/seoul-banpo-hangang.gpx" download><span data-i18n="gpx.banpo">Banpo Han River Park</span> <span style="color:var(--dim2)">5.0km</span></a> · <a href="/gpx/seoul-tancheon.gpx" download><span data-i18n="gpx.tancheon">Tancheon Stream</span> <span style="color:var(--dim2)">7.1km</span></a> · <a href="/gpx/seoul-yangjaecheon.gpx" download><span data-i18n="gpx.yangjaecheon">Yangjaecheon Stream</span> <span style="color:var(--dim2)">3.9km</span></a> · <a href="/gpx/seoul-cheonggyecheon.gpx" download><span data-i18n="gpx.cheonggyecheon">Cheonggyecheon Stream</span> <span style="color:var(--dim2)">5.5km</span></a> · <a href="/gpx/seoul-seoulsup.gpx" download><span data-i18n="gpx.seoulsup">Seoul Forest Loop</span> <span style="color:var(--dim2)">2.0km</span></a></p>
 <p class="gpxattr" data-i18n="n.beta.gpxattr">Routes from OpenStreetMap road and path data; elevation from Copernicus DEM / NASA SRTMGL1 (public domain). © OpenStreetMap contributors · ODbL 1.0.</p>
 <h4 class="sep" data-i18n="n.beta.stepsh">What happens after you sign up</h4>
 <ol>
@@ -1269,22 +1309,28 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
     status.style.color = ok ? 'var(--green)' : 'var(--red)';
     setTimeout(() => { status.textContent = msg; }, 50);
   };
-  if (betaForm.action.includes('YOUR_FORM_ID')) { show(window.RunvisT('form.busy', '신청 접수 준비 중입니다. 조금만 기다려 주세요!'), false); return; }
+  if (betaForm.action.includes('YOUR_FORM_ID')) { show(window.RunvisT('form.busy', 'Sign-ups aren\'t open just yet — hang tight!'), false); return; }
   btn.disabled = true;
   const original = btn.textContent;
-  btn.textContent = window.RunvisT('form.sending', '전송 중…');
+  btn.textContent = window.RunvisT('form.sending', 'Sending…');
   try {
     const res = await fetch(betaForm.action, { method: 'POST', body: new FormData(betaForm), headers: { Accept: 'application/json' } });
     if (res.ok) {
-      show(window.RunvisT('form.ok', '신청 완료! 베타가 열리면 신청 순서대로 초대장을 보내드릴게요. 기다리는 동안 5km 데모를 달려 보세요. 🏃'), true);
+      // The fallback is the Korean dictionary value, character for character:
+      // it is what shows if t-ko.js has not landed yet, and the shorter text
+      // that used to sit here dropped the deletion-request line, which is part
+      // of the privacy notice. check-content.mjs [10] compares every such
+      // fallback on a page against that page's dictionary, and prerender.mjs
+      // rewrites them for the five language copies.
+      show(window.RunvisT('form.ok', 'You\'re registered. We\'ll write to this address the day the opening date is set, and when the beta opens one invite goes out in signup order. Ask us at help@runvis.app any time and we\'ll delete it. While you wait, run the 5K demo. 🏃'), true);
       betaForm.reset();
       // The signup used to end in an inbox. Hand the reader the one thing they
       // can actually do next while they wait.
       const next = document.getElementById('betaNext');
-      if (next) next.textContent = window.RunvisT('form.okcta', '5km 데모 달려보기');
+      if (next) next.textContent = window.RunvisT('form.okcta', 'Run the 5K demo');
     }
-    else { const d = await res.json().catch(() => null); show(d?.errors?.[0]?.message || window.RunvisT('form.fail', '전송에 실패했어요. 잠시 후 다시 시도해 주세요.'), false); }
-  } catch { show(window.RunvisT('form.neterr', '네트워크 오류예요. 잠시 후 다시 시도해 주세요.'), false); }
+    else { const d = await res.json().catch(() => null); show(d?.errors?.[0]?.message || window.RunvisT('form.fail', 'That didn\'t go through. Please try again in a moment.'), false); }
+  } catch { show(window.RunvisT('form.neterr', 'Network error. Please try again in a moment.'), false); }
   finally { btn.disabled = false; btn.textContent = original; }
 });
 

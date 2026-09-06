@@ -316,7 +316,7 @@
   <div class="status"><span class="dot"></span> COACH LINK CONNECTED</div>
   <div class="right">
     <div class="langsel" id="langsel">
-      <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="表示言語">🌐 <span id="langlabel">한국어</span> ▾</button>
+      <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="表示言語">🌐 <span id="langlabel" data-i18n="a11y.langname">日本語</span> ▾</button>
       <ul id="langmenu" role="menu" aria-labelledby="langbtn" tabindex="-1"></ul>
     </div>
     <a class="exit" href="index.html">EXIT ↗</a>
@@ -617,8 +617,8 @@ secs.forEach(s => io2.observe(s));
 window.renderDynamicI18n = function () {
   if (!window.RunvisT) return;
   // Korean fallbacks keep the run page's identity even before t-<code>.js lands.
-  const t = window.RunvisT('r1', 'RUN SESSION — 런비스와 5km | Runvis');
-  const d = window.RunvisT('r2', '스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요.');
+  const t = window.RunvisT('r1', 'RUN SESSION — Runvisと5km | Runvis');
+  const d = window.RunvisT('r2', 'スクロールがそのままランニングに。ウォームアップからフィニッシュまで、Runvisがいつ、なぜ声をかけるのか、5kmを実際に体感してください。');
   const set = (sel, v) => { const el = document.querySelector(sel); if (el && v != null) el.setAttribute('content', v); };
   if (t != null) document.title = t;
   set('meta[name="description"]', d);

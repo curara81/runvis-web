@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<!-- Bilingual like index.html: one file answers every ?lang= and crawlers
-     never run the dictionary swap, so a shared policy link used to preview
-     in Korean for all six languages. It had no og tags at all before. -->
-<title data-i18n="tm.meta.title">이용약관 — Runvis · Terms of Service</title>
-<meta name="description" content="Runvis 이용약관 — 구독과 평생 이용권, 자동 갱신과 해지, 안전 주의사항과 책임 범위. / Runvis terms of service: subscriptions and the lifetime pass, auto-renewal and cancellation, safety notes and limits of liability." data-i18n-attr="content:tm.meta.desc">
+<!-- Korean only, like index.html. The head used to run both languages
+     together in one line; /en/terms.html and its siblings are the finished
+     pages for the other five markets and hreflang points at them. -->
+<title data-i18n="tm.meta.title">이용약관 — Runvis</title>
+<meta name="description" content="Runvis 이용약관 — 구독과 평생 이용권, 자동 갱신과 해지, 안전 주의사항과 책임 범위." data-i18n-attr="content:tm.meta.desc">
 <meta name="robots" content="index,follow">
-<meta property="og:title" content="이용약관 — Runvis · Terms of Service" data-i18n-attr="content:tm.meta.title">
-<meta property="og:description" content="Runvis 이용약관 — 구독과 평생 이용권, 자동 갱신과 해지, 안전 주의사항과 책임 범위. / Runvis terms of service: subscriptions and the lifetime pass, auto-renewal and cancellation, safety notes and limits of liability." data-i18n-attr="content:tm.meta.desc">
+<meta property="og:title" content="이용약관 — Runvis" data-i18n-attr="content:tm.meta.title">
+<meta property="og:description" content="Runvis 이용약관 — 구독과 평생 이용권, 자동 갱신과 해지, 안전 주의사항과 책임 범위." data-i18n-attr="content:tm.meta.desc">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://runvis.app/terms.html">
 <meta property="og:site_name" content="Runvis">
@@ -120,7 +120,7 @@
   <div class="topbar">
     <a class="back" href="index.html" data-i18n="tm.back">← Runvis 홈으로</a>
     <div class="langsel" id="langsel">
-      <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="표시 언어">🌐 <span id="langlabel">한국어</span> ▾</button>
+      <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="표시 언어">🌐 <span id="langlabel" data-i18n="a11y.langname">한국어</span> ▾</button>
       <ul id="langmenu" role="menu" aria-labelledby="langbtn" tabindex="-1"></ul>
     </div>
   </div>

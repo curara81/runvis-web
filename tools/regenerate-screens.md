@@ -3,6 +3,19 @@
 홈페이지의 기기 이미지(`assets/framed-*.png`)는 **Apple 공식 제품 베젤**에
 앱 화면을 합성한 것. 앱 화면 데이터/디자인이 바뀌면 아래 순서로 재생성.
 
+## ⚠️ 지금 있는 30장은 구버전이다 — 재촬영이 밀려 있다
+`assets/framed-phone-*.png` 30장은 전부 **2026-09-06 07:30 빌드**다. 그 뒤
+`Shared/Views/RunvisDesignSystem.swift`의 FactorRow 상태 라벨에
+`.lineLimit(1).minimumScaleFactor(0.8)`이 들어가 줄바꿈이 고쳐졌는데,
+캡처에는 안 반영돼 **독일어 `Achtung`과 스페인어 `Atención`이 두 줄로 접힌 채** 박혀 있다.
+
+- 재촬영 전까지는 그 사실을 화면에서 고지한다 — `index.html`의 `sc.build`
+  (#today 섹션, `sc.note` 바로 아래, 6개 언어).
+- **재촬영을 마치면 세 가지를 함께 처리할 것**:
+  1. `sc.build` 문단과 그 키 6개를 지운다(마크업 한 줄 + `t-*.js` 6개).
+  2. `tools/app-facts.json`의 `screensCapturedAt`을 촬영 날짜로 올린다.
+  3. `node tools/prerender.mjs && node tools/check-content.mjs`.
+
 ## ⚠️ 현재 상태 (2026-09-06) — 언어별 캡처
 - **아이폰 5종(dash·detail·glance·plan·race)은 6개 언어 전부 실캡처 완료.**
   파일명 규칙: 한국어는 접미사 없음(`framed-phone-dash.png`), 나머지는

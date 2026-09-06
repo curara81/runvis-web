@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<!-- Bilingual like index.html: one file answers every ?lang= and crawlers
-     never run the dictionary swap, so a shared policy link used to preview
-     in Korean for all six languages. It had no og tags at all before. -->
-<title data-i18n="pv.meta.title">개인정보 처리방침 — Runvis · Privacy Policy</title>
-<meta name="description" content="Runvis는 러닝·건강 데이터를 기기 안에서만 처리합니다. 서버도 계정도 없고, 기기 밖으로 나가는 예외를 전부 적어 두었습니다. / Runvis processes running and health data on your device only — no server, no account, and every exception is listed." data-i18n-attr="content:pv.meta.desc">
+<!-- Korean only, like index.html. The head used to run both languages
+     together in one line; /en/privacy.html and its siblings are the finished
+     pages for the other five markets and hreflang points at them. -->
+<title data-i18n="pv.meta.title">개인정보 처리방침 — Runvis</title>
+<meta name="description" content="Runvis는 러닝·건강 데이터를 기기 안에서만 처리합니다. 서버도 계정도 없고, 기기 밖으로 나가는 예외를 전부 적어 두었습니다." data-i18n-attr="content:pv.meta.desc">
 <meta name="robots" content="index,follow">
-<meta property="og:title" content="개인정보 처리방침 — Runvis · Privacy Policy" data-i18n-attr="content:pv.meta.title">
-<meta property="og:description" content="Runvis는 러닝·건강 데이터를 기기 안에서만 처리합니다. 서버도 계정도 없고, 기기 밖으로 나가는 예외를 전부 적어 두었습니다. / Runvis processes running and health data on your device only — no server, no account, and every exception is listed." data-i18n-attr="content:pv.meta.desc">
+<meta property="og:title" content="개인정보 처리방침 — Runvis" data-i18n-attr="content:pv.meta.title">
+<meta property="og:description" content="Runvis는 러닝·건강 데이터를 기기 안에서만 처리합니다. 서버도 계정도 없고, 기기 밖으로 나가는 예외를 전부 적어 두었습니다." data-i18n-attr="content:pv.meta.desc">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://runvis.app/privacy.html">
 <meta property="og:site_name" content="Runvis">
@@ -126,7 +126,7 @@
   <div class="topbar">
     <a class="back" href="index.html" data-i18n="pv.back">← Runvis 홈으로</a>
     <div class="langsel" id="langsel">
-      <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="표시 언어">🌐 <span id="langlabel">한국어</span> ▾</button>
+      <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="표시 언어">🌐 <span id="langlabel" data-i18n="a11y.langname">한국어</span> ▾</button>
       <ul id="langmenu" role="menu" aria-labelledby="langbtn" tabindex="-1"></ul>
     </div>
   </div>

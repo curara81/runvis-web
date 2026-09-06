@@ -247,9 +247,13 @@
   }
 
   // The app itself, with the three prices the page already quotes. Prices stay
-  // in KRW because that is what the Korean App Store charges; the approximate
-  // local figures on the page are labelled as approximations and have no place
-  // in structured data.
+  // in KRW because that is what the Korean App Store charges, and each Offer
+  // now carries eligibleRegion KR so a German-language page is not telling a
+  // search engine that a Berlin reader pays ₩1,900. No converted figure goes
+  // in structured data; the other stores get their own Offers when App Store
+  // Connect has them. Keep this in step with tools/i18n-lib.mjs appLd — check
+  // [4] compares the static markup against that one, and a reader with
+  // JavaScript gets this one.
   var OFFERS = [
     { name: 'Runvis Coach Monthly',  price: '1900',  category: 'subscription' },
     { name: 'Runvis Coach Yearly',   price: '15000', category: 'subscription' },
@@ -268,7 +272,10 @@
       url: 'https://runvis.app/',
       description: plain(dict['meta.desc'] || ''),
       offers: OFFERS.map(function (o) {
-        return { '@type': 'Offer', name: o.name, price: o.price, priceCurrency: 'KRW', category: o.category };
+        return {
+          '@type': 'Offer', name: o.name, price: o.price, priceCurrency: 'KRW', category: o.category,
+          eligibleRegion: { '@type': 'Country', name: 'KR' }
+        };
       })
     });
   }

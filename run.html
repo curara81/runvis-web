@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Bilingual on purpose — see the same note in index.html. One file serves
-     every ?lang= and crawlers never run the dictionary swap, so a Korean-only
-     title and description went out to all six languages. -->
-<title data-i18n="r1">RUN SESSION — 런비스와 5km · a 5&#8239;km run with Runvis</title>
-<meta name="description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요. / Scrolling is the run: hear exactly when and why the coach speaks over 5&#8239;km, from warm-up to finish." data-i18n-attr="content:r2">
-<meta property="og:title" content="RUN SESSION — 런비스와 5km · a 5&#8239;km run with Runvis" data-i18n-attr="content:r1">
-<meta property="og:description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요. / Scrolling is the run: hear exactly when and why the coach speaks over 5&#8239;km, from warm-up to finish." data-i18n-attr="content:r2">
+<!-- Korean only — see the same note in index.html. The bilingual head this
+     page used to carry gave a Korean reader a title that trailed off into
+     English and an English reader one that began in Hangul; /en/run.html and
+     its four siblings are the finished pages for the other markets. -->
+<title data-i18n="r1">RUN SESSION — 런비스와 5km | Runvis</title>
+<meta name="description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요." data-i18n-attr="content:r2">
+<meta property="og:title" content="RUN SESSION — 런비스와 5km | Runvis" data-i18n-attr="content:r1">
+<meta property="og:description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요." data-i18n-attr="content:r2">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://runvis.app/run.html">
 <meta property="og:site_name" content="Runvis">
@@ -21,8 +22,8 @@
      language. One HTML file serves every ?lang= and crawlers run no JS. -->
 <meta property="og:image:alt" content="Runvis — Apple Watch running coach">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="RUN SESSION — 런비스와 5km · a 5&#8239;km run with Runvis" data-i18n-attr="content:r1">
-<meta name="twitter:description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요. / Scrolling is the run: hear exactly when and why the coach speaks over 5&#8239;km, from warm-up to finish." data-i18n-attr="content:r2">
+<meta name="twitter:title" content="RUN SESSION — 런비스와 5km | Runvis" data-i18n-attr="content:r1">
+<meta name="twitter:description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요." data-i18n-attr="content:r2">
 <meta name="twitter:image" content="https://runvis.app/assets/og-card.png?v=2">
 <link rel="canonical" href="https://runvis.app/run.html">
 <noscript><style>.rv,.reveal{opacity:1!important;transform:none!important}</style></noscript>
@@ -309,7 +310,7 @@
   <div class="status"><span class="dot"></span> COACH LINK CONNECTED</div>
   <div class="right">
     <div class="langsel" id="langsel">
-      <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="표시 언어">🌐 <span id="langlabel">한국어</span> ▾</button>
+      <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="표시 언어">🌐 <span id="langlabel" data-i18n="a11y.langname">한국어</span> ▾</button>
       <ul id="langmenu" role="menu" aria-labelledby="langbtn" tabindex="-1"></ul>
     </div>
     <a class="exit" href="index.html">EXIT ↗</a>

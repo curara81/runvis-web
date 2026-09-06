@@ -18,6 +18,13 @@
  *   6  hreflang is complete and every alternate resolves to a real file
  *   7  index.html still has its nine sections
  *   8  tags balance
+ *   9  the counts the trust block quotes about the app match
+ *      tools/app-facts.json (written by tools/app-facts.mjs out of the app
+ *      repository) — 502 vs 506 and 2,077 vs 2,118 went out three rounds
+ *      running because this number lived only in six hand-edited files
+ *  10  every RunvisT('key', 'inline fallback') matches that page's dictionary
+ *  11  sitemap.xml lists exactly the pages that exist, and robots.txt points
+ *      at it
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -66,17 +73,15 @@ for (const c of CODES) {
 // over several source lines and HTML collapses that anyway — the thing being
 // checked is the WORDS a crawler and a no-JS reader get, not the indentation.
 //
-// The four root pages are the exception the site made on purpose: their
-// <title> and description are bilingual (Korean, then English) because the
-// root URL still answers ?lang= for every language and a share preview of it
-// has to be readable by more than one of the six audiences. Every language
-// directory has a single-language head, so the exception ends there.
-const BILINGUAL_BY_DESIGN = {
-  'index.html': ['meta.title', 'meta.desc', 'meta.ogtitle', 'meta.ogdesc'],
-  'run.html': ['r1', 'r2'],
-  'privacy.html': ['pv.meta.title', 'pv.meta.desc'],
-  'terms.html': ['tm.meta.title', 'tm.meta.desc'],
-};
+// There is no exemption any more. The four root pages used to run a bilingual
+// <title> and description ("…애플워치면 충분합니다 · Apple Watch running
+// coach") on the argument that the root URL still answers ?lang=. It does, but
+// half a sentence in each language is a finished sentence in neither, so the
+// root is Korean-only now — it is the Korean document and the x-default, and
+// /en/, /ja/, /es/, /zh/, /de/ are the pages for everyone else. Keeping the
+// table here, empty, so the next person who wants an exemption has to write
+// down which key and why.
+const BILINGUAL_BY_DESIGN = {};
 const squash = (s) => String(s).replace(/\s+/g, ' ').trim();
 console.log('\n[3] inline default text == dictionary value');
 for (const { file, code } of ALL) {
@@ -206,6 +211,123 @@ for (const { file } of ALL) {
   }
   if (broken || stack.length) fail(`${file}: tags unbalanced (${broken ? 'stray </' + broken + '>' : 'unclosed ' + stack.join(',')})`);
   else ok(`${file}: tags balance`);
+}
+
+// ---- 9. the numbers the trust block quotes about the app ------------------
+// The trust block says its numbers "are counted straight out of the app
+// repository". They were, once. Then the app moved and the page did not — 502
+// vs 506 tests and 2,077 vs 2,118 strings, the same drift three rounds
+// running, in the one paragraph whose entire value is that its numbers are
+// counted rather than invented. tools/app-facts.mjs re-measures them out of
+// the app checkout into tools/app-facts.json; this compares that file against
+// the six dictionaries. No app checkout is needed here, only the JSON.
+console.log('\n[9] app counts in the dictionaries == tools/app-facts.json');
+{
+  const factsPath = path.join(ROOT, 'tools/app-facts.json');
+  if (!fs.existsSync(factsPath)) {
+    fail('tools/app-facts.json missing — run `node tools/app-facts.mjs`');
+  } else {
+    const facts = JSON.parse(fs.readFileSync(factsPath, 'utf8'));
+    // Thousands separator per market: a German page writes 2.118, not 2,118.
+    // Spanish writes four-digit numbers both ways (2118 and 2.118 are both
+    // correct), so accept the locale's own rendering, the bare digits and the
+    // digits grouped with that locale's separator — and no other spelling.
+    const LOCALE = { ko: 'ko-KR', en: 'en-US', ja: 'ja-JP', es: 'es-ES', zh: 'zh-Hant', de: 'de-DE' };
+    const groupSep = (code) => (new Intl.NumberFormat(LOCALE[code]).formatToParts(1234567)
+      .find(p => p.type === 'group') || { value: '' }).value;
+    const forms = (code, n) => [...new Set([
+      new Intl.NumberFormat(LOCALE[code]).format(n),
+      String(n),
+      String(n).replace(/\B(?=(\d{3})+(?!\d))/g, groupSep(code)),
+    ])];
+    const num = (code, n) => forms(code, n)[0];
+    // key → the counts it must contain, exactly as that language writes them.
+    const EXACT = {
+      'n.trust.l1': ['tests'],
+      'n.trust.l2': ['stringKeys', 'coachTable'],
+      'n.trust.l3': ['glossary'],
+      'n.why.s1v': ['glossary'],
+      'n.why.s3v': ['tests'],
+    };
+    // n.why.s2v states a floor ("270개 이상" / "270+"), so the repo only has to
+    // stay above the number written there — adding a cue can never make it false.
+    const FLOOR = { 'n.why.s2v': 'cueSites' };
+    for (const c of CODES) {
+      const bad = [];
+      for (const [key, fields] of Object.entries(EXACT)) {
+        const value = dicts[c][key];
+        if (value == null) { bad.push(`${key} missing`); continue; }
+        for (const f of fields) {
+          const wanted = forms(c, facts[f]);
+          if (!wanted.some(w => value.includes(w))) bad.push(`${key} has no ${wanted.map(w => `"${w}"`).join(' / ')} (${f})`);
+        }
+      }
+      for (const [key, field] of Object.entries(FLOOR)) {
+        const digits = String(dicts[c][key] ?? '').replace(/[^0-9]/g, '');
+        const floor = digits ? Number(digits) : NaN;
+        if (!Number.isFinite(floor)) bad.push(`${key} states no number`);
+        else if (facts[field] < floor) bad.push(`${key} claims ${floor}+ but the repo has ${facts[field]}`);
+      }
+      if (bad.length) fail(`${c}: ${bad.join('; ')}`);
+      else ok(`${c}: tests ${num(c, facts.tests)}, strings ${num(c, facts.stringKeys)}, tables ${num(c, facts.coachTable)}, glossary ${num(c, facts.glossary)}, cues ${facts.cueSites}`);
+    }
+  }
+}
+
+// ---- 10. RunvisT fallbacks == the dictionary ------------------------------
+// The page's own scripts read runtime strings as RunvisT('key', 'inline
+// fallback'). The fallback is what a visitor sees when the dictionary has not
+// landed yet, and one of them had drifted into a shorter sentence that dropped
+// the deletion-request line out of the form's privacy notice. Check [3] only
+// looks at data-i18n markup, so this layer went unwatched.
+console.log('\n[10] RunvisT() inline fallbacks == dictionary');
+for (const { file, code } of ALL) {
+  const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  const bad = [];
+  let checked = 0;
+  // Both arguments must be single-quoted literals; a call passing a variable
+  // (RunvisT(key, fallback)) has nothing to compare and is skipped.
+  for (const m of html.matchAll(/RunvisT\(\s*'([^']+)'\s*,\s*'((?:[^'\\]|\\.)*)'\s*\)/g)) {
+    const key = m[1];
+    const got = m[2].replace(/\\'/g, "'").replace(/\\\\/g, '\\');
+    const want = dicts[code][key];
+    if (want == null) { bad.push(`${key} (not in ${code})`); continue; }
+    checked++;
+    if (squash(got) !== squash(want)) bad.push(key);
+  }
+  if (bad.length) fail(`${file}: ${bad.length} fallback(s) out of step — ${bad.join(', ')}`);
+  else ok(`${file}: ${checked} fallback(s) match ${code}`);
+}
+
+// ---- 11. sitemap.xml lists exactly the pages that exist -------------------
+console.log('\n[11] sitemap.xml == the files on disk');
+{
+  const sitemapPath = path.join(ROOT, 'sitemap.xml');
+  if (!fs.existsSync(sitemapPath)) {
+    fail('sitemap.xml missing — run `node tools/prerender.mjs`');
+  } else {
+    const xml = fs.readFileSync(sitemapPath, 'utf8');
+    const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
+    const want = new Set(ALL.map(({ file }) =>
+      'https://runvis.app/' + (file.endsWith('index.html') ? file.slice(0, -'index.html'.length) : file)));
+    const got = new Set(locs);
+    const missing = [...want].filter(u => !got.has(u));
+    const extra = [...got].filter(u => !want.has(u));
+    const unresolved = locs.filter(u => {
+      let rel = u.replace('https://runvis.app/', '');
+      if (rel === '' || rel.endsWith('/')) rel += 'index.html';
+      return !fs.existsSync(path.join(ROOT, rel));
+    });
+    if (locs.length !== got.size) fail(`sitemap.xml: ${locs.length - got.size} duplicate <loc>`);
+    else if (missing.length) fail(`sitemap.xml: ${missing.length} page(s) not listed — ${missing.join(', ')}`);
+    else if (extra.length) fail(`sitemap.xml: ${extra.length} listed URL(s) are not pages — ${extra.join(', ')}`);
+    else if (unresolved.length) fail(`sitemap.xml: ${unresolved.length} <loc> do not resolve to a file`);
+    else ok(`sitemap.xml: ${locs.length} URLs, one per page, all resolve`);
+    const robots = path.join(ROOT, 'robots.txt');
+    if (!fs.existsSync(robots)) fail('robots.txt missing');
+    else if (!fs.readFileSync(robots, 'utf8').includes('https://runvis.app/sitemap.xml')) fail('robots.txt does not point at the sitemap');
+    else ok('robots.txt points at sitemap.xml');
+  }
 }
 
 console.log(failures ? `\nFAILED — ${failures} problem(s)` : '\nPASS — no drift');

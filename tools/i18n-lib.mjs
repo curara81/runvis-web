@@ -18,6 +18,12 @@ export const PAGES = ['index.html', 'run.html', 'privacy.html', 'terms.html'];
 
 /** <html lang> / og:locale / JSON-LD inLanguage per code. */
 export const HTML_LANG = { ko: 'ko', en: 'en', ja: 'ja', es: 'es', zh: 'zh-Hant', de: 'de' };
+
+/** hreflang tag per code — the same six the pages' <head> declares, plus the
+ *  x-default that points at Korean. Identical to HTML_LANG today; kept apart
+ *  because one is a document attribute and the other an alternate-link tag,
+ *  and they are free to diverge (zh-Hant-TW, en-GB …). */
+export const HREFLANG = { ko: 'ko', en: 'en', ja: 'ja', es: 'es', zh: 'zh-Hant', de: 'de' };
 export const OG_LOCALE = { ko: 'ko_KR', en: 'en_US', ja: 'ja_JP', es: 'es_ES', zh: 'zh_TW', de: 'de_DE' };
 
 /** The iPhone frames that exist per language (i18n.js SHOTS, kept in step). */
@@ -161,7 +167,15 @@ export function faqLd(dict, code, count = 10) {
   return { '@context': 'https://schema.org', '@type': 'FAQPage', inLanguage: HTML_LANG[code], mainEntity: items };
 }
 
-/** The SoftwareApplication JSON-LD, for one language. Prices stay in KRW. */
+/**
+ * The SoftwareApplication JSON-LD, for one language. Prices stay in KRW and
+ * now say so structurally: `eligibleRegion: KR`. Korea is the launch store and
+ * the only one whose prices are decided, so a German-language page publishing
+ * three bare KRW Offers was telling a search engine that a Berlin reader pays
+ * ₩1,900 — a number Apple will not charge them. The region makes the offer
+ * true where it is true. The other stores get their own Offers when App Store
+ * Connect has them; nothing here is converted from an exchange rate.
+ */
 export function appLd(dict, code) {
   const offers = [
     { name: 'Runvis Coach Monthly', price: '1900', category: 'subscription' },
@@ -173,7 +187,10 @@ export function appLd(dict, code) {
     applicationCategory: 'HealthApplication', operatingSystem: 'watchOS, iOS',
     inLanguage: HTML_LANG[code], url: 'https://runvis.app/',
     description: plain(dict['meta.desc'] || ''),
-    offers: offers.map(o => ({ '@type': 'Offer', name: o.name, price: o.price, priceCurrency: 'KRW', category: o.category })),
+    offers: offers.map(o => ({
+      '@type': 'Offer', name: o.name, price: o.price, priceCurrency: 'KRW', category: o.category,
+      eligibleRegion: { '@type': 'Country', name: 'KR' },
+    })),
   };
 }
 

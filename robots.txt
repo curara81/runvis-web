@@ -1,0 +1,10 @@
+# Runvis — https://runvis.app/
+# Static site on GitHub Pages: nothing here is private and nothing is
+# generated per visitor, so everything is crawlable. The one thing a crawler
+# could not work out on its own is the list of 24 pages (4 root + 4 x 5
+# language directories), because hreflang only names alternates of a page it
+# has already found. sitemap.xml, written by tools/prerender.mjs, is that list.
+User-agent: *
+Allow: /
+
+Sitemap: https://runvis.app/sitemap.xml
