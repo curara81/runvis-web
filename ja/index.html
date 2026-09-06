@@ -67,7 +67,7 @@
   a{color:inherit;text-decoration:none}
   :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
   img{max-width:100%;height:auto;display:block}
-  body{overflow-wrap:anywhere;word-break:normal;line-break:normal}
+  body{overflow-wrap:break-word;word-break:keep-all;line-break:normal}
   .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
   .grad{background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
   .btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(120deg,var(--green),var(--cyan));
@@ -899,9 +899,9 @@
      than invent a number, every line below is counted straight out of the app
      repository and can be re-counted by anyone with a checkout:
        506   unique `func test…` names across the 34 files in Tests/
-       2,118 distinct keys, identical in all six Shared/Resources/*.lproj/
+       2,162 distinct keys, identical in all six Shared/Resources/*.lproj/
              Localizable.strings (2,130 key=value lines; 8 keys are written more
-             than once, so the count of DISTINCT strings is 2,118)
+             than once, so the count of DISTINCT strings is 2,162)
        396   entries in each of the four CoachTranslations+{ja,es,zh,de}.swift tables
        40    `return Entry(` sites in Shared/Services/MetricGlossary.swift
      Do not hand-edit these. `node tools/app-facts.mjs` re-measures them out of
@@ -912,7 +912,7 @@
 <h3 data-i18n="n.trust.h">レビューはまだありません — 代わりに、いま確認できること</h3>
 <ul>
 <li data-i18n="n.trust.l1">自動テスト506件 — コーチが話す文、無料と有料の境界、プランの計算を、ビルドのたびに検査します。</li>
-<li data-i18n="n.trust.l2">画面の文言2,118個が6言語の表でキーまで一致し、コーチ音声の翻訳表4つはそれぞれ396行です。ひとつでもずれればテストはその場で失敗します。</li>
+<li data-i18n="n.trust.l2">画面の文言2,162個が6言語の表でキーまで一致し、コーチ音声の翻訳表4つはそれぞれ396行です。ひとつでもずれればテストはその場で失敗します。</li>
 <li data-i18n="n.trust.l3">指標の説明40件がアプリの中に入っています — 分からない数字をタップすると、意味と計算の根拠、自分のふだんの範囲が出ます。</li>
 </ul>
 <p data-i18n="n.trust.p">ひとりで作っているアプリです。評価も報道もまだありません — リリース前ですから。だから作れてしまう数字ではなく、アプリのリポジトリからそのまま数えられるものだけを書きました。ほかに知りたいことがあれば help@runvis.app へどうぞ。返事は私が書きます。</p>

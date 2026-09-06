@@ -67,7 +67,7 @@
   a{color:inherit;text-decoration:none}
   :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
   img{max-width:100%;height:auto;display:block}
-  body{overflow-wrap:anywhere;word-break:normal;line-break:normal}
+  body{overflow-wrap:break-word;word-break:keep-all;line-break:normal}
   .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
   .grad{background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
   .btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(120deg,var(--green),var(--cyan));
@@ -681,7 +681,7 @@
 <p class="sub reveal" data-i18n="n.live.sub">Everything the coach says starts from something the sensors picked up. Tap to hear the real guidance.</p>
 <div class="voice-grid reveal">
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="Play sample voice: pace call (free)" data-i18n-attr="aria-label:n.vc1.aria" data-say="목표보다 25초 빠릅니다"><div class="sensor" data-i18n="n.vc1.sensor">📡 When you stay more than 20 seconds off target pace for over 20 seconds</div><div class="play"><span data-i18n="n.vc1.play">Pace</span><span class="pill free" data-i18n="n.pill.free">Free</span></div><div class="line" data-i18n="n.vc1.line">"25 seconds under target pace"</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="Play sample voice: hill warning (free)" data-i18n-attr="aria-label:n.vc2.aria" data-say="300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="n.vc2.sensor">📡 It reads the course elevation ahead. On a road you run often, it recognises it around 500m in and calls the hills</div><div class="play"><span data-i18n="n.vc2.play">Hill warning</span><span class="pill free" data-i18n="n.pill.free">Free</span></div><div class="line" data-i18n="n.vc2.line">"In 300 meters: a 800 meters climb, average 4 percent. Shorten your stride, keep the rhythm."</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="Play sample voice: hill warning (free)" data-i18n-attr="aria-label:n.vc2.aria" data-say="300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="n.vc2.sensor">📡 It reads the course elevation ahead. On a road you run often, it recognises it around 500m in and calls the hills</div><div class="play"><span data-i18n="n.vc2.play">Hill warning</span><span class="pill free" data-i18n="n.pill.free">Free</span></div><div class="line" data-i18n="n.vc2.line">"In 300 meters: a climb of 800 meters, averaging 4 percent. Shorten your stride, keep the rhythm."</div></div>
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="Play sample voice: form coaching (subscription)" data-i18n-attr="aria-label:n.vc3.aria" data-say="케이던스가 기준보다 5퍼센트 낮아요 — 보폭을 조금 줄여볼까요."><div class="sensor" data-i18n="n.vc3.sensor">📡 On the flat at a steady pace, when cadence is between 130 and 160 spm and sits 5% under your own baseline for 30 seconds. Ground contact over 300 ms or a bigger vertical bounce gets the same one line, and those two carry no cadence ceiling · from six minutes in, twice a run at most</div><div class="play"><span data-i18n="n.vc3.play">Form</span><span class="pill pro" data-i18n="n.pill.pro">Subscription</span></div><div class="line" data-i18n="n.vc3.line">"Cadence is 5 percent under your baseline — let's shorten the stride a touch."</div></div>
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="Play sample voice: recovery call (subscription)" data-i18n-attr="aria-label:n.vc4.aria" data-say="심박이 존 쓰리까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor" data-i18n="n.vc4.sensor">📡 When your heart rate zone drops one step during a walk recovery</div><div class="play"><span data-i18n="n.vc4.play">Recovery</span><span class="pill pro" data-i18n="n.pill.pro">Subscription</span></div><div class="line" data-i18n="n.vc4.line">"Heart rate is down to zone 3. You're recovering well — almost there."</div></div>
 </div>
@@ -899,9 +899,9 @@
      than invent a number, every line below is counted straight out of the app
      repository and can be re-counted by anyone with a checkout:
        506   unique `func test…` names across the 34 files in Tests/
-       2,118 distinct keys, identical in all six Shared/Resources/*.lproj/
+       2,162 distinct keys, identical in all six Shared/Resources/*.lproj/
              Localizable.strings (2,130 key=value lines; 8 keys are written more
-             than once, so the count of DISTINCT strings is 2,118)
+             than once, so the count of DISTINCT strings is 2,162)
        396   entries in each of the four CoachTranslations+{ja,es,zh,de}.swift tables
        40    `return Entry(` sites in Shared/Services/MetricGlossary.swift
      Do not hand-edit these. `node tools/app-facts.mjs` re-measures them out of
@@ -912,7 +912,7 @@
 <h3 data-i18n="n.trust.h">No reviews yet — here is what can be checked today</h3>
 <ul>
 <li data-i18n="n.trust.l1">506 automated tests — they check the coach's spoken lines, the free/paid boundary and the plan maths on every build.</li>
-<li data-i18n="n.trust.l2">2,118 interface strings line up key for key across all six language tables, and the four coach-voice tables hold 396 lines each. One mismatch and the test fails on the spot.</li>
+<li data-i18n="n.trust.l2">2,162 interface strings line up key for key across all six language tables, and the four coach-voice tables hold 396 lines each. One mismatch and the test fails on the spot.</li>
 <li data-i18n="n.trust.l3">40 metric explanations ship inside the app — tap a number you do not know and you get its meaning, how it was calculated and your own usual range.</li>
 </ul>
 <p data-i18n="n.trust.p">One person builds this app. There are no ratings and no press yet — it has not shipped. So instead of numbers that could be invented, these are counted straight out of the app's repository. Anything else you want to know, write to help@runvis.app; the reply comes from me.</p>
