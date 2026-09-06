@@ -34,66 +34,7 @@ window.RunvisPageLang="ja";window.RunvisBase="/";
 <link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/how-it-works.html">
 <link rel="alternate" hreflang="de" href="https://runvis.app/de/how-it-works.html">
 <style>
-:root{
---green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;
---text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);
-font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
-line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
-.wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}
-a{color:var(--green);text-decoration:none}
-:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
-img{max-width:100%;height:auto;display:block}
-body{overflow-wrap:break-word;word-break:keep-all;line-break:normal}
-h1{font-size:1.7rem;margin-bottom:6px}
-.updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}
-.skip{position:absolute;left:-9999px;top:0;z-index:200}
-.skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
-padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
-h2{font-size:1.15rem;margin:36px 0 12px;color:var(--green)}
-p,li{color:var(--dim);font-size:.95rem}
-ul{padding-left:20px;margin:10px 0}
-li{margin:6px 0}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0}
-.card b{color:var(--text)}
-.tablewrap{overflow-x:auto;margin:14px 0}
-table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:520px}
-th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--dim)}
-th{color:var(--text);font-weight:600}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
-.back{color:var(--dim);font-size:.9rem}
-.legalnote{color:var(--dim2);font-size:.8rem;margin-bottom:22px}
-.langsel{position:relative;display:inline-block}
-.langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
-.langsel button:hover{border-color:var(--green)}
-.langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}
-.langsel.open ul{display:block}
-.langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
-.langsel li:hover{background:rgba(61,220,132,.15)}
-.langsel li{padding:0}
-.langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
-.langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
-.intro{color:var(--dim);font-size:.95rem;margin-bottom:8px}
-h2{scroll-margin-top:20px}
-ol{list-style:none;margin:12px 0;padding:0;counter-reset:ns}
-ol li{counter-increment:ns;display:flex;gap:10px;padding:7px 0;line-height:1.7}
-ol li::before{content:counter(ns);flex:0 0 20px;height:20px;margin-top:4px;border-radius:999px;
-background:rgba(61,220,132,.16);color:var(--green);font-size:11.5px;font-weight:800;display:grid;place-items:center}
-.hzcalc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
-@media(max-width:520px){.hzcalc{grid-template-columns:1fr 1fr}.hzcalc label:last-child{grid-column:1/-1}}
-.hzcalc label{display:block;font-size:12px;color:var(--dim);line-height:1.4}
-.hzcalc input{width:100%;margin-top:5px;background:#0d1013;border:1px solid var(--line);color:var(--text);
-border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;font-variant-numeric:tabular-nums}
-.hzcalc input:focus{border-color:var(--green);outline:none}
-.hzout{margin-top:12px;font-size:.9rem;line-height:1.9;color:#dfe3e7}
-.hzout b{color:var(--green);font-variant-numeric:tabular-nums}
-.hzout .hzmax{display:block;color:var(--dim);font-size:.8rem;margin-top:4px}
-.gpxlist{font-size:.82rem;line-height:2.1;color:var(--dim2)}
-.gpxlist a{white-space:nowrap}
-.note{color:var(--dim2);font-size:.8rem;margin-top:8px}
-.backhome{margin-top:44px;padding-top:20px;border-top:1px solid var(--line)}
+:root{--green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;--text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;}*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}.wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}a{color:var(--green);text-decoration:none}:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}img{max-width:100%;height:auto;display:block}body{overflow-wrap:break-word;word-break:keep-all;line-break:normal}h1{font-size:1.7rem;margin-bottom:6px}.updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}.skip{position:absolute;left:-9999px;top:0;z-index:200}.skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}h2{font-size:1.15rem;margin:36px 0 12px;color:var(--green)}p,li{color:var(--dim);font-size:.95rem}ul{padding-left:20px;margin:10px 0}li{margin:6px 0}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0}.card b{color:var(--text)}.tablewrap{overflow-x:auto;margin:14px 0}table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:520px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--dim)}th{color:var(--text);font-weight:600}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}.back{color:var(--dim);font-size:.9rem}.legalnote{color:var(--dim2);font-size:.8rem;margin-bottom:22px}.langsel{position:relative;display:inline-block}.langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}.langsel button:hover{border-color:var(--green)}.langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}.langsel.open ul{display:block}.langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}.langsel li:hover{background:rgba(61,220,132,.15)}.langsel li{padding:0}.langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}.langsel a[aria-checked="true"]{color:var(--green);font-weight:700}.intro{color:var(--dim);font-size:.95rem;margin-bottom:8px}h2{scroll-margin-top:20px}ol{list-style:none;margin:12px 0;padding:0;counter-reset:ns}ol li{counter-increment:ns;display:flex;gap:10px;padding:7px 0;line-height:1.7}ol li::before{content:counter(ns);flex:0 0 20px;height:20px;margin-top:4px;border-radius:999px;background:rgba(61,220,132,.16);color:var(--green);font-size:11.5px;font-weight:800;display:grid;place-items:center}.hzcalc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}@media(max-width:520px){.hzcalc{grid-template-columns:1fr 1fr}.hzcalc label:last-child{grid-column:1/-1}}.hzcalc label{display:block;font-size:12px;color:var(--dim);line-height:1.4}.hzcalc input{width:100%;margin-top:5px;background:#0d1013;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;font-variant-numeric:tabular-nums}.hzcalc input:focus{border-color:var(--green);outline:none}.hzout{margin-top:12px;font-size:.9rem;line-height:1.9;color:#dfe3e7}.hzout b{color:var(--green);font-variant-numeric:tabular-nums}.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;margin:18px 0 6px}.shots figure{margin:0}.shots img{border-radius:14px}.shots figcaption{margin-top:9px;font-size:.8rem;color:var(--dim2);line-height:1.55}.shot1{margin:16px 0 6px;max-width:240px}.shot1 img{border-radius:14px}.shot1 figcaption{margin-top:9px;font-size:.8rem;color:var(--dim2);line-height:1.55}.hzout .hzmax{display:block;color:var(--dim);font-size:.8rem;margin-top:4px}.gpxlist{font-size:.82rem;line-height:2.1;color:var(--dim2)}.gpxlist a{white-space:nowrap}.note{color:var(--dim2);font-size:.8rem;margin-top:8px}.backhome{margin-top:44px;padding-top:20px;border-top:1px solid var(--line)}
 </style>
 <script>
 (function(){
@@ -178,21 +119,34 @@ border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;font-variant-num
     <li data-i18n="n.live.q.n4">オンオフできる項目は8つです — ペース、心拍ゾーン、フォーム、坂、励まし・スクリプト、ランニング豆知識カード、給水・補給、自動一時停止/再開の音声。スプリットはオンオフではなく間隔を選びます（オフ・0.5・1、kmまたはマイル）。安全の案内と、ワークアウトのステップのような中核の案内は切れません。音楽は案内している間だけ少し下がります。</li>
   </ul>
 
-  <h2 id="versus" data-i18n="hw.vs.h">ランニング専用ウォッチと何が違いますか</h2>
-  <p data-i18n="hw.vs.p">トレーニング負荷、回復時間、乳酸性作業閾値の推定、レースのペースプラン — ランニングウォッチを別に買わないと見られないと言われる値です。Runvisは同じ値を、Apple Watchがすでに記録した心拍・GPS・気圧高度から計算します。専用ウォッチの計算式は公開されていないので「同じ式です」とは言いません。代わりにこちらの式は名前を出します。以下はすべて公開された名前のある式です。アプリの中では、指標ごとに意味と計算根拠、自分のふだんの範囲を開いて確認できます。</p>
+  <h2 id="versus" data-i18n="hw.vs.h">ガーミン Forerunner や COROS のような専用ランニングウォッチと、何が同じで何が違うのか</h2>
+  <p data-i18n="hw.vs.p">トレーニング負荷、回復時間、乳酸性作業閾値の推定、レースのペースプラン — ガーミン Forerunner や COROS のようなランニングウォッチを別に買わないと見られないと言われる値です。自社のハードウェアの中でそれをやっている会社は、すでにあります。ただ、Apple Watchでそれをやるところがなかっただけです。Runvisは同じ値を、Apple Watchがすでに記録した心拍・GPS・気圧高度から計算します。専用ウォッチの計算式は公開されていないので「同じ式です」とは言いません。代わりにこちらの式は名前を出します。以下はすべて公開された名前のある式です。アプリの中では、指標ごとに意味と計算根拠、自分のふだんの範囲を開いて確認できます。</p>
   <div class="tablewrap"><table>
     <tr><th data-i18n="hw.vs.th1">指標</th><th data-i18n="hw.vs.th2">Runvisが使う計算と、その名前</th></tr>
+    <tr><td data-i18n="hw.vs.r0a">追加で買うもの</td><td data-i18n="hw.vs.r0b">ガーミン Forerunner や COROS は、時計そのものが製品です。Runvisはすでに手首にあるApple Watchを使い、別に買うのはコーチのサブスクだけです。</td></tr>
     <tr><td data-i18n="hw.vs.r1a">トレーニング負荷・コンディション（TSB）</td><td data-i18n="hw.vs.r1b">Banister TRIMPをCogganの42日・7日指数移動平均（CTL・ATL）に入れ、その差をTSBとして使います。</td></tr>
     <tr><td data-i18n="hw.vs.r2a">回復時間</td><td data-i18n="hw.vs.r2b">直近のランのTRIMP、いまのTSB、HRVの状態の3つから推定します。画面にも「推定」と書きます。</td></tr>
     <tr><td data-i18n="hw.vs.r3a">乳酸性作業閾値（推定）</td><td data-i18n="hw.vs.r3b">直近90日で最大心拍の85%以上を保った30分（または20分）のベスト区間のペースと心拍です。採血ではなく、ランの記録から取った推定値です。</td></tr>
     <tr><td data-i18n="hw.vs.r4a">レース予測・区間ペースプラン</td><td data-i18n="hw.vs.r4b">Riegelの外挿とRunvis VDOT。コースのGPXを入れると、そのコースの高低に合わせて区間ごとにペースを配分します。</td></tr>
     <tr><td data-i18n="hw.vs.r5a">勾配補正ペース（GAP）</td><td data-i18n="hw.vs.r5b">Minetti（2002）のランニングのエネルギーコスト曲線です。上りと下りのコストは別々に計算します。</td></tr>
     <tr><td data-i18n="hw.vs.r6a">心拍ゾーン5つ</td><td data-i18n="hw.vs.r6b">Karvonen（心拍予備能）方式で、最大心拍が分からない場合は208 − 0.7 × 年齢で推定します。下の計算機と同じ式です。</td></tr>
+    <tr><td data-i18n="hw.vs.r7a">強度の配分</td><td data-i18n="hw.vs.r7b">ランに心拍の時系列があり、最大心拍が実測なら、走行時間を最大心拍の78%・88%を境にイージー・中程度・高強度の3帯に振り分けます。時系列がない、または最大心拍が年齢式の推定だけの場合は、そのランの平均心拍ひとつで帯を決めるため、インターバルは灰色の中間に落ちることがあります — 画面にはどちらで計算したかを書きます。</td></tr>
+    <tr><td data-i18n="hw.vs.r8a">ヒル曝露</td><td data-i18n="hw.vs.r8b">直近28日で登りのあったラン（2本以上）だけを集め、総獲得標高÷総距離、つまりm/kmです。15以上で起伏、40以上で坂が多い。ランナーを採点する値ではなく、走った地形を書く値です。</td></tr>
+    <tr><td data-i18n="hw.vs.r9a">暑熱曝露指数</td><td data-i18n="hw.vs.r9b">直近4週間に22°C（単位設定が華氏なら同じ温度の華氏値）以上で走った屋外ランがどれだけ積み上がったかを0〜100で示します。暑い日のラン3回から表示され、3日以上空くと下がります。生理的な順応を測る値ではなく、曝露量です。</td></tr>
+    <tr><td data-i18n="hw.vs.r10a">コーチのブレーキ</td><td data-i18n="hw.vs.r10b">スコアではなく予算です。直近の完了した4週間の週間距離から今週こなせる距離を決め、ラン後に残した痛みの報告のぶんだけ差し引きます。残りのキロ数と痛みで削られた量を別々に表示するので、なぜ減ったかが画面で分かります。</td></tr>
+    <tr><td data-i18n="hw.vs.r11a">コーチの記録レーダー</td><td data-i18n="hw.vs.r11b">GPS経路のあるランはラン内部を走査して区間最速（ベストエフォート）を取り出し、経路のないランは完走の平均ペースから換算します。どちらの基準の記録かを画面に併記します。対象は直近90日です。</td></tr>
   </table></div>
+  <div class="shots">
+<figure><picture><source srcset="/assets/framed-phone-detail.ja.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.ja.webp" type="image/webp"/><img alt="iPhoneの指標詳細 — トレーニング負荷(CTL)の7日推移、自分の28日レンジ、指標の説明" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.ja.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">上の表の1行目が、アプリで描かれたところです — トレーニング負荷(CTL)の7日推移、自分の28日レンジ、その指標の説明。</figcaption></figure>
+<figure><picture><source srcset="/assets/framed-phone-race.ja.avif" type="image/avif"/><source srcset="/assets/framed-phone-race.ja.webp" type="image/webp"/><img alt="iPhoneのレース予測画面" data-i18n-attr="alt:alt.phone.race" loading="lazy" src="/assets/framed-phone-race.ja.png" data-shot="framed-phone-race" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap2">4行目です — レース予測と区間ペースプラン。</figcaption></figure>
+</div>
+  <p class="legalnote" data-i18n="sc.note.s">この言語で動かして撮影した実際の画面です。</p>
+  <p class="note" data-i18n="hw.vs.tm">Garmin、Forerunner、COROSは各社の商標です。Runvisは両社と関係がありません。ここに書いたのは公開されている事実だけで、両社の計算式は公開されていないため、精度の比較はしていません。</p>
   <p class="note" data-i18n="hw.vs.note">専用ウォッチにできてRunvisにまだできないことも書いておきます — ウォッチフェイスのコンプリケーション、iPhoneのホーム画面ウィジェット、ライブアクティビティは、このバージョンには入っていません。また上記の値はすべて参考情報であり、医学的助言ではありません。</p>
 
   <h2 id="zones" data-i18n="hz.h">いますぐ計算できること — 自分の心拍ゾーン5つ</h2>
   <p data-i18n="hz.p">Runvisがコーチ音声に使っているのと同じカルボーネン（Karvonen）式です。アプリではヘルスケアの7日間の安静時心拍と実際に観測された最高心拍で入力が更新され続けますが、計算そのものは下のとおりです。</p>
+  <figure class="shot1"><picture><source srcset="/assets/framed-watch-hr.ja.avif" type="image/avif"/><source srcset="/assets/framed-watch-hr.ja.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 心拍ゾーンのアーク" data-i18n-attr="alt:alt.watch.zone" loading="lazy" src="/assets/framed-watch-hr.ja.png" data-shot="framed-watch-hr" width="480" height="768" decoding="async"/></picture><figcaption data-i18n="hz.cap">下の計算機と同じゾーンを、走っている間ウォッチがこう描きます。</figcaption></figure>
   <div class="hzcalc">
     <label><span data-i18n="hz.age">年齢</span><input id="hzAge" type="number" min="10" max="99" step="1" value="35" inputmode="numeric"/></label>
     <label><span data-i18n="hz.rest">安静時心拍</span><input id="hzRest" type="number" min="30" max="110" step="1" value="60" inputmode="numeric"/></label>

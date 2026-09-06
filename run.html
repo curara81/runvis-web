@@ -207,6 +207,15 @@
   h2{font-size:clamp(32px,5.5vw,60px)}
   .outline{color:transparent;-webkit-text-stroke:1.5px rgba(237,242,238,.55)}
   .grad{background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+  /* Same two fallbacks index.html carries: without them the gradient-clipped
+     heading is invisible in forced-colors mode and on any engine without
+     background-clip:text, because the glyphs themselves are transparent. */
+  @supports not ((background-clip:text) or (-webkit-background-clip:text)){
+    .grad{background:none;color:var(--green);-webkit-text-fill-color:currentColor}
+  }
+  @media (forced-colors: active){
+    .grad{background:none;color:CanvasText;-webkit-text-fill-color:CanvasText;forced-color-adjust:none}
+  }
   .lead{color:var(--dim);font-size:clamp(15px,1.6vw,18px);max-width:560px;margin-top:22px}
   .lead b{color:var(--text)}
 
@@ -849,7 +858,15 @@ if (demoForm) demoForm.addEventListener('submit', async e => {
   e.preventDefault();
   const status = document.getElementById('demoStatus');
   const btn = document.getElementById('demoSubmit');
-  const T = (k, f) => window.RunvisT ? window.RunvisT(k, f) : f;
+  // Named RunvisT, not T. As `T` it was invisible to BOTH machines that keep
+  // this layer honest: tools/prerender.mjs step 7b, which swaps two-literal
+  // RunvisT(key, fallback) calls into the target language, and check-content
+  // [10], which holds those fallbacks equal to the dictionary. So all five
+  // prerendered copies of this page carried the KOREAN fallback for every form
+  // message — the string a reader sees when the dictionary has not landed,
+  // which is exactly the moment they cannot fall back on the page around it.
+  // how-it-works.html already used this name and this comment's reason.
+  const RunvisT = (k, f) => window.RunvisT ? window.RunvisT(k, f) : f;
   // Live region: clear it first so an identical repeat message is announced.
   const show = (msg, ok) => {
     status.textContent = '';
@@ -857,24 +874,29 @@ if (demoForm) demoForm.addEventListener('submit', async e => {
     status.style.color = ok ? 'var(--green)' : 'var(--red)';
     setTimeout(() => { status.textContent = msg; }, 50);
   };
-  if (demoForm.action.includes('YOUR_FORM_ID')) { show(T('form.busy', '신청 접수 준비 중입니다. 조금만 기다려 주세요!'), false); return; }
+  if (demoForm.action.includes('YOUR_FORM_ID')) { show(RunvisT('form.busy', '신청 접수 준비 중입니다. 조금만 기다려 주세요!'), false); return; }
   btn.disabled = true;
   const original = btn.textContent;
-  btn.textContent = T('form.sending', '전송 중…');
+  btn.textContent = RunvisT('form.sending', '전송 중…');
   try {
     const res = await fetch(demoForm.action, { method: 'POST', body: new FormData(demoForm), headers: { Accept: 'application/json' } });
-    if (res.ok) { show(T('form.ok', '등록됐습니다. 여는 날짜가 정해지면 이 주소로 알려 드립니다.'), true); demoForm.reset(); }
-    else { const d = await res.json().catch(() => null); show(d?.errors?.[0]?.message || T('form.fail', '전송에 실패했어요. 잠시 후 다시 시도해 주세요.'), false); }
-  } catch { show(T('form.neterr', '네트워크 오류예요. 잠시 후 다시 시도해 주세요.'), false); }
+    if (res.ok) { show(RunvisT('form.ok', '등록됐습니다. 여는 날짜가 정해지면 이 주소로 알려 드리고, 베타가 열리면 신청 순서대로 초대장 한 통이 갑니다. 확인 메일은 따로 가지 않으니, 위에 보이는 주소가 맞는지 여기서 한 번만 봐 주세요. 삭제를 원하시면 언제든 help@runvis.app 으로 알려 주세요. 기다리는 동안 5km 데모를 달려 보세요. 🏃'), true); demoForm.reset(); }
+    else { const d = await res.json().catch(() => null); show(d?.errors?.[0]?.message || RunvisT('form.fail', '전송에 실패했어요. 잠시 후 다시 시도해 주세요.'), false); }
+  } catch { show(RunvisT('form.neterr', '네트워크 오류예요. 잠시 후 다시 시도해 주세요.'), false); }
   finally { btn.disabled = false; btn.textContent = original; }
 });
 
 // ---------- robust in-page anchors (same fix as index) ----------
+// behavior:'smooth' overrides the html{scroll-behavior:auto} this page sets
+// under prefers-reduced-motion:reduce, and the section navigation is the only
+// way to move around this page — so every single jump animated for a reader
+// who had asked it not to (2026-09-06 라운드 15, -0.6).
+const SMOOTH = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
   const el = document.querySelector(a.getAttribute('href'));
   if (!el) return;
   e.preventDefault();
-  el.scrollIntoView({behavior:'smooth', block:'start'});
+  el.scrollIntoView({behavior:SMOOTH(), block:'start'});
 }));
 </script>
 </body>

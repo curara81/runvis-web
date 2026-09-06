@@ -26,6 +26,143 @@ import {
   faqLd, appLd, pageLd, readLd,
 } from './i18n-lib.mjs';
 
+/* ---- 0. the counted numbers in the copy ---------------------------------
+ *
+ * Four sentences on the home page state figures measured out of the app
+ * checkout: the glossary size, the number of coach lines, the number of tests
+ * and the number of interface strings. `node tools/app-facts.mjs` measures
+ * them into tools/app-facts.json; until now the SENTENCES were typed by hand
+ * and only compared against that file, and to make the comparison survivable
+ * four of them were written as floors ("500개 이상", "over 2,100").
+ *
+ * That is how they rotted. The floors held while the repository grew, so
+ * nothing ever failed, and the distance widened every round until the page
+ * claimed 500+ tests against 737 and 2,100+ strings against 2,324 — inside the
+ * one paragraph whose whole argument is that its numbers are counted rather
+ * than invented. The English table had even dropped its "over", so that copy
+ * was simply false (2026-09-06 라운드 15, -1 and [회귀]).
+ *
+ * So the build writes them now. This step runs before anything is rendered: it
+ * carries each measurement from tools/app-facts.json into the six dictionaries
+ * and into the Korean inline defaults, and records what it wrote in
+ * tools/copy-facts.json so the NEXT run knows which token to replace. Only
+ * digits move — the sentence around them is the translator's. check-content
+ * [9] then asserts exact equality with app-facts.json, so if this step is ever
+ * bypassed the build says so instead of shipping a stale number.
+ *
+ *   key → the fields its numbers state, in the order they appear in the value.
+ */
+const FACT_NUMBERS = {
+  'n.why.s1v': ['glossary'],
+  'n.why.s2v': ['cueSites'],
+  'n.why.s3v': ['tests'],
+  'n.trust.l1': ['tests'],
+  'n.trust.l2': ['stringKeys', 'coachTable'],
+  'n.trust.l3': ['glossary'],
+};
+const FACT_LOCALE = { ko: 'ko-KR', en: 'en-US', ja: 'ja-JP', es: 'es-ES', zh: 'zh-Hant', de: 'de-DE' };
+
+/** The two spellings a market may use for a whole number: bare digits, and
+ *  digits grouped with that locale's own separator (2,324 / 2.324). */
+function factTokens(code, n) {
+  const sep = (new Intl.NumberFormat(FACT_LOCALE[code]).formatToParts(1234567)
+    .find(p => p.type === 'group') || { value: '' }).value;
+  return { bare: String(n), grouped: sep ? String(n).replace(/\B(?=(\d{3})+(?!\d))/g, sep) : String(n) };
+}
+
+/** Replace one whole-number token, not a digit run inside a longer one: "41"
+ *  must not match the "41" in "410" or in "2,410". */
+function replaceNumberToken(value, from, to) {
+  let at = value.indexOf(from);
+  while (at >= 0) {
+    const before = value[at - 1], after = value[at + from.length];
+    const digitish = ch => ch !== undefined && /[0-9.,]/.test(ch);
+    if (!digitish(before) && !digitish(after)) {
+      return value.slice(0, at) + to + value.slice(at + from.length);
+    }
+    at = value.indexOf(from, at + 1);
+  }
+  return null;                                     // token not present
+}
+
+/** Rewrite one JSON string value inside t-<code>.js, in place, by key. */
+function dictSet(code, key, next) {
+  const file = path.join(ROOT, `t-${code}.js`);
+  const src = fs.readFileSync(file, 'utf8');
+  const needle = JSON.stringify(key) + ': ';
+  const at = src.indexOf(needle);
+  if (at < 0) throw new Error(`syncFacts: t-${code}.js has no ${key}`);
+  let j = at + needle.length;
+  if (src[j] !== '"') throw new Error(`syncFacts: ${code}/${key} is not a string`);
+  let k = j + 1;
+  for (;;) {
+    if (src[k] === undefined) throw new Error(`syncFacts: ${code}/${key} is unterminated`);
+    if (src[k] === '\\') { k += 2; continue; }
+    if (src[k] === '"') { k++; break; }
+    k++;
+  }
+  fs.writeFileSync(file, src.slice(0, j) + JSON.stringify(next) + src.slice(k));
+}
+
+function syncFacts() {
+  const facts = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools/app-facts.json'), 'utf8'));
+  const lockPath = path.join(ROOT, 'tools/copy-facts.json');
+  const FIELDS = [...new Set(Object.values(FACT_NUMBERS).flat())];
+  const now = Object.fromEntries(FIELDS.map(f => [f, facts[f]]));
+  for (const f of FIELDS) {
+    if (!Number.isInteger(now[f])) throw new Error(`syncFacts: app-facts.json has no integer ${f}`);
+  }
+  const first = !fs.existsSync(lockPath);
+  const was = first ? now : JSON.parse(fs.readFileSync(lockPath, 'utf8'));
+  const moved = FIELDS.filter(f => was[f] !== now[f]);
+
+  if (moved.length) {
+    const dicts0 = loadDicts();
+    for (const code of CODES) {
+      for (const [key, fields] of Object.entries(FACT_NUMBERS)) {
+        let value = dicts0[code][key];
+        if (value == null) throw new Error(`syncFacts: t-${code}.js has no ${key}`);
+        let changed = false;
+        for (const f of fields) {
+          if (was[f] === now[f]) continue;
+          const old = factTokens(code, was[f]), next = factTokens(code, now[f]);
+          // Prefer the grouped spelling: it is the longer, more specific token,
+          // and matching "324" inside "2,324" would corrupt the value.
+          const hit = replaceNumberToken(value, old.grouped, next.grouped)
+            ?? replaceNumberToken(value, old.bare, next.bare);
+          if (hit == null) {
+            throw new Error(`syncFacts: ${code}/${key} does not state ${f} = ${was[f]} — `
+              + 'fix the sentence by hand, then update tools/copy-facts.json');
+          }
+          value = hit; changed = true;
+        }
+        if (changed) dictSet(code, key, value);
+      }
+    }
+    // …and the Korean inline defaults, which check-content [3] holds equal to
+    // the ko dictionary. Read the dictionaries back: they were just rewritten.
+    const koDict = loadDicts().ko;
+    for (const page of PAGES) {
+      const file = path.join(ROOT, page);
+      let html = fs.readFileSync(file, 'utf8');
+      const edits = [];
+      for (const el of findI18nElements(html)) {
+        if (!FACT_NUMBERS[el.key]) continue;
+        const want = koDict[el.key];
+        if (html.slice(el.innerStart, el.innerEnd) !== want) {
+          edits.push({ start: el.innerStart, end: el.innerEnd, text: want });
+        }
+      }
+      if (edits.length) { fs.writeFileSync(file, spliceAll(html, edits)); console.log(`  sync ${page}: ${edits.length} inline default(s)`); }
+    }
+    console.log(`prerender: app facts moved — ${moved.map(f => `${f} ${was[f]}→${now[f]}`).join(', ')}`);
+  }
+  if (first || moved.length) {
+    fs.writeFileSync(lockPath, JSON.stringify(now, null, 2) + '\n');
+  }
+}
+syncFacts();
+
 const dicts = loadDicts();
 const OUT_CODES = CODES.filter(c => c !== 'ko');
 

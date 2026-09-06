@@ -34,42 +34,7 @@ window.RunvisPageLang="en";window.RunvisBase="/";
 <link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/terms.html">
 <link rel="alternate" hreflang="de" href="https://runvis.app/de/terms.html">
 <style>
-:root{
---green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;
---text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);
-font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
-line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
-.wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}
-a{color:var(--green);text-decoration:none}
-:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
-img{max-width:100%;height:auto;display:block}
-body{overflow-wrap:break-word;word-break:normal;line-break:normal}
-:lang(ko) body,body:lang(ko){word-break:keep-all}
-h1{font-size:1.7rem;margin-bottom:6px}
-.updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}
-.skip{position:absolute;left:-9999px;top:0;z-index:200}
-.skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
-padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
-h2{font-size:1.15rem;margin:36px 0 12px;color:var(--green)}
-p,li{color:var(--dim);font-size:.95rem}
-ul{padding-left:20px;margin:10px 0}
-li{margin:6px 0}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
-.back{color:var(--dim);font-size:.9rem}
-.legalnote{color:var(--dim2);font-size:.8rem;margin-bottom:22px}
-.langsel{position:relative;display:inline-block}
-.langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
-.langsel button:hover{border-color:var(--green)}
-.langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}
-.langsel.open ul{display:block}
-.langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
-.langsel li:hover{background:rgba(61,220,132,.15)}
-.langsel li{padding:0}
-.langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
-.langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
+:root{--green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;--text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;}*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}.wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}a{color:var(--green);text-decoration:none}:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}img{max-width:100%;height:auto;display:block}body{overflow-wrap:break-word;word-break:normal;line-break:normal}:lang(ko) body,body:lang(ko){word-break:keep-all}h1{font-size:1.7rem;margin-bottom:6px}.updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}.skip{position:absolute;left:-9999px;top:0;z-index:200}.skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}h2{font-size:1.15rem;margin:36px 0 12px;color:var(--green)}p,li{color:var(--dim);font-size:.95rem}ul{padding-left:20px;margin:10px 0}li{margin:6px 0}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}.back{color:var(--dim);font-size:.9rem}.legalnote{color:var(--dim2);font-size:.8rem;margin-bottom:22px}.langsel{position:relative;display:inline-block}.langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}.langsel button:hover{border-color:var(--green)}.langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}.langsel.open ul{display:block}.langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}.langsel li:hover{background:rgba(61,220,132,.15)}.langsel li{padding:0}.langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}.langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
 </style>
 <script>
 (function(){
@@ -146,12 +111,12 @@ li{margin:6px 0}
 
   <h2 data-i18n="tm.s2.h">2. Subscriptions</h2>
   <ul>
-    <li data-i18n="tm.s2.li1">Payment, renewal and cancellation are handled through your Apple App Store account and follow Apple's standard subscription terms</li>
+    <li data-i18n="tm.s2.li1">Payment, renewal and cancellation are handled through your Apple App Store account and follow Apple’s standard subscription terms</li>
     <li data-i18n="tm.s2.li2">Monthly and annual plans are <b>auto-renewing</b>. Unless you cancel at least <b>24 hours before</b> the current period ends, the subscription renews automatically, and the renewal charge is billed to your Apple account within the 24 hours before the period ends</li>
-    <li data-i18n="tm.s2.li3">Where a free trial is offered, it converts to a paid subscription and is charged unless you cancel at least 24 hours before the trial ends. Whether a trial is offered is determined by Apple based on your account's eligibility, and it is shown on the purchase screen only when you are eligible</li>
+    <li data-i18n="tm.s2.li3">Where a free trial is offered, it converts to a paid subscription and is charged unless you cancel at least 24 hours before the trial ends. Whether a trial is offered is determined by Apple based on your account’s eligibility, and it is shown on the purchase screen only when you are eligible</li>
     <li data-i18n="tm.s2.li4">You can cancel any time in iOS Settings → Apple Account → Subscriptions, and you keep access until the period you already paid for ends</li>
     <li data-i18n="tm.s2.li5">The monthly and yearly subscriptions are not covered by Apple Family Sharing. The only product a family group can share is the lifetime pass in section 3</li>
-    <li data-i18n="tm.s2.li6">Refunds follow Apple's refund policy and process</li>
+    <li data-i18n="tm.s2.li6">Refunds follow Apple’s refund policy and process</li>
   </ul>
 
   <h2 data-i18n="tm.s3.h">3. Lifetime pass</h2>
@@ -161,7 +126,7 @@ li{margin:6px 0}
     <li data-i18n="tm.s3.li3">The lifetime pass is covered by Apple Family Sharing, so the members of your family group can use it too — none of the subscription products are shareable</li>
     <li data-i18n="tm.s3.li4">Because Runvis creates no account, you restore the pass on a new device or a reinstall with <b>Restore Purchases</b> on the purchase screen. Restoring works only with the Apple account used for the purchase</li>
     <li data-i18n="tm.s3.li5">The lifetime pass is valid for as long as the Runvis app is offered on the App Store. If the service is discontinued, the service-limitation clause in section 5 applies alongside it</li>
-    <li data-i18n="tm.s3.li6">Refunds follow Apple's refund policy and process</li>
+    <li data-i18n="tm.s3.li6">Refunds follow Apple’s refund policy and process</li>
     <li data-i18n="tm.s3.li7">The tip jar (coffee, lunch, heart) is a <b>one-time thank-you</b> and unlocks no features at all — it is not a substitute for a subscription or the lifetime pass</li>
   </ul>
 
@@ -177,7 +142,7 @@ li{margin:6px 0}
     <li data-i18n="tm.s5.li1">Every number, prediction and coaching cue in Runvis is <b>information for reference</b> based on published sports-science formulas, and is not a medical diagnosis, treatment or prescription</li>
     <li data-i18n="tm.s5.li2">By the nature of the sensors, heart-rate, GPS and running-dynamics measurements can carry error, and their accuracy is not warranted</li>
     <li data-i18n="tm.s5.li3">The developer accepts no legal liability for the outcomes of training based on this reference information (changes in performance, injury and so on), except for damage caused by intent or gross negligence</li>
-    <li data-i18n="tm.s5.li4">The service is provided "as is", and individual features may change or stop working as the Apple platform or external APIs (weather and the like) change</li>
+    <li data-i18n="tm.s5.li4">The service is provided “as is”, and individual features may change or stop working as the Apple platform or external APIs (weather and the like) change</li>
   </ul>
 
   <h2 data-i18n="tm.s6.h">6. Intellectual property</h2>

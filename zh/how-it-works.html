@@ -34,66 +34,7 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
 <link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/how-it-works.html">
 <link rel="alternate" hreflang="de" href="https://runvis.app/de/how-it-works.html">
 <style>
-:root{
---green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;
---text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);
-font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
-line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
-.wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}
-a{color:var(--green);text-decoration:none}
-:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
-img{max-width:100%;height:auto;display:block}
-body{overflow-wrap:break-word;word-break:keep-all;line-break:normal}
-h1{font-size:1.7rem;margin-bottom:6px}
-.updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}
-.skip{position:absolute;left:-9999px;top:0;z-index:200}
-.skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
-padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
-h2{font-size:1.15rem;margin:36px 0 12px;color:var(--green)}
-p,li{color:var(--dim);font-size:.95rem}
-ul{padding-left:20px;margin:10px 0}
-li{margin:6px 0}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0}
-.card b{color:var(--text)}
-.tablewrap{overflow-x:auto;margin:14px 0}
-table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:520px}
-th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--dim)}
-th{color:var(--text);font-weight:600}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
-.back{color:var(--dim);font-size:.9rem}
-.legalnote{color:var(--dim2);font-size:.8rem;margin-bottom:22px}
-.langsel{position:relative;display:inline-block}
-.langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
-.langsel button:hover{border-color:var(--green)}
-.langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}
-.langsel.open ul{display:block}
-.langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
-.langsel li:hover{background:rgba(61,220,132,.15)}
-.langsel li{padding:0}
-.langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
-.langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
-.intro{color:var(--dim);font-size:.95rem;margin-bottom:8px}
-h2{scroll-margin-top:20px}
-ol{list-style:none;margin:12px 0;padding:0;counter-reset:ns}
-ol li{counter-increment:ns;display:flex;gap:10px;padding:7px 0;line-height:1.7}
-ol li::before{content:counter(ns);flex:0 0 20px;height:20px;margin-top:4px;border-radius:999px;
-background:rgba(61,220,132,.16);color:var(--green);font-size:11.5px;font-weight:800;display:grid;place-items:center}
-.hzcalc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
-@media(max-width:520px){.hzcalc{grid-template-columns:1fr 1fr}.hzcalc label:last-child{grid-column:1/-1}}
-.hzcalc label{display:block;font-size:12px;color:var(--dim);line-height:1.4}
-.hzcalc input{width:100%;margin-top:5px;background:#0d1013;border:1px solid var(--line);color:var(--text);
-border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;font-variant-numeric:tabular-nums}
-.hzcalc input:focus{border-color:var(--green);outline:none}
-.hzout{margin-top:12px;font-size:.9rem;line-height:1.9;color:#dfe3e7}
-.hzout b{color:var(--green);font-variant-numeric:tabular-nums}
-.hzout .hzmax{display:block;color:var(--dim);font-size:.8rem;margin-top:4px}
-.gpxlist{font-size:.82rem;line-height:2.1;color:var(--dim2)}
-.gpxlist a{white-space:nowrap}
-.note{color:var(--dim2);font-size:.8rem;margin-top:8px}
-.backhome{margin-top:44px;padding-top:20px;border-top:1px solid var(--line)}
+:root{--green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;--text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;}*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}.wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}a{color:var(--green);text-decoration:none}:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}img{max-width:100%;height:auto;display:block}body{overflow-wrap:break-word;word-break:keep-all;line-break:normal}h1{font-size:1.7rem;margin-bottom:6px}.updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}.skip{position:absolute;left:-9999px;top:0;z-index:200}.skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}h2{font-size:1.15rem;margin:36px 0 12px;color:var(--green)}p,li{color:var(--dim);font-size:.95rem}ul{padding-left:20px;margin:10px 0}li{margin:6px 0}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0}.card b{color:var(--text)}.tablewrap{overflow-x:auto;margin:14px 0}table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:520px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--dim)}th{color:var(--text);font-weight:600}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}.back{color:var(--dim);font-size:.9rem}.legalnote{color:var(--dim2);font-size:.8rem;margin-bottom:22px}.langsel{position:relative;display:inline-block}.langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}.langsel button:hover{border-color:var(--green)}.langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}.langsel.open ul{display:block}.langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}.langsel li:hover{background:rgba(61,220,132,.15)}.langsel li{padding:0}.langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}.langsel a[aria-checked="true"]{color:var(--green);font-weight:700}.intro{color:var(--dim);font-size:.95rem;margin-bottom:8px}h2{scroll-margin-top:20px}ol{list-style:none;margin:12px 0;padding:0;counter-reset:ns}ol li{counter-increment:ns;display:flex;gap:10px;padding:7px 0;line-height:1.7}ol li::before{content:counter(ns);flex:0 0 20px;height:20px;margin-top:4px;border-radius:999px;background:rgba(61,220,132,.16);color:var(--green);font-size:11.5px;font-weight:800;display:grid;place-items:center}.hzcalc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}@media(max-width:520px){.hzcalc{grid-template-columns:1fr 1fr}.hzcalc label:last-child{grid-column:1/-1}}.hzcalc label{display:block;font-size:12px;color:var(--dim);line-height:1.4}.hzcalc input{width:100%;margin-top:5px;background:#0d1013;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;font-variant-numeric:tabular-nums}.hzcalc input:focus{border-color:var(--green);outline:none}.hzout{margin-top:12px;font-size:.9rem;line-height:1.9;color:#dfe3e7}.hzout b{color:var(--green);font-variant-numeric:tabular-nums}.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;margin:18px 0 6px}.shots figure{margin:0}.shots img{border-radius:14px}.shots figcaption{margin-top:9px;font-size:.8rem;color:var(--dim2);line-height:1.55}.shot1{margin:16px 0 6px;max-width:240px}.shot1 img{border-radius:14px}.shot1 figcaption{margin-top:9px;font-size:.8rem;color:var(--dim2);line-height:1.55}.hzout .hzmax{display:block;color:var(--dim);font-size:.8rem;margin-top:4px}.gpxlist{font-size:.82rem;line-height:2.1;color:var(--dim2)}.gpxlist a{white-space:nowrap}.note{color:var(--dim2);font-size:.8rem;margin-top:8px}.backhome{margin-top:44px;padding-top:20px;border-top:1px solid var(--line)}
 </style>
 <script>
 (function(){
@@ -178,21 +119,34 @@ border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;font-variant-num
     <li data-i18n="n.live.q.n4">可以逐項開關的有 8 個：配速、心率區間、姿勢、坡道、鼓勵與腳本、跑步常識卡、補水補給、自動暫停與恢復語音。分段不是開關，而是選間隔（關閉、0.5 或 1，公里或英里）。安全提示與訓練步驟這類核心提示無法關閉。音樂只在教練說話時稍微降低。</li>
   </ul>
 
-  <h2 id="versus" data-i18n="hw.vs.h">跟專用跑錶有什麼不同？</h2>
-  <p data-i18n="hw.vs.p">訓練負荷、恢復時間、乳酸閾值推估、比賽配速計畫 — 一般說法是，要看這些數字就得另外買一支跑錶。Runvis 則是從 Apple Watch 已經記錄下來的心率、GPS 與氣壓高度算出同樣的數字。專用跑錶並未公開自己的算式，所以我們不會說「用的是同一條式子」。我們會做的是把自己的算式講清楚：底下每一條都是有名字、已公開的公式。在 App 裡，每個指標都能點開，看它的意思、計算依據，以及你自己的平常範圍。</p>
+  <h2 id="versus" data-i18n="hw.vs.h">和 Garmin Forerunner、COROS 這類專用跑錶，哪裡一樣、哪裡不一樣</h2>
+  <p data-i18n="hw.vs.p">訓練負荷、恢復時間、乳酸閾值推估、比賽配速計畫 — 一般說法是，要看這些數字就得另外買一支 Garmin Forerunner 或 COROS 這樣的跑錶。在自家硬體裡做到這件事的公司早就有了，只是沒有人在 Apple Watch 上做。Runvis 則是從 Apple Watch 已經記錄下來的心率、GPS 與氣壓高度算出同樣的數字。專用跑錶並未公開自己的算式，所以我們不會說「用的是同一條式子」。我們會做的是把自己的算式講清楚：底下每一條都是有名字、已公開的公式。在 App 裡，每個指標都能點開，看它的意思、計算依據，以及你自己的平常範圍。</p>
   <div class="tablewrap"><table>
     <tr><th data-i18n="hw.vs.th1">指標</th><th data-i18n="hw.vs.th2">Runvis 用什麼算，以及那條公式叫什麼</th></tr>
+    <tr><td data-i18n="hw.vs.r0a">還得多買什麼</td><td data-i18n="hw.vs.r0b">Garmin Forerunner 或 COROS，買的就是那支錶本身。Runvis 用的是你手腕上已經有的 Apple Watch，另外要買的只有教練訂閱。</td></tr>
     <tr><td data-i18n="hw.vs.r1a">訓練負荷與狀態（TSB）</td><td data-i18n="hw.vs.r1b">把 Banister TRIMP 餵進 Coggan 的 42 天與 7 天指數移動平均（CTL、ATL），兩者之差就是 TSB。</td></tr>
     <tr><td data-i18n="hw.vs.r2a">恢復時間</td><td data-i18n="hw.vs.r2b">以三件事推估：最後一趟跑步的 TRIMP、目前的 TSB，以及 HRV 狀態。畫面上也會標明「估計」。</td></tr>
     <tr><td data-i18n="hw.vs.r3a">乳酸閾值（估計）</td><td data-i18n="hw.vs.r3b">最近 90 天內，維持在最大心率 85% 以上的最佳 30 分鐘（或 20 分鐘）區段的配速與心率。這是從跑步紀錄推估的值，不是實驗室抽血。</td></tr>
     <tr><td data-i18n="hw.vs.r4a">成績預測與分段配速計畫</td><td data-i18n="hw.vs.r4b">Riegel 外推加上 Runvis VDOT。給它一份路線 GPX，它會依那條路線的高度把配速分段規劃。</td></tr>
     <tr><td data-i18n="hw.vs.r5a">坡度校正配速（GAP）</td><td data-i18n="hw.vs.r5b">Minetti（2002）的跑步能量消耗曲線，上坡與下坡的成本分開計算。</td></tr>
     <tr><td data-i18n="hw.vs.r6a">五個心率區間</td><td data-i18n="hw.vs.r6b">Karvonen（心率儲備）方式；不知道最大心率時，退回用 208 − 0.7 × 年齡推估。下面那個計算機用的就是同一條式子。</td></tr>
+    <tr><td data-i18n="hw.vs.r7a">強度分布</td><td data-i18n="hw.vs.r7b">如果這次跑步有心率時間序列，而且最大心率是實測的，就以最大心率的 78% 與 88% 為界，把跑步時間分進輕鬆、中等、高強度三個區間。沒有時間序列，或最大心率只有年齡公式的推估時，就用這次跑步的平均心率決定區間，這時間歇跑可能會落進灰色的中段 — 畫面上會寫出用的是哪一種算法。</td></tr>
+    <tr><td data-i18n="hw.vs.r8a">坡度暴露</td><td data-i18n="hw.vs.r8b">最近 28 天裡有爬升的跑步（至少兩次）的總爬升除以總距離，也就是每公里公尺數。15 以上算起伏，40 以上算多坡。這是描述你跑過的地形，不是給你打分數。</td></tr>
+    <tr><td data-i18n="hw.vs.r9a">熱暴露指數</td><td data-i18n="hw.vs.r9b">最近四週在 22°C（單位設定為華氏時就是同一溫度的華氏值）以上戶外跑步累積了多少，用 0～100 表示。熱天跑三次後才會出現，停跑三天以上就會下降。這是暴露量，不是生理適應的測量值。</td></tr>
+    <tr><td data-i18n="hw.vs.r10a">教練煞車</td><td data-i18n="hw.vs.r10b">這是預算，不是分數。用最近四個完整週的週跑量決定這週能吸收多少距離，再依你跑完後留下的疼痛回報往下扣。剩餘公里數和被疼痛扣掉的量分開顯示，所以扣了多少、為什麼扣得出來。</td></tr>
+    <tr><td data-i18n="hw.vs.r11a">教練的紀錄雷達</td><td data-i18n="hw.vs.r11b">有 GPS 路線的跑步會在跑步內部掃描，找出各距離的最快分段（best effort）；沒有路線的跑步則用完賽平均配速換算。每筆紀錄都會標明是哪一種依據。範圍是最近 90 天。</td></tr>
   </table></div>
+  <div class="shots">
+<figure><picture><source srcset="/assets/framed-phone-detail.zh.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.zh.webp" type="image/webp"/><img alt="iPhone 指標詳情 — 訓練負荷(CTL) 7 日趨勢、我的 28 日範圍與指標說明" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.zh.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">上表第一列在 App 裡畫出來的樣子 — 訓練負荷（CTL）的 7 天趨勢、你自己的 28 天範圍，以及這個指標是什麼。</figcaption></figure>
+<figure><picture><source srcset="/assets/framed-phone-race.zh.avif" type="image/avif"/><source srcset="/assets/framed-phone-race.zh.webp" type="image/webp"/><img alt="iPhone 比賽成績預測畫面" data-i18n-attr="alt:alt.phone.race" loading="lazy" src="/assets/framed-phone-race.zh.png" data-shot="framed-phone-race" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap2">第四列：比賽預測與分段配速計畫。</figcaption></figure>
+</div>
+  <p class="legalnote" data-i18n="sc.note.s">以此語言執行 App 拍下的實際畫面。</p>
+  <p class="note" data-i18n="hw.vs.tm">Garmin、Forerunner、COROS 為各自公司的商標。Runvis 與這兩家公司沒有任何關係。這裡只陳述已公開的事實；兩家公司都沒有公開自己的算式，因此不做準確度比較。</p>
   <p class="note" data-i18n="hw.vs.note">專用跑錶做得到、而 Runvis 目前還做不到的，也一併寫下來：這個版本沒有錶面複雜功能、沒有 iPhone 主畫面小工具，也沒有即時動態。以上數值都只是參考資訊，不是醫療建議。</p>
 
   <h2 id="zones" data-i18n="hz.h">現在就能算的東西 — 你的 5 個心率區間</h2>
   <p data-i18n="hz.p">這就是 Runvis 教練語音所用的卡佛能（Karvonen）公式。在 App 裡，輸入值會持續更新 — 來自「健康」的 7 天靜止心率，以及手錶實際記錄到的最高心率 — 但算法就是下面這個。</p>
+  <figure class="shot1"><picture><source srcset="/assets/framed-watch-hr.zh.avif" type="image/avif"/><source srcset="/assets/framed-watch-hr.zh.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 心率區間弧線" data-i18n-attr="alt:alt.watch.zone" loading="lazy" src="/assets/framed-watch-hr.zh.png" data-shot="framed-watch-hr" width="480" height="768" decoding="async"/></picture><figcaption data-i18n="hz.cap">下面計算機算出的同一組心率區間，跑步時錶上就是這樣顯示的。</figcaption></figure>
   <div class="hzcalc">
     <label><span data-i18n="hz.age">年齡</span><input id="hzAge" type="number" min="10" max="99" step="1" value="35" inputmode="numeric"/></label>
     <label><span data-i18n="hz.rest">靜止心率</span><input id="hzRest" type="number" min="30" max="110" step="1" value="60" inputmode="numeric"/></label>

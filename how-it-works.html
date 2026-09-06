@@ -138,6 +138,21 @@
   .hzcalc input:focus{border-color:var(--green);outline:none}
   .hzout{margin-top:12px;font-size:.9rem;line-height:1.9;color:#dfe3e7}
   .hzout b{color:var(--green);font-variant-numeric:tabular-nums}
+  /* 2026-09-06 라운드 15 (-1): the page that explains the product showed none
+     of it — zero <img> in 3,499 characters of reference text, while assets/
+     already holds every screen in six languages and check-content [21] already
+     resolves every one of them. These are the same captures index.html uses,
+     with the same data-shot hooks, so tools/prerender.mjs writes this market's
+     file in and i18n.js swaps it on a language change: no new pipeline, and
+     the rows of the table above stop being assertions about a screen nobody
+     has seen. */
+  .shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;margin:18px 0 6px}
+  .shots figure{margin:0}
+  .shots img{border-radius:14px}
+  .shots figcaption{margin-top:9px;font-size:.8rem;color:var(--dim2);line-height:1.55}
+  .shot1{margin:16px 0 6px;max-width:240px}
+  .shot1 img{border-radius:14px}
+  .shot1 figcaption{margin-top:9px;font-size:.8rem;color:var(--dim2);line-height:1.55}
   .hzout .hzmax{display:block;color:var(--dim);font-size:.8rem;margin-top:4px}
   .gpxlist{font-size:.82rem;line-height:2.1;color:var(--dim2)}
   .gpxlist a{white-space:nowrap}
@@ -316,30 +331,65 @@
        names what the category actually sells, so the claim has nothing to land
        on and the words a reader searches for — 훈련 부하, 회복 시간, 젖산 역치,
        recovery time, training load — appeared nowhere near the comparison.
-       No brand name is used and none is needed: the honest comparison is
-       formula provenance, and a dedicated watch publishes none. Every row is a
-       real call site in the app repository — MetricsEngine.swift:289 (Banister
+       2026-09-06 라운드 15 (-1.5, three judges): the anonymity was the next
+       fault. "전용 러닝 시계" is not a phrase anyone searches, comparison
+       search is the only organic channel this pre-launch site has, and the
+       product's own positioning sentence — a Garmin Forerunner or a Coros is a
+       watch you have to buy, Runvis runs on the Apple Watch already on the
+       wrist — was missing its first half everywhere on the site. The names are
+       in the heading, the lead and the first table row now. What is NOT
+       claimed is unchanged and is the reason naming them is safe: neither
+       company publishes its formulas, so this page compares provenance, never
+       accuracy, and hw.vs.tm states the trademarks and the non-affiliation.
+       The defensible form of the positioning claim is the one CLAUDE.md
+       settled on — not "nobody pairs long-term data with live coaching"
+       (Garmin does, inside its own hardware) but "nobody does it on an Apple
+       Watch" — and that is the sentence hw.vs.p now carries.
+       Every row is a real call site in the app repository — MetricsEngine.swift:289 (Banister
        TRIMP) and :360 (Coggan CTL/ATL), :751 estimateRecoveryTime, :430
        (Riegel), :1515 (Minetti 2002), PerformanceScores threshold sampling and
        UserProfile.karvonenZoneLowerBounds — so nothing here is a claim that
-       cannot be read back out of the code. -->
-  <h2 id="versus" data-i18n="hw.vs.h">전용 러닝 시계와 뭐가 다른가요</h2>
-  <p data-i18n="hw.vs.p">훈련 부하, 회복 시간, 젖산 역치 추정, 레이스 페이스 플랜 — 러닝 워치를 따로 사야 볼 수 있다고들 하는 값들입니다. 런비스는 같은 값을 애플워치가 이미 기록한 심박·GPS·기압 고도에서 계산합니다. 전용 시계의 계산식은 공개돼 있지 않으니 '같은 식'이라고는 말하지 않겠습니다. 대신 런비스가 쓰는 식은 전부 이름이 있는 공개된 식이고, 아래에 그 이름을 적었습니다. 앱 안에서는 지표마다 뜻과 계산 근거, 내 평소 범위를 눌러서 볼 수 있습니다.</p>
+       cannot be read back out of the code.
+       Rows 7-11 (2026-09-06 라운드 15, -0.6) close the other gap: the price
+       list sells seven paid tiles and this table explained six METRICS, only
+       one of which was one of those tiles — so the five with the least obvious
+       arithmetic were sold with a gate condition and no method. Their
+       constants are read out of the same files (PerformanceScores
+       .heatThresholdC 22, heatMinSessions 3, hillMinClimbedRuns 2, the
+       78%/88% band edges in CoachAdvisors, PersonalRecords' segment vs
+       average-pace basis), and the intensity row states the FALLBACK as well
+       as the good path, because this page's own standard is that an estimate
+       says it is one. -->
+  <h2 id="versus" data-i18n="hw.vs.h">가민 포러너·코로스 같은 전용 러닝 시계와 뭐가 같고 뭐가 다른가요</h2>
+  <p data-i18n="hw.vs.p">훈련 부하, 회복 시간, 젖산 역치 추정, 레이스 페이스 플랜 — 가민 포러너나 코로스 같은 러닝 워치를 따로 사야 볼 수 있다고들 하는 값들입니다. 이런 값을 자기 하드웨어 안에서 다루는 회사는 이미 있습니다. 애플워치에서 그 일을 하는 곳이 없었을 뿐입니다. 런비스는 같은 값을 애플워치가 이미 기록한 심박·GPS·기압 고도에서 계산합니다. 전용 시계의 계산식은 공개돼 있지 않으니 '같은 식'이라고는 말하지 않겠습니다. 대신 런비스가 쓰는 식은 전부 이름이 있는 공개된 식이고, 아래에 그 이름을 적었습니다. 앱 안에서는 지표마다 뜻과 계산 근거, 내 평소 범위를 눌러서 볼 수 있습니다.</p>
   <div class="tablewrap"><table>
     <tr><th data-i18n="hw.vs.th1">지표</th><th data-i18n="hw.vs.th2">런비스가 쓰는 계산과 그 이름</th></tr>
+    <tr><td data-i18n="hw.vs.r0a">무엇을 더 사야 하나</td><td data-i18n="hw.vs.r0b">가민 포러너·코로스는 시계 자체가 제품입니다. 런비스는 이미 손목에 있는 애플워치를 쓰고, 따로 사는 것은 코치 구독뿐입니다.</td></tr>
     <tr><td data-i18n="hw.vs.r1a">훈련 부하 · 컨디션(TSB)</td><td data-i18n="hw.vs.r1b">Banister TRIMP을 Coggan의 42일·7일 지수이동평균(CTL·ATL)에 넣고, 그 차이를 TSB로 씁니다.</td></tr>
     <tr><td data-i18n="hw.vs.r2a">회복 시간</td><td data-i18n="hw.vs.r2b">마지막 러닝의 TRIMP, 지금의 TSB, HRV 상태 셋으로 추정합니다. 추정값이라고 화면에도 적습니다.</td></tr>
     <tr><td data-i18n="hw.vs.r3a">젖산 역치(추정)</td><td data-i18n="hw.vs.r3b">최근 90일에서 최대심박 85% 이상을 버틴 30분(또는 20분) 최적 구간의 페이스와 심박입니다. 실험실 채혈이 아니라 러닝 기록에서 뽑은 추정치입니다.</td></tr>
     <tr><td data-i18n="hw.vs.r4a">레이스 예측 · 구간 페이스 플랜</td><td data-i18n="hw.vs.r4b">Riegel 외삽과 런비스 VDOT. 코스 GPX를 넣으면 그 코스의 고도에 맞춰 구간마다 페이스를 나눕니다.</td></tr>
     <tr><td data-i18n="hw.vs.r5a">언덕 보정 페이스(GAP)</td><td data-i18n="hw.vs.r5b">Minetti(2002)의 달리기 에너지 소비 곡선입니다. 오르막과 내리막의 비용을 따로 계산합니다.</td></tr>
     <tr><td data-i18n="hw.vs.r6a">심박존 5개</td><td data-i18n="hw.vs.r6b">Karvonen(심박예비량) 방식이고, 최대심박을 모르면 208 − 0.7 × 나이로 추정합니다. 아래 계산기가 같은 식입니다.</td></tr>
+    <tr><td data-i18n="hw.vs.r7a">강도 분포</td><td data-i18n="hw.vs.r7b">러닝의 심박 시계열이 있고 최대심박이 실측이면, 러닝 시간을 최대심박 78%·88%를 경계로 이지·중간·고강도 세 밴드에 나눠 담습니다. 시계열이 없거나 최대심박이 나이 공식 추정치뿐이면 그 러닝의 평균 심박 하나로 밴드를 정하는데, 그 경우 인터벌 러닝은 회색지대로 잡힐 수 있습니다 — 화면에 어느 쪽으로 계산했는지 적습니다.</td></tr>
+    <tr><td data-i18n="hw.vs.r8a">언덕 노출</td><td data-i18n="hw.vs.r8b">최근 28일에 오르막이 있었던 러닝(2회 이상)만 모아 총 상승고도 ÷ 총 거리, 즉 m/km입니다. 15 이상이면 구릉, 40 이상이면 언덕 많음. 러너를 채점하는 값이 아니라 달린 지형을 적는 값입니다.</td></tr>
+    <tr><td data-i18n="hw.vs.r9a">더위 노출 지수</td><td data-i18n="hw.vs.r9b">최근 4주 동안 22°C(단위 설정이 화씨면 같은 온도의 화씨 값) 이상에서 한 야외 러닝이 얼마나 쌓였는지를 0~100으로 적습니다. 더운 날 러닝 3회부터 나오고, 3일 이상 쉬면 내려갑니다. 몸의 생리적 적응을 잰 값이 아니라 노출량입니다.</td></tr>
+    <tr><td data-i18n="hw.vs.r10a">코치 브레이크</td><td data-i18n="hw.vs.r10b">점수가 아니라 예산입니다. 최근 완결된 4주의 주간 거리로 이번 주가 감당할 거리를 잡고, 러닝 뒤에 남긴 통증 보고만큼 깎습니다. 남은 킬로미터와 통증으로 깎인 양을 따로 적어, 왜 줄었는지가 화면에서 보입니다.</td></tr>
+    <tr><td data-i18n="hw.vs.r11a">코치 기록 레이더</td><td data-i18n="hw.vs.r11b">GPS 경로가 있는 러닝은 러닝 안을 훑어 구간 최속(베스트 에포트)을 뽑고, 경로가 없는 러닝은 완주 평균 페이스로 환산합니다. 어느 기준으로 잡힌 기록인지 화면에 함께 적습니다. 최근 90일 창입니다.</td></tr>
   </table></div>
+  <div class="shots">
+<figure><picture><source srcset="assets/framed-phone-detail.avif" type="image/avif"/><source srcset="assets/framed-phone-detail.webp" type="image/webp"/><img alt="iPhone 지표 상세 — 훈련 부하(CTL) 7일 추세, 내 28일 범위, 지표 설명" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="assets/framed-phone-detail.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">위 표 첫 줄이 앱에서 그려진 모습입니다 — 훈련 부하(CTL) 7일 추세와 내 28일 범위, 그리고 그 지표가 무엇인지.</figcaption></figure>
+<figure><picture><source srcset="assets/framed-phone-race.avif" type="image/avif"/><source srcset="assets/framed-phone-race.webp" type="image/webp"/><img alt="iPhone 레이스 예측 화면" data-i18n-attr="alt:alt.phone.race" loading="lazy" src="assets/framed-phone-race.png" data-shot="framed-phone-race" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap2">넷째 줄입니다 — 레이스 예측과 구간 페이스 플랜.</figcaption></figure>
+</div>
+  <p class="legalnote" data-i18n="sc.note.s">이 언어로 촬영한 실제 앱 화면입니다.</p>
+  <p class="note" data-i18n="hw.vs.tm">가민(Garmin)·포러너(Forerunner)·코로스(COROS)는 각 회사의 상표입니다. 런비스는 두 회사와 아무 관계가 없습니다. 여기 적은 것은 공개된 사실뿐이고, 두 회사의 계산식은 공개돼 있지 않으므로 정확도를 비교하지 않습니다.</p>
   <p class="note" data-i18n="hw.vs.note">전용 시계가 하고 런비스가 아직 못 하는 것도 적어 둡니다 — 워치 페이스 컴플리케이션, 아이폰 홈 위젯, 라이브 액티비티는 이번 버전에 들어 있지 않습니다. 그리고 위 값은 전부 참고 정보이며 의학적 조언이 아닙니다.</p>
 
   <!-- 2. The calculator. It moved off index.html with the rest of #beta's
        take-away block; it is the same script and the same six translations. -->
   <h2 id="zones" data-i18n="hz.h">지금 계산해 볼 수 있는 것 — 내 심박존 5개</h2>
   <p data-i18n="hz.p">런비스가 코치 음성에 쓰는 것과 같은 카르보넨(Karvonen) 공식입니다. 앱은 이 값을 애플 건강의 7일 안정시 심박과 실제로 관측된 최고 심박으로 계속 갱신하지만, 계산 자체는 아래와 같습니다.</p>
+  <figure class="shot1"><picture><source srcset="assets/framed-watch-hr.avif" type="image/avif"/><source srcset="assets/framed-watch-hr.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 심박존 아크" data-i18n-attr="alt:alt.watch.zone" loading="lazy" src="assets/framed-watch-hr.png" data-shot="framed-watch-hr" width="480" height="768" decoding="async"/></picture><figcaption data-i18n="hz.cap">아래 계산기와 같은 존을, 워치가 달리는 동안 이렇게 그립니다.</figcaption></figure>
   <div class="hzcalc">
     <label><span data-i18n="hz.age">나이</span><input id="hzAge" type="number" min="10" max="99" step="1" value="35" inputmode="numeric"/></label>
     <label><span data-i18n="hz.rest">안정시 심박</span><input id="hzRest" type="number" min="30" max="110" step="1" value="60" inputmode="numeric"/></label>

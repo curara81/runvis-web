@@ -30,7 +30,7 @@
   if (!code) code = norm(navigator.language) || 'ko';
   window.RunvisLang = window.RunvisLang || code;
   var s = document.createElement('script');
-  s.src = 't-' + code + '.js?v=20260906e';
+  s.src = 't-' + code + '.js?v=20260906f';
   s.async = false;
   document.head.appendChild(s);
 })();

@@ -120,6 +120,22 @@
   :lang(ko) body,body:lang(ko){word-break:keep-all}
   .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
   .grad{background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+  /* background-clip:text paints the glyphs with the gradient and the text
+     itself transparent, so anything that drops the gradient drops the words.
+     Two places do: a browser without background-clip:text, and Windows
+     high-contrast / forced-colors, which replaces backgrounds wholesale. The
+     casualties were the second line of the H1 and the three hero badge
+     figures — the largest type on the page and the numbers most likely to be
+     quoted (2026-09-06 라운드 15, -0.4). -webkit-text-fill-color has to be
+     reset too: it outranks `color` on WebKit, so setting colour alone would
+     have left the glyphs transparent on exactly the engine that needed the
+     fallback most. */
+  @supports not ((background-clip:text) or (-webkit-background-clip:text)){
+    .grad,.tbadge b{background:none;color:var(--green);-webkit-text-fill-color:currentColor}
+  }
+  @media (forced-colors: active){
+    .grad,.tbadge b{background:none;color:CanvasText;-webkit-text-fill-color:CanvasText;forced-color-adjust:none}
+  }
   .btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(120deg,var(--green),var(--cyan));
     color:#04120c;font-weight:800;font-size:17px;padding:15px 30px;border-radius:14px;border:none;cursor:pointer;
     transition:transform .25s var(--ease),box-shadow .25s var(--ease);box-shadow:0 8px 30px rgba(61,220,132,.25);will-change:transform}
@@ -184,9 +200,22 @@
      exactly, and a permanent fade would have greyed out "5-km-Demo" for no
      reason. */
   @media(min-width:701px) and (max-width:920px){
-    nav .links{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    nav .links{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-snap-type:x proximity}
+    nav .links a{scroll-snap-align:start}
     nav .links::-webkit-scrollbar{display:none}
   }
+  /* …and here it is. Both comments above have said "the same navFade mask"
+     since round 13; there was no navFade. The scrollbar is hidden, the row was
+     measured at 493 px inside 342 px, and the right edge ended on a clipped
+     syllable — a reader had no way to know three more links were there
+     (2026-09-06 라운드 15, -0.5). The class is set by script only when the row
+     actually overflows and only on the side that still has links off-screen,
+     which is why it is not written straight into the media queries: at 768 px
+     the German row fits exactly, and a permanent fade would have dimmed
+     "5-km-Demo" for nothing. */
+  nav .links.fade-r{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 30px),transparent)}
+  nav .links.fade-l{-webkit-mask-image:linear-gradient(to left,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(to left,#000 calc(100% - 30px),transparent)}
+  nav .links.fade-l.fade-r{-webkit-mask-image:linear-gradient(to right,transparent,#000 30px,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(to right,transparent,#000 30px,#000 calc(100% - 30px),transparent)}
   nav .links a{transition:color .2s}
   nav .links a:hover{color:var(--text)}
   /* Phone: measured at 384 px the row was 479 px wide inside 336 px, so
@@ -200,9 +229,9 @@
   @media(max-width:700px){
     nav .wrap{height:auto;padding-top:8px;padding-bottom:8px;flex-wrap:wrap;row-gap:6px}
     nav .links{order:3;width:100%;gap:18px;font-size:13.5px;justify-content:flex-start;margin-left:0;
-      overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+      overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-snap-type:x proximity}
     nav .links::-webkit-scrollbar{display:none}
-    nav .links a{white-space:nowrap}
+    nav .links a{white-space:nowrap;scroll-snap-align:start}
     /* Measured at 375 px: the row is 493 px inside 342 px, so three links sit
        past the right edge — and they were 가격, FAQ and the demo, the only
        three on this bar that lead to a decision. The five section anchors are
@@ -290,6 +319,19 @@
      opacity stays on the img, where the .on class is. */
   .watch-stack picture:not(:first-child){position:absolute;top:0;left:0}
   .watch-stack .wnote{margin-top:10px;font-size:11.5px;line-height:1.5;color:var(--dim2);text-align:center}
+  /* WCAG 2.2.2 (Pause, Stop, Hide). The three running screens cross-fade on a
+     3.8 s timer and the only escape used to be prefers-reduced-motion — an OS
+     setting, not a control, and one most readers with a reason to want the
+     motion stopped have not turned on (2026-09-06 라운드 15, -0.7). The dots
+     pick a frame AND stop the timer; the button pauses and resumes and says
+     which it will do. Hover and keyboard focus pause it too, so a reader
+     reading one screen is not interrupted mid-sentence. */
+  .wsctl{display:flex;justify-content:center;align-items:center;gap:9px;margin-top:14px}
+  .wsdot{width:10px;height:10px;padding:0;border-radius:50%;border:1px solid #4a5058;background:none;cursor:pointer}
+  .wsdot[aria-current="true"]{background:var(--green);border-color:var(--green)}
+  .wsdot:focus-visible,.wspause:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+  .wspause{margin-left:6px;padding:3px 11px;border-radius:8px;border:1px solid var(--line2);background:none;color:var(--dim2);font:inherit;font-size:11.5px;line-height:1.6;cursor:pointer}
+  .wspause:hover{color:var(--text);border-color:var(--green)}
   @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
   @media(max-width:640px){.devices{flex-direction:column;align-items:center;gap:26px}.phone{width:220px}.ring{width:420px;height:420px}}
   /* Phone hero was 3,018 px at 384 px wide — the argument the page is making
@@ -746,7 +788,7 @@
   // only text duplicated out of the dictionary, and it exists so the LCP heading
   // never changes language in place. RunvisCritical is applied by the small
   // script that sits directly under the hero markup.
-  var C={"en":{"h":{"n.hero.eb":"Apple Watch running coach","n.hero.h1":"Your Apple Watch<br/><span class=\"grad\">is enough</span>","n.hero.sub":"You don't need a second running watch. Your coach reads the data already on your wrist, picks today's workout, and talks you through the run.","n.hero.cta1":"Join the beta","n.hero.cta2":"Run the 5K demo"},"m":{"meta.title":"Runvis: your Apple Watch is enough. Apple Watch running coach","meta.desc":"You don't need a second running watch. Runvis reads the sleep and heart rate your Apple Watch recorded, picks today's workout, and talks you through the run. No account, no server.","meta.ogtitle":"Runvis: Apple Watch running coach","meta.ogdesc":"You don't need a second running watch. Your coach picks today's workout and talks you through the run."}},"ja":{"h":{"n.hero.eb":"Apple Watchランニングコーチ","n.hero.h1":"Apple Watchが<br/><span class=\"grad\">あれば十分です</span>","n.hero.sub":"ランニングウォッチをもう一台買う必要はありません。すでに手首にあるデータから、今日何を走るかコーチが決めます。走っている間は声で伝えます。","n.hero.cta1":"ベータに申し込む","n.hero.cta2":"5kmデモを走ってみる"},"m":{"meta.title":"Runvis — Apple Watchがあれば十分です。Apple Watchランニングコーチ","meta.desc":"ランニングウォッチをもう一台買う必要はありません。Apple Watchが記録した睡眠と心拍を読んで、今日何を走るかコーチが決めます。走っている間は声で伝えます。アカウントもサーバーもありません。","meta.ogtitle":"Runvis — Apple Watchランニングコーチ","meta.ogdesc":"ランニングウォッチをもう一台買う必要はありません。今日何を走るかコーチが決めて、走っている間は声で伝えます。"}},"es":{"h":{"n.hero.eb":"Entrenador de running para Apple Watch","n.hero.h1":"Con el Apple Watch<br/><span class=\"grad\">ya basta</span>","n.hero.sub":"No hace falta comprar otro reloj de running. Con los datos que ya tienes en la muñeca, el entrenador decide qué corres hoy y te lo va contando por voz mientras corres.","n.hero.cta1":"Apúntate a la beta","n.hero.cta2":"Corre la demo de 5 km"},"m":{"meta.title":"Runvis — con el Apple Watch ya basta. Entrenador de running para Apple Watch","meta.desc":"No hace falta comprar otro reloj de running. El entrenador lee el sueño y el pulso que registra tu Apple Watch, decide qué corres hoy y te lo cuenta por voz mientras corres. Sin cuenta y sin servidores.","meta.ogtitle":"Runvis — entrenador de running para Apple Watch","meta.ogdesc":"No hace falta comprar otro reloj de running. El entrenador decide qué corres hoy y te lo cuenta por voz mientras corres."}},"zh":{"h":{"n.hero.eb":"Apple Watch 跑步教練","n.hero.h1":"有 Apple Watch<br/><span class=\"grad\">就夠了</span>","n.hero.sub":"不必再買第二支跑錶。用你手腕上已經有的資料，教練決定今天跑什麼，跑步時再用聲音告訴你。","n.hero.cta1":"報名 Beta","n.hero.cta2":"試跑 5 公里展示"},"m":{"meta.title":"Runvis — 有 Apple Watch 就夠了。Apple Watch 跑步教練","meta.desc":"不必再買第二支跑錶。讀取 Apple Watch 記錄的睡眠與心率，教練決定今天跑什麼，跑步時用聲音告訴你。沒有帳號，也沒有伺服器。","meta.ogtitle":"Runvis — Apple Watch 跑步教練","meta.ogdesc":"不必再買第二支跑錶。今天跑什麼由教練決定，跑步時用聲音告訴你。"}},"de":{"h":{"n.hero.eb":"Lauf-Coach für die Apple Watch","n.hero.h1":"Deine Apple Watch<br/><span class=\"grad\">reicht aus</span>","n.hero.sub":"Du brauchst keine zweite Laufuhr. Der Coach nimmt die Daten, die schon an deinem Handgelenk liegen, und legt fest, was du heute läufst. Im Lauf sagt er es dir per Stimme.","n.hero.cta1":"Für die Beta anmelden","n.hero.cta2":"Die 5-km-Demo laufen"},"m":{"meta.title":"Runvis — Die Apple Watch reicht aus. Lauf-Coach für die Apple Watch","meta.desc":"Du brauchst keine zweite Laufuhr. Der Coach liest Schlaf und Puls, die deine Apple Watch aufgezeichnet hat, legt fest, was du heute läufst, und sagt es dir im Lauf per Stimme. Kein Konto, kein Server.","meta.ogtitle":"Runvis — Lauf-Coach für die Apple Watch","meta.ogdesc":"Du brauchst keine zweite Laufuhr. Der Coach legt fest, was du heute läufst, und sagt es dir im Lauf per Stimme."}}};
+  var C={"en":{"h":{"n.hero.eb":"Apple Watch running coach","n.hero.h1":"Your Apple Watch<br/><span class=\"grad\">is enough</span>","n.hero.sub":"You don’t need a second running watch. Your coach reads the data already on your wrist, picks today’s workout, and talks you through the run.","n.hero.cta1":"Join the beta","n.hero.cta2":"Run the 5K demo"},"m":{"meta.title":"Runvis: your Apple Watch is enough. Apple Watch running coach","meta.desc":"You don’t need a second running watch. Runvis reads the sleep and heart rate your Apple Watch recorded, picks today’s workout, and talks you through the run. No account, no server.","meta.ogtitle":"Runvis: Apple Watch running coach","meta.ogdesc":"You don’t need a second running watch. Your coach picks today’s workout and talks you through the run."}},"ja":{"h":{"n.hero.eb":"Apple Watchランニングコーチ","n.hero.h1":"Apple Watchが<br/><span class=\"grad\">あれば十分です</span>","n.hero.sub":"ランニングウォッチをもう一台買う必要はありません。すでに手首にあるデータから、今日何を走るかコーチが決めます。走っている間は声で伝えます。","n.hero.cta1":"ベータに申し込む","n.hero.cta2":"5kmデモを走ってみる"},"m":{"meta.title":"Runvis — Apple Watchがあれば十分です。Apple Watchランニングコーチ","meta.desc":"ランニングウォッチをもう一台買う必要はありません。Apple Watchが記録した睡眠と心拍を読んで、今日何を走るかコーチが決めます。走っている間は声で伝えます。アカウントもサーバーもありません。","meta.ogtitle":"Runvis — Apple Watchランニングコーチ","meta.ogdesc":"ランニングウォッチをもう一台買う必要はありません。今日何を走るかコーチが決めて、走っている間は声で伝えます。"}},"es":{"h":{"n.hero.eb":"Entrenador de running para Apple Watch","n.hero.h1":"Con el Apple Watch<br/><span class=\"grad\">ya basta</span>","n.hero.sub":"No hace falta comprar otro reloj de running. Con los datos que ya tienes en la muñeca, el entrenador decide qué corres hoy y te lo va contando por voz mientras corres.","n.hero.cta1":"Apúntate a la beta","n.hero.cta2":"Corre la demo de 5 km"},"m":{"meta.title":"Runvis — con el Apple Watch ya basta. Entrenador de running para Apple Watch","meta.desc":"No hace falta comprar otro reloj de running. El entrenador lee el sueño y el pulso que registra tu Apple Watch, decide qué corres hoy y te lo cuenta por voz mientras corres. Sin cuenta y sin servidores.","meta.ogtitle":"Runvis — entrenador de running para Apple Watch","meta.ogdesc":"No hace falta comprar otro reloj de running. El entrenador decide qué corres hoy y te lo cuenta por voz mientras corres."}},"zh":{"h":{"n.hero.eb":"Apple Watch 跑步教練","n.hero.h1":"有 Apple Watch<br/><span class=\"grad\">就夠了</span>","n.hero.sub":"不必再買第二支跑錶。用你手腕上已經有的資料，教練決定今天跑什麼，跑步時再用聲音告訴你。","n.hero.cta1":"報名 Beta","n.hero.cta2":"試跑 5 公里展示"},"m":{"meta.title":"Runvis — 有 Apple Watch 就夠了。Apple Watch 跑步教練","meta.desc":"不必再買第二支跑錶。讀取 Apple Watch 記錄的睡眠與心率，教練決定今天跑什麼，跑步時用聲音告訴你。沒有帳號，也沒有伺服器。","meta.ogtitle":"Runvis — Apple Watch 跑步教練","meta.ogdesc":"不必再買第二支跑錶。今天跑什麼由教練決定，跑步時用聲音告訴你。"}},"de":{"h":{"n.hero.eb":"Lauf-Coach für die Apple Watch","n.hero.h1":"Deine Apple Watch<br/><span class=\"grad\">reicht aus</span>","n.hero.sub":"Du brauchst keine zweite Laufuhr. Der Coach nimmt die Daten, die schon an deinem Handgelenk liegen, und legt fest, was du heute läufst. Im Lauf sagt er es dir per Stimme.","n.hero.cta1":"Für die Beta anmelden","n.hero.cta2":"Die 5-km-Demo laufen"},"m":{"meta.title":"Runvis — Die Apple Watch reicht aus. Lauf-Coach für die Apple Watch","meta.desc":"Du brauchst keine zweite Laufuhr. Der Coach liest Schlaf und Puls, die deine Apple Watch aufgezeichnet hat, legt fest, was du heute läufst, und sagt es dir im Lauf per Stimme. Kein Konto, kein Server.","meta.ogtitle":"Runvis — Lauf-Coach für die Apple Watch","meta.ogdesc":"Du brauchst keine zweite Laufuhr. Der Coach legt fest, was du heute läufst, und sagt es dir im Lauf per Stimme."}}};
   var d2=C[code]; if(!d2) return;
   document.title=d2.m["meta.title"];
   meta("name","description",d2.m["meta.desc"]);
@@ -826,33 +868,34 @@
 <script>(function(){var h=window.RunvisCritical; if(!h) return;
   for(var k in h){ var e=document.querySelector('[data-i18n="'+k+'"]'); if(e) e.innerHTML=h[k]; }
 })();</script>
-<!-- 2026-09-06 라운드 13 (-0.8, -0.7): this line quoted ₩1,900 to all six
-     markets, and five of them have no sense of how big ₩1,900 is. A converted
-     figure is not the answer — Apple charges by price point, not by exchange
-     rate (pr.approx2 says so), and a number written here by hand would be
-     wrong on the day someone pays and would rot in six dictionaries at once.
-     So the amount lives where the store note lives, one screen down, in the
-     price table. What moved IN is the launch-region clause, which used to sit
-     in the third trust badge below — the most prominent slot on the first
-     screen, spent on "not in your country yet". Same fact, lower in the
-     hierarchy, exactly where the reader is being told what costs money.
-     check-content [14] now FAILS if a ₩ figure comes back into this key. -->
+<!-- This sentence states no amount, and check-content [14] FAILS if a ₩
+     figure comes back into it: it is the same line in six languages, and one
+     translator retyping a number here is how a price gets misstated to a
+     market. The amounts live in the badge below and in the price table, both
+     of which pair every KRW figure with that market's own size estimate
+     (pr.approxref, tools/price-approx.json), which is the thing round 13 could
+     not see a safe way to do and round 15 charged -1.5 for not having done
+     (five markets could read three KRW figures and evaluate none of them).
+     What this line keeps is the launch-region clause, which used to sit in the
+     most prominent badge on the first screen and read "not in your country
+     yet" to five of the six markets it was shown to. -->
 <p class="note" data-i18n="n.hero.note">기록은 무료입니다. 코치는 구독이고, 세 가지 요금은 아래 가격표에 있습니다. 대한민국 App Store에 먼저 나오고 다른 지역은 순차 출시입니다.</p>
 <div class="trust">
 <a class="tbadge" href="#privacy"><b data-i18n="n.hero.b1n">분석 계산</b><span data-i18n="n.hero.b1">전부 기기 안에서 — 조회는 예외</span></a>
 <a class="tbadge" href="#faq"><b data-i18n="n.hero.b3n">6개 언어</b><span data-i18n="n.hero.b3">코치 음성 · 예외는 FAQ에</span></a>
-<!-- This slot has now held, in turn, a trial promise, a test count and the
-     launch-region caveat. The test count was a development metric; the caveat
-     was worse — the most visible of the three badges on the first screen read
-     "not in your country yet" to five of the six markets it was shown to
-     (2026-09-06 라운드 13, -0.7). The fact is not deleted, it is demoted: it
-     is the second half of n.hero.note directly above, and pr.approx /
-     pr.launch carry the full version in #price. What stands here instead is
-     the one countable strength the hero was not using — the same 41 the why
-     section states (n.why.s1v), measured out of MetricGlossary.swift by
-     tools/app-facts.mjs and held by check-content [9], so it cannot drift the
-     way a hand-typed badge would. -->
-<a class="tbadge" href="#why"><b data-i18n="n.hero.b4n">41개</b><span data-i18n="n.hero.b4">지표마다 뜻과 계산 근거</span></a>
+<!-- This slot has held, in turn, a trial promise, a test count, the
+     launch-region caveat and the glossary size. All four were specifications:
+     true, countable, and no help to someone deciding. Meanwhile the price sat
+     at 65% of a 22,000-px document and the sign-up at 90%, so the first
+     screen never told anyone what this costs (2026-09-06 라운드 15, -1 구조
+     and -0.6 메시지). It is the price now, and it links to the table.
+     The second line carries this market's own size estimate rather than a
+     second KRW figure — a reader in Berlin can act on "rund 1,30 €" and cannot
+     act on ₩1,900 — with the estimate itself written once in
+     tools/price-approx.json and held to that market's currency by
+     check-content [22]. The glossary count is not deleted: the why section
+     still states it (n.why.s1v), bound to the same measurement. -->
+<a class="tbadge" href="#price"><b data-i18n="n.hero.b5n">월 ₩1,900</b><span data-i18n="n.hero.b5">기록은 계속 무료 · 가격표 보기</span></a>
 </div>
 <!-- Also not .reveal: the phone bezel below is the LCP element, and the reveal
      holds it 28 px off its final position until the deferred script gets round
@@ -898,6 +941,16 @@
      this market's file into the markup, so /de/ ships the German watch. The
      provenance line the reader sees is sc.note, under the first screenshot
      block. -->
+<!-- The stop control the rotation below needs. The dot labels are the frames'
+     own alt text, read off the <img> at runtime, so they are already in this
+     market's language and there is no fourth copy of those three sentences to
+     keep in step. -->
+<div class="wsctl">
+<button class="wsdot" type="button" data-frame="0" aria-current="true"></button>
+<button class="wsdot" type="button" data-frame="1" aria-current="false"></button>
+<button class="wsdot" type="button" data-frame="2" aria-current="false"></button>
+<button class="wspause" id="wsPause" type="button" hidden></button>
+</div>
 </div>
 </div>
 <div class="caption"><span class="mic">🔊</span><span class="txt" id="heroCaption"></span></div>
@@ -910,7 +963,7 @@
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.why.eb">왜 런비스</div>
 <h2 id="why-h" class="reveal" data-i18n="n.why.h2">러닝 시계를 하나 더<br/>살 필요는 없습니다</h2>
-<p class="sub reveal" data-i18n="n.why.sub">훈련 부하나 회복 시간 같은 지표를 보려면 전용 러닝 시계를 사야 한다고들 합니다. 그런데 계산에 필요한 센서는 애플워치에 이미 다 있습니다.</p>
+<p class="sub reveal" data-i18n="n.why.sub">훈련 부하나 회복 시간 같은 지표를 보려면 가민 포러너나 코로스 같은 전용 러닝 시계를 사야 한다고들 합니다. 그런데 계산에 필요한 센서는 애플워치에 이미 다 있습니다.</p>
 <div class="cards">
 <div class="card tilt reveal" data-tilt="8"><div class="ic">⌚️</div><h3 data-i18n="n.why.c1h">센서는 이미 손목에 있어요</h3><p data-i18n="n.why.c1p">심박, GPS, 케이던스, 고도. 최근 워치는 접지 시간과 수직 진폭도 잽니다.</p></div>
 <div class="card tilt reveal" data-tilt="8"><div class="ic">📐</div><h3 data-i18n="n.why.c2h">계산식은 공개돼 있어요</h3><p data-i18n="n.why.c2p">훈련 부하, 회복 시간, 역치 추정은 공개된 스포츠 과학 공식입니다. 런비스는 그 공식을 기기 안에서 돌립니다.</p></div>
@@ -930,17 +983,25 @@
             a fixed inventory, so the page states it exactly.
        s2v  `Cue( ko:` construction sites across the shipping sources, tests
             excluded. Cue is "one spoken line" by its own definition, so this
-            counts lines, not triggers. The page states a FLOOR, so adding a
-            cue can never falsify it.
-       s3v  unique `func test…` names in Tests/. Also a floor, for the same
-            reason: round 10 added 48 tests in one session.
-     The live figures live in ONE place — tools/app-facts.json, written by
-     `node tools/app-facts.mjs` out of the app checkout. check-content [9]
-     compares the six dictionaries against that file. -->
+            counts lines, not triggers.
+       s3v  unique `func test…` names in Tests/.
+     Both used to state a FLOOR ("270개 이상", "500개 이상") so that growth in
+     the app repository could never falsify them. That is exactly how they went
+     stale: the repo reached 287 cue sites and 737 tests and the page still
+     said 270+ and 500+, in a paragraph whose whole claim is that its numbers
+     are counted rather than invented — and the English table had dropped the
+     "over", making it false outright (2026-09-06 라운드 15, -1 and [회귀]).
+     They are EXACT now, and so are n.trust.l1/l2. The live figures live in ONE
+     place — tools/app-facts.json, written by `node tools/app-facts.mjs` out of
+     the app checkout — and `node tools/prerender.mjs` writes them into the six
+     dictionaries and into the inline defaults below (syncFacts), so a fresh
+     measurement reaches the copy on the next build instead of waiting for
+     someone to notice. check-content [9] then fails if any of them disagrees
+     with that file by so much as one digit. -->
 <div class="mini reveal" style="max-width:760px;margin-top:26px">
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s1">뜻까지 설명하는 항목</small><b data-i18n="n.why.s1v">41개</b><em class="st-good" data-i18n="n.why.s1n">기기 안에서</em></div>
-<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s2">코치가 준비한 문장</small><b data-i18n="n.why.s2v">270개 이상</b><em class="st-good" data-i18n="n.why.s2n">6개 언어 전부</em></div>
-<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">자동 테스트</small><b data-i18n="n.why.s3v">500개 이상</b><em class="st-good" data-i18n="n.why.s3n">빌드마다 전부</em></div>
+<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s2">코치가 준비한 문장</small><b data-i18n="n.why.s2v">287개</b><em class="st-good" data-i18n="n.why.s2n">6개 언어 전부</em></div>
+<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">자동 테스트</small><b data-i18n="n.why.s3v">766개</b><em class="st-good" data-i18n="n.why.s3n">빌드마다 전부</em></div>
 </div>
 <!-- The claim "you do not need a second running watch" is made five times on
      this page and had no figure attached anywhere. Naming a competitor's
@@ -959,6 +1020,15 @@
 <div class="eyebrow reveal" data-i18n="n.today.eb">오늘의 결정</div>
 <h2 id="today-h" class="reveal" data-i18n="n.today.h2">아침에 열면<br/>오늘 훈련이 정해져 있습니다</h2>
 <p class="sub reveal" data-i18n="n.today.sub">어젯밤 수면, HRV, 안정시 심박, 어제 훈련 부하를 내 28일 기준과 비교합니다. 그걸로 오늘 훈련을 고르고, 왜 그런지 한 줄로 붙입니다.</p>
+<!-- The five App Shortcuts shipped in six languages and neither the app nor
+     this site said a word about them, so the only way to find them was to
+     already know they existed (2026-09-06 라운드 15, -0.8 / -2). The phrase
+     quoted here is the literal one out of iOSApp/Intents/ko.lproj/
+     AppShortcuts.strings with ${applicationName} resolved, and check-content
+     [26] holds every language's quote against that language's own table — so
+     the site cannot advertise a sentence Siri does not answer to. It is
+     "Runvis", not "런비스", for the same reason: that is what the phrase is. -->
+<p class="honest reveal" data-i18n="n.today.siri">워치를 깨우지 않고도 들을 수 있습니다 — "시리야, Runvis에서 오늘 뭐 뛰지" 한마디면 오늘의 결정을 읽어 줍니다. 준비도와 이번 주 계획도 같은 방식으로 물어봅니다.</p>
 <div class="row reveal">
 <div class="frame"><picture><source srcset="assets/framed-phone-detail.avif" type="image/avif"/><source srcset="assets/framed-phone-detail.webp" type="image/webp"/><img alt="iPhone 지표 상세 — 훈련 부하(CTL) 7일 추세, 내 28일 범위, 지표 설명" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="assets/framed-phone-detail.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture></div>
 <div class="desc">
@@ -1006,6 +1076,7 @@
 <div class="eyebrow reveal" data-i18n="n.live.eb">달리는 동안</div>
 <h2 id="live-h" class="reveal" data-i18n="n.live.h2">필요한 말만,<br/>필요한 순간에</h2>
 <p class="sub reveal" data-i18n="n.live.sub">코치가 하는 말에는 전부 센서가 잡은 근거가 있습니다. 눌러서 실제 안내를 들어 보세요.</p>
+<p class="honest reveal" data-i18n="n.live.siri">"시리야, Runvis에서 러닝 시작" 이라고 말하면 러닝 시작 화면이 바로 열립니다. 발화 문구는 여섯 언어 전부 준비돼 있습니다.</p>
 <div class="voice-grid reveal">
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 페이스 안내 (무료)" data-i18n-attr="aria-label:n.vc1.aria" data-say="목표보다 25초 빠릅니다"><div class="sensor" data-i18n="n.vc1.sensor">📡 목표보다 20초 이상 벗어난 상태가 20초 넘게 이어질 때</div><div class="play"><span data-i18n="n.vc1.play">페이스</span><span class="pill free" data-i18n="n.pill.free">무료</span></div><div class="line" data-i18n="n.vc1.line">"목표보다 25초 빠릅니다"</div></div>
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 언덕 예고 (무료)" data-i18n-attr="aria-label:n.vc2.aria" data-say="300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="n.vc2.sensor">📡 코스 고도를 미리 읽습니다. 늘 달리던 길이면 500m쯤에서 알아보고 언덕을 예고합니다</div><div class="play"><span data-i18n="n.vc2.play">언덕 예고</span><span class="pill free" data-i18n="n.pill.free">무료</span></div><div class="line" data-i18n="n.vc2.line">"300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."</div></div>
@@ -1194,9 +1265,23 @@
      and the reasoning (why no converted figure is printed) stayed folded, as
      pr.approx2. -->
 <p class="storenote" data-i18n="pr.approx">대한민국 App Store 가격입니다. 다른 지역에서는 그 지역 App Store가 정한 현지 통화 가격이 적용됩니다.</p>
+<!-- …and how big those three amounts are, in the currency of the market this
+     copy is written for. Until this line existed, five of the six markets got
+     three KRW figures, a sentence saying their own store would charge
+     something else, and no way at all to tell whether that something else was
+     a coffee or a dinner — at the exact point where the page asks for a
+     decision (2026-09-06 라운드 15, -1.5). It is deliberately a SIZE and says
+     so in every language ("크기", "a size, not a bill", "keine Rechnung"):
+     Apple charges by price point, the other storefronts are not configured
+     yet, and asserting a local price would be inventing one. The figures are
+     written once, in tools/price-approx.json, and check-content [22] holds
+     every dictionary to them and to its own market's currency, so no language
+     can drift to a different number and none of them can quietly become a
+     claim. pr.approx2, folded below, is the full reasoning. -->
+<p class="storenote" data-i18n="pr.approxref">한국 밖에서 보고 계신다면 크기만 가늠해 주세요 — 월 ₩1,900은 약 US$1.4, 연 ₩15,000은 약 US$11, 평생 이용권 ₩39,000은 약 US$28쯤입니다. 결제될 금액이 아니라 크기입니다.</p>
 <details class="gate">
 <summary data-i18n="n.price.moreh">다른 지역 가격, 절약률, 본전 계산</summary>
-<p data-i18n="pr.approx2">환산액은 여기 적지 않습니다. 애플은 환율이 아니라 가격대로 청구하기 때문에, 환산해 둔 숫자는 정작 결제하는 날 틀립니다. 다른 스토어의 가격이 정해지는 대로 실제 숫자를 이 페이지에 적습니다.</p>
+<p data-i18n="pr.approx2">위 환산은 크기를 가늠하려고 적은 대략값이지, 청구될 금액이 아닙니다. 애플은 환율이 아니라 가격대로 청구하고 그 가격대는 나라마다 따로 정해지기 때문에, 실제 숫자는 이 근처의 그 나라 정가로 올라가거나 내려갑니다. 다른 스토어의 가격이 정해지는 대로 실제 숫자를 이 페이지에 적습니다. 앱의 구매 화면은 처음부터 추측하지 않습니다 — 스토어가 알려 준 그 나라 가격을 그대로 보여줍니다.</p>
 <p data-i18n="n.price.year">연간은 <b>₩15,000</b>. 대한민국 App Store 기준으로 월 1,250원꼴, 월간보다 약 34% 저렴합니다. 다른 지역은 가격대가 달라 이 비율도 달라질 수 있어서, 실제 절약률은 앱의 구매 화면이 그 자리의 두 가격으로 계산해 보여줍니다. 체험 대상 계정이면 연간에도 무료 기간이 붙지만, 그 길이는 월간과 똑같은 1개월입니다 — 1년이 아닙니다. 1개월이 지나면 1년 요금 ₩15,000이 한 번에 청구됩니다.</p>
 <p data-i18n="n.price.life">구독 대신 <b>평생 이용권 ₩39,000</b>. 출시 기념 가격이고, 가격이 오르더라도 이미 구매한 분께는 적용되지 않습니다. 대한민국 App Store 가격으로 치면 연간 ₩15,000 기준 약 2.6년, 월 ₩1,900 기준 약 20개월이면 본전입니다. Apple 가족 공유가 되는 요금제는 이것뿐입니다.</p>
 </details>
@@ -1268,7 +1353,7 @@
      what pr.approx already says inside the card, one line from the price. The
      region note now lives only on the card — the place a buyer is actually
      looking — and the launch and cancellation lines share one paragraph. -->
-<p class="note"><span data-i18n="pr.launch">Runvis는 대한민국 App Store에 먼저 출시되며, 다른 지역은 순차적으로 확대됩니다. 출시 시점은 TestFlight 베타가 끝난 뒤에 정해지고, 정해지면 이 페이지에 먼저 적습니다.</span> <span data-i18n="n.price.cancel">구독은 App Store 계정 설정에서 언제든 해지할 수 있고, 해지하면 남은 기간까지 쓰고 자동 갱신이 멈춥니다. 환불은 Apple의 환불 정책을 따릅니다.</span></p>
+<p class="note"><span data-i18n="pr.launch">런비스는 대한민국 App Store에 먼저 출시되며, 다른 지역은 순차적으로 확대됩니다. 출시 시점은 TestFlight 베타가 끝난 뒤에 정해지고, 정해지면 이 페이지에 먼저 적습니다.</span> <span data-i18n="n.price.cancel">구독은 App Store 계정 설정에서 언제든 해지할 수 있고, 해지하면 남은 기간까지 쓰고 자동 갱신이 멈춥니다. 환불은 Apple의 환불 정책을 따릅니다.</span></p>
 <div class="reveal" style="text-align:center;margin-top:26px"><a class="btn" href="#beta" data-i18n="n.price.cta">베타로 먼저 써보거나, 출시 알림만 받기</a></div>
 </div>
 </section>
@@ -1343,14 +1428,25 @@
      under it (n.trust.p, which said it already). Nothing was softened. -->
 <h3 data-i18n="n.trust.h">지금 이 자리에서 확인되는 것</h3>
 <ul>
-<li data-i18n="n.trust.l1">자동 테스트 500개 이상이 코치가 말하는 문장, 무료·유료 경계, 플랜 계산을 빌드할 때마다 검사합니다.</li>
-<li data-i18n="n.trust.l2">화면 문구 2,100개 이상이 여섯 언어 표에서 키까지 똑같고, 코치 음성 번역표 넷은 각각 396개입니다. 하나라도 어긋나면 테스트가 그 자리에서 실패합니다.</li>
+<li data-i18n="n.trust.l1">자동 테스트 766개가 코치가 말하는 문장, 무료·유료 경계, 플랜 계산을 빌드할 때마다 검사합니다.</li>
+<li data-i18n="n.trust.l2">화면 문구 2,341개가 여섯 언어 표에서 키까지 똑같고, 코치 음성 번역표 넷은 각각 396개입니다. 하나라도 어긋나면 테스트가 그 자리에서 실패합니다.</li>
 <li data-i18n="n.trust.l3">지표 설명 41개가 앱 안에 들어 있습니다. 모르는 숫자를 누르면 뜻과 계산 근거, 내 평소 범위가 나옵니다.</li>
 </ul>
 <p data-i18n="n.trust.p">혼자 만드는 앱입니다. 별점도, 언론 언급도 아직 없습니다. 출시 전이니까요. 그래서 지어낼 수 있는 숫자 대신, 앱 저장소에서 그대로 세어 나오는 것만 적었습니다. 더 궁금한 게 있으면 help@runvis.app 으로 바로 물어보세요. 답은 제가 씁니다.</p>
 </div>
 <div class="signup reveal">
 <p class="sub" data-i18n="n.beta.sub" style="margin:0 auto">이메일을 남기면 TestFlight 베타가 열릴 때 초대장을 한 통 보내드립니다. 여는 날짜가 정해지는 날 이 자리에 적고, 이미 신청하신 주소로도 같이 보냅니다.</p>
+<!-- 2026-09-06 라운드 15 (-0.8 / -0.5): the page ended, at 90% of a 22,000-px
+     document, with an email field and nothing else — no date, and nothing a
+     reader could do today. The date is still not inventable, so the ABSENCE is
+     made checkable instead: this paragraph says it will BE the date when there
+     is one, which turns a missing fact into a signal a returning reader can
+     read in one glance. And it names the two things that are actually
+     available now — the queue (with what the beta build is worth: every coach
+     feature, free, for its duration, the same fact n.beta.s2 states on
+     how-it-works.html) and the demo, which is the only part of the product a
+     visitor can use before there is a build. -->
+<p class="sub" data-i18n="n.beta.window" style="margin:12px auto 0">여는 날짜는 아직 정해지지 않았습니다. 정해지는 날 이 문단이 그 날짜로 바뀝니다 — 여기에 날짜가 없으면 아직 정해지지 않은 것입니다. 그때까지 할 수 있는 일은 둘입니다. 신청해서 순서를 잡아 두거나(베타 빌드에서는 베타 기간 내내 코치 기능이 전부 무료입니다), 지금 바로 <a href="run.html">5km 데모</a>를 달려 코치가 언제 어떻게 말하는지 들어 보는 것.</p>
 <!-- 2026-09-06 라운드 13 (-3): every control that decides what gets submitted
      is INSIDE the form now, in the order a reader fills it in — address,
      then what they want, then what they are consenting to, then the button.
@@ -1668,17 +1764,63 @@ function heroRestart(){heroStop();hl=0;heroLoop()}
 // caption is never a language behind.
 window.renderDynamicI18n=heroRestart;
 
-// --- hero watch screen rotation ---
+// --- hero watch screen rotation, with a way to stop it ---
+// Named RunvisT for the same reason how-it-works.html does it: check-content
+// [10] and the prerender's fallback swap both only see calls whose two
+// arguments are quoted literals, so the two button labels have to be written
+// that way to reach /de/ … in German.
 (() => {
-  const slides = document.querySelectorAll('#watchStack img');
+  const stack = document.getElementById('watchStack');
+  const slides = stack ? stack.querySelectorAll('img') : [];
   if (!slides.length) return;
+  const RunvisT = (k, f) => (window.RunvisT ? window.RunvisT(k, f) : f);
+  const dots = stack.querySelectorAll('.wsdot');
+  const btn = document.getElementById('wsPause');
   // aria-current says which frame is the visible one; without it a screen
   // reader read all three alt texts as if all three were on screen.
-  const mark = n => slides.forEach((s, k) => k === n ? s.setAttribute('aria-current', 'true') : s.removeAttribute('aria-current'));
-  mark(0);
-  if (slides.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const mark = n => {
+    slides.forEach((s, k) => k === n ? s.setAttribute('aria-current', 'true') : s.removeAttribute('aria-current'));
+    dots.forEach((d, k) => d.setAttribute('aria-current', k === n ? 'true' : 'false'));
+  };
   let i = 0;
-  setInterval(() => { slides[i].classList.remove('on'); i = (i + 1) % slides.length; slides[i].classList.add('on'); mark(i); }, 3800);
+  mark(0);
+  const show = n => { slides[i].classList.remove('on'); i = n; slides[i].classList.add('on'); mark(i); };
+  // The dot's name is the picture's own alt text, so it is already localized
+  // and stays localized when i18n.js swaps the dictionary.
+  const relabel = () => dots.forEach((d, k) => {
+    if (slides[k]) d.setAttribute('aria-label', slides[k].getAttribute('alt') || '');
+  });
+  dots.forEach((d, k) => d.addEventListener('click', () => { stop(); if (slides[k]) show(k); }));
+  relabel();
+
+  const still = slides.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let timer = null, paused = still;
+  const tick = () => show((i + 1) % slides.length);
+  function start() { if (still || timer !== null) return; timer = setInterval(tick, 3800); face(); }
+  function stop() { if (timer !== null) { clearInterval(timer); timer = null; } paused = true; face(); }
+  function face() {
+    if (!btn) return;
+    btn.textContent = timer !== null ? RunvisT('a11y.wspause', '자동 전환 멈춤') : RunvisT('a11y.wsplay', '자동 전환 켜기');
+    btn.setAttribute('aria-pressed', timer !== null ? 'false' : 'true');
+  }
+  if (!still && btn) {
+    btn.hidden = false;
+    btn.addEventListener('click', () => { if (timer !== null) stop(); else { paused = false; start(); } });
+  }
+  // Hover and keyboard focus hold the current frame; leaving resumes unless the
+  // reader has actually pressed stop.
+  if (!still) {
+    const hold = () => { if (timer !== null) { clearInterval(timer); timer = null; face(); } };
+    const release = () => { if (!paused) start(); };
+    stack.addEventListener('mouseenter', hold);
+    stack.addEventListener('mouseleave', release);
+    stack.addEventListener('focusin', hold);
+    stack.addEventListener('focusout', release);
+    start();
+  }
+  face();
+  const prevRender = window.renderDynamicI18n;
+  window.renderDynamicI18n = function () { if (prevRender) prevRender(); relabel(); face(); };
 })();
 
 // --- voice playback (Web Speech API, follows the selected language) ---
@@ -1773,8 +1915,14 @@ document.querySelectorAll('.vchip').forEach((c,idx)=>{
   c.addEventListener('click',()=>{
     if(!('speechSynthesis' in window)){
       // The site speaks six languages; this warning used to speak only English.
+      // It used to be alert(), the one browser modal on a page whose every
+      // other status — form success, form failure, playing, stopped — goes to
+      // #voiceStatus. A modal leaves the dark theme, ignores the six language
+      // fonts and loses its context in a screen reader, and #voiceStatus is
+      // already aria-live (2026-09-06 라운드 15, -0.3).
       const msg='This browser does not support voice playback.';
-      alert(window.RunvisT?window.RunvisT('form.novoice',msg):msg);
+      const el=document.getElementById('voiceStatus');
+      if(el) el.textContent=window.RunvisT?window.RunvisT('form.novoice',msg):msg;
       return;
     }
     if(Voice.active===c){ Voice.stop(); return; }           // tap again = stop
@@ -1800,10 +1948,14 @@ document.addEventListener('visibilitychange', ()=>{ if(document.hidden) Voice.st
   const btn = document.getElementById('betaSubmit');
   const radios = document.querySelectorAll('input[name="want"]');
   if (!btn || !radios.length) return;
+  // Named RunvisT, not t: tools/prerender.mjs step 7b and check-content [10]
+  // both look for that name, so under any other one these two fallbacks would
+  // ship Korean to the five prerendered copies and nothing would notice. Same
+  // reason run.html's form helper was renamed.
+  const RunvisT = (k, f) => (window.RunvisT ? window.RunvisT(k, f) : f);
   const sync = () => {
     const launch = document.querySelector('input[name="want"]:checked')?.value === 'launch';
-    const t = (k, f) => (window.RunvisT ? window.RunvisT(k, f) : f);
-    btn.textContent = launch ? t('n.beta.cta2', '출시 알림 받기') : t('t160', '베타 초대 받기');
+    btn.textContent = launch ? RunvisT('n.beta.cta2', '출시 알림 받기') : RunvisT('t160', '베타 초대 받기');
   };
   radios.forEach(r => r.addEventListener('change', sync));
   addEventListener('runvis:lang', () => setTimeout(sync, 0));
@@ -1873,7 +2025,7 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
       // check that can be made without a server, and it happens while the
       // reader is still looking at the form.
       const typed = (new FormData(betaForm).get('email') || '').toString();
-      show(window.RunvisT('form.ok', '등록됐습니다. 여는 날짜가 정해지면 이 주소로 알려 드리고, 베타가 열리면 신청 순서대로 초대장 한 통이 갑니다. 삭제를 원하시면 언제든 help@runvis.app 으로 알려 주세요. 기다리는 동안 5km 데모를 달려 보세요. 🏃'), true);
+      show(window.RunvisT('form.ok', '등록됐습니다. 여는 날짜가 정해지면 이 주소로 알려 드리고, 베타가 열리면 신청 순서대로 초대장 한 통이 갑니다. 확인 메일은 따로 가지 않으니, 위에 보이는 주소가 맞는지 여기서 한 번만 봐 주세요. 삭제를 원하시면 언제든 help@runvis.app 으로 알려 주세요. 기다리는 동안 5km 데모를 달려 보세요. 🏃'), true);
       if (typed) setTimeout(() => {
         const p = document.createElement('span');
         p.style.cssText = 'display:block;margin-top:6px;font-weight:600;color:var(--dim)';
@@ -1908,13 +2060,44 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
   if (heroCta) io.observe(heroCta);
 })();
 
+// --- nav overflow affordance (navFade) ---
+// The section row scrolls with its scrollbar hidden on phones and in the
+// 701-920 px band. Two comments in the stylesheet have described this mask
+// since round 13 and nothing set it, so the row simply ended on a clipped
+// character. Measured, not assumed: the class goes on only when the row really
+// is wider than its box, and only on the side that still has something past
+// the edge — so a row that fits is never dimmed.
+(() => {
+  const row = document.querySelector('nav .links');
+  if (!row) return;
+  const paint = () => {
+    const over = row.scrollWidth - row.clientWidth;
+    row.classList.toggle('fade-r', over > 2 && row.scrollLeft < over - 1);
+    row.classList.toggle('fade-l', over > 2 && row.scrollLeft > 1);
+  };
+  row.addEventListener('scroll', paint, { passive: true });
+  addEventListener('resize', paint);
+  // Web fonts and a language switch both change how wide these labels are.
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(paint);
+  const prevRender = window.renderDynamicI18n;
+  window.renderDynamicI18n = function () { if (prevRender) prevRender(); paint(); };
+  paint();
+})();
+
 // --- in-page anchor navigation ---
+// The stylesheet sets html{scroll-behavior:auto} under
+// prefers-reduced-motion:reduce, and passing behavior:'smooth' here overrode
+// it — so a reader with a vestibular reason to turn animation off still got a
+// smooth-scrolled page on every anchor they pressed (2026-09-06 라운드 15,
+// -0.6). Read at click time, not at load: the setting can change in the OS
+// while the page is open.
+const SMOOTH = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{
     const id=a.getAttribute('href');
     if(!id||id.length<2){e.preventDefault();return;}
     const el=document.querySelector(id); if(!el)return;
-    e.preventDefault(); el.scrollIntoView({behavior:'smooth',block:'start'}); history.pushState(null,'',id);
+    e.preventDefault(); el.scrollIntoView({behavior:SMOOTH(),block:'start'}); history.pushState(null,'',id);
   });
 });
 </script>

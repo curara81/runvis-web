@@ -10,9 +10,9 @@ window.RunvisPageLang="en";window.RunvisBase="/";
 </script>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title data-i18n="meta.title">Runvis: your Apple Watch is enough. Apple Watch running coach</title>
-<meta content="You don't need a second running watch. Runvis reads the sleep and heart rate your Apple Watch recorded, picks today's workout, and talks you through the run. No account, no server." name="description" data-i18n-attr="content:meta.desc"/>
+<meta content="You don’t need a second running watch. Runvis reads the sleep and heart rate your Apple Watch recorded, picks today’s workout, and talks you through the run. No account, no server." name="description" data-i18n-attr="content:meta.desc"/>
 <meta content="Runvis: Apple Watch running coach" property="og:title" data-i18n-attr="content:meta.ogtitle"/>
-<meta content="You don't need a second running watch. Your coach picks today's workout and talks you through the run." property="og:description" data-i18n-attr="content:meta.ogdesc"/>
+<meta content="You don’t need a second running watch. Your coach picks today’s workout and talks you through the run." property="og:description" data-i18n-attr="content:meta.ogdesc"/>
 <meta content="website" property="og:type"/>
 <meta content="https://runvis.app/en/" property="og:url"/>
 <meta content="Runvis" property="og:site_name"/>
@@ -44,321 +44,7 @@ window.RunvisPageLang="en";window.RunvisBase="/";
 .reveal,.rv{opacity:1!important;transform:none!important}
 </style></noscript>
 <style>
-:root{
---green:#3DDC84; --green-d:#27b368; --cyan:#4CCBD9; --orange:#FFB340; --red:#FF6B6B;
---bg:#000; --bg1:#0b0d10; --bg2:#14171c; --card:#16191e; --card2:#1b1f25;
---line:#24282e; --line2:#2e333a; --text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;
---ease:cubic-bezier(.22,.61,.36,1);
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);
-font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
-line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:clip;word-break:keep-all}
-a{color:inherit;text-decoration:none}
-[hidden]{display:none!important}
-:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
-img{max-width:100%;height:auto;display:block}
-picture{display:block;width:100%}
-body{overflow-wrap:break-word;word-break:normal;line-break:normal}
-:lang(ko) body,body:lang(ko){word-break:keep-all}
-.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
-.grad{background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
-.btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(120deg,var(--green),var(--cyan));
-color:#04120c;font-weight:800;font-size:17px;padding:15px 30px;border-radius:14px;border:none;cursor:pointer;
-transition:transform .25s var(--ease),box-shadow .25s var(--ease);box-shadow:0 8px 30px rgba(61,220,132,.25);will-change:transform}
-.btn:hover{box-shadow:0 14px 44px rgba(61,220,132,.42)}
-.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line2);box-shadow:none}
-.btn.ghost:hover{border-color:var(--green);box-shadow:0 0 0 4px rgba(61,220,132,.10)}
-.eyebrow{color:var(--green);font-weight:700;font-size:13.5px;letter-spacing:1.6px;text-transform:uppercase}
-section{padding:88px 0;position:relative;scroll-margin-top:72px}
-section+section{border-top:1px solid var(--line)}
-h2{font-size:clamp(30px,4.6vw,44px);font-weight:800;letter-spacing:-.025em;line-height:1.18;margin-top:10px}
-.sub{color:var(--dim);font-size:18px;margin-top:16px;max-width:660px}
-.sub b{color:var(--text);font-weight:700}
-html.js .reveal{transform:translateY(28px) scale(.985);transition:transform .45s var(--ease) var(--d,0ms)}
-html.js .reveal.in{transform:none}
-.pill{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.04em;padding:3px 9px;border-radius:999px;vertical-align:middle;margin-left:8px}
-.pill.free{background:rgba(255,255,255,.08);color:var(--dim)}
-.pill.pro{background:rgba(61,220,132,.16);color:var(--green)}
-.tilt{position:relative;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(0);
-transition:transform .45s var(--ease),box-shadow .45s var(--ease),border-color .3s;transform-style:preserve-3d;will-change:transform}
-.tilt::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .35s;
-background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.16),rgba(255,255,255,0) 55%)}
-.tilt.tilting{transition:transform .08s linear,box-shadow .45s var(--ease);box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(61,220,132,.25)}
-.tilt.tilting::after{opacity:1}
-.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:20px;padding:28px}
-.card:hover{border-color:rgba(61,220,132,.5)}
-.card .ic{font-size:30px;margin-bottom:14px;line-height:1}
-.card h3{font-size:20px;font-weight:800;margin-bottom:8px;letter-spacing:-.01em}
-.card p{color:var(--dim);font-size:15px}
-.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:44px}
-@media(max-width:820px){.cards{grid-template-columns:minmax(0,1fr)}}
-nav{position:sticky;top:0;z-index:50;background:rgba(0,0,0,.66);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
-nav .wrap{display:flex;align-items:center;gap:18px;height:60px}
-.logo{font-weight:900;font-size:20px;letter-spacing:-.02em}
-.logo b{color:var(--green)}
-nav .links{display:flex;gap:24px;font-size:15px;color:var(--dim);margin:0 auto;white-space:nowrap;min-width:0;overflow:hidden}
-@media(max-width:1180px){nav .links{gap:16px;font-size:14px}}
-@media(max-width:1000px){nav .links{gap:12px;font-size:13px}}
-@media(min-width:701px) and (max-width:920px){
-nav .links{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-nav .links::-webkit-scrollbar{display:none}
-}
-nav .links a{transition:color .2s}
-nav .links a:hover{color:var(--text)}
-@media(max-width:700px){
-nav .wrap{height:auto;padding-top:8px;padding-bottom:8px;flex-wrap:wrap;row-gap:6px}
-nav .links{order:3;width:100%;gap:18px;font-size:13.5px;justify-content:flex-start;margin-left:0;
-overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-nav .links::-webkit-scrollbar{display:none}
-nav .links a{white-space:nowrap}
-nav .links a{order:5}
-nav .links a[href="#why"]{order:1}
-nav .links a[href="#price"]{order:2}
-nav .links a[href="run.html"]{order:3}
-nav .links a[href="#faq"]{order:4}
-}
-.nav-cta{flex:none;padding:7px 14px;font-size:13px;white-space:nowrap;box-shadow:none}
-.nav-cta:hover{box-shadow:0 8px 26px rgba(61,220,132,.35)}
-@media(max-width:820px){.nav-cta{display:none}}
-.langsel{position:relative;display:inline-block;margin-left:14px}
-.langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
-.langsel button:hover{border-color:var(--green)}
-.langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}
-.langsel.open ul{display:block}
-.langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text)}
-.langsel li:hover{background:rgba(61,220,132,.15)}
-.langsel li{padding:0}
-.langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
-.langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
-@media(max-width:700px){.langsel{margin-left:auto}.langsel button{padding:6px 9px;font-size:12px}}
-.hero{padding:104px 0 72px;text-align:center;position:relative;overflow:hidden}
-.hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
-.hero-bg .blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:drift 22s ease-in-out infinite alternate}
-.hero-bg .b1{width:52vw;height:52vw;left:-12vw;top:-18vw;background:radial-gradient(circle,rgba(61,220,132,.28),transparent 62%)}
-.hero-bg .b2{width:46vw;height:46vw;right:-10vw;top:-6vw;background:radial-gradient(circle,rgba(76,203,217,.24),transparent 62%);animation-delay:-8s}
-.hero-bg .b3{width:60vw;height:30vw;left:20vw;bottom:-14vw;background:radial-gradient(ellipse,rgba(61,220,132,.16),transparent 65%);animation-delay:-14s}
-.hero-bg .grid{position:absolute;inset:0;background:
-linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px,
-linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px;
-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 80%)}
-@keyframes drift{from{transform:translate3d(-3%,-2%,0) scale(1)}to{transform:translate3d(4%,3%,0) scale(1.12)}}
-.hero .wrap{position:relative;z-index:1}
-.hero h1{font-size:clamp(36px,6.2vw,64px);font-weight:900;letter-spacing:-.035em;line-height:1.1;margin-top:14px}
-.hero .sub{margin:22px auto 0;font-size:clamp(17px,2.3vw,21px)}
-.hero .cta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-.hero .note{margin-top:16px;font-size:13.5px;color:var(--dim2)}
-.trust{margin:30px auto 0;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.tbadge{background:rgba(22,25,30,.6);border:1px solid var(--line);border-radius:12px;padding:10px 18px;min-width:110px;backdrop-filter:blur(6px)}
-.tbadge b{display:block;font-size:19px;font-weight:900;background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
-.tbadge span{display:block;font-size:12px;color:var(--dim);margin-top:2px}
-a.tbadge{display:block;transition:border-color .2s var(--ease)}
-a.tbadge:hover{border-color:var(--green)}
-a.tbadge span{text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
-.stage{margin:64px auto 0;position:relative;width:min(100%,680px)}
-.ring{position:absolute;left:50%;top:44%;width:600px;height:600px;transform:translate(-50%,-50%);pointer-events:none;z-index:0}
-.ring::before{content:"";position:absolute;inset:18%;border-radius:50%;background:radial-gradient(circle,rgba(61,220,132,.22),rgba(76,203,217,.08) 55%,transparent 72%);filter:blur(28px)}
-.ring svg{width:100%;height:100%;filter:drop-shadow(0 0 24px rgba(61,220,132,.25))}
-.ring .arc{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 2.6s var(--ease) .4s forwards}
-.ring .spin{transform-origin:50% 50%;animation:spin 40s linear infinite}
-@keyframes draw{to{stroke-dashoffset:120}}
-@keyframes spin{to{transform:rotate(360deg)}}
-.devices{position:relative;z-index:1;display:flex;gap:36px;justify-content:center;align-items:flex-end}
-.phone{width:250px;flex-shrink:0;filter:drop-shadow(0 34px 60px rgba(0,0,0,.65));animation:float 7s ease-in-out infinite}
-.watch-stack{position:relative;width:300px;max-width:100%;filter:drop-shadow(0 34px 60px rgba(0,0,0,.65));animation:float 7s ease-in-out -3.5s infinite}
-.watch-stack img{width:100%;opacity:0;transition:opacity .9s ease}
-.watch-stack img.on{opacity:1}
-.watch-stack picture:not(:first-child){position:absolute;top:0;left:0}
-.watch-stack .wnote{margin-top:10px;font-size:11.5px;line-height:1.5;color:var(--dim2);text-align:center}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-@media(max-width:640px){.devices{flex-direction:column;align-items:center;gap:26px}.phone{width:220px}.ring{width:420px;height:420px}}
-@media(max-width:768px){
-.hero{padding:88px 0 52px}
-.stage{margin-top:34px}
-.hero .watch-stack{display:none}
-.trust{gap:8px;margin-top:22px}
-.tbadge{padding:8px 14px;min-width:0;flex:1 1 30%}
-}
-@media(max-width:430px){
-.tbadge{flex:1 1 44%}
-.tbadge b{font-size:18px;overflow-wrap:normal}
-}
-.caption{margin:26px auto 0;max-width:420px;min-height:54px;background:rgba(22,25,30,.8);border:1px solid var(--line);border-radius:14px;padding:14px 18px;
-font-size:15px;color:#dfe3e7;text-align:left;display:flex;align-items:center;gap:10px;backdrop-filter:blur(8px)}
-.caption .mic{color:var(--green);font-size:18px;flex-shrink:0}
-.caption .txt::after{content:"▌";color:var(--green);animation:blink 1s steps(1) infinite}
-@keyframes blink{50%{opacity:0}}
-.sc-note{margin-top:12px;font-size:12.5px;color:var(--dim2)}
-.sc-note:empty{display:none}
-.row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:56px;align-items:center;margin-top:52px}
-.row.flip{grid-template-columns:minmax(0,1fr) auto}
-.row.flip .frame{order:2}
-@media(max-width:860px){.row,.row.flip{grid-template-columns:minmax(0,1fr);gap:28px;justify-items:stretch;text-align:center}.row .desc{min-width:0}.row.flip .frame{order:0}.row ul{text-align:left;display:inline-block;max-width:100%}}
-.frame{width:280px;max-width:100%;flex-shrink:0;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6))}
-.frame.watch{width:240px}
-.desc h3{font-size:24px;font-weight:800;margin-bottom:12px;letter-spacing:-.015em}
-.desc p{color:var(--dim);font-size:16px;margin-bottom:12px}
-.desc ul{list-style:none;margin-top:14px}
-.desc li{color:#dfe3e7;font-size:15px;margin:9px 0;padding-left:26px;position:relative}
-.desc li::before{content:"";position:absolute;left:0;top:9px;width:14px;height:14px;border-radius:50%;background:linear-gradient(120deg,var(--green),var(--cyan));opacity:.85;box-shadow:0 0 12px rgba(61,220,132,.4)}
-.mini{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}
-@media(max-width:560px){.mini{grid-template-columns:repeat(2,minmax(0,1fr))}.mini .m:nth-child(3){grid-column:1/-1}}
-.mini .m{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 14px 12px;text-align:left}
-.mini .m small{display:block;color:var(--dim);font-size:12px}
-.mini .m b{display:block;font-size:20px;font-weight:900;margin:2px 0 4px;font-variant-numeric:tabular-nums}
-.mini .m em{font-style:normal;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px}
-.st-good{color:#3DDC84;background:rgba(61,220,132,.14)} .st-fair{color:#FFB340;background:rgba(255,179,64,.14)} .st-caution{color:#FF6B6B;background:rgba(255,107,107,.14)}
-.watch3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:52px}
-@media(max-width:820px){.watch3{grid-template-columns:1fr;max-width:340px;margin-left:auto;margin-right:auto}}
-.w3{text-align:center}
-.w3 .frame{width:230px;margin:0 auto;transition:transform .5s var(--ease)}
-.w3:hover .frame{transform:translateY(-8px)}
-.w3 b{display:block;font-size:17px;font-weight:800;margin:16px 0 6px}
-.w3 span{display:block;color:var(--dim);font-size:14px;line-height:1.55;max-width:280px;margin:0 auto}
-.voice-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:40px}
-@media(max-width:1000px){.voice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:560px){.voice-grid{grid-template-columns:minmax(0,1fr)}}
-.vchip{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:16px;padding:20px;cursor:pointer;text-align:left}
-.vchip .sensor{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;color:var(--cyan);letter-spacing:.02em;line-height:1.5;padding-bottom:10px;margin-bottom:12px;border-bottom:1px dashed var(--line)}
-.vchip .play{display:inline-flex;align-items:center;gap:8px;color:var(--green);font-weight:700;font-size:14px;margin-bottom:10px}
-.vchip .play .pill{margin-left:2px}
-.vchip .play::before{content:"";width:0;height:0;border-left:9px solid var(--green);border-top:6px solid transparent;border-bottom:6px solid transparent}
-.vchip.playing .play::before{border:none;width:9px;height:12px;background:var(--green);border-radius:1px}
-.vchip .line{color:#dfe3e7;font-size:15px}
-.vchip.playing{border-color:var(--green);box-shadow:0 0 0 3px rgba(61,220,132,.14),0 20px 50px rgba(0,0,0,.5)}
-.quiet{margin-top:28px;display:flex;gap:14px;align-items:flex-start;background:rgba(61,220,132,.05);border-left:2px solid var(--green);border-radius:0 12px 12px 0;padding:14px 18px;color:var(--dim);font-size:14.5px;max-width:760px}
-.qbody{flex:1;min-width:0}
-.qbody>b{display:block;color:var(--text);font-size:16px;font-weight:800;margin-bottom:10px}
-.qsum{font-size:14.5px;color:#dfe3e7;margin-top:8px;line-height:1.7}
-.qtable{overflow-x:auto;margin:10px -4px 0}
-.qtable table{width:100%;border-collapse:collapse;font-size:14px}
-.qtable th,.qtable td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-.qtable th{color:var(--dim2);font-weight:700;font-size:12.5px}
-.qtable tr:last-child td{border-bottom:0}
-.qtable td:last-child{color:var(--text);font-weight:700}
-.qbody ul{margin:12px 0 0;padding-left:18px}
-.qbody li{margin-top:6px;line-height:1.6}
-.steps-h{margin-top:56px;font-size:22px;font-weight:800;letter-spacing:-.01em}
-.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:18px}
-@media(max-width:820px){.steps{grid-template-columns:minmax(0,1fr)}}
-.step{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:22px;position:relative}
-.step .sn{position:absolute;top:16px;right:18px;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:12px;color:var(--dim2);letter-spacing:.2em}
-.step h4{font-size:17px;font-weight:800;margin-bottom:10px}
-.step .q{background:rgba(0,0,0,.35);border-left:2px solid var(--green);border-radius:0 10px 10px 0;padding:10px 12px;font-size:13.5px;color:#cfe3d6;line-height:1.6;margin-bottom:10px}
-.step p{color:var(--dim);font-size:14px}
-.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:40px;align-items:start}
-@media(max-width:900px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:560px){.tiles{grid-template-columns:minmax(0,1fr)}}
-.tile{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:22px}
-.tile h3{font-size:17px;font-weight:800;display:flex;align-items:center;flex-wrap:wrap;gap:4px}
-.tile p{color:var(--dim);font-size:14px;margin-top:8px}
-.honest{margin-top:26px;color:var(--dim2);font-size:14px;max-width:700px}
-.honest b{color:var(--dim)}
-#privacy{background:linear-gradient(180deg,rgba(61,220,132,.06),rgba(76,203,217,.05));text-align:center}
-#privacy .big{font-size:clamp(24px,3.4vw,36px);font-weight:800;line-height:1.35;letter-spacing:-.02em;margin-top:10px}
-#privacy p{color:var(--dim);font-size:15.5px;max-width:680px;margin:18px auto 0}
-#privacy p a{color:var(--dim);border-bottom:1px solid var(--line)}
-.price{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;margin-top:44px}
-@media(max-width:640px){.price{grid-template-columns:minmax(0,1fr)}}
-.plan{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:22px;padding:32px;position:relative}
-.plan.pro{border-color:rgba(61,220,132,.6)}
-.plan .ribbon{position:absolute;top:-11px;right:20px;max-width:calc(100% - 40px);background:var(--green);color:#04120c;font-size:12px;font-weight:800;padding:4px 12px;border-radius:8px}
-.plan .name{font-size:15px;color:var(--dim);font-weight:700}
-.plan .amt{font-size:36px;font-weight:900;margin:8px 0 4px;letter-spacing:-.02em}
-.plan .gate p b{color:var(--green);font-weight:700}
-.plan .ptable{width:100%;border-collapse:collapse;margin:10px 0 2px}
-.plan .ptable th{text-align:left;font-weight:700;font-size:15px;padding:9px 0;vertical-align:baseline}
-.plan .ptable th small{display:block;font-weight:500;font-size:12px;color:var(--dim);line-height:1.5;margin-top:2px}
-.plan .ptable td.pv{text-align:right;white-space:nowrap;font-size:21px;font-weight:900;letter-spacing:-.02em;
-padding:9px 0 9px 12px;vertical-align:baseline;font-variant-numeric:tabular-nums}
-.plan .ptable tr.lead td.pv{font-size:32px}
-.plan .ptable tr+tr th,.plan .ptable tr+tr td{border-top:1px solid var(--line)}
-.plan .storenote{margin-top:10px;font-size:12.5px;line-height:1.65;color:var(--dim)}
-.plan ul{list-style:none;margin-top:18px}
-.plan li{padding:7px 0;font-size:15px;color:#dfe3e7;display:flex;gap:10px}
-.plan li::before{content:"✓";color:var(--green);font-weight:800}
-.plan .plisth{margin-top:18px;font-size:12.5px;font-weight:800;letter-spacing:.06em;
-text-transform:uppercase;color:var(--dim)}
-.plan .plisth+ul{margin-top:6px}
-.plan .tilesli{padding:0}
-.plan .tilesli::before{content:none}
-.plan .tiles{margin:2px 0 4px 26px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}
-@media(max-width:520px){.plan .tiles{grid-template-columns:minmax(0,1fr)}}
-.plan .tiles li{padding:3px 0;font-size:13.5px;color:var(--dim);gap:7px}
-.plan .tiles li::before{content:"·";color:var(--cyan)}
-.plan .terms-link{display:inline-block;margin-top:4px;font-size:12px;color:var(--dim);
-text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
-.plan .terms-link:hover{color:var(--text)}
-.qmore{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px;font-weight:700}
-.qmore a{color:var(--dim);border-bottom:1px solid var(--line2)}
-.qmore a:hover{color:var(--text);border-bottom-color:var(--green)}
-.qmore a::after{content:" →";color:var(--green)}
-.gate{margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
-.gate summary{cursor:pointer;font-size:13.5px;font-weight:700;color:var(--dim);list-style:none;
-display:flex;align-items:center;gap:8px}
-.gate summary::-webkit-details-marker{display:none}
-.gate summary::before{content:"▸";color:var(--green);transition:transform .2s var(--ease)}
-.gate[open] summary::before{transform:rotate(90deg)}
-.gate summary:hover{color:var(--text)}
-.gate p{margin-top:10px;font-size:13px;line-height:1.75;color:var(--dim)}
-.plan .gatelist{margin-top:8px;list-style:none}
-.plan .gatelist li{padding:5px 0;font-size:13px;line-height:1.7;color:var(--dim);gap:8px;align-items:flex-start}
-.plan .gatelist li::before{content:"·";color:var(--green)}
-.note{text-align:center;color:var(--dim2);font-size:12.5px;margin-top:14px}
-.order-note{flex:0 0 100%;margin:0;font-size:13px;color:var(--dim);line-height:1.6;text-align:center}
-.nextsteps{max-width:520px;margin:24px auto 0;text-align:left}
-.nextsteps h4{font-size:14px;color:var(--dim);font-weight:700;letter-spacing:.02em}
-.nextsteps p{margin-top:10px;font-size:13.5px;color:var(--dim);line-height:1.7}
-.nextsteps p a,.dolist a{color:var(--green);border-bottom:1px solid rgba(61,220,132,.4)}
-.dolist{list-style:none;margin-top:12px}
-.dolist li{position:relative;padding-left:18px;margin-top:11px;font-size:13.5px;color:var(--dim);line-height:1.7}
-.dolist li::before{content:"→";position:absolute;left:0;color:var(--cyan);font-weight:800}
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-.skip{position:absolute;left:-9999px;top:0;z-index:200}
-.skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
-padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
-.proof{margin-top:28px;background:rgba(76,203,217,.05);border:1px solid var(--line);
-border-left:2px solid var(--cyan);border-radius:0 18px 18px 0;padding:24px 26px}
-.proof h3{font-size:17px;font-weight:800;letter-spacing:-.01em}
-.proof ul{list-style:none;margin-top:14px}
-.proof li{color:#dfe3e7;font-size:14.5px;line-height:1.7;margin:8px 0;padding-left:22px;position:relative}
-.proof li::before{content:"✓";position:absolute;left:0;color:var(--cyan);font-weight:800}
-.proof p{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);color:var(--dim);font-size:13.5px;line-height:1.75}
-.signup{background:var(--bg1);border:1px solid var(--line);border-radius:22px;padding:40px;text-align:center;margin-top:28px}
-.want{max-width:520px;margin:18px auto 0;text-align:left;font-size:13.5px;color:var(--dim);border:0;padding:0}
-.signup form .want,.signup form .consent{flex:0 0 100%;max-width:none;margin-left:0;margin-right:0}
-.want legend{padding:0;color:var(--text);font-weight:700;font-size:14px;margin-bottom:6px}
-.want label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;margin-top:6px;line-height:1.7}
-.want label span,.consent label span{min-width:0;flex:1}
-.want input{margin-top:5px;flex:none}
-.signup form{display:flex;gap:12px;max-width:480px;margin:22px auto 0;flex-wrap:wrap;justify-content:center}
-.signup input[type=email]{flex:1;min-width:220px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px 18px;color:var(--text);font-size:16px}
-.signup input[type=email]:focus{border-color:var(--green)}
-.signup input[type=email]:focus:not(:focus-visible){outline:none}
-.consent{margin-top:18px;font-size:13px;color:var(--dim2);max-width:520px;margin-left:auto;margin-right:auto;text-align:left;line-height:1.7}
-.consent label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;margin-top:8px;min-width:0}
-.consent input{margin-top:4px}
-footer{padding:48px 0;border-top:1px solid var(--line);text-align:center;color:var(--dim2);font-size:14px}
-footer a{color:var(--dim)}
-footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
-.disclaimer{max-width:640px;margin:20px auto 0;font-size:12px;color:var(--dim2);line-height:1.7}
-.sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;padding:10px 16px calc(10px + env(safe-area-inset-bottom));
-background:rgba(0,0,0,.82);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
-.sticky-cta.armed{gap:10px}
-.sticky-cta a{display:block;text-align:center;flex:1 1 0;min-width:0;padding-left:12px;padding-right:12px;font-size:15.5px}
-@media(max-width:820px){.sticky-cta.armed{display:flex} footer{padding-bottom:96px}}
-@media(max-width:820px){
-html.js .reveal{transform:none;transition:none}
-}
-@media(prefers-reduced-motion:reduce){
-.reveal{opacity:1!important;transform:none!important;transition:none}
-.hero-bg .blob,.phone,.watch-stack,.ring .spin{animation:none}
-.ring .arc{animation:none;stroke-dashoffset:120}
-.caption .txt::after{animation:none}
-.tilt{transform:none!important}
-html{scroll-behavior:auto}
-}
+:root{--green:#3DDC84; --green-d:#27b368; --cyan:#4CCBD9; --orange:#FFB340; --red:#FF6B6B;--bg:#000; --bg1:#0b0d10; --bg2:#14171c; --card:#16191e; --card2:#1b1f25;--line:#24282e; --line2:#2e333a; --text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;--ease:cubic-bezier(.22,.61,.36,1);}*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:clip;word-break:keep-all}a{color:inherit;text-decoration:none}[hidden]{display:none!important}:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}img{max-width:100%;height:auto;display:block}picture{display:block;width:100%}body{overflow-wrap:break-word;word-break:normal;line-break:normal}:lang(ko) body,body:lang(ko){word-break:keep-all}.wrap{max-width:1080px;margin:0 auto;padding:0 24px}.grad{background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}@supports not ((background-clip:text) or (-webkit-background-clip:text)){.grad,.tbadge b{background:none;color:var(--green);-webkit-text-fill-color:currentColor}}@media (forced-colors: active){.grad,.tbadge b{background:none;color:CanvasText;-webkit-text-fill-color:CanvasText;forced-color-adjust:none}}.btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(120deg,var(--green),var(--cyan));color:#04120c;font-weight:800;font-size:17px;padding:15px 30px;border-radius:14px;border:none;cursor:pointer;transition:transform .25s var(--ease),box-shadow .25s var(--ease);box-shadow:0 8px 30px rgba(61,220,132,.25);will-change:transform}.btn:hover{box-shadow:0 14px 44px rgba(61,220,132,.42)}.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line2);box-shadow:none}.btn.ghost:hover{border-color:var(--green);box-shadow:0 0 0 4px rgba(61,220,132,.10)}.eyebrow{color:var(--green);font-weight:700;font-size:13.5px;letter-spacing:1.6px;text-transform:uppercase}section{padding:88px 0;position:relative;scroll-margin-top:72px}section+section{border-top:1px solid var(--line)}h2{font-size:clamp(30px,4.6vw,44px);font-weight:800;letter-spacing:-.025em;line-height:1.18;margin-top:10px}.sub{color:var(--dim);font-size:18px;margin-top:16px;max-width:660px}.sub b{color:var(--text);font-weight:700}html.js .reveal{transform:translateY(28px) scale(.985);transition:transform .45s var(--ease) var(--d,0ms)}html.js .reveal.in{transform:none}.pill{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.04em;padding:3px 9px;border-radius:999px;vertical-align:middle;margin-left:8px}.pill.free{background:rgba(255,255,255,.08);color:var(--dim)}.pill.pro{background:rgba(61,220,132,.16);color:var(--green)}.tilt{position:relative;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(0);transition:transform .45s var(--ease),box-shadow .45s var(--ease),border-color .3s;transform-style:preserve-3d;will-change:transform}.tilt::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .35s;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.16),rgba(255,255,255,0) 55%)}.tilt.tilting{transition:transform .08s linear,box-shadow .45s var(--ease);box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(61,220,132,.25)}.tilt.tilting::after{opacity:1}.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:20px;padding:28px}.card:hover{border-color:rgba(61,220,132,.5)}.card .ic{font-size:30px;margin-bottom:14px;line-height:1}.card h3{font-size:20px;font-weight:800;margin-bottom:8px;letter-spacing:-.01em}.card p{color:var(--dim);font-size:15px}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:44px}@media(max-width:820px){.cards{grid-template-columns:minmax(0,1fr)}}nav{position:sticky;top:0;z-index:50;background:rgba(0,0,0,.66);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}nav .wrap{display:flex;align-items:center;gap:18px;height:60px}.logo{font-weight:900;font-size:20px;letter-spacing:-.02em}.logo b{color:var(--green)}nav .links{display:flex;gap:24px;font-size:15px;color:var(--dim);margin:0 auto;white-space:nowrap;min-width:0;overflow:hidden}@media(max-width:1180px){nav .links{gap:16px;font-size:14px}}@media(max-width:1000px){nav .links{gap:12px;font-size:13px}}@media(min-width:701px) and (max-width:920px){nav .links{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-snap-type:x proximity}nav .links a{scroll-snap-align:start}nav .links::-webkit-scrollbar{display:none}}nav .links.fade-r{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 30px),transparent)}nav .links.fade-l{-webkit-mask-image:linear-gradient(to left,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(to left,#000 calc(100% - 30px),transparent)}nav .links.fade-l.fade-r{-webkit-mask-image:linear-gradient(to right,transparent,#000 30px,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(to right,transparent,#000 30px,#000 calc(100% - 30px),transparent)}nav .links a{transition:color .2s}nav .links a:hover{color:var(--text)}@media(max-width:700px){nav .wrap{height:auto;padding-top:8px;padding-bottom:8px;flex-wrap:wrap;row-gap:6px}nav .links{order:3;width:100%;gap:18px;font-size:13.5px;justify-content:flex-start;margin-left:0;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-snap-type:x proximity}nav .links::-webkit-scrollbar{display:none}nav .links a{white-space:nowrap;scroll-snap-align:start}nav .links a{order:5}nav .links a[href="#why"]{order:1}nav .links a[href="#price"]{order:2}nav .links a[href="run.html"]{order:3}nav .links a[href="#faq"]{order:4}}.nav-cta{flex:none;padding:7px 14px;font-size:13px;white-space:nowrap;box-shadow:none}.nav-cta:hover{box-shadow:0 8px 26px rgba(61,220,132,.35)}@media(max-width:820px){.nav-cta{display:none}}.langsel{position:relative;display:inline-block;margin-left:14px}.langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}.langsel button:hover{border-color:var(--green)}.langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}.langsel.open ul{display:block}.langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text)}.langsel li:hover{background:rgba(61,220,132,.15)}.langsel li{padding:0}.langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}.langsel a[aria-checked="true"]{color:var(--green);font-weight:700}@media(max-width:700px){.langsel{margin-left:auto}.langsel button{padding:6px 9px;font-size:12px}}.hero{padding:104px 0 72px;text-align:center;position:relative;overflow:hidden}.hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}.hero-bg .blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:drift 22s ease-in-out infinite alternate}.hero-bg .b1{width:52vw;height:52vw;left:-12vw;top:-18vw;background:radial-gradient(circle,rgba(61,220,132,.28),transparent 62%)}.hero-bg .b2{width:46vw;height:46vw;right:-10vw;top:-6vw;background:radial-gradient(circle,rgba(76,203,217,.24),transparent 62%);animation-delay:-8s}.hero-bg .b3{width:60vw;height:30vw;left:20vw;bottom:-14vw;background:radial-gradient(ellipse,rgba(61,220,132,.16),transparent 65%);animation-delay:-14s}.hero-bg .grid{position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px,linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 80%)}@keyframes drift{from{transform:translate3d(-3%,-2%,0) scale(1)}to{transform:translate3d(4%,3%,0) scale(1.12)}}.hero .wrap{position:relative;z-index:1}.hero h1{font-size:clamp(36px,6.2vw,64px);font-weight:900;letter-spacing:-.035em;line-height:1.1;margin-top:14px}.hero .sub{margin:22px auto 0;font-size:clamp(17px,2.3vw,21px)}.hero .cta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}.hero .note{margin-top:16px;font-size:13.5px;color:var(--dim2)}.trust{margin:30px auto 0;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}.tbadge{background:rgba(22,25,30,.6);border:1px solid var(--line);border-radius:12px;padding:10px 18px;min-width:110px;backdrop-filter:blur(6px)}.tbadge b{display:block;font-size:19px;font-weight:900;background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}.tbadge span{display:block;font-size:12px;color:var(--dim);margin-top:2px}a.tbadge{display:block;transition:border-color .2s var(--ease)}a.tbadge:hover{border-color:var(--green)}a.tbadge span{text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}.stage{margin:64px auto 0;position:relative;width:min(100%,680px)}.ring{position:absolute;left:50%;top:44%;width:600px;height:600px;transform:translate(-50%,-50%);pointer-events:none;z-index:0}.ring::before{content:"";position:absolute;inset:18%;border-radius:50%;background:radial-gradient(circle,rgba(61,220,132,.22),rgba(76,203,217,.08) 55%,transparent 72%);filter:blur(28px)}.ring svg{width:100%;height:100%;filter:drop-shadow(0 0 24px rgba(61,220,132,.25))}.ring .arc{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 2.6s var(--ease) .4s forwards}.ring .spin{transform-origin:50% 50%;animation:spin 40s linear infinite}@keyframes draw{to{stroke-dashoffset:120}}@keyframes spin{to{transform:rotate(360deg)}}.devices{position:relative;z-index:1;display:flex;gap:36px;justify-content:center;align-items:flex-end}.phone{width:250px;flex-shrink:0;filter:drop-shadow(0 34px 60px rgba(0,0,0,.65));animation:float 7s ease-in-out infinite}.watch-stack{position:relative;width:300px;max-width:100%;filter:drop-shadow(0 34px 60px rgba(0,0,0,.65));animation:float 7s ease-in-out -3.5s infinite}.watch-stack img{width:100%;opacity:0;transition:opacity .9s ease}.watch-stack img.on{opacity:1}.watch-stack picture:not(:first-child){position:absolute;top:0;left:0}.watch-stack .wnote{margin-top:10px;font-size:11.5px;line-height:1.5;color:var(--dim2);text-align:center}.wsctl{display:flex;justify-content:center;align-items:center;gap:9px;margin-top:14px}.wsdot{width:10px;height:10px;padding:0;border-radius:50%;border:1px solid #4a5058;background:none;cursor:pointer}.wsdot[aria-current="true"]{background:var(--green);border-color:var(--green)}.wsdot:focus-visible,.wspause:focus-visible{outline:2px solid var(--green);outline-offset:3px}.wspause{margin-left:6px;padding:3px 11px;border-radius:8px;border:1px solid var(--line2);background:none;color:var(--dim2);font:inherit;font-size:11.5px;line-height:1.6;cursor:pointer}.wspause:hover{color:var(--text);border-color:var(--green)}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}@media(max-width:640px){.devices{flex-direction:column;align-items:center;gap:26px}.phone{width:220px}.ring{width:420px;height:420px}}@media(max-width:768px){.hero{padding:88px 0 52px}.stage{margin-top:34px}.hero .watch-stack{display:none}.trust{gap:8px;margin-top:22px}.tbadge{padding:8px 14px;min-width:0;flex:1 1 30%}}@media(max-width:430px){.tbadge{flex:1 1 44%}.tbadge b{font-size:18px;overflow-wrap:normal}}.caption{margin:26px auto 0;max-width:420px;min-height:54px;background:rgba(22,25,30,.8);border:1px solid var(--line);border-radius:14px;padding:14px 18px;font-size:15px;color:#dfe3e7;text-align:left;display:flex;align-items:center;gap:10px;backdrop-filter:blur(8px)}.caption .mic{color:var(--green);font-size:18px;flex-shrink:0}.caption .txt::after{content:"▌";color:var(--green);animation:blink 1s steps(1) infinite}@keyframes blink{50%{opacity:0}}.sc-note{margin-top:12px;font-size:12.5px;color:var(--dim2)}.sc-note:empty{display:none}.row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:56px;align-items:center;margin-top:52px}.row.flip{grid-template-columns:minmax(0,1fr) auto}.row.flip .frame{order:2}@media(max-width:860px){.row,.row.flip{grid-template-columns:minmax(0,1fr);gap:28px;justify-items:stretch;text-align:center}.row .desc{min-width:0}.row.flip .frame{order:0}.row ul{text-align:left;display:inline-block;max-width:100%}}.frame{width:280px;max-width:100%;flex-shrink:0;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6))}.frame.watch{width:240px}.desc h3{font-size:24px;font-weight:800;margin-bottom:12px;letter-spacing:-.015em}.desc p{color:var(--dim);font-size:16px;margin-bottom:12px}.desc ul{list-style:none;margin-top:14px}.desc li{color:#dfe3e7;font-size:15px;margin:9px 0;padding-left:26px;position:relative}.desc li::before{content:"";position:absolute;left:0;top:9px;width:14px;height:14px;border-radius:50%;background:linear-gradient(120deg,var(--green),var(--cyan));opacity:.85;box-shadow:0 0 12px rgba(61,220,132,.4)}.mini{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}@media(max-width:560px){.mini{grid-template-columns:repeat(2,minmax(0,1fr))}.mini .m:nth-child(3){grid-column:1/-1}}.mini .m{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 14px 12px;text-align:left}.mini .m small{display:block;color:var(--dim);font-size:12px}.mini .m b{display:block;font-size:20px;font-weight:900;margin:2px 0 4px;font-variant-numeric:tabular-nums}.mini .m em{font-style:normal;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px}.st-good{color:#3DDC84;background:rgba(61,220,132,.14)} .st-fair{color:#FFB340;background:rgba(255,179,64,.14)} .st-caution{color:#FF6B6B;background:rgba(255,107,107,.14)}.watch3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:52px}@media(max-width:820px){.watch3{grid-template-columns:1fr;max-width:340px;margin-left:auto;margin-right:auto}}.w3{text-align:center}.w3 .frame{width:230px;margin:0 auto;transition:transform .5s var(--ease)}.w3:hover .frame{transform:translateY(-8px)}.w3 b{display:block;font-size:17px;font-weight:800;margin:16px 0 6px}.w3 span{display:block;color:var(--dim);font-size:14px;line-height:1.55;max-width:280px;margin:0 auto}.voice-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:40px}@media(max-width:1000px){.voice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.voice-grid{grid-template-columns:minmax(0,1fr)}}.vchip{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:16px;padding:20px;cursor:pointer;text-align:left}.vchip .sensor{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;color:var(--cyan);letter-spacing:.02em;line-height:1.5;padding-bottom:10px;margin-bottom:12px;border-bottom:1px dashed var(--line)}.vchip .play{display:inline-flex;align-items:center;gap:8px;color:var(--green);font-weight:700;font-size:14px;margin-bottom:10px}.vchip .play .pill{margin-left:2px}.vchip .play::before{content:"";width:0;height:0;border-left:9px solid var(--green);border-top:6px solid transparent;border-bottom:6px solid transparent}.vchip.playing .play::before{border:none;width:9px;height:12px;background:var(--green);border-radius:1px}.vchip .line{color:#dfe3e7;font-size:15px}.vchip.playing{border-color:var(--green);box-shadow:0 0 0 3px rgba(61,220,132,.14),0 20px 50px rgba(0,0,0,.5)}.quiet{margin-top:28px;display:flex;gap:14px;align-items:flex-start;background:rgba(61,220,132,.05);border-left:2px solid var(--green);border-radius:0 12px 12px 0;padding:14px 18px;color:var(--dim);font-size:14.5px;max-width:760px}.qbody{flex:1;min-width:0}.qbody>b{display:block;color:var(--text);font-size:16px;font-weight:800;margin-bottom:10px}.qsum{font-size:14.5px;color:#dfe3e7;margin-top:8px;line-height:1.7}.qtable{overflow-x:auto;margin:10px -4px 0}.qtable table{width:100%;border-collapse:collapse;font-size:14px}.qtable th,.qtable td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}.qtable th{color:var(--dim2);font-weight:700;font-size:12.5px}.qtable tr:last-child td{border-bottom:0}.qtable td:last-child{color:var(--text);font-weight:700}.qbody ul{margin:12px 0 0;padding-left:18px}.qbody li{margin-top:6px;line-height:1.6}.steps-h{margin-top:56px;font-size:22px;font-weight:800;letter-spacing:-.01em}.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:18px}@media(max-width:820px){.steps{grid-template-columns:minmax(0,1fr)}}.step{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:22px;position:relative}.step .sn{position:absolute;top:16px;right:18px;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:12px;color:var(--dim2);letter-spacing:.2em}.step h4{font-size:17px;font-weight:800;margin-bottom:10px}.step .q{background:rgba(0,0,0,.35);border-left:2px solid var(--green);border-radius:0 10px 10px 0;padding:10px 12px;font-size:13.5px;color:#cfe3d6;line-height:1.6;margin-bottom:10px}.step p{color:var(--dim);font-size:14px}.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:40px;align-items:start}@media(max-width:900px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.tiles{grid-template-columns:minmax(0,1fr)}}.tile{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:22px}.tile h3{font-size:17px;font-weight:800;display:flex;align-items:center;flex-wrap:wrap;gap:4px}.tile p{color:var(--dim);font-size:14px;margin-top:8px}.honest{margin-top:26px;color:var(--dim2);font-size:14px;max-width:700px}.honest b{color:var(--dim)}#privacy{background:linear-gradient(180deg,rgba(61,220,132,.06),rgba(76,203,217,.05));text-align:center}#privacy .big{font-size:clamp(24px,3.4vw,36px);font-weight:800;line-height:1.35;letter-spacing:-.02em;margin-top:10px}#privacy p{color:var(--dim);font-size:15.5px;max-width:680px;margin:18px auto 0}#privacy p a{color:var(--dim);border-bottom:1px solid var(--line)}.price{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;margin-top:44px}@media(max-width:640px){.price{grid-template-columns:minmax(0,1fr)}}.plan{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:22px;padding:32px;position:relative}.plan.pro{border-color:rgba(61,220,132,.6)}.plan .ribbon{position:absolute;top:-11px;right:20px;max-width:calc(100% - 40px);background:var(--green);color:#04120c;font-size:12px;font-weight:800;padding:4px 12px;border-radius:8px}.plan .name{font-size:15px;color:var(--dim);font-weight:700}.plan .amt{font-size:36px;font-weight:900;margin:8px 0 4px;letter-spacing:-.02em}.plan .gate p b{color:var(--green);font-weight:700}.plan .ptable{width:100%;border-collapse:collapse;margin:10px 0 2px}.plan .ptable th{text-align:left;font-weight:700;font-size:15px;padding:9px 0;vertical-align:baseline}.plan .ptable th small{display:block;font-weight:500;font-size:12px;color:var(--dim);line-height:1.5;margin-top:2px}.plan .ptable td.pv{text-align:right;white-space:nowrap;font-size:21px;font-weight:900;letter-spacing:-.02em;padding:9px 0 9px 12px;vertical-align:baseline;font-variant-numeric:tabular-nums}.plan .ptable tr.lead td.pv{font-size:32px}.plan .ptable tr+tr th,.plan .ptable tr+tr td{border-top:1px solid var(--line)}.plan .storenote{margin-top:10px;font-size:12.5px;line-height:1.65;color:var(--dim)}.plan ul{list-style:none;margin-top:18px}.plan li{padding:7px 0;font-size:15px;color:#dfe3e7;display:flex;gap:10px}.plan li::before{content:"✓";color:var(--green);font-weight:800}.plan .plisth{margin-top:18px;font-size:12.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}.plan .plisth+ul{margin-top:6px}.plan .tilesli{padding:0}.plan .tilesli::before{content:none}.plan .tiles{margin:2px 0 4px 26px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}@media(max-width:520px){.plan .tiles{grid-template-columns:minmax(0,1fr)}}.plan .tiles li{padding:3px 0;font-size:13.5px;color:var(--dim);gap:7px}.plan .tiles li::before{content:"·";color:var(--cyan)}.plan .terms-link{display:inline-block;margin-top:4px;font-size:12px;color:var(--dim);text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}.plan .terms-link:hover{color:var(--text)}.qmore{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px;font-weight:700}.qmore a{color:var(--dim);border-bottom:1px solid var(--line2)}.qmore a:hover{color:var(--text);border-bottom-color:var(--green)}.qmore a::after{content:" →";color:var(--green)}.gate{margin-top:16px;border-top:1px solid var(--line);padding-top:14px}.gate summary{cursor:pointer;font-size:13.5px;font-weight:700;color:var(--dim);list-style:none;display:flex;align-items:center;gap:8px}.gate summary::-webkit-details-marker{display:none}.gate summary::before{content:"▸";color:var(--green);transition:transform .2s var(--ease)}.gate[open] summary::before{transform:rotate(90deg)}.gate summary:hover{color:var(--text)}.gate p{margin-top:10px;font-size:13px;line-height:1.75;color:var(--dim)}.plan .gatelist{margin-top:8px;list-style:none}.plan .gatelist li{padding:5px 0;font-size:13px;line-height:1.7;color:var(--dim);gap:8px;align-items:flex-start}.plan .gatelist li::before{content:"·";color:var(--green)}.note{text-align:center;color:var(--dim2);font-size:12.5px;margin-top:14px}.order-note{flex:0 0 100%;margin:0;font-size:13px;color:var(--dim);line-height:1.6;text-align:center}.nextsteps{max-width:520px;margin:24px auto 0;text-align:left}.nextsteps h4{font-size:14px;color:var(--dim);font-weight:700;letter-spacing:.02em}.nextsteps p{margin-top:10px;font-size:13.5px;color:var(--dim);line-height:1.7}.nextsteps p a,.dolist a{color:var(--green);border-bottom:1px solid rgba(61,220,132,.4)}.dolist{list-style:none;margin-top:12px}.dolist li{position:relative;padding-left:18px;margin-top:11px;font-size:13.5px;color:var(--dim);line-height:1.7}.dolist li::before{content:"→";position:absolute;left:0;color:var(--cyan);font-weight:800}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}.skip{position:absolute;left:-9999px;top:0;z-index:200}.skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}.proof{margin-top:28px;background:rgba(76,203,217,.05);border:1px solid var(--line);border-left:2px solid var(--cyan);border-radius:0 18px 18px 0;padding:24px 26px}.proof h3{font-size:17px;font-weight:800;letter-spacing:-.01em}.proof ul{list-style:none;margin-top:14px}.proof li{color:#dfe3e7;font-size:14.5px;line-height:1.7;margin:8px 0;padding-left:22px;position:relative}.proof li::before{content:"✓";position:absolute;left:0;color:var(--cyan);font-weight:800}.proof p{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);color:var(--dim);font-size:13.5px;line-height:1.75}.signup{background:var(--bg1);border:1px solid var(--line);border-radius:22px;padding:40px;text-align:center;margin-top:28px}.want{max-width:520px;margin:18px auto 0;text-align:left;font-size:13.5px;color:var(--dim);border:0;padding:0}.signup form .want,.signup form .consent{flex:0 0 100%;max-width:none;margin-left:0;margin-right:0}.want legend{padding:0;color:var(--text);font-weight:700;font-size:14px;margin-bottom:6px}.want label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;margin-top:6px;line-height:1.7}.want label span,.consent label span{min-width:0;flex:1}.want input{margin-top:5px;flex:none}.signup form{display:flex;gap:12px;max-width:480px;margin:22px auto 0;flex-wrap:wrap;justify-content:center}.signup input[type=email]{flex:1;min-width:220px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px 18px;color:var(--text);font-size:16px}.signup input[type=email]:focus{border-color:var(--green)}.signup input[type=email]:focus:not(:focus-visible){outline:none}.consent{margin-top:18px;font-size:13px;color:var(--dim2);max-width:520px;margin-left:auto;margin-right:auto;text-align:left;line-height:1.7}.consent label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;margin-top:8px;min-width:0}.consent input{margin-top:4px}footer{padding:48px 0;border-top:1px solid var(--line);text-align:center;color:var(--dim2);font-size:14px}footer a{color:var(--dim)}footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}.disclaimer{max-width:640px;margin:20px auto 0;font-size:12px;color:var(--dim2);line-height:1.7}.sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(0,0,0,.82);backdrop-filter:blur(12px);border-top:1px solid var(--line)}.sticky-cta.armed{gap:10px}.sticky-cta a{display:block;text-align:center;flex:1 1 0;min-width:0;padding-left:12px;padding-right:12px;font-size:15.5px}@media(max-width:820px){.sticky-cta.armed{display:flex} footer{padding-bottom:96px}}@media(max-width:820px){html.js .reveal{transform:none;transition:none}}@media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}.hero-bg .blob,.phone,.watch-stack,.ring .spin{animation:none}.ring .arc{animation:none;stroke-dashoffset:120}.caption .txt::after{animation:none}.tilt{transform:none!important}html{scroll-behavior:auto}}
 </style>
 <script>
 (function(){
@@ -397,14 +83,14 @@ html{scroll-behavior:auto}
   }
   function RunvisT(k,v){ return v; }
   window.RunvisSelfDyn={
-    hero:[RunvisT('hero0', 'It\'s 3 degrees Celsius with 60 percent humidity. It\'s cold — muscles stiffen easily, so we\'ll warm up a little longer today.'),
+    hero:[RunvisT('hero0', 'It’s 3 degrees Celsius with 60 percent humidity. It’s cold — muscles stiffen easily, so we’ll warm up a little longer today.'),
           RunvisT('hero1', 'In 300 meters, an 800 meter climb begins. Average grade 4 percent. Shorten your stride and hold your rhythm.'),
           RunvisT('hero2', '25 seconds under target pace'),
-          RunvisT('hero3', 'Your heart rate is down to zone 3. You\'re recovering well. Just a little more.')],
+          RunvisT('hero3', 'Your heart rate is down to zone 3. You’re recovering well. Just a little more.')],
     vchip:[RunvisT('vchip0', '25 seconds under target pace'),
            RunvisT('vchip1', 'In 300 meters: a climb of 800 meters, averaging 4 percent. Shorten your stride, keep the rhythm.'),
-           RunvisT('vchip2', 'Cadence is 5 percent under your baseline — let\'s shorten the stride a touch.'),
-           RunvisT('vchip3', 'Heart rate is down to zone 3. You\'re recovering well — almost there.')]
+           RunvisT('vchip2', 'Cadence is 5 percent under your baseline — let’s shorten the stride a touch.'),
+           RunvisT('vchip3', 'Heart rate is down to zone 3. You’re recovering well — almost there.')]
   };
   window.RunvisShotBase = BASE+"assets/framed-phone-dash"+(code==="ko"?"":"."+code);
   var pl=document.createElement("link");
@@ -424,7 +110,7 @@ html{scroll-behavior:auto}
     link.setAttribute("href",url); meta("property","og:url",url); }
   var OGL={ko:"ko_KR",en:"en_US",ja:"ja_JP",es:"es_ES",zh:"zh_TW",de:"de_DE"};
   meta("property","og:locale",OGL[code]);
-  var C={"en":{"h":{"n.hero.eb":"Apple Watch running coach","n.hero.h1":"Your Apple Watch<br/><span class=\"grad\">is enough</span>","n.hero.sub":"You don't need a second running watch. Your coach reads the data already on your wrist, picks today's workout, and talks you through the run.","n.hero.cta1":"Join the beta","n.hero.cta2":"Run the 5K demo"},"m":{"meta.title":"Runvis: your Apple Watch is enough. Apple Watch running coach","meta.desc":"You don't need a second running watch. Runvis reads the sleep and heart rate your Apple Watch recorded, picks today's workout, and talks you through the run. No account, no server.","meta.ogtitle":"Runvis: Apple Watch running coach","meta.ogdesc":"You don't need a second running watch. Your coach picks today's workout and talks you through the run."}}};
+  var C={"en":{"h":{"n.hero.eb":"Apple Watch running coach","n.hero.h1":"Your Apple Watch<br/><span class=\"grad\">is enough</span>","n.hero.sub":"You don’t need a second running watch. Your coach reads the data already on your wrist, picks today’s workout, and talks you through the run.","n.hero.cta1":"Join the beta","n.hero.cta2":"Run the 5K demo"},"m":{"meta.title":"Runvis: your Apple Watch is enough. Apple Watch running coach","meta.desc":"You don’t need a second running watch. Runvis reads the sleep and heart rate your Apple Watch recorded, picks today’s workout, and talks you through the run. No account, no server.","meta.ogtitle":"Runvis: Apple Watch running coach","meta.ogdesc":"You don’t need a second running watch. Your coach picks today’s workout and talks you through the run."}}};
   var d2=C[code]; if(!d2) return;
   document.title=d2.m["meta.title"];
   meta("name","description",d2.m["meta.desc"]);
@@ -435,10 +121,10 @@ html{scroll-behavior:auto}
 </script>
 <script defer src="/i18n.js?v=20260906f"></script>
 <script id="appld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"en","url":"https://runvis.app/","description":"You don't need a second running watch. Runvis reads the sleep and heart rate your Apple Watch recorded, picks today's workout, and talks you through the run. No account, no server.","image":"https://runvis.app/assets/og-card.en.png","screenshot":"https://runvis.app/assets/framed-phone-dash.en.png","author":{"@type":"Organization","name":"Runvis","url":"https://runvis.app/"},"offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}}]}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"en","url":"https://runvis.app/","description":"You don’t need a second running watch. Runvis reads the sleep and heart rate your Apple Watch recorded, picks today’s workout, and talks you through the run. No account, no server.","image":"https://runvis.app/assets/og-card.en.png","screenshot":"https://runvis.app/assets/framed-phone-dash.en.png","author":{"@type":"Organization","name":"Runvis","url":"https://runvis.app/"},"offers":[{"@type":"Offer","name":"Runvis Coach Monthly","price":"1900","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Yearly","price":"15000","priceCurrency":"KRW","category":"subscription","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}},{"@type":"Offer","name":"Runvis Coach Lifetime","price":"39000","priceCurrency":"KRW","category":"one-time","availability":"https://schema.org/PreOrder","eligibleRegion":{"@type":"Country","name":"KR"}}]}
 </script>
 <script id="faqld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"en","mainEntity":[{"@type":"Question","name":"Do I need a watch?","acceptedAnswer":{"@type":"Answer","text":"The iPhone alone records GPS and calls your split pace every kilometre — every mile if that is your unit setting. Without a subscription that split is the only thing the phone says. With a subscription the phone also coaches your pace; the heart-rate zone calls need a heart rate, and an iPhone has no heart-rate sensor, so they arrive only when a Bluetooth chest strap (a standard BLE heart-rate band such as a Polar H10 or Wahoo TICKR) is connected. Form coaching, hill warnings and off-route alerts exist only on a watch run."}},{"@type":"Question","name":"Which Apple Watch do I need?","acceptedAnswer":{"@type":"Answer","text":"watchOS 10 or later (Apple Watch Series 4 and up) and iOS 17 or later. Past that line, heart rate and GPS are all it needs. On newer models that measure ground contact time and vertical oscillation the form coaching is finer; on the others it works from cadence."}},{"@type":"Question","name":"What happens to my data if I cancel?","acceptedAnswer":{"@type":"Answer","text":"Your runs stay in Apple Health, untouched. After cancelling you keep recording, plan viewing and the workout detail report for free."}},{"@type":"Question","name":"Where does my data go?","acceptedAnswer":{"@type":"Answer","text":"There is no account and no server. Location leaves only for weather, the neighbourhood name and auto-generated routes. Beyond that there are App Store payments, the download of the public course and shoe list files, and — on the Korean App Store only, for now — an external shoe-search page that opens when you tap it yourself on the shoes screen. Workout and health data are never uploaded."}},{"@type":"Question","name":"How complete are the six languages?","acceptedAnswer":{"@type":"Answer","text":"Every line the iPhone coach speaks is pinned by a test in all six languages — a 45-minute run is replayed second by second on each build to check that every cue it produces is translated. The watch's live coaching loop sits outside that test bundle, so a line can still be missing from the tables; when one is, you hear English, never Korean, and that fallback is pinned by a test as well. The text drawn on the app's screens uses a different table from the coach's voice."}},{"@type":"Question","name":"Can I start with no history at all?","acceptedAnswer":{"@type":"Answer","text":"Yes. One 12-minute test run on the watch produces an estimated 5K and 10K time and your first plan the same day — that test is watch-only. With the iPhone alone you still get GPS recording, split pace cues and the training plan from day one, and the plan starts from your recent weekly distance instead. Readiness needs nights slept with the watch before its baseline exists, so it usually appears around two weeks in, and ACWR around four. Performance condition appears once you have set a maximum heart rate and logged three runs longer than ten minutes, with heart rate, in the same intensity band (easy, moderate or hard). For the first few the comparison runs against a baseline not yet separated by intensity or by the point of the run it was read at, and the app writes that on the screen itself."}},{"@type":"Question","name":"Who gets the free trial?","acceptedAnswer":{"@type":"Answer","text":"Only accounts the App Store still counts as eligible for this subscription’s introductory offer. If you have subscribed before or already used the trial, you are charged from the first payment. The app’s purchase screen always tells you which case you are in before you buy. As configured today the free period is 1 month on the monthly plan and 1 month on the yearly one; picking yearly does not make a year free. The length itself is sent down by the App Store with the product, so the app shows you exactly what it received, right before the purchase. On yearly, the whole year is charged once that 1 month ends."}},{"@type":"Question","name":"Lifetime or yearly — which is better?","acceptedAnswer":{"@type":"Answer","text":"The lifetime pass is a one-time purchase with no auto-renewal. By the maths on the price card it breaks even at about 2.6 years against yearly, or about 20 months against monthly, so if you expect to use Runvis longer than that, lifetime is the cheaper side. It is also the only plan Apple Family Sharing covers — the monthly and yearly subscriptions are not eligible."}},{"@type":"Question","name":"What happens when I change device?","acceptedAnswer":{"@type":"Answer","text":"The runs themselves live in Apple Health, so the Health app on the new device brings them across. What lived only inside Runvis — your profile, heart-rate zones, shoe list and the baselines the coach built — goes out as a single file from Settings → Data → 'Export my data', and comes back on the new device with 'Import from backup'. The file stays only where you put it; Runvis sends it nowhere. The subscription comes back through the App Store's restore purchases."}},{"@type":"Question","name":"Is there a watch face complication or a widget?","acceptedAnswer":{"@type":"Answer","text":"Not yet. Watch face complications, an iPhone home screen widget and Live Activities are not in this build. They are planned, but there is no date."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"en","mainEntity":[{"@type":"Question","name":"Do I need a watch?","acceptedAnswer":{"@type":"Answer","text":"The iPhone alone records GPS and calls your split pace every kilometre — every mile if that is your unit setting. Without a subscription that split is the only thing the phone says. With a subscription the phone also coaches your pace; the heart-rate zone calls need a heart rate, and an iPhone has no heart-rate sensor, so they arrive only when a Bluetooth chest strap (a standard BLE heart-rate band such as a Polar H10 or Wahoo TICKR) is connected. Form coaching, hill warnings and off-route alerts exist only on a watch run."}},{"@type":"Question","name":"Which Apple Watch do I need?","acceptedAnswer":{"@type":"Answer","text":"watchOS 10 or later (Apple Watch Series 4 and up) and iOS 17 or later. Past that line, heart rate and GPS are all it needs. On newer models that measure ground contact time and vertical oscillation the form coaching is finer; on the others it works from cadence."}},{"@type":"Question","name":"What happens to my data if I cancel?","acceptedAnswer":{"@type":"Answer","text":"Your runs stay in Apple Health, untouched. After cancelling you keep recording, plan viewing and the workout detail report for free."}},{"@type":"Question","name":"Where does my data go?","acceptedAnswer":{"@type":"Answer","text":"There is no account and no server. Location leaves only for weather, the neighbourhood name and auto-generated routes. Beyond that there are App Store payments, the download of the public course and shoe list files, and — on the Korean App Store only, for now — an external shoe-search page that opens when you tap it yourself on the shoes screen. Workout and health data are never uploaded."}},{"@type":"Question","name":"How complete are the six languages?","acceptedAnswer":{"@type":"Answer","text":"Every line the iPhone coach speaks is pinned by a test in all six languages — a 45-minute run is replayed second by second on each build to check that every cue it produces is translated. The watch’s live coaching loop sits outside that test bundle, so a line can still be missing from the tables; when one is, you hear English, never Korean, and that fallback is pinned by a test as well. The text drawn on the app’s screens uses a different table from the coach’s voice."}},{"@type":"Question","name":"Can I start with no history at all?","acceptedAnswer":{"@type":"Answer","text":"Yes. One 12-minute test run on the watch produces an estimated 5K and 10K time and your first plan the same day — that test is watch-only. With the iPhone alone you still get GPS recording, split pace cues and the training plan from day one, and the plan starts from your recent weekly distance instead. Readiness needs nights slept with the watch before its baseline exists, so it usually appears around two weeks in, and ACWR around four. Performance condition appears once you have set a maximum heart rate and logged three runs longer than ten minutes, with heart rate, in the same intensity band (easy, moderate or hard). For the first few the comparison runs against a baseline not yet separated by intensity or by the point of the run it was read at, and the app writes that on the screen itself."}},{"@type":"Question","name":"Who gets the free trial?","acceptedAnswer":{"@type":"Answer","text":"Only accounts the App Store still counts as eligible for this subscription’s introductory offer. If you have subscribed before or already used the trial, you are charged from the first payment. The app’s purchase screen always tells you which case you are in before you buy. As configured today the free period is 1 month on the monthly plan and 1 month on the yearly one; picking yearly does not make a year free. The length itself is sent down by the App Store with the product, so the app shows you exactly what it received, right before the purchase. On yearly, the whole year is charged once that 1 month ends."}},{"@type":"Question","name":"Lifetime or yearly — which is better?","acceptedAnswer":{"@type":"Answer","text":"The lifetime pass is a one-time purchase with no auto-renewal. By the maths on the price card it breaks even at about 2.6 years against yearly, or about 20 months against monthly, so if you expect to use Runvis longer than that, lifetime is the cheaper side. It is also the only plan Apple Family Sharing covers — the monthly and yearly subscriptions are not eligible."}},{"@type":"Question","name":"What happens when I change device?","acceptedAnswer":{"@type":"Answer","text":"The runs themselves live in Apple Health, so the Health app on the new device brings them across. What lived only inside Runvis — your profile, heart-rate zones, shoe list and the baselines the coach built — goes out as a single file from Settings → Data → ‘Export my data’, and comes back on the new device with ‘Import from backup’. The file stays only where you put it; Runvis sends it nowhere. The subscription comes back through the App Store’s restore purchases."}},{"@type":"Question","name":"Is there a watch face complication or a widget?","acceptedAnswer":{"@type":"Answer","text":"Not yet. Watch face complications, an iPhone home screen widget and Live Activities are not in this build. They are planned, but there is no date."}}]}
 </script>
 </head>
 <body>
@@ -471,7 +157,7 @@ html{scroll-behavior:auto}
 <div class="wrap">
 <div class="eyebrow" data-i18n="n.hero.eb">Apple Watch running coach</div>
 <h1 data-i18n="n.hero.h1">Your Apple Watch<br/><span class="grad">is enough</span></h1>
-<p class="sub" data-i18n="n.hero.sub">You don't need a second running watch. Your coach reads the data already on your wrist, picks today's workout, and talks you through the run.</p>
+<p class="sub" data-i18n="n.hero.sub">You don’t need a second running watch. Your coach reads the data already on your wrist, picks today’s workout, and talks you through the run.</p>
 <div class="cta">
 <a class="btn" data-i18n="n.hero.cta1" href="#beta">Join the beta</a>
 <a class="btn ghost" data-i18n="n.hero.cta2" href="run.html">Run the 5K demo</a>
@@ -485,7 +171,7 @@ html{scroll-behavior:auto}
 <div class="trust">
 <a class="tbadge" href="#privacy"><b data-i18n="n.hero.b1n">Analysis</b><span data-i18n="n.hero.b1">all on device — lookups excepted</span></a>
 <a class="tbadge" href="#faq"><b data-i18n="n.hero.b3n">6 languages</b><span data-i18n="n.hero.b3">Coach voice · exceptions in the FAQ</span></a>
-<a class="tbadge" href="#why"><b data-i18n="n.hero.b4n">41</b><span data-i18n="n.hero.b4">metrics, each explained</span></a>
+<a class="tbadge" href="#price"><b data-i18n="n.hero.b5n">₩1,900/mo</b><span data-i18n="n.hero.b5">about US$1.40 · recording stays free</span></a>
 </div>
 <div class="stage">
 <div class="ring" aria-hidden="true" data-depth="-.15"><svg viewBox="0 0 200 200"><defs><linearGradient id="rg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#3DDC84"/><stop offset="1" stop-color="#4CCBD9"/></linearGradient></defs>
@@ -508,6 +194,12 @@ html{scroll-behavior:auto}
 <picture><source srcset="/assets/framed-watch-pace.en.avif" type="image/avif"/><source srcset="/assets/framed-watch-pace.en.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis mid-run pace with average, speed, GAP and grade" data-i18n-attr="alt:alt.watch.pace" class="on" src="/assets/framed-watch-pace.en.png" data-shot="framed-watch-pace" width="480" height="768" fetchpriority="high" decoding="sync"/></picture>
 <picture><source srcset="/assets/framed-watch-hr.en.avif" type="image/avif"/><source srcset="/assets/framed-watch-hr.en.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis heart-rate zone arc" data-i18n-attr="alt:alt.watch.zone" src="/assets/framed-watch-hr.en.png" data-shot="framed-watch-hr" width="480" height="768" fetchpriority="low" decoding="async"/></picture>
 <picture><source srcset="/assets/framed-watch-map.en.avif" type="image/avif"/><source srcset="/assets/framed-watch-map.en.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis live GPS map mid-run with distance, time and pace" data-i18n-attr="alt:alt.watch.map" src="/assets/framed-watch-map.en.png" data-shot="framed-watch-map" width="480" height="768" fetchpriority="low" decoding="async"/></picture>
+<div class="wsctl">
+<button class="wsdot" type="button" data-frame="0" aria-current="true"></button>
+<button class="wsdot" type="button" data-frame="1" aria-current="false"></button>
+<button class="wsdot" type="button" data-frame="2" aria-current="false"></button>
+<button class="wspause" id="wsPause" type="button" hidden></button>
+</div>
 </div>
 </div>
 <div class="caption"><span class="mic">🔊</span><span class="txt" id="heroCaption"></span></div>
@@ -518,50 +210,51 @@ html{scroll-behavior:auto}
 <section id="why" aria-labelledby="why-h">
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.why.eb">Why Runvis</div>
-<h2 id="why-h" class="reveal" data-i18n="n.why.h2">You don't need to buy<br/>a second running watch</h2>
-<p class="sub reveal" data-i18n="n.why.sub">People say you need a dedicated running watch to see metrics like training load and recovery time. But the sensors those numbers come from are already in the Apple Watch.</p>
+<h2 id="why-h" class="reveal" data-i18n="n.why.h2">You don’t need to buy<br/>a second running watch</h2>
+<p class="sub reveal" data-i18n="n.why.sub">People say you need a dedicated running watch — a Garmin Forerunner, a Coros — to see metrics like training load and recovery time. But the sensors those numbers come from are already in the Apple Watch.</p>
 <div class="cards">
 <div class="card tilt reveal" data-tilt="8"><div class="ic">⌚️</div><h3 data-i18n="n.why.c1h">The sensors are already on your wrist</h3><p data-i18n="n.why.c1p">Heart rate, GPS, cadence, altitude. Recent watches also measure ground contact time and vertical oscillation.</p></div>
 <div class="card tilt reveal" data-tilt="8"><div class="ic">📐</div><h3 data-i18n="n.why.c2h">The formulas are public</h3><p data-i18n="n.why.c2p">Training load, recovery time, and threshold estimates come from published sports science formulas. Runvis runs those formulas on your device.</p></div>
-<div class="card tilt reveal" data-tilt="8"><div class="ic">🗣️</div><h3 data-i18n="n.why.c3h">What was missing was the coach</h3><p data-i18n="n.why.c3p">Someone to read the numbers, pick today's workout, and talk to you while you run. That is the part Runvis does.</p></div>
+<div class="card tilt reveal" data-tilt="8"><div class="ic">🗣️</div><h3 data-i18n="n.why.c3h">What was missing was the coach</h3><p data-i18n="n.why.c3p">Someone to read the numbers, pick today’s workout, and talk to you while you run. That is the part Runvis does.</p></div>
 </div>
 <div class="mini reveal" style="max-width:760px;margin-top:26px">
 <div class="m tilt" data-tilt="8"><small data-i18n="n.why.s1">Entries with a plain-language note</small><b data-i18n="n.why.s1v">41</b><em class="st-good" data-i18n="n.why.s1n">on device</em></div>
-<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s2">Coach lines written</small><b data-i18n="n.why.s2v">270+</b><em class="st-good" data-i18n="n.why.s2n">all six languages</em></div>
-<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">Automated tests</small><b data-i18n="n.why.s3v">500+</b><em class="st-good" data-i18n="n.why.s3n">every build</em></div>
+<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s2">Coach lines written</small><b data-i18n="n.why.s2v">287</b><em class="st-good" data-i18n="n.why.s2n">all six languages</em></div>
+<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">Automated tests</small><b data-i18n="n.why.s3v">766</b><em class="st-good" data-i18n="n.why.s3n">every build</em></div>
 </div>
 <p class="honest reveal" data-i18n="n.why.cost">There is no extra device to buy. The Apple Watch already on your wrist is the hardware. The only cost is the coach: ₩1,900 a month, ₩15,000 a year, or ₩39,000 once for the lifetime pass, at Korean App Store prices. You need one watch per person; the lifetime pass is a single ₩39,000 payment and covers an Apple Family Sharing group. What a dedicated watch does differently is <a href="how-it-works.html#versus">written out metric by metric</a>.</p>
-<p class="honest reveal" data-i18n="n.why.phone">You don't need a watch yet. The iPhone alone records GPS and calls your split pace every kilometre — every mile if that is your unit setting — and without a subscription that split is the only thing it says. Form coaching needs the wrist sensors, so it stays on the watch.</p>
+<p class="honest reveal" data-i18n="n.why.phone">You don’t need a watch yet. The iPhone alone records GPS and calls your split pace every kilometre — every mile if that is your unit setting — and without a subscription that split is the only thing it says. Form coaching needs the wrist sensors, so it stays on the watch.</p>
 </div>
 </section>
 
 <section id="today" aria-labelledby="today-h">
 <div class="wrap">
-<div class="eyebrow reveal" data-i18n="n.today.eb">Today's decision</div>
-<h2 id="today-h" class="reveal" data-i18n="n.today.h2">Open it in the morning<br/>and today's workout is set</h2>
-<p class="sub reveal" data-i18n="n.today.sub">It compares last night's sleep, HRV, resting heart rate, and yesterday's training load against your own 28-day baseline. Then it picks today's workout and adds one line on why.</p>
+<div class="eyebrow reveal" data-i18n="n.today.eb">Today’s decision</div>
+<h2 id="today-h" class="reveal" data-i18n="n.today.h2">Open it in the morning<br/>and today’s workout is set</h2>
+<p class="sub reveal" data-i18n="n.today.sub">It compares last night’s sleep, HRV, resting heart rate, and yesterday’s training load against your own 28-day baseline. Then it picks today’s workout and adds one line on why.</p>
+<p class="honest reveal" data-i18n="n.today.siri">You can hear it without waking the watch — say “Hey Siri, What should I run today with Runvis” and today’s call is read back to you. Readiness and this week’s plan answer the same way.</p>
 <div class="row reveal">
 <div class="frame"><picture><source srcset="/assets/framed-phone-detail.en.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.en.webp" type="image/webp"/><img alt="iPhone metric detail — the 7-day training-load (CTL) trend, my 28-day range and what the metric means" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.en.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture></div>
 <div class="desc">
 <h3 data-i18n="n.today.h3">The decision first, the reasons below it</h3>
-<p data-i18n="n.today.p">Today's workout sits at the top. The reasoning behind it sits right under. The rest of the metrics move down as reference. Tap a metric to see what it means, how it is calculated, and your usual range.</p>
+<p data-i18n="n.today.p">Today’s workout sits at the top. The reasoning behind it sits right under. The rest of the metrics move down as reference. Tap a metric to see what it means, how it is calculated, and your usual range.</p>
 <div class="mini">
 <div class="m tilt" data-tilt="10"><small data-i18n="n.today.m1">Sleep</small><b>7.2h</b><em class="st-good" data-i18n="n.st.good">Good</em></div>
 <div class="m tilt" data-tilt="10"><small>HRV</small><b>48ms</b><em class="st-fair" data-i18n="n.st.fair">Fair</em></div>
-<div class="m tilt" data-tilt="10"><small data-i18n="n.today.m3">Yesterday's load</small><b>70</b><em class="st-caution" data-i18n="n.st.caution">Caution</em></div>
+<div class="m tilt" data-tilt="10"><small data-i18n="n.today.m3">Yesterday’s load</small><b>70</b><em class="st-caution" data-i18n="n.st.caution">Caution</em></div>
 </div>
 <p class="sc-note" style="margin:10px 0 0;text-align:left" data-i18n="n.today.mininote">These three cells are example values that show how the screen is laid out. The capture beside them is the real app.</p>
 <ul>
 <li data-i18n="n.today.l1">On an off day it lowers the intensity and tells you why</li>
-<li data-i18n="n.today.l2">If you don't like the easier version, you can keep the original workout</li>
-<li data-i18n="n.today.l3">When there isn't enough data, it shows "Learning" instead of a number</li>
+<li data-i18n="n.today.l2">If you don’t like the easier version, you can keep the original workout</li>
+<li data-i18n="n.today.l3">When there isn’t enough data, it shows “Learning” instead of a number</li>
 </ul>
 </div>
 </div>
 <div class="watch3">
-<div class="w3 reveal"><div class="frame"><picture><source srcset="/assets/framed-watch-hero.en.avif" type="image/avif"/><source srcset="/assets/framed-watch-hero.en.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis today’s call: readiness ring and a rest day" data-i18n-attr="alt:alt.watch.decision" loading="lazy" src="/assets/framed-watch-hero.en.png" data-shot="framed-watch-hero" width="480" height="768" decoding="async"/></picture></div><b data-i18n="n.today.w1">Today's decision</b><span data-i18n="n.today.w1p">The readiness ring and today's workout show up right on your wrist.</span></div>
-<div class="w3 reveal"><div class="frame"><picture><source srcset="/assets/framed-watch-evidence.en.avif" type="image/avif"/><source srcset="/assets/framed-watch-evidence.en.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis today’s evidence: sleep and HRV" data-i18n-attr="alt:alt.watch.evidence" loading="lazy" src="/assets/framed-watch-evidence.en.png" data-shot="framed-watch-evidence" width="480" height="768" decoding="async"/></picture></div><b data-i18n="n.today.w2">Today's reasons</b><span data-i18n="n.today.w2p">Sleep, HRV, and yesterday's load are compared with your baseline and marked Good, Fair, or Caution.</span></div>
-<div class="w3 reveal"><div class="frame"><picture><source srcset="/assets/framed-watch-start.en.avif" type="image/avif"/><source srcset="/assets/framed-watch-start.en.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis workout picker: running and indoor running" data-i18n-attr="alt:alt.watch.start" loading="lazy" src="/assets/framed-watch-start.en.png" data-shot="framed-watch-start" width="480" height="768" decoding="async"/></picture></div><b data-i18n="n.today.w3">Start in one tap</b><span data-i18n="n.today.w3p">Today's workout sits at the top of the start screen. Tap it and the coach runs you through each segment.</span></div>
+<div class="w3 reveal"><div class="frame"><picture><source srcset="/assets/framed-watch-hero.en.avif" type="image/avif"/><source srcset="/assets/framed-watch-hero.en.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis today’s call: readiness ring and a rest day" data-i18n-attr="alt:alt.watch.decision" loading="lazy" src="/assets/framed-watch-hero.en.png" data-shot="framed-watch-hero" width="480" height="768" decoding="async"/></picture></div><b data-i18n="n.today.w1">Today’s decision</b><span data-i18n="n.today.w1p">The readiness ring and today’s workout show up right on your wrist.</span></div>
+<div class="w3 reveal"><div class="frame"><picture><source srcset="/assets/framed-watch-evidence.en.avif" type="image/avif"/><source srcset="/assets/framed-watch-evidence.en.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis today’s evidence: sleep and HRV" data-i18n-attr="alt:alt.watch.evidence" loading="lazy" src="/assets/framed-watch-evidence.en.png" data-shot="framed-watch-evidence" width="480" height="768" decoding="async"/></picture></div><b data-i18n="n.today.w2">Today’s reasons</b><span data-i18n="n.today.w2p">Sleep, HRV, and yesterday’s load are compared with your baseline and marked Good, Fair, or Caution.</span></div>
+<div class="w3 reveal"><div class="frame"><picture><source srcset="/assets/framed-watch-start.en.avif" type="image/avif"/><source srcset="/assets/framed-watch-start.en.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis workout picker: running and indoor running" data-i18n-attr="alt:alt.watch.start" loading="lazy" src="/assets/framed-watch-start.en.png" data-shot="framed-watch-start" width="480" height="768" decoding="async"/></picture></div><b data-i18n="n.today.w3">Start in one tap</b><span data-i18n="n.today.w3p">Today’s workout sits at the top of the start screen. Tap it and the coach runs you through each segment.</span></div>
 </div>
 <p class="sc-note reveal" data-i18n="sc.note">All eleven screenshots on this page — five iPhone, six Apple Watch — were captured with the app running in your language. The mid-run screens come from a real recorded run. The app keeps being fixed after a capture is taken, so the build you install can be newer than what you see here.</p>
 </div>
@@ -572,11 +265,12 @@ html{scroll-behavior:auto}
 <div class="eyebrow reveal" data-i18n="n.live.eb">While you run</div>
 <h2 id="live-h" class="reveal" data-i18n="n.live.h2">Only what you need,<br/>right when you need it</h2>
 <p class="sub reveal" data-i18n="n.live.sub">Everything the coach says starts from something the sensors picked up. Tap to hear the real guidance.</p>
+<p class="honest reveal" data-i18n="n.live.siri">Say “Hey Siri, Start a run with Runvis” and the start screen opens straight away. The spoken phrases exist in all six languages.</p>
 <div class="voice-grid reveal">
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="Play sample voice: pace call (free)" data-i18n-attr="aria-label:n.vc1.aria" data-say="목표보다 25초 빠릅니다"><div class="sensor" data-i18n="n.vc1.sensor">📡 When you stay more than 20 seconds off target pace for over 20 seconds</div><div class="play"><span data-i18n="n.vc1.play">Pace</span><span class="pill free" data-i18n="n.pill.free">Free</span></div><div class="line" data-i18n="n.vc1.line">"25 seconds under target pace"</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="Play sample voice: hill warning (free)" data-i18n-attr="aria-label:n.vc2.aria" data-say="300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="n.vc2.sensor">📡 It reads the course elevation ahead. On a road you run often, it recognises it around 500m in and calls the hills</div><div class="play"><span data-i18n="n.vc2.play">Hill warning</span><span class="pill free" data-i18n="n.pill.free">Free</span></div><div class="line" data-i18n="n.vc2.line">"In 300 meters: a climb of 800 meters, averaging 4 percent. Shorten your stride, keep the rhythm."</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="Play sample voice: stride cue (subscription)" data-i18n-attr="aria-label:n.vc3.aria" data-say="케이던스가 기준보다 5퍼센트 낮아요 — 보폭을 조금 줄여볼까요."><div class="sensor" data-i18n="n.vc3.sensor">📡 Stride cue · only on the flat at a steady pace. Cadence between 130 and 160 spm and 5% under your own baseline, held for 30 seconds. Ground contact over 300 ms or a bigger vertical bounce produces the same line (those two carry no cadence ceiling). From six minutes in, 2 times a run at most. The “Form” switch in Settings turns this cue and the form cue on together.</div><div class="play"><span data-i18n="n.vc3.play">Stride</span><span class="pill pro" data-i18n="n.pill.pro">Subscription</span></div><div class="line" data-i18n="n.vc3.line">"Cadence is 5 percent under your baseline — let's shorten the stride a touch."</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="Play sample voice: recovery call (subscription)" data-i18n-attr="aria-label:n.vc4.aria" data-say="심박이 존 쓰리까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor" data-i18n="n.vc4.sensor">📡 When your heart rate zone drops one step during a walk recovery</div><div class="play"><span data-i18n="n.vc4.play">Recovery</span><span class="pill pro" data-i18n="n.pill.pro">Subscription</span></div><div class="line" data-i18n="n.vc4.line">"Heart rate is down to zone 3. You're recovering well — almost there."</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="Play sample voice: pace call (free)" data-i18n-attr="aria-label:n.vc1.aria" data-say="목표보다 25초 빠릅니다"><div class="sensor" data-i18n="n.vc1.sensor">📡 When you stay more than 20 seconds off target pace for over 20 seconds</div><div class="play"><span data-i18n="n.vc1.play">Pace</span><span class="pill free" data-i18n="n.pill.free">Free</span></div><div class="line" data-i18n="n.vc1.line">“25 seconds under target pace”</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="Play sample voice: hill warning (free)" data-i18n-attr="aria-label:n.vc2.aria" data-say="300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="n.vc2.sensor">📡 It reads the course elevation ahead. On a road you run often, it recognises it around 500m in and calls the hills</div><div class="play"><span data-i18n="n.vc2.play">Hill warning</span><span class="pill free" data-i18n="n.pill.free">Free</span></div><div class="line" data-i18n="n.vc2.line">“In 300 meters: a climb of 800 meters, averaging 4 percent. Shorten your stride, keep the rhythm.”</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="Play sample voice: stride cue (subscription)" data-i18n-attr="aria-label:n.vc3.aria" data-say="케이던스가 기준보다 5퍼센트 낮아요 — 보폭을 조금 줄여볼까요."><div class="sensor" data-i18n="n.vc3.sensor">📡 Stride cue · only on the flat at a steady pace. Cadence between 130 and 160 spm and 5% under your own baseline, held for 30 seconds. Ground contact over 300 ms or a bigger vertical bounce produces the same line (those two carry no cadence ceiling). From six minutes in, 2 times a run at most. The “Form” switch in Settings turns this cue and the form cue on together.</div><div class="play"><span data-i18n="n.vc3.play">Stride</span><span class="pill pro" data-i18n="n.pill.pro">Subscription</span></div><div class="line" data-i18n="n.vc3.line">“Cadence is 5 percent under your baseline — let’s shorten the stride a touch.”</div></div>
+<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="Play sample voice: recovery call (subscription)" data-i18n-attr="aria-label:n.vc4.aria" data-say="심박이 존 쓰리까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor" data-i18n="n.vc4.sensor">📡 When your heart rate zone drops one step during a walk recovery</div><div class="play"><span data-i18n="n.vc4.play">Recovery</span><span class="pill pro" data-i18n="n.pill.pro">Subscription</span></div><div class="line" data-i18n="n.vc4.line">“Heart rate is down to zone 3. You’re recovering well — almost there.”</div></div>
 </div>
 <p class="sr-only" id="voiceStatus" role="status" aria-live="polite"></p>
 <div class="quiet reveal"><span>🤫</span><div class="qbody">
@@ -587,9 +281,9 @@ html{scroll-behavior:auto}
 <h3 class="steps-h reveal"><span data-i18n="n.steps.h">You press start once</span><span class="pill free" data-i18n="n.pill.free">Free</span></h3>
 <p class="honest reveal" style="margin-top:8px" data-i18n="n.steps.note">The screen, the timer and the auto start are free. The coach walking you through it by voice is the subscription.</p>
 <div class="steps reveal">
-<div class="step tilt" data-tilt="5"><div class="sn">1</div><h4 data-i18n="n.step1h">Weather briefing</h4><p class="q" data-i18n="n.step1q">"It's 26 degrees Celsius with 78 percent humidity. Hot and humid — evaporation is working against you."</p><p data-i18n="n.step1p">Live weather for the neighborhood you're in right now.</p></div>
-<div class="step tilt" data-tilt="5"><div class="sn">2</div><h4 data-i18n="n.step2h">Warm-up</h4><p class="q" data-i18n="n.step2q">"Hip circles, 20 seconds. Now the other way. Three, two, one."</p><p data-i18n="n.step2p">A timer leads you through each stage, and the coach talks you through them when it is on.</p></div>
-<div class="step tilt" data-tilt="5"><div class="sn">3</div><h4 data-i18n="n.step3h">Just run</h4><p class="q" data-i18n="n.step3q">"You've started running. Recording now."</p><p data-i18n="n.step3p">It senses the running rhythm at your wrist and starts recording.</p></div>
+<div class="step tilt" data-tilt="5"><div class="sn">1</div><h4 data-i18n="n.step1h">Weather briefing</h4><p class="q" data-i18n="n.step1q">“It’s 26 degrees Celsius with 78 percent humidity. Hot and humid — evaporation is working against you.”</p><p data-i18n="n.step1p">Live weather for the neighborhood you’re in right now.</p></div>
+<div class="step tilt" data-tilt="5"><div class="sn">2</div><h4 data-i18n="n.step2h">Warm-up</h4><p class="q" data-i18n="n.step2q">“Hip circles, 20 seconds. Now the other way. Three, two, one.”</p><p data-i18n="n.step2p">A timer leads you through each stage, and the coach talks you through them when it is on.</p></div>
+<div class="step tilt" data-tilt="5"><div class="sn">3</div><h4 data-i18n="n.step3h">Just run</h4><p class="q" data-i18n="n.step3q">“You’ve started running. Recording now.”</p><p data-i18n="n.step3p">It senses the running rhythm at your wrist and starts recording.</p></div>
 </div>
 <p class="reveal" style="text-align:center;margin-top:34px"><a class="btn ghost" data-i18n="n.live.demo" href="run.html">See when it speaks and when it stays quiet in the 5K demo</a></p>
 </div>
@@ -599,7 +293,7 @@ html{scroll-behavior:auto}
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.after.eb">After the run</div>
 <h2 id="after-h" class="reveal" data-i18n="n.after.h2">When you finish,<br/>you see the why behind the numbers</h2>
-<p class="sub reveal" data-i18n="n.after.sub">Splits, heart rate zones, running dynamics, and a one-line coaching note are free. Subscribe and you also get the PR book that finds your fastest stretch inside a run, a lactate threshold estimate, and this week's distance budget.</p>
+<p class="sub reveal" data-i18n="n.after.sub">Splits, heart rate zones, running dynamics, and a one-line coaching note are free. Subscribe and you also get the PR book that finds your fastest stretch inside a run, a lactate threshold estimate, and this week’s distance budget.</p>
 <div class="tiles">
 <div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t1">Workout detail report</span><span class="pill free" data-i18n="n.pill.free">Free</span></h3><p data-i18n="n.after.t1p">Pace by segment, heart rate zone distribution, average cadence and ground contact time. Plus one line of coaching on this run.</p></div>
 <div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t2">Body report</span><span class="pill free" data-i18n="n.pill.free">Free</span></h3><p data-i18n="n.after.t2p">Readiness, sleep, HRV, resting heart rate, VO₂max. Tap one to open the chart and your 28-day baseline range.</p></div>
@@ -609,12 +303,12 @@ html{scroll-behavior:auto}
 <div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t5">Coach brake</span><span class="pill pro" data-i18n="n.pill.pro">Subscription</span></h3><p data-i18n="n.after.t5p">It looks at your last four weeks of training and tells you how much distance is okay this week. If you say something hurts, it lowers that number.</p></div>
 <div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t6">Runvis VDOT</span><span class="pill pro" data-i18n="n.pill.pro">Subscription</span></h3><p data-i18n="n.after.t6p">It works VDOT back from your best efforts and predicts your times at each distance. You see it side by side with Apple Watch VO₂max.</p></div>
 </div>
-<p class="honest reveal" data-i18n="n.after.honest"><b>When a number is an estimate, we call it an estimate.</b> When there is not enough to go on we show "learning" instead of a number. Anything we cannot stand behind is not in the app.</p>
+<p class="honest reveal" data-i18n="n.after.honest"><b>When a number is an estimate, we call it an estimate.</b> When there is not enough to go on we show “learning” instead of a number. Anything we cannot stand behind is not in the app.</p>
 <div class="row flip reveal">
 <div class="frame"><picture><source srcset="/assets/framed-phone-glance.en.avif" type="image/avif"/><source srcset="/assets/framed-phone-glance.en.webp" type="image/webp"/><img alt="iPhone body &amp; running report — Training load flow, Training Load, Lactate Threshold (est.), Endurance training volume and Hill exposure tiles" data-i18n-attr="alt:alt.phone.glance" loading="lazy" src="/assets/framed-phone-glance.en.png" data-shot="framed-phone-glance" width="640" height="1308" decoding="async"/></picture></div>
 <div class="desc">
 <h3 data-i18n="n.after.h3">Tap a metric and see it against your usual range</h3>
-<p data-i18n="n.after.p">It shows whether today's value sits inside your 28-day range, and where it lands next to four weeks ago. You don't need to know the terms. Every metric comes with what it means and how it was calculated.</p>
+<p data-i18n="n.after.p">It shows whether today’s value sits inside your 28-day range, and where it lands next to four weeks ago. You don’t need to know the terms. Every metric comes with what it means and how it was calculated.</p>
 <ul>
 <li data-i18n="n.after.l1">Training load, ACWR, and recovery time are calculated with published formulas</li>
 <li data-i18n="n.after.l2">Export an AI analysis report from the workout detail and paste it into whichever AI you use</li>
@@ -634,7 +328,7 @@ html{scroll-behavior:auto}
 <div class="frame"><picture><source srcset="/assets/framed-phone-plan.en.avif" type="image/avif"/><source srcset="/assets/framed-phone-plan.en.webp" type="image/webp"/><img alt="iPhone weekly training plan screen" data-i18n-attr="alt:alt.phone.plan" loading="lazy" src="/assets/framed-phone-plan.en.png" data-shot="framed-phone-plan" width="640" height="1308" decoding="async"/></picture></div>
 <div class="desc">
 <h3 data-i18n="n.race.h3">Pick a coach and the plan and the tone change with it</h3>
-<p data-i18n="n.race.p">Finish first, balanced, or chasing a time. Pick one of the three and both the training mix and the tone during the run change together. If you're new, no coach will hand you intervals that are too much.</p>
+<p data-i18n="n.race.p">Finish first, balanced, or chasing a time. Pick one of the three and both the training mix and the tone during the run change together. If you’re new, no coach will hand you intervals that are too much.</p>
 <ul>
 <li data-i18n="n.race.l1">The coach drives each interval segment, then scores the session against the plan</li>
 <li data-i18n="n.race.l2">On an off day, one tap lowers the intensity and rebuilds the plan</li>
@@ -670,7 +364,7 @@ html{scroll-behavior:auto}
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.price.eb">Pricing</div>
 <h2 id="price-h" class="reveal" data-i18n="n.price.h2">Recording is free —<br/>you only pay for the coach</h2>
-<p class="sub reveal" data-i18n="n.price.sub">Recording, viewing plans, and reports are free. The coach speaking to you and the deeper analysis are the subscription. Runvis launches on the Korean App Store first, where the coach is ₩1,900 a month; in every other region your own App Store's price applies, and the exact figure for your store goes on this page the day it is set. Accounts the App Store judges eligible get 1 month free — the same 1 month whether they pick monthly or yearly.</p>
+<p class="sub reveal" data-i18n="n.price.sub">Recording, viewing plans, and reports are free. The coach speaking to you and the deeper analysis are the subscription. Runvis launches on the Korean App Store first, where the coach is ₩1,900 a month; in every other region your own App Store’s price applies, and the exact figure for your store goes on this page the day it is set. Accounts the App Store judges eligible get 1 month free — the same 1 month whether they pick monthly or yearly.</p>
 <div class="price">
 <div class="plan tilt reveal" data-tilt="5">
 <div class="name" data-i18n="n.price.freeName">Basic</div>
@@ -695,12 +389,13 @@ html{scroll-behavior:auto}
 <tr><th scope="row"><span data-i18n="pl.year">Yearly</span><small data-i18n="pr.yearn">About ₩1,250 a month · roughly 34% less than monthly</small></th><td class="pv" data-i18n="pr.year">₩15,000</td></tr>
 <tr><th scope="row"><span data-i18n="pl.life">Lifetime</span><small data-i18n="pr.lifen">One purchase · no auto-renewal · Apple Family Sharing</small></th><td class="pv" data-i18n="pr.life">₩39,000</td></tr>
 </table>
-<p class="storenote" data-i18n="pr.approx">That is the Korean App Store price — Korea is the launch store. Anywhere else you are charged your own App Store's local price.</p>
+<p class="storenote" data-i18n="pr.approx">That is the Korean App Store price — Korea is the launch store. Anywhere else you are charged your own App Store’s local price.</p>
+<p class="storenote" data-i18n="pr.approxref">If you are reading this outside Korea, take these as size only: ₩1,900 a month is about US$1.40, ₩15,000 a year about US$11, and the ₩39,000 lifetime pass about US$28. That is a size, not a bill.</p>
 <details class="gate">
 <summary data-i18n="n.price.moreh">Prices in other regions, the real saving, the break-even sum</summary>
-<p data-i18n="pr.approx2">We are not printing a converted figure here: Apple charges by price point, not by exchange rate, so a conversion would be wrong on the day it matters. The real numbers go on this page once the other stores are set up.</p>
-<p data-i18n="n.price.year">Yearly is <b>₩15,000</b> — about ₩1,250 a month, roughly 34% less than paying monthly on the Korean App Store. Other stores price in their own tiers, so that ratio can come out differently; the app's purchase screen works the real saving out from the two prices it is offered. On an eligible account the yearly plan comes with a free period too, but it is 1 month long — the same as monthly, not a year. When that month ends, the whole ₩15,000 year is charged at once.</p>
-<p data-i18n="n.price.life">Instead of subscribing, <b>a lifetime pass for ₩39,000</b> — a launch price. If it rises later, the rise never reaches anyone who already bought. At Korean App Store prices that works out to roughly 2.6 years of the yearly plan, or about 20 months of the monthly one; your own store's price points can land on a different ratio. It is the only plan Apple Family Sharing covers.</p>
+<p data-i18n="pr.approx2">Those conversions are there to give the amounts a size; they are not what you would be charged. Apple charges by price point, and each country’s price points are set separately, so the real figure sits at a round local price above or below them. The real numbers go on this page as each store is set up. The app’s purchase screen never guesses — it prints the price the store hands it.</p>
+<p data-i18n="n.price.year">Yearly is <b>₩15,000</b> — about ₩1,250 a month, roughly 34% less than paying monthly on the Korean App Store. Other stores price in their own tiers, so that ratio can come out differently; the app’s purchase screen works the real saving out from the two prices it is offered. On an eligible account the yearly plan comes with a free period too, but it is 1 month long — the same as monthly, not a year. When that month ends, the whole ₩15,000 year is charged at once.</p>
+<p data-i18n="n.price.life">Instead of subscribing, <b>a lifetime pass for ₩39,000</b> — a launch price. If it rises later, the rise never reaches anyone who already bought. At Korean App Store prices that works out to roughly 2.6 years of the yearly plan, or about 20 months of the monthly one; your own store’s price points can land on a different ratio. It is the only plan Apple Family Sharing covers.</p>
 </details>
 <p class="plisth" data-i18n="n.price.nowh">On from the moment you subscribe</p>
 <ul>
@@ -721,7 +416,7 @@ html{scroll-behavior:auto}
 <li data-i18n="n.price.t6">Intensity mix</li>
 <li data-i18n="n.price.t7">Coach's Record Radar (fastest segments, last 90 days)</li>
 </ul></li>
-<li data-i18n="n.price.p5">The weekly coach summary card: plan-adherence score, this week's fastest segment, the running budget you have left, the last four weeks' intensity mix, and one line on what to change next week. Free accounts see this card as a locked preview.</li>
+<li data-i18n="n.price.p5">The weekly coach summary card: plan-adherence score, this week’s fastest segment, the running budget you have left, the last four weeks’ intensity mix, and one line on what to change next week. Free accounts see this card as a locked preview.</li>
 </ul>
 <details class="gate">
 <summary data-i18n="n.price.gateh">When do the numbers appear?</summary>
@@ -738,7 +433,7 @@ html{scroll-behavior:auto}
 </details>
 </div>
 </div>
-<p class="note"><span data-i18n="pr.launch">Runvis launches on the Korean App Store first; other regions will follow over time. The launch date is set after the TestFlight beta ends, and it will be written on this page first.</span> <span data-i18n="n.price.cancel">You can cancel in your App Store account settings at any time. Cancelling keeps access until the period ends and stops the renewal. Refunds follow Apple's refund policy.</span></p>
+<p class="note"><span data-i18n="pr.launch">Runvis launches on the Korean App Store first; other regions will follow over time. The launch date is set after the TestFlight beta ends, and it will be written on this page first.</span> <span data-i18n="n.price.cancel">You can cancel in your App Store account settings at any time. Cancelling keeps access until the period ends and stops the renewal. Refunds follow Apple’s refund policy.</span></p>
 <div class="reveal" style="text-align:center;margin-top:26px"><a class="btn" href="#beta" data-i18n="n.price.cta">Try it first in the beta — or just get the launch notice</a></div>
 </div>
 </section>
@@ -754,12 +449,12 @@ html{scroll-behavior:auto}
 <p data-i18n="n.faq.a2">watchOS 10 or later (Apple Watch Series 4 and up) and iOS 17 or later. Past that line, heart rate and GPS are all it needs. On newer models that measure ground contact time and vertical oscillation the form coaching is finer; on the others it works from cadence.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q3">What happens to my data if I cancel?</h3><p data-i18n="n.faq.a3">Your runs stay in Apple Health, untouched. After cancelling you keep recording, plan viewing and the workout detail report for free.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q4">Where does my data go?</h3><p data-i18n="n.faq.a4">There is no account and no server. Location leaves only for weather, the neighbourhood name and auto-generated routes. Beyond that there are App Store payments, the download of the public course and shoe list files, and — on the Korean App Store only, for now — an external shoe-search page that opens when you tap it yourself on the shoes screen. Workout and health data are never uploaded.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q5">How complete are the six languages?</h3><p data-i18n="n.faq.a5">Every line the iPhone coach speaks is pinned by a test in all six languages — a 45-minute run is replayed second by second on each build to check that every cue it produces is translated. The watch's live coaching loop sits outside that test bundle, so a line can still be missing from the tables; when one is, you hear English, never Korean, and that fallback is pinned by a test as well. The text drawn on the app's screens uses a different table from the coach's voice.</p>
-<details class="gate"><summary data-i18n="n.faq.a5h">What do the tests actually hold?</summary><p data-i18n="n.faq.a5g">The four translation tables must agree key for key and placeholder for placeholder, and every line written in a table must be reachable through the lookup the app actually uses. The iPhone coach's 45-minute replay runs in six languages × metric and imperial, and one mismatch fails on the spot. Cues with numbers in them are spoken in each language's own word order too (splits, hill warnings, pace, heart-rate zone and training steps included).</p></details></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q5">How complete are the six languages?</h3><p data-i18n="n.faq.a5">Every line the iPhone coach speaks is pinned by a test in all six languages — a 45-minute run is replayed second by second on each build to check that every cue it produces is translated. The watch’s live coaching loop sits outside that test bundle, so a line can still be missing from the tables; when one is, you hear English, never Korean, and that fallback is pinned by a test as well. The text drawn on the app’s screens uses a different table from the coach’s voice.</p>
+<details class="gate"><summary data-i18n="n.faq.a5h">What do the tests actually hold?</summary><p data-i18n="n.faq.a5g">The four translation tables must agree key for key and placeholder for placeholder, and every line written in a table must be reachable through the lookup the app actually uses. The iPhone coach’s 45-minute replay runs in six languages × metric and imperial, and one mismatch fails on the spot. Cues with numbers in them are spoken in each language’s own word order too (splits, hill warnings, pace, heart-rate zone and training steps included).</p></details></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q6">Can I start with no history at all?</h3><p data-i18n="n.faq.a6">Yes. One 12-minute test run on the watch produces an estimated 5K and 10K time and your first plan the same day — that test is watch-only. With the iPhone alone you still get GPS recording, split pace cues and the training plan from day one, and the plan starts from your recent weekly distance instead. Readiness needs nights slept with the watch before its baseline exists, so it usually appears around two weeks in, and ACWR around four. Performance condition appears once you have set a maximum heart rate and logged three runs longer than ten minutes, with heart rate, in the same intensity band (easy, moderate or hard). For the first few the comparison runs against a baseline not yet separated by intensity or by the point of the run it was read at, and the app writes that on the screen itself.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q7">Who gets the free trial?</h3><p data-i18n="n.faq.a7">Only accounts the App Store still counts as eligible for this subscription’s introductory offer. If you have subscribed before or already used the trial, you are charged from the first payment. The app’s purchase screen always tells you which case you are in before you buy. As configured today the free period is 1 month on the monthly plan and 1 month on the yearly one; picking yearly does not make a year free. The length itself is sent down by the App Store with the product, so the app shows you exactly what it received, right before the purchase. On yearly, the whole year is charged once that 1 month ends.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q8">Lifetime or yearly — which is better?</h3><p data-i18n="n.faq.a8">The lifetime pass is a one-time purchase with no auto-renewal. By the maths on the price card it breaks even at about 2.6 years against yearly, or about 20 months against monthly, so if you expect to use Runvis longer than that, lifetime is the cheaper side. It is also the only plan Apple Family Sharing covers — the monthly and yearly subscriptions are not eligible.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q9">What happens when I change device?</h3><p data-i18n="n.faq.a9">The runs themselves live in Apple Health, so the Health app on the new device brings them across. What lived only inside Runvis — your profile, heart-rate zones, shoe list and the baselines the coach built — goes out as a single file from Settings → Data → 'Export my data', and comes back on the new device with 'Import from backup'. The file stays only where you put it; Runvis sends it nowhere. The subscription comes back through the App Store's restore purchases.</p></div>
+<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q9">What happens when I change device?</h3><p data-i18n="n.faq.a9">The runs themselves live in Apple Health, so the Health app on the new device brings them across. What lived only inside Runvis — your profile, heart-rate zones, shoe list and the baselines the coach built — goes out as a single file from Settings → Data → ‘Export my data’, and comes back on the new device with ‘Import from backup’. The file stays only where you put it; Runvis sends it nowhere. The subscription comes back through the App Store’s restore purchases.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q10">Is there a watch face complication or a widget?</h3><p data-i18n="n.faq.a10">Not yet. Watch face complications, an iPhone home screen widget and Live Activities are not in this build. They are planned, but there is no date.</p></div>
 </div>
 </div>
@@ -772,14 +467,15 @@ html{scroll-behavior:auto}
 <div class="proof reveal">
 <h3 data-i18n="n.trust.h">What can be checked right here, today</h3>
 <ul>
-<li data-i18n="n.trust.l1">Over 500 automated tests check the coach's spoken lines, the free/paid boundary and the plan maths on every build.</li>
-<li data-i18n="n.trust.l2">Over 2,100 interface strings line up key for key across all six language tables, and the four coach-voice tables hold 396 lines each. One mismatch and the test fails on the spot.</li>
+<li data-i18n="n.trust.l1">766 automated tests check the coach’s spoken lines, the free/paid boundary and the plan maths on every build.</li>
+<li data-i18n="n.trust.l2">2,341 interface strings line up key for key across all six language tables, and the four coach-voice tables hold 396 lines each. One mismatch and the test fails on the spot.</li>
 <li data-i18n="n.trust.l3">41 metric explanations ship inside the app — tap a number you do not know and you get its meaning, how it was calculated and your own usual range.</li>
 </ul>
-<p data-i18n="n.trust.p">One person builds this app. There are no ratings and no press yet — it has not shipped. So instead of numbers that could be invented, these are counted straight out of the app's repository. Anything else you want to know, write to help@runvis.app; the reply comes from me.</p>
+<p data-i18n="n.trust.p">One person builds this app. There are no ratings and no press yet — it has not shipped. So instead of numbers that could be invented, these are counted straight out of the app’s repository. Anything else you want to know, write to help@runvis.app; the reply comes from me.</p>
 </div>
 <div class="signup reveal">
 <p class="sub" data-i18n="n.beta.sub" style="margin:0 auto">Leave an email address and you get one invitation when the TestFlight beta opens. The day the opening date is set, it goes here and to every address already on the list.</p>
+<p class="sub" data-i18n="n.beta.window" style="margin:12px auto 0">There is no opening date yet. The day there is one, this paragraph becomes that date — if you see no date here, it has not been set. Until then there are two things you can do: take your place in the queue (the beta build has every coach feature switched on, free, for as long as the beta runs), or <a href="run.html">run the 5K demo</a> right now and hear when and how the coach talks.</p>
 <form action="https://formspree.io/f/xnjeyalr" id="betaForm" method="POST">
 <input name="email" placeholder="Email address" aria-label="Email address" data-i18n-attr="placeholder:ph.email,aria-label:ph.email" required="" type="email"/>
 <fieldset class="want">
@@ -803,7 +499,7 @@ html{scroll-behavior:auto}
 <h4 data-i18n="n.beta.nowh">What you can look at right now</h4>
 <ul class="dolist">
 <li data-i18n="n.beta.do1"><a href="run.html">The 5K demo</a> — hear exactly when the coach speaks and when it stays quiet, and where the free cues end and the subscription ones begin.</li>
-<li data-i18n="n.beta.do2"><a href="how-it-works.html#zones">The heart-rate zone calculator</a> — your five zones, worked out here with the same Karvonen formula the coach's voice uses. Your age and resting heart rate are all it needs.</li>
+<li data-i18n="n.beta.do2"><a href="how-it-works.html#zones">The heart-rate zone calculator</a> — your five zones, worked out here with the same Karvonen formula the coach’s voice uses. Your age and resting heart rate are all it needs.</li>
 <li data-i18n="n.beta.do3"><a href="how-it-works.html#gpx">Thirteen Seoul course GPX files</a> — download them now, with no install, and load them into the watch or map app you already use.</li>
 <li data-i18n="n.beta.do4"><a href="how-it-works.html#beta">What signing up leads to</a> — the four steps: sign-up, TestFlight invitation, feedback, launch. In the beta build every coach feature is free for the length of the beta.</li>
 <li data-i18n="n.beta.do5"><a href="privacy.html">The privacy policy</a> — what this form collects, and how far anything the app holds ever leaves the device. Both written down.</li>
@@ -825,7 +521,7 @@ html{scroll-behavior:auto}
 <a data-i18n="t165" href="mailto:help@runvis.app">help@runvis.app</a>
 </div>
 <div class="logo" style="font-size:16px">Run<b>vis</b></div>
-<p class="disclaimer" data-i18n="t166">All of Runvis's metrics and guidance are reference information based on general exercise-science formulas; they are not medical advice and do not assess your health. If you experience symptoms such as chest pain or dizziness, stop exercising and consult a professional. Apple Watch is a trademark of Apple Inc. Runvis is an independent app and is not affiliated with Apple.</p>
+<p class="disclaimer" data-i18n="t166">All of Runvis’s metrics and guidance are reference information based on general exercise-science formulas; they are not medical advice and do not assess your health. If you experience symptoms such as chest pain or dizziness, stop exercising and consult a professional. Apple Watch is a trademark of Apple Inc. Runvis is an independent app and is not affiliated with Apple.</p>
 <p style="margin-top:16px">© 2026 Runvis</p>
 </div>
 </footer>
@@ -966,13 +662,50 @@ function heroRestart(){heroStop();hl=0;heroLoop()}
 })(30);
 window.renderDynamicI18n=heroRestart;
 (() => {
-  const slides = document.querySelectorAll('#watchStack img');
+  const stack = document.getElementById('watchStack');
+  const slides = stack ? stack.querySelectorAll('img') : [];
   if (!slides.length) return;
-  const mark = n => slides.forEach((s, k) => k === n ? s.setAttribute('aria-current', 'true') : s.removeAttribute('aria-current'));
-  mark(0);
-  if (slides.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const RunvisT = (k, f) => (window.RunvisT ? window.RunvisT(k, f) : f);
+  const dots = stack.querySelectorAll('.wsdot');
+  const btn = document.getElementById('wsPause');
+  const mark = n => {
+    slides.forEach((s, k) => k === n ? s.setAttribute('aria-current', 'true') : s.removeAttribute('aria-current'));
+    dots.forEach((d, k) => d.setAttribute('aria-current', k === n ? 'true' : 'false'));
+  };
   let i = 0;
-  setInterval(() => { slides[i].classList.remove('on'); i = (i + 1) % slides.length; slides[i].classList.add('on'); mark(i); }, 3800);
+  mark(0);
+  const show = n => { slides[i].classList.remove('on'); i = n; slides[i].classList.add('on'); mark(i); };
+  const relabel = () => dots.forEach((d, k) => {
+    if (slides[k]) d.setAttribute('aria-label', slides[k].getAttribute('alt') || '');
+  });
+  dots.forEach((d, k) => d.addEventListener('click', () => { stop(); if (slides[k]) show(k); }));
+  relabel();
+  const still = slides.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let timer = null, paused = still;
+  const tick = () => show((i + 1) % slides.length);
+  function start() { if (still || timer !== null) return; timer = setInterval(tick, 3800); face(); }
+  function stop() { if (timer !== null) { clearInterval(timer); timer = null; } paused = true; face(); }
+  function face() {
+    if (!btn) return;
+    btn.textContent = timer !== null ? RunvisT('a11y.wspause', 'Stop auto-advance') : RunvisT('a11y.wsplay', 'Start auto-advance');
+    btn.setAttribute('aria-pressed', timer !== null ? 'false' : 'true');
+  }
+  if (!still && btn) {
+    btn.hidden = false;
+    btn.addEventListener('click', () => { if (timer !== null) stop(); else { paused = false; start(); } });
+  }
+  if (!still) {
+    const hold = () => { if (timer !== null) { clearInterval(timer); timer = null; face(); } };
+    const release = () => { if (!paused) start(); };
+    stack.addEventListener('mouseenter', hold);
+    stack.addEventListener('mouseleave', release);
+    stack.addEventListener('focusin', hold);
+    stack.addEventListener('focusout', release);
+    start();
+  }
+  face();
+  const prevRender = window.renderDynamicI18n;
+  window.renderDynamicI18n = function () { if (prevRender) prevRender(); relabel(); face(); };
 })();
 const VOICE_BLOCK=/^(albert|bad news|bahh|bells|boing|bubbles|cellos|fred|good news|jester|junior|kathy|organ|ralph|superstar|trinoids|whisper|wobble|zarvox|grandma|grandpa|eddy|flo|reed|rocko|sandy|shelley)\b/i;
 const VOICE_GOOD=/siri|premium|enhanced|neural|natural|online/i;
@@ -1055,7 +788,8 @@ document.querySelectorAll('.vchip').forEach((c,idx)=>{
   c.addEventListener('click',()=>{
     if(!('speechSynthesis' in window)){
       const msg='This browser does not support voice playback.';
-      alert(window.RunvisT?window.RunvisT('form.novoice',msg):msg);
+      const el=document.getElementById('voiceStatus');
+      if(el) el.textContent=window.RunvisT?window.RunvisT('form.novoice',msg):msg;
       return;
     }
     if(Voice.active===c){ Voice.stop(); return; }
@@ -1071,10 +805,10 @@ document.addEventListener('visibilitychange', ()=>{ if(document.hidden) Voice.st
   const btn = document.getElementById('betaSubmit');
   const radios = document.querySelectorAll('input[name="want"]');
   if (!btn || !radios.length) return;
+  const RunvisT = (k, f) => (window.RunvisT ? window.RunvisT(k, f) : f);
   const sync = () => {
     const launch = document.querySelector('input[name="want"]:checked')?.value === 'launch';
-    const t = (k, f) => (window.RunvisT ? window.RunvisT(k, f) : f);
-    btn.textContent = launch ? t('n.beta.cta2', '출시 알림 받기') : t('t160', '베타 초대 받기');
+    btn.textContent = launch ? RunvisT('n.beta.cta2', 'Get the launch notice') : RunvisT('t160', 'Get a beta invite');
   };
   radios.forEach(r => r.addEventListener('change', sync));
   addEventListener('runvis:lang', () => setTimeout(sync, 0));
@@ -1107,7 +841,7 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
       status.appendChild(a);
     }, 50);
   };
-  if (betaForm.action.includes('YOUR_FORM_ID')) { show(window.RunvisT('form.busy', 'Sign-ups aren\'t open just yet — hang tight!'), false); return; }
+  if (betaForm.action.includes('YOUR_FORM_ID')) { show(window.RunvisT('form.busy', 'Sign-ups aren’t open just yet — hang tight!'), false); return; }
   btn.disabled = true;
   const original = btn.textContent;
   btn.textContent = window.RunvisT('form.sending', 'Sending…');
@@ -1115,7 +849,7 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
     const res = await fetch(betaForm.action, { method: 'POST', body: new FormData(betaForm), headers: { Accept: 'application/json' } });
     if (res.ok) {
       const typed = (new FormData(betaForm).get('email') || '').toString();
-      show(window.RunvisT('form.ok', 'You\'re registered. We\'ll write to this address the day the opening date is set, and when the beta opens one invite goes out in signup order. Ask us at help@runvis.app any time and we\'ll delete it. While you wait, run the 5K demo. 🏃'), true);
+      show(window.RunvisT('form.ok', 'You’re registered. We’ll write to this address the day the opening date is set, and when the beta opens one invite goes out in signup order. No confirmation email is sent, so take one look at the address shown above and check it is right. Ask us at help@runvis.app any time and we’ll delete it. While you wait, run the 5K demo. 🏃'), true);
       if (typed) setTimeout(() => {
         const p = document.createElement('span');
         p.style.cssText = 'display:block;margin-top:6px;font-weight:600;color:var(--dim)';
@@ -1126,7 +860,7 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
       const next = document.getElementById('betaNext');
       if (next) { next.hidden = false; next.textContent = window.RunvisT('form.okcta', 'Run the 5K demo'); }
     }
-    else { const d = await res.json().catch(() => null); show(d?.errors?.[0]?.message || window.RunvisT('form.fail', 'That didn\'t go through. Please try again in a moment.'), false); }
+    else { const d = await res.json().catch(() => null); show(d?.errors?.[0]?.message || window.RunvisT('form.fail', 'That didn’t go through. Please try again in a moment.'), false); }
   } catch { show(window.RunvisT('form.neterr', 'Network error. Please try again in a moment.'), false); }
   finally { btn.disabled = false; btn.textContent = original; }
 });
@@ -1141,12 +875,28 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
   io.observe(beta);
   if (heroCta) io.observe(heroCta);
 })();
+(() => {
+  const row = document.querySelector('nav .links');
+  if (!row) return;
+  const paint = () => {
+    const over = row.scrollWidth - row.clientWidth;
+    row.classList.toggle('fade-r', over > 2 && row.scrollLeft < over - 1);
+    row.classList.toggle('fade-l', over > 2 && row.scrollLeft > 1);
+  };
+  row.addEventListener('scroll', paint, { passive: true });
+  addEventListener('resize', paint);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(paint);
+  const prevRender = window.renderDynamicI18n;
+  window.renderDynamicI18n = function () { if (prevRender) prevRender(); paint(); };
+  paint();
+})();
+const SMOOTH = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{
     const id=a.getAttribute('href');
     if(!id||id.length<2){e.preventDefault();return;}
     const el=document.querySelector(id); if(!el)return;
-    e.preventDefault(); el.scrollIntoView({behavior:'smooth',block:'start'}); history.pushState(null,'',id);
+    e.preventDefault(); el.scrollIntoView({behavior:SMOOTH(),block:'start'}); history.pushState(null,'',id);
   });
 });
 </script>

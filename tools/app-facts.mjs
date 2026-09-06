@@ -122,6 +122,32 @@ export function measure(app = findAppRepo()) {
     }
   }
 
+  // 5b. how many KINDS of notification the app can post. privacy.html lists
+  //     them by name, and the list was two short: it named five while the app
+  //     had seven, and the two it omitted were the two commercial ones — the
+  //     post-purchase onboarding push and the win-back push a week after
+  //     cancelling (2026-09-06 라운드 15, -1.2). A privacy page that lists five
+  //     of seven purposes is read as listing all of them, so the omission is
+  //     the expensive kind. Counting them here means the next notification
+  //     someone adds fails check-content [25] instead of quietly making the
+  //     page wrong again.
+  //     Distinct identifiers, because plan-day reminders share one call site
+  //     across seven weekdays and are one KIND to a reader.
+  const notifyKinds = new Set();
+  for (const top of ['iOSApp', 'WatchApp', 'Shared']) {
+    const dir = path.join(app, top);
+    if (!fs.existsSync(dir)) continue;
+    for (const f of swiftFiles(dir)) {
+      const src = fs.readFileSync(f, 'utf8');
+      for (const m of src.matchAll(/UNNotificationRequest\(\s*identifier:\s*(?:"([^"]+)"|([A-Za-z_][\w.]*)\()/g)) {
+        notifyKinds.add(m[1] ?? m[2]);
+      }
+    }
+  }
+  if (notifyKinds.size === 0) {
+    throw new Error('app-facts: found no UNNotificationRequest(identifier:) sites — the scan broke, or the app stopped posting notifications');
+  }
+
   // 6. the coach-density constants the homepage repeats in prose. The app fixed
   //    this class of drift in round 7 by passing its constants into the paywall
   //    copy as format arguments; the site still writes them as literals in six
@@ -218,6 +244,9 @@ export function measure(app = findAppRepo()) {
     coachTable,
     glossary,
     cueSites,
+    // Held against privacy.html's notification list by check-content [25].
+    notifyKinds: notifyKinds.size,
+    notifyIds: [...notifyKinds].sort(),
     // Held against the six dictionaries by check-content [13].
     cueToggles,
     cueBudgetEasy,

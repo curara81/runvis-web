@@ -34,66 +34,7 @@ window.RunvisPageLang="de";window.RunvisBase="/";
 <link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/how-it-works.html">
 <link rel="alternate" hreflang="de" href="https://runvis.app/de/how-it-works.html">
 <style>
-:root{
---green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;
---text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);
-font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
-line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
-.wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}
-a{color:var(--green);text-decoration:none}
-:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
-img{max-width:100%;height:auto;display:block}
-body{overflow-wrap:break-word;word-break:keep-all;line-break:normal}
-h1{font-size:1.7rem;margin-bottom:6px}
-.updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}
-.skip{position:absolute;left:-9999px;top:0;z-index:200}
-.skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
-padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
-h2{font-size:1.15rem;margin:36px 0 12px;color:var(--green)}
-p,li{color:var(--dim);font-size:.95rem}
-ul{padding-left:20px;margin:10px 0}
-li{margin:6px 0}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0}
-.card b{color:var(--text)}
-.tablewrap{overflow-x:auto;margin:14px 0}
-table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:520px}
-th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--dim)}
-th{color:var(--text);font-weight:600}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
-.back{color:var(--dim);font-size:.9rem}
-.legalnote{color:var(--dim2);font-size:.8rem;margin-bottom:22px}
-.langsel{position:relative;display:inline-block}
-.langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
-.langsel button:hover{border-color:var(--green)}
-.langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}
-.langsel.open ul{display:block}
-.langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
-.langsel li:hover{background:rgba(61,220,132,.15)}
-.langsel li{padding:0}
-.langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
-.langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
-.intro{color:var(--dim);font-size:.95rem;margin-bottom:8px}
-h2{scroll-margin-top:20px}
-ol{list-style:none;margin:12px 0;padding:0;counter-reset:ns}
-ol li{counter-increment:ns;display:flex;gap:10px;padding:7px 0;line-height:1.7}
-ol li::before{content:counter(ns);flex:0 0 20px;height:20px;margin-top:4px;border-radius:999px;
-background:rgba(61,220,132,.16);color:var(--green);font-size:11.5px;font-weight:800;display:grid;place-items:center}
-.hzcalc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
-@media(max-width:520px){.hzcalc{grid-template-columns:1fr 1fr}.hzcalc label:last-child{grid-column:1/-1}}
-.hzcalc label{display:block;font-size:12px;color:var(--dim);line-height:1.4}
-.hzcalc input{width:100%;margin-top:5px;background:#0d1013;border:1px solid var(--line);color:var(--text);
-border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;font-variant-numeric:tabular-nums}
-.hzcalc input:focus{border-color:var(--green);outline:none}
-.hzout{margin-top:12px;font-size:.9rem;line-height:1.9;color:#dfe3e7}
-.hzout b{color:var(--green);font-variant-numeric:tabular-nums}
-.hzout .hzmax{display:block;color:var(--dim);font-size:.8rem;margin-top:4px}
-.gpxlist{font-size:.82rem;line-height:2.1;color:var(--dim2)}
-.gpxlist a{white-space:nowrap}
-.note{color:var(--dim2);font-size:.8rem;margin-top:8px}
-.backhome{margin-top:44px;padding-top:20px;border-top:1px solid var(--line)}
+:root{--green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;--text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;}*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}.wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}a{color:var(--green);text-decoration:none}:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}img{max-width:100%;height:auto;display:block}body{overflow-wrap:break-word;word-break:keep-all;line-break:normal}h1{font-size:1.7rem;margin-bottom:6px}.updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}.skip{position:absolute;left:-9999px;top:0;z-index:200}.skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}h2{font-size:1.15rem;margin:36px 0 12px;color:var(--green)}p,li{color:var(--dim);font-size:.95rem}ul{padding-left:20px;margin:10px 0}li{margin:6px 0}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0}.card b{color:var(--text)}.tablewrap{overflow-x:auto;margin:14px 0}table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:520px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--dim)}th{color:var(--text);font-weight:600}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}.back{color:var(--dim);font-size:.9rem}.legalnote{color:var(--dim2);font-size:.8rem;margin-bottom:22px}.langsel{position:relative;display:inline-block}.langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}.langsel button:hover{border-color:var(--green)}.langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}.langsel.open ul{display:block}.langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}.langsel li:hover{background:rgba(61,220,132,.15)}.langsel li{padding:0}.langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}.langsel a[aria-checked="true"]{color:var(--green);font-weight:700}.intro{color:var(--dim);font-size:.95rem;margin-bottom:8px}h2{scroll-margin-top:20px}ol{list-style:none;margin:12px 0;padding:0;counter-reset:ns}ol li{counter-increment:ns;display:flex;gap:10px;padding:7px 0;line-height:1.7}ol li::before{content:counter(ns);flex:0 0 20px;height:20px;margin-top:4px;border-radius:999px;background:rgba(61,220,132,.16);color:var(--green);font-size:11.5px;font-weight:800;display:grid;place-items:center}.hzcalc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}@media(max-width:520px){.hzcalc{grid-template-columns:1fr 1fr}.hzcalc label:last-child{grid-column:1/-1}}.hzcalc label{display:block;font-size:12px;color:var(--dim);line-height:1.4}.hzcalc input{width:100%;margin-top:5px;background:#0d1013;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;font-variant-numeric:tabular-nums}.hzcalc input:focus{border-color:var(--green);outline:none}.hzout{margin-top:12px;font-size:.9rem;line-height:1.9;color:#dfe3e7}.hzout b{color:var(--green);font-variant-numeric:tabular-nums}.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;margin:18px 0 6px}.shots figure{margin:0}.shots img{border-radius:14px}.shots figcaption{margin-top:9px;font-size:.8rem;color:var(--dim2);line-height:1.55}.shot1{margin:16px 0 6px;max-width:240px}.shot1 img{border-radius:14px}.shot1 figcaption{margin-top:9px;font-size:.8rem;color:var(--dim2);line-height:1.55}.hzout .hzmax{display:block;color:var(--dim);font-size:.8rem;margin-top:4px}.gpxlist{font-size:.82rem;line-height:2.1;color:var(--dim2)}.gpxlist a{white-space:nowrap}.note{color:var(--dim2);font-size:.8rem;margin-top:8px}.backhome{margin-top:44px;padding-top:20px;border-top:1px solid var(--line)}
 </style>
 <script>
 (function(){
@@ -178,21 +119,34 @@ border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;font-variant-num
     <li data-i18n="n.live.q.n4">8 Punkte lassen sich einzeln schalten: Tempo, Herzfrequenzzone, Technik, Anstiege, Zuspruch und Skripte, Lauftipp-Karten, Trinken und Verpflegung sowie die Ansage bei Auto-Pause und Fortsetzung. Splits sind kein Schalter, sondern ein Intervall — aus, 0,5 oder 1 (km oder Meilen). Sicherheitsansagen und Kernansagen wie die Trainingsschritte lassen sich nicht abschalten. Musik wird nur leiser, solange der Coach spricht.</li>
   </ul>
 
-  <h2 id="versus" data-i18n="hw.vs.h">Was ist der Unterschied zu einer echten Laufuhr?</h2>
-  <p data-i18n="hw.vs.p">Trainingslast, Erholungszeit, geschätzte Laktatschwelle, Renn-Paceplan — die Werte, für die man angeblich eine eigene Laufuhr braucht. Runvis rechnet dieselben Werte aus Herzfrequenz, GPS und barometrischer Höhe, die deine Apple Watch ohnehin aufgezeichnet hat. Eine Laufuhr veröffentlicht ihre Formeln nicht, also behaupten wir nicht, es seien dieselben. Wir nennen dafür unsere: jede Formel unten ist eine veröffentlichte mit Namen. In der App öffnet jede Kennzahl, was sie bedeutet, wie sie gerechnet wurde und was dein üblicher Bereich ist.</p>
+  <h2 id="versus" data-i18n="hw.vs.h">Garmin Forerunner, Coros: Was ist gleich, was ist anders?</h2>
+  <p data-i18n="hw.vs.p">Trainingslast, Erholungszeit, geschätzte Laktatschwelle, Renn-Paceplan — die Werte, für die man angeblich eine Laufuhr wie eine Garmin Forerunner oder eine Coros braucht. Firmen machen das längst in ihrer eigenen Hardware; was niemand tat, war es auf der Apple Watch zu tun. Runvis rechnet dieselben Werte aus Herzfrequenz, GPS und barometrischer Höhe, die deine Apple Watch ohnehin aufgezeichnet hat. Eine Laufuhr veröffentlicht ihre Formeln nicht, also behaupten wir nicht, es seien dieselben. Wir nennen dafür unsere: jede Formel unten ist eine veröffentlichte mit Namen. In der App öffnet jede Kennzahl, was sie bedeutet, wie sie gerechnet wurde und was dein üblicher Bereich ist.</p>
   <div class="tablewrap"><table>
     <tr><th data-i18n="hw.vs.th1">Kennzahl</th><th data-i18n="hw.vs.th2">Womit Runvis das rechnet — und wie die Formel heißt</th></tr>
+    <tr><td data-i18n="hw.vs.r0a">Was du zusätzlich kaufen musst</td><td data-i18n="hw.vs.r0b">Eine Garmin Forerunner oder eine Coros ist eine Uhr, die du kaufst. Runvis läuft auf der Apple Watch, die schon an deinem Handgelenk sitzt; gekauft wird zusätzlich nur das Coach-Abo.</td></tr>
     <tr><td data-i18n="hw.vs.r1a">Trainingslast und Form (TSB)</td><td data-i18n="hw.vs.r1b">Banister-TRIMP, eingespeist in Coggans exponentielle 42- und 7-Tage-Mittel (CTL und ATL); die Differenz ist der TSB.</td></tr>
     <tr><td data-i18n="hw.vs.r2a">Erholungszeit</td><td data-i18n="hw.vs.r2b">Geschätzt aus drei Dingen: dem TRIMP des letzten Laufs, deinem aktuellen TSB und deinem HRV-Status. Auf dem Bildschirm steht ebenfalls „geschätzt“.</td></tr>
     <tr><td data-i18n="hw.vs.r3a">Laktatschwelle (geschätzt)</td><td data-i18n="hw.vs.r3b">Tempo und Herzfrequenz deines besten 30-Minuten-Abschnitts (oder 20-Minuten-Abschnitts) über 85% der maximalen Herzfrequenz in den letzten 90 Tagen. Eine Schätzung aus deinen Läufen, keine Laborblutabnahme.</td></tr>
     <tr><td data-i18n="hw.vs.r4a">Wettkampfprognose und Abschnitts-Paceplan</td><td data-i18n="hw.vs.r4b">Riegel-Extrapolation plus Runvis-VDOT. Mit einer Strecken-GPX teilt es das Tempo abschnittsweise entlang des Höhenprofils dieser Strecke auf.</td></tr>
     <tr><td data-i18n="hw.vs.r5a">Steigungsbereinigtes Tempo (GAP)</td><td data-i18n="hw.vs.r5b">Minettis Energiekostenkurve für das Laufen (2002); die Kosten für Anstieg und Gefälle werden getrennt gerechnet.</td></tr>
     <tr><td data-i18n="hw.vs.r6a">Die fünf Herzfrequenzzonen</td><td data-i18n="hw.vs.r6b">Karvonen über die Herzfrequenzreserve; ohne bekannten Maximalpuls greift 208 − 0,7 × Alter. Der Rechner unten macht dieselbe Rechnung.</td></tr>
+    <tr><td data-i18n="hw.vs.r7a">Intensitätsverteilung</td><td data-i18n="hw.vs.r7b">Hat ein Lauf eine Herzfrequenz-Zeitreihe und ist deine maximale Herzfrequenz wirklich gemessen, werden seine Minuten bei 78% und 88% des Maximums auf locker, mittel und hart verteilt. Ohne die Zeitreihe — oder mit dem Maximum allein aus der Altersformel — entscheidet der eine Durchschnittspuls des Laufs, und ein Intervalltraining kann dann in der grauen Mitte landen; der Bildschirm sagt, welcher der beiden Wege benutzt wurde.</td></tr>
+    <tr><td data-i18n="hw.vs.r8a">Hügelanteil</td><td data-i18n="hw.vs.r8b">Gesamtanstieg geteilt durch Gesamtdistanz der letzten 28 Tage, gezählt werden nur Läufe mit Anstieg (mindestens zwei): Höhenmeter pro Kilometer. Ab 15 wellig, ab 40 hügelig. Es beschreibt den Boden, den du gelaufen bist, nicht dich.</td></tr>
+    <tr><td data-i18n="hw.vs.r9a">Hitzebelastungsindex</td><td data-i18n="hw.vs.r9b">Wie viel Laufen im Freien über 22°C (oder derselben Temperatur in Fahrenheit, wenn das deine Einheit ist) sich in vier Wochen angesammelt hat, auf einer Skala von 0 bis 100. Er erscheint nach drei Läufen bei Hitze und sinkt nach drei Tagen Pause wieder. Er misst Belastung, nicht physiologische Anpassung.</td></tr>
+    <tr><td data-i18n="hw.vs.r10a">Coach-Bremse</td><td data-i18n="hw.vs.r10b">Ein Budget, keine Note. Die letzten vier abgeschlossenen Wochen an Distanz legen fest, was diese Woche verkraftet, und die Schmerzmeldungen nach deinen Läufen kürzen es. Die verbleibenden Kilometer und die von den Schmerzmeldungen abgezogenen werden getrennt gezeigt, damit der Abzug erklärbar bleibt.</td></tr>
+    <tr><td data-i18n="hw.vs.r11a">Rekord-Radar des Coachs</td><td data-i18n="hw.vs.r11b">Läufe mit GPS-Route werden im Inneren nach dem schnellsten Abschnitt je Distanz abgesucht; Läufe ohne Route werden aus der Durchschnittspace im Ziel hochgerechnet. Jeder Rekord sagt, welches von beidem er ist. Das Fenster sind die letzten 90 Tage.</td></tr>
   </table></div>
+  <div class="shots">
+<figure><picture><source srcset="/assets/framed-phone-detail.de.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.de.webp" type="image/webp"/><img alt="iPhone-Wertdetail — 7-Tage-Verlauf der Trainingslast (CTL), mein 28-Tage-Bereich und was der Wert bedeutet" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.de.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">Die erste Zeile der Tabelle oben, in der App gezeichnet — der 7-Tage-Verlauf der Trainingslast (CTL), dein eigener 28-Tage-Bereich und was die Kennzahl ist.</figcaption></figure>
+<figure><picture><source srcset="/assets/framed-phone-race.de.avif" type="image/avif"/><source srcset="/assets/framed-phone-race.de.webp" type="image/webp"/><img alt="iPhone-Bildschirm mit Wettkampfprognose" data-i18n-attr="alt:alt.phone.race" loading="lazy" src="/assets/framed-phone-race.de.png" data-shot="framed-phone-race" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap2">Die vierte Zeile: Rennprognose und Abschnitts-Paceplan.</figcaption></figure>
+</div>
+  <p class="legalnote" data-i18n="sc.note.s">Aufgenommen mit der App in dieser Sprache.</p>
+  <p class="note" data-i18n="hw.vs.tm">Garmin, Forerunner und Coros sind Marken der jeweiligen Inhaber. Runvis steht mit keiner der beiden Firmen in Verbindung. Hier stehen nur veröffentlichte Fakten — keine der beiden Firmen veröffentlicht ihre Formeln, deshalb wird die Genauigkeit nicht verglichen.</p>
   <p class="note" data-i18n="hw.vs.note">Was eine Laufuhr kann und Runvis nicht, steht auch hier: In dieser Version gibt es keine Zifferblatt-Komplikation, kein iPhone-Home-Widget und keine Live Activity. Und alle Werte oben sind Referenzinformationen, keine medizinische Beratung.</p>
 
   <h2 id="zones" data-i18n="hz.h">Etwas, das du sofort ausrechnen kannst — deine fünf Herzfrequenzzonen</h2>
   <p data-i18n="hz.p">Dieselbe Karvonen-Rechnung, aus der Runvis spricht. In der App aktualisieren sich die Eingaben laufend — ein Sieben-Tage-Ruhepuls aus Apple Health und die höchste Herzfrequenz, die deine Uhr tatsächlich aufgezeichnet hat — die Rechnung selbst ist aber die hier.</p>
+  <figure class="shot1"><picture><source srcset="/assets/framed-watch-hr.de.avif" type="image/avif"/><source srcset="/assets/framed-watch-hr.de.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis Herzfrequenz-Zonenbogen" data-i18n-attr="alt:alt.watch.zone" loading="lazy" src="/assets/framed-watch-hr.de.png" data-shot="framed-watch-hr" width="480" height="768" decoding="async"/></picture><figcaption data-i18n="hz.cap">Dieselben Zonen, die der Rechner unten ausgibt — so zeichnet die Uhr sie während des Laufs.</figcaption></figure>
   <div class="hzcalc">
     <label><span data-i18n="hz.age">Alter</span><input id="hzAge" type="number" min="10" max="99" step="1" value="35" inputmode="numeric"/></label>
     <label><span data-i18n="hz.rest">Ruhepuls</span><input id="hzRest" type="number" min="30" max="110" step="1" value="60" inputmode="numeric"/></label>

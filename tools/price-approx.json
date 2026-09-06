@@ -1,0 +1,61 @@
+{
+  "_why": [
+    "Six markets read this site and the price table states three KRW amounts,",
+    "because those are the only prices that exist: Korea is the launch store and",
+    "App Store Connect has no price points for the others yet. For three rounds",
+    "the page answered that by printing nothing — 'we are not printing a",
+    "converted figure' — which is honest about the exchange rate and useless to",
+    "a reader in Berlin trying to decide whether ₩1,900 is one coffee or one",
+    "dinner (2026-09-06 라운드 15, -1.5).",
+    "",
+    "So each market gets a SIZE, never a price. The numbers below are coarse",
+    "on purpose — 1.40, 11, 28, not 1.43, 11.07, 28.79 — so that they read as an",
+    "order of magnitude rather than a quote, and every sentence that carries",
+    "them says Apple charges by price point, not by exchange rate. The app never",
+    "needed this: PaywallView prints StoreKit's own displayPrice for whatever",
+    "storefront the reader is in.",
+    "",
+    "This file is the single place they are written. check-content [22] holds",
+    "every dictionary's pr.approxref and n.hero.b5 to these exact tokens and to",
+    "that market's own currency, so no one language can drift to a different",
+    "figure, and replacing the estimates with the real store prices is an edit",
+    "here plus six sentences — not a hunt through six dictionaries.",
+    "",
+    "asOf is the month the estimates were struck. When it is more than a year",
+    "old, restrike them or delete the line from the copy."
+  ],
+  "asOf": "2026-09",
+  "krw": { "month": "1,900", "year": "15,000", "life": "39,000" },
+  "markets": {
+    "ko": {
+      "currency": "USD",
+      "approxWords": ["약", "대략"],
+      "month": "US$1.4", "year": "US$11", "life": "US$28"
+    },
+    "en": {
+      "currency": "USD",
+      "approxWords": ["about", "roughly", "around"],
+      "month": "US$1.40", "year": "US$11", "life": "US$28"
+    },
+    "ja": {
+      "currency": "JPY",
+      "approxWords": ["約", "およそ"],
+      "month": "¥210", "year": "¥1,650", "life": "¥4,300"
+    },
+    "es": {
+      "currency": "EUR",
+      "approxWords": ["unos", "aproximadamente", "alrededor"],
+      "month": "1,30 €", "year": "10 €", "life": "26 €"
+    },
+    "zh": {
+      "currency": "TWD",
+      "approxWords": ["約", "大約"],
+      "month": "NT$45", "year": "NT$360", "life": "NT$930"
+    },
+    "de": {
+      "currency": "EUR",
+      "approxWords": ["rund", "etwa", "ungefähr"],
+      "month": "1,30 €", "year": "10 €", "life": "26 €"
+    }
+  }
+}

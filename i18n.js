@@ -634,14 +634,32 @@
     var t = OFFER[want], href = alternateHref(want);
     if (!t || !href) return;
 
+    // 2026-09-06 라운드 15 (-0.8): this bar used to be an ordinary block
+    // inserted at the top of <body> AFTER DOMContentLoaded, which means after
+    // the hero had painted. Every visitor it appeared for — and it appears for
+    // exactly one kind of visitor, the one whose language does not match the
+    // page — watched 40-50 px drop in above the LCP image and push the whole
+    // document down. It is out of the flow now: fixed to the bottom edge, so
+    // it can be inserted at any moment without moving a single pixel of the
+    // page, and it no longer covers the H1 it is offering to translate. The
+    // DOM position is unchanged (right after the skip link) because that is a
+    // reading-order decision, not a layout one.
     var css = document.createElement('style');
-    css.textContent = '.langoffer{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;'
-      + 'padding:10px 24px;background:#14171c;border-bottom:1px solid #24282e;'
+    css.textContent = '.langoffer{position:fixed;left:0;right:0;bottom:0;z-index:80;'
+      + 'display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;'
+      + 'padding:10px 24px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));'
+      + 'background:#14171c;border-top:1px solid #24282e;box-shadow:0 -8px 24px rgba(0,0,0,.45);'
       + 'font-size:14.5px;color:#9aa0a6;line-height:1.5}'
       + '.langoffer a{color:#3DDC84;font-weight:700;text-decoration:underline;text-underline-offset:3px}'
       + '.langoffer button{margin-left:auto;background:none;border:1px solid #2e333a;color:#9aa0a6;'
       + 'font:inherit;font-size:13px;padding:5px 12px;border-radius:9px;cursor:pointer}'
-      + '.langoffer button:hover{color:#f2f3f5;border-color:#3DDC84}';
+      + '.langoffer button:hover{color:#f2f3f5;border-color:#3DDC84}'
+      // index.html's phone-width call to action is also fixed to the bottom
+      // edge. It arms only after the reader has scrolled past the hero, which
+      // is later than this bar appears, so lifting it by the bar's measured
+      // height moves nothing that is on screen yet. The rule is inert on every
+      // other page, which have no .sticky-cta.
+      + 'body.has-langoffer .sticky-cta{bottom:var(--langoffer-h,58px)}';
     document.head.appendChild(css);
 
     var bar = document.createElement('div');
@@ -661,6 +679,7 @@
     x.textContent = t.close;
     x.addEventListener('click', function () {
       bar.remove();
+      document.body.classList.remove('has-langoffer');
       try { sessionStorage.setItem('runvis_offer_off', '1'); } catch (e) {}
     });
     bar.appendChild(span); bar.appendChild(a); bar.appendChild(x);
@@ -670,6 +689,8 @@
     if (skip && skip.nextSibling) document.body.insertBefore(bar, skip.nextSibling);
     else if (skip) document.body.appendChild(bar);
     else document.body.insertBefore(bar, document.body.firstChild);
+    document.body.classList.add('has-langoffer');
+    document.body.style.setProperty('--langoffer-h', bar.offsetHeight + 'px');
   }
 
   function init() {

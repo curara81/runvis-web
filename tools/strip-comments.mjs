@@ -13,8 +13,12 @@
  * and adding esbuild or lightningcss makes a static site that currently builds
  * with nothing but `node` depend on an install step. What that would buy over
  * this is renaming locals and rewriting selectors — the part with the risk.
- * So this does the safe 80%: comments out, blank lines out, indentation out.
- * Nothing is reordered, nothing is renamed, no token is joined to another.
+ * So this does the safe 80%: comments out, blank lines out, indentation out,
+ * and — in CSS only, where there is no automatic semicolon insertion to break
+ * — the newlines between rules out as well, except where a declaration is
+ * wrapped mid-value and gluing it would fuse two tokens. JS keeps every
+ * newline. Nothing is reordered, nothing is renamed, no token is joined to
+ * another.
  *
  * SAFETY. Both strippers are scanners, not regexes, because "//" lives inside
  * https:// and "/*" can live inside a CSS string. Each one collects every
@@ -152,11 +156,21 @@ export function stripCss(src) {
     }
     out += c; i++;
   }
-  // Indentation and blank lines carry nothing in CSS.
-  return {
-    text: out.split('\n').map(l => l.trim()).filter(Boolean).join('\n'),
-    literals,
-  };
+  // Indentation and blank lines carry nothing in CSS, and neither do most of
+  // the newlines: CSS has no automatic semicolon insertion, so a line that
+  // ends on a separator can be glued straight onto the next one. A line that
+  // ends on anything else is a declaration wrapped mid-value
+  // (`transition:opacity .3s` / `ease`), and gluing THAT would fuse two tokens
+  // into one — so those keep a single space. The 25 generated documents each
+  // carry ~37 KB of stylesheet (2026-09-06 라운드 15, -0.5); this is the rest
+  // of the safe 80%, still without renaming a selector or reordering a rule.
+  const lines = out.split('\n').map(l => l.trim()).filter(Boolean);
+  let css = '';
+  for (const line of lines) {
+    if (css === '') { css = line; continue; }
+    css += /[{};,:>~+(]$/.test(css) ? line : ' ' + line;
+  }
+  return { text: css, literals };
 }
 
 /** Same scan over the OUTPUT must see the same literals. */

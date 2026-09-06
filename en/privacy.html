@@ -34,48 +34,7 @@ window.RunvisPageLang="en";window.RunvisBase="/";
 <link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/privacy.html">
 <link rel="alternate" hreflang="de" href="https://runvis.app/de/privacy.html">
 <style>
-:root{
---green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;
---text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);
-font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
-line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
-.wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}
-a{color:var(--green);text-decoration:none}
-:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
-img{max-width:100%;height:auto;display:block}
-body{overflow-wrap:break-word;word-break:normal;line-break:normal}
-:lang(ko) body,body:lang(ko){word-break:keep-all}
-h1{font-size:1.7rem;margin-bottom:6px}
-.updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}
-.skip{position:absolute;left:-9999px;top:0;z-index:200}
-.skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
-padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
-h2{font-size:1.15rem;margin:36px 0 12px;color:var(--green)}
-p,li{color:var(--dim);font-size:.95rem}
-ul{padding-left:20px;margin:10px 0}
-li{margin:6px 0}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0}
-.card b{color:var(--text)}
-.tablewrap{overflow-x:auto;margin:14px 0}
-table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:520px}
-th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--dim)}
-th{color:var(--text);font-weight:600}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
-.back{color:var(--dim);font-size:.9rem}
-.legalnote{color:var(--dim2);font-size:.8rem;margin-bottom:22px}
-.langsel{position:relative;display:inline-block}
-.langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
-.langsel button:hover{border-color:var(--green)}
-.langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}
-.langsel.open ul{display:block}
-.langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
-.langsel li:hover{background:rgba(61,220,132,.15)}
-.langsel li{padding:0}
-.langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
-.langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
+:root{--green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;--text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;}*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}.wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}a{color:var(--green);text-decoration:none}:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}img{max-width:100%;height:auto;display:block}body{overflow-wrap:break-word;word-break:normal;line-break:normal}:lang(ko) body,body:lang(ko){word-break:keep-all}h1{font-size:1.7rem;margin-bottom:6px}.updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}.skip{position:absolute;left:-9999px;top:0;z-index:200}.skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}h2{font-size:1.15rem;margin:36px 0 12px;color:var(--green)}p,li{color:var(--dim);font-size:.95rem}ul{padding-left:20px;margin:10px 0}li{margin:6px 0}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0}.card b{color:var(--text)}.tablewrap{overflow-x:auto;margin:14px 0}table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:520px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--dim)}th{color:var(--text);font-weight:600}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}.back{color:var(--dim);font-size:.9rem}.legalnote{color:var(--dim2);font-size:.8rem;margin-bottom:22px}.langsel{position:relative;display:inline-block}.langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}.langsel button:hover{border-color:var(--green)}.langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}.langsel.open ul{display:block}.langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}.langsel li:hover{background:rgba(61,220,132,.15)}.langsel li{padding:0}.langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}.langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
 </style>
 <script>
 (function(){
@@ -166,9 +125,9 @@ th{color:var(--text);font-weight:600}
   <h2 data-i18n="pv.s2.h">2. Where the data is stored</h2>
   <ul>
     <li data-i18n="pv.s2.li1">Workouts and routes are stored in <b>Apple Health (HealthKit)</b> — you own them, and whether they sync via iCloud Health follows your iOS settings</li>
-    <li data-i18n="pv.s2.li2">App settings, profile entries, plans, courses and badge calculations live <b>only in the app's on-device storage</b></li>
+    <li data-i18n="pv.s2.li2">App settings, profile entries, plans, courses and badge calculations live <b>only in the app’s on-device storage</b></li>
     <li data-i18n="pv.s2.li3">Runvis operates no server, no database and no account system of its own</li>
-    <li data-i18n="pv.s2.li4">Runvis performs no backup or sync of its own. Move to a new device and the workouts stored in Apple Health come with you, but the values that live only in the app's own storage — profile, shoes, plan, badges and the baselines the coach built — do not. Settings → Data → 'Export my data' writes those values to a single file that 'Import from backup' restores on the new device; that file stays only where you put it and Runvis sends it nowhere</li>
+    <li data-i18n="pv.s2.li4">Runvis performs no backup or sync of its own. Move to a new device and the workouts stored in Apple Health come with you, but the values that live only in the app’s own storage — profile, shoes, plan, badges and the baselines the coach built — do not. Settings → Data → ‘Export my data’ writes those values to a single file that ‘Import from backup’ restores on the new device; that file stays only where you put it and Runvis sends it nowhere</li>
   </ul>
 
   <h2 data-i18n="pv.s3.h">3. Everything that leaves the device (complete list)</h2>
@@ -190,7 +149,7 @@ th{color:var(--text);font-weight:600}
     <li data-i18n="pv.s4.li1"><b>Health (HealthKit)</b>: saving workouts and analysing past records</li>
     <li data-i18n="pv.s4.li2"><b>Location</b>: recording the running route, the weather briefing and course guidance</li>
     <li data-i18n="pv.s4.li3"><b>Motion</b>: detecting the start of a run automatically and guiding the warm-up</li>
-    <li data-i18n="pv.s4.li4"><b>Notifications</b> (optional): training-plan day reminders, the evening briefing, the Sunday weekly coach summary, a comeback nudge after a long gap, and a reminder two days before a subscription renews — the wording is composed on the device and is never sent to a server</li>
+    <li data-i18n="pv.s4.li4"><b>Notifications</b> (optional, 9 kinds): training-plan day reminders, the evening briefing, the Sunday weekly coach summary, a comeback nudge after a long gap, a first-week note after subscribing, a note two days before a free trial or coach mode ends, a re-subscribe nudge a week after cancelling (that one is marketing), the watch’s recovery-complete alert, and the watch’s rest nudge — the wording is composed on the device and is never sent to a server</li>
     <li data-i18n="pv.s4.li5"><b>Bluetooth</b>: connecting external sensors (heart-rate straps, power meters)</li>
     <li data-i18n="pv.s4.li6"><b>Calendar</b> (optional): adding training-plan sessions to your calendar</li>
     <li data-i18n="pv.s4.li7"><b>Photos</b> (optional): saving the route fly-over video</li>

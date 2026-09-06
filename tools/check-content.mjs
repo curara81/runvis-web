@@ -312,30 +312,38 @@ console.log('\n[9] app counts in the dictionaries == tools/app-facts.json');
       'n.trust.l2': ['coachTable'],
       'n.trust.l3': ['glossary'],
       'n.why.s1v': ['glossary'],
-      // The hero's third trust badge took this slot in round 13 (it used to
-      // carry the launch-region caveat). It states the same glossary count the
-      // why section does, so it is bound to the same measurement rather than
-      // being a second hand-typed 41 that can drift away from the first.
-      'n.hero.b4n': ['glossary'],
+      // The hero's third badge used to state this same glossary count and was
+      // bound here with it. It states the monthly price now — the first screen
+      // was carrying three specifications and no decision — so the count is
+      // held in one place again, the why section (2026-09-06 라운드 15, -1
+      // 구조 / -0.6 메시지). See [22] for what guards the badge that replaced it.
     };
-    // n.why.s2v states a floor ("270개 이상" / "270+"), so the repo only has to
-    // stay above the number written there — adding a cue can never make it false.
-    // n.why.s3v joined it for the same reason: the app repo gained 48 tests in
-    // one session of round 10 and an exact "506" in six dictionaries was wrong
-    // the moment it did.
-    const FLOOR = { 'n.why.s2v': 'cueSites', 'n.why.s3v': 'tests' };
-    // Same idea for the interface-string count, and for the same reason it was
-    // needed here more than anywhere: an exact count in six dictionaries went
-    // stale in rounds 7, 8, 9 and 10 (502 vs 506, 2,077 vs 2,118, 2,118 vs
-    // 2,162), because every string the app repo adds falsifies it and the two
-    // repositories are edited in different sessions. n.trust.l2 states a floor
-    // now ("2,100개 이상" / "Over 2,100"), so the sentence stays true while the
-    // app grows and only an actual SHRINK below the floor fails. The exact
-    // measurement still lives in tools/app-facts.json and is still re-measured
-    // by `node tools/app-facts.mjs --check`. FLOOR_FIRST reads the FIRST number
-    // in the value, because n.trust.l2 also carries the 396-line coach table
-    // (checked exactly, above) and a digits-only scan would glue the two.
-    const FLOOR_FIRST = { 'n.trust.l2': 'stringKeys', 'n.trust.l1': 'tests' };
+    // These four USED to state a floor — "270개 이상", "500개 이상", "2,100개
+    // 이상" — on the argument that a floor cannot be falsified by an app repo
+    // that only grows. That argument was wrong twice over. It let the distance
+    // between the copy and the measurement widen every round until the page
+    // said 500+ where the repo had 737 and 2,100+ where it had 2,324, in the
+    // one paragraph whose entire claim is "지어낼 수 있는 숫자 대신, 앱
+    // 저장소에서 그대로 세어 나오는 것만 적었습니다" — and 737 is a far better
+    // number to have earned than "over 500". Worse, a floor is only true while
+    // every translator keeps the hedge: t-en.js had dropped it ("2,100
+    // interface strings line up", no "over"), so the English page was stating a
+    // plain falsehood that this checker passed (2026-09-06 라운드 15, -1 and
+    // [회귀]).
+    //
+    // They are EXACT now. The maintenance that made a floor tempting is gone:
+    // `node tools/prerender.mjs` — the build command — writes the current
+    // measurement into the six dictionaries and the inline defaults before it
+    // renders (syncFacts), so the copy follows tools/app-facts.json by itself
+    // and this check is the assertion that it did.
+    //
+    // EXACT_FIRST reads the FIRST number in the value, because n.trust.l2 also
+    // carries the 396-line coach table (checked exactly, above) and a
+    // digits-only scan would glue the two into "2324396".
+    const EXACT_FIRST = {
+      'n.why.s2v': 'cueSites', 'n.why.s3v': 'tests',
+      'n.trust.l2': 'stringKeys', 'n.trust.l1': 'tests',
+    };
     for (const c of CODES) {
       const bad = [];
       for (const [key, fields] of Object.entries(EXACT)) {
@@ -346,21 +354,33 @@ console.log('\n[9] app counts in the dictionaries == tools/app-facts.json');
           if (!wanted.some(w => value.includes(w))) bad.push(`${key} has no ${wanted.map(w => `"${w}"`).join(' / ')} (${f})`);
         }
       }
-      for (const [key, field] of Object.entries(FLOOR)) {
-        const digits = String(dicts[c][key] ?? '').replace(/[^0-9]/g, '');
-        const floor = digits ? Number(digits) : NaN;
-        if (!Number.isFinite(floor)) bad.push(`${key} states no number`);
-        else if (facts[field] < floor) bad.push(`${key} claims ${floor}+ but the repo has ${facts[field]}`);
-      }
-      for (const [key, field] of Object.entries(FLOOR_FIRST)) {
-        // Drop this locale's group separator (2.162 → 2162, 2,162 → 2162) and
+      for (const [key, field] of Object.entries(EXACT_FIRST)) {
+        // Drop this locale's group separator (2.324 → 2324, 2,324 → 2324) and
         // take the first run of digits that remains.
         const sep = groupSep(c);
         const flat = String(dicts[c][key] ?? '').split(sep).join('');
         const m = flat.match(/\d+/);
-        const floor = m ? Number(m[0]) : NaN;
-        if (!Number.isFinite(floor)) bad.push(`${key} states no number`);
-        else if (facts[field] < floor) bad.push(`${key} claims ${floor}+ but the repo has ${facts[field]}`);
+        const said = m ? Number(m[0]) : NaN;
+        if (!Number.isFinite(said)) bad.push(`${key} states no number`);
+        else if (said !== facts[field]) {
+          bad.push(`${key} says ${said}, tools/app-facts.json says ${facts[field]} (${field})`
+            + ' — run `node tools/prerender.mjs`, which syncs it');
+        }
+        // A floor hedge next to an exact count is a contradiction, and the
+        // hedge is how this drifted in the first place: five languages kept
+        // "이상 / over / más de" while English quietly dropped it, so five
+        // pages were vague and one was false. Only the text touching the
+        // number is inspected — German writes "über alle sechs Sprachtabellen"
+        // ("across all six") thirty characters later, and that über is not a
+        // hedge.
+        if (m) {
+          const at = flat.indexOf(m[0]);
+          const near = flat.slice(Math.max(0, at - 12), at + m[0].length + 6);
+          const HEDGE = /over|más de|mehr als|über|이상|以上|\+/i;
+          if (HEDGE.test(near)) {
+            bad.push(`${key} still hedges near the figure ("…${near}…") — the count is exact now`);
+          }
+        }
       }
       if (bad.length) fail(`${c}: ${bad.join('; ')}`);
       else ok(`${c}: tests ${num(c, facts.tests)}, strings ${num(c, facts.stringKeys)}, tables ${num(c, facts.coachTable)}, glossary ${num(c, facts.glossary)}, cues ${facts.cueSites}`);
@@ -393,6 +413,19 @@ for (const { file, code } of ALL) {
     if (want == null) { bad.push(`${key} (not in ${code})`); continue; }
     checked++;
     if (squash(got) !== squash(want)) bad.push(key);
+  }
+  // …and the reason this check kept missing whole files. Both machines that
+  // keep the fallback layer honest — this one and prerender step 7b — match on
+  // the NAME. A page that wrapped window.RunvisT in a local `T` or `t` was
+  // invisible to both: run.html's five form messages and index.html's two
+  // button labels shipped Korean to every prerendered copy while this line
+  // printed "ok" (2026-09-06 라운드 15). The wrapper is legitimate — these
+  // scripts run before the deferred i18n.js defines the global — so what is
+  // checked is that it keeps the name the machines look for.
+  for (const m of html.matchAll(/(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*\([^)]*\)\s*=>[^;\n]*window\.RunvisT/g)) {
+    if (m[1] !== 'RunvisT') {
+      bad.push(`local alias \`${m[1]}\` wraps window.RunvisT — name it RunvisT or this file's fallbacks are unchecked and untranslated`);
+    }
   }
   if (bad.length) fail(`${file}: ${bad.length} fallback(s) out of step — ${bad.join(', ')}`);
   else ok(`${file}: ${checked} fallback(s) match ${code}`);
@@ -588,15 +621,15 @@ console.log('\n[14] the three prices are identical in all six dictionaries');
     if (bad.length) fail(`${key} — ${bad.join('; ')}`);
     else ok(`${key} quotes ${amounts.map(a => `₩${a}`).join(' · ')} in all six`);
   }
-  // The hero note is the one price sentence that must NOT carry a figure.
-  // It used to say ₩1,900 to all six markets and five of them have no sense
-  // of how big that is (2026-09-06 라운드 13, -0.8). A converted figure is not
-  // the fix either: Apple charges by price point, not by exchange rate — which
-  // is exactly what pr.approx2 tells the reader — so any number written here
-  // would be wrong on the day someone pays and would have to be maintained by
-  // hand in six files. The amount belongs to the price table, next to the
-  // store note that says which store it is. This is the invariant that keeps
-  // it from creeping back into one language and not the others.
+  // The hero note is the one price sentence that must NOT carry a figure. It
+  // used to say ₩1,900 to all six markets and five of them had no sense of how
+  // big that is (2026-09-06 라운드 13, -0.8). The amounts belong where they can
+  // be evaluated: the price table and the hero badge, each of which now pairs
+  // every KRW figure with that market's own approximate size ([22],
+  // tools/price-approx.json). This invariant is what keeps a bare figure from
+  // creeping back into this key in one language and not the others — a number
+  // in prose is maintained by six translators, a number under [22] is
+  // maintained in one file.
   {
     const bad = CODES.filter(c => /₩\s*[\d.,]/.test(String(dicts[c]['n.hero.note'] ?? '')));
     if (bad.length) fail(`n.hero.note carries a ₩ figure in ${bad.join(', ')} — the hero states no amount; the three prices live in the price table (pr.month/year/life)`);
@@ -996,6 +1029,312 @@ console.log('\n[21] every referenced image file exists');
   }
   if (bad.length) fail(bad.join('\n       '));
   else ok('every <picture> offers the AVIF and WebP of its own <img>');
+}
+
+// ---- 22. each market's price copy states its OWN currency, from one file ---
+// The three prices are Korean won, because Korea is the launch store and App
+// Store Connect has no price points for the other five yet ([14] holds those
+// three amounts identical across all six dictionaries). For three rounds the
+// site's answer to the other five markets was to print nothing but ₩, so a
+// reader in Berlin or Taipei reached the decision point holding three figures
+// they could not evaluate at all (2026-09-06 라운드 15, -1.5).
+//
+// The answer is a SIZE, not a price: each market's copy carries an approximate
+// figure in its own currency, coarse enough to read as an order of magnitude,
+// next to the sentence saying Apple charges by price point rather than by
+// exchange rate. The estimates are written once, in tools/price-approx.json,
+// and this is what stops them from becoming six independently-maintained
+// numbers — which is exactly how the test counts above rotted.
+//
+// What is checked: the market's own currency appears, the figures are the ones
+// in that file, and the sentence is hedged. The hedge matters most — without
+// it the line stops being a size and becomes a claim about a price this
+// repository has no authority to state.
+console.log('\n[22] price sizes == tools/price-approx.json, in each market’s own currency');
+{
+  const p = path.join(ROOT, 'tools/price-approx.json');
+  if (!fs.existsSync(p)) fail('tools/price-approx.json missing');
+  else {
+    const approx = JSON.parse(fs.readFileSync(p, 'utf8'));
+    const SYMBOL = { USD: 'US$', EUR: '€', JPY: '¥', TWD: 'NT$' };
+    for (const c of CODES) {
+      const m = approx.markets[c];
+      const bad = [];
+      if (!m) { fail(`${c}: tools/price-approx.json has no market entry`); continue; }
+      const ref = String(dicts[c]['pr.approxref'] ?? '');
+      for (const slot of ['month', 'year', 'life']) {
+        if (!ref.includes(m[slot])) bad.push(`pr.approxref has no ${slot} size "${m[slot]}"`);
+        if (!ref.includes(`₩${approx.krw[slot]}`)) bad.push(`pr.approxref does not say which amount it is sizing (₩${approx.krw[slot]})`);
+      }
+      if (!SYMBOL[m.currency]) bad.push(`unknown currency ${m.currency}`);
+      else if (!ref.includes(SYMBOL[m.currency])) bad.push(`pr.approxref carries no ${m.currency} figure`);
+      if (!m.approxWords.some(w => ref.includes(w))) {
+        bad.push(`pr.approxref states the size flatly — it must hedge (${m.approxWords.join(' / ')}), or it reads as this market's price`);
+      }
+      // The hero badge is the same promise on the first screen. Korean is the
+      // one market whose store price this actually is, so its badge states the
+      // amount and needs no size beside it.
+      const badge = String(dicts[c]['n.hero.b5'] ?? '');
+      if (c !== 'ko') {
+        if (!badge.includes(m.month)) bad.push(`n.hero.b5 has no month size "${m.month}"`);
+        if (!m.approxWords.some(w => badge.includes(w))) bad.push('n.hero.b5 states the size flatly');
+      }
+      if (!String(dicts[c]['n.hero.b5n'] ?? '').includes(`₩${approx.krw.month}`)) {
+        bad.push(`n.hero.b5n does not state ₩${approx.krw.month}`);
+      }
+      if (bad.length) fail(`${c}: ${bad.join('; ')}`);
+      else ok(`${c}: ${m.month} / ${m.year} / ${m.life} (${m.currency}), hedged, from price-approx.json`);
+    }
+  }
+}
+
+// ---- 23. the boot script's inlined hero copy == the dictionary -------------
+// index.html inlines the hero heading and the four meta strings for the five
+// non-Korean languages so the largest text on the page never paints Korean and
+// then changes under the reader. That object is a second copy of five
+// dictionary values, it lives inside a <script> — which is exactly where [3]'s
+// walk stops — and nothing compared the two. A translator editing t-de.js
+// would have left the German hero heading a round behind in the one place a
+// German visitor sees first, and every check here would still have said PASS.
+console.log('\n[23] index.html’s inlined hero copy == the dictionaries');
+{
+  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const m = /var C=(\{[\s\S]*?\});\n/.exec(html);
+  if (!m) fail('index.html: no `var C={…};` boot object to compare');
+  else {
+    let obj = null;
+    try { obj = JSON.parse(m[1]); } catch (e) { fail('index.html: the boot object is not JSON — ' + e.message); }
+    if (obj) {
+      const want = CODES.filter(c => c !== 'ko');
+      const missingLang = want.filter(c => !obj[c]);
+      if (missingLang.length) fail(`the boot object has no ${missingLang.join(', ')}`);
+      const bad = [];
+      let n = 0;
+      for (const c of want) {
+        if (!obj[c]) continue;
+        for (const group of ['h', 'm']) {
+          for (const [key, value] of Object.entries(obj[c][group] || {})) {
+            n++;
+            if (dicts[c][key] === undefined) bad.push(`${c}/${key} is not a dictionary key`);
+            else if (dicts[c][key] !== value) bad.push(`${c}/${key} differs from t-${c}.js`);
+          }
+        }
+      }
+      if (bad.length) fail(bad.join('\n       '));
+      else ok(`${n} inlined values across ${want.length} languages, all equal to their dictionary`);
+    }
+  }
+}
+
+// ---- 24. 404.html hands the reader links in the language it rendered ------
+// GitHub Pages serves 404.html for every path it cannot find, its boot script
+// picks the visitor's language and i18n.js translates the page in place — and
+// then the three recovery buttons, the only actionable thing on the page, were
+// hard-coded to the Korean root (2026-09-06 라운드 15, -0.9). They are built
+// from data-page now. This runs the REAL function out of the REAL file rather
+// than reading the markup and believing it, because the last several rounds of
+// this repository each shipped a comment ahead of the code.
+console.log('\n[24] 404.html’s recovery links follow the language it renders');
+{
+  const vm = await import('node:vm');
+  const html = fs.readFileSync(path.join(ROOT, '404.html'), 'utf8');
+  const cut = html.indexOf('</head>');
+  const head = html.slice(0, cut), body = html.slice(cut);
+  const scripts = [...head.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)]
+    .filter(m => !/\bsrc=/.test(m[1])).map(m => m[2]);
+  const declared = [...body.matchAll(/<a\b[^>]*data-page="([^"]*)"[^>]*>/g)]
+    .map(m => ({ page: m[1], href: /href="([^"]*)"/.exec(m[0])?.[1] ?? null }));
+
+  if (!declared.length) fail('404.html has no a[data-page] recovery links to rewrite');
+  else {
+    // Every page named must be one this site actually serves. "" is the home.
+    const unknown = declared.filter(a => a.page !== '' && !PAGES.includes(a.page));
+    if (unknown.length) fail(`404.html links to ${unknown.map(a => a.page).join(', ')}, which is not in PAGES`);
+
+    const run = (language) => {
+      const els = declared.map(a => ({
+        attrs: { 'data-page': a.page, href: a.href },
+        getAttribute(k) { return k in this.attrs ? this.attrs[k] : null; },
+        setAttribute(k, v) { this.attrs[k] = String(v); },
+      }));
+      const win = {
+        URL, URLSearchParams, console,
+        navigator: { language },
+        localStorage: { getItem: () => null, setItem() {} },
+        location: { hostname: 'runvis.app', protocol: 'https:', search: '', hash: '', pathname: '/typo/nope' },
+        document: {
+          readyState: 'complete',
+          documentElement: { lang: 'ko' },
+          head: { appendChild() {} },
+          createElement: () => ({ setAttribute() {} }),
+          addEventListener() {},
+          querySelectorAll: (sel) => (sel === 'a[data-page]' ? els : []),
+        },
+      };
+      win.window = win;
+      vm.createContext(win);
+      for (const src of scripts) vm.runInContext(src, win, { timeout: 2000 });
+      return { lang: win.RunvisLang, els, fix: typeof win.RunvisFix404 };
+    };
+
+    const bad = [];
+    for (const [language, code] of [['ko-KR', 'ko'], ['en-GB', 'en'], ['de-DE', 'de'],
+                                    ['ja-JP', 'ja'], ['es-ES', 'es'], ['zh-TW', 'zh']]) {
+      let r;
+      try { r = run(language); }
+      catch (e) { bad.push(`${language}: the boot script threw — ${e.message}`); continue; }
+      if (r.fix !== 'function') { bad.push(`${language}: the boot script defines no RunvisFix404`); continue; }
+      if (r.lang !== code) { bad.push(`${language}: resolved to ${r.lang}, expected ${code}`); continue; }
+      const want = code === 'ko' ? '/' : `/${code}/`;
+      for (const el of r.els) {
+        const got = el.getAttribute('href');
+        if (got !== want + el.getAttribute('data-page')) {
+          bad.push(`${language}: "${el.getAttribute('data-page') || 'home'}" points at ${got}, not ${want}${el.getAttribute('data-page')}`);
+        }
+      }
+    }
+    // The six direct language links are the escape hatch that needs no script
+    // at all — the one thing on this page that still works if i18n.js never
+    // arrives, which on a mistyped deep path is a real possibility.
+    const row = /<p class="langrow">([\s\S]*?)<\/p>/.exec(body);
+    if (!row) bad.push('no .langrow of direct language links');
+    else {
+      const hrefs = [...row[1].matchAll(/href="([^"]+)"/g)].map(m => m[1]);
+      const want = CODES.map(c => (c === 'ko' ? '/' : `/${c}/`));
+      const missing = want.filter(w => !hrefs.includes(w));
+      if (missing.length) bad.push(`.langrow does not link to ${missing.join(', ')}`);
+    }
+    if (bad.length) fail(bad.join('\n       '));
+    else ok(`${declared.length} recovery links + 6 direct language links, correct in all six languages`);
+  }
+}
+
+// ---- 25. the privacy page lists every kind of notification the app posts ---
+// privacy.html enumerates the notification purposes by name, and the same page
+// enumerates all six network exceptions in a table without omitting one — so
+// this list reads as complete. It was not: it named five of the seven the
+// iPhone app posts, and the two it left out were the two commercial ones, the
+// first-week push after a purchase and the win-back push a week after
+// cancelling. It also promised a reminder "two days before a subscription
+// renews", which SubscriptionRules.reminderCopy explicitly refuses to send
+// (2026-09-06 라운드 15, -1.2 and -0.7).
+//
+// So the count is stated in the sentence and measured out of the app repo.
+// Prose cannot be counted reliably across six languages — separators and
+// conjunctions differ — but a number can, and the number failing is what makes
+// someone re-read the list. Adding a tenth notification to the app now fails
+// this build.
+console.log('\n[25] the notification list == the app’s notification kinds');
+{
+  const facts = readFacts();
+  if (!facts) fail('tools/app-facts.json missing — run `node tools/app-facts.mjs`');
+  else if (typeof facts.notifyKinds !== 'number') {
+    fail('tools/app-facts.json has no notifyKinds — run `node tools/app-facts.mjs`');
+  } else {
+    const bad = [];
+    for (const c of CODES) {
+      const v = String(dicts[c]['pv.s4.li4'] ?? '');
+      const m = v.replace(/<[^>]*>/g, '').match(/\d+/);
+      if (!m) bad.push(`${c}: pv.s4.li4 states no count`);
+      else if (Number(m[0]) !== facts.notifyKinds) {
+        bad.push(`${c}: pv.s4.li4 says ${m[0]} kinds, the app posts ${facts.notifyKinds} (${(facts.notifyIds || []).join(', ')})`);
+      }
+    }
+    if (bad.length) fail(bad.join('\n       '));
+    else ok(`pv.s4.li4 states ${facts.notifyKinds} kinds in all six, matching the app`);
+  }
+}
+
+// ---- 26. the Siri phrases the site quotes are phrases Siri answers to ------
+// Five App Shortcuts shipped with spoken phrases in six languages, and neither
+// the app's settings screen nor this site mentioned them — so the only way to
+// find them was to already know (2026-09-06 라운드 15, -0.8). Quoting a
+// shortcut is worse than saying nothing if the quote is wrong: the reader says
+// the sentence, nothing happens, and the page has taught them the feature is
+// broken. So each language's quote is held against that language's OWN
+// AppShortcuts.strings, with ${applicationName} resolved — the same table the
+// build extracts the phrases from.
+console.log('\n[26] the Siri phrases in the copy == iOSApp/Intents/*.lproj/AppShortcuts.strings');
+{
+  const app = locateAppRepo();
+  if (!app) console.log('  skip  no app checkout here (set RUNVIS_APP_REPO)');
+  else {
+    const LPROJ = { ko: 'ko', en: 'en', ja: 'ja', es: 'es', zh: 'zh-Hant', de: 'de' };
+    const KEYS = ['n.today.siri', 'n.live.siri'];
+    const bad = [];
+    for (const c of CODES) {
+      const f = path.join(app, `iOSApp/Intents/${LPROJ[c]}.lproj/AppShortcuts.strings`);
+      if (!fs.existsSync(f)) { bad.push(`${c}: ${LPROJ[c]}.lproj/AppShortcuts.strings does not exist`); continue; }
+      // "key" = "value"; — the value is the spoken phrase in this language.
+      const phrases = [...fs.readFileSync(f, 'utf8').matchAll(/=\s*"((?:[^"\\]|\\.)*)"\s*;/g)]
+        .map(m => m[1].replace(/\$\{applicationName\}/g, 'Runvis').toLowerCase());
+      if (!phrases.length) { bad.push(`${c}: no phrases parsed out of ${LPROJ[c]}.lproj/AppShortcuts.strings`); continue; }
+      for (const key of KEYS) {
+        const v = String(dicts[c][key] ?? '').toLowerCase();
+        if (!phrases.some(p => v.includes(p))) {
+          bad.push(`${c}: ${key} quotes no phrase that ${LPROJ[c]}.lproj/AppShortcuts.strings contains`);
+        }
+      }
+    }
+    if (bad.length) fail(bad.join('\n       '));
+    else ok(`${KEYS.length} quoted phrases × ${CODES.length} languages, every one of them a real App Shortcut`);
+  }
+}
+
+// ---- 27. English typography, and the app's Korean name in Korean prose ----
+// Two spelling rules that were being kept by hand and were not being kept.
+//
+// (a) t-en.js mixed straight and curly quotation marks — the price card used
+//     curly ("The coach’s voice") and the FAQ beside it used straight ("The
+//     watch's live coaching loop"), on one screen (2026-09-06 라운드 15, -0.2).
+//     Curly is the rule; the other five dictionaries already keep their own
+//     conventions. Only text is inspected, never markup: `<a href="…">` inside
+//     a value has to keep its straight quotes.
+//     The exception is vocabulary QUOTED from the app: the seven paid tiles
+//     carry the app's own names, which [15] holds byte for byte against
+//     Localizable.strings, and "Coach's Brake" is spelled there with a straight
+//     apostrophe. Prettifying a quotation would make the two surfaces disagree
+//     about a product name, which costs more than the typography gains.
+//
+// (b) Korean prose calls the app 런비스; the legal documents, <title>, alt text
+//     and the copyright line call it Runvis. That reads as a rule until one
+//     marketing paragraph breaks it, which pr.launch did — "Runvis는 대한민국
+//     App Store에…" sat directly under a paragraph that said 런비스
+//     (2026-09-06 라운드 15, -0.5). Checked only for the keys index.html
+//     actually renders, since that is where the mixing is visible.
+console.log('\n[27] English quotation marks, and 런비스 vs Runvis in Korean prose');
+{
+  // (a)
+  const QUOTED_FROM_APP = new Set(['n.price.t5', 'n.price.t7', 'n.price.g6', 'n.price.g7',
+                                   'hw.vs.r10a', 'hw.vs.r11a']);
+  const straight = [];
+  for (const [key, value] of Object.entries(dicts.en)) {
+    if (QUOTED_FROM_APP.has(key)) continue;
+    const text = String(value).replace(/<[^>]*>/g, '');
+    if (/['"]/.test(text)) straight.push(key);
+  }
+  if (straight.length) {
+    fail(`t-en.js uses straight quotes in ${straight.length} value(s) — ${straight.slice(0, 8).join(', ')}${straight.length > 8 ? ' …' : ''}`);
+  } else {
+    ok(`t-en.js: ${Object.keys(dicts.en).length} values, curly quotes throughout (${QUOTED_FROM_APP.size} exempt: app tile names)`);
+  }
+
+  // (b) — Runvis is right in these, and only these, on index.html.
+  //   meta.*  the <title>/<meta> a search engine prints, where the brand is
+  //           the searchable token
+  //   alt.*   alt text names the product in the screenshot
+  //   t166    the legal footer, which is written like the policy pages
+  //   *.siri  the spoken Siri phrase, quoted verbatim from AppShortcuts.strings
+  //           ([26]) — Siri answers to "Runvis", so 런비스 there would be wrong
+  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const rendered = new Set();
+  for (const m of html.matchAll(/data-i18n(?:-attr)?="([^"]+)"/g)) {
+    for (const part of m[1].split(',')) rendered.add(part.includes(':') ? part.split(':')[1] : part);
+  }
+  const EXEMPT = (k) => /^meta\./.test(k) || /^alt\./.test(k) || k === 't166' || /\.siri$/.test(k);
+  const mixed = [...rendered].filter(k => !EXEMPT(k) && /Runvis/.test(String(dicts.ko[k] ?? '')));
+  if (mixed.length) fail(`t-ko.js prose says "Runvis" where index.html renders it — ${mixed.join(', ')} (use 런비스)`);
+  else ok(`${rendered.size} keys rendered by index.html: Korean prose says 런비스 throughout`);
 }
 
 console.log(failures ? `\nFAILED — ${failures} problem(s)` : '\nPASS — no drift');
