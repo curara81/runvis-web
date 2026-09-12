@@ -124,7 +124,7 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
   <div class="tablewrap"><table>
     <tr><th data-i18n="hw.vs.th1">指標</th><th data-i18n="hw.vs.th2">Runvis 用什麼算，以及那條公式叫什麼</th></tr>
     <tr><td data-i18n="hw.vs.r0a">還得多買什麼</td><td data-i18n="hw.vs.r0b">Garmin Forerunner 或 COROS，買的就是那支錶本身。Runvis 用的是你手腕上已經有的 Apple Watch，另外要買的只有教練訂閱。</td></tr>
-    <tr><td data-i18n="hw.vs.r1a">訓練負荷與狀態（TSB）</td><td data-i18n="hw.vs.r1b">把 Banister TRIMP 餵進 Coggan 的 42 天與 7 天指數移動平均（CTL、ATL），兩者之差就是 TSB。</td></tr>
+    <tr><td data-i18n="hw.vs.r1a">訓練負荷與狀態（TSB）</td><td data-i18n="hw.vs.r1b">把 Banister TRIMP 餵進 Coggan 的 42 天與 7 天指數移動平均（CTL、ATL），今天的 TSB 是昨天的 CTL 減去昨天的 ATL（Coggan 的定義 — 今天的負荷不會改變當天的 TSB）。</td></tr>
     <tr><td data-i18n="hw.vs.r2a">恢復時間</td><td data-i18n="hw.vs.r2b">以三件事推估：最後一趟跑步的 TRIMP、目前的 TSB，以及 HRV 狀態。畫面上也會標明「估計」。</td></tr>
     <tr><td data-i18n="hw.vs.r3a">乳酸閾值（估計）</td><td data-i18n="hw.vs.r3b">最近 90 天內，維持在最大心率 85% 以上的最佳 30 分鐘（或 20 分鐘）區段的配速與心率。這是從跑步紀錄推估的值，不是實驗室抽血。</td></tr>
     <tr><td data-i18n="hw.vs.r4a">成績預測與分段配速計畫</td><td data-i18n="hw.vs.r4b">Riegel 外推加上 Runvis VDOT。給它一份路線 GPX，它會依那條路線的高度把配速分段規劃。</td></tr>
@@ -136,7 +136,7 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
     <tr><td data-i18n="hw.vs.r10a">教練煞車</td><td data-i18n="hw.vs.r10b">這是預算，不是分數。用最近四個完整週的週跑量決定這週能吸收多少距離，再依你跑完後留下的疼痛回報往下扣。剩餘公里數和被疼痛扣掉的量分開顯示，所以扣了多少、為什麼扣得出來。</td></tr>
     <tr><td data-i18n="hw.vs.r11a">教練的紀錄雷達</td><td data-i18n="hw.vs.r11b">有 GPS 路線的跑步會在跑步內部掃描，找出各距離的最快分段（best effort）；沒有路線的跑步則用完賽平均配速換算。每筆紀錄都會標明是哪一種依據。範圍是最近 90 天。</td></tr>
     <tr><td data-i18n="hw.vs.r12a">耐力訓練量</td><td data-i18n="hw.vs.r12b">取最近 28 天的三個值，以 45 : 35 : 20 混合成 0~100：週距離（每週 80 公里滿分）、最長的一次跑步（30 公里滿分）、四週之中有跑步的週數。這不是替跑者打分數，而是記錄身體現在累積的訓練量。樣本不足時就停在 0，不會編一個數字出來，畫面上會寫出缺什麼。</td></tr>
-    <tr><td data-i18n="hw.vs.r13a">衝擊負荷</td><td data-i18n="hw.vs.r13b">把一次跑步留在腿上的負荷換算成公里數：平地輕鬆跑1公里 = 1.0。同樣的距離，跑得更用力、上坡或下坡，都會算得比距離更多。一次跑步 = 距離 × 強度係數 × 坡度係數。強度係數看的是速度而不是心率（相對於你自己的輕鬆與閾值配速）：輕鬆或更慢1.0、閾值1.35、再快最高1.6。坡度係數在上坡是實際配速 ÷ 坡度校正配速（上限1.6）；下坡算得更多，1 + 1.2 ×（1 − 該比值），上限2.0 — 下坡省力，但衝擊更大。短期是最近7天的加權總和（EWMA），每週則是該週的單純加總。跑步動態與步行區段尚未納入。這是Runvis的參考值 — Garmin沒有公開它的公式，上面的係數是從公開文獻推導出來的。</td></tr>
+    <tr><td data-i18n="hw.vs.r13a">衝擊負荷</td><td data-i18n="hw.vs.r13b">把一次跑步留在腿上的負荷換算成公里數：平地輕鬆跑1公里 = 1.0。同樣的距離，跑得更用力、上坡或下坡，都會算得比距離更多。一次跑步 = 距離 × 強度係數 × 坡度係數。強度係數看的是速度而不是心率（相對於你自己的輕鬆與閾值配速）：輕鬆或更慢1.0、閾值1.35、再快最高1.6。坡度係數在上坡是實際配速 ÷ 坡度校正配速（上限1.6）；下坡算得更多，1 + 1.2 ×（1 − 該比值），上限2.0 — 下坡省力，但衝擊更大。短期是最近7天的加權總和（EWMA），每週則是該週的單純加總。它會顯示在報告面板和每次跑步的詳細畫面（「運動負荷 TRIMP」旁），與實際距離並列。跑步動態與步行區段尚未納入。這是Runvis的參考值 — Garmin沒有公開它的公式，上面的係數是從公開文獻推導出來的。</td></tr>
   </table></div>
   <div class="shots">
 <figure><picture><source srcset="/assets/framed-phone-detail.zh.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.zh.webp" type="image/webp"/><img alt="iPhone 指標詳情 — 訓練負荷(CTL) 7 日趨勢、我的 28 日範圍與指標說明" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.zh.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">上表第一列在 App 裡畫出來的樣子 — 訓練負荷（CTL）的 7 天趨勢、你自己的 28 天範圍，以及這個指標是什麼。</figcaption></figure>

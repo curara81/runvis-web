@@ -124,7 +124,7 @@ window.RunvisPageLang="ja";window.RunvisBase="/";
   <div class="tablewrap"><table>
     <tr><th data-i18n="hw.vs.th1">指標</th><th data-i18n="hw.vs.th2">Runvisが使う計算と、その名前</th></tr>
     <tr><td data-i18n="hw.vs.r0a">追加で買うもの</td><td data-i18n="hw.vs.r0b">ガーミン Forerunner や COROS は、時計そのものが製品です。Runvisはすでに手首にあるApple Watchを使い、別に買うのはコーチのサブスクだけです。</td></tr>
-    <tr><td data-i18n="hw.vs.r1a">トレーニング負荷・コンディション（TSB）</td><td data-i18n="hw.vs.r1b">Banister TRIMPをCogganの42日・7日指数移動平均（CTL・ATL）に入れ、その差をTSBとして使います。</td></tr>
+    <tr><td data-i18n="hw.vs.r1a">トレーニング負荷・コンディション（TSB）</td><td data-i18n="hw.vs.r1b">Banister TRIMPをCogganの42日・7日指数移動平均（CTL・ATL）に入れ、今日のTSBは昨日のCTLから昨日のATLを引いた値です（Cogganの定義 — 今日の負荷は当日のTSBを動かしません）。</td></tr>
     <tr><td data-i18n="hw.vs.r2a">回復時間</td><td data-i18n="hw.vs.r2b">直近のランのTRIMP、いまのTSB、HRVの状態の3つから推定します。画面にも「推定」と書きます。</td></tr>
     <tr><td data-i18n="hw.vs.r3a">乳酸性作業閾値（推定）</td><td data-i18n="hw.vs.r3b">直近90日で最大心拍の85%以上を保った30分（または20分）のベスト区間のペースと心拍です。採血ではなく、ランの記録から取った推定値です。</td></tr>
     <tr><td data-i18n="hw.vs.r4a">レース予測・区間ペースプラン</td><td data-i18n="hw.vs.r4b">Riegelの外挿とRunvis VDOT。コースのGPXを入れると、そのコースの高低に合わせて区間ごとにペースを配分します。</td></tr>
@@ -136,7 +136,7 @@ window.RunvisPageLang="ja";window.RunvisBase="/";
     <tr><td data-i18n="hw.vs.r10a">コーチのブレーキ</td><td data-i18n="hw.vs.r10b">スコアではなく予算です。直近の完了した4週間の週間距離から今週こなせる距離を決め、ラン後に残した痛みの報告のぶんだけ差し引きます。残りのキロ数と痛みで削られた量を別々に表示するので、なぜ減ったかが画面で分かります。</td></tr>
     <tr><td data-i18n="hw.vs.r11a">コーチの記録レーダー</td><td data-i18n="hw.vs.r11b">GPS経路のあるランはラン内部を走査して区間最速（ベストエフォート）を取り出し、経路のないランは完走の平均ペースから換算します。どちらの基準の記録かを画面に併記します。対象は直近90日です。</td></tr>
     <tr><td data-i18n="hw.vs.r12a">持久力トレーニング量</td><td data-i18n="hw.vs.r12b">直近28日から3つを取り、45 : 35 : 20 で混ぜた0〜100です — 週間距離（週80kmで満点）、いちばん長いラン（30kmで満点）、4週のうちランがあった週の数。ランナーを採点する値ではなく、いま体に積み上がっているトレーニング量を記録する値です。サンプルが足りなければ数字を作らず0のままにし、何が足りないかを画面に書きます。</td></tr>
-    <tr><td data-i18n="hw.vs.r13a">衝撃負荷</td><td data-i18n="hw.vs.r13b">ランが脚に残した負荷をkm換算で数えた値です — 平地のイージー1km = 1.0。同じ距離でも、速く・上りで・下りで走ると距離より大きく数えます。ラン1本 = 距離 × 強度係数 × 勾配係数。強度係数は心拍ではなく速度基準です（自分のイージー・閾値ペースに対して）：イージー以下1.0、閾値1.35、それより速ければ最大1.6。勾配係数は上りなら実ペース ÷ 勾配補正ペース（上限1.6）、下りは1 + 1.2 ×（1 − その比率）でより大きく数えます（上限2.0）— 下りは力は要りませんが衝撃は大きいからです。短期は直近7日の加重合計（EWMA）、週間はその週の単純合計です。ランニングダイナミクスと歩行区間はまだ反映していません。Runvisの参考値です — ガーミンは計算式を公開しておらず、上の係数は公開文献から導いた値です。</td></tr>
+    <tr><td data-i18n="hw.vs.r13a">衝撃負荷</td><td data-i18n="hw.vs.r13b">ランが脚に残した負荷をkm換算で数えた値です — 平地のイージー1km = 1.0。同じ距離でも、速く・上りで・下りで走ると距離より大きく数えます。ラン1本 = 距離 × 強度係数 × 勾配係数。強度係数は心拍ではなく速度基準です（自分のイージー・閾値ペースに対して）：イージー以下1.0、閾値1.35、それより速ければ最大1.6。勾配係数は上りなら実ペース ÷ 勾配補正ペース（上限1.6）、下りは1 + 1.2 ×（1 − その比率）でより大きく数えます（上限2.0）— 下りは力は要りませんが衝撃は大きいからです。短期は直近7日の加重合計（EWMA）、週間はその週の単純合計です。レポートのタイルと各ランの詳細画面（「運動負荷 TRIMP」の隣）に、実際の距離と並べて表示されます。ランニングダイナミクスと歩行区間はまだ反映していません。Runvisの参考値です — ガーミンは計算式を公開しておらず、上の係数は公開文献から導いた値です。</td></tr>
   </table></div>
   <div class="shots">
 <figure><picture><source srcset="/assets/framed-phone-detail.ja.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.ja.webp" type="image/webp"/><img alt="iPhoneの指標詳細 — トレーニング負荷(CTL)の7日推移、自分の28日レンジ、指標の説明" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.ja.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">上の表の1行目が、アプリで描かれたところです — トレーニング負荷(CTL)の7日推移、自分の28日レンジ、その指標の説明。</figcaption></figure>
