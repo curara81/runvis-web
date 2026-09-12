@@ -364,7 +364,7 @@
   <div class="tablewrap"><table>
     <tr><th data-i18n="hw.vs.th1">지표</th><th data-i18n="hw.vs.th2">런비스가 쓰는 계산과 그 이름</th></tr>
     <tr><td data-i18n="hw.vs.r0a">무엇을 더 사야 하나</td><td data-i18n="hw.vs.r0b">가민 포러너·코로스는 시계 자체가 제품입니다. 런비스는 이미 손목에 있는 애플워치를 쓰고, 따로 사는 것은 코치 구독뿐입니다.</td></tr>
-    <tr><td data-i18n="hw.vs.r1a">훈련 부하 · 컨디션(TSB)</td><td data-i18n="hw.vs.r1b">Banister TRIMP을 Coggan의 42일·7일 지수이동평균(CTL·ATL)에 넣고, 그 차이를 TSB로 씁니다.</td></tr>
+    <tr><td data-i18n="hw.vs.r1a">훈련 부하 · 컨디션(TSB)</td><td data-i18n="hw.vs.r1b">Banister TRIMP을 Coggan의 42일·7일 지수이동평균(CTL·ATL)에 넣고, 어제의 CTL에서 어제의 ATL을 뺀 값이 오늘의 TSB입니다(Coggan 정의 — 오늘 부하가 당일 TSB를 움직이지 않습니다).</td></tr>
     <tr><td data-i18n="hw.vs.r2a">회복 시간</td><td data-i18n="hw.vs.r2b">마지막 러닝의 TRIMP, 지금의 TSB, HRV 상태 셋으로 추정합니다. 추정값이라고 화면에도 적습니다.</td></tr>
     <tr><td data-i18n="hw.vs.r3a">젖산 역치(추정)</td><td data-i18n="hw.vs.r3b">최근 90일에서 최대심박 85% 이상을 버틴 30분(또는 20분) 최적 구간의 페이스와 심박입니다. 실험실 채혈이 아니라 러닝 기록에서 뽑은 추정치입니다.</td></tr>
     <tr><td data-i18n="hw.vs.r4a">레이스 예측 · 구간 페이스 플랜</td><td data-i18n="hw.vs.r4b">Riegel 외삽과 런비스 VDOT. 코스 GPX를 넣으면 그 코스의 고도에 맞춰 구간마다 페이스를 나눕니다.</td></tr>
@@ -385,7 +385,7 @@
          method is what MetricGlossary says for "충격 부하", nothing beyond it:
          distance × intensity × grade in km-equivalents, downhill counted
          heavier than uphill, 7-day EWMA short-term, plain weekly sum. -->
-    <tr><td data-i18n="hw.vs.r13a">충격 부하</td><td data-i18n="hw.vs.r13b">러닝이 다리에 남긴 부하를 km-환산으로 센 값입니다 — 평지 이지 1km = 1.0. 같은 거리라도 세게·오르막·내리막으로 뛰면 거리보다 크게 셉니다. 러닝 1건 = 거리 × 강도 배율 × 경사 배율. 강도 배율은 심박이 아니라 속도 기준입니다(개인 이지·역치 페이스 대비): 이지 이하 1.0, 역치 1.35, 그보다 빠르면 1.6까지. 경사 배율은 오르막이면 실제 페이스 ÷ 경사 보정 페이스(상한 1.6), 내리막은 1 + 1.2 × (1 − 그 비율)로 더 크게 셉니다(상한 2.0) — 내리막은 힘은 덜 들지만 충격은 더 큽니다. 단기는 최근 7일 가중 합산(EWMA), 주간은 그 주의 단순 합계입니다. 러닝 다이내믹스와 걷기 구간은 아직 반영하지 않습니다. 런비스 참고값입니다 — 가민은 산식을 공개하지 않았고, 위 배율은 공개 문헌에서 유도한 값입니다.</td></tr>
+    <tr><td data-i18n="hw.vs.r13a">충격 부하</td><td data-i18n="hw.vs.r13b">러닝이 다리에 남긴 부하를 km-환산으로 센 값입니다 — 평지 이지 1km = 1.0. 같은 거리라도 세게·오르막·내리막으로 뛰면 거리보다 크게 셉니다. 러닝 1건 = 거리 × 강도 배율 × 경사 배율. 강도 배율은 심박이 아니라 속도 기준입니다(개인 이지·역치 페이스 대비): 이지 이하 1.0, 역치 1.35, 그보다 빠르면 1.6까지. 경사 배율은 오르막이면 실제 페이스 ÷ 경사 보정 페이스(상한 1.6), 내리막은 1 + 1.2 × (1 − 그 비율)로 더 크게 셉니다(상한 2.0) — 내리막은 힘은 덜 들지만 충격은 더 큽니다. 단기는 최근 7일 가중 합산(EWMA), 주간은 그 주의 단순 합계입니다. 리포트 타일과 러닝 상세 화면('운동 부하 TRIMP' 옆)에 실제 거리와 나란히 표시됩니다. 러닝 다이내믹스와 걷기 구간은 아직 반영하지 않습니다. 런비스 참고값입니다 — 가민은 산식을 공개하지 않았고, 위 배율은 공개 문헌에서 유도한 값입니다.</td></tr>
   </table></div>
   <div class="shots">
 <figure><picture><source srcset="assets/framed-phone-detail.avif" type="image/avif"/><source srcset="assets/framed-phone-detail.webp" type="image/webp"/><img alt="iPhone 지표 상세 — 훈련 부하(CTL) 7일 추세, 내 28일 범위, 지표 설명" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="assets/framed-phone-detail.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">위 표 첫 줄이 앱에서 그려진 모습입니다 — 훈련 부하(CTL) 7일 추세와 내 28일 범위, 그리고 그 지표가 무엇인지.</figcaption></figure>
