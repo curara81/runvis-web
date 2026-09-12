@@ -38,7 +38,7 @@
   `CoachEngine.canSeeDeepAnalysis`가 열려 있어 `CoachUnlockedCard`
   (`iOSApp/Views/Home/HomeCoachCards.swift`)가 뜨고, 그게 `오늘의 결정` 히어로를
   화면 밖으로 밀어낸다. 컨테이너 prefs 에 `coachUnlockedDismissed=true`(사용자가 ×를
-  누른 것과 같은 상태)를 쓰고 **cfprefsd 를 죽인다** — watch-capture.md 2단계와 같은
+  누른 것과 같은 상태)와 `didCompleteOnboarding=true`(없으면 온보딩이 홈을 가린다)를 쓰고 **cfprefsd 를 죽인다** — watch-capture.md 2단계와 같은
   이유로, 죽이지 않으면 앱이 캐시된 옛 값을 계속 읽는다:
       D=$(xcrun simctl get_app_container <UDID> com.curara.SportsDashboard data)
       # $D/Library/Preferences/com.curara.SportsDashboard.plist 에 plistlib 로 기록
@@ -47,7 +47,8 @@
 - **화면 이동 경로**(iPhone 17, 402×874pt. 탭바 y=822, 홈 x=73·플랜 158·기록 243·더보기 327):
   dash = 실행 후 15초 대기 · plan = 플랜 탭 · race = 더보기 → 2번째 행(y=229) → 위로 390pt ·
   glance = 홈 탭 → 위로 500pt → "몸·러닝 리포트" 링크(x=341) → **상태바 탭(200,12)으로
-  맨 위로** → 아래 "느린 드래그" 640pt 한 번 ·
+  맨 위로** → 아래 "느린 드래그" 640pt × 3(페이지 바닥 — 충격 부하 타일이 맨 아래
+  통째로 보이는 상태, 2026-09-12 이후) → 3초 대기 ·
   detail = glance에서 훈련 부하 타일(x=240, 파란 아이콘 상단 + 42pt).
 - **스와이프에 관성이 붙어 스크롤량이 매번 달라진다.** 같은 `swipe`를 두 번 줘도
   60~90pt씩 어긋나서 언어별 프레이밍이 흔들린다. 재현이 필요한 곳(glance)은
