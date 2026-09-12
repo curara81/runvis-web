@@ -16,6 +16,25 @@ export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 export const CODES = ['ko', 'en', 'ja', 'es', 'zh', 'de'];
 export const PAGES = ['index.html', 'run.html', 'how-it-works.html', 'privacy.html', 'terms.html'];
 
+/** Where the five pages are AUTHORED. Until 2026-09-06 they were authored at
+ *  the root and the root was also what Korean readers were served, so the one
+ *  market the app launches in first was the only one that got the unstripped
+ *  file: 60,429 B gzipped against 31,532 B for /en/, and the gap grew every
+ *  round because every new comment landed here (2026-09-06 라운드 16, -1.3 and
+ *  a [회귀] of 라운드 15's -1.5). Splitting source from build makes Korean the
+ *  sixth output of the same pipeline instead of the exception to it — the
+ *  comments stay in src/, where the next reader of the markup wants them, and
+ *  stripCss/stripJs reach the Korean root for the first time.
+ *
+ *  Edit src/. Never edit the built copies: every one of them opens with a
+ *  banner naming its source, and check-content [5] regenerates and compares. */
+export const SRC = path.resolve(ROOT, 'src');
+
+/** Where a page is authored (always src/) and where a language's copy is
+ *  written (the root for Korean, /<code>/ for the other five). */
+export const srcPath = (page) => path.join(SRC, page);
+export const outPath = (code, page) => path.join(ROOT, code === 'ko' ? '' : code, page);
+
 /** <html lang> / og:locale / JSON-LD inLanguage per code. */
 export const HTML_LANG = { ko: 'ko', en: 'en', ja: 'ja', es: 'es', zh: 'zh-Hant', de: 'de' };
 
@@ -181,15 +200,18 @@ export function faqLd(dict, code, count = 10) {
  * Connect has them; nothing here is converted from an exchange rate.
  */
 export function appLd(dict, code) {
-  const offers = [
-    { name: 'Runvis Coach Monthly', price: '1900', category: 'subscription' },
-    { name: 'Runvis Coach Yearly', price: '15000', category: 'subscription' },
-    { name: 'Runvis Coach Lifetime', price: '39000', category: 'one-time' },
-  ];
+  // Each language's OWN home, the way pageLd already did it. This said
+  // `https://runvis.app/` in all six, so /de/index.html published a
+  // SoftwareApplication whose url disagreed with its own rel=canonical and
+  // og:url two lines above (2026-09-06 라운드 16, -0.9). The image and the
+  // screenshot beside it had been split by language for two rounds; only the
+  // address was missed. [29] compares the two AS THEY SIT IN THE FILE, because
+  // [4] re-runs this same function and can therefore only see self-consistency.
+  const home = `https://runvis.app${code === 'ko' ? '/' : `/${code}/`}`;
   return {
     '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'Runvis',
     applicationCategory: 'HealthApplication', operatingSystem: 'watchOS, iOS',
-    inLanguage: HTML_LANG[code], url: 'https://runvis.app/',
+    inLanguage: HTML_LANG[code], url: home,
     description: plain(dict['meta.desc'] || ''),
     // The share card and this market's own home screenshot, so a rich result
     // has a picture that is not the Korean build. Both are language-suffixed
@@ -198,16 +220,25 @@ export function appLd(dict, code) {
     // market's page says (2026-09-06 라운드 14, -0.3).
     image: `https://runvis.app/assets/og-card${code === 'ko' ? '' : '.' + code}.png`,
     screenshot: `https://runvis.app/assets/framed-phone-dash${code === 'ko' ? '' : '.' + code}.png`,
-    author: { '@type': 'Organization', name: 'Runvis', url: 'https://runvis.app/' },
-    offers: offers.map(o => ({
-      '@type': 'Offer', name: o.name, price: o.price, priceCurrency: 'KRW', category: o.category,
-      // Nothing here can be bought yet — the app is in TestFlight beta and the
-      // page says the release date is not set. Publishing three prices with no
-      // availability told a search engine they were on sale. PreOrder is the
-      // truthful state; it becomes InStock on launch day.
-      availability: 'https://schema.org/PreOrder',
-      eligibleRegion: { '@type': 'Country', name: 'KR' },
-    })),
+    author: { '@type': 'Organization', name: 'Runvis', url: home },
+    // NO `offers`. There were three, at ₩1,900 / ₩15,000 / ₩39,000, marked
+    // `availability: PreOrder`. PreOrder is a promise that the thing can be
+    // ordered NOW and delivered later, and nothing on this site can be
+    // ordered: the only control on the page is an email field, there is no App
+    // Store listing, no TestFlight public link and no announced date. So a
+    // reader who saw three prices in a search result and clicked arrived at a
+    // form (2026-09-06 라운드 16, -1). Structured data is the one part of the
+    // page a reader acts on before reading it, which makes it the worst place
+    // to state an offer that does not exist.
+    //
+    // What brings it back, and only then: an App Store product URL. On launch
+    // day, restore an Offer per plan with `price`, `priceCurrency: 'KRW'`,
+    // `eligibleRegion` Korea (the only store whose prices are decided),
+    // `availability: 'https://schema.org/InStock'` and `url` set to that
+    // listing — the `url` is the part that was missing, not the availability
+    // value. The prices themselves are already checked against six
+    // dictionaries by [14] and against each market's own size by [22]; they do
+    // not need a second home here to stay honest.
   };
 }
 

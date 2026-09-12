@@ -1,14 +1,24 @@
 <!DOCTYPE html>
-<!-- GENERATED FILE — do not edit.
-     tools/prerender.mjs built this from src/privacy.html and t-ko.js.
-     Edit those and run: node tools/prerender.mjs -->
 <html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- All four pages are pure black. Only index.html declared this, so a
+     visitor moving from the home page to the demo, the privacy policy or
+     the terms watched the browser chrome flip from black to white on iOS
+     Safari and Android Chrome. Same value as index.html:49. -->
 <meta name="theme-color" content="#000000">
+<!-- "Add to Home Screen" used to save a screenshot of the page under a
+     browser-generated name: the favicon is a data-URI SVG, which iOS ignores,
+     and there was no manifest at all (2026-09-06 라운드 13, -0.4). Both are
+     absolute paths on purpose — the prerendered copies under /en/ … are served
+     from a subdirectory and there is one icon, at the root. -->
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
+<!-- SOURCE FILE, Korean inline defaults, like src/index.html — six copies are
+     built from it and the Korean one is the site root. The head used to run both languages
+     together in one line; /en/privacy.html and its siblings are the finished
+     pages for the other five markets and hreflang points at them. -->
 <title data-i18n="pv.meta.title">개인정보 처리방침 — Runvis</title>
 <meta name="description" content="Runvis는 러닝·건강 데이터를 기기 안에서만 처리합니다. 서버도 계정도 없고, 기기 밖으로 나가는 예외를 전부 적어 두었습니다." data-i18n-attr="content:pv.meta.desc">
 <meta name="robots" content="index,follow">
@@ -23,6 +33,21 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://runvis.app/assets/og-card.png?v=3">
 <link rel="canonical" href="https://runvis.app/privacy.html">
+<!-- x-default is the alternate for a visitor whose language matches none of
+     the six. That used to be this Korean document, which meant a French or
+     Portuguese reader was routed to Korean by both the boot script and the
+     search engine. Both now end at English: this points at /en/, and English
+     is what the in-page language banner OFFERS a browser outside the six.
+     What changed in round 14 is who acts on that offer. The boot script used
+     to act on it itself — it replaced the location of a root URL whenever
+     navigator.language was not Korean, which is precisely what a crawler
+     looks like, so the document that declares hreflang="ko" for "/" sent the
+     crawler away from "/" before it could read it (-4). These alternates are
+     now a promise the page keeps: rendering "/" gives you the Korean page,
+     hreflang and sitemap.xml both say so, and the reader is handed a visible
+     link to their own market instead of being moved without being asked.
+     The Korean page keeps its hreflang="ko" alternate below and stays the
+     canonical home. -->
 <link rel="alternate" hreflang="x-default" href="https://runvis.app/en/privacy.html">
 <link rel="alternate" hreflang="ko" href="https://runvis.app/privacy.html">
 <link rel="alternate" hreflang="en" href="https://runvis.app/en/privacy.html">
@@ -31,46 +56,172 @@
 <link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/privacy.html">
 <link rel="alternate" hreflang="de" href="https://runvis.app/de/privacy.html">
 <style>
-:root{--green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;--text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;}*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}.wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}a{color:var(--green);text-decoration:none}:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}img{max-width:100%;height:auto;display:block}body{overflow-wrap:break-word;word-break:normal;line-break:normal}:lang(ko) body,body:lang(ko){word-break:keep-all}h1{font-size:1.7rem;margin-bottom:6px}.updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}.skip{position:absolute;left:-9999px;top:0;z-index:200}.skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}h2{font-size:1.15rem;margin:36px 0 12px;color:var(--green)}p,li{color:var(--dim);font-size:.95rem}ul{padding-left:20px;margin:10px 0}li{margin:6px 0}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0}.card b{color:var(--text)}.tablewrap{overflow-x:auto;margin:14px 0}table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:520px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--dim)}th{color:var(--text);font-weight:600}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}.back{color:var(--dim);font-size:.9rem}.legalnote{color:var(--dim2);font-size:.8rem;margin-bottom:22px}.langsel{position:relative;display:inline-block}.langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}.langsel button:hover{border-color:var(--green)}.langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}.langsel.open ul{display:block}.langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}.langsel li:hover{background:rgba(61,220,132,.15)}.langsel li{padding:0}.langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}.langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
+  :root{
+    --green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;
+    /* --dim2 was #6a6f76 = 4.15:1 on black, under the 4.5:1 AA floor; the
+       "last updated" line and the legal note used it. #878d95 is 6.27:1,
+       the same token index.html uses. */
+    --text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
+    line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
+  .wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}
+  a{color:var(--green);text-decoration:none}
+  :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+  img{max-width:100%;height:auto;display:block}
+  body{overflow-wrap:break-word;word-break:normal;line-break:normal}
+  /* keep-all keeps Korean words whole, but it also stops Japanese and
+     Chinese from breaking at all — a price bullet overflowed its card by
+     164px on ja (2026-09-06 라운드 12). Scope it to Korean only. */
+  :lang(ko) body,body:lang(ko){word-break:keep-all}
+  h1{font-size:1.7rem;margin-bottom:6px}
+  .updated{color:var(--dim2);font-size:.85rem;margin-bottom:36px}
+  /* Without this the first Tab on every page landed on the language menu.
+     Visually hidden until it takes focus, then it becomes a real button. */
+  .skip{position:absolute;left:-9999px;top:0;z-index:200}
+  .skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
+    padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
+  h2{font-size:1.15rem;margin:36px 0 12px;color:var(--green)}
+  p,li{color:var(--dim);font-size:.95rem}
+  ul{padding-left:20px;margin:10px 0}
+  li{margin:6px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0}
+  .card b{color:var(--text)}
+  .tablewrap{overflow-x:auto;margin:14px 0}
+  table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:520px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--dim)}
+  th{color:var(--text);font-weight:600}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
+  .back{color:var(--dim);font-size:.9rem}
+  .legalnote{color:var(--dim2);font-size:.8rem;margin-bottom:22px}
+  /* language selector — same ids i18n.js looks for (#langsel/#langbtn/#langmenu) */
+  .langsel{position:relative;display:inline-block}
+  .langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
+  .langsel button:hover{border-color:var(--green)}
+  .langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+  .langsel.open ul{display:block}
+  .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);margin:0}
+  .langsel li:hover{background:rgba(61,220,132,.15)}
+  /* 2026-09-06 라운드 13 (-0.5): each item is a real link to that language's
+     prerendered copy, so picking a language changes the ADDRESS — a URL shared
+     from here keeps the language it was read in. The <li> keeps the row box,
+     the <a> fills it so the whole row stays clickable, and aria-checked moves
+     onto the anchor, which is the menuitemradio now. */
+  .langsel li{padding:0}
+  .langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
+  .langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
 </style>
+<!-- Language boot — same script as index.html. Runs before the body is parsed
+     so <html lang>, the canonical and og:locale are already right at first
+     paint, and pulls a dictionary only when the reader asked for a language
+     this file is not written in (라운드 14, -0.6). -->
 <script>
 (function(){
   var L=["ko","en","ja","es","zh","de"];
   function norm(v){ if(!v) return null; v=String(v).toLowerCase();
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
+  // The BROWSER's language is the one source that must not fold every zh-*
+  // onto our table, because our zh table is Traditional (LANGS label 繁體中文,
+  // tts zh-TW, <html lang="zh-Hant">) and norm() above sent zh-Hans / zh-CN /
+  // zh-SG straight to it. Being handed the other script automatically reads as
+  // an accident, not a choice (2026-09-06 라운드 13, -0.3). Those visitors fall
+  // through to the x-default, English, and 繁體中文 is still one pick away in
+  // the language menu. An EXPLICIT zh — ?lang=zh, /zh/, the menu — still goes
+  // through norm() and still resolves, which is why this is a second function
+  // and not a change to the first.
   function navLang(v){ var s=v?String(v).toLowerCase():"";
     return (s.indexOf("zh")===0 && !/^zh-(hant|tw|hk|mo)\b/.test(s)) ? null : norm(s); }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
+  // On a prerendered page (/en/, /ja/ …) the directory IS the language and
+  // RunvisPageLang is set just above; it outranks the saved choice and the
+  // browser's. ?lang= still wins over it.
   var saved=null; try{ saved=norm(localStorage.getItem("runvis_lang")); }catch(e){}
-  var pageLang=norm(window.RunvisPageLang)||"ko";
+  // ---- what language does THIS document render in? -----------------------
+  // The root IS the Korean page: hreflang="ko" names "/", sitemap.xml lists
+  // "/" as the Korean URL, and the canonical here is "/". So the root has to
+  // still be Korean when it is rendered by a visitor who brought nothing but a
+  // browser language — and a crawler is exactly that visitor. Googlebot runs
+  // this script with navigator.language="en-US" and empty storage, so the line
+  // that used to stand here resolved the ROOT to English and the block below
+  // then replaced the location with /en/, while the same document went on
+  // declaring "/" as the Korean original (2026-09-06 라운드 14, -4). Render
+  // and declaration cannot both be right, and the declaration is the one
+  // sitemap.xml, robots.txt and thirty hreflang clusters are built out of.
+  //
+  // So navigator.language no longer decides what is RENDERED. It decides what
+  // is OFFERED: i18n.js puts a banner at the top of the page linking to this
+  // reader's own market page. That is also what Google documents for a site
+  // that cannot redirect server-side (GitHub Pages cannot), and it is the only
+  // "send the visitor onward" that a person and a crawler can both be handed
+  // without one of them being told something the other is not.
+  var pageLang=norm(window.RunvisPageLang)||"ko";   // "ko" at the root; the directory name under /en/ …
+  // What to OFFER — never what to render. English for a browser outside the
+  // six (fr, pt, it, ru …), which is also what hreflang="x-default" points at,
+  // so the banner and the search engine send that reader to the same place.
   var prefer=navLang(navigator.language)||"en";
   var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||pageLang;
+  // The one automatic navigation that is left, and the reason the five market
+  // pages are not "five pages nobody is sent to" again (라운드 9). It fires on
+  // a SAVED choice only: i18n.js writes runvis_lang when the URL or the
+  // language menu NAMED a language, never when the page merely fell back to
+  // its own (applyLang's `remember` argument). So this acts on something this
+  // reader did, not on a header that arrived unasked — and a crawler, whose
+  // localStorage is empty, can never reach it, which is what keeps the root's
+  // rendered language equal to its declared one.
+  // Only a ROOT url can send: under /en/ … the directory is the language.
+  // replace() keeps the back button working, and the sessionStorage flag makes
+  // a second hop impossible even if the target failed to set RunvisPageLang.
   try{
     if(!window.RunvisPageLang && !urlLang && saved && saved!=="ko"
        && /(^|\.)runvis\.app$/.test(location.hostname)
        && !sessionStorage.getItem("runvis_sent")){
       sessionStorage.setItem("runvis_sent","1");
       var file=location.pathname.split("/").pop()||"";
-      if(file==="index.html") file="";
+      if(file==="index.html") file="";      // /de/, the URL hreflang and canonical name
       location.replace("/"+saved+"/"+file+location.hash);
       return;
     }
   }catch(e){}
   window.RunvisLang=code; window.RunvisUrlLang=urlLang;
+  // Published for i18n.js: the document's own language and the one to offer.
   window.RunvisDocLang=pageLang; window.RunvisPrefer=prefer;
   var html=document.documentElement;
   html.lang = code==="zh" ? "zh-Hant" : code;
   html.className += (html.className?" ":"") + "js";
-  var BASE=window.RunvisBase||"";
+  var BASE=window.RunvisBase||"";              // "" at the root, "/" under /en/ …
+  // The dictionary is fetched only when it would CHANGE something. Every
+  // [data-i18n] node, every data-i18n-attr, both JSON-LD blocks and every
+  // RunvisT() fallback in this file are already written in `pageLang` — and
+  // check-content [3], [4] and [10] hold all of them to that same dictionary
+  // byte for byte. So for the reader who is already on their own language,
+  // t-<code>.js (57-73 KB) was being downloaded to repaint the page with what
+  // it already said (2026-09-06 라운드 14, -0.6). i18n.js fetches one on demand
+  // if the reader switches language in place; the language MENU navigates to
+  // the market page, which arrives with its own.
   if(code!==pageLang){
     var d=document.createElement("script");
     d.src=BASE+"t-"+code+".js?v=20260906f"; d.async=false; document.head.appendChild(d);
-    window.RunvisDictLoaded=code;
+    window.RunvisDictLoaded=code;                     // i18n.js: "one is already in flight"
   }
   function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
+  // The canonical follows the language ON SCREEN, not the spelling of the URL.
+  // /?lang=de and /de/ show the same German page, so both have to name /de/ or
+  // one market's signal is split between two addresses. Until round 14 this
+  // rewrite fired for ?lang= only, which left the OTHER way German reaches a
+  // root URL — a saved choice — rendering German under canonical "/" and
+  // og:url "/" (라운드 14, -1.5). One rule, "shown language ≠ this document's
+  // own language", covers ?lang=, a saved choice and an in-place switch alike.
+  // The old narrow rule was there to stop the root canonicalising to /en/ for
+  // an English browser; that case no longer exists, because a browser header
+  // no longer changes what the root renders.
   var link=document.querySelector('link[rel="canonical"]');
   if(link){
+    // Remember the page's OWN address before rewriting it. i18n.js recomputes
+    // the canonical on every language switch and would otherwise read back the
+    // value this script just wrote and prefix it a second time (/ja/ja/).
     var base=link.getAttribute("data-base")||(link.getAttribute("href")||"").split("?")[0].split("#")[0];
     link.setAttribute("data-base",base);
     var url=base;
@@ -85,6 +236,12 @@
 })();
 </script>
 <script defer src="i18n.js?v=20260906f"></script>
+<!-- WebPage + BreadcrumbList. This page used to ship no structured data at
+     all in any of the six languages: a crawler got a title and nothing that
+     said what site the page belongs to or where it sits in it. Built from the
+     same dictionary the visible text reads, by tools/i18n-lib.mjs pageLd, so
+     the two cannot drift; tools/prerender.mjs rewrites it per language and
+     check-content [4] compares it byte for byte. -->
 <script id="pageld" type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebPage","name":"개인정보 처리방침 — Runvis","description":"Runvis는 러닝·건강 데이터를 기기 안에서만 처리합니다. 서버도 계정도 없고, 기기 밖으로 나가는 예외를 전부 적어 두었습니다.","inLanguage":"ko","url":"https://runvis.app/privacy.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/"},{"@type":"ListItem","position":2,"name":"개인정보 처리방침 — Runvis","item":"https://runvis.app/privacy.html"}]}}
 </script>
@@ -181,5 +338,11 @@
   <h2 data-i18n="pv.s10.h">10. 변경 및 문의</h2>
   <p data-i18n="pv.s10.p">방침이 바뀌면 이 페이지의 시행일을 갱신합니다. 이용약관은 <a href="terms.html">이용약관</a>을 참고하세요. 문의: <a href="mailto:help@runvis.app">help@runvis.app</a></p>
 </div>
+<!-- No renderDynamicI18n hook here any more. It existed to repair a title
+     that i18n.js used to hard-code to the homepage's meta.title on every
+     language switch; i18n.js stopped doing that, and this page's own
+     <title data-i18n> is applied by the ordinary [data-i18n] pass. The comment
+     was still describing the old bug, which is how a reader ends up keeping
+     dead code for a reason that no longer exists. -->
 </body>
 </html>

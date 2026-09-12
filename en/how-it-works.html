@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- GENERATED FILE — do not edit.
-     tools/prerender.mjs built this from /how-it-works.html and t-en.js.
+     tools/prerender.mjs built this from src/how-it-works.html and t-en.js.
      Edit those and run: node tools/prerender.mjs -->
 <html lang="en">
 <head>
@@ -12,11 +12,11 @@ window.RunvisPageLang="en";window.RunvisBase="/";
 <meta name="theme-color" content="#000000">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<title data-i18n="hw.meta.title">Rules and tools — Runvis</title>
-<meta name="description" content="Metric by metric, the formulas Runvis uses for training load, recovery time and an estimated lactate threshold without a dedicated running watch. Plus the full speaking rules, a heart-rate zone calculator, 13 Seoul course GPX files, and how the beta runs." data-i18n-attr="content:hw.meta.desc">
+<title data-i18n="hw.meta.title">Garmin and Coros compared, metric by metric — the formula behind each one | Runvis</title>
+<meta name="description" content="A metric-by-metric comparison with dedicated running watches such as the Garmin Forerunner and Coros, and the formulas Runvis uses for training load, recovery time and an estimated lactate threshold on an Apple Watch. Plus the full speaking rules, a heart-rate zone calculator, 13 Seoul course GPX files, and how the beta runs." data-i18n-attr="content:hw.meta.desc">
 <meta name="robots" content="index,follow">
-<meta property="og:title" content="Rules and tools — Runvis" data-i18n-attr="content:hw.meta.title">
-<meta property="og:description" content="Metric by metric, the formulas Runvis uses for training load, recovery time and an estimated lactate threshold without a dedicated running watch. Plus the full speaking rules, a heart-rate zone calculator, 13 Seoul course GPX files, and how the beta runs." data-i18n-attr="content:hw.meta.desc">
+<meta property="og:title" content="Garmin and Coros compared, metric by metric — the formula behind each one | Runvis" data-i18n-attr="content:hw.meta.title">
+<meta property="og:description" content="A metric-by-metric comparison with dedicated running watches such as the Garmin Forerunner and Coros, and the formulas Runvis uses for training load, recovery time and an estimated lactate threshold on an Apple Watch. Plus the full speaking rules, a heart-rate zone calculator, 13 Seoul course GPX files, and how the beta runs." data-i18n-attr="content:hw.meta.desc">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://runvis.app/en/how-it-works.html">
 <meta property="og:site_name" content="Runvis">
@@ -89,7 +89,7 @@ window.RunvisPageLang="en";window.RunvisBase="/";
 </script>
 <script defer src="/i18n.js?v=20260906f"></script>
 <script id="pageld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Rules and tools — Runvis","description":"Metric by metric, the formulas Runvis uses for training load, recovery time and an estimated lactate threshold without a dedicated running watch. Plus the full speaking rules, a heart-rate zone calculator, 13 Seoul course GPX files, and how the beta runs.","inLanguage":"en","url":"https://runvis.app/en/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/en/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/en/"},{"@type":"ListItem","position":2,"name":"Rules and tools — Runvis","item":"https://runvis.app/en/how-it-works.html"}]}}
+{"@context":"https://schema.org","@type":"WebPage","name":"Garmin and Coros compared, metric by metric — the formula behind each one | Runvis","description":"A metric-by-metric comparison with dedicated running watches such as the Garmin Forerunner and Coros, and the formulas Runvis uses for training load, recovery time and an estimated lactate threshold on an Apple Watch. Plus the full speaking rules, a heart-rate zone calculator, 13 Seoul course GPX files, and how the beta runs.","inLanguage":"en","url":"https://runvis.app/en/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/en/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/en/"},{"@type":"ListItem","position":2,"name":"Garmin and Coros compared, metric by metric — the formula behind each one | Runvis","item":"https://runvis.app/en/how-it-works.html"}]}}
 </script>
 </head>
 <body>
@@ -135,6 +135,8 @@ window.RunvisPageLang="en";window.RunvisBase="/";
     <tr><td data-i18n="hw.vs.r9a">Heat exposure index</td><td data-i18n="hw.vs.r9b">How much outdoor running you have stacked up above 22°C (or the same temperature in Fahrenheit, if that is your unit setting) over four weeks, on a 0–100 scale. It appears after three hot-weather runs and falls again after three days off. It is exposure, not a measurement of physiological adaptation.</td></tr>
     <tr><td data-i18n="hw.vs.r10a">Coach's Brake</td><td data-i18n="hw.vs.r10b">A budget, not a score. The last four completed weeks of distance set what this week can absorb, and the pain reports you leave after runs cut into it. The kilometres left and the kilometres the pain reports removed are shown separately, so the cut is explainable.</td></tr>
     <tr><td data-i18n="hw.vs.r11a">Coach's Record Radar</td><td data-i18n="hw.vs.r11b">Runs with a GPS route are scanned inside the run for the fastest stretch at each distance; runs without a route are projected from the finishing average pace. Each record says which of the two it is. The window is the last 90 days.</td></tr>
+    <tr><td data-i18n="hw.vs.r12a">Endurance training volume</td><td data-i18n="hw.vs.r12b">A 0–100 blended 45 : 35 : 20 out of three things in the last 28 days: weekly distance (80 km a week is full marks), your longest single run (30 km is full marks), and how many of the four weeks had a run in them. It is not a grade for the runner; it records the training volume the body is carrying right now. Below the sample it needs it stays at 0 rather than inventing a number, and the screen says what is missing.</td></tr>
+    <tr><td data-i18n="hw.vs.r13a">Impact Load</td><td data-i18n="hw.vs.r13b">The load a run leaves in your legs, counted in km-equivalents — 1 km flat and easy = 1.0. The same distance run hard, uphill or downhill counts for more than its distance. One run = distance × intensity factor × grade factor. The intensity factor follows speed, not heart rate (against your own easy and threshold paces): 1.0 at easy or slower, 1.35 at threshold, up to 1.6 faster than that. The grade factor uphill is actual pace ÷ grade-adjusted pace (capped at 1.6); downhill counts for more, 1 + 1.2 × (1 − that ratio), capped at 2.0 — downhill costs less effort but lands harder. Short-term is a 7-day weighted sum (EWMA); weekly is the plain sum for that week. Running dynamics and walking segments are not counted yet. A Runvis reference value — Garmin has not published its formula; the factors above are derived from public literature.</td></tr>
   </table></div>
   <div class="shots">
 <figure><picture><source srcset="/assets/framed-phone-detail.en.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.en.webp" type="image/webp"/><img alt="iPhone metric detail — the 7-day training-load (CTL) trend, my 28-day range and what the metric means" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.en.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">The first row of the table above, drawn in the app — the 7-day training-load (CTL) trend, your own 28-day range, and what the metric is.</figcaption></figure>

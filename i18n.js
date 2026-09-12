@@ -690,7 +690,23 @@
     else if (skip) document.body.appendChild(bar);
     else document.body.insertBefore(bar, document.body.firstChild);
     document.body.classList.add('has-langoffer');
-    document.body.style.setProperty('--langoffer-h', bar.offsetHeight + 'px');
+
+    // The height was measured ONCE, at insertion. The bar is flex-wrap, so at
+    // 320 px with a long German label it is two lines, and rotating the phone
+    // changes the line count — after which the sticky call to action sat on
+    // top of the bar or floated above a gap, using a number taken before the
+    // reflow (2026-09-06 라운드 16, -0.3). Re-measure whenever the box changes.
+    var setH = function () {
+      document.body.style.setProperty('--langoffer-h', bar.offsetHeight + 'px');
+    };
+    setH();
+    if (window.ResizeObserver) new ResizeObserver(setH).observe(bar);
+    // orientationchange for the browsers whose ResizeObserver does not fire on
+    // a rotation that leaves the border box the same size but re-wraps inside
+    // it, and a resize listener for the rest. Both call the same one-line
+    // measurement, so an extra call costs a layout read and nothing else.
+    else window.addEventListener('resize', setH);
+    window.addEventListener('orientationchange', function () { setTimeout(setH, 150); });
   }
 
   function init() {

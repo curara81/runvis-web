@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- GENERATED FILE — do not edit.
-     tools/prerender.mjs built this from /how-it-works.html and t-zh.js.
+     tools/prerender.mjs built this from src/how-it-works.html and t-zh.js.
      Edit those and run: node tools/prerender.mjs -->
 <html lang="zh-Hant">
 <head>
@@ -12,11 +12,11 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
 <meta name="theme-color" content="#000000">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<title data-i18n="hw.meta.title">規則與工具 — Runvis</title>
-<meta name="description" content="逐項寫明 Runvis 在沒有專用跑錶的情況下，用什麼公式算出訓練負荷、恢復時間與乳酸閾值推估。另有教練說話規則全文、心率區間計算機、13 條首爾路線 GPX，以及 Beta 的進行方式。" data-i18n-attr="content:hw.meta.desc">
+<title data-i18n="hw.meta.title">與 Garmin、Coros 有什麼相同、什麼不同 — 每個指標的計算規則 | Runvis</title>
+<meta name="description" content="逐項比較 Garmin Forerunner、Coros 這類專用跑錶與 Apple Watch，並寫明 Runvis 用什麼公式算出訓練負荷、恢復時間與乳酸閾值推估。另有教練說話規則全文、心率區間計算機、13 條首爾路線 GPX，以及 Beta 的進行方式。" data-i18n-attr="content:hw.meta.desc">
 <meta name="robots" content="index,follow">
-<meta property="og:title" content="規則與工具 — Runvis" data-i18n-attr="content:hw.meta.title">
-<meta property="og:description" content="逐項寫明 Runvis 在沒有專用跑錶的情況下，用什麼公式算出訓練負荷、恢復時間與乳酸閾值推估。另有教練說話規則全文、心率區間計算機、13 條首爾路線 GPX，以及 Beta 的進行方式。" data-i18n-attr="content:hw.meta.desc">
+<meta property="og:title" content="與 Garmin、Coros 有什麼相同、什麼不同 — 每個指標的計算規則 | Runvis" data-i18n-attr="content:hw.meta.title">
+<meta property="og:description" content="逐項比較 Garmin Forerunner、Coros 這類專用跑錶與 Apple Watch，並寫明 Runvis 用什麼公式算出訓練負荷、恢復時間與乳酸閾值推估。另有教練說話規則全文、心率區間計算機、13 條首爾路線 GPX，以及 Beta 的進行方式。" data-i18n-attr="content:hw.meta.desc">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://runvis.app/zh/how-it-works.html">
 <meta property="og:site_name" content="Runvis">
@@ -89,7 +89,7 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
 </script>
 <script defer src="/i18n.js?v=20260906f"></script>
 <script id="pageld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"規則與工具 — Runvis","description":"逐項寫明 Runvis 在沒有專用跑錶的情況下，用什麼公式算出訓練負荷、恢復時間與乳酸閾值推估。另有教練說話規則全文、心率區間計算機、13 條首爾路線 GPX，以及 Beta 的進行方式。","inLanguage":"zh-Hant","url":"https://runvis.app/zh/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/zh/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/zh/"},{"@type":"ListItem","position":2,"name":"規則與工具 — Runvis","item":"https://runvis.app/zh/how-it-works.html"}]}}
+{"@context":"https://schema.org","@type":"WebPage","name":"與 Garmin、Coros 有什麼相同、什麼不同 — 每個指標的計算規則 | Runvis","description":"逐項比較 Garmin Forerunner、Coros 這類專用跑錶與 Apple Watch，並寫明 Runvis 用什麼公式算出訓練負荷、恢復時間與乳酸閾值推估。另有教練說話規則全文、心率區間計算機、13 條首爾路線 GPX，以及 Beta 的進行方式。","inLanguage":"zh-Hant","url":"https://runvis.app/zh/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/zh/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/zh/"},{"@type":"ListItem","position":2,"name":"與 Garmin、Coros 有什麼相同、什麼不同 — 每個指標的計算規則 | Runvis","item":"https://runvis.app/zh/how-it-works.html"}]}}
 </script>
 </head>
 <body>
@@ -135,6 +135,8 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
     <tr><td data-i18n="hw.vs.r9a">熱暴露指數</td><td data-i18n="hw.vs.r9b">最近四週在 22°C（單位設定為華氏時就是同一溫度的華氏值）以上戶外跑步累積了多少，用 0～100 表示。熱天跑三次後才會出現，停跑三天以上就會下降。這是暴露量，不是生理適應的測量值。</td></tr>
     <tr><td data-i18n="hw.vs.r10a">教練煞車</td><td data-i18n="hw.vs.r10b">這是預算，不是分數。用最近四個完整週的週跑量決定這週能吸收多少距離，再依你跑完後留下的疼痛回報往下扣。剩餘公里數和被疼痛扣掉的量分開顯示，所以扣了多少、為什麼扣得出來。</td></tr>
     <tr><td data-i18n="hw.vs.r11a">教練的紀錄雷達</td><td data-i18n="hw.vs.r11b">有 GPS 路線的跑步會在跑步內部掃描，找出各距離的最快分段（best effort）；沒有路線的跑步則用完賽平均配速換算。每筆紀錄都會標明是哪一種依據。範圍是最近 90 天。</td></tr>
+    <tr><td data-i18n="hw.vs.r12a">耐力訓練量</td><td data-i18n="hw.vs.r12b">取最近 28 天的三個值，以 45 : 35 : 20 混合成 0~100：週距離（每週 80 公里滿分）、最長的一次跑步（30 公里滿分）、四週之中有跑步的週數。這不是替跑者打分數，而是記錄身體現在累積的訓練量。樣本不足時就停在 0，不會編一個數字出來，畫面上會寫出缺什麼。</td></tr>
+    <tr><td data-i18n="hw.vs.r13a">衝擊負荷</td><td data-i18n="hw.vs.r13b">把一次跑步留在腿上的負荷換算成公里數：平地輕鬆跑1公里 = 1.0。同樣的距離，跑得更用力、上坡或下坡，都會算得比距離更多。一次跑步 = 距離 × 強度係數 × 坡度係數。強度係數看的是速度而不是心率（相對於你自己的輕鬆與閾值配速）：輕鬆或更慢1.0、閾值1.35、再快最高1.6。坡度係數在上坡是實際配速 ÷ 坡度校正配速（上限1.6）；下坡算得更多，1 + 1.2 ×（1 − 該比值），上限2.0 — 下坡省力，但衝擊更大。短期是最近7天的加權總和（EWMA），每週則是該週的單純加總。跑步動態與步行區段尚未納入。這是Runvis的參考值 — Garmin沒有公開它的公式，上面的係數是從公開文獻推導出來的。</td></tr>
   </table></div>
   <div class="shots">
 <figure><picture><source srcset="/assets/framed-phone-detail.zh.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.zh.webp" type="image/webp"/><img alt="iPhone 指標詳情 — 訓練負荷(CTL) 7 日趨勢、我的 28 日範圍與指標說明" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.zh.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">上表第一列在 App 裡畫出來的樣子 — 訓練負荷（CTL）的 7 天趨勢、你自己的 28 天範圍，以及這個指標是什麼。</figcaption></figure>

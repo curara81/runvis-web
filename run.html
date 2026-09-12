@@ -1,17 +1,12 @@
 <!DOCTYPE html>
+<!-- GENERATED FILE — do not edit.
+     tools/prerender.mjs built this from src/run.html and t-ko.js.
+     Edit those and run: node tools/prerender.mjs -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- All four pages are pure black. Only index.html declared this, so a
-     visitor moving from the home page to the demo, the privacy policy or
-     the terms watched the browser chrome flip from black to white on iOS
-     Safari and Android Chrome. Same value as index.html:49. -->
 <meta name="theme-color" content="#000000">
-<!-- Korean only — see the same note in index.html. The bilingual head this
-     page used to carry gave a Korean reader a title that trailed off into
-     English and an English reader one that began in Hangul; /en/run.html and
-     its four siblings are the finished pages for the other markets. -->
 <title data-i18n="r1">RUN SESSION — 런비스와 5km | Runvis</title>
 <meta name="description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요." data-i18n-attr="content:r2">
 <meta property="og:title" content="RUN SESSION — 런비스와 5km | Runvis" data-i18n-attr="content:r1">
@@ -23,30 +18,15 @@
 <meta property="og:image" content="https://runvis.app/assets/og-card.png?v=3">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<!-- Language-neutral card: mark, watch and pulse only, no sentence in any
-     language. One HTML file serves every ?lang= and crawlers run no JS. -->
 <meta property="og:image:alt" content="Runvis 공유 카드 — 애플워치면 충분합니다" data-i18n-attr="content:meta.ogalt">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="RUN SESSION — 런비스와 5km | Runvis" data-i18n-attr="content:r1">
 <meta name="twitter:description" content="스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요." data-i18n-attr="content:r2">
 <meta name="twitter:image" content="https://runvis.app/assets/og-card.png?v=3">
 <link rel="canonical" href="https://runvis.app/run.html">
-<noscript><style>.rv,.reveal{opacity:1!important;transform:none!important}</style></noscript>
-<!-- x-default is the alternate for a visitor whose language matches none of
-     the six. That used to be this Korean document, which meant a French or
-     Portuguese reader was routed to Korean by both the boot script and the
-     search engine. Both now end at English: this points at /en/, and English
-     is what the in-page language banner OFFERS a browser outside the six.
-     What changed in round 14 is who acts on that offer. The boot script used
-     to act on it itself — it replaced the location of a root URL whenever
-     navigator.language was not Korean, which is precisely what a crawler
-     looks like, so the document that declares hreflang="ko" for "/" sent the
-     crawler away from "/" before it could read it (-4). These alternates are
-     now a promise the page keeps: rendering "/" gives you the Korean page,
-     hreflang and sitemap.xml both say so, and the reader is handed a visible
-     link to their own market instead of being moved without being asked.
-     The Korean page keeps its hreflang="ko" alternate below and stays the
-     canonical home. -->
+<noscript><style>
+.rv,.reveal{opacity:1!important;transform:none!important}
+</style></noscript>
 <link rel="alternate" hreflang="x-default" href="https://runvis.app/en/run.html">
 <link rel="alternate" hreflang="ko" href="https://runvis.app/run.html">
 <link rel="alternate" hreflang="en" href="https://runvis.app/en/run.html">
@@ -55,413 +35,49 @@
 <link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/run.html">
 <link rel="alternate" hreflang="de" href="https://runvis.app/de/run.html">
 <link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🏃&lt;/text&gt;&lt;/svg&gt;" rel="icon">
-<!-- "Add to Home Screen" used to save a screenshot of the page under a
-     browser-generated name: the favicon is a data-URI SVG, which iOS ignores,
-     and there was no manifest at all (2026-09-06 라운드 13, -0.4). Both are
-     absolute paths on purpose — the prerendered copies under /en/ … are served
-     from a subdirectory and there is one icon, at the root. -->
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <style>
-  :root{
-    --bg:#000; --panel:#0b0e0c; --line:rgba(61,220,132,.14); --line2:rgba(255,255,255,.08);
-    --green:#3DDC84; --cyan:#4CCBD9; --orange:#FFA633; --red:#FF5B4D;
-    /* --dim2 was #5E6B64 = 3.76:1 on black, under the 4.5:1 AA floor, and it
-       carried the WHY lines and the footnote — the demo's whole argument.
-       #8A9990 is 7.04:1 on black and 6.50:1 on --panel. */
-    --text:#EDF2EE; --dim:#9BA8A0; --dim2:#8A9990;
-    --mono:'SF Mono',ui-monospace,'JetBrains Mono',Menlo,monospace;
-    /* The fixed metrics strip's height, declared once. Anything that has to
-       clear it reads this instead of copying 56 into another rule. */
-    --hud-h:56px;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{
-    background:var(--bg); color:var(--text);
-    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;
-    line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:clip;
-    word-break:keep-all;
-  }
-  a{color:inherit;text-decoration:none}
-  /* Same keyboard focus ring as index.html — without it the EXIT link, the
-     language button and the two footer buttons were invisible to a keyboard. */
-  :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
-  img{max-width:100%;height:auto;display:block}
-  body{overflow-wrap:break-word;word-break:normal;line-break:normal}
-  /* keep-all keeps Korean words whole, but it also stops Japanese and
-     Chinese from breaking at all — a price bullet overflowed its card by
-     164px on ja (2026-09-06 라운드 12). Scope it to Korean only. */
-  :lang(ko) body,body:lang(ko){word-break:keep-all}
-  ::selection{background:rgba(61,220,132,.3)}
-
-  /* free / subscription badges — same markup and keys as index.html */
-  .pill{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;padding:3px 9px;border-radius:999px;vertical-align:middle;margin-left:8px;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif}
-  .pill.free{background:rgba(255,255,255,.08);color:var(--dim)}
-  .pill.pro{background:rgba(61,220,132,.16);color:var(--green)}
-  .voice .pill{position:absolute;top:-11px;right:12px}
-  .tier{margin-top:20px;border:1px solid var(--line2);padding:20px;max-width:560px;background:rgba(255,255,255,.02)}
-  .tier p{font-size:13.5px;color:var(--dim);line-height:1.7}
-  .tier p + p{margin-top:12px;padding-top:12px;border-top:1px solid var(--line2)}
-  .tier .pill{margin-left:0;margin-right:8px}
-  .tier .note{font-family:var(--mono);font-size:11.5px;color:var(--dim2);letter-spacing:.04em;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line2)}
-
-  /* language selector — same ids i18n.js looks for (#langsel/#langbtn/#langmenu) */
-  .langsel{position:relative;display:inline-block}
-  .langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line2);color:var(--text);border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;font-family:inherit}
-  .langsel button:hover{border-color:var(--green)}
-  .langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line2);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:80;box-shadow:0 12px 40px rgba(0,0,0,.5)}
-  .langsel.open ul{display:block}
-  .langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;letter-spacing:0}
-  .langsel li:hover{background:rgba(61,220,132,.15)}
-  /* 2026-09-06 라운드 13 (-0.5): each item is a real link to that language's
-     prerendered copy, so picking a language changes the ADDRESS — a URL shared
-     from here keeps the language it was read in. The <li> keeps the row box,
-     the <a> fills it so the whole row stays clickable, and aria-checked moves
-     onto the anchor, which is the menuitemradio now. */
-  .langsel li{padding:0}
-  .langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}
-  .langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
-  .hud-top .right{display:flex;align-items:center;gap:10px}
-
-  /* ---------- HUD frame (fixed chrome) ---------- */
-  .hud-top{
-    position:fixed;inset:0 0 auto 0;z-index:60;height:52px;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:0 20px;background:linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,0));
-    font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--dim);
-  }
-  .hud-top .brand{display:flex;align-items:center;gap:10px;color:var(--text);font-weight:700}
-  .hud-top .brand .sq{width:18px;height:18px;border:1px solid var(--green);display:grid;place-items:center;color:var(--green);font-size:10px}
-  .hud-top .status{display:flex;align-items:center;gap:8px}
-  .hud-top .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
-  @keyframes pulse{50%{opacity:.35}}
-  .hud-top .exit{border:1px solid var(--line2);padding:6px 14px;color:var(--dim);transition:.2s}
-  .hud-top .exit:hover{border-color:var(--green);color:var(--green)}
-
-  /* live metrics bar */
-  /* This strip is fixed over a scroll-driven page, so whatever is scrolling
-     underneath passes behind it. Its background used to be a gradient that
-     stayed transparent for the top 40% (22 px of a 56 px band), and the hero's
-     "SCROLL TO START" cue read straight through that window — at 375x812 the
-     two overlapped by 18 px and rendered as "페이스 L TO STA 심박". A gradient
-     cannot fix that for the next element either, so the band has a ground of
-     its own now: an opaque wash, a blur behind it and a hairline top edge, so
-     anything passing under it is hidden rather than blended. The cue's own
-     offset is fixed below as well — two independent guards, because the strip
-     is the one element on this page that overlaps everything. */
-  .hud-metrics{
-    position:fixed;left:0;right:0;bottom:0;z-index:60;height:var(--hud-h);
-    display:flex;align-items:stretch;justify-content:center;gap:0;
-    background:rgba(0,0,0,.86);
-    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
-    border-top:1px solid var(--line2);
-    font-family:var(--mono);
-  }
-  .hud-metrics .m{
-    /* flex:1 with a small basis instead of a 110 px floor: four cells at
-       110 px + 36 px padding are a hard 440 px, which overflowed every phone
-       narrower than that and cut the last metric off the screen. */
-    flex:1 1 0;min-width:0;padding:10px 8px 8px;text-align:center;border-left:1px solid var(--line2);
-  }
-  @media(min-width:460px){ .hud-metrics .m{padding:10px 18px 8px} }
-  .hud-metrics .m:first-child{border-left:none}
-  /* These five mono labels ran 9–10.5 px with .18–.3 em tracking. Letter-spacing
-     that wide makes a small glyph read thinner still, so both moved together:
-     nothing under 11 px, nothing over .14 em. They are labels beside a large
-     value, so the layout has the room. */
-  .hud-metrics .m .k{font-size:11.5px;letter-spacing:.14em;color:var(--dim)}
-  .hud-metrics .m .v{font-size:20px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
-  .hud-metrics .m .v em{font-style:normal;font-size:11px;color:var(--dim);margin-left:2px}
-  .hud-metrics .m .v.gr{color:var(--green)} .hud-metrics .m .v.or{color:var(--orange)}
-
-  /* progress rail (right) */
-  .rail{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:60;display:flex;flex-direction:column;gap:14px;font-family:var(--mono)}
-  .rail a{display:flex;align-items:center;gap:8px;color:var(--dim);font-size:11px;letter-spacing:.12em;transition:.2s}
-  .rail a .tick{width:14px;height:1px;background:var(--dim2);transition:.2s}
-  .rail a.on{color:var(--green)} .rail a.on .tick{background:var(--green);width:22px;box-shadow:0 0 6px var(--green)}
-  .rail a span.lbl{opacity:0;transform:translateX(4px);transition:.2s}
-  .rail a.on span.lbl,.rail a:hover span.lbl{opacity:1;transform:none}
-  @media(max-width:900px){.rail{display:none}}
-
-  /* scroll progress line */
-  .progress{position:fixed;left:0;top:0;height:2px;background:linear-gradient(90deg,var(--green),var(--cyan));width:0;z-index:70;box-shadow:0 0 10px rgba(61,220,132,.6)}
-
-  /* ---------- sections ---------- */
-  section{min-height:100vh;display:flex;align-items:center;position:relative;padding:110px 24px}
-  /* At 768px and under, a 100vh section whose content is vertically centred
-     leaves 20+ scroll ticks of black between two cues, which reads as a failed
-     asset load rather than as the coach staying quiet. 72vh keeps the beat of
-     one screen per cue and takes roughly a third out of the empty stretch. */
-  @media(max-width:820px){section{min-height:72vh;padding:80px 20px}}
-  /* Names the quiet stretch instead of leaving it blank: distance to the next
-     cue, filled in from the neighbouring sections' own data-km. */
-  .silence{margin-top:34px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
-    color:var(--dim2);border-top:1px dashed var(--line2);padding-top:12px;max-width:520px}
-  .silence::before{content:"···";color:var(--green);margin-right:10px;letter-spacing:.3em}
-  .wrap{max-width:1060px;margin:0 auto;width:100%}
-  .tag{font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--green);margin-bottom:18px;display:flex;align-items:center;gap:10px}
-  .tag::before{content:"";width:26px;height:1px;background:var(--green)}
-  h1,h2{font-weight:800;letter-spacing:-.02em;line-height:1.12}
-  h1{font-size:clamp(44px,8.5vw,96px)}
-  h2{font-size:clamp(32px,5.5vw,60px)}
-  .outline{color:transparent;-webkit-text-stroke:1.5px rgba(237,242,238,.55)}
-  .grad{background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
-  /* Same two fallbacks index.html carries: without them the gradient-clipped
-     heading is invisible in forced-colors mode and on any engine without
-     background-clip:text, because the glyphs themselves are transparent. */
-  @supports not ((background-clip:text) or (-webkit-background-clip:text)){
-    .grad{background:none;color:var(--green);-webkit-text-fill-color:currentColor}
-  }
-  @media (forced-colors: active){
-    .grad{background:none;color:CanvasText;-webkit-text-fill-color:CanvasText;forced-color-adjust:none}
-  }
-  .lead{color:var(--dim);font-size:clamp(15px,1.6vw,18px);max-width:560px;margin-top:22px}
-  .lead b{color:var(--text)}
-
-  /* voice bubble — 런비스 개입 순간 */
-  .voice{
-    margin-top:30px;max-width:520px;border:1px solid var(--line);
-    background:linear-gradient(160deg,rgba(61,220,132,.07),rgba(0,0,0,.4));
-    padding:18px 20px;border-radius:2px;position:relative;
-  }
-  .voice::before{content:"RUNVIS // VOICE";position:absolute;top:-9px;left:14px;background:var(--bg);padding:0 8px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--green)}
-  .voice p{font-size:15.5px;color:var(--text);line-height:1.7}
-  /* the WHY line is the evidence for every cue on this page — it reads at
-     12px / --dim (8.50:1), not 11px / 3.76:1. */
-  .voice .why{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line2);font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.03em;line-height:1.65}
-  .voice .why b{color:var(--cyan);font-weight:600}
-
-  .datastrip{display:flex;gap:26px;margin-top:26px;font-family:var(--mono);flex-wrap:wrap}
-  .datastrip .d .k{font-size:11.5px;letter-spacing:.14em;color:var(--dim)}
-  .datastrip .d .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
-  .datastrip .d .v.gr{color:var(--green)} .datastrip .d .v.or{color:var(--orange)} .datastrip .d .v.rd{color:var(--red)} .datastrip .d .v.cy{color:var(--cyan)}
-
-  /* corner deco */
-  .corner{position:absolute;width:22px;height:22px;border:1px solid rgba(61,220,132,.35);pointer-events:none}
-  .c-tl{top:84px;left:20px;border-right:none;border-bottom:none}
-  .c-br{bottom:76px;right:20px;border-left:none;border-top:none}
-
-  /* reveal
-     No opacity, and no .8s. This page tells the reader "스크롤이 곧 러닝"
-     (r12) and then rewards a fling with a black screen: a block fading 0 -> 1
-     over .8s is unreadable for most of the time it is on screen. index.html
-     made this same change first and left the measurement behind it in its own
-     stylesheet — a fling at ~120 px/frame left 65 of 137 sampled frames with
-     more than half the viewport at opacity 0. A block that only SLIDES is
-     legible from its first frame and the settle still reads as motion. Same
-     rule, same duration, same easing as index.html's .reveal. The no-script
-     and reduced-motion rules (lines 34 and below) are untouched — they neutral
-     both properties, so they keep working with one of them gone. */
-  html.js .rv{transform:translateY(28px) scale(.985);transition:transform .45s cubic-bezier(.22,.61,.36,1)}
-  html.js .rv.in{transform:none}
-
-  /* hero */
-  #s0{flex-direction:column;justify-content:center;text-align:left}
-  #s0 .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
-  @media(max-width:900px){#s0 .wrap{grid-template-columns:1fr}}
-  /* This was position:absolute with bottom:80px — 80 px from the bottom of
-     #s0, not of the screen. #s0 is min-height:72vh and taller than that
-     whenever its content is (measured 865 px inside an 812 px viewport at
-     375 px wide), so the cue landed at y 767-785 and the fixed metrics strip
-     starts at 756: they overlapped by 18 px and rendered as "페이스 L TO STA
-     심박". Any offset from the section's bottom edge is a guess about content
-     height, so the cue is measured from the VIEWPORT now, above the strip it
-     must clear, and it fades out the moment the reader does what it asks.
-     pointer-events:none because it is a label, not a control — the section
-     underneath stays clickable. */
-  .scroll-cue{position:fixed;bottom:calc(var(--hud-h) + 26px);left:50%;transform:translateX(-50%);
-    z-index:55;pointer-events:none;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
-    color:var(--dim2);animation:bob 2.2s infinite;transition:opacity .25s ease}
-  html.scrolled .scroll-cue{opacity:0}
-  @keyframes bob{50%{transform:translate(-50%,8px)}}
-
-  /* watch mock in hero */
-  .heroWatch{width:min(300px,70vw);margin:0 auto;filter:drop-shadow(0 30px 60px rgba(61,220,132,.14))}
-
-  /* elevation chart */
-  .elev{margin-top:30px;border:1px solid var(--line2);background:rgba(255,255,255,.02);padding:16px}
-  .elev .cap{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--dim2);display:flex;justify-content:space-between;margin-bottom:8px}
-  .elev svg{width:100%;height:auto;display:block}
-
-  /* zone ladder (recovery) */
-  .zones{display:flex;flex-direction:column;gap:6px;margin-top:26px;max-width:340px;font-family:var(--mono)}
-  .zone{display:flex;align-items:center;gap:12px;padding:9px 14px;border:1px solid var(--line2);font-size:12px;letter-spacing:.08em;color:var(--dim2);transition:.4s}
-  .zone .bar{height:6px;flex:1;background:rgba(255,255,255,.06)}
-  .zone.hot{border-color:rgba(255,91,77,.5);color:var(--red)} .zone.hot .bar{background:linear-gradient(90deg,rgba(255,91,77,.7),rgba(255,91,77,.15))}
-  .zone.mid{border-color:rgba(255,166,51,.5);color:var(--orange)} .zone.mid .bar{background:linear-gradient(90deg,rgba(255,166,51,.7),rgba(255,166,51,.15))}
-  .zone.ok{border-color:rgba(61,220,132,.6);color:var(--green)} .zone.ok .bar{background:linear-gradient(90deg,rgba(61,220,132,.8),rgba(61,220,132,.15))}
-
-  /* finish card */
-  .finish{margin-top:30px;border:1px solid var(--line);padding:26px;background:linear-gradient(160deg,rgba(61,220,132,.05),transparent);max-width:560px}
-  .finish .row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line2);font-size:14px}
-  .finish .row:last-child{border:none}
-  .finish .row .k{color:var(--dim)}
-  .finish .row .v{font-family:var(--mono);font-weight:700;font-variant-numeric:tabular-nums}
-  .btns{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
-  .btn{
-    display:inline-flex;align-items:center;gap:8px;padding:15px 28px;font-weight:800;font-size:16px;
-    background:linear-gradient(120deg,var(--green),var(--cyan));color:#04120c;border-radius:2px;
-    transition:transform .15s,box-shadow .15s;box-shadow:0 8px 30px rgba(61,220,132,.22)
-  }
-  .btn:hover{transform:translateY(-2px)}
-  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line2);box-shadow:none}
-  .btn.ghost:hover{border-color:var(--green)}
-
-  /* Inline sign-up at the finish. Borrows the page's own tokens rather than
-     importing index.html's .signup block, so the demo keeps its terminal look. */
-  .dsign{margin-top:30px;border:1px solid var(--line);padding:24px;max-width:560px;background:rgba(61,220,132,.04)}
-  .dsign h3{font-size:19px;letter-spacing:-.01em}
-  .dsign p{font-size:13.5px;color:var(--dim);line-height:1.7;margin-top:8px}
-  .dsign form{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
-  .dsign input[type=email]{flex:1 1 220px;min-width:0;padding:14px 16px;font-size:15px;color:var(--text);
-    background:#000;border:1px solid var(--line2);border-radius:2px;font-family:inherit}
-  .dsign input[type=email]::placeholder{color:var(--dim2)}
-  .dsign input[type=email]:focus{outline:none;border-color:var(--green)}
-  /* .btn was only ever used on <a>, so a <button> needs the UA border, font
-     and cursor reset or it renders grey with the system font. */
-  .dsign button.btn{border:none;cursor:pointer;font-family:inherit;line-height:1}
-  .dsign button.btn:disabled{opacity:.6;cursor:default;transform:none}
-  .dsign #demoStatus{font-size:14px;font-weight:700;margin-top:12px}
-  .dsign .consent{margin-top:14px;font-size:11.5px;color:var(--dim2);line-height:1.9}
-  .dsign .consent label{display:flex;gap:8px;align-items:flex-start;margin-top:6px;cursor:pointer}
-  .dsign .consent input{margin-top:4px;accent-color:var(--green)}
-
-  /* Without this the first Tab on every page landed on the language menu.
-     Visually hidden until it takes focus, then it becomes a real button. */
-  .skip{position:absolute;left:-9999px;top:0;z-index:200}
-  .skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;
-    padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}
-
-  .footnote{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.04em;margin-top:40px;line-height:1.8}
-
-  /* Four items in a 52 px bar wrap and overflow on a phone — the link-status
-     readout is decoration, so it is the one that goes, and the brand stops
-     wrapping so the bar keeps its height. Placed last so these win over the
-     .hud-top rules above them. */
-  .hud-top .brand,.hud-top .status{white-space:nowrap}
-  @media(max-width:860px){.hud-top .status{display:none}}
-  @media(max-width:520px){
-    .hud-top{padding:0 12px;font-size:11px}
-    .hud-top .exit{padding:6px 9px}
-    .langsel button{padding:5px 8px;font-size:11px}
-  }
-
-  @media(prefers-reduced-motion:reduce){
-    .rv{opacity:1!important;transform:none!important;transition:none}
-    html{scroll-behavior:auto}
-    .hud-top .dot,.scroll-cue{animation:none}
-  }
+:root{--bg:#000; --panel:#0b0e0c; --line:rgba(61,220,132,.14); --line2:rgba(255,255,255,.08);--green:#3DDC84; --cyan:#4CCBD9; --orange:#FFA633; --red:#FF5B4D;--text:#EDF2EE; --dim:#9BA8A0; --dim2:#8A9990;--mono:'SF Mono',ui-monospace,'JetBrains Mono',Menlo,monospace;--hud-h:56px;}*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--bg); color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:clip;word-break:keep-all;}a{color:inherit;text-decoration:none}:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}img{max-width:100%;height:auto;display:block}body{overflow-wrap:break-word;word-break:normal;line-break:normal}:lang(ko) body,body:lang(ko){word-break:keep-all}::selection{background:rgba(61,220,132,.3)}.pill{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;padding:3px 9px;border-radius:999px;vertical-align:middle;margin-left:8px;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif}.pill.free{background:rgba(255,255,255,.08);color:var(--dim)}.pill.pro{background:rgba(61,220,132,.16);color:var(--green)}.voice .pill{position:absolute;top:-11px;right:12px}.tier{margin-top:20px;border:1px solid var(--line2);padding:20px;max-width:560px;background:rgba(255,255,255,.02)}.tier p{font-size:13.5px;color:var(--dim);line-height:1.7}.tier p + p{margin-top:12px;padding-top:12px;border-top:1px solid var(--line2)}.tier .pill{margin-left:0;margin-right:8px}.tier .note{font-family:var(--mono);font-size:11.5px;color:var(--dim2);letter-spacing:.04em;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line2)}.langsel{position:relative;display:inline-block}.langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line2);color:var(--text);border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;font-family:inherit}.langsel button:hover{border-color:var(--green)}.langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line2);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:80;box-shadow:0 12px 40px rgba(0,0,0,.5)}.langsel.open ul{display:block}.langsel li{padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;letter-spacing:0}.langsel li:hover{background:rgba(61,220,132,.15)}.langsel li{padding:0}.langsel li a{display:block;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none}.langsel a[aria-checked="true"]{color:var(--green);font-weight:700}.hud-top .right{display:flex;align-items:center;gap:10px}.hud-top{position:fixed;inset:0 0 auto 0;z-index:60;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,0));font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--dim);}.hud-top .brand{display:flex;align-items:center;gap:10px;color:var(--text);font-weight:700}.hud-top .brand .sq{width:18px;height:18px;border:1px solid var(--green);display:grid;place-items:center;color:var(--green);font-size:10px}.hud-top .status{display:flex;align-items:center;gap:8px}.hud-top .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}@keyframes pulse{50%{opacity:.35}}.hud-top .exit{border:1px solid var(--line2);padding:6px 14px;color:var(--dim);transition:.2s}.hud-top .exit:hover{border-color:var(--green);color:var(--green)}.hud-metrics{position:fixed;left:0;right:0;bottom:0;z-index:60;height:var(--hud-h);display:flex;align-items:stretch;justify-content:center;gap:0;background:rgba(0,0,0,.86);-webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);border-top:1px solid var(--line2);font-family:var(--mono);}.hud-metrics .m{flex:1 1 0;min-width:0;padding:10px 8px 8px;text-align:center;border-left:1px solid var(--line2);}@media(min-width:460px){ .hud-metrics .m{padding:10px 18px 8px} }.hud-metrics .m:first-child{border-left:none}.hud-metrics .m .k{font-size:11.5px;letter-spacing:.14em;color:var(--dim)}.hud-metrics .m .v{font-size:20px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}.hud-metrics .m .v em{font-style:normal;font-size:11px;color:var(--dim);margin-left:2px}.hud-metrics .m .v.gr{color:var(--green)} .hud-metrics .m .v.or{color:var(--orange)}.rail{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:60;display:flex;flex-direction:column;gap:14px;font-family:var(--mono)}.rail a{display:flex;align-items:center;gap:8px;color:var(--dim);font-size:11px;letter-spacing:.12em;transition:.2s}.rail a .tick{width:14px;height:1px;background:var(--dim2);transition:.2s}.rail a.on{color:var(--green)} .rail a.on .tick{background:var(--green);width:22px;box-shadow:0 0 6px var(--green)}.rail a span.lbl{opacity:0;transform:translateX(4px);transition:.2s}.rail a.on span.lbl,.rail a:hover span.lbl{opacity:1;transform:none}@media(max-width:900px){.rail{display:none}}.progress{position:fixed;left:0;top:0;height:2px;background:linear-gradient(90deg,var(--green),var(--cyan));width:0;z-index:70;box-shadow:0 0 10px rgba(61,220,132,.6)}section{min-height:100vh;display:flex;align-items:center;position:relative;padding:110px 24px}@media(max-width:820px){section{min-height:72vh;padding:80px 20px}}.silence{margin-top:34px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--dim2);border-top:1px dashed var(--line2);padding-top:12px;max-width:520px}.silence::before{content:"···";color:var(--green);margin-right:10px;letter-spacing:.3em}.wrap{max-width:1060px;margin:0 auto;width:100%}.tag{font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--green);margin-bottom:18px;display:flex;align-items:center;gap:10px}.tag::before{content:"";width:26px;height:1px;background:var(--green)}h1,h2{font-weight:800;letter-spacing:-.02em;line-height:1.12}h1{font-size:clamp(44px,8.5vw,96px)}h2{font-size:clamp(32px,5.5vw,60px)}.outline{color:transparent;-webkit-text-stroke:1.5px rgba(237,242,238,.55)}.grad{background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}@supports not ((background-clip:text) or (-webkit-background-clip:text)){.grad{background:none;color:var(--green);-webkit-text-fill-color:currentColor}}@media (forced-colors: active){.grad{background:none;color:CanvasText;-webkit-text-fill-color:CanvasText;forced-color-adjust:none}}.lead{color:var(--dim);font-size:clamp(15px,1.6vw,18px);max-width:560px;margin-top:22px}.lead b{color:var(--text)}.voice{margin-top:30px;max-width:520px;border:1px solid var(--line);background:linear-gradient(160deg,rgba(61,220,132,.07),rgba(0,0,0,.4));padding:18px 20px;border-radius:2px;position:relative;}.voice::before{content:"RUNVIS // VOICE";position:absolute;top:-9px;left:14px;background:var(--bg);padding:0 8px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--green)}.voice p{font-size:15.5px;color:var(--text);line-height:1.7}.voice .why{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line2);font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.03em;line-height:1.65}.voice .why b{color:var(--cyan);font-weight:600}.datastrip{display:flex;gap:26px;margin-top:26px;font-family:var(--mono);flex-wrap:wrap}.datastrip .d .k{font-size:11.5px;letter-spacing:.14em;color:var(--dim)}.datastrip .d .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}.datastrip .d .v.gr{color:var(--green)} .datastrip .d .v.or{color:var(--orange)} .datastrip .d .v.rd{color:var(--red)} .datastrip .d .v.cy{color:var(--cyan)}.corner{position:absolute;width:22px;height:22px;border:1px solid rgba(61,220,132,.35);pointer-events:none}.c-tl{top:84px;left:20px;border-right:none;border-bottom:none}.c-br{bottom:76px;right:20px;border-left:none;border-top:none}html.js .rv{transform:translateY(28px) scale(.985);transition:transform .45s cubic-bezier(.22,.61,.36,1)}html.js .rv.in{transform:none}#s0{flex-direction:column;justify-content:center;text-align:left}#s0 .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}@media(max-width:900px){#s0 .wrap{grid-template-columns:1fr}}.scroll-cue{position:fixed;bottom:calc(var(--hud-h) + 26px);left:50%;transform:translateX(-50%);z-index:55;pointer-events:none;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;color:var(--dim2);animation:bob 2.2s infinite;transition:opacity .25s ease}html.scrolled .scroll-cue{opacity:0}@keyframes bob{50%{transform:translate(-50%,8px)}}.heroWatch{width:min(300px,70vw);margin:0 auto;filter:drop-shadow(0 30px 60px rgba(61,220,132,.14))}.elev{margin-top:30px;border:1px solid var(--line2);background:rgba(255,255,255,.02);padding:16px}.elev .cap{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--dim2);display:flex;justify-content:space-between;margin-bottom:8px}.elev svg{width:100%;height:auto;display:block}.zones{display:flex;flex-direction:column;gap:6px;margin-top:26px;max-width:340px;font-family:var(--mono)}.zone{display:flex;align-items:center;gap:12px;padding:9px 14px;border:1px solid var(--line2);font-size:12px;letter-spacing:.08em;color:var(--dim2);transition:.4s}.zone .bar{height:6px;flex:1;background:rgba(255,255,255,.06)}.zone.hot{border-color:rgba(255,91,77,.5);color:var(--red)} .zone.hot .bar{background:linear-gradient(90deg,rgba(255,91,77,.7),rgba(255,91,77,.15))}.zone.mid{border-color:rgba(255,166,51,.5);color:var(--orange)} .zone.mid .bar{background:linear-gradient(90deg,rgba(255,166,51,.7),rgba(255,166,51,.15))}.zone.ok{border-color:rgba(61,220,132,.6);color:var(--green)} .zone.ok .bar{background:linear-gradient(90deg,rgba(61,220,132,.8),rgba(61,220,132,.15))}.finish{margin-top:30px;border:1px solid var(--line);padding:26px;background:linear-gradient(160deg,rgba(61,220,132,.05),transparent);max-width:560px}.finish .row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line2);font-size:14px}.finish .row:last-child{border:none}.finish .row .k{color:var(--dim)}.finish .row .v{font-family:var(--mono);font-weight:700;font-variant-numeric:tabular-nums}.btns{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;gap:8px;padding:15px 28px;font-weight:800;font-size:16px;background:linear-gradient(120deg,var(--green),var(--cyan));color:#04120c;border-radius:2px;transition:transform .15s,box-shadow .15s;box-shadow:0 8px 30px rgba(61,220,132,.22) }.btn:hover{transform:translateY(-2px)}.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line2);box-shadow:none}.btn.ghost:hover{border-color:var(--green)}.dsign{margin-top:30px;border:1px solid var(--line);padding:24px;max-width:560px;background:rgba(61,220,132,.04)}.dsign h3{font-size:19px;letter-spacing:-.01em}.dsign p{font-size:13.5px;color:var(--dim);line-height:1.7;margin-top:8px}.dsign form{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}.dsign input[type=email]{flex:1 1 220px;min-width:0;padding:14px 16px;font-size:15px;color:var(--text);background:#000;border:1px solid var(--line2);border-radius:2px;font-family:inherit}.dsign input[type=email]::placeholder{color:var(--dim2)}.dsign input[type=email]:focus{outline:none;border-color:var(--green)}.dsign button.btn{border:none;cursor:pointer;font-family:inherit;line-height:1}.dsign button.btn:disabled{opacity:.6;cursor:default;transform:none}.dsign #demoStatus{font-size:14px;font-weight:700;margin-top:12px}.dsign .consent{margin-top:14px;font-size:11.5px;color:var(--dim2);line-height:1.9}.dsign .consent label{display:flex;gap:8px;align-items:flex-start;margin-top:6px;cursor:pointer}.dsign .consent input{margin-top:4px;accent-color:var(--green)}.skip{position:absolute;left:-9999px;top:0;z-index:200}.skip:focus{left:12px;top:12px;background:var(--green);color:#04120c;padding:10px 16px;border-radius:8px;font-weight:800;font-size:14px}.footnote{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.04em;margin-top:40px;line-height:1.8}.hud-top .brand,.hud-top .status{white-space:nowrap}@media(max-width:860px){.hud-top .status{display:none}}@media(max-width:520px){.hud-top{padding:0 12px;font-size:11px}.hud-top .exit{padding:6px 9px}.langsel button{padding:5px 8px;font-size:11px}}html.anim-idle .hud-top .dot,html.anim-idle .scroll-cue{animation-play-state:paused}@media(prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important;transition:none}html{scroll-behavior:auto}.hud-top .dot,.scroll-cue{animation:none}}
 </style>
-<!-- Language boot — same script as index.html. Runs before the body is parsed
-     so <html lang>, the canonical and og:locale are already right at first
-     paint, and pulls a dictionary only when the reader asked for a language
-     this file is not written in (라운드 14, -0.6). -->
 <script>
 (function(){
   var L=["ko","en","ja","es","zh","de"];
   function norm(v){ if(!v) return null; v=String(v).toLowerCase();
     v = v.indexOf("zh")===0 ? "zh" : v.slice(0,2);
     return L.indexOf(v)>=0 ? v : null; }
-  // The BROWSER's language is the one source that must not fold every zh-*
-  // onto our table, because our zh table is Traditional (LANGS label 繁體中文,
-  // tts zh-TW, <html lang="zh-Hant">) and norm() above sent zh-Hans / zh-CN /
-  // zh-SG straight to it. Being handed the other script automatically reads as
-  // an accident, not a choice (2026-09-06 라운드 13, -0.3). Those visitors fall
-  // through to the x-default, English, and 繁體中文 is still one pick away in
-  // the language menu. An EXPLICIT zh — ?lang=zh, /zh/, the menu — still goes
-  // through norm() and still resolves, which is why this is a second function
-  // and not a change to the first.
   function navLang(v){ var s=v?String(v).toLowerCase():"";
     return (s.indexOf("zh")===0 && !/^zh-(hant|tw|hk|mo)\b/.test(s)) ? null : norm(s); }
   var q=null; try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
-  // On a prerendered page (/en/, /ja/ …) the directory IS the language and
-  // RunvisPageLang is set just above; it outranks the saved choice and the
-  // browser's. ?lang= still wins over it.
   var saved=null; try{ saved=norm(localStorage.getItem("runvis_lang")); }catch(e){}
-  // ---- what language does THIS document render in? -----------------------
-  // The root IS the Korean page: hreflang="ko" names "/", sitemap.xml lists
-  // "/" as the Korean URL, and the canonical here is "/". So the root has to
-  // still be Korean when it is rendered by a visitor who brought nothing but a
-  // browser language — and a crawler is exactly that visitor. Googlebot runs
-  // this script with navigator.language="en-US" and empty storage, so the line
-  // that used to stand here resolved the ROOT to English and the block below
-  // then replaced the location with /en/, while the same document went on
-  // declaring "/" as the Korean original (2026-09-06 라운드 14, -4). Render
-  // and declaration cannot both be right, and the declaration is the one
-  // sitemap.xml, robots.txt and thirty hreflang clusters are built out of.
-  //
-  // So navigator.language no longer decides what is RENDERED. It decides what
-  // is OFFERED: i18n.js puts a banner at the top of the page linking to this
-  // reader's own market page. That is also what Google documents for a site
-  // that cannot redirect server-side (GitHub Pages cannot), and it is the only
-  // "send the visitor onward" that a person and a crawler can both be handed
-  // without one of them being told something the other is not.
-  var pageLang=norm(window.RunvisPageLang)||"ko";   // "ko" at the root; the directory name under /en/ …
-  // What to OFFER — never what to render. English for a browser outside the
-  // six (fr, pt, it, ru …), which is also what hreflang="x-default" points at,
-  // so the banner and the search engine send that reader to the same place.
+  var pageLang=norm(window.RunvisPageLang)||"ko";
   var prefer=navLang(navigator.language)||"en";
   var urlLang=norm(q), code=urlLang||norm(window.RunvisPageLang)||saved||pageLang;
-  // The one automatic navigation that is left, and the reason the five market
-  // pages are not "five pages nobody is sent to" again (라운드 9). It fires on
-  // a SAVED choice only: i18n.js writes runvis_lang when the URL or the
-  // language menu NAMED a language, never when the page merely fell back to
-  // its own (applyLang's `remember` argument). So this acts on something this
-  // reader did, not on a header that arrived unasked — and a crawler, whose
-  // localStorage is empty, can never reach it, which is what keeps the root's
-  // rendered language equal to its declared one.
-  // Only a ROOT url can send: under /en/ … the directory is the language.
-  // replace() keeps the back button working, and the sessionStorage flag makes
-  // a second hop impossible even if the target failed to set RunvisPageLang.
   try{
     if(!window.RunvisPageLang && !urlLang && saved && saved!=="ko"
        && /(^|\.)runvis\.app$/.test(location.hostname)
        && !sessionStorage.getItem("runvis_sent")){
       sessionStorage.setItem("runvis_sent","1");
       var file=location.pathname.split("/").pop()||"";
-      if(file==="index.html") file="";      // /de/, the URL hreflang and canonical name
+      if(file==="index.html") file="";
       location.replace("/"+saved+"/"+file+location.hash);
       return;
     }
   }catch(e){}
   window.RunvisLang=code; window.RunvisUrlLang=urlLang;
-  // Published for i18n.js: the document's own language and the one to offer.
   window.RunvisDocLang=pageLang; window.RunvisPrefer=prefer;
   var html=document.documentElement;
   html.lang = code==="zh" ? "zh-Hant" : code;
   html.className += (html.className?" ":"") + "js";
-  var BASE=window.RunvisBase||"";              // "" at the root, "/" under /en/ …
-  // The dictionary is fetched only when it would CHANGE something. Every
-  // [data-i18n] node, every data-i18n-attr, both JSON-LD blocks and every
-  // RunvisT() fallback in this file are already written in `pageLang` — and
-  // check-content [3], [4] and [10] hold all of them to that same dictionary
-  // byte for byte. So for the reader who is already on their own language,
-  // t-<code>.js (57-73 KB) was being downloaded to repaint the page with what
-  // it already said (2026-09-06 라운드 14, -0.6). i18n.js fetches one on demand
-  // if the reader switches language in place; the language MENU navigates to
-  // the market page, which arrives with its own.
+  var BASE=window.RunvisBase||"";
   if(code!==pageLang){
     var d=document.createElement("script");
     d.src=BASE+"t-"+code+".js?v=20260906f"; d.async=false; document.head.appendChild(d);
-    window.RunvisDictLoaded=code;                     // i18n.js: "one is already in flight"
+    window.RunvisDictLoaded=code;
   }
   function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
-  // The canonical follows the language ON SCREEN, not the spelling of the URL.
-  // /?lang=de and /de/ show the same German page, so both have to name /de/ or
-  // one market's signal is split between two addresses. Until round 14 this
-  // rewrite fired for ?lang= only, which left the OTHER way German reaches a
-  // root URL — a saved choice — rendering German under canonical "/" and
-  // og:url "/" (라운드 14, -1.5). One rule, "shown language ≠ this document's
-  // own language", covers ?lang=, a saved choice and an in-place switch alike.
-  // The old narrow rule was there to stop the root canonicalising to /en/ for
-  // an English browser; that case no longer exists, because a browser header
-  // no longer changes what the root renders.
   var link=document.querySelector('link[rel="canonical"]');
   if(link){
-    // Remember the page's OWN address before rewriting it. i18n.js recomputes
-    // the canonical on every language switch and would otherwise read back the
-    // value this script just wrote and prefix it a second time (/ja/ja/).
     var base=link.getAttribute("data-base")||(link.getAttribute("href")||"").split("?")[0].split("#")[0];
     link.setAttribute("data-base",base);
     var url=base;
@@ -476,12 +92,6 @@
 })();
 </script>
 <script defer src="i18n.js?v=20260906f"></script>
-<!-- WebPage + BreadcrumbList. This page used to ship no structured data at
-     all in any of the six languages: a crawler got a title and nothing that
-     said what site the page belongs to or where it sits in it. Built from the
-     same dictionary the visible text reads, by tools/i18n-lib.mjs pageLd, so
-     the two cannot drift; tools/prerender.mjs rewrites it per language and
-     check-content [4] compares it byte for byte. -->
 <script id="pageld" type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebPage","name":"RUN SESSION — 런비스와 5km | Runvis","description":"스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요.","inLanguage":"ko","url":"https://runvis.app/run.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/"},{"@type":"ListItem","position":2,"name":"RUN SESSION — 런비스와 5km | Runvis","item":"https://runvis.app/run.html"}]}}
 </script>
@@ -513,7 +123,6 @@
   <a href="#s6" data-s="s6"><span class="lbl" data-i18n="r9">피니시</span><span class="tick"></span></a>
 </nav>
 
-<!-- ============ 00 HERO ============ -->
 <section id="s0" data-km="0" data-pace="--:--" data-hr="62" data-z="—">
   <span class="corner c-tl"></span><span class="corner c-br"></span>
   <div class="wrap">
@@ -544,7 +153,6 @@
   <div class="scroll-cue" data-i18n="r.cue">스크롤해서 출발 ▾</div>
 </section>
 
-<!-- ============ 01 브리핑+준비운동 ============ -->
 <section id="s1" data-km="0" data-pace="--:--" data-hr="71" data-z="—">
   <span class="corner c-tl"></span><span class="corner c-br"></span>
   <div class="wrap">
@@ -556,10 +164,6 @@
       <p data-i18n="r20">"안녕하세요, 런비스입니다. 오늘도 함께 달려볼까요? 현재 여의도동 날씨입니다. 현재 기온 26도, 습도 78퍼센트입니다. 덥고 습해서 땀 증발이 잘 안 되는 날이에요. 수분 보충은 운동생리학 권장대로 15분, 약 3킬로미터마다 150에서 200밀리리터 — 서너 모금씩 나눠 마시세요. 조금씩 나눠서. 브리핑은 여기까지. 이제 화면의 준비운동 시작 버튼을 눌러, 가볍게 몸부터 풀어볼까요?"</p>
       <div class="why" data-i18n="r21">WHY · <b>현재 동네 이름 + Open-Meteo 실시간 기상</b> → 운동과학 기준(온도×습도)의 수분 가이드까지. 더운 날엔 러닝 중 수분 알림 간격도 자동 단축. 날씨 화면과 준비운동 타이머는 무료, 이 문장을 <b>소리로 읽어주는 것</b>이 구독입니다</div>
     </div>
-    <!-- The pill legend used to sit in the hero, in a stack of three
-         disclaimers between the pitch and the scroll cue. It belongs at the
-         first pill a reader actually meets — the 구독 badge on the block just
-         above — which is where it becomes short. -->
     <p class="footnote rv" style="margin-top:10px" data-i18n="r.badge.note">코치 음성 하나하나에 <span class="pill free">무료</span> 또는 <span class="pill pro">구독</span> 표시를 붙여 뒀습니다. 기록·랩·건강 저장·기록 열람, 훈련 플랜 보기, 운동 상세 리포트, 준비운동 화면은 전부 무료입니다.</p>
     <div class="datastrip rv">
       <div class="d"><div class="k">WEATHER</div><div class="v cy">26°C</div></div>
@@ -570,7 +174,6 @@
   </div>
 </section>
 
-<!-- ============ 02 출발 ============ -->
 <section id="s2" data-km="0.4" data-pace="5:41" data-hr="128" data-z="Z2">
   <span class="corner c-tl"></span><span class="corner c-br"></span>
   <div class="wrap">
@@ -587,13 +190,10 @@
       <div class="d"><div class="k">SLEEP</div><div class="v gr">7.4h</div></div>
       <div class="d"><div class="k">RESTING HR</div><div class="v gr" data-i18n="r28">−4 (평소보다 낮음)</div></div>
     </div>
-    <!-- The unit note used to be a hero disclaimer; it is only a rule about
-         splits, so it waits for the section where the first split is spoken. -->
     <p class="footnote rv" style="margin-top:16px" data-i18n="r.unitnote">이 데모는 km 기준으로만 달립니다. 실제 앱은 기기의 단위 설정을 따라 1km 또는 1마일마다 스플릿을 말하고, 화면과 음성의 거리·페이스도 그 단위로 나옵니다.</p>
   </div>
 </section>
 
-<!-- ============ 03 언덕 ============ -->
 <section id="s3" data-km="1.8" data-pace="6:05" data-hr="148" data-z="Z3">
   <span class="corner c-tl"></span><span class="corner c-br"></span>
   <div class="wrap">
@@ -620,7 +220,6 @@
   </div>
 </section>
 
-<!-- ============ 04 고비(폼) ============ -->
 <section id="s4" data-km="3.4" data-pace="5:58" data-hr="164" data-z="Z4">
   <span class="corner c-tl"></span><span class="corner c-br"></span>
   <div class="wrap">
@@ -645,7 +244,6 @@
   </div>
 </section>
 
-<!-- ============ 05 회복 ============ -->
 <section id="s5" data-km="4.2" data-pace="8:50" data-hr="151" data-z="Z3">
   <span class="corner c-tl"></span><span class="corner c-br"></span>
   <div class="wrap">
@@ -670,7 +268,6 @@
   </div>
 </section>
 
-<!-- ============ 06 피니시 ============ -->
 <section id="s6" data-km="5.0" data-pace="5:52" data-hr="142" data-z="Z2">
   <span class="corner c-tl"></span><span class="corner c-br"></span>
   <div class="wrap">
@@ -681,22 +278,15 @@
       <div class="row"><span class="k" data-i18n="r53">거리 · 시간</span><span class="v">5.00 km · 29:24</span></div>
       <div class="row"><span class="k" data-i18n="r54">평균 페이스 · 심박</span><span class="v">5:52 /km · 145 bpm</span></div>
       <div class="row"><span class="k" data-i18n="r55">운동 부하</span><span class="v" data-i18n="r56">TRIMP 54 · 드리프트 +1.8%</span></div>
-      <div class="row"><span class="k" data-i18n="r57">코치 한 줄</span><!-- Quoted verbatim from the app: the key
-           "후반에도 심박 효율이 유지됐습니다." in Shared/Resources/*.lproj/
-           Localizable.strings. The demo had a paraphrase here while the
-           recovery cue two rows up was already exact. -->
+      <div class="row"><span class="k" data-i18n="r57">코치 한 줄</span>
         <span class="v" style="color:var(--green)" data-i18n="r58">후반에도 심박 효율이 유지됐습니다.</span></div>
       <div class="row"><span class="k" data-i18n="r59">내보내기</span><span class="v" data-i18n="r60">✨ AI 분석용 · GPX</span></div>
     </div>
     <div class="tier rv">
       <p><span class="pill free" data-i18n="n.pill.free">무료</span><span data-i18n="r.tier.free">GPS 기록·랩·Apple 건강 저장·모든 기록 열람 · 훈련 플랜 보기 · 운동 상세 리포트 · 준비운동 화면 · 워치로 달릴 때 km(또는 마일) 스플릿, 심박존, 페이스, 코스 언덕 예고, 경로 이탈 경보 음성 (아이폰만 들고 달리면 무료 음성은 스플릿뿐) · 러닝 후 팁 카드 · 레이스 모드와 고스트 표시</span></p>
-      <p><span class="pill pro" data-i18n="n.pill.pro">구독</span><span data-i18n="r.tier.pro">자세 코칭 음성과 언덕 주행법·회복·격려 음성 · 훈련 플랜을 구간마다 실행하고 끝나면 계획 대비 점수 · 심층 분석 7타일 · 레이스 전략(리허설·구간 페이스 플랜·보급 스케줄) · 주간 코치 요약 카드</span></p>
+      <p><span class="pill pro" data-i18n="n.pill.pro">구독</span><span data-i18n="r.tier.pro">자세 코칭 음성과 언덕 주행법·회복·격려 음성 · 훈련 플랜을 구간마다 실행하고 끝나면 계획 대비 점수 · 심층 분석 8타일 · 레이스 전략(리허설·구간 페이스 플랜·보급 스케줄) · 주간 코치 요약 카드</span></p>
       <p class="note" data-i18n="r.tier.price">월 ₩1,900 · 연 구독 · 평생 이용권 중에서 고릅니다. 가격은 App Store 기준이며 계정도 서버도 없습니다 — 데이터는 기기와 Apple 건강에만 남습니다.</p>
     </div>
-    <!-- The demo used to end in two links back to the home page, so the reader
-         who had just spent 5 km with the coach had to start the funnel over.
-         Same Formspree endpoint, same required consent and the same two
-         disclosure lines as #beta on index.html — one submission either way. -->
     <div class="dsign rv">
       <h3 data-i18n="r.signup.h">5km를 끝까지 들으셨습니다</h3>
       <p data-i18n="r.signup.p">방금 읽은 안내를 손목에서 실제로 듣고 싶다면 여기서 바로 신청하세요 — 홈으로 돌아갈 필요 없습니다. 여는 날짜가 정해지면 이 주소로 먼저 알려 드리고, 초대는 신청한 순서대로 나갑니다.</p>
@@ -723,9 +313,6 @@
 
 <footer style="height:56px"></footer>
 
-<!-- The four labels used to be untranslated English abbreviations, and the
-     KM unit is hard-coded because the demo's section anchors are min/km. The
-     app is not km-only — r.unitnote in #s0 says so in all six languages. -->
 <div class="hud-metrics">
   <div class="m"><div class="k" data-i18n="r.hud.dist">거리</div><div class="v gr"><span id="hKm">0.00</span><em>KM</em></div></div>
   <div class="m"><div class="k" data-i18n="r.hud.pace">페이스</div><div class="v" id="hPace">--:--</div></div>
@@ -734,34 +321,21 @@
 </div>
 
 <script>
-// ---------- scroll progress ----------
 const prog = document.getElementById('prog');
 addEventListener('scroll', () => {
   const h = document.documentElement;
   prog.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
-  // The hero cue is fixed to the viewport, so it would otherwise ride the whole
-  // 5 km. It has said its piece as soon as the page moves.
   h.classList.toggle('scrolled', h.scrollTop > 60);
 }, {passive:true});
-
-// ---------- reveal ----------
-// A POSITIVE bottom rootMargin grows the root box 12% of the viewport BELOW
-// the fold, so the class lands just before the block scrolls into view rather
-// than a fifth of the way in. (A negative value would shrink the box and fire
-// LATER, which is the opposite of what a page asking to be scrolled fast
-// needs.) The .45s settle is then finishing as the reader arrives.
 const io = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) e.target.classList.add('in');
 }), {threshold:.18, rootMargin:'0px 0px 12% 0px'});
 document.querySelectorAll('.rv').forEach(el => io.observe(el));
-
-// ---------- live HUD: interpolate metrics between section anchors ----------
 const secs = [...document.querySelectorAll('section')];
 const hKm = document.getElementById('hKm'), hPace = document.getElementById('hPace'),
       hHr = document.getElementById('hHr'), hZ = document.getElementById('hZ');
 const paceToSec = p => { if (!p || p.includes('-')) return 0; const [m, s] = p.split(':').map(Number); return m * 60 + s; };
 const secToPace = s => s <= 0 ? '--:--' : `${Math.floor(s/60)}:${String(Math.round(s%60)).padStart(2,'0')}`;
-
 function hudTick() {
   const mid = innerHeight * .55;
   let a = secs[0], b = secs[0], t = 0;
@@ -782,9 +356,6 @@ function hudTick() {
   hZ.style.color = z === 'Z4' ? 'var(--red)' : z === 'Z3' ? 'var(--orange)' : z === 'Z2' ? 'var(--green)' : 'var(--dim)';
   hudPending = false;
 }
-// The HUD only changes when the page scrolls or resizes, so it recomputes on
-// those events instead of every frame — a permanent rAF loop kept the CPU (and
-// the battery) busy on a page nobody is touching.
 let hudPending = false;
 function hudSchedule() {
   if (hudPending || document.hidden) return;
@@ -794,14 +365,13 @@ function hudSchedule() {
 addEventListener('scroll', hudSchedule, { passive: true });
 addEventListener('resize', hudSchedule);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) hudSchedule(); });
+(() => {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const sync = () => document.documentElement.classList.toggle('anim-idle', document.hidden);
+  document.addEventListener('visibilitychange', sync);
+  sync();
+})();
 hudSchedule();
-
-// ---------- name the silence between two cues ----------
-// Between 0.4 km and 1.8 km the page showed nothing but the moving HUD for
-// twenty-odd scroll ticks, which is indistinguishable from a page that failed
-// to load. Each gap of half a kilometre or more now says how far the next
-// intervention is; the distance comes from the two sections' own data-km, so it
-// cannot drift away from the demo it describes.
 function paintSilence() {
   const t = window.RunvisT ? window.RunvisT('r.silence', '다음 개입까지 {km}km · 이 구간에서 코치가 하는 말은 1km 스플릿 안내뿐입니다') : null;
   if (!t) return;
@@ -818,8 +388,6 @@ function paintSilence() {
   }
 }
 paintSilence();
-
-// ---------- rail highlight ----------
 const rail = [...document.querySelectorAll('.rail a')];
 const io2 = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) {
@@ -827,17 +395,8 @@ const io2 = new IntersectionObserver(es => es.forEach(e => {
   }
 }), {threshold:.5});
 secs.forEach(s => io2.observe(s));
-
-// ---------- i18n: this page's own meta, belt and braces ----------
-// i18n.js used to hard-code the *index* page's meta.title/meta.desc/og:* on
-// every language change, so this page had to put its own back afterwards. That
-// is fixed at the source now — the <title> and the four <meta> tags in the head
-// carry data-i18n / data-i18n-attr with the r1 and r2 keys, so i18n.js writes
-// the right values on its own. This stays as a second pass because it also runs
-// on the very first render and costs nothing.
 window.renderDynamicI18n = function () {
   if (!window.RunvisT) return;
-  // Korean fallbacks keep the run page's identity even before t-<code>.js lands.
   const t = window.RunvisT('r1', 'RUN SESSION — 런비스와 5km | Runvis');
   const d = window.RunvisT('r2', '스크롤이 곧 러닝. 런비스가 준비운동부터 피니시까지 언제, 왜 개입하는지 5km를 직접 체험해 보세요.');
   const set = (sel, v) => { const el = document.querySelector(sel); if (el && v != null) el.setAttribute('content', v); };
@@ -847,27 +406,14 @@ window.renderDynamicI18n = function () {
   set('meta[property="og:description"]', d);
   set('meta[name="twitter:title"]', t);
   set('meta[name="twitter:description"]', d);
-  paintSilence();                       // the gap markers follow the language
+  paintSilence();
 };
-
-// ---------- inline beta signup at the finish ----------
-// Same endpoint and same messages as index.html's #beta form; the demo used to
-// hand the reader back to the home page and lose them on the way.
 const demoForm = document.getElementById('demoForm');
 if (demoForm) demoForm.addEventListener('submit', async e => {
   e.preventDefault();
   const status = document.getElementById('demoStatus');
   const btn = document.getElementById('demoSubmit');
-  // Named RunvisT, not T. As `T` it was invisible to BOTH machines that keep
-  // this layer honest: tools/prerender.mjs step 7b, which swaps two-literal
-  // RunvisT(key, fallback) calls into the target language, and check-content
-  // [10], which holds those fallbacks equal to the dictionary. So all five
-  // prerendered copies of this page carried the KOREAN fallback for every form
-  // message — the string a reader sees when the dictionary has not landed,
-  // which is exactly the moment they cannot fall back on the page around it.
-  // how-it-works.html already used this name and this comment's reason.
   const RunvisT = (k, f) => window.RunvisT ? window.RunvisT(k, f) : f;
-  // Live region: clear it first so an identical repeat message is announced.
   const show = (msg, ok) => {
     status.textContent = '';
     status.style.display = 'block';
@@ -885,12 +431,6 @@ if (demoForm) demoForm.addEventListener('submit', async e => {
   } catch { show(RunvisT('form.neterr', '네트워크 오류예요. 잠시 후 다시 시도해 주세요.'), false); }
   finally { btn.disabled = false; btn.textContent = original; }
 });
-
-// ---------- robust in-page anchors (same fix as index) ----------
-// behavior:'smooth' overrides the html{scroll-behavior:auto} this page sets
-// under prefers-reduced-motion:reduce, and the section navigation is the only
-// way to move around this page — so every single jump animated for a reader
-// who had asked it not to (2026-09-06 라운드 15, -0.6).
 const SMOOTH = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
   const el = document.querySelector(a.getAttribute('href'));

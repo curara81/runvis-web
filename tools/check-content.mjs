@@ -16,7 +16,7 @@
  *      dictionary says, character for character
  *   5  the prerendered copies are byte-identical to a fresh render
  *   6  hreflang is complete and every alternate resolves to a real file
- *   7  index.html still has its nine sections
+ *   7  index.html still has its ten sections (#paths + the nine content ones)
  *   8  tags balance
  *   9  the counts the trust block quotes about the app match
  *      tools/app-facts.json (written by tools/app-facts.mjs out of the app
@@ -36,7 +36,7 @@
  *      gap, how many cue switches exist) still equal what the app declares
  *  14  the three prices are the same three numbers in all six dictionaries,
  *      and the hero note carries no figure at all
- *  15  the seven paid tiles are called what the APP calls them, in all six —
+ *  15  the eight paid tiles are called what the APP calls them, in all six —
  *      the alt text had carried a name the app retired nine rounds earlier
  *  16  t-zh.js sets no space between two Han characters
  *  17  every document links an apple-touch-icon and a manifest, and every
@@ -55,17 +55,22 @@ import {
   ROOT, CODES, PAGES, loadDicts, findI18nElements, findI18nAttrs,
   faqLd, appLd, pageLd, readLd,
 } from './i18n-lib.mjs';
-import { locateAppRepo, readFacts, measure } from './app-facts.mjs';
+import { locateAppRepo, readFacts, measure, zoneGateFrom } from './app-facts.mjs';
 
 const dicts = loadDicts();
 let failures = 0;
 const fail = (m) => { console.log('  FAIL ' + m); failures++; };
 const ok = (m) => console.log('  ok   ' + m);
 
-/** Every page on the site, with the language it is written in. */
+/** Every page on the site, with the language it is written in. Since
+ *  2026-09-06 the Korean copies are generated too — they live at the root and
+ *  are built from src/ like the other five, which is what finally put the
+ *  launch market's pages through stripCss/stripJs. `src` is where a document
+ *  is AUTHORED: checks about what a human typed ([3], [10]) read that, and
+ *  checks about what ships read `file`. */
 const ALL = [];
-for (const p of PAGES) ALL.push({ file: p, code: 'ko', gen: false });
-for (const c of CODES.filter(c => c !== 'ko')) for (const p of PAGES) ALL.push({ file: `${c}/${p}`, code: c, gen: true });
+for (const p of PAGES) ALL.push({ file: p, code: 'ko', gen: true, src: `src/${p}` });
+for (const c of CODES.filter(c => c !== 'ko')) for (const p of PAGES) ALL.push({ file: `${c}/${p}`, code: c, gen: true, src: `${c}/${p}` });
 
 /** Documents that carry dictionary bindings but are NOT part of the page set:
  *  no prerendered copies, no hreflang alternates, no sitemap entry. 404.html is
@@ -75,7 +80,7 @@ for (const c of CODES.filter(c => c !== 'ko')) for (const p of PAGES) ALL.push({
  *  Korean matches the dictionary) and [8] (its tags balance); it is kept out of
  *  [6] and [11], which are about the indexable page set. Without this list the
  *  file would be the one document on the site nothing checked. */
-const EXTRA = [{ file: '404.html', code: 'ko', gen: false }];
+const EXTRA = [{ file: '404.html', code: 'ko', gen: false, src: '404.html' }];
 const ALL_DOCS = [...ALL, ...EXTRA];
 
 // ---- 0. app-facts.json is a current measurement --------------------------
@@ -147,8 +152,15 @@ for (const c of CODES) {
 const BILINGUAL_BY_DESIGN = {};
 const squash = (s) => String(s).replace(/\s+/g, ' ').trim();
 console.log('\n[3] inline default text == dictionary value');
-for (const { file, code } of ALL_DOCS) {
-  const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+for (const { file, code, src } of ALL_DOCS) {
+  // The AUTHORED file. For the five prerendered languages that is the built
+  // copy (and comparing it proves the substitution ran); for Korean it is
+  // src/, because the built Korean root was written FROM the dictionary and
+  // comparing it to the dictionary would prove nothing. This is the check that
+  // keeps a crawler's and a no-JS reader's Korean equal to t-ko.js, so it has
+  // to look at what a person typed.
+  const read = src ?? file;
+  const html = fs.readFileSync(path.join(ROOT, read), 'utf8');
   const dict = dicts[code];
   const exempt = new Set(BILINGUAL_BY_DESIGN[file] || []);
   const bad = [];
@@ -170,8 +182,8 @@ for (const { file, code } of ALL_DOCS) {
     if (squash(got) !== squash(want)) bad.push(a.key + ' (attr)');
   }
   const note = skipped ? ` (+${skipped} bilingual by design)` : '';
-  if (bad.length) fail(`${file}: ${bad.length}/${checked} out of step — ${bad.slice(0, 8).join(', ')}`);
-  else ok(`${file}: ${checked} bindings match ${code}${note}`);
+  if (bad.length) fail(`${read}: ${bad.length}/${checked} out of step — ${bad.slice(0, 8).join(', ')}`);
+  else ok(`${read}: ${checked} bindings match ${code}${note}`);
 }
 
 // ---- 4. static JSON-LD equals the dictionary ----------------------------
@@ -202,7 +214,7 @@ for (const { file, code } of ALL) {
       fail(`${file} #${id}: ${why}`);
     } else {
       const n = id === 'faqld' ? JSON.parse(want).mainEntity.length + ' questions'
-              : id === 'appld' ? '3 offers, PreOrder' : 'WebPage + breadcrumb';
+              : id === 'appld' ? 'SoftwareApplication, no offers (nothing is orderable yet)' : 'WebPage + breadcrumb';
       ok(`${file} #${id}: ${n}, byte-identical to ${code} dictionary`);
     }
   }
@@ -260,8 +272,13 @@ const VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input'
 for (const { file } of ALL_DOCS) {
   const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
   if (file.endsWith('index.html')) {
+    // Ten since 2026-09-06: #paths, the reading router, joined the nine
+    // content sections. The count is asserted rather than listed so that a
+    // section quietly disappearing in one language's copy is caught; when it
+    // legitimately changes, change it here and say in the commit which section
+    // moved and where its content went.
     const n = (html.match(/<section id="/g) || []).length;
-    if (n !== 9) fail(`${file}: ${n} sections, expected 9`); else ok(`${file}: 9 sections`);
+    if (n !== 10) fail(`${file}: ${n} sections, expected 10`); else ok(`${file}: 10 sections`);
   }
   // Tag balance over markup only (script/style bodies skipped).
   const stripped = html.replace(/<script[\s\S]*?<\/script>/g, '<script></script>')
@@ -395,8 +412,10 @@ console.log('\n[9] app counts in the dictionaries == tools/app-facts.json');
 // the deletion-request line out of the form's privacy notice. Check [3] only
 // looks at data-i18n markup, so this layer went unwatched.
 console.log('\n[10] RunvisT() inline fallbacks == dictionary');
-for (const { file, code } of ALL) {
-  const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+for (const { file, code, src } of ALL) {
+  // Same reason as [3]: for Korean the fallback a person typed lives in src/.
+  const read = src ?? file;
+  const html = fs.readFileSync(path.join(ROOT, read), 'utf8');
   const bad = [];
   let checked = 0;
   // Both arguments must be single-quoted literals; a call passing a variable
@@ -427,7 +446,7 @@ for (const { file, code } of ALL) {
       bad.push(`local alias \`${m[1]}\` wraps window.RunvisT — name it RunvisT or this file's fallbacks are unchecked and untranslated`);
     }
   }
-  if (bad.length) fail(`${file}: ${bad.length} fallback(s) out of step — ${bad.join(', ')}`);
+  if (bad.length) fail(`${read}: ${bad.length} fallback(s) out of step — ${bad.join(', ')}`);
   else ok(`${file}: ${checked} fallback(s) match ${code}`);
 }
 
@@ -522,6 +541,31 @@ console.log('\n[12] claims that carry a condition');
          + '(distanceSpoken(meters: 3000)) — there is no 2.5 km in any hydration line',
     },
   ];
+  // Two keys that must name the SAME thing in every language. The hero now
+  // states the hardware requirement on the first screen and the FAQ answer it
+  // points at states it again; two hand-maintained copies of one requirement
+  // is the shape every drift on this site has had.
+  const PAIRS = [
+    {
+      keys: ['n.hero.note', 'n.faq.a2'], extract: /Series\s*(\d+)/,
+      why: 'the hero says which Apple Watch is enough and n.faq.a2 says it again — '
+         + 'the watchOS version under them is bound to project.yml by [13], but the '
+         + 'MODEL is Apple\u2019s mapping from that version and lives only in this copy',
+    },
+  ];
+  for (const pair of PAIRS) {
+    const bad = [];
+    for (const c of CODES) {
+      const got = pair.keys.map(k => pair.extract.exec(String(dicts[c][k] ?? ''))?.[1] ?? null);
+      if (got.some(g => g === null)) {
+        bad.push(`${c}: ${pair.keys.filter((k, i) => got[i] === null).join(', ')} matches nothing`);
+      } else if (new Set(got).size !== 1) {
+        bad.push(`${c}: ${pair.keys.map((k, i) => `${k}=${got[i]}`).join(' vs ')}`);
+      }
+    }
+    if (bad.length) fail(`${pair.keys.join(' == ')} — ${pair.why}\n       ${bad.join('\n       ')}`);
+    else ok(`${pair.keys.join(' == ')}: the same model in all six`);
+  }
   for (const claim of CLAIMS) {
     const bad = [];
     for (const c of CODES) {
@@ -577,9 +621,32 @@ console.log('\n[13] coach constants in the copy == the app declaration');
         why: 'FormDrift.evaluate cadence-only path — cadDropSustainedSeconds' },
       { key: 'r38', field: 'formCadenceOnlyDropPct',
         why: 'FormDrift.evaluate cadence-only path — cadDrop floor' },
+      // The site said 15 days and the watch says 16 — in the guard, in the
+      // request and on its own screen (2026-09-06 라운드 16, -0.5). The number
+      // is the app's; the sentence around it is the translator's.
+      { key: 'n.race.lb3', field: 'raceForecastHorizonDays',
+        why: 'RacePredictionView `guard days >= 0, days <= N` — the Open-Meteo horizon the screen prints as D-N' },
+      // The hero now states the requirement on the first screen, so the FAQ
+      // answer it points at has to be the app's real deployment target and not
+      // a number someone remembered.
+      { key: 'n.faq.a2', field: 'watchOSMinMajor', as: v => `watchOS ${v}`,
+        why: 'project.yml deploymentTarget.watchOS — the minimum the build actually installs on' },
+      { key: 'n.faq.a2', field: 'iOSMinMajor', as: v => `iOS ${v}`,
+        why: 'project.yml deploymentTarget for the SportsDashboard target' },
+      // The endurance row prints a formula, so it prints the app's numbers.
+      { key: 'hw.vs.r12b', field: 'enduranceWeeklyKmFull',
+        why: 'PerformanceScores.enduranceScore — `min(weeklyKm / N, 1)`, the weekly distance that scores full marks' },
+      { key: 'hw.vs.r12b', field: 'enduranceLongRunKmFull',
+        why: 'PerformanceScores.enduranceScore — `min(longest / N, 1)`' },
+      { key: 'hw.vs.r12b', field: 'enduranceVolumeWeight',
+        why: 'PerformanceScores.enduranceScore — the volume weight in the final blend' },
+      { key: 'hw.vs.r12b', field: 'enduranceLongRunWeight',
+        why: 'PerformanceScores.enduranceScore — the long-run weight' },
+      { key: 'hw.vs.r12b', field: 'enduranceConsistencyWeight',
+        why: 'PerformanceScores.enduranceScore — the consistency weight' },
     ];
     for (const b of BOUND) {
-      const want = String(facts[b.field]);
+      const want = b.as ? b.as(facts[b.field]) : String(facts[b.field]);
       if (facts[b.field] == null) { fail(`${b.field} missing from app-facts.json — re-run tools/app-facts.mjs`); continue; }
       const bad = CODES.filter(c => !String(dicts[c][b.key] ?? '').includes(want));
       if (bad.length) fail(`${b.key} does not carry ${b.field}=${want} in ${bad.join(', ')} — ${b.why}`);
@@ -639,7 +706,7 @@ console.log('\n[14] the three prices are identical in all six dictionaries');
 
 
 // ---- 15. the tile names the copy repeats == the app's own tile names ------
-// The seven paid tiles have a name in each of the six Localizable.strings, and
+// The eight paid tiles (충격 부하 became the eighth) have a name in each of the six Localizable.strings, and
 // the site says those names in three places: the price list, the gate
 // conditions and the screenshot alt text. Nothing compared the two
 // vocabularies, so they drifted, and one of the drifts had survived nine
@@ -670,6 +737,7 @@ console.log('\n[15] tile names in the copy == the app tile names');
       ['n.price.t5', ['코치 브레이크']],
       ['n.price.t6', ['강도 분포']],
       ['n.price.t7', ['코치 기록 레이더']],
+      ['n.price.t8', ['충격 부하']],
       ['n.price.g1', ['젖산 역치(추정)']],
       ['n.price.g2', ['지구력 훈련량']],
       ['n.price.g3', ['언덕 노출']],
@@ -677,10 +745,13 @@ console.log('\n[15] tile names in the copy == the app tile names');
       ['n.price.g5', ['강도 분포']],
       ['n.price.g6', ['코치 브레이크']],
       ['n.price.g7', ['코치 기록 레이더']],
+      ['n.price.g8', ['충격 부하']],
       // The drift that started this check. The screenshot shows these three
       // paid tiles, so the alt text names them — by the names on the screen.
       ['alt.phone.glance', ['젖산 역치(추정)', '지구력 훈련량', '언덕 노출']],
       ['hw.vs.r3a', ['젖산 역치(추정)']],
+      ['hw.vs.r12a', ['지구력 훈련량']],
+      ['hw.vs.r13a', ['충격 부하']],
     ];
     for (const [key, wanted] of BOUND) {
       const bad = [];
@@ -1290,7 +1361,7 @@ console.log('\n[26] the Siri phrases in the copy == iOSApp/Intents/*.lproj/AppSh
 //     Curly is the rule; the other five dictionaries already keep their own
 //     conventions. Only text is inspected, never markup: `<a href="…">` inside
 //     a value has to keep its straight quotes.
-//     The exception is vocabulary QUOTED from the app: the seven paid tiles
+//     The exception is vocabulary QUOTED from the app: the eight paid tiles
 //     carry the app's own names, which [15] holds byte for byte against
 //     Localizable.strings, and "Coach's Brake" is spelled there with a straight
 //     apostrophe. Prettifying a quotation would make the two surfaces disagree
@@ -1335,6 +1406,277 @@ console.log('\n[27] English quotation marks, and 런비스 vs Runvis in Korean p
   const mixed = [...rendered].filter(k => !EXEMPT(k) && /Runvis/.test(String(dicts.ko[k] ?? '')));
   if (mixed.length) fail(`t-ko.js prose says "Runvis" where index.html renders it — ${mixed.join(', ')} (use 런비스)`);
   else ok(`${rendered.size} keys rendered by index.html: Korean prose says 런비스 throughout`);
+}
+
+// ---- 28. the intensity-mix sentence == the app's arithmetic ---------------
+// Every check above this line compares a STRING or a COUNT. [26] proves a
+// quoted Siri phrase is a real App Shortcut; [13] proves a number in six
+// paragraphs equals a number in Swift. Neither can see the failure that cost
+// 라운드 16 its largest single deduction (-6), which was not a wrong string but
+// a wrong PREDICATE: hw.vs.r7b says a run's minutes are split into three bands
+// only when the max-HR ceiling they are cut from was actually measured, and
+// the app's gate asked `manual <= 0 && observed <= 0` — false for anyone whose
+// watch has ever recorded a heartbeat — while the ceiling the bands are
+// actually cut from is `max(manual > 0 ? manual : estimated, observed)`. A
+// runner who never typed a max and whose watch once saw 158 bpm got zone bands
+// drawn on 208−0.7×age. The site was the accurate one, and no invariant could
+// tell.
+//
+// So this one runs the predicate instead of reading it. tools/app-facts.mjs
+// evaluates the max-HR conditions of BOTH surfaces — the gate in
+// withZoneMinutes and the "최대심박 추정치" tag — over four profiles that
+// straddle the boundary, and derives, from the app's own effectiveMaxHR
+// expression, whether the ceiling each profile divides by came from a
+// measurement. This holds the three columns against each other:
+//
+//   zoneSplit        == ceilingMeasured    the sentence's first clause
+//   estimateTagShown == !ceilingMeasured   its last clause ("화면에 어느 쪽으로
+//                                          계산했는지 적습니다"), and the thing
+//                                          that keeps the gate and the
+//                                          disclosure from drifting apart
+//
+// An unreadable predicate FAILS. A checker that reads an unfamiliar condition
+// as "probably fine" is the same alibi as a string grep, one level up: it
+// would be a safeguard whose predicate measures something other than what it
+// promises, which is the defect this round exists to stop repeating.
+console.log('\n[28] the intensity-mix sentence == the arithmetic in the app');
+{
+  // 28a. Before trusting the reader, prove it can still tell the two
+  // predicates apart. These two fixtures are the round-15 gate (which passed
+  // every check on this repo while being wrong) and the round-16 replacement.
+  // If a future edit to measureZoneGate() ever softens into "looks fine to
+  // me", the first fixture stops reporting a mismatch and this fails — which
+  // is the only thing standing between this section and the string-grep alibi
+  // it was written to replace.
+  const FIXTURE = (predicate, gateArgs) => ({
+    scores: `enum PerformanceScores {\n${predicate}\n}`,
+    loader: `final class L {\n  private func withZoneMinutes(_ p: [R], profile: UserProfile?, ceiling: Double) async -> [S] {\n`
+          + `    let plain = p\n    guard let profile, !PerformanceScores.maxHRIsEstimated(${gateArgs}), ceiling > 100 else { return plain }\n`
+          + `    return plain\n  }\n}`,
+    tile: `struct V {\n  private var maxHRIsEstimated: Bool {\n`
+        + `    vm.userProfile.map { PerformanceScores.maxHRIsEstimated(manual: $0.maxHR, observed: $0.observedMaxHR) } ?? true\n  }\n}`,
+    profile: `struct UserProfile {\n  var estimatedMaxHR: Double { 208.0 - (0.7 * Double(age)) }\n`
+           + `  var effectiveMaxHR: Double { max(maxHR > 0 ? maxHR : estimatedMaxHR, observedMaxHR) }\n}`,
+  });
+  const ROUND15 = FIXTURE(
+    '    static func maxHRIsEstimated(manual: Double, observed: Double) -> Bool {\n        manual <= 0 && observed <= 0\n    }',
+    'manual: profile.maxHR, observed: profile.observedMaxHR');
+  const ROUND16 = FIXTURE(
+    '    static func maxHRIsEstimated(manual: Double, observed: Double, estimated: Double? = nil) -> Bool {\n'
+    + '        if manual > 0 { return false }\n        guard let estimated, estimated > 0 else { return true }\n'
+    + '        return observed < estimated\n    }',
+    'manual: profile.maxHR, observed: profile.observedMaxHR, estimated: profile.estimatedMaxHR');
+  const split = (fx) => {
+    const g = zoneGateFrom(fx);
+    if (!g.readable) return `unreadable (${g.why})`;
+    return Object.entries(g.rows).filter(([, r]) => r.zoneSplit !== r.ceilingMeasured).map(([n]) => n).join(',') || 'none';
+  };
+  const was = split(ROUND15), now = split(ROUND16);
+  if (was !== 'observedBelowEstimate' || now !== 'none') {
+    fail('this section can no longer distinguish the two predicates it exists to distinguish — '
+       + `the round-15 gate reports "${was}" (expected observedBelowEstimate) and the round-16 gate reports "${now}" (expected none). `
+       + 'Fix measureZoneGate() in tools/app-facts.mjs before believing anything below.');
+  } else {
+    ok('the reader still separates the round-15 gate (splits an estimated ceiling) from its replacement');
+  }
+
+  // The copy this invariant covers. Named here so that deleting the sentence
+  // cannot silently delete the coverage: the keys have to exist in all six.
+  const KEYS = ['hw.vs.r7b'];
+  const facts = readFacts();
+  const app = locateAppRepo();
+  const missing = KEYS.filter(k => CODES.some(c => !dicts[c][k]));
+  if (missing.length) {
+    fail(`the keys this invariant covers are gone from some dictionary — ${missing.join(', ')}. `
+       + 'If the claim was withdrawn, delete this section with it; if it moved, point the section at its new key.');
+  } else if (!app) {
+    console.log('  skip  no app checkout here (set RUNVIS_APP_REPO)');
+  } else if (!facts?.zoneGate) {
+    fail('tools/app-facts.json has no zoneGate — run `node tools/app-facts.mjs`');
+  } else if (facts.zoneGate.readable === false) {
+    fail(`the app's max-HR condition can no longer be read: ${facts.zoneGate.why}`
+       + (facts.zoneGate.blocked ? '\n       ' + facts.zoneGate.blocked.join('\n       ') : '')
+       + `\n       ${KEYS.join(', ')} state that condition in six languages and are now unverified.`
+       + '\n       Widen measureZoneGate() in tools/app-facts.mjs to follow the new form, or reword the copy.');
+  } else {
+    const g = facts.zoneGate;
+    const bad = [];
+    for (const [name, r] of Object.entries(g.rows)) {
+      const who = `${name} (typed ${r.manual}, watched ${r.observed}, age formula ${r.estimated} → ceiling ${r.effective})`;
+      if (r.zoneSplit !== r.ceilingMeasured) {
+        bad.push(r.zoneSplit
+          ? `${who}: the app splits this run by zone on a ceiling it did not measure — ${KEYS.join(', ')} promise it does not`
+          : `${who}: the ceiling IS measured and the app still reads the run's average — ${KEYS.join(', ')} promise the zone split`);
+      }
+      // ONE-DIRECTIONAL, and deliberately so. What the copy promises is that
+      // an age-formula ceiling is disclosed, so a MISSING tag is a lie and a
+      // failure. The other direction — a tag on a ceiling that really was
+      // measured — is the app erring toward more disclosure, which no sentence
+      // on this site contradicts; it is reported in the ok line below rather
+      // than failed, so that it stays visible instead of silently accepted.
+      if (!r.ceilingMeasured && !r.estimateTagShown) {
+        bad.push(`${who}: the ceiling is the age formula and no screen says so`);
+      }
+    }
+    if (bad.length) {
+      fail(bad.join('\n       ')
+        + `\n       gate: ${g.gate.join(' && ')}   (${g.gateSite})`
+        + `\n       tag:  ${g.tag.join(' && ')}   (${g.tagSite})`
+        + `\n       ceiling: ${g.effectiveMaxHR}`
+        + '\n       Either the app predicate or the six sentences has to move; they cannot both stay.');
+    } else {
+      const over = Object.entries(g.rows).filter(([, r]) => r.ceilingMeasured && r.estimateTagShown).map(([n]) => n);
+      ok(`${Object.keys(g.rows).length} boundary profiles: zone split ⇔ measured ceiling, and every age-formula ceiling is disclosed`
+       + `\n       gate ${g.gate.join(' && ')}`
+       + `\n       tag  ${g.tag.join(' && ')}`
+       + (over.length
+          ? `\n       note: the tag is CONSERVATIVE at ${over.join(', ')} — ${g.tagSite} reads the same predicate `
+            + 'without passing `estimated:`, so it calls a measured ceiling an estimate. Over-disclosure, not a false claim; '
+            + 'passing the third argument there would make the two surfaces identical.'
+          : ''));
+    }
+  }
+}
+
+// ---- 29. each document's JSON-LD address == that document's own canonical --
+// [4] compares the JSON-LD in every file against a fresh call of the SAME
+// builder, so it can only ever prove the file agrees with the generator. When
+// the generator itself wrote one address for six languages — `url:
+// 'https://runvis.app/'` in /en/, /ja/, /es/, /zh/ and /de/, two lines under a
+// rel=canonical that said /en/ — [4] passed on all thirty documents
+// (2026-09-06 라운드 16, -0.9). A check that re-runs the generator cannot see a
+// generator bug.
+//
+// So this one never calls the generator. It reads the <link rel=canonical>,
+// the og:url and the JSON-LD `url` out of the bytes on disk and compares those
+// three to each other. Any future builder that forgets a language fails here
+// even if it is self-consistent everywhere else.
+console.log('\n[29] JSON-LD url == rel=canonical == og:url, read from the files');
+{
+  let checked = 0;
+  const bad = [];
+  for (const { file } of ALL) {
+    const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+    const canonical = /<link[^>]+rel="canonical"[^>]+href="([^"]+)"/.exec(html)?.[1]
+                   ?? /<link[^>]+href="([^"]+)"[^>]+rel="canonical"/.exec(html)?.[1] ?? null;
+    const ogUrl = /<meta[^>]+property="og:url"[^>]+content="([^"]+)"/.exec(html)?.[1] ?? null;
+    if (!canonical) { bad.push(`${file}: no rel=canonical`); continue; }
+    if (ogUrl && ogUrl !== canonical) bad.push(`${file}: og:url ${ogUrl} vs canonical ${canonical}`);
+    for (const id of ['appld', 'pageld']) {
+      const node = readLd(html, id);
+      if (!node) continue;
+      let obj;
+      try { obj = JSON.parse(node.json); } catch { bad.push(`${file} #${id}: not valid JSON`); continue; }
+      checked++;
+      // The page's own address, and the site address the node hangs off. A
+      // SoftwareApplication's `url` IS the page; a WebPage's `isPartOf.url` is
+      // that language's home, which the canonical starts with.
+      const self = obj.url ?? null;
+      if (id === 'appld' && self !== canonical) bad.push(`${file} #appld: url ${self} vs canonical ${canonical}`);
+      if (id === 'pageld') {
+        if (self !== canonical) bad.push(`${file} #pageld: url ${self} vs canonical ${canonical}`);
+        const home = obj.isPartOf?.url ?? '';
+        if (!home || !canonical.startsWith(home)) bad.push(`${file} #pageld: isPartOf.url ${home} is not the home of ${canonical}`);
+      }
+      const authorUrl = obj.author?.url;
+      if (authorUrl && !canonical.startsWith(authorUrl)) bad.push(`${file} #${id}: author.url ${authorUrl} is not the home of ${canonical}`);
+    }
+    // Nothing may claim an offer while the page's only control is a form.
+    const appld = readLd(html, 'appld');
+    if (appld && /"offers"/.test(appld.json) && !/apps\.apple\.com|testflight\.apple\.com/.test(html)) {
+      bad.push(`${file} #appld: publishes offers, but this document links no App Store or TestFlight page — `
+             + 'a reader who clicks a price in a search result arrives at an email form');
+    }
+  }
+  if (bad.length) fail(bad.join('\n       '));
+  else ok(`${ALL.length} documents: ${checked} JSON-LD nodes, every address equal to its own canonical`);
+}
+
+// ---- 30. copy that tells a reader which control to press ------------------
+// n.faq.a9 answers "what happens when I change phones" by naming three
+// controls in the app: the export, the import and the App Store restore. That
+// answer was a two-round regression and this round it is right — but right by
+// hand: [12] holds four claims and this was not one of them, and the fix for
+// it that 라운드 15 prescribed was never executed (2026-09-06 라운드 16, -0.3).
+//
+// The labels are strings in the app's own six Localizable.strings, so quoting
+// them is checkable. Requiring the exact label found five drifts on the day
+// this was written: /en/ said "Import from backup" for a button called
+// "Restore from backup", /es/ «Importar desde copia» for "Restaurar desde una
+// copia", /zh/ 「從備份匯入」 for 「從備份還原」 and 「回復購買項目」 for
+// 「回復購買」, /de/ „Aus Backup importieren“ for „Aus Sicherung
+// wiederherstellen“. Every one of those sends a reader looking for a button
+// that is not there, in the answer whose whole job is to say which button.
+console.log('\n[30] the controls n.faq.a9 names == the app’s own button labels');
+{
+  const app = locateAppRepo();
+  if (!app) console.log('  skip  no app checkout here (set RUNVIS_APP_REPO)');
+  else {
+    // The Korean literal IS the key in Localizable.strings, so a rename in the
+    // app makes the lookup fail loudly instead of comparing against nothing.
+    const CONTROLS = ['내 데이터 내보내기', '백업에서 가져오기', '구매 복원'];
+    const LPROJ = { ko: 'ko', en: 'en', ja: 'ja', es: 'es', zh: 'zh-Hant', de: 'de' };
+    const bad = [];
+    let checked = 0;
+    for (const c of CODES) {
+      const f = path.join(app, `Shared/Resources/${LPROJ[c]}.lproj/Localizable.strings`);
+      if (!fs.existsSync(f)) { bad.push(`${c}: ${LPROJ[c]}.lproj/Localizable.strings does not exist`); continue; }
+      const text = fs.readFileSync(f, 'utf8');
+      const answer = String(dicts[c]['n.faq.a9'] ?? '');
+      for (const key of CONTROLS) {
+        const esc = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const m = new RegExp(`^\\s*"${esc}"\\s*=\\s*"((?:[^"\\\\]|\\\\.)*)"\\s*;`, 'm').exec(text);
+        if (!m) { bad.push(`${c}: the app has no "${key}" — the control was renamed or removed, and n.faq.a9 still sends the reader to it`); continue; }
+        checked++;
+        if (!answer.includes(m[1])) bad.push(`${c}: n.faq.a9 does not say "${m[1]}" (the app's label for ${key})`);
+      }
+    }
+    if (bad.length) fail(bad.join('\n       '));
+    else ok(`${checked} control labels × the six languages, every one quoted the way the app spells it`);
+  }
+}
+
+// ---- 31. the launch market's pages are not the heavy ones ----------------
+// For three rounds the Korean pages WERE the source, so the five copies went
+// through stripCss/stripJs and Korean did not: 60,429 B gzipped against
+// 31,532 B for /en/, and the gap widened every round because every new comment
+// was written at the root (라운드 15 -1.5, 라운드 16 -1.3 and a [회귀]). The
+// build fixed it — src/ is the source and Korean is the sixth output — and
+// this is what stops it coming back. A ratio, not a byte ceiling: Korean text
+// compresses differently from English and the root ships the boot object for
+// all five other languages, so a fixed number would either be slack or fail on
+// an honest edit. What must never return is a page that is heavy because of
+// how it is BUILT, and 1.30 is far above the ~1.06 the six languages sit at
+// while they are built the same way, and far below the 1.92 that the split
+// pipeline produced.
+console.log('\n[31] the Korean root is built like the other five, not shipped raw');
+{
+  const zlib = await import('node:zlib');
+  const gz = (p) => zlib.gzipSync(fs.readFileSync(p), { level: 9 }).length;
+  const LIMIT = 1.30;
+  const rows = [], bad = [];
+  for (const page of PAGES) {
+    const ko = gz(path.join(ROOT, page));
+    const en = gz(path.join(ROOT, 'en', page));
+    const ratio = ko / en;
+    rows.push(`${page} ${(ko / 1024).toFixed(1)}K vs ${(en / 1024).toFixed(1)}K (${ratio.toFixed(2)}×)`);
+    if (ratio > LIMIT) {
+      bad.push(`${page}: the Korean root is ${ratio.toFixed(2)}× the size of /en/${page} — `
+             + 'over ' + LIMIT + '×, which is what it looked like when the root was hand-authored and unstripped. '
+             + 'Check that tools/prerender.mjs still builds ko out of src/ and that nothing was hand-edited into the root.');
+    }
+  }
+  // …and the root must actually BE build output. A hand-edited root would sail
+  // through the ratio while being exactly the thing this section exists to
+  // prevent, so the banner every generated file opens with is checked too.
+  for (const page of PAGES) {
+    const head = fs.readFileSync(path.join(ROOT, page), 'utf8').slice(0, 400);
+    if (!head.includes('GENERATED FILE') || !head.includes(`src/${page}`)) {
+      bad.push(`${page}: no "GENERATED FILE … src/${page}" banner — the root is supposed to be built from src/`);
+    }
+  }
+  if (bad.length) fail(bad.join('\n       '));
+  else ok(`gzipped, ko vs en: ${rows.join(', ')} — all under ${LIMIT}×`);
 }
 
 console.log(failures ? `\nFAILED — ${failures} problem(s)` : '\nPASS — no drift');

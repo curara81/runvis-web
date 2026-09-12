@@ -1,10 +1,21 @@
-/* Prerender the five non-Korean copies of the site.
+/* Prerender all six copies of the site out of src/.
  *
  *   node tools/prerender.mjs
  *
- * Writes /en/, /ja/, /es/, /zh/, /de/ — one directory per market, each with
- * index.html, run.html, privacy.html and terms.html. Korean stays at the root
- * and is the x-default.
+ * Writes the Korean copy to the root (the x-default) and /en/, /ja/, /es/,
+ * /zh/, /de/ — one directory per market, each with index.html, run.html,
+ * how-it-works.html, privacy.html and terms.html.
+ *
+ * Korean used to be the exception: the root pages WERE the source, so the five
+ * copies went through stripCss/stripJs and the Korean root did not. The launch
+ * market carried 60,429 B gzipped where /en/ carried 31,532 B, and the gap
+ * widened every round because every new comment was written at the root
+ * (2026-09-06 라운드 16, -1.3 and a [회귀]). The source lives in src/ now and
+ * Korean is the sixth output, so the same pipeline reaches it. For Korean the
+ * language substitutions are identities — the inline defaults ARE the Korean
+ * dictionary, which is what check-content [3] asserts — and the steps that
+ * only make sense in a subdirectory (the base-path rewrite, the language-
+ * suffixed assets, the RunvisPageLang pin) are skipped by name below.
  *
  * WHY this exists. GitHub Pages hands every ?lang= the same file and crawlers
  * do not run i18n.js, so the six hreflang alternates all resolved to one
@@ -21,7 +32,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { stripJs, stripCss, sameLiterals } from './strip-comments.mjs';
 import {
-  ROOT, CODES, PAGES, HTML_LANG, HREFLANG, OG_LOCALE, SHOTS,
+  ROOT, SRC, CODES, PAGES, HTML_LANG, HREFLANG, OG_LOCALE, SHOTS,
+  srcPath, outPath,
   loadDicts, attrEscape, findI18nElements, findI18nAttrs, spliceAll,
   faqLd, appLd, pageLd, readLd,
 } from './i18n-lib.mjs';
@@ -143,7 +155,7 @@ function syncFacts() {
     // the ko dictionary. Read the dictionaries back: they were just rewritten.
     const koDict = loadDicts().ko;
     for (const page of PAGES) {
-      const file = path.join(ROOT, page);
+      const file = srcPath(page);
       let html = fs.readFileSync(file, 'utf8');
       const edits = [];
       for (const el of findI18nElements(html)) {
@@ -153,7 +165,7 @@ function syncFacts() {
           edits.push({ start: el.innerStart, end: el.innerEnd, text: want });
         }
       }
-      if (edits.length) { fs.writeFileSync(file, spliceAll(html, edits)); console.log(`  sync ${page}: ${edits.length} inline default(s)`); }
+      if (edits.length) { fs.writeFileSync(file, spliceAll(html, edits)); console.log(`  sync src/${page}: ${edits.length} inline default(s)`); }
     }
     console.log(`prerender: app facts moved — ${moved.map(f => `${f} ${was[f]}→${now[f]}`).join(', ')}`);
   }
@@ -164,10 +176,12 @@ function syncFacts() {
 syncFacts();
 
 const dicts = loadDicts();
-const OUT_CODES = CODES.filter(c => c !== 'ko');
+// All six. The filter that used to stand here — `CODES.filter(c => c !== 'ko')`
+// — is what kept the Korean root out of the strip pipeline.
+const OUT_CODES = CODES;
 
 const BANNER = (code, page) => `<!-- GENERATED FILE — do not edit.
-     tools/prerender.mjs built this from /${page} and t-${code}.js.
+     tools/prerender.mjs built this from src/${page} and t-${code}.js.
      Edit those and run: node tools/prerender.mjs -->
 `;
 
@@ -181,34 +195,18 @@ function replaceBlock(html, startMark, endMark, text) {
   return html.slice(0, i) + text + html.slice(j + endMark.length);
 }
 
-/** The "this file goes out to all six languages" notes are true of the Korean
- *  root pages and false of these copies — every string below is already in one
- *  language. Replacing them keeps the next reader from acting on a stale note.
- *
- *  The markers below are literal slices of the root pages' comments. If you
- *  reword one of those comments, reword the marker with it — replaceBlock is a
- *  no-op when it cannot find the pair, and the copies would silently keep a
- *  note that contradicts them. `node tools/check-content.mjs` catches the
- *  drift, because [5] re-renders and compares. */
-function retireBilingualNotes(html, code) {
-  const note = `<!-- Prerendered ${code} copy. Every crawler-visible string on this page is
-     already ${code}: title, description, og:*, canonical, the JSON-LD below and
-     the body text were substituted at build time out of t-${code}.js, so a
-     search engine or link preview that runs no JavaScript still reads this
-     market's page. i18n.js still runs and still lets a reader switch
-     languages; it just has nothing left to correct on first paint. -->`;
-  html = replaceBlock(html, '<!-- THIS file is the Korean document', 'the root now is. -->', note);
-  html = replaceBlock(html, '<!-- Korean only — see the same note in index.html.', 'pages for the other markets. -->', note);
-  html = replaceBlock(html, '<!-- Korean only, like index.html.', 'markets and hreflang points at them. -->', note);
-  html = replaceBlock(html, '<!-- Six share cards, one per market.', 'ever rendered it. -->',
-    `<!-- This market's share card: tools/og_cards.py drew its own n.hero.h1 onto
-     tools/og-card-base.png. -->`);
-  html = replaceBlock(html, '<!-- Language-neutral card: mark, watch and pulse only, no sentence in any',
-    'language. One HTML file serves every ?lang= and crawlers run no JS. -->',
-    `<!-- Language-neutral card: mark, watch and pulse only, no sentence in any
-     language. -->`);
-  return html;
-}
+/* `retireBilingualNotes()` used to stand here: it rewrote five HTML comments
+ * in each copy so a reader of /de/index.html would not find a note claiming the
+ * file was the Korean original. It was dead. Step 9b below strips every HTML
+ * comment outside <script>/<style>, which includes the replacements this
+ * function had just written, so its entire output was deleted a few lines
+ * later — and it carried an instruction to future editors ("if you reword one
+ * of those comments, reword the marker with it") for work that changed nothing.
+ * Verified by rendering with and without it: the 25 files are byte-identical.
+ * Removed 2026-09-06. If comment stripping is ever made optional, the copies
+ * will need something like it again — and it will need a test that proves the
+ * note actually reached a file this time.
+ */
 
 /** Absolute site path for one page in one language. */
 function pageUrl(code, page) {
@@ -218,7 +216,12 @@ function pageUrl(code, page) {
 
 function render(page, code) {
   const dict = dicts[code];
-  let html = fs.readFileSync(path.join(ROOT, page), 'utf8');
+  // Korean is a build output like the other five now, but it is the output
+  // whose URL is the site root, so three of the steps below are about being in
+  // a subdirectory and one is about not being the x-default. Named once here
+  // rather than tested five times inline.
+  const inSubdir = code !== 'ko';
+  let html = fs.readFileSync(srcPath(page), 'utf8');
 
   // ---- 1. inner text of every [data-i18n] element -------------------------
   // Values are HTML (they carry <b>/<span>/<br>) and go in verbatim, which is
@@ -247,7 +250,6 @@ function render(page, code) {
   // declared twice (it now stands as og:locale).
   html = replaceAll(html, `<meta content="${OG_LOCALE[code]}" property="og:locale:alternate"/>`,
     `<meta content="ko_KR" property="og:locale:alternate"/>`);
-  html = retireBilingualNotes(html, code);
 
   // ---- 4. canonical + og:url point at THIS file ---------------------------
   const self = pageUrl(code, page);
@@ -261,12 +263,23 @@ function render(page, code) {
   // ---- 5. tell the boot script which language and where the root is -------
   // After <meta charset>, not before it: the encoding declaration has to stay
   // inside the first 1024 bytes and, by convention, first in <head>.
-  const charset = /<meta charset=["']?[^>]*>/i.exec(html);
-  if (!charset) throw new Error('prerender: no <meta charset> in ' + page);
-  const at = charset.index + charset[0].length;
-  html = html.slice(0, at)
-    + `\n<script>window.RunvisPageLang=${JSON.stringify(code)};window.RunvisBase="/";</script>`
-    + html.slice(at);
+  //
+  // NOT on the Korean root, and this is load-bearing rather than tidiness.
+  // The boot script's one automatic navigation — send a reader who has already
+  // PICKED a language to that market's directory — is written
+  // `if (!window.RunvisPageLang && !urlLang && saved && …)`, so it fires only
+  // on a page that has not been pinned to a language. Pinning the root to "ko"
+  // would silence it and put the five market pages back to being pages nobody
+  // is sent to (라운드 9). `RunvisBase` is likewise "" at the root, which is
+  // what the boot script already defaults to.
+  if (inSubdir) {
+    const charset = /<meta charset=["']?[^>]*>/i.exec(html);
+    if (!charset) throw new Error('prerender: no <meta charset> in ' + page);
+    const at = charset.index + charset[0].length;
+    html = html.slice(0, at)
+      + `\n<script>window.RunvisPageLang=${JSON.stringify(code)};window.RunvisBase="/";</script>`
+      + html.slice(at);
+  }
 
   // ---- 6. relative URLs, from a subdirectory ------------------------------
   // Only the things that live at the site ROOT need rewriting. Page-to-page
@@ -275,10 +288,14 @@ function render(page, code) {
   // values that CONTAIN such links (n.beta.do1, pv.s10.p, tm.s8.p) still match
   // the markup exactly — otherwise a language switch would rewrite the link
   // back and check-content.mjs would report drift that is not drift.
-  html = replaceAll(html, 'src="assets/', 'src="/assets/');
-  html = replaceAll(html, 'srcset="assets/', 'srcset="/assets/');
-  html = replaceAll(html, 'href="gpx/', 'href="/gpx/');
-  html = replaceAll(html, 'src="i18n.js?v=', 'src="/i18n.js?v=');
+  // The Korean copy IS at the root, so its relative paths already resolve and
+  // rewriting them would only make the two builds differ for no reason.
+  if (inSubdir) {
+    html = replaceAll(html, 'src="assets/', 'src="/assets/');
+    html = replaceAll(html, 'srcset="assets/', 'srcset="/assets/');
+    html = replaceAll(html, 'href="gpx/', 'href="/gpx/');
+    html = replaceAll(html, 'src="i18n.js?v=', 'src="/i18n.js?v=');
+  }
 
   // ---- 7. the localized iPhone captures, already in the markup ------------
   // Saves the runtime swap and, for the hero, the second download that used to
@@ -288,9 +305,13 @@ function render(page, code) {
   // Rewriting only the PNG would have left every prerendered page showing the
   // KOREAN screenshot to any browser that can decode AVIF, under a correctly
   // localized <img src> that never got used.
-  for (const base of SHOTS) {
-    for (const ext of ['png', 'avif', 'webp']) {
-      html = replaceAll(html, `/assets/${base}.${ext}`, `/assets/${base}.${code}.${ext}`);
+  // Korean captures carry no language suffix — assets/framed-phone-dash.png IS
+  // the Korean one, which is what the markup already names.
+  if (inSubdir) {
+    for (const base of SHOTS) {
+      for (const ext of ['png', 'avif', 'webp']) {
+        html = replaceAll(html, `/assets/${base}.${ext}`, `/assets/${base}.${code}.${ext}`);
+      }
     }
   }
 
@@ -334,11 +355,14 @@ function render(page, code) {
   // markup AND in the JSON-LD against disk, so a card that goes missing fails
   // the build instead of quietly reappearing as the wordless one.
   // Covers og:image, twitter:image and the SoftwareApplication `image`.
-  const card = `assets/og-card.${code}.png`;
-  if (!fs.existsSync(path.join(ROOT, card))) {
-    throw new Error(`prerender: ${card} is missing — run \`python3 tools/og_cards.py\``);
+  // Same naming rule as the captures: og-card.png is the Korean card.
+  if (inSubdir) {
+    const card = `assets/og-card.${code}.png`;
+    if (!fs.existsSync(path.join(ROOT, card))) {
+      throw new Error(`prerender: ${card} is missing — run \`python3 tools/og_cards.py\``);
+    }
+    html = replaceAll(html, 'assets/og-card.png', card);
   }
-  html = replaceAll(html, 'assets/og-card.png', card);
 
   // ---- 9. drop what this copy cannot use ---------------------------------
   // 9a. The boot script inlines the hero copy and the four meta strings for
@@ -427,13 +451,13 @@ function replaceOnce(s, from, to, altFrom, altTo) {
 
 let written = 0;
 for (const code of OUT_CODES) {
-  const dir = path.join(ROOT, code);
-  fs.mkdirSync(dir, { recursive: true });
   for (const page of PAGES) {
-    fs.writeFileSync(path.join(dir, page), render(page, code));
+    const out = outPath(code, page);
+    fs.mkdirSync(path.dirname(out), { recursive: true });
+    fs.writeFileSync(out, render(page, code));
     written++;
   }
-  console.log(`  ${code}/  ${PAGES.join(' ')}`);
+  console.log(`  ${code === 'ko' ? '/ (ko)' : code + '/'}  ${PAGES.join(' ')}`);
 }
 console.log(`prerender: ${written} files written for ${OUT_CODES.length} languages`);
 
@@ -449,8 +473,10 @@ console.log(`prerender: ${written} files written for ${OUT_CODES.length} languag
 // it 30 (round 13, -0.25). robots.txt carried the same stale number by hand;
 // it is written from these arrays below.
 {
+  // OUT_CODES now contains 'ko' (the Korean copy is built like the other five
+  // and lands at the root), so the separate Korean pass that used to stand
+  // here would list the five root URLs twice.
   const urls = [];
-  for (const page of PAGES) urls.push(pageUrl('ko', page));
   for (const code of OUT_CODES) for (const page of PAGES) urls.push(pageUrl(code, page));
 
   // x-default is English, matching the pages' own <head> and the boot script's
@@ -464,7 +490,9 @@ console.log(`prerender: ${written} files written for ${OUT_CODES.length} languag
     '<!-- Generated by tools/prerender.mjs — do not hand-edit. -->',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'];
   for (const page of PAGES) {
-    for (const code of ['ko', ...OUT_CODES]) {
+    // OUT_CODES already starts with 'ko'; prefixing it again listed the five
+    // root URLs twice.
+    for (const code of OUT_CODES) {
       lines.push('  <url>');
       lines.push(`    <loc>${pageUrl(code, page)}</loc>`);
       for (const [tag, href] of alternatesFor(page)) {

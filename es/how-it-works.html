@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- GENERATED FILE — do not edit.
-     tools/prerender.mjs built this from /how-it-works.html and t-es.js.
+     tools/prerender.mjs built this from src/how-it-works.html and t-es.js.
      Edit those and run: node tools/prerender.mjs -->
 <html lang="es">
 <head>
@@ -12,11 +12,11 @@ window.RunvisPageLang="es";window.RunvisBase="/";
 <meta name="theme-color" content="#000000">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<title data-i18n="hw.meta.title">Reglas y herramientas — Runvis</title>
-<meta name="description" content="Métrica a métrica, las fórmulas con las que Runvis obtiene carga de entrenamiento, tiempo de recuperación y umbral de lactato estimado sin un reloj de running dedicado. Además, las reglas de habla completas, una calculadora de zonas de FC, 13 GPX de rutas de Seúl y cómo funciona la beta." data-i18n-attr="content:hw.meta.desc">
+<title data-i18n="hw.meta.title">Garmin y Coros comparados métrica a métrica: la fórmula de cada una | Runvis</title>
+<meta name="description" content="Una comparación métrica a métrica con relojes de running dedicados como el Garmin Forerunner y Coros, y las fórmulas con las que Runvis obtiene carga de entrenamiento, tiempo de recuperación y umbral de lactato estimado en un Apple Watch. Además, las reglas de habla completas, una calculadora de zonas de FC, 13 GPX de rutas de Seúl y cómo funciona la beta." data-i18n-attr="content:hw.meta.desc">
 <meta name="robots" content="index,follow">
-<meta property="og:title" content="Reglas y herramientas — Runvis" data-i18n-attr="content:hw.meta.title">
-<meta property="og:description" content="Métrica a métrica, las fórmulas con las que Runvis obtiene carga de entrenamiento, tiempo de recuperación y umbral de lactato estimado sin un reloj de running dedicado. Además, las reglas de habla completas, una calculadora de zonas de FC, 13 GPX de rutas de Seúl y cómo funciona la beta." data-i18n-attr="content:hw.meta.desc">
+<meta property="og:title" content="Garmin y Coros comparados métrica a métrica: la fórmula de cada una | Runvis" data-i18n-attr="content:hw.meta.title">
+<meta property="og:description" content="Una comparación métrica a métrica con relojes de running dedicados como el Garmin Forerunner y Coros, y las fórmulas con las que Runvis obtiene carga de entrenamiento, tiempo de recuperación y umbral de lactato estimado en un Apple Watch. Además, las reglas de habla completas, una calculadora de zonas de FC, 13 GPX de rutas de Seúl y cómo funciona la beta." data-i18n-attr="content:hw.meta.desc">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://runvis.app/es/how-it-works.html">
 <meta property="og:site_name" content="Runvis">
@@ -89,7 +89,7 @@ window.RunvisPageLang="es";window.RunvisBase="/";
 </script>
 <script defer src="/i18n.js?v=20260906f"></script>
 <script id="pageld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Reglas y herramientas — Runvis","description":"Métrica a métrica, las fórmulas con las que Runvis obtiene carga de entrenamiento, tiempo de recuperación y umbral de lactato estimado sin un reloj de running dedicado. Además, las reglas de habla completas, una calculadora de zonas de FC, 13 GPX de rutas de Seúl y cómo funciona la beta.","inLanguage":"es","url":"https://runvis.app/es/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/es/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/es/"},{"@type":"ListItem","position":2,"name":"Reglas y herramientas — Runvis","item":"https://runvis.app/es/how-it-works.html"}]}}
+{"@context":"https://schema.org","@type":"WebPage","name":"Garmin y Coros comparados métrica a métrica: la fórmula de cada una | Runvis","description":"Una comparación métrica a métrica con relojes de running dedicados como el Garmin Forerunner y Coros, y las fórmulas con las que Runvis obtiene carga de entrenamiento, tiempo de recuperación y umbral de lactato estimado en un Apple Watch. Además, las reglas de habla completas, una calculadora de zonas de FC, 13 GPX de rutas de Seúl y cómo funciona la beta.","inLanguage":"es","url":"https://runvis.app/es/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/es/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/es/"},{"@type":"ListItem","position":2,"name":"Garmin y Coros comparados métrica a métrica: la fórmula de cada una | Runvis","item":"https://runvis.app/es/how-it-works.html"}]}}
 </script>
 </head>
 <body>
@@ -135,6 +135,8 @@ window.RunvisPageLang="es";window.RunvisBase="/";
     <tr><td data-i18n="hw.vs.r9a">Índice de exposición al calor</td><td data-i18n="hw.vs.r9b">Cuánta carrera al aire libre has acumulado por encima de 22°C (o la misma temperatura en Fahrenheit, si esa es tu unidad) en cuatro semanas, en una escala de 0 a 100. Aparece tras tres carreras con calor y baja tras tres días sin correr. Es exposición, no una medida de adaptación fisiológica.</td></tr>
     <tr><td data-i18n="hw.vs.r10a">Freno del coach</td><td data-i18n="hw.vs.r10b">Un presupuesto, no una nota. Las últimas cuatro semanas completas de distancia fijan lo que esta semana puede absorber, y los partes de dolor que dejas tras correr lo recortan. Los kilómetros que quedan y los que quitó el dolor se muestran por separado, para que el recorte se pueda explicar.</td></tr>
     <tr><td data-i18n="hw.vs.r11a">Radar de récords del coach</td><td data-i18n="hw.vs.r11b">Las carreras con ruta GPS se recorren por dentro buscando el tramo más rápido de cada distancia; las que no tienen ruta se proyectan desde el ritmo medio final. Cada récord dice cuál de las dos cosas es. La ventana son los últimos 90 días.</td></tr>
+    <tr><td data-i18n="hw.vs.r12a">Volumen de entrenamiento de resistencia</td><td data-i18n="hw.vs.r12b">Un 0–100 mezclado 45 : 35 : 20 a partir de tres cosas de los últimos 28 días: distancia semanal (80 km por semana es la nota máxima), tu carrera más larga (30 km es la nota máxima) y cuántas de las cuatro semanas tuvieron alguna carrera. No es una nota para el corredor: registra el volumen de entrenamiento que el cuerpo lleva encima ahora mismo. Si no hay muestra suficiente se queda en 0 en vez de inventar un número, y la pantalla dice qué falta.</td></tr>
+    <tr><td data-i18n="hw.vs.r13a">Carga de impacto</td><td data-i18n="hw.vs.r13b">La carga que una carrera deja en las piernas, contada en km equivalentes: 1 km llano y suave = 1,0. La misma distancia corrida fuerte, en subida o en bajada cuenta más que su distancia. Una carrera = distancia × factor de intensidad × factor de pendiente. El factor de intensidad sigue la velocidad, no el pulso (frente a tus propios ritmos suave y de umbral): 1,0 en suave o más lento, 1,35 en el umbral y hasta 1,6 por encima. El factor de pendiente en subida es ritmo real ÷ ritmo ajustado por pendiente (tope 1,6); en bajada cuenta más, 1 + 1,2 × (1 − esa proporción), tope 2,0: bajar cuesta menos esfuerzo pero golpea más. El corto plazo es una suma ponderada de 7 días (EWMA); el semanal, la suma simple de esa semana. La dinámica de carrera y los tramos andando aún no se cuentan. Valor de referencia de Runvis: Garmin no ha publicado su fórmula; los factores de arriba se derivan de literatura pública.</td></tr>
   </table></div>
   <div class="shots">
 <figure><picture><source srcset="/assets/framed-phone-detail.es.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.es.webp" type="image/webp"/><img alt="Detalle de métrica en iPhone: tendencia de 7 días de la carga (CTL), mi rango de 28 días y qué significa" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.es.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">La primera fila de la tabla de arriba, dibujada en la app: la tendencia de carga de entrenamiento (CTL) a 7 días, tu propio rango de 28 días y qué es la métrica.</figcaption></figure>

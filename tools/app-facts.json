@@ -1,12 +1,12 @@
 {
-  "measuredAt": "2026-09-06",
+  "measuredAt": "2026-09-12",
   "appRepo": "SportsDashboard",
-  "tests": 766,
-  "testFiles": 44,
-  "stringKeys": 2341,
-  "stringLines": 2341,
+  "tests": 821,
+  "testFiles": 45,
+  "stringKeys": 2384,
+  "stringLines": 2384,
   "coachTable": 396,
-  "glossary": 41,
+  "glossary": 42,
   "cueSites": 287,
   "notifyKinds": 9,
   "notifyIds": [
@@ -33,6 +33,14 @@
   "formCadenceOnlySeconds": 60,
   "formCadenceOnlyDropPct": 6,
   "trialMonths": 1,
+  "raceForecastHorizonDays": 16,
+  "watchOSMinMajor": 10,
+  "iOSMinMajor": 17,
+  "enduranceWeeklyKmFull": 80,
+  "enduranceLongRunKmFull": 30,
+  "enduranceVolumeWeight": 45,
+  "enduranceLongRunWeight": 35,
+  "enduranceConsistencyWeight": 20,
   "tiles": {
     "젖산 역치(추정)": {
       "ko": "젖산 역치(추정)",
@@ -89,6 +97,69 @@
       "es": "Radar de récords del coach",
       "zh": "教練的紀錄雷達",
       "de": "Rekord-Radar des Coachs"
+    },
+    "충격 부하": {
+      "ko": "충격 부하",
+      "en": "Impact Load",
+      "ja": "衝撃負荷",
+      "es": "Carga de impacto",
+      "zh": "衝擊負荷",
+      "de": "Aufprallbelastung"
+    }
+  },
+  "zoneGate": {
+    "readable": true,
+    "age": 40,
+    "gateSite": "iOSApp/Services/PerformanceScoreLoader.swift",
+    "tagSite": "iOSApp/Views/AtAGlanceView.swift",
+    "gate": [
+      "!maxHRIsEstimated(manual: maxHR, observed: observedMaxHR, estimated: estimatedMaxHR)"
+    ],
+    "tag": [
+      "maxHRIsEstimated(manual: maxHR, observed: observedMaxHR, estimated: estimatedMaxHR)"
+    ],
+    "predicates": {
+      "maxHRIsEstimated": "if manual > 0 { return false } guard let estimated, estimated > 0 else { return true } return observed < estimated"
+    },
+    "estimatedMaxHR": "208.0 - (0.7 * Double(age))",
+    "effectiveMaxHR": "max(maxHR > 0 ? maxHR : estimatedMaxHR, observedMaxHR)",
+    "rows": {
+      "neverMeasured": {
+        "manual": 0,
+        "observed": 0,
+        "estimated": 180,
+        "effective": 180,
+        "ceilingMeasured": false,
+        "zoneSplit": false,
+        "estimateTagShown": true
+      },
+      "observedBelowEstimate": {
+        "manual": 0,
+        "observed": 158,
+        "estimated": 180,
+        "effective": 180,
+        "ceilingMeasured": false,
+        "zoneSplit": false,
+        "estimateTagShown": true
+      },
+      "observedAboveEstimate": {
+        "manual": 0,
+        "observed": 185,
+        "estimated": 180,
+        "effective": 185,
+        "ceilingMeasured": true,
+        "zoneSplit": true,
+        "estimateTagShown": false
+      },
+      "manualEntered": {
+        "manual": 190,
+        "observed": 0,
+        "estimated": 180,
+        "effective": 190,
+        "ceilingMeasured": true,
+        "zoneSplit": true,
+        "estimateTagShown": false
+      }
     }
   },
   "screensCapturedAt": "2026-09-06"

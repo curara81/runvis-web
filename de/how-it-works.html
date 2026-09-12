@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- GENERATED FILE — do not edit.
-     tools/prerender.mjs built this from /how-it-works.html and t-de.js.
+     tools/prerender.mjs built this from src/how-it-works.html and t-de.js.
      Edit those and run: node tools/prerender.mjs -->
 <html lang="de">
 <head>
@@ -12,11 +12,11 @@ window.RunvisPageLang="de";window.RunvisBase="/";
 <meta name="theme-color" content="#000000">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<title data-i18n="hw.meta.title">Regeln und Werkzeuge — Runvis</title>
-<meta name="description" content="Kennzahl für Kennzahl die Formeln, mit denen Runvis Trainingslast, Erholungszeit und eine geschätzte Laktatschwelle ohne eigene Laufuhr berechnet. Dazu die vollständigen Sprechregeln, ein Herzfrequenzzonen-Rechner, 13 Seouler Strecken als GPX und der Ablauf der Beta." data-i18n-attr="content:hw.meta.desc">
+<title data-i18n="hw.meta.title">Garmin und Coros im Vergleich, Kennzahl für Kennzahl — die Formel dahinter | Runvis</title>
+<meta name="description" content="Ein Vergleich Kennzahl für Kennzahl mit eigenen Laufuhren wie der Garmin Forerunner und Coros, dazu die Formeln, mit denen Runvis Trainingslast, Erholungszeit und eine geschätzte Laktatschwelle auf der Apple Watch berechnet. Außerdem die vollständigen Sprechregeln, ein Herzfrequenzzonen-Rechner, 13 Seouler Strecken als GPX und der Ablauf der Beta." data-i18n-attr="content:hw.meta.desc">
 <meta name="robots" content="index,follow">
-<meta property="og:title" content="Regeln und Werkzeuge — Runvis" data-i18n-attr="content:hw.meta.title">
-<meta property="og:description" content="Kennzahl für Kennzahl die Formeln, mit denen Runvis Trainingslast, Erholungszeit und eine geschätzte Laktatschwelle ohne eigene Laufuhr berechnet. Dazu die vollständigen Sprechregeln, ein Herzfrequenzzonen-Rechner, 13 Seouler Strecken als GPX und der Ablauf der Beta." data-i18n-attr="content:hw.meta.desc">
+<meta property="og:title" content="Garmin und Coros im Vergleich, Kennzahl für Kennzahl — die Formel dahinter | Runvis" data-i18n-attr="content:hw.meta.title">
+<meta property="og:description" content="Ein Vergleich Kennzahl für Kennzahl mit eigenen Laufuhren wie der Garmin Forerunner und Coros, dazu die Formeln, mit denen Runvis Trainingslast, Erholungszeit und eine geschätzte Laktatschwelle auf der Apple Watch berechnet. Außerdem die vollständigen Sprechregeln, ein Herzfrequenzzonen-Rechner, 13 Seouler Strecken als GPX und der Ablauf der Beta." data-i18n-attr="content:hw.meta.desc">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://runvis.app/de/how-it-works.html">
 <meta property="og:site_name" content="Runvis">
@@ -89,7 +89,7 @@ window.RunvisPageLang="de";window.RunvisBase="/";
 </script>
 <script defer src="/i18n.js?v=20260906f"></script>
 <script id="pageld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Regeln und Werkzeuge — Runvis","description":"Kennzahl für Kennzahl die Formeln, mit denen Runvis Trainingslast, Erholungszeit und eine geschätzte Laktatschwelle ohne eigene Laufuhr berechnet. Dazu die vollständigen Sprechregeln, ein Herzfrequenzzonen-Rechner, 13 Seouler Strecken als GPX und der Ablauf der Beta.","inLanguage":"de","url":"https://runvis.app/de/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/de/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/de/"},{"@type":"ListItem","position":2,"name":"Regeln und Werkzeuge — Runvis","item":"https://runvis.app/de/how-it-works.html"}]}}
+{"@context":"https://schema.org","@type":"WebPage","name":"Garmin und Coros im Vergleich, Kennzahl für Kennzahl — die Formel dahinter | Runvis","description":"Ein Vergleich Kennzahl für Kennzahl mit eigenen Laufuhren wie der Garmin Forerunner und Coros, dazu die Formeln, mit denen Runvis Trainingslast, Erholungszeit und eine geschätzte Laktatschwelle auf der Apple Watch berechnet. Außerdem die vollständigen Sprechregeln, ein Herzfrequenzzonen-Rechner, 13 Seouler Strecken als GPX und der Ablauf der Beta.","inLanguage":"de","url":"https://runvis.app/de/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/de/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/de/"},{"@type":"ListItem","position":2,"name":"Garmin und Coros im Vergleich, Kennzahl für Kennzahl — die Formel dahinter | Runvis","item":"https://runvis.app/de/how-it-works.html"}]}}
 </script>
 </head>
 <body>
@@ -135,6 +135,8 @@ window.RunvisPageLang="de";window.RunvisBase="/";
     <tr><td data-i18n="hw.vs.r9a">Hitzebelastungsindex</td><td data-i18n="hw.vs.r9b">Wie viel Laufen im Freien über 22°C (oder derselben Temperatur in Fahrenheit, wenn das deine Einheit ist) sich in vier Wochen angesammelt hat, auf einer Skala von 0 bis 100. Er erscheint nach drei Läufen bei Hitze und sinkt nach drei Tagen Pause wieder. Er misst Belastung, nicht physiologische Anpassung.</td></tr>
     <tr><td data-i18n="hw.vs.r10a">Coach-Bremse</td><td data-i18n="hw.vs.r10b">Ein Budget, keine Note. Die letzten vier abgeschlossenen Wochen an Distanz legen fest, was diese Woche verkraftet, und die Schmerzmeldungen nach deinen Läufen kürzen es. Die verbleibenden Kilometer und die von den Schmerzmeldungen abgezogenen werden getrennt gezeigt, damit der Abzug erklärbar bleibt.</td></tr>
     <tr><td data-i18n="hw.vs.r11a">Rekord-Radar des Coachs</td><td data-i18n="hw.vs.r11b">Läufe mit GPS-Route werden im Inneren nach dem schnellsten Abschnitt je Distanz abgesucht; Läufe ohne Route werden aus der Durchschnittspace im Ziel hochgerechnet. Jeder Rekord sagt, welches von beidem er ist. Das Fenster sind die letzten 90 Tage.</td></tr>
+    <tr><td data-i18n="hw.vs.r12a">Ausdauer-Trainingsumfang</td><td data-i18n="hw.vs.r12b">Ein 0–100, gemischt 45 : 35 : 20 aus drei Größen der letzten 28 Tage: Wochenkilometer (80 km pro Woche sind die volle Punktzahl), dein längster Einzellauf (30 km sind die volle Punktzahl) und wie viele der vier Wochen überhaupt einen Lauf enthielten. Das ist keine Note für den Läufer, sondern der Trainingsumfang, den der Körper gerade trägt. Reicht die Stichprobe nicht, bleibt der Wert bei 0, statt eine Zahl zu erfinden, und der Bildschirm sagt, was fehlt.</td></tr>
+    <tr><td data-i18n="hw.vs.r13a">Aufprallbelastung</td><td data-i18n="hw.vs.r13b">Die Belastung, die ein Lauf in den Beinen hinterlässt, gezählt in km-Äquivalenten — 1 km flach und locker = 1,0. Dieselbe Distanz hart, bergauf oder bergab gelaufen zählt mehr als ihre Distanz. Ein Lauf = Distanz × Intensitätsfaktor × Steigungsfaktor. Der Intensitätsfaktor folgt der Geschwindigkeit, nicht der Herzfrequenz (gemessen an deinem eigenen lockeren und Schwellentempo): 1,0 bei locker oder langsamer, 1,35 an der Schwelle, bis 1,6 darüber. Der Steigungsfaktor bergauf ist tatsächliche Pace ÷ steigungsbereinigte Pace (Obergrenze 1,6); bergab zählt mehr, 1 + 1,2 × (1 − dieses Verhältnis), Obergrenze 2,0 — bergab kostet weniger Kraft, schlägt aber härter auf. Kurzfristig ist eine gewichtete 7-Tage-Summe (EWMA), wöchentlich die einfache Summe der Woche. Laufdynamik und Gehabschnitte werden noch nicht gezählt. Ein Runvis-Referenzwert — Garmin hat seine Formel nicht veröffentlicht; die Faktoren oben sind aus öffentlicher Literatur abgeleitet.</td></tr>
   </table></div>
   <div class="shots">
 <figure><picture><source srcset="/assets/framed-phone-detail.de.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.de.webp" type="image/webp"/><img alt="iPhone-Wertdetail — 7-Tage-Verlauf der Trainingslast (CTL), mein 28-Tage-Bereich und was der Wert bedeutet" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.de.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">Die erste Zeile der Tabelle oben, in der App gezeichnet — der 7-Tage-Verlauf der Trainingslast (CTL), dein eigener 28-Tage-Bereich und was die Kennzahl ist.</figcaption></figure>
