@@ -1,10 +1,10 @@
 {
-  "measuredAt": "2026-09-12",
+  "measuredAt": "2026-09-26",
   "appRepo": "SportsDashboard",
   "tests": 821,
   "testFiles": 45,
-  "stringKeys": 2382,
-  "stringLines": 2382,
+  "stringKeys": 2379,
+  "stringLines": 2380,
   "coachTable": 396,
   "glossary": 42,
   "cueSites": 287,
@@ -98,13 +98,13 @@
       "zh": "教練的紀錄雷達",
       "de": "Rekord-Radar des Coachs"
     },
-    "충격 부하": {
-      "ko": "충격 부하",
-      "en": "Impact Load",
-      "ja": "衝撃負荷",
-      "es": "Carga de impacto",
-      "zh": "衝擊負荷",
-      "de": "Aufprallbelastung"
+    "다리 부하": {
+      "ko": "다리 부하",
+      "en": "Leg Load",
+      "ja": "脚部負荷",
+      "es": "Carga en las piernas",
+      "zh": "腿部負荷",
+      "de": "Beinbelastung"
     }
   },
   "zoneGate": {

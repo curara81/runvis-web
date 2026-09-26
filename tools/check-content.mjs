@@ -706,7 +706,7 @@ console.log('\n[14] the three prices are identical in all six dictionaries');
 
 
 // ---- 15. the tile names the copy repeats == the app's own tile names ------
-// The eight paid tiles (충격 부하 became the eighth) have a name in each of the six Localizable.strings, and
+// The eight paid tiles (다리 부하, formerly 충격 부하, became the eighth) have a name in each of the six Localizable.strings, and
 // the site says those names in three places: the price list, the gate
 // conditions and the screenshot alt text. Nothing compared the two
 // vocabularies, so they drifted, and one of the drifts had survived nine
@@ -737,7 +737,7 @@ console.log('\n[15] tile names in the copy == the app tile names');
       ['n.price.t5', ['코치 브레이크']],
       ['n.price.t6', ['강도 분포']],
       ['n.price.t7', ['코치 기록 레이더']],
-      ['n.price.t8', ['충격 부하']],
+      ['n.price.t8', ['다리 부하']],
       ['n.price.g1', ['젖산 역치(추정)']],
       ['n.price.g2', ['지구력 훈련량']],
       ['n.price.g3', ['언덕 노출']],
@@ -745,13 +745,13 @@ console.log('\n[15] tile names in the copy == the app tile names');
       ['n.price.g5', ['강도 분포']],
       ['n.price.g6', ['코치 브레이크']],
       ['n.price.g7', ['코치 기록 레이더']],
-      ['n.price.g8', ['충격 부하']],
+      ['n.price.g8', ['다리 부하']],
       // The drift that started this check. The screenshot shows these three
       // paid tiles, so the alt text names them — by the names on the screen.
       ['alt.phone.glance', ['젖산 역치(추정)', '지구력 훈련량', '언덕 노출']],
       ['hw.vs.r3a', ['젖산 역치(추정)']],
       ['hw.vs.r12a', ['지구력 훈련량']],
-      ['hw.vs.r13a', ['충격 부하']],
+      ['hw.vs.r13a', ['다리 부하']],
     ];
     for (const [key, wanted] of BOUND) {
       const bad = [];

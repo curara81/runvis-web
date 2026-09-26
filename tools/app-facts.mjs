@@ -669,7 +669,7 @@ export function measure(app = findAppRepo()) {
   if (!blend) throw new Error('enduranceScore blend: not found in PerformanceScores.swift — hw.vs.r12b prints these three weights');
   const [enduranceVolumeWeight, enduranceLongRunWeight, enduranceConsistencyWeight] = blend.slice(1, 4).map(Number);
 
-  // 7. the eight paid tiles (충격 부하 joined as the eighth), under the app's OWN name for each, in all six
+  // 7. the eight paid tiles (다리 부하 — formerly 충격 부하 — joined as the eighth), under the app's OWN name for each, in all six
   //    languages. The site repeats these names in the price list, in the gate
   //    conditions and in the screenshot alt text, and it had drifted four ways
   //    at once: 언덕 점수 (a name the app RETIRED in round 4 — the alt text
@@ -679,7 +679,7 @@ export function measure(app = findAppRepo()) {
   //    The Korean literal IS the key in Localizable.strings, so a rename in the
   //    app throws here rather than silently reporting the old name.
   const TILE_KEYS = ['젖산 역치(추정)', '지구력 훈련량', '언덕 노출', '더위 노출 지수',
-                     '코치 브레이크', '강도 분포', '코치 기록 레이더', '충격 부하'];
+                     '코치 브레이크', '강도 분포', '코치 기록 레이더', '다리 부하'];
   const LPROJ_TO_WEB = { ko: 'ko', en: 'en', ja: 'ja', es: 'es', 'zh-Hant': 'zh', de: 'de' };
   const tiles = {};
   for (const [lproj, code] of Object.entries(LPROJ_TO_WEB)) {
