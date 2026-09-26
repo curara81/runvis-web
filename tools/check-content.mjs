@@ -748,7 +748,7 @@ console.log('\n[15] tile names in the copy == the app tile names');
       ['n.price.g8', ['다리 부하']],
       // The drift that started this check. The screenshot shows these three
       // paid tiles, so the alt text names them — by the names on the screen.
-      ['alt.phone.glance', ['젖산 역치(추정)', '지구력 훈련량', '언덕 노출']],
+      ['alt.phone.glance', ['지구력 훈련량', '언덕 노출', '다리 부하']],  // 2026-09-27 재촬영: 리포트 하단(젖산 역치는 화면 밖)
       ['hw.vs.r3a', ['젖산 역치(추정)']],
       ['hw.vs.r12a', ['지구력 훈련량']],
       ['hw.vs.r13a', ['다리 부하']],

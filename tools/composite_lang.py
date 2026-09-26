@@ -27,6 +27,7 @@ Usage:
     python3 tools/composite_lang.py            # build everything in SHOTS
     python3 tools/composite_lang.py --fit ko   # re-derive the geometry
 """
+import os
 import pathlib
 import sys
 
@@ -34,10 +35,12 @@ from PIL import Image, ImageChops, ImageDraw
 
 WEB = pathlib.Path(__file__).resolve().parent.parent
 ASSETS = WEB / "assets"
-SHOTS = pathlib.Path(
+# Where the raw simulator captures live (`<screen>.<lang>.png`). Override with
+# SHOTS_DIR so each capture session can use its own scratchpad.
+SHOTS = pathlib.Path(os.environ.get(
+    "SHOTS_DIR",
     "/private/tmp/claude-501/-Users-curara/"
-    "40643633-3eb0-480b-98bb-ba8f6961e302/scratchpad/shots"
-)
+    "40643633-3eb0-480b-98bb-ba8f6961e302/scratchpad/shots"))
 
 # donor frame, screen box (l, t, r, b) in donor pixels, corner radius, top band
 PHONE = dict(donor="framed-phone-dash.png", box=(40, 64, 600, 1282), radius=50,
