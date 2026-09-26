@@ -28,7 +28,7 @@
 <!-- Do not hand-edit the six *language* copies — regenerate them:
        node tools/prerender.mjs      (writes en/ ja/ es/ zh/ de/)
        node tools/check-content.mjs  (fails on FAQ JSON-LD ≠ dictionary etc.) -->
-<title data-i18n="meta.title">Runvis — 애플워치면 충분합니다. Apple Watch 러닝 코치</title>
+<title data-i18n="meta.title">Runvis — 달리기만 하세요. 코칭은 저희가. Apple Watch 러닝 코치</title>
 <meta content="러닝 시계를 하나 더 살 필요 없어요. 애플워치가 기록한 수면과 심박을 읽고 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다. 계정도 서버도 없습니다." name="description" data-i18n-attr="content:meta.desc"/>
 <meta content="Runvis — Apple Watch 러닝 코치" property="og:title" data-i18n-attr="content:meta.ogtitle"/>
 <meta content="러닝 시계를 하나 더 살 필요 없어요. 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다." property="og:description" data-i18n-attr="content:meta.ogdesc"/>
@@ -55,7 +55,7 @@
      is a dictionary key now too, so the alternative text is not English for
      everyone. The version query is bumped when the artwork changes — a link
      preview is cached by every platform that ever rendered it. -->
-<meta content="Runvis 공유 카드 — 애플워치면 충분합니다" property="og:image:alt" data-i18n-attr="content:meta.ogalt"/>
+<meta content="Runvis 공유 카드 — 달리기만 하세요. 코칭은 저희가." property="og:image:alt" data-i18n-attr="content:meta.ogalt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://runvis.app/assets/og-card.png?v=3" name="twitter:image"/>
 <meta content="#000000" name="theme-color"/>
@@ -308,6 +308,14 @@
       linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px;
     mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 80%)}
   @keyframes drift{from{transform:translate3d(-3%,-2%,0) scale(1)}to{transform:translate3d(4%,3%,0) scale(1.12)}}
+  /* Hero loop (2026-09-27): a muted, looping riverside run behind the headline.
+     The shade keeps the H1 at text contrast over the brightest frame (sunrise);
+     reduced-motion readers get the still poster instead. */
+  .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9}
+  .hero-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.42) 40%,rgba(0,0,0,.62) 75%,rgba(0,0,0,.92) 100%)}
+  .hero .tagline,.hero .sub,.hero .note,.hero .eyebrow{text-shadow:0 1px 18px rgba(0,0,0,.55)}
+  .hero .tagline{margin-top:10px;font-size:clamp(19px,2.6vw,26px);font-weight:600;color:#d9e4dd;letter-spacing:-.01em}
+  @media (prefers-reduced-motion:reduce){.hero-video{display:none}.hero-bg{background:url(assets/hero-poster.jpg) center/cover}}
   .hero .wrap{position:relative;z-index:1}
   .hero h1{font-size:clamp(36px,6.2vw,64px);font-weight:900;letter-spacing:-.035em;line-height:1.1;margin-top:14px}
   .hero .sub{margin:22px auto 0;font-size:clamp(17px,2.3vw,21px)}
@@ -845,7 +853,7 @@
   // only text duplicated out of the dictionary, and it exists so the LCP heading
   // never changes language in place. RunvisCritical is applied by the small
   // script that sits directly under the hero markup.
-  var C={"en":{"h":{"n.hero.eb":"Apple Watch running coach","n.hero.h1":"Your Apple Watch<br/><span class=\"grad\">is enough</span>","n.hero.sub":"You don’t need a second running watch. Your coach reads the data already on your wrist, picks today’s workout, and talks you through the run.","n.hero.cta1":"Join the beta","n.hero.cta2":"Run the 5K demo"},"m":{"meta.title":"Runvis: your Apple Watch is enough. Apple Watch running coach","meta.desc":"You don’t need a second running watch. Runvis reads the sleep and heart rate your Apple Watch recorded, picks today’s workout, and talks you through the run. No account, no server.","meta.ogtitle":"Runvis: Apple Watch running coach","meta.ogdesc":"You don’t need a second running watch. Your coach picks today’s workout and talks you through the run."}},"ja":{"h":{"n.hero.eb":"Apple Watchランニングコーチ","n.hero.h1":"Apple Watchが<br/><span class=\"grad\">あれば十分です</span>","n.hero.sub":"ランニングウォッチをもう一台買う必要はありません。すでに手首にあるデータから、今日何を走るかコーチが決めます。走っている間は声で伝えます。","n.hero.cta1":"ベータに申し込む","n.hero.cta2":"5kmデモを走ってみる"},"m":{"meta.title":"Runvis — Apple Watchがあれば十分です。Apple Watchランニングコーチ","meta.desc":"ランニングウォッチをもう一台買う必要はありません。Apple Watchが記録した睡眠と心拍を読んで、今日何を走るかコーチが決めます。走っている間は声で伝えます。アカウントもサーバーもありません。","meta.ogtitle":"Runvis — Apple Watchランニングコーチ","meta.ogdesc":"ランニングウォッチをもう一台買う必要はありません。今日何を走るかコーチが決めて、走っている間は声で伝えます。"}},"es":{"h":{"n.hero.eb":"Entrenador de running para Apple Watch","n.hero.h1":"Con el Apple Watch<br/><span class=\"grad\">ya basta</span>","n.hero.sub":"No hace falta comprar otro reloj de running. Con los datos que ya tienes en la muñeca, el entrenador decide qué corres hoy y te lo va contando por voz mientras corres.","n.hero.cta1":"Apúntate a la beta","n.hero.cta2":"Corre la demo de 5 km"},"m":{"meta.title":"Runvis — con el Apple Watch ya basta. Entrenador de running para Apple Watch","meta.desc":"No hace falta comprar otro reloj de running. El entrenador lee el sueño y el pulso que registra tu Apple Watch, decide qué corres hoy y te lo cuenta por voz mientras corres. Sin cuenta y sin servidores.","meta.ogtitle":"Runvis — entrenador de running para Apple Watch","meta.ogdesc":"No hace falta comprar otro reloj de running. El entrenador decide qué corres hoy y te lo cuenta por voz mientras corres."}},"zh":{"h":{"n.hero.eb":"Apple Watch 跑步教練","n.hero.h1":"有 Apple Watch<br/><span class=\"grad\">就夠了</span>","n.hero.sub":"不必再買第二支跑錶。用你手腕上已經有的資料，教練決定今天跑什麼，跑步時再用聲音告訴你。","n.hero.cta1":"報名 Beta","n.hero.cta2":"試跑 5 公里展示"},"m":{"meta.title":"Runvis — 有 Apple Watch 就夠了。Apple Watch 跑步教練","meta.desc":"不必再買第二支跑錶。讀取 Apple Watch 記錄的睡眠與心率，教練決定今天跑什麼，跑步時用聲音告訴你。沒有帳號，也沒有伺服器。","meta.ogtitle":"Runvis — Apple Watch 跑步教練","meta.ogdesc":"不必再買第二支跑錶。今天跑什麼由教練決定，跑步時用聲音告訴你。"}},"de":{"h":{"n.hero.eb":"Lauf-Coach für die Apple Watch","n.hero.h1":"Deine Apple Watch<br/><span class=\"grad\">reicht aus</span>","n.hero.sub":"Du brauchst keine zweite Laufuhr. Der Coach nimmt die Daten, die schon an deinem Handgelenk liegen, und legt fest, was du heute läufst. Im Lauf sagt er es dir per Stimme.","n.hero.cta1":"Für die Beta anmelden","n.hero.cta2":"Die 5-km-Demo laufen"},"m":{"meta.title":"Runvis — Die Apple Watch reicht aus. Lauf-Coach für die Apple Watch","meta.desc":"Du brauchst keine zweite Laufuhr. Der Coach liest Schlaf und Puls, die deine Apple Watch aufgezeichnet hat, legt fest, was du heute läufst, und sagt es dir im Lauf per Stimme. Kein Konto, kein Server.","meta.ogtitle":"Runvis — Lauf-Coach für die Apple Watch","meta.ogdesc":"Du brauchst keine zweite Laufuhr. Der Coach legt fest, was du heute läufst, und sagt es dir im Lauf per Stimme."}}};
+  var C={"en":{"h":{"n.hero.eb":"Apple Watch running coach","n.hero.h1":"You run.<br/><span class=\"grad\">We coach.</span>","n.hero.sub":"You don’t need a second running watch. Your coach reads the data already on your wrist, picks today’s workout, and talks you through the run.","n.hero.cta1":"Join the beta","n.hero.cta2":"Run the 5K demo"},"m":{"meta.title":"Runvis: You run. We coach. Apple Watch running coach","meta.desc":"You don’t need a second running watch. Runvis reads the sleep and heart rate your Apple Watch recorded, picks today’s workout, and talks you through the run. No account, no server.","meta.ogtitle":"Runvis: Apple Watch running coach","meta.ogdesc":"You don’t need a second running watch. Your coach picks today’s workout and talks you through the run."}},"ja":{"h":{"n.hero.eb":"Apple Watchランニングコーチ","n.hero.h1":"あなたは走るだけ。<br/><span class=\"grad\">コーチは私たちが。</span>","n.hero.sub":"ランニングウォッチをもう一台買う必要はありません。すでに手首にあるデータから、今日何を走るかコーチが決めます。走っている間は声で伝えます。","n.hero.cta1":"ベータに申し込む","n.hero.cta2":"5kmデモを走ってみる"},"m":{"meta.title":"Runvis — あなたは走るだけ。コーチは私たちが。Apple Watchランニングコーチ","meta.desc":"ランニングウォッチをもう一台買う必要はありません。Apple Watchが記録した睡眠と心拍を読んで、今日何を走るかコーチが決めます。走っている間は声で伝えます。アカウントもサーバーもありません。","meta.ogtitle":"Runvis — Apple Watchランニングコーチ","meta.ogdesc":"ランニングウォッチをもう一台買う必要はありません。今日何を走るかコーチが決めて、走っている間は声で伝えます。"}},"es":{"h":{"n.hero.eb":"Entrenador de running para Apple Watch","n.hero.h1":"Tú corres.<br/><span class=\"grad\">Nosotros te entrenamos.</span>","n.hero.sub":"No hace falta comprar otro reloj de running. Con los datos que ya tienes en la muñeca, el entrenador decide qué corres hoy y te lo va contando por voz mientras corres.","n.hero.cta1":"Apúntate a la beta","n.hero.cta2":"Corre la demo de 5 km"},"m":{"meta.title":"Runvis — Tú corres. Nosotros te entrenamos. Entrenador de running para Apple Watch","meta.desc":"No hace falta comprar otro reloj de running. El entrenador lee el sueño y el pulso que registra tu Apple Watch, decide qué corres hoy y te lo cuenta por voz mientras corres. Sin cuenta y sin servidores.","meta.ogtitle":"Runvis — entrenador de running para Apple Watch","meta.ogdesc":"No hace falta comprar otro reloj de running. El entrenador decide qué corres hoy y te lo cuenta por voz mientras corres."}},"zh":{"h":{"n.hero.eb":"Apple Watch 跑步教練","n.hero.h1":"你只管跑。<br/><span class=\"grad\">教練交給我們。</span>","n.hero.sub":"不必再買第二支跑錶。用你手腕上已經有的資料，教練決定今天跑什麼，跑步時再用聲音告訴你。","n.hero.cta1":"報名 Beta","n.hero.cta2":"試跑 5 公里展示"},"m":{"meta.title":"Runvis — 你只管跑。教練交給我們。Apple Watch 跑步教練","meta.desc":"不必再買第二支跑錶。讀取 Apple Watch 記錄的睡眠與心率，教練決定今天跑什麼，跑步時用聲音告訴你。沒有帳號，也沒有伺服器。","meta.ogtitle":"Runvis — Apple Watch 跑步教練","meta.ogdesc":"不必再買第二支跑錶。今天跑什麼由教練決定，跑步時用聲音告訴你。"}},"de":{"h":{"n.hero.eb":"Lauf-Coach für die Apple Watch","n.hero.h1":"Du läufst.<br/><span class=\"grad\">Wir coachen.</span>","n.hero.sub":"Du brauchst keine zweite Laufuhr. Der Coach nimmt die Daten, die schon an deinem Handgelenk liegen, und legt fest, was du heute läufst. Im Lauf sagt er es dir per Stimme.","n.hero.cta1":"Für die Beta anmelden","n.hero.cta2":"Die 5-km-Demo laufen"},"m":{"meta.title":"Runvis — Du läufst. Wir coachen. Lauf-Coach für die Apple Watch","meta.desc":"Du brauchst keine zweite Laufuhr. Der Coach liest Schlaf und Puls, die deine Apple Watch aufgezeichnet hat, legt fest, was du heute läufst, und sagt es dir im Lauf per Stimme. Kein Konto, kein Server.","meta.ogtitle":"Runvis — Lauf-Coach für die Apple Watch","meta.ogdesc":"Du brauchst keine zweite Laufuhr. Der Coach legt fest, was du heute läufst, und sagt es dir im Lauf per Stimme."}}};
   var d2=C[code]; if(!d2) return;
   document.title=d2.m["meta.title"];
   meta("name","description",d2.m["meta.desc"]);
@@ -905,7 +913,7 @@
 
 <!-- HERO -->
 <header class="hero" id="hero">
-<div class="hero-bg"><div class="grid"></div><div class="blob b1" data-depth="-.4"></div><div class="blob b2" data-depth=".5"></div><div class="blob b3" data-depth=".25"></div></div>
+<div class="hero-bg"><video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg" aria-hidden="true" tabindex="-1"><source src="assets/hero-loop.webm" type="video/webm"><source src="assets/hero-loop.mp4" type="video/mp4"></video><div class="hero-shade"></div><div class="grid"></div><div class="blob b1" data-depth="-.4"></div><div class="blob b2" data-depth=".5"></div><div class="blob b3" data-depth=".25"></div></div>
 <div class="wrap">
 <!-- Deliberately NOT .reveal. The rule no longer touches opacity — it slides
      only (see the .reveal block in the stylesheet and the measurement above
@@ -915,7 +923,8 @@
      Above the fold is painted where it belongs from the first frame; the
      reveal cascade starts at #why, below the fold. -->
 <div class="eyebrow" data-i18n="n.hero.eb">Apple Watch 러닝 코치</div>
-<h1 data-i18n="n.hero.h1">애플워치면<br/><span class="grad">충분합니다</span></h1>
+<h1 data-i18n="n.hero.h1">달리기만 하세요.<br/><span class="grad">코칭은 저희가.</span></h1>
+<p class="tagline" data-i18n="n.hero.tag">이미 당신 손목 위에.</p>
 <p class="sub" data-i18n="n.hero.sub">러닝 시계를 하나 더 살 필요 없어요. 이미 손목에 있는 데이터로 오늘 뭘 뛸지 코치가 정해 주고, 달리는 동안 목소리로 알려줍니다.</p>
 <div class="cta">
 <a class="btn" data-i18n="n.hero.cta1" href="#beta">베타 신청</a>
@@ -1767,10 +1776,18 @@
   //     screen or the tab is hidden — which, on this page, is nearly all of the
   //     time a reader spends on it. Reduced-motion readers already have them
   //     off entirely, so this observer is not even created for them.
+  if (reduce) { const v = document.querySelector('.hero-video'); if (v) { v.pause(); v.removeAttribute('autoplay'); v.preload = 'none'; } }
   if (hero && !reduce) {
     const root = document.documentElement;
     let onScreen = true;
-    const sync = () => root.classList.toggle('anim-idle', !onScreen || document.hidden);
+    const vid = document.querySelector('.hero-video');
+    const sync = () => {
+      const idle = !onScreen || document.hidden;
+      root.classList.toggle('anim-idle', idle);
+      // The hero loop follows the same rule: decoding video off screen is the
+      // single most expensive thing this page could do to a reader's battery.
+      if (vid) { if (idle) vid.pause(); else vid.play().catch(() => {}); }
+    };
     new IntersectionObserver(es => { onScreen = es[es.length - 1].isIntersecting; sync(); },
                              { threshold: 0 }).observe(hero);
     document.addEventListener('visibilitychange', sync);
