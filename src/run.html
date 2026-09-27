@@ -453,7 +453,7 @@
   // the market page, which arrives with its own.
   if(code!==pageLang){
     var d=document.createElement("script");
-    d.src=BASE+"t-"+code+".js?v=20260927a"; d.async=false; document.head.appendChild(d);
+    d.src=BASE+"t-"+code+".js?v=20260927b"; d.async=false; document.head.appendChild(d);
     window.RunvisDictLoaded=code;                     // i18n.js: "one is already in flight"
   }
   function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
@@ -485,7 +485,7 @@
   meta("property","og:locale",OGL[code]);
 })();
 </script>
-<script defer src="i18n.js?v=20260927a"></script>
+<script defer src="i18n.js?v=20260927b"></script>
 <!-- WebPage + BreadcrumbList. This page used to ship no structured data at
      all in any of the six languages: a crawler got a title and nothing that
      said what site the page belongs to or where it sits in it. Built from the

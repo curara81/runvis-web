@@ -30,7 +30,7 @@
     { code: 'de', label: 'Deutsch',  tts: 'de-DE' }
   ];
   var CODES = LANGS.map(function (l) { return l.code; });
-  var DICT_V = '20260927a';                  // must match the <head> boot script
+  var DICT_V = '20260927b';                  // must match the <head> boot script
   // "" on the root pages, "/" on the prerendered per-language copies under
   // /en/, /ja/ … so that dictionaries and screenshots resolve to the one copy
   // at the site root instead of 404ing inside the language directory.
@@ -603,6 +603,22 @@
       else if (e.key === 'Escape' || e.key === 'Tab') { close(e.key === 'Escape'); }
     });
     document.addEventListener('click', function () { close(false); });
+    // Picking a language is a choice, so it is stored BEFORE the browser
+    // navigates. Without this, 한국어 was the one item that could not be
+    // picked (2026-09-27): its href is "/", and the root's boot script reads
+    // the stored choice — still "en" from the /en/ page the reader was on —
+    // and sends them straight back to /en/. The other five items land in
+    // their own directory, which is why only Korean looked broken.
+    menu.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest ? e.target.closest('[data-code]') : null;
+      if (a) rememberChoice(a.getAttribute('data-code'));
+    });
+  }
+
+  /// Store a language the reader deliberately picked (menu or banner link).
+  function rememberChoice(code) {
+    if (CODES.indexOf(code) < 0) return;
+    try { localStorage.setItem('runvis_lang', code); } catch (e) {}
   }
 
   // ---- "read this page in your language" ---------------------------------
@@ -698,6 +714,9 @@
     span.textContent = t.msg;
     var a = document.createElement('a');
     a.href = href;                      // absolute, straight out of the hreflang
+    // Same trap as the menu: "한국어로 보기" points at "/", which would bounce
+    // a reader with a stored "en" straight back here.
+    a.addEventListener('click', function () { rememberChoice(want); });
     a.textContent = t.cta + ' \u2192';
     var x = document.createElement('button');
     x.type = 'button';
