@@ -1070,7 +1070,7 @@ console.log('\n[21] every referenced image file exists');
     // JSON-LD image/screenshot — every one of them is a URL a crawler or a
     // browser will actually fetch, and every one of them has gone stale here
     // at least once.
-    for (const m of html.matchAll(/(?:src|srcset|content)="(?:https:\/\/runvis\.app)?(\/?assets\/[^"\s?]+)/g)) {
+    for (const m of html.matchAll(/(?:src|srcset|content|poster)="(?:https:\/\/runvis\.app)?(\/?assets\/[^"\s?]+)/g)) {
       const rel = m[1].replace(/^\//, '');
       if (!seen.has(rel)) seen.set(rel, []);
       seen.get(rel).push(file);

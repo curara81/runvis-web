@@ -32,7 +32,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { stripJs, stripCss, sameLiterals } from './strip-comments.mjs';
 import {
-  ROOT, SRC, CODES, PAGES, HTML_LANG, HREFLANG, OG_LOCALE, SHOTS,
+  ROOT, SRC, CODES, PAGES, HTML_LANG, HREFLANG, OG_LOCALE, SHOTS, HERO_LANGS, HERO_FILES,
   srcPath, outPath,
   loadDicts, attrEscape, findI18nElements, findI18nAttrs, spliceAll,
   faqLd, appLd, pageLd, readLd,
@@ -311,6 +311,23 @@ function render(page, code) {
     for (const base of SHOTS) {
       for (const ext of ['png', 'avif', 'webp']) {
         html = replaceAll(html, `/assets/${base}.${ext}`, `/assets/${base}.${code}.${ext}`);
+      }
+    }
+  }
+
+  // ---- 7a. the hero loop ---------------------------------------------------
+  // The poster attribute and the reduced-motion background are paths too, and
+  // step 6 only rewrote src/srcset — so under /de/ both resolved to
+  // /de/assets/hero-poster.jpg, which GitHub Pages answers with 404.html.
+  // Then the per-market runner: en/es/de name their own files (HERO_LANGS),
+  // ko/ja/zh keep the base ones. Same suffix rule as the captures.
+  if (inSubdir) {
+    html = replaceAll(html, 'poster="assets/', 'poster="/assets/');
+    html = replaceAll(html, 'url(assets/hero-poster', 'url(/assets/hero-poster');
+    if (HERO_LANGS.has(code)) {
+      for (const f of HERO_FILES) {
+        const dot = f.lastIndexOf('.');
+        html = replaceAll(html, `/assets/${f}`, `/assets/${f.slice(0, dot)}.${code}${f.slice(dot)}`);
       }
     }
   }

@@ -305,9 +305,14 @@ python3 -m http.server 8000
   매니페스트는 아예 없어서 '홈 화면에 추가'가 페이지 스크린샷을 저장했다(라운드 13 −0.4).
   세 장은 파비콘과 같은 🏃 글리프를 사이트 카드색 위에 얹은 것이고, 여섯 문서 전부가
   절대 경로로 건다 — 검사 17번이 링크와 파일을 함께 본다.
-- **히어로 배경**: 아직 CSS 시네마틱. 교체 자리는 `.hero-bg` div — 저작권 프리 러닝 영상
-  (pexels.com/videos · coverr.co · mixkit.co, 전부 상업적 무료)을 `hero.mp4`로 내려받아
-  `<video>` 배경으로. 핫링크 말고 저장소에 두는 게 안정적이다.
+- **히어로 배경 영상 4벌** `assets/hero-loop{,.en,.es,.de}.{mp4,webm}` + `hero-poster{…}.{jpg,webp}`:
+  Google Flow(Veo 3.1·Omni 1.1 Flash)로 만든 14초 루프(1600×900). 러너가 시장마다 다르다 —
+  기본 파일은 한국인 러너(ko·ja·zh가 공유), en·es·de는 영미권·스페인·독일 러너다.
+  프리렌더 7a단계가 `HERO_LANGS`(`tools/i18n-lib.mjs`) 언어에 접미사 파일을 박고,
+  루트에서 `?lang=`으로 바꿀 때는 `i18n.js`의 `applyHero`가 같은 일을 한다.
+  같은 7a단계가 하위 폴더의 `poster=`/`url(assets/hero-poster…)`를 절대 경로로 바꾼다 —
+  2026-09-27 전에는 `/de/assets/hero-poster.jpg`로 풀려 404였다. 검사 21번이 `poster=`도 본다.
+  원본 클립과 편집 기록은 `runvis-assets/hero-2609/`에 있다.
 - **공유 카드 6장** `assets/og-card.png`(한국어) + `og-card.{en,ja,es,zh,de}.png`:
   각 시장의 `n.hero.h1` 한 줄을 얹은 1200×630 카드다. 라운드 13에 배선
   (`tools/prerender.mjs` 8b단계)만 만들어 두고 파일이 없어서 여섯 시장이 문장 없는

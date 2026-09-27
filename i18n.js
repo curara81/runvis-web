@@ -30,7 +30,7 @@
     { code: 'de', label: 'Deutsch',  tts: 'de-DE' }
   ];
   var CODES = LANGS.map(function (l) { return l.code; });
-  var DICT_V = '20260906f';                  // must match the <head> boot script
+  var DICT_V = '20260927a';                  // must match the <head> boot script
   // "" on the root pages, "/" on the prerendered per-language copies under
   // /en/, /ja/ … so that dictionaries and screenshots resolve to the one copy
   // at the site root instead of 404ing inside the language directory.
@@ -171,6 +171,29 @@
         });
       }
     });
+  }
+
+  // The hero loop is per market too since 2026-09-27: en/es/de show their own
+  // runner (hero-loop.<code>.webm/.mp4 + hero-poster.<code>.jpg), ko/ja/zh the
+  // base files. prerender.mjs (7a) writes this into each copy; this is the
+  // runtime path for the ROOT document under ?lang= or a saved choice.
+  // tools/i18n-lib.mjs HERO_LANGS is the build-time copy of this table.
+  var HERO_LANGS = { en: 1, es: 1, de: 1 };
+  function applyHero(code) {
+    var v = document.querySelector('.hero-video');
+    if (!v) return;
+    var suf = HERO_LANGS[code] ? '.' + code : '';
+    var changed = false;
+    v.querySelectorAll('source').forEach(function (so) {
+      var ext = so.getAttribute('type') === 'video/webm' ? '.webm' : '.mp4';
+      var want = BASE + 'assets/hero-loop' + suf + ext;
+      if (so.getAttribute('src') !== want) { so.setAttribute('src', want); changed = true; }
+    });
+    var poster = BASE + 'assets/hero-poster' + suf + '.jpg';
+    if (v.getAttribute('poster') !== poster) { v.setAttribute('poster', poster); changed = true; }
+    // A <source> change does nothing until load(); the page's own sync()
+    // decides whether it then plays (off-screen or hidden tab stays paused).
+    if (changed) { var was = !v.paused; v.load(); if (was) v.play().catch(function () {}); }
   }
 
   // The share card is per market since round 14 — tools/og_cards.py draws each
@@ -439,6 +462,7 @@
     document.documentElement.lang = code === 'zh' ? 'zh-Hant' : code;
     applyStatic(I18N[code]);
     applyShots(code);
+    applyHero(code);
     applyCanonical(code);
     applyFaqLd(code, I18N[code]);
     applyAppLd(code, I18N[code]);
@@ -466,6 +490,7 @@
   function applySelf(code, remember) {
     current = code;
     applyShots(code);            // idempotent — prerender already named this language's files
+    applyHero(code);             // idempotent for the same reason
     applyCanonical(code);        // code === this document's language, so it self-canonicalises
     publishDynamic(code);        // reads window.RunvisSelfDyn when there is no table
     if (remember) { try { localStorage.setItem('runvis_lang', code); } catch (e) {} }

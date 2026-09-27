@@ -55,6 +55,13 @@ export const SHOTS = new Set([
   'framed-watch-pace', 'framed-watch-hr', 'framed-watch-map',
 ]);
 
+/** Markets whose hero loop has its own runner (assets/hero-loop.<code>.mp4/.webm
+ *  and hero-poster.<code>.jpg/.webp). Since 2026-09-27 the English, Spanish and
+ *  German pages show a runner who looks like their market; ko/ja/zh share the
+ *  base files, whose runner is Korean. i18n.js HERO_LANGS is the runtime copy. */
+export const HERO_LANGS = new Set(['en', 'es', 'de']);
+export const HERO_FILES = ['hero-loop.webm', 'hero-loop.mp4', 'hero-poster.jpg', 'hero-poster.webp'];
+
 /** Elements that never have content, so never carry translatable inner text. */
 const VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input',
   'link', 'meta', 'param', 'source', 'track', 'wbr']);
