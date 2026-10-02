@@ -1332,13 +1332,22 @@ console.log('\n[26] the Siri phrases in the copy == iOSApp/Intents/*.lproj/AppSh
   else {
     const LPROJ = { ko: 'ko', en: 'en', ja: 'ja', es: 'es', zh: 'zh-Hant', de: 'de' };
     const KEYS = ['n.today.siri', 'n.live.siri'];
+    // ${applicationName} matches the display name AND the INAlternativeAppNames
+    // in iOSApp/Info.plist (2026-09-27: "런비스", so a Korean reader can say the
+    // name the way Korean writes it — verified on a device). Those alternates
+    // are Korean words, so they count for the Korean page only.
+    const plist = path.join(app, 'iOSApp/Info.plist');
+    const ALT = fs.existsSync(plist)
+      ? [...fs.readFileSync(plist, 'utf8').matchAll(/<key>INAlternativeAppName<\/key>\s*<string>([^<]+)<\/string>/g)].map(m => m[1])
+      : [];
     const bad = [];
     for (const c of CODES) {
       const f = path.join(app, `iOSApp/Intents/${LPROJ[c]}.lproj/AppShortcuts.strings`);
       if (!fs.existsSync(f)) { bad.push(`${c}: ${LPROJ[c]}.lproj/AppShortcuts.strings does not exist`); continue; }
+      const names = c === 'ko' ? ['Runvis', ...ALT] : ['Runvis'];
       // "key" = "value"; — the value is the spoken phrase in this language.
       const phrases = [...fs.readFileSync(f, 'utf8').matchAll(/=\s*"((?:[^"\\]|\\.)*)"\s*;/g)]
-        .map(m => m[1].replace(/\$\{applicationName\}/g, 'Runvis').toLowerCase());
+        .flatMap(m => names.map(n => m[1].replace(/\$\{applicationName\}/g, n).toLowerCase()));
       if (!phrases.length) { bad.push(`${c}: no phrases parsed out of ${LPROJ[c]}.lproj/AppShortcuts.strings`); continue; }
       for (const key of KEYS) {
         const v = String(dicts[c][key] ?? '').toLowerCase();

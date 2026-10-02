@@ -12,11 +12,11 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
 <meta name="theme-color" content="#000000">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<title data-i18n="hw.meta.title">與 Garmin、Coros 有什麼相同、什麼不同 — 每個指標的計算規則 | Runvis</title>
-<meta name="description" content="逐項比較 Garmin Forerunner、Coros 這類專用跑錶與 Apple Watch，並寫明 Runvis 用什麼公式算出訓練負荷、恢復時間與乳酸閾值推估。另有教練說話規則全文、心率區間計算機、13 條首爾路線 GPX，以及 Beta 的進行方式。" data-i18n-attr="content:hw.meta.desc">
+<title data-i18n="hw.meta.title">和 Garmin、COROS 哪裡一樣、哪裡不同：各項指標的計算方式 | Runvis</title>
+<meta name="description" content="逐項比較 Garmin Forerunner、COROS 這類專用跑錶和 Apple Watch，公開 Runvis 怎麼計算訓練負荷、恢復時間和乳酸閾值。還有教練每 30 分鐘說幾次、心率區間計算機、13 條首爾路線 GPX，以及 Beta 的進行方式。" data-i18n-attr="content:hw.meta.desc">
 <meta name="robots" content="index,follow">
-<meta property="og:title" content="與 Garmin、Coros 有什麼相同、什麼不同 — 每個指標的計算規則 | Runvis" data-i18n-attr="content:hw.meta.title">
-<meta property="og:description" content="逐項比較 Garmin Forerunner、Coros 這類專用跑錶與 Apple Watch，並寫明 Runvis 用什麼公式算出訓練負荷、恢復時間與乳酸閾值推估。另有教練說話規則全文、心率區間計算機、13 條首爾路線 GPX，以及 Beta 的進行方式。" data-i18n-attr="content:hw.meta.desc">
+<meta property="og:title" content="和 Garmin、COROS 哪裡一樣、哪裡不同：各項指標的計算方式 | Runvis" data-i18n-attr="content:hw.meta.title">
+<meta property="og:description" content="逐項比較 Garmin Forerunner、COROS 這類專用跑錶和 Apple Watch，公開 Runvis 怎麼計算訓練負荷、恢復時間和乳酸閾值。還有教練每 30 分鐘說幾次、心率區間計算機、13 條首爾路線 GPX，以及 Beta 的進行方式。" data-i18n-attr="content:hw.meta.desc">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://runvis.app/zh/how-it-works.html">
 <meta property="og:site_name" content="Runvis">
@@ -89,7 +89,7 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
 </script>
 <script defer src="/i18n.js?v=20260927b"></script>
 <script id="pageld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"與 Garmin、Coros 有什麼相同、什麼不同 — 每個指標的計算規則 | Runvis","description":"逐項比較 Garmin Forerunner、Coros 這類專用跑錶與 Apple Watch，並寫明 Runvis 用什麼公式算出訓練負荷、恢復時間與乳酸閾值推估。另有教練說話規則全文、心率區間計算機、13 條首爾路線 GPX，以及 Beta 的進行方式。","inLanguage":"zh-Hant","url":"https://runvis.app/zh/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/zh/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/zh/"},{"@type":"ListItem","position":2,"name":"與 Garmin、Coros 有什麼相同、什麼不同 — 每個指標的計算規則 | Runvis","item":"https://runvis.app/zh/how-it-works.html"}]}}
+{"@context":"https://schema.org","@type":"WebPage","name":"和 Garmin、COROS 哪裡一樣、哪裡不同：各項指標的計算方式 | Runvis","description":"逐項比較 Garmin Forerunner、COROS 這類專用跑錶和 Apple Watch，公開 Runvis 怎麼計算訓練負荷、恢復時間和乳酸閾值。還有教練每 30 分鐘說幾次、心率區間計算機、13 條首爾路線 GPX，以及 Beta 的進行方式。","inLanguage":"zh-Hant","url":"https://runvis.app/zh/how-it-works.html","isPartOf":{"@type":"WebSite","name":"Runvis","url":"https://runvis.app/zh/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Runvis","item":"https://runvis.app/zh/"},{"@type":"ListItem","position":2,"name":"和 Garmin、COROS 哪裡一樣、哪裡不同：各項指標的計算方式 | Runvis","item":"https://runvis.app/zh/how-it-works.html"}]}}
 </script>
 </head>
 <body>
@@ -102,74 +102,74 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
       <ul id="langmenu" role="menu" aria-labelledby="langbtn" tabindex="-1"></ul>
     </div>
   </div>
-  <h1 id="main" tabindex="-1" data-i18n="hw.h1">規則與工具</h1>
-  <p class="intro" data-i18n="hw.intro">首頁各以一句話帶過的內容，這裡是全文。不必報名，也不必安裝就能看、能用。</p>
+  <h1 id="main" tabindex="-1" data-i18n="hw.h1">計算方式與工具</h1>
+  <p class="intro" data-i18n="hw.intro">首頁用一句話帶過的內容，這裡講得詳細。不用報名、不用裝 App，現在就能看、就能用。</p>
 
-  <h2 id="rules" data-i18n="hw.s1.h">教練說話的上限與例外，全部</h2>
+  <h2 id="rules" data-i18n="hw.s1.h">教練說話的次數與例外規則</h2>
   <div class="tablewrap"><table>
-    <tr><th data-i18n="n.live.q.th1">課表類型</th><th data-i18n="n.live.q.th2">每 30 分鐘的其他提示（不含分段、坡道、暫停）</th></tr>
-    <tr><td data-i18n="n.live.q.r1a">輕鬆跑 · 長跑 · 跑走</td><td data-i18n="n.live.q.r1b">最多 8 次</td></tr>
+    <tr><th data-i18n="n.live.q.th1">跑步類型</th><th data-i18n="n.live.q.th2">每 30 分鐘的其他提示（不含分段、坡道、暫停）</th></tr>
+    <tr><td data-i18n="n.live.q.r1a">輕鬆跑 · 長距離跑 · 跑走交替</td><td data-i18n="n.live.q.r1b">最多 8 次</td></tr>
     <tr><td data-i18n="n.live.q.r2a">節奏跑 · 比賽 · 自由跑</td><td data-i18n="n.live.q.r2b">最多 6 次</td></tr>
-    <tr><td data-i18n="n.live.q.r3a">間歇</td><td data-i18n="n.live.q.r3b">沒有上限 — 由你開著的項目決定它多常說話。相對地，間歇課表只會發出分段步驟、心率區間、配速與自動暫停提示，分段報時、坡道、跑姿與鼓勵都會安靜</td></tr>
+    <tr><td data-i18n="n.live.q.r3a">間歇</td><td data-i18n="n.live.q.r3b">沒有次數上限。相對地，間歇時只說訓練步驟、心率區間、配速和自動暫停提示；分段、坡道、跑姿、鼓勵先休息</td></tr>
   </table></div>
   <ul>
-    <li data-i18n="n.live.q.n1">最短間隔是 45 秒。安全提示、訓練步驟這類核心提示，以及分段報時不受這個間隔限制，下面幾項也是例外。</li>
-    <li data-i18n="n.live.q.n2">分段報時、坡道預告與自動暫停、繼續的提示各有自己的規則，都不佔用 30 分鐘上限。走跑切換提示與呼吸口令也在 45 秒規則之外 — 晚了就失去意義。當它認出你跑過的同一條路線時的第一句招呼，同樣不經過 45 秒規則。</li>
-    <li data-i18n="n.live.q.n3">只帶 iPhone 跑步時規則不同 — 提示種類較少，改以 20 秒（而非 45 秒）的間隔，配速 3 分鐘、心率區間 5 分鐘的冷卻時間來控制說話的頻率，且沒有 30 分鐘上限。</li>
-    <li data-i18n="n.live.q.n4">可以逐項開關的有 8 個：配速、心率區間、姿勢、坡道、鼓勵與腳本、跑步常識卡、補水補給、自動暫停與恢復語音。分段不是開關，而是選間隔（關閉、0.5 或 1，公里或英里）。安全提示與訓練步驟這類核心提示無法關閉。音樂只在教練說話時稍微降低。</li>
+    <li data-i18n="n.live.q.n1">兩則提示之間至少隔 45 秒。安全提示、訓練步驟切換這類核心提示，還有分段，都不用等、馬上說；下面這幾項也是例外。</li>
+    <li data-i18n="n.live.q.n2">分段、上坡預告、自動暫停與繼續的提示，各有自己的規則，不算進每 30 分鐘的上限。走跑切換提示和呼吸口令，要準時說才有意義，所以也不等 45 秒間隔。認出你上次跑過的路線時說的第一句招呼，也一樣。</li>
+    <li data-i18n="n.live.q.n3">只帶 iPhone 跑步時，規則不一樣。提示種類比較少，所以兩則提示間隔 20 秒，配速提示每 3 分鐘、心率區間提示每 5 分鐘最多一次，也沒有 30 分鐘上限。</li>
+    <li data-i18n="n.live.q.n4">可以個別開關的有 8 項：配速、心率區間、跑姿、坡道、鼓勵與腳本、跑步小知識卡、補水與補給、暫停與繼續語音。分段不是開關，而是選間隔（關閉、0.5、1，公里或英里）。安全提示和訓練步驟提示關不掉。音樂只在提示播放時稍微轉小。</li>
   </ul>
 
-  <h2 id="versus" data-i18n="hw.vs.h">和 Garmin Forerunner、COROS 這類專用跑錶，哪裡一樣、哪裡不一樣</h2>
-  <p data-i18n="hw.vs.p">訓練負荷、恢復時間、乳酸閾值推估、比賽配速計畫 — 一般說法是，要看這些數字就得另外買一支 Garmin Forerunner 或 COROS 這樣的跑錶。在自家硬體裡做到這件事的公司早就有了，只是沒有人在 Apple Watch 上做。Runvis 則是從 Apple Watch 已經記錄下來的心率、GPS 與氣壓高度算出同樣的數字。專用跑錶並未公開自己的算式，所以我們不會說「用的是同一條式子」。我們會做的是把自己的算式講清楚：底下每一條都是有名字、已公開的公式。在 App 裡，每個指標都能點開，看它的意思、計算依據，以及你自己的平常範圍。</p>
+  <h2 id="versus" data-i18n="hw.vs.h">和 Garmin Forerunner、COROS 這類專用跑錶，哪裡一樣、哪裡不同？</h2>
+  <p data-i18n="hw.vs.p">訓練負荷、恢復時間、乳酸閾值推估、比賽配速計畫。大家常說，這些數字要有 Garmin Forerunner 或 COROS 這類跑錶才看得到。在自家手錶裡算這些的公司早就有了，只是以前沒有人在 Apple Watch 上做這件事。Runvis 用 Apple Watch 已經記錄的心率、GPS 和高度，算出同樣的數值。專用跑錶的算式沒有公開，所以我們不會說「用的是同一條公式」。相對地，Runvis 用的每一條都是有名字的公開公式，名字就寫在下面。在 App 裡，每個指標點開，都能看到意思、計算依據和你的平常範圍。</p>
   <div class="tablewrap"><table>
-    <tr><th data-i18n="hw.vs.th1">指標</th><th data-i18n="hw.vs.th2">Runvis 用什麼算，以及那條公式叫什麼</th></tr>
-    <tr><td data-i18n="hw.vs.r0a">還得多買什麼</td><td data-i18n="hw.vs.r0b">Garmin Forerunner 或 COROS，買的就是那支錶本身。Runvis 用的是你手腕上已經有的 Apple Watch，另外要買的只有教練訂閱。</td></tr>
-    <tr><td data-i18n="hw.vs.r1a">訓練負荷與狀態（TSB）</td><td data-i18n="hw.vs.r1b">把 Banister TRIMP 餵進 Coggan 的 42 天與 7 天指數移動平均（CTL、ATL），今天的 TSB 是昨天的 CTL 減去昨天的 ATL（Coggan 的定義 — 今天的負荷不會改變當天的 TSB）。</td></tr>
-    <tr><td data-i18n="hw.vs.r2a">恢復時間</td><td data-i18n="hw.vs.r2b">以三件事推估：最後一趟跑步的 TRIMP、目前的 TSB，以及 HRV 趨勢。畫面上也會標明「估計」。</td></tr>
-    <tr><td data-i18n="hw.vs.r3a">乳酸閾值（估計）</td><td data-i18n="hw.vs.r3b">最近 90 天內，維持在最大心率 85% 以上的最佳 30 分鐘（或 20 分鐘）區段的配速與心率。這是從跑步紀錄推估的值，不是實驗室抽血。</td></tr>
-    <tr><td data-i18n="hw.vs.r4a">成績預測與分段配速計畫</td><td data-i18n="hw.vs.r4b">Riegel 外推加上 Runvis 體能指數。給它一份路線 GPX，它會依那條路線的高度把配速分段規劃。</td></tr>
-    <tr><td data-i18n="hw.vs.r5a">坡度校正配速（GAP）</td><td data-i18n="hw.vs.r5b">Minetti（2002）的跑步能量消耗曲線，上坡與下坡的成本分開計算。</td></tr>
-    <tr><td data-i18n="hw.vs.r6a">五個心率區間</td><td data-i18n="hw.vs.r6b">Karvonen（心率儲備）方式；不知道最大心率時，退回用 208 − 0.7 × 年齡推估。下面那個計算機用的就是同一條式子。</td></tr>
-    <tr><td data-i18n="hw.vs.r7a">強度分布</td><td data-i18n="hw.vs.r7b">如果這次跑步有心率時間序列，而且最大心率是實測的，就以最大心率的 78% 與 88% 為界，把跑步時間分進輕鬆、中等、高強度三個區間。沒有時間序列，或最大心率只有年齡公式的推估時，就用這次跑步的平均心率決定區間，這時間歇跑可能會落進灰色的中段 — 畫面上會寫出用的是哪一種算法。</td></tr>
-    <tr><td data-i18n="hw.vs.r8a">坡度暴露</td><td data-i18n="hw.vs.r8b">最近 28 天裡有爬升的跑步（至少兩次）的總爬升除以總距離，也就是每公里公尺數。15 以上算起伏，40 以上算多坡。這是描述你跑過的地形，不是給你打分數。</td></tr>
-    <tr><td data-i18n="hw.vs.r9a">熱暴露指數</td><td data-i18n="hw.vs.r9b">最近四週在 22°C（單位設定為華氏時就是同一溫度的華氏值）以上戶外跑步累積了多少，用 0～100 表示。熱天跑三次後才會出現，停跑三天以上就會下降。這是暴露量，不是生理適應的測量值。</td></tr>
-    <tr><td data-i18n="hw.vs.r10a">教練煞車</td><td data-i18n="hw.vs.r10b">這是預算，不是分數。用最近四個完整週的週跑量決定這週能吸收多少距離，再依你跑完後留下的疼痛回報往下扣。剩餘公里數和被疼痛扣掉的量分開顯示，所以扣了多少、為什麼扣得出來。</td></tr>
-    <tr><td data-i18n="hw.vs.r11a">教練的紀錄雷達</td><td data-i18n="hw.vs.r11b">有 GPS 路線的跑步會在跑步內部掃描，找出各距離的最快分段（best effort）；沒有路線的跑步則用完賽平均配速換算。每筆紀錄都會標明是哪一種依據。範圍是最近 90 天。</td></tr>
-    <tr><td data-i18n="hw.vs.r12a">耐力訓練量</td><td data-i18n="hw.vs.r12b">取最近 28 天的三個值，以 45 : 35 : 20 混合成 0~100：週距離（每週 80 公里滿分）、最長的一次跑步（30 公里滿分）、四週之中有跑步的週數。這不是替跑者打分數，而是記錄身體現在累積的訓練量。樣本不足時就停在 0，不會編一個數字出來，畫面上會寫出缺什麼。</td></tr>
-    <tr><td data-i18n="hw.vs.r13a">腿部負荷</td><td data-i18n="hw.vs.r13b">把一次跑步留在腿上的負荷換算成公里數：平地輕鬆跑1公里 = 1.0。同樣的距離，跑得更用力、上坡或下坡，都會算得比距離更多。一次跑步 = 距離 × 強度係數 × 坡度係數。強度係數看的是速度而不是心率（相對於你自己的輕鬆與閾值配速）：輕鬆或更慢1.0、閾值1.35、再快最高1.6。坡度係數在上坡是實際配速 ÷ 坡度校正配速（上限1.6）；下坡算得更多，1 + 1.2 ×（1 − 該比值），上限2.0 — 下坡省力，但衝擊更大。短期是以日為單位的指數加權移動平均（EWMA，時間常數7天），屬於每日平均等級的數值（穩定跑步時約為每週總和 ÷ 7），每週則是該週的單純加總。它會顯示在報告面板和每次跑步的詳細畫面（「運動負荷 TRIMP」旁），與實際距離並列。跑步動態與步行區段尚未納入。這是Runvis的參考值 — Garmin沒有公開它的公式，上面的係數是Runvis參考公開文獻訂定的參考係數。</td></tr>
+    <tr><th data-i18n="hw.vs.th1">指標</th><th data-i18n="hw.vs.th2">Runvis 的計算方式與公式名稱</th></tr>
+    <tr><td data-i18n="hw.vs.r0a">還得另外買什麼</td><td data-i18n="hw.vs.r0b">Garmin Forerunner、COROS 賣的是錶本身。Runvis 用的是你已經戴在手上的 Apple Watch，要另外付費的只有教練訂閱。</td></tr>
+    <tr><td data-i18n="hw.vs.r1a">訓練負荷 · 狀態（TSB）</td><td data-i18n="hw.vs.r1b">把 Banister TRIMP 放進 Coggan 的 42 天、7 天指數移動平均（CTL、ATL），用昨天的 CTL 減掉昨天的 ATL 當作今天的 TSB（依 Coggan 的定義，今天的負荷不會改變今天的 TSB）。</td></tr>
+    <tr><td data-i18n="hw.vs.r2a">恢復時間</td><td data-i18n="hw.vs.r2b">用最後一趟跑步的 TRIMP、目前的 TSB 和 HRV 趨勢三項來推估。畫面上也會標明是推估值。</td></tr>
+    <tr><td data-i18n="hw.vs.r3a">乳酸閾值（估計）</td><td data-i18n="hw.vs.r3b">最近 90 天內，撐在最大心率 85% 以上的最佳 30 分鐘（或 20 分鐘）區段的配速和心率。這是從跑步紀錄推估出來的，不是實驗室抽血量的。</td></tr>
+    <tr><td data-i18n="hw.vs.r4a">成績預測 · 分段配速計畫</td><td data-i18n="hw.vs.r4b">用 Riegel 公式和 Runvis 體能指數預測。匯入路線 GPX，就會依那條路線的高度，把配速分段排好。</td></tr>
+    <tr><td data-i18n="hw.vs.r5a">坡度校正配速（GAP）</td><td data-i18n="hw.vs.r5b">採用 Minetti（2002）的跑步能量消耗曲線，上坡和下坡的負擔分開計算。</td></tr>
+    <tr><td data-i18n="hw.vs.r6a">5 個心率區間</td><td data-i18n="hw.vs.r6b">採用 Karvonen（儲備心率）法；不知道最大心率時，用 208 − 0.7 × 年齡推估。下面的計算機也是同一條公式。</td></tr>
+    <tr><td data-i18n="hw.vs.r7a">強度分布</td><td data-i18n="hw.vs.r7b">如果這趟跑步有心率紀錄，而且最大心率是實際量到的，就以最大心率的 78% 和 88% 為界，把跑步時間分進輕鬆、中等、高強度三個區間。沒有心率紀錄，或最大心率只有年齡公式的推估值時，就只用這趟的平均心率決定區間；這種情況下，間歇跑可能會整趟被歸成中等強度。用的是哪種算法，畫面上會寫清楚。</td></tr>
+    <tr><td data-i18n="hw.vs.r8a">坡度暴露</td><td data-i18n="hw.vs.r8b">只取最近 28 天內有上坡的跑步（至少 2 次），用總爬升 ÷ 總距離（m/km）計算。15 以上算起伏路線，40 以上就是坡很多的路線。這不是替跑者打分數，而是記下你跑過的地形。</td></tr>
+    <tr><td data-i18n="hw.vs.r9a">熱暴露指數</td><td data-i18n="hw.vs.r9b">用 0～100 表示最近 4 週在氣溫超過 22°C（單位設為華氏時，就是同溫度的華氏值）的日子裡，戶外跑步累積了多少。熱天跑滿 3 次才會出現，停跑 3 天以上就會往下掉。它反映的是你在高溫下暴露了多少，而不是身體對熱適應了多少。</td></tr>
+    <tr><td data-i18n="hw.vs.r10a">教練煞車</td><td data-i18n="hw.vs.r10b">這不是分數，是預算。用最近 4 週（以跑完的整週計算）的週跑量，抓出這週身體吃得下的距離，再依你跑後留下的疼痛回報往下調。剩下多少、因為疼痛扣掉多少，分開顯示，為什麼變少一看就懂。</td></tr>
+    <tr><td data-i18n="hw.vs.r11a">教練的紀錄雷達</td><td data-i18n="hw.vs.r11b">有 GPS 路線的跑步，會把整趟紀錄掃過一遍，找出最快的區段（最佳努力）；沒有路線的跑步，就用全程平均配速換算。每筆紀錄是用哪種方式抓到的，畫面上都會標出來。範圍是最近 90 天。</td></tr>
+    <tr><td data-i18n="hw.vs.r12a">耐力訓練量</td><td data-i18n="hw.vs.r12b">從最近 28 天的紀錄取三個值，以 45 : 35 : 20 的比例合成 0～100：週跑量（每週 80 公里滿分）、最長一次跑步（30 公里滿分）、最近 4 週裡有跑步的週數。這不是替跑者打分數，而是呈現身體目前累積的訓練量。紀錄不夠時，不會編出分數，而是先放 0，並在畫面上告訴你缺什麼。</td></tr>
+    <tr><td data-i18n="hw.vs.r13a">腿部負荷</td><td data-i18n="hw.vs.r13b">把一趟跑步留在腿上的負荷，換算成「公里」來計。平地輕鬆跑 1 公里算 1.0；同樣的距離，跑得快、跑上坡或下坡，都會算得更多。算法是：一趟跑步 = 距離 × 強度倍率 × 坡度倍率。強度倍率看速度，不看心率（以你的輕鬆配速和閾值配速為準）：輕鬆或更慢 1.0、閾值 1.35，再快最高 1.6。坡度倍率在上坡是實際配速 ÷ 坡度校正配速（最高 1.6）；下坡則用 1 + 1.2 ×（1 − 該比值）算得更多（最高 2.0），因為下坡雖然比較省力，衝擊卻更大。短期值是以天為單位的指數加權移動平均（EWMA，時間常數 7 天），所以是每日平均的水準（穩定跑步時大約是週總和 ÷ 7）；每週值則是那一週的單純加總。它會顯示在報告面板和跑步詳細畫面（「訓練負荷 TRIMP」旁邊），和實際距離並排。跑步動態和走路區段目前還沒有納入。Garmin 沒有公開算式，上面的倍率是 Runvis 參考公開文獻訂出的參考值。</td></tr>
   </table></div>
   <div class="shots">
-<figure><picture><source srcset="/assets/framed-phone-detail.zh.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.zh.webp" type="image/webp"/><img alt="iPhone 指標詳情 — 訓練負荷(CTL) 7 日趨勢、我的 28 日範圍與指標說明" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.zh.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">上表第一列在 App 裡畫出來的樣子 — 訓練負荷（CTL）的 7 天趨勢、你自己的 28 天範圍，以及這個指標是什麼。</figcaption></figure>
-<figure><picture><source srcset="/assets/framed-phone-race.zh.avif" type="image/avif"/><source srcset="/assets/framed-phone-race.zh.webp" type="image/webp"/><img alt="iPhone 比賽成績預測畫面" data-i18n-attr="alt:alt.phone.race" loading="lazy" src="/assets/framed-phone-race.zh.png" data-shot="framed-phone-race" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap2">第四列：比賽預測與分段配速計畫。</figcaption></figure>
+<figure><picture><source srcset="/assets/framed-phone-detail.zh.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.zh.webp" type="image/webp"/><img alt="iPhone 指標詳細畫面：訓練負荷（CTL）7 天趨勢、你的 28 天範圍與指標說明" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.zh.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">上表第一列，在 App 裡長這樣：訓練負荷（CTL）的 7 天趨勢、你的 28 天範圍，還有這個指標的意思。</figcaption></figure>
+<figure><picture><source srcset="/assets/framed-phone-race.zh.avif" type="image/avif"/><source srcset="/assets/framed-phone-race.zh.webp" type="image/webp"/><img alt="iPhone 成績預測畫面" data-i18n-attr="alt:alt.phone.race" loading="lazy" src="/assets/framed-phone-race.zh.png" data-shot="framed-phone-race" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap2">第四列長這樣：成績預測與分段配速計畫。</figcaption></figure>
 </div>
-  <p class="legalnote" data-i18n="sc.note.s">以此語言執行 App 拍下的實際畫面。</p>
-  <p class="note" data-i18n="hw.vs.tm">Garmin、Forerunner、COROS 為各自公司的商標。Runvis 與這兩家公司沒有任何關係。這裡只陳述已公開的事實；兩家公司都沒有公開自己的算式，因此不做準確度比較。</p>
-  <p class="note" data-i18n="hw.vs.note">專用跑錶做得到、而 Runvis 目前還做不到的，也一併寫下來：這個版本沒有錶面複雜功能、沒有 iPhone 主畫面小工具，也沒有即時動態。以上數值都只是參考資訊，不是醫療建議。</p>
+  <p class="legalnote" data-i18n="sc.note.s">以繁體中文執行 App 拍下的實際畫面。</p>
+  <p class="note" data-i18n="hw.vs.tm">Garmin、Forerunner、COROS 是各自公司的商標，Runvis 與這兩家公司沒有任何關係。這裡只寫公開的事實；兩家公司都沒有公開算式，所以我們不比較準確度。</p>
+  <p class="note" data-i18n="hw.vs.note">專用跑錶有、Runvis 還沒有的，也老實寫出來：錶面複雜功能、iPhone 主畫面小工具、即時動態，這個版本都沒有。以上所有數值都是參考資訊，不是醫療建議。</p>
 
-  <h2 id="zones" data-i18n="hz.h">現在就能算的東西 — 你的 5 個心率區間</h2>
-  <p data-i18n="hz.p">這就是 Runvis 教練語音所用的卡佛能（Karvonen）公式。在 App 裡，輸入值會持續更新 — 來自「健康」的 7 天靜止心率，以及手錶實際記錄到的最高心率 — 但算法就是下面這個。</p>
-  <figure class="shot1"><picture><source srcset="/assets/framed-watch-hr.zh.avif" type="image/avif"/><source srcset="/assets/framed-watch-hr.zh.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 心率區間弧線" data-i18n-attr="alt:alt.watch.zone" loading="lazy" src="/assets/framed-watch-hr.zh.png" data-shot="framed-watch-hr" width="480" height="768" decoding="async"/></picture><figcaption data-i18n="hz.cap">下面計算機算出的同一組心率區間，跑步時錶上就是這樣顯示的。</figcaption></figure>
+  <h2 id="zones" data-i18n="hz.h">現在就算算看：你的 5 個心率區間</h2>
+  <p data-i18n="hz.p">這是 Runvis 教練語音使用的同一套 Karvonen（儲備心率）公式。App 會用「健康」App 裡 7 天的靜止心率和實際記錄到的最高心率持續更新，但算法就是下面這樣。</p>
+  <figure class="shot1"><picture><source srcset="/assets/framed-watch-hr.zh.avif" type="image/avif"/><source srcset="/assets/framed-watch-hr.zh.webp" type="image/webp"/><img alt="Apple Watch Ultra 上的 Runvis 心率區間弧線" data-i18n-attr="alt:alt.watch.zone" loading="lazy" src="/assets/framed-watch-hr.zh.png" data-shot="framed-watch-hr" width="480" height="768" decoding="async"/></picture><figcaption data-i18n="hz.cap">跟下面計算機算出的同一組區間，跑步時手錶上會這樣畫出來。</figcaption></figure>
   <div class="hzcalc">
     <label><span data-i18n="hz.age">年齡</span><input id="hzAge" type="number" min="10" max="99" step="1" value="35" inputmode="numeric"/></label>
     <label><span data-i18n="hz.rest">靜止心率</span><input id="hzRest" type="number" min="30" max="110" step="1" value="60" inputmode="numeric"/></label>
     <label><span data-i18n="hz.max">最大心率（不知道就留空）</span><input id="hzMax" type="number" min="120" max="230" step="1" inputmode="numeric"/></label>
   </div>
   <p class="hzout" id="hzOut" role="status" aria-live="polite"></p>
-  <p class="note" data-i18n="hz.note">區間下限 =（最大心率 − 靜止心率）× 50、60、70、80、90% + 靜止心率。最大心率留空時，以 208 − 0.7 × 年齡推估。僅供參考，不是醫療建議。</p>
+  <p class="note" data-i18n="hz.note">區間下限 =（最大心率 − 靜止心率）× 50、60、70、80、90% + 靜止心率。最大心率留空時，用 208 − 0.7 × 年齡推估。僅供參考，不是醫療建議。</p>
 
-  <h2 id="gpx" data-i18n="n.beta.gpxh">如果你在首爾跑步 — 13 條路線 GPX</h2>
-  <p data-i18n="n.beta.gpx">App 使用的首爾 13 條路線 GPX 檔。不必報名、不必安裝，現在就能下載，放進其他手錶或地圖 App。距離在六種語言中一律以公里標示 — GPX 檔本身沒有單位，換算由讀取的裝置負責。</p>
+  <h2 id="gpx" data-i18n="n.beta.gpxh">在首爾跑步的話：13 條路線 GPX</h2>
+  <p data-i18n="n.beta.gpx">這是 App 使用的 13 條首爾路線 GPX 檔。不用報名、不用裝 App，現在就能下載，匯入其他手錶或地圖 App。距離在 6 種語言裡都寫成公里。GPX 檔本身沒有單位，要顯示英里，由讀取的裝置自己換算。</p>
   <p class="gpxlist"><a href="/gpx/seoul-namsan-bukcheuk.gpx" download><span data-i18n="gpx.namsan.north">南山北側循環路</span> <span style="color:var(--dim2)">6.7km</span></a> · <a href="/gpx/seoul-namsan-summit.gpx" download><span data-i18n="gpx.namsan.summit">南山登頂爬坡</span> <span style="color:var(--dim2)">4.0km</span></a> · <a href="/gpx/seoul-bukak-skyway.gpx" download><span data-i18n="gpx.bukak">北岳天空之路</span> <span style="color:var(--dim2)">5.2km</span></a> · <a href="/gpx/seoul-ansan-jarak.gpx" download><span data-i18n="gpx.ansan">鞍山山腰步道</span> <span style="color:var(--dim2)">6.1km</span></a> · <a href="/gpx/seoul-inwangsan.gpx" download><span data-i18n="gpx.inwangsan">仁王山山腰步道</span> <span style="color:var(--dim2)">2.9km</span></a> · <a href="/gpx/seoul-naksan.gpx" download><span data-i18n="gpx.naksan">駱山公園漢陽都城路</span> <span style="color:var(--dim2)">2.1km</span></a> · <a href="/gpx/seoul-eungbong.gpx" download><span data-i18n="gpx.eungbong">鷹峰山階梯</span> <span style="color:var(--dim2)">1.6km</span></a> · <a href="/gpx/seoul-dorimcheon.gpx" download><span data-i18n="gpx.dorimcheon">道林川</span> <span style="color:var(--dim2)">14.5km</span></a> · <a href="/gpx/seoul-banpo-hangang.gpx" download><span data-i18n="gpx.banpo">盤浦漢江公園</span> <span style="color:var(--dim2)">5.0km</span></a> · <a href="/gpx/seoul-tancheon.gpx" download><span data-i18n="gpx.tancheon">炭川</span> <span style="color:var(--dim2)">7.1km</span></a> · <a href="/gpx/seoul-yangjaecheon.gpx" download><span data-i18n="gpx.yangjaecheon">良才川</span> <span style="color:var(--dim2)">3.9km</span></a> · <a href="/gpx/seoul-cheonggyecheon.gpx" download><span data-i18n="gpx.cheonggyecheon">清溪川</span> <span style="color:var(--dim2)">5.5km</span></a> · <a href="/gpx/seoul-seoulsup.gpx" download><span data-i18n="gpx.seoulsup">首爾林環線</span> <span style="color:var(--dim2)">2.0km</span></a></p>
   <p class="note" data-i18n="n.beta.gpxattr">路線取自 OpenStreetMap 的道路與步道資料，高程取自 Copernicus DEM / NASA SRTMGL1（公有領域）。© OpenStreetMap contributors · ODbL 1.0。</p>
 
   <h2 id="beta" data-i18n="n.beta.stepsh">報名之後的流程</h2>
   <ol>
-    <li data-i18n="n.beta.s1">完成報名 — 我們只收電子郵件地址，不需要註冊帳號。</li>
-    <li data-i18n="n.beta.s2">TestFlight 邀請 — Beta 開放後，邀請連結會照報名順序寄出。Apple 訂的外部測試者名額上限是 1 萬人。你只需要有 Apple 帳號，不用付費 — 在 Beta 版本上，教練功能在 Beta 期間全部免費。若你沒有勾選接收行銷訊息，除了這封邀請不會再有其他信。</li>
-    <li data-i18n="n.beta.s3">意見回饋 — 可從 App 內直接傳送，也可寄到 help@runvis.app。</li>
-    <li data-i18n="n.beta.s4">上線 — 上線時間在 Beta 結束後才決定。先在大韓民國 App Store 推出，其他地區分批開放。</li>
+    <li data-i18n="n.beta.s1">報名：只需要電子郵件地址，不用註冊帳號。</li>
+    <li data-i18n="n.beta.s2">TestFlight 邀請：Beta 開放後，照報名順序寄出邀請連結。Apple 規定外部測試者上限是 1 萬人，你只要有 Apple 帳號就行，不用付費。Beta 版在 Beta 期間，教練功能全部免費。如果你沒有同意接收行銷訊息，除了這封邀請信，我們什麼都不會寄。</li>
+    <li data-i18n="n.beta.s3">意見回饋：可以直接在 App 內傳送，或寄到 help@runvis.app。</li>
+    <li data-i18n="n.beta.s4">上市：Beta 結束後才決定上市時間。先在韓國 App Store 推出，其他地區再陸續上架。</li>
   </ol>
-  <p class="backhome"><a href="index.html#beta" data-i18n="n.price.cta">先參加 Beta 試用，或只接收上市通知</a></p>
+  <p class="backhome"><a href="index.html#beta" data-i18n="n.price.cta">先試用 Beta 版，或只收上市通知</a></p>
 </div>
 <script>
 (() => {
@@ -184,7 +184,7 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
     const typed = Math.round(Number(mx.value) || 0);
     const estimated = Math.round(208 - 0.7 * a);
     const max = typed >= 120 && typed <= 230 ? typed : estimated;
-    if (max - r < 20) { out.textContent = RunvisT('hz.bad', '靜止心率太接近最大心率，無法劃分區間。'); return; }
+    if (max - r < 20) { out.textContent = RunvisT('hz.bad', '靜止心率太接近最大心率，沒辦法劃分區間。'); return; }
     const names = [RunvisT('hz.z1', 'Z1 恢復'), RunvisT('hz.z2', 'Z2 有氧'), RunvisT('hz.z3', 'Z3 節奏'), RunvisT('hz.z4', 'Z4 VO2max'), RunvisT('hz.z5', 'Z5 無氧')];
     const lower = [.5, .6, .7, .8, .9].map(p => Math.round((max - r) * p + r));
     const rows = names.map((n, i) => {
@@ -193,7 +193,7 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
     });
     const bpm = RunvisT('hz.bpm', 'bpm');
     const line = typed >= 120 && typed <= 230
-      ? RunvisT('hz.maxtyped', '採用你輸入的最大心率')
+      ? RunvisT('hz.maxtyped', '依你輸入的最大心率')
       : RunvisT('hz.maxest', '最大心率以 208 − 0.7 × 年齡推估');
     out.innerHTML = rows.join(' · ') + ' ' + bpm
       + '<span class="hzmax">' + line + ': ' + max + ' ' + bpm + '</span>';
