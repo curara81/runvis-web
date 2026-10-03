@@ -371,8 +371,9 @@
      started three screens down. On desktop the watch stack sits BESIDE the
      phone and pulls the eye across; stacked under it on a phone it costs ~500 px
      for pictures that #today shows again, larger, a screen later. So below
-     768 px the hero is eyebrow + H1 + sub + two CTAs + note + three badges +
-     one phone + the caption, and the watch screens wait for #today. */
+     768 px the hero is eyebrow + H1 + sub + two CTAs + one phone + the
+     caption, then the note and the three badges (디자인 B1 moved those two
+     below the stage), and the watch screens wait for #today. */
   @media(max-width:768px){
     .hero{padding:88px 0 52px}
     .stage{margin-top:34px}
@@ -723,6 +724,24 @@
   .paths a:active{transform:translateY(0) scale(.99)}
   a.tbadge:active{transform:scale(.98)}
   @media (prefers-reduced-motion:reduce){.btn:active,.paths a:active,a.tbadge:active{transform:none}}
+  /* ---- 디자인 B1·B2 (2026-10-03, branch design/b1-b2) ----------------------
+     B1: the note and the badges now follow the stage (see the markup), so their
+     spacing is measured from the caption above them, not from the CTAs.
+     B2: on a phone the bar slides away while the reader scrolls DOWN and comes
+     back the moment they scroll up — reading forward is when it covers text,
+     reaching back up is when they are looking for it. The script adds .tucked;
+     focus inside the bar always brings it back, so a keyboard user never tabs
+     onto a control that is off screen. Desktop's pill is small and unchanged. */
+  .hero .note{margin-top:30px}
+  .trust{margin-top:18px}
+  @media(max-width:768px){.hero .note{margin-top:24px}.trust{margin-top:16px}}
+  @media(max-width:820px){
+    .sticky-cta{transition:transform .28s var(--ease)}
+    .sticky-cta.tucked{transform:translateY(calc(100% + 8px))}
+    body.has-langoffer .sticky-cta.tucked{transform:translateY(calc(100% + var(--langoffer-h,58px) + 8px))}
+    .sticky-cta.tucked:focus-within{transform:none}
+  }
+  @media (prefers-reduced-motion:reduce){.sticky-cta{transition:none}}
 </style>
 <!-- Language boot. Runs before the body is parsed, so <html lang>, the title,
      the og: tags and the hero copy are already right at first paint instead of
@@ -970,42 +989,6 @@
 <script>(function(){var h=window.RunvisCritical; if(!h) return;
   for(var k in h){ var e=document.querySelector('[data-i18n="'+k+'"]'); if(e) e.innerHTML=h[k]; }
 })();</script>
-<!-- This sentence states no amount, and check-content [14] FAILS if a ₩
-     figure comes back into it: it is the same line in six languages, and one
-     translator retyping a number here is how a price gets misstated to a
-     market. The amounts live in the badge below and in the price table, both
-     of which pair every KRW figure with that market's own size estimate
-     (pr.approxref, tools/price-approx.json), which is the thing round 13 could
-     not see a safe way to do and round 15 charged -1.5 for not having done
-     (five markets could read three KRW figures and evaluate none of them).
-     What this line keeps is the launch-region clause, which used to sit in the
-     most prominent badge on the first screen and read "not in your country
-     yet" to five of the six markets it was shown to. -->
-<p class="note" data-i18n="n.hero.note">애플워치 Series 4 이상과 아이폰이면 충분해요. 기록은 무료, 코치만 구독이에요. 대한민국 App Store에 먼저 나오고, 다른 나라는 차례로 출시합니다.</p>
-<div class="trust">
-<a class="tbadge" href="#privacy"><b data-i18n="n.hero.b1n">계정도 서버도 없음</b><span data-i18n="n.hero.b1">러닝 기록은 기기 밖으로 나가지 않아요</span></a>
-<a class="tbadge" href="#today"><b data-i18n="n.hero.b3n">오늘 뭘 뛸지</b><span data-i18n="n.hero.b3">수면과 심박을 읽고 코치가 정해요</span></a>
-<!-- All three badges are now something a reader can decide ON. Two of them
-     were specifications until this round — "분석 계산 / 전부 기기 안에서" and
-     "6개 언어 / 코치 음성" — true, countable, and no help to anyone choosing
-     (2026-09-06 라운드 16, -0.4). The first says what a reader GETS from
-     on-device analysis (nothing leaves the phone) and the second is the
-     product's daily promise; "6개 언어" is not deleted, it is stated where it
-     is evidence rather than a badge (n.why.s2n, n.faq.a5).
-     This slot has held, in turn, a trial promise, a test count, the
-     launch-region caveat and the glossary size. All four were specifications:
-     true, countable, and no help to someone deciding. Meanwhile the price sat
-     at 65% of a 22,000-px document and the sign-up at 90%, so the first
-     screen never told anyone what this costs (2026-09-06 라운드 15, -1 구조
-     and -0.6 메시지). It is the price now, and it links to the table.
-     The second line carries this market's own size estimate rather than a
-     second KRW figure — a reader in Berlin can act on "rund 1,30 €" and cannot
-     act on ₩1,900 — with the estimate itself written once in
-     tools/price-approx.json and held to that market's currency by
-     check-content [22]. The glossary count is not deleted: the why section
-     still states it (n.why.s1v), bound to the same measurement. -->
-<a class="tbadge" href="#price"><b data-i18n="n.hero.b5n">월 ₩1,900</b><span data-i18n="n.hero.b5">기록은 무료 · 가격 자세히</span></a>
-</div>
 <!-- Also not .reveal: the phone bezel below is the LCP element, and the reveal
      holds it 28 px off its final position until the deferred script gets round
      to the observer — a layout shift on the largest element on the page, at
@@ -1071,6 +1054,49 @@
 </div>
 </div>
 <div class="caption"><span class="mic">🔊</span><span class="txt" id="heroCaption"></span></div>
+</div>
+<!-- 2026-10-03 디자인 B1: the note and the three badges used to sit between the
+     CTAs and the devices, which made the first screen nine things deep (title,
+     tag line, sentence, two buttons, note, three badges, devices, profile,
+     caption). They now follow the stage, so the first screen reads title →
+     sentence → buttons → devices, and the price badge is the first thing the
+     first scroll shows. It is still inside the hero, and the nav's 가격 link
+     is on every screen. -->
+<!-- This sentence states no amount, and check-content [14] FAILS if a ₩
+     figure comes back into it: it is the same line in six languages, and one
+     translator retyping a number here is how a price gets misstated to a
+     market. The amounts live in the badge below and in the price table, both
+     of which pair every KRW figure with that market's own size estimate
+     (pr.approxref, tools/price-approx.json), which is the thing round 13 could
+     not see a safe way to do and round 15 charged -1.5 for not having done
+     (five markets could read three KRW figures and evaluate none of them).
+     What this line keeps is the launch-region clause, which used to sit in the
+     most prominent badge on the first screen and read "not in your country
+     yet" to five of the six markets it was shown to. -->
+<p class="note" data-i18n="n.hero.note">애플워치 Series 4 이상과 아이폰이면 충분해요. 기록은 무료, 코치만 구독이에요. 대한민국 App Store에 먼저 나오고, 다른 나라는 차례로 출시합니다.</p>
+<div class="trust">
+<a class="tbadge" href="#privacy"><b data-i18n="n.hero.b1n">계정도 서버도 없음</b><span data-i18n="n.hero.b1">러닝 기록은 기기 밖으로 나가지 않아요</span></a>
+<a class="tbadge" href="#today"><b data-i18n="n.hero.b3n">오늘 뭘 뛸지</b><span data-i18n="n.hero.b3">수면과 심박을 읽고 코치가 정해요</span></a>
+<!-- All three badges are now something a reader can decide ON. Two of them
+     were specifications until this round — "분석 계산 / 전부 기기 안에서" and
+     "6개 언어 / 코치 음성" — true, countable, and no help to anyone choosing
+     (2026-09-06 라운드 16, -0.4). The first says what a reader GETS from
+     on-device analysis (nothing leaves the phone) and the second is the
+     product's daily promise; "6개 언어" is not deleted, it is stated where it
+     is evidence rather than a badge (n.why.s2n, n.faq.a5).
+     This slot has held, in turn, a trial promise, a test count, the
+     launch-region caveat and the glossary size. All four were specifications:
+     true, countable, and no help to someone deciding. Meanwhile the price sat
+     at 65% of a 22,000-px document and the sign-up at 90%, so the first
+     screen never told anyone what this costs (2026-09-06 라운드 15, -1 구조
+     and -0.6 메시지). It is the price now, and it links to the table.
+     The second line carries this market's own size estimate rather than a
+     second KRW figure — a reader in Berlin can act on "rund 1,30 €" and cannot
+     act on ₩1,900 — with the estimate itself written once in
+     tools/price-approx.json and held to that market's currency by
+     check-content [22]. The glossary count is not deleted: the why section
+     still states it (n.why.s1v), bound to the same measurement. -->
+<a class="tbadge" href="#price"><b data-i18n="n.hero.b5n">월 ₩1,900</b><span data-i18n="n.hero.b5">기록은 무료 · 가격 자세히</span></a>
 </div>
 </div>
 </header>
@@ -1914,12 +1940,22 @@ function heroCurrentLines(){
 // language switch cannot let the old sentence keep typing — or its pause fire
 // and queue another line — over the new language.
 function heroStop(){heroGen++;clearInterval(heroTimer);clearTimeout(heroPause);heroTimer=heroPause=null}
+// The caption holds still while the hero is off screen (html.anim-idle, set by
+// the observer that already stops the video, the profile dot and the watch
+// frames). It used to keep typing down there, and each new line changed its
+// height by 20-44 px at 375 px wide — content below jumped by that much every
+// 3-4 s while someone was reading it, and on Chrome the scroll-anchoring
+// correction read as a scroll and flipped the sticky bar (2026-10-03 디자인 B2).
+const heroIdle=()=>document.documentElement.classList.contains('anim-idle');
 function typeLine(text,cb){
   const my=heroGen;let i=0;capEl.textContent="";
   heroTimer=setInterval(()=>{
     if(my!==heroGen){clearInterval(heroTimer);return}
+    if(heroIdle())return;
     capEl.textContent=text.slice(0,++i);
-    if(i>=text.length){clearInterval(heroTimer);heroPause=setTimeout(()=>{if(my===heroGen)cb()},2400)}
+    if(i>=text.length){clearInterval(heroTimer);
+      const next=()=>{if(my!==heroGen)return; if(heroIdle()){heroPause=setTimeout(next,400);return} cb()};
+      heroPause=setTimeout(next,2400)}
   },42)}
 function heroLoop(){
   // A caption that retypes forever is motion; honour the setting.
@@ -2231,6 +2267,28 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
                                       { threshold: .15 });
   io.observe(beta);
   if (heroCta) io.observe(heroCta);
+  // 디자인 B2: tuck the bar away while reading forward, bring it back on the
+  // first upward scroll. Phones only — the stylesheet ignores .tucked above
+  // 820 px, so the class is harmless there. A small dead band keeps the
+  // momentum tail of a flick and iOS's rubber band from flapping it.
+  // Only scrolls that follow the reader's own input count. The hero caption
+  // changes height every few seconds (60 ↔ 104 px at 375 px), Chrome's scroll
+  // anchoring answers by moving scrollY 20-44 px with nobody touching
+  // anything, and without this gate the bar popped in and out on its own
+  // every 3-4 s (measured 2026-10-03). Such a scroll moves the baseline only.
+  let lastY = scrollY, ticking = false, lastInput = -1e9;
+  const touched = () => { lastInput = performance.now(); };
+  ['wheel', 'touchstart', 'touchmove', 'pointerdown', 'keydown'].forEach(t => addEventListener(t, touched, { passive: true }));
+  const tuck = () => {
+    ticking = false;
+    const y = Math.max(0, scrollY), dy = y - lastY;
+    if (performance.now() - lastInput > 1500) { lastY = y; return; }
+    if (Math.abs(dy) < 8) return;
+    cta.classList.toggle('tucked', dy > 0 && y > 120);
+    lastY = y;
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(tuck); } }, { passive: true });
+  cta.addEventListener('focusin', () => cta.classList.remove('tucked'));
 })();
 
 // --- nav overflow affordance (navFade) ---
