@@ -149,7 +149,7 @@
   var SHOTS = {
     'framed-phone-dash': 1, 'framed-phone-detail': 1, 'framed-phone-glance': 1,
     'framed-phone-plan': 1, 'framed-phone-race': 1,
-    'framed-watch-hero': 1, 'framed-watch-evidence': 1, 'framed-watch-start': 1,
+    'framed-watch-hero': 1,
     'framed-watch-pace': 1, 'framed-watch-hr': 1, 'framed-watch-map': 1
   };
   function applyShots(code) {

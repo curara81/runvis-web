@@ -1017,6 +1017,17 @@ console.log('\n[22] price sizes == tools/price-approx.json, in each market’s o
       const bad = [];
       if (!m) { fail(`${c}: tools/price-approx.json has no market entry`); continue; }
       const ref = String(dicts[c]['pr.approxref'] ?? '');
+      // Korean carries no size line since 2026-10-03 (3차 덜어내기 12번): ₩ is
+      // that reader's own store price, so "about US$1.4" sized nothing for
+      // them. The value is deliberately empty and the empty <p> collapses
+      // (.storenote:empty). It must STAY empty — a half-translated size line
+      // there would be the one unchecked price sentence on the page.
+      if (c === 'ko') {
+        if (ref !== '') fail('ko: pr.approxref should be empty — the Korean page states its own price and carries no size line');
+        else if (!String(dicts.ko['n.hero.b5n'] ?? '').includes(`₩${approx.krw.month}`)) fail(`ko: n.hero.b5n does not state ₩${approx.krw.month}`);
+        else ok('ko: no size line (its own store price), badge states ₩' + approx.krw.month);
+        continue;
+      }
       for (const slot of ['month', 'year', 'life']) {
         if (!ref.includes(m[slot])) bad.push(`pr.approxref has no ${slot} size "${m[slot]}"`);
         if (!ref.includes(`₩${approx.krw[slot]}`)) bad.push(`pr.approxref does not say which amount it is sizing (₩${approx.krw[slot]})`);

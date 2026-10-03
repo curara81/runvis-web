@@ -46,12 +46,14 @@ export const HREFLANG = { ko: 'ko', en: 'en', ja: 'ja', es: 'es', zh: 'zh-Hant',
 export const OG_LOCALE = { ko: 'ko_KR', en: 'en_US', ja: 'ja_JP', es: 'es_ES', zh: 'zh_TW', de: 'de_DE' };
 
 /** The device frames that exist per language (i18n.js SHOTS, kept in step).
- *  Five iPhone + six Apple Watch since 2026-09-06: the watch set stopped being
- *  Korean-only once tools/watch-capture.md's procedure was proven to work. */
+ *  Five iPhone + four Apple Watch on the page (six were captured; the evidence
+ *  and start frames left the landing page on 2026-10-03, their files stay in
+ *  assets/). The watch set stopped being Korean-only once
+ *  tools/watch-capture.md's procedure was proven to work. */
 export const SHOTS = new Set([
   'framed-phone-dash', 'framed-phone-detail', 'framed-phone-glance',
   'framed-phone-plan', 'framed-phone-race',
-  'framed-watch-hero', 'framed-watch-evidence', 'framed-watch-start',
+  'framed-watch-hero',
   'framed-watch-pace', 'framed-watch-hr', 'framed-watch-map',
 ]);
 

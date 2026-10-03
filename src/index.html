@@ -426,7 +426,9 @@
   .mini .m b{display:block;font-size:20px;font-weight:900;margin:2px 0 4px;font-variant-numeric:tabular-nums}
   .mini .m em{font-style:normal;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px}
   .st-good{color:#3DDC84;background:rgba(61,220,132,.14)} .st-fair{color:#FFB340;background:rgba(255,179,64,.14)} .st-caution{color:#FF6B6B;background:rgba(255,107,107,.14)}
-  .watch3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:52px}
+  /* One frame since 2026-10-03 (the evidence and start screens left with the
+     3차 덜어내기 — the phone capture beside them already shows both). */
+  .watch3{display:grid;grid-template-columns:minmax(0,340px);justify-content:center;gap:24px;margin-top:52px}
   @media(max-width:820px){.watch3{grid-template-columns:1fr;max-width:340px;margin-left:auto;margin-right:auto}}
   .w3{text-align:center}
   .w3 .frame{width:230px;margin:0 auto;transition:transform .5s var(--ease)}
@@ -740,6 +742,9 @@
     .sticky-cta.tucked:focus-within{transform:none}
   }
   @media (prefers-reduced-motion:reduce){.sticky-cta{transition:none}}
+  /* 3차 덜어내기 12번: pr.approxref is empty in Korean — ₩ IS that reader's
+     price, so a USD size line was noise there. Other languages keep it. */
+  .storenote:empty{display:none}
 </style>
 <!-- Language boot. Runs before the body is parsed, so <html lang>, the title,
      the og: tags and the hero copy are already right at first paint instead of
@@ -1153,8 +1158,6 @@
 </div>
 <div class="watch3">
 <div class="w3 reveal"><div class="frame"><picture><source srcset="assets/framed-watch-hero.avif" type="image/avif"/><source srcset="assets/framed-watch-hero.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 오늘의 결정: 준비도 링과 휴식 판정" data-i18n-attr="alt:alt.watch.decision" loading="lazy" src="assets/framed-watch-hero.png" data-shot="framed-watch-hero" width="480" height="768" decoding="async"/></picture></div><b data-i18n="n.today.w1">오늘의 결정</b><span data-i18n="n.today.w1p">준비도 링과 오늘의 훈련을 손목에서 바로 확인해요.</span></div>
-<div class="w3 reveal"><div class="frame"><picture><source srcset="assets/framed-watch-evidence.avif" type="image/avif"/><source srcset="assets/framed-watch-evidence.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 오늘의 근거: 수면과 HRV" data-i18n-attr="alt:alt.watch.evidence" loading="lazy" src="assets/framed-watch-evidence.png" data-shot="framed-watch-evidence" width="480" height="768" decoding="async"/></picture></div><b data-i18n="n.today.w2">오늘의 근거</b><span data-i18n="n.today.w2p">수면, HRV, 어제 부하를 내 평소와 비교해 좋음·보통·주의로 표시합니다.</span></div>
-<div class="w3 reveal"><div class="frame"><picture><source srcset="assets/framed-watch-start.avif" type="image/avif"/><source srcset="assets/framed-watch-start.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 운동 시작 목록: 러닝·실내 러닝" data-i18n-attr="alt:alt.watch.start" loading="lazy" src="assets/framed-watch-start.png" data-shot="framed-watch-start" width="480" height="768" decoding="async"/></picture></div><b data-i18n="n.today.w3">탭 한 번으로 시작</b><span data-i18n="n.today.w3p">오늘의 훈련이 시작 화면 맨 위에 있어요. 누르면 코치가 구간마다 이끌어 줍니다.</span></div>
 </div>
 <!-- The full disclosure sits under the FIRST screenshot section rather than
      under the hero: it belongs next to the captures, not across the opening.
@@ -1166,7 +1169,7 @@
      of what it said is the last clause of sc.note now: captures are real, and
      the shipping build moves on after them. One paragraph, nothing to keep in
      step by hand. -->
-<p class="sc-note reveal" data-i18n="sc.note">이 페이지의 아이폰 화면 5장과 애플워치 화면 6장은 모두 앱을 한국어로 띄워 찍은 실제 캡처예요. 러닝 중 화면은 실제 러닝에서 찍었습니다. 촬영 후에도 앱은 계속 다듬고 있어서, 받으시는 빌드는 여기 보이는 화면보다 새로울 수 있어요.</p>
+<p class="sc-note reveal" data-i18n="sc.note">이 페이지의 아이폰 화면 5장과 애플워치 화면 4장은 모두 앱을 한국어로 띄워 찍은 실제 캡처예요. 러닝 중 화면은 실제 러닝에서 찍었습니다. 촬영 후에도 앱은 계속 다듬고 있어서, 받으시는 빌드는 여기 보이는 화면보다 새로울 수 있어요.</p>
 </div>
 </section>
 
@@ -1351,7 +1354,7 @@
      every dictionary to them and to its own market's currency, so no language
      can drift to a different number and none of them can quietly become a
      claim. pr.approx2, folded below, is the full reasoning. -->
-<p class="storenote" data-i18n="pr.approxref">한국 밖에서 보고 계신다면 대략적인 수준만 참고해 주세요. 월 ₩1,900은 약 US$1.4, 연 ₩15,000은 약 US$11, 평생 이용권 ₩39,000은 약 US$28쯤이에요. 실제 결제 금액이 아니라 참고용 환산입니다.</p>
+<p class="storenote" data-i18n="pr.approxref"></p>
 <details class="gate">
 <summary data-i18n="n.price.moreh">다른 나라 가격, 절약률, 본전 계산</summary>
 <p data-i18n="pr.approx2">위 환산은 감을 잡으시라고 적은 대략적인 값이고, 실제 결제 금액이 아니에요. 애플은 환율이 아니라 나라마다 따로 정한 가격 단계로 받기 때문에, 실제 금액은 이 근처에서 오르거나 내려갑니다. 다른 나라 가격이 정해지면 이 페이지에 실제 금액을 적을게요. 앱의 구매 화면은 추측하지 않고, 스토어가 알려 주는 그 나라 가격을 그대로 보여 줘요.</p>
