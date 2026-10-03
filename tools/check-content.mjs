@@ -18,15 +18,9 @@
  *   6  hreflang is complete and every alternate resolves to a real file
  *   7  index.html still has its ten sections (#paths + the nine content ones)
  *   8  tags balance
- *   9  the counts the trust block quotes about the app match
- *      tools/app-facts.json (written by tools/app-facts.mjs out of the app
- *      repository). Counts that GROW as the app grows — tests, interface
- *      strings, coach cues — are written as floors ("500개 이상", "2,100개
- *      이상", "270개 이상") and checked as floors, because the exact spelling
- *      of them went stale in four rounds running (502 vs 506, 2,077 vs 2,118,
- *      2,118 vs 2,162, 506 vs 554): every string or test the app repo adds
- *      falsified six hand-edited dictionaries at once. Fixed inventories
- *      (glossary entries, the coach translation table) stay exact
+ *   9  no app count (tests, strings, glossary entries) is quoted on the page
+ *      any more — the why tiles and the trust list that did were removed on
+ *      2026-10-03 — so the keys that carried them must stay gone
  *  10  every RunvisT('key', 'inline fallback') matches that page's dictionary
  *  11  sitemap.xml lists exactly the pages that exist, and robots.txt points
  *      at it
@@ -296,113 +290,22 @@ for (const { file } of ALL_DOCS) {
   else ok(`${file}: tags balance`);
 }
 
-// ---- 9. the numbers the trust block quotes about the app ------------------
-// The trust block says its numbers "are counted straight out of the app
-// repository". They were, once. Then the app moved and the page did not — 502
-// vs 506 tests and 2,077 vs 2,118 strings, the same drift three rounds
-// running, in the one paragraph whose entire value is that its numbers are
-// counted rather than invented. tools/app-facts.mjs re-measures them out of
-// the app checkout into tools/app-facts.json; this compares that file against
-// the six dictionaries. No app checkout is needed here, only the JSON.
-console.log('\n[9] app counts in the dictionaries == tools/app-facts.json');
+// ---- 9. retired: the app counts the page used to quote --------------------
+// For eight rounds this compared the six dictionaries against
+// tools/app-facts.json for the counts the why tiles and the trust list quoted
+// (tests, interface strings, coach table, glossary entries, cue sites). Both
+// blocks left the landing page in the 2026-10-03 3차 덜어내기: the counts were
+// the maker's evidence, not a reader's reason. What this guards now is that
+// none of those keys comes back unbound — a count on this page drifted four
+// rounds running the last time nothing held it. To quote one again, bind it
+// in tools/prerender.mjs FACT_NUMBERS and restore the comparison here first.
+console.log('\n[9] the retired app-count keys stay retired');
 {
-  const factsPath = path.join(ROOT, 'tools/app-facts.json');
-  if (!fs.existsSync(factsPath)) {
-    fail('tools/app-facts.json missing — run `node tools/app-facts.mjs`');
-  } else {
-    const facts = JSON.parse(fs.readFileSync(factsPath, 'utf8'));
-    // Thousands separator per market: a German page writes 2.118, not 2,118.
-    // Spanish writes four-digit numbers both ways (2118 and 2.118 are both
-    // correct), so accept the locale's own rendering, the bare digits and the
-    // digits grouped with that locale's separator — and no other spelling.
-    const LOCALE = { ko: 'ko-KR', en: 'en-US', ja: 'ja-JP', es: 'es-ES', zh: 'zh-Hant', de: 'de-DE' };
-    const groupSep = (code) => (new Intl.NumberFormat(LOCALE[code]).formatToParts(1234567)
-      .find(p => p.type === 'group') || { value: '' }).value;
-    const forms = (code, n) => [...new Set([
-      new Intl.NumberFormat(LOCALE[code]).format(n),
-      String(n),
-      String(n).replace(/\B(?=(\d{3})+(?!\d))/g, groupSep(code)),
-    ])];
-    const num = (code, n) => forms(code, n)[0];
-    // key → the counts it must contain, exactly as that language writes them.
-    const EXACT = {
-      'n.trust.l2': ['coachTable'],
-      'n.trust.l3': ['glossary'],
-      'n.why.s1v': ['glossary'],
-      // The hero's third badge used to state this same glossary count and was
-      // bound here with it. It states the monthly price now — the first screen
-      // was carrying three specifications and no decision — so the count is
-      // held in one place again, the why section (2026-09-06 라운드 15, -1
-      // 구조 / -0.6 메시지). See [22] for what guards the badge that replaced it.
-    };
-    // These four USED to state a floor — "270개 이상", "500개 이상", "2,100개
-    // 이상" — on the argument that a floor cannot be falsified by an app repo
-    // that only grows. That argument was wrong twice over. It let the distance
-    // between the copy and the measurement widen every round until the page
-    // said 500+ where the repo had 737 and 2,100+ where it had 2,324, in the
-    // one paragraph whose entire claim is "지어낼 수 있는 숫자 대신, 앱
-    // 저장소에서 그대로 세어 나오는 것만 적었습니다" — and 737 is a far better
-    // number to have earned than "over 500". Worse, a floor is only true while
-    // every translator keeps the hedge: t-en.js had dropped it ("2,100
-    // interface strings line up", no "over"), so the English page was stating a
-    // plain falsehood that this checker passed (2026-09-06 라운드 15, -1 and
-    // [회귀]).
-    //
-    // They are EXACT now. The maintenance that made a floor tempting is gone:
-    // `node tools/prerender.mjs` — the build command — writes the current
-    // measurement into the six dictionaries and the inline defaults before it
-    // renders (syncFacts), so the copy follows tools/app-facts.json by itself
-    // and this check is the assertion that it did.
-    //
-    // EXACT_FIRST reads the FIRST number in the value, because n.trust.l2 also
-    // carries the 396-line coach table (checked exactly, above) and a
-    // digits-only scan would glue the two into "2324396".
-    const EXACT_FIRST = {
-      'n.why.s2v': 'cueSites', 'n.why.s3v': 'tests',
-      'n.trust.l2': 'stringKeys', 'n.trust.l1': 'tests',
-    };
-    for (const c of CODES) {
-      const bad = [];
-      for (const [key, fields] of Object.entries(EXACT)) {
-        const value = dicts[c][key];
-        if (value == null) { bad.push(`${key} missing`); continue; }
-        for (const f of fields) {
-          const wanted = forms(c, facts[f]);
-          if (!wanted.some(w => value.includes(w))) bad.push(`${key} has no ${wanted.map(w => `"${w}"`).join(' / ')} (${f})`);
-        }
-      }
-      for (const [key, field] of Object.entries(EXACT_FIRST)) {
-        // Drop this locale's group separator (2.324 → 2324, 2,324 → 2324) and
-        // take the first run of digits that remains.
-        const sep = groupSep(c);
-        const flat = String(dicts[c][key] ?? '').split(sep).join('');
-        const m = flat.match(/\d+/);
-        const said = m ? Number(m[0]) : NaN;
-        if (!Number.isFinite(said)) bad.push(`${key} states no number`);
-        else if (said !== facts[field]) {
-          bad.push(`${key} says ${said}, tools/app-facts.json says ${facts[field]} (${field})`
-            + ' — run `node tools/prerender.mjs`, which syncs it');
-        }
-        // A floor hedge next to an exact count is a contradiction, and the
-        // hedge is how this drifted in the first place: five languages kept
-        // "이상 / over / más de" while English quietly dropped it, so five
-        // pages were vague and one was false. Only the text touching the
-        // number is inspected — German writes "über alle sechs Sprachtabellen"
-        // ("across all six") thirty characters later, and that über is not a
-        // hedge.
-        if (m) {
-          const at = flat.indexOf(m[0]);
-          const near = flat.slice(Math.max(0, at - 12), at + m[0].length + 6);
-          const HEDGE = /over|más de|mehr als|über|이상|以上|\+/i;
-          if (HEDGE.test(near)) {
-            bad.push(`${key} still hedges near the figure ("…${near}…") — the count is exact now`);
-          }
-        }
-      }
-      if (bad.length) fail(`${c}: ${bad.join('; ')}`);
-      else ok(`${c}: tests ${num(c, facts.tests)}, strings ${num(c, facts.stringKeys)}, tables ${num(c, facts.coachTable)}, glossary ${num(c, facts.glossary)}, cues ${facts.cueSites}`);
-    }
-  }
+  const RETIRED = ['n.why.s1v', 'n.why.s2v', 'n.why.s3v', 'n.trust.l1', 'n.trust.l2', 'n.trust.l3'];
+  const back = [];
+  for (const c of CODES) for (const k of RETIRED) if (dicts[c][k] != null) back.push(`${c}/${k}`);
+  if (back.length) fail(`${back.join(', ')} came back without a binding — see the note above [9]`);
+  else ok('no dictionary quotes an app count (why tiles and trust list removed 2026-10-03)');
 }
 
 // ---- 10. RunvisT fallbacks == the dictionary ------------------------------
@@ -515,19 +418,6 @@ console.log('\n[12] claims that carry a condition');
          + 'condition sells a cue the subscriber may never hear',
     },
     {
-      // The launch store is Korea and the shoe-search link only exists there.
-      // Five dictionaries carried the clause and the Korean one did not — and
-      // pv.legalNote declares the Korean text the binding version, so the
-      // binding version was the weakest of the six (2026-09-06 라운드 13, -0.5).
-      // One of these six spellings has to survive every future rewording.
-      key: 'n.faq.a4',
-      need: ['대한민국 App Store', 'Korean App Store', '韓国App Store', 'App Store de Corea', '韓國 App Store', 'koreanischen App Store'],
-      why: 'the external shoe-search page (iOSShoesView → the Coupang search URL) '
-         + 'only opens on the Korean storefront, and privacy.html pv.s3.r6c already '
-         + 'names it; an answer about what leaves the device that drops the '
-         + 'condition in one language is answering a different question there',
-    },
-    {
       key: 'n.priv.p',
       need: ['대한민국 App Store', 'Korean App Store', '韓国App Store', 'App Store de Corea', '韓國 App Store', 'koreanischen App Store'],
       why: 'the same clause in the privacy summary on the landing page — same '
@@ -601,11 +491,6 @@ console.log('\n[13] coach constants in the copy == the app declaration');
     const BOUND = [
       { key: 'n.live.q.n4', field: 'cueToggles',
         why: 'CoachCueCategory.userToggleable is the list iOSSettingsView and the watch SettingsView render' },
-      { key: 'n.live.q.sum', field: 'cueBudgetEasy',
-        why: 'CoachSessionProfile.spokenBudgetPer30Min for .easy/.long/.runWalk' },
-      { key: 'n.live.q.sum', field: 'cueBudgetTempo',
-        why: 'CoachSessionProfile.spokenBudgetPer30Min for .tempo/.race/.free' },
-      { key: 'n.live.q.sum', field: 'cueMinGap', why: 'CoachCueSpacing.minGap' },
       { key: 'n.live.q.n1', field: 'cueMinGap', why: 'CoachCueSpacing.minGap' },
       { key: 'n.live.q.r1b', field: 'cueBudgetEasy', why: 'the easy-run row of the same table' },
       { key: 'n.live.q.r2b', field: 'cueBudgetTempo', why: 'the tempo/race row of the same table' },
@@ -674,7 +559,6 @@ console.log('\n[14] the three prices are identical in all six dictionaries');
   // Sentences that quote a price. Each must carry the amounts listed, so a
   // reworded translation cannot drop or change one.
   const IN_PROSE = [
-    ['n.why.cost', ['1,900', '15,000', '39,000']],
     ['n.price.year', ['15,000']],
     ['n.price.life', ['39,000']],
   ];
@@ -846,7 +730,7 @@ console.log('\n[18] the free-period copy == Runvis.storekit introductoryOffer');
     const n = facts.trialMonths;
     // digit + that language's word for "month", with an optional space between.
     const MONTH = { ko: '개월', en: 'months?', ja: 'か月', es: 'mes(?:es)?', zh: '個月', de: 'Monate?' };
-    const KEYS = ['pl.ribbon', 'n.price.sub', 'n.price.year', 'n.faq.a7'];
+    const KEYS = ['pl.ribbon', 'n.price.sub', 'n.price.year'];
     for (const key of KEYS) {
       const bad = [];
       for (const c of CODES) {

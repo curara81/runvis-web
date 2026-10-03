@@ -596,11 +596,9 @@
   /* proof block: the only non-self-descriptive signal a pre-launch page has */
   .proof{margin-top:28px;background:rgba(76,203,217,.05);border:1px solid var(--line);
     border-left:2px solid var(--cyan);border-radius:0 18px 18px 0;padding:24px 26px}
-  .proof h3{font-size:17px;font-weight:800;letter-spacing:-.01em}
-  .proof ul{list-style:none;margin-top:14px}
-  .proof li{color:#dfe3e7;font-size:14.5px;line-height:1.7;margin:8px 0;padding-left:22px;position:relative}
-  .proof li::before{content:"✓";position:absolute;left:0;color:var(--cyan);font-weight:800}
-  .proof p{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);color:var(--dim);font-size:13.5px;line-height:1.75}
+  /* 2026-10-03: the heading and the counted list above this line left the
+     page, so the paragraph is the whole box now — no divider, no top gap. */
+  .proof p{color:var(--dim);font-size:13.5px;line-height:1.75}
 
   /* signup */
   .signup{background:var(--bg1);border:1px solid var(--line);border-radius:22px;padding:40px;text-align:center;margin-top:28px}
@@ -930,7 +928,7 @@
      rel=canonical without re-running the generator. -->
 <script id="appld" type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Runvis","applicationCategory":"HealthApplication","operatingSystem":"watchOS, iOS","inLanguage":"ko","url":"https://runvis.app/","description":"새 러닝 시계 없이, 지금 차고 있는 애플워치가 러닝 코치가 됩니다. 수면과 심박을 읽어 오늘 훈련을 정하고, 달리는 동안엔 필요한 순간에만 목소리로 코칭합니다. 계정도 서버도 없습니다.","image":"https://runvis.app/assets/og-card.png","screenshot":"https://runvis.app/assets/framed-phone-dash.png","author":{"@type":"Organization","name":"Runvis","url":"https://runvis.app/"}}</script>
 <script id="faqld" type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"워치가 없어도 되나요?","acceptedAnswer":{"@type":"Answer","text":"네. 아이폰만으로도 GPS로 기록하고, 1km(마일 설정이면 1마일)마다 구간 페이스 안내를 받을 수 있어요. 구독 없이 아이폰만 들고 달리면 들리는 음성은 이 구간 안내 하나예요. 구독하면 아이폰에서도 페이스 안내가 나오고, 심박존 안내는 아이폰에 심박 센서가 없어서 블루투스 심박 밴드(폴라 H10, 와후 TICKR 같은 표준 BLE 심박 스트랩)를 연결했을 때만 나와요. 자세 코칭, 언덕 예고, 경로 이탈 경보는 워치로 달릴 때만 됩니다."}},{"@type":"Question","name":"어떤 애플워치가 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"watchOS 10 이상(Apple Watch Series 4 이상)과 iOS 17 이상이면 돼요. 심박과 GPS만 있으면 충분하고, 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 세밀해져요. 이 두 값을 못 재는 모델에서는 케이던스를 기준으로 코칭합니다."}},{"@type":"Question","name":"해지하면 기록은 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 Apple 건강에 그대로 남아요. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 쓸 수 있어요."}},{"@type":"Question","name":"내 데이터는 어디로 가나요?","acceptedAnswer":{"@type":"Answer","text":"계정도 서버도 없어요. 위치가 기기 밖으로 나가는 건 날씨와 동네 이름, 코스 자동 생성을 조회할 때뿐이에요. 그 밖에는 App Store 결제 처리와 공개 코스·신발 목록 파일 내려받기가 있고, 지금은 대한민국 App Store에 한해 신발 화면에서 직접 누를 때만 외부 러닝화 검색 페이지가 열려요. 운동과 건강 데이터는 업로드하지 않습니다."}},{"@type":"Question","name":"6개 언어 음성은 어디까지 되나요?","acceptedAnswer":{"@type":"Answer","text":"아이폰 코치가 하는 말은 6개 언어 모두 테스트로 검증해요. 45분짜리 러닝을 초 단위로 재생해, 나오는 모든 안내가 번역돼 있는지 빌드할 때마다 확인합니다. 워치의 실시간 코칭은 아직 이 테스트 범위 밖이라 번역이 빠진 문장이 남아 있을 수 있고, 그럴 때는 영어로 나와요. 영어로 넘어가는 이 동작도 테스트로 확인합니다. 앱 화면 문구는 코치 음성과 다른 번역표를 써요."}},{"@type":"Question","name":"기록이 하나도 없어도 쓸 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 워치로 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 바로 나와요. 이 측정은 워치에서만 할 수 있어요. 아이폰만 있다면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기를 쓸 수 있고, 플랜은 최근 주간 거리를 기준으로 시작해요. 준비도는 워치를 차고 잔 밤이 쌓여야 해서 보통 2주쯤, ACWR은 4주쯤 걸려요. 기준 대비 효율은 최대심박을 입력한 뒤, 심박이 기록된 10분 넘는 러닝을 같은 강도(이지·중간·고강도)로 3번 채우면 나옵니다. 처음 몇 번은 강도나 측정 시점을 아직 가려내지 못한 기준선과 비교되는데, 그 사실도 화면에 함께 표시해요."}},{"@type":"Question","name":"무료 체험은 누가 받을 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"App Store가 이 구독의 체험을 아직 쓰지 않았다고 판단한 계정만 받을 수 있어요. 예전에 같은 구독을 썼거나 체험을 이미 쓴 계정은 첫 결제부터 요금이 청구돼요. 어느 쪽인지는 결제 전에 앱의 구매 화면이 항상 알려 줍니다. 무료 기간은 월간도 연간도 1개월이에요. 연간을 골라도 1년이 무료가 되는 건 아니고, 1개월이 지나면 1년 요금이 한 번에 결제돼요. 무료 기간은 App Store가 상품 정보로 내려주는 값이라, 앱은 받은 그대로 결제 직전에 다시 보여 드려요."}},{"@type":"Question","name":"평생 이용권과 연간 중 뭐가 유리한가요?","acceptedAnswer":{"@type":"Answer","text":"평생 이용권은 자동 갱신 없는 한 번 결제예요. 연간 기준 약 2.6년, 월간 기준 약 20개월이면 본전이라, 그보다 오래 쓰실 생각이면 평생 이용권이 더 저렴해요. Apple 가족 공유가 되는 요금제도 평생 이용권 하나뿐이고, 월간·연간 구독은 가족 공유 대상이 아닙니다."}},{"@type":"Question","name":"기기를 바꾸면 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"러닝 기록은 Apple 건강에 저장돼 있어서 새 기기의 건강 앱이 그대로 가져와요. 런비스 안에만 있던 값(프로필, 심박존, 신발 목록, 코치가 쌓은 기준선)은 설정 → 데이터 → '내 데이터 내보내기'로 파일 하나에 담아 두었다가, 새 기기에서 '백업에서 가져오기'로 되살리면 돼요. 이 파일은 직접 저장한 곳에만 남고, 런비스가 어디로도 보내지 않아요. 구독은 App Store의 '구매 복원'으로 되찾을 수 있습니다."}},{"@type":"Question","name":"워치 페이스 컴플리케이션이나 위젯이 있나요?","acceptedAnswer":{"@type":"Answer","text":"아직 없어요. 워치 페이스 컴플리케이션, 아이폰 홈 화면 위젯, 라이브 액티비티는 이번 버전에 들어 있지 않습니다. 넣을 계획은 있지만 시기는 아직 정하지 않았어요."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"워치가 없어도 되나요?","acceptedAnswer":{"@type":"Answer","text":"네. 아이폰만으로도 GPS로 기록하고, 1km(마일 설정이면 1마일)마다 구간 페이스 안내를 받을 수 있어요. 구독 없이 아이폰만 들고 달리면 들리는 음성은 이 구간 안내 하나예요. 구독하면 아이폰에서도 페이스 안내가 나오고, 심박존 안내는 아이폰에 심박 센서가 없어서 블루투스 심박 밴드(폴라 H10, 와후 TICKR 같은 표준 BLE 심박 스트랩)를 연결했을 때만 나와요. 자세 코칭, 언덕 예고, 경로 이탈 경보는 워치로 달릴 때만 됩니다."}},{"@type":"Question","name":"어떤 애플워치가 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"watchOS 10 이상(Apple Watch Series 4 이상)과 iOS 17 이상이면 돼요. 심박과 GPS만 있으면 충분하고, 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 세밀해져요. 이 두 값을 못 재는 모델에서는 케이던스를 기준으로 코칭합니다."}},{"@type":"Question","name":"해지하면 기록은 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"기록은 Apple 건강에 그대로 남아요. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 쓸 수 있어요."}},{"@type":"Question","name":"기록이 하나도 없어도 쓸 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 워치로 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 바로 나와요. 이 측정은 워치에서만 할 수 있어요. 아이폰만 있다면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기를 쓸 수 있고, 플랜은 최근 주간 거리를 기준으로 시작해요. 준비도는 워치를 차고 잔 밤이 쌓여야 해서 보통 2주쯤, ACWR은 4주쯤 걸려요. 기준 대비 효율은 최대심박을 입력한 뒤, 심박이 기록된 10분 넘는 러닝을 같은 강도(이지·중간·고강도)로 3번 채우면 나옵니다. 처음 몇 번은 강도나 측정 시점을 아직 가려내지 못한 기준선과 비교되는데, 그 사실도 화면에 함께 표시해요."}},{"@type":"Question","name":"평생 이용권과 연간 중 뭐가 유리한가요?","acceptedAnswer":{"@type":"Answer","text":"평생 이용권은 자동 갱신 없는 한 번 결제예요. 연간 기준 약 2.6년, 월간 기준 약 20개월이면 본전이라, 그보다 오래 쓰실 생각이면 평생 이용권이 더 저렴해요. Apple 가족 공유가 되는 요금제도 평생 이용권 하나뿐이고, 월간·연간 구독은 가족 공유 대상이 아닙니다."}},{"@type":"Question","name":"기기를 바꾸면 어떻게 되나요?","acceptedAnswer":{"@type":"Answer","text":"러닝 기록은 Apple 건강에 저장돼 있어서 새 기기의 건강 앱이 그대로 가져와요. 런비스 안에만 있던 값(프로필, 심박존, 신발 목록, 코치가 쌓은 기준선)은 설정 → 데이터 → '내 데이터 내보내기'로 파일 하나에 담아 두었다가, 새 기기에서 '백업에서 가져오기'로 되살리면 돼요. 이 파일은 직접 저장한 곳에만 남고, 런비스가 어디로도 보내지 않아요. 구독은 App Store의 '구매 복원'으로 되찾을 수 있습니다."}}]}
 </script>
 </head>
 <body>
@@ -1123,48 +1121,6 @@
 <div class="card tilt reveal" data-tilt="8"><div class="ic">📐</div><h3 data-i18n="n.why.c2h">계산식은 공개돼 있고</h3><p data-i18n="n.why.c2p">훈련 부하, 회복 시간, 역치 추정은 스포츠과학에서 널리 쓰는 공개 공식이에요. 런비스는 그 공식을 워치와 아이폰 안에서 돌립니다.</p></div>
 <div class="card tilt reveal" data-tilt="8"><div class="ic">🗣️</div><h3 data-i18n="n.why.c3h">빠져 있던 건 코치였어요</h3><p data-i18n="n.why.c3p">숫자를 읽고, 오늘 할 일을 정하고, 달리는 동안 옆에서 말해 주는 사람. 런비스가 그 자리를 채웁니다.</p></div>
 </div>
-<!-- All three are grepped out of the app, not estimated. The third slot used to
-     hold the monthly price, which made this a row of two counts and a currency
-     — three different units side by side read as padding rather than evidence,
-     and the price is already stated three times on this page (hero note, hero
-     badge, price section). It is a count now, and it is the one hard trust
-     signal a pre-launch page can offer.
-     WHAT each tile counts, and nothing more — the FIGURES are deliberately not
-     written here any more. They used to be, and this comment went stale three
-     rounds running because a number in a comment is maintained by hand while
-     the app repository moves in another session.
-       s1v  `return Entry(` sites in Shared/Services/MetricGlossary.swift —
-            a fixed inventory, so the page states it exactly.
-       s2v  `Cue( ko:` construction sites across the shipping sources, tests
-            excluded. Cue is "one spoken line" by its own definition, so this
-            counts lines, not triggers.
-       s3v  unique `func test…` names in Tests/.
-     Both used to state a FLOOR ("270개 이상", "500개 이상") so that growth in
-     the app repository could never falsify them. That is exactly how they went
-     stale: the repo reached 287 cue sites and 737 tests and the page still
-     said 270+ and 500+, in a paragraph whose whole claim is that its numbers
-     are counted rather than invented — and the English table had dropped the
-     "over", making it false outright (2026-09-06 라운드 15, -1 and [회귀]).
-     They are EXACT now, and so are n.trust.l1/l2. The live figures live in ONE
-     place — tools/app-facts.json, written by `node tools/app-facts.mjs` out of
-     the app checkout — and `node tools/prerender.mjs` writes them into the six
-     dictionaries and into the inline defaults below (syncFacts), so a fresh
-     measurement reaches the copy on the next build instead of waiting for
-     someone to notice. check-content [9] then fails if any of them disagrees
-     with that file by so much as one digit. -->
-<div class="mini reveal" style="max-width:760px;margin-top:26px">
-<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s1">눌러서 뜻을 볼 수 있는 지표</small><b data-i18n="n.why.s1v">42개</b><em class="st-good" data-i18n="n.why.s1n">앱 안에서 바로</em></div>
-<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s2">코치가 건네는 문장</small><b data-i18n="n.why.s2v">287개</b><em class="st-good" data-i18n="n.why.s2n">6개 언어로</em></div>
-<div class="m tilt" data-tilt="8"><small data-i18n="n.why.s3">자동 테스트</small><b data-i18n="n.why.s3v">827개</b><em class="st-good" data-i18n="n.why.s3n">빌드할 때마다</em></div>
-</div>
-<!-- The claim "you do not need a second running watch" is made five times on
-     this page and had no figure attached anywhere. Naming a competitor's
-     street price would be a number this repository cannot verify, so the line
-     states the two costs that ARE fixed and checkable: the extra hardware
-     (none — the watch is already on the wrist) and what the coach costs. The
-     three prices are the same ones the price card and the JSON-LD carry. -->
-<p class="honest reveal" data-i18n="n.why.cost">새로 살 기기는 없어요. 차고 있는 애플워치를 그대로 씁니다. 드는 돈은 코치 비용뿐이고, 대한민국 App Store 기준으로 월 ₩1,900, 연 ₩15,000, 평생 이용권 ₩39,000(한 번 결제) 중에서 고르면 돼요. 러닝 시계는 쓰는 사람마다 따로 사야 하지만, 평생 이용권은 한 번 결제로 Apple 가족 공유 그룹이 함께 씁니다. 전용 시계와 무엇이 같고 무엇이 다른지는 <a href="how-it-works.html#versus">지표별로 비교해 두었어요</a>.</p>
-<p class="honest reveal" data-i18n="n.why.phone">아직 워치가 없어도 시작할 수 있어요. 아이폰만 들고 달려도 GPS로 기록되고, 1km(마일 설정이면 1마일)마다 구간 페이스를 알려 드려요. 구독 없이 아이폰으로만 달리면 들리는 음성은 이 구간 안내 하나이고, 자세 코칭은 손목 센서가 있어야 해서 워치에서만 됩니다.</p>
 </div>
 </section>
 
@@ -1188,16 +1144,6 @@
 <div class="desc">
 <h3 data-i18n="n.today.h3">결론이 먼저, 근거는 바로 아래</h3>
 <p data-i18n="n.today.p">화면 맨 위에 오늘 할 훈련이, 그 아래에 그렇게 정한 근거가 있어요. 나머지 지표는 참고용으로 그 밑에 모아 두었습니다. 궁금한 숫자를 누르면 뜻과 계산 방식, 내 평소 범위가 나와요.</p>
-<div class="mini">
-<div class="m tilt" data-tilt="10"><small data-i18n="n.today.m1">수면</small><b>7.2h</b><em class="st-good" data-i18n="n.st.good">좋음</em></div>
-<div class="m tilt" data-tilt="10"><small>HRV</small><b>48ms</b><em class="st-fair" data-i18n="n.st.fair">보통</em></div>
-<div class="m tilt" data-tilt="10"><small data-i18n="n.today.m3">어제 부하</small><b>70</b><em class="st-caution" data-i18n="n.st.caution">주의</em></div>
-</div>
-<!-- These three numbers are an HTML mock-up standing beside a real screenshot,
-     in the same tone and the same type. run.html:381 labels its equivalent
-     ("화면 속 수치는 시연용 예시 데이터입니다") and sc.note covers the captures
-     further down, but nothing covered this block. -->
-<p class="sc-note" style="margin:10px 0 0;text-align:left" data-i18n="n.today.mininote">이 세 칸의 숫자는 화면 구성을 보여 드리려는 예시예요. 옆의 캡처는 실제 앱 화면입니다.</p>
 <ul>
 <li data-i18n="n.today.l1">컨디션이 떨어진 날엔 강도를 낮추고, 왜 낮췄는지 말해 줘요</li>
 <li data-i18n="n.today.l2">그래도 원래대로 뛰고 싶으면 그렇게 할 수 있어요</li>
@@ -1238,32 +1184,6 @@
 <div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 회복 안내 (구독)" data-i18n-attr="aria-label:n.vc4.aria" data-say="심박이 존 쓰리까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor" data-i18n="n.vc4.sensor">📡 걸으며 회복하는 동안 심박존이 한 칸 내려올 때 · 화면엔 '존 3', 워치는 '존 쓰리'로 읽어요. 한국어 음성이 '존 일'과 '존 이'를 헷갈리게 들려서 숫자만 영어로 말합니다</div><div class="play"><span data-i18n="n.vc4.play">회복</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></div><div class="line" data-i18n="n.vc4.line">"심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."</div></div>
 </div>
 <p class="sr-only" id="voiceStatus" role="status" aria-live="polite"></p>
-<div class="quiet reveal"><span>🤫</span><div class="qbody">
-<b data-i18n="n.live.q.h">수다스럽지 않아요</b>
-<!-- One sentence, then the reference material. The visible layer used to be a
-     three-row table whose header alone ran to eleven words of exclusions, in
-     the middle of a landing page and directly above the price section — a
-     reader deciding whether the coach talks too much had to parse a spec to
-     find out. The table and the four exception notes are unchanged and one tap
-     away; nothing was deleted. A closed <details> stays in the markup for a
-     crawler and for Ctrl-F. -->
-<!-- The summary used to put splits and hill warnings in one clause ("이 상한
-     밖이라 늘 나오고"). They are not the same case: CoachCueCategory
-     .exemptFromSpacing is `isEssential || self == .split`, so a hill warning
-     still waits out the 45-second gap even though countsTowardBudget excludes
-     it from the 30-minute budget. The detail rows below were already right;
-     only this one-line summary overstated. -->
-<p class="qsum" data-i18n="n.live.q.sum">이지런은 30분에 최대 8번, 템포·레이스는 6번까지만 말하고, 말과 말 사이는 최소 45초를 둡니다. 구간 안내(스플릿)는 이 제한과 상관없이 늘 나오고, 언덕 예고는 횟수 제한은 받지 않되 직전 안내와의 45초 간격은 지켜요. 인터벌은 횟수 대신 켜 둔 항목에 따라 빈도가 정해집니다.</p>
-<!-- The per-session table and the four exception notes used to sit in a
-     <details> here, and the round-12 note on this page's density is right that
-     a fold is not a level: index.html ran 16,408 px across ten sections and
-     answered every density complaint by folding something else. The reference
-     material is its own page now — how-it-works.html#rules — carrying the same
-     dictionary keys, so nothing was deleted, translated again or exempted from
-     check-content [2], [3] and [13]. What stays here is the one sentence above
-     this line, which is what that <summary> was hiding a spec behind. -->
-<p class="qmore"><a href="how-it-works.html#rules" data-i18n="n.live.q.moreh">러닝 종류별 상한과 예외 규칙 전부 보기</a></p>
-</div></div>
 <h3 class="steps-h reveal"><span data-i18n="n.steps.h">출발 버튼은 한 번이면 돼요</span><span class="pill free" data-i18n="n.pill.free">무료</span></h3>
 <p class="honest reveal" style="margin-top:8px" data-i18n="n.steps.note">화면, 타이머, 자동 시작은 무료예요. 코치가 목소리로 함께 진행하는 부분이 구독입니다.</p>
 <div class="steps reveal">
@@ -1396,7 +1316,6 @@
      체험") while the app only prints that line when StoreKit reports
      introEligible true. The subject is the ACCOUNT now, and the rule itself is
      one link away in FAQ q7 — the same answer the hero badge points at. -->
-<a class="terms-link" href="#faq" data-i18n="pl.terms">체험은 누가 받나요?</a>
 <!-- Three products, one of which looked like a price. ₩1,900 sat in .amt and
      the other two were <b> inside two 13.5 px grey paragraphs — nine lines of
      small print between the headline figure and the first benefit (measured at
@@ -1534,23 +1453,14 @@
      first because it is the line that excludes a device. -->
 <p data-i18n="n.faq.a2">watchOS 10 이상(Apple Watch Series 4 이상)과 iOS 17 이상이면 돼요. 심박과 GPS만 있으면 충분하고, 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 세밀해져요. 이 두 값을 못 재는 모델에서는 케이던스를 기준으로 코칭합니다.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q3">해지하면 기록은 어떻게 되나요?</h3><p data-i18n="n.faq.a3">기록은 Apple 건강에 그대로 남아요. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 쓸 수 있어요.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q4">내 데이터는 어디로 가나요?</h3><p data-i18n="n.faq.a4">계정도 서버도 없어요. 위치가 기기 밖으로 나가는 건 날씨와 동네 이름, 코스 자동 생성을 조회할 때뿐이에요. 그 밖에는 App Store 결제 처리와 공개 코스·신발 목록 파일 내려받기가 있고, 지금은 대한민국 App Store에 한해 신발 화면에서 직접 누를 때만 외부 러닝화 검색 페이지가 열려요. 운동과 건강 데이터는 업로드하지 않습니다.</p></div>
-<!-- The test-harness description is a spec sheet, not an answer: it ran past
-     350 characters inside a landing tile. The answer keeps the two sentences a
-     reader came for (six languages; English, never Korean, when a line is
-     missing) and the harness folds into the same <details class="gate"> the
-     price card uses. The FAQ JSON-LD now carries the short answer. -->
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q5">6개 언어 음성은 어디까지 되나요?</h3><p data-i18n="n.faq.a5">아이폰 코치가 하는 말은 6개 언어 모두 테스트로 검증해요. 45분짜리 러닝을 초 단위로 재생해, 나오는 모든 안내가 번역돼 있는지 빌드할 때마다 확인합니다. 워치의 실시간 코칭은 아직 이 테스트 범위 밖이라 번역이 빠진 문장이 남아 있을 수 있고, 그럴 때는 영어로 나와요. 영어로 넘어가는 이 동작도 테스트로 확인합니다. 앱 화면 문구는 코치 음성과 다른 번역표를 써요.</p>
-<details class="gate"><summary data-i18n="n.faq.a5h">테스트는 어디까지 확인하나요?</summary><p data-i18n="n.faq.a5g">코치 음성 번역표 4개는 항목과 숫자 자리까지 서로 정확히 맞아야 하고, 표에 있는 문장이 모두 실제로 쓰이는지도 확인해요. 아이폰 코치의 45분 재생 테스트는 6개 언어 × 미터·마일 두 설정으로 돌아가고, 하나라도 어긋나면 그 자리에서 실패합니다. 숫자가 들어가는 안내(스플릿, 언덕 예고, 페이스, 심박존, 훈련 단계)도 언어마다 그 언어의 어순에 맞춰 말해요.</p></details></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q6">기록이 하나도 없어도 쓸 수 있나요?</h3><p data-i18n="n.faq.a6">네. 워치로 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 바로 나와요. 이 측정은 워치에서만 할 수 있어요. 아이폰만 있다면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기를 쓸 수 있고, 플랜은 최근 주간 거리를 기준으로 시작해요. 준비도는 워치를 차고 잔 밤이 쌓여야 해서 보통 2주쯤, ACWR은 4주쯤 걸려요. 기준 대비 효율은 최대심박을 입력한 뒤, 심박이 기록된 10분 넘는 러닝을 같은 강도(이지·중간·고강도)로 3번 채우면 나옵니다. 처음 몇 번은 강도나 측정 시점을 아직 가려내지 못한 기준선과 비교되는데, 그 사실도 화면에 함께 표시해요.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q7">무료 체험은 누가 받을 수 있나요?</h3><p data-i18n="n.faq.a7">App Store가 이 구독의 체험을 아직 쓰지 않았다고 판단한 계정만 받을 수 있어요. 예전에 같은 구독을 썼거나 체험을 이미 쓴 계정은 첫 결제부터 요금이 청구돼요. 어느 쪽인지는 결제 전에 앱의 구매 화면이 항상 알려 줍니다. 무료 기간은 월간도 연간도 1개월이에요. 연간을 골라도 1년이 무료가 되는 건 아니고, 1개월이 지나면 1년 요금이 한 번에 결제돼요. 무료 기간은 App Store가 상품 정보로 내려주는 값이라, 앱은 받은 그대로 결제 직전에 다시 보여 드려요.</p></div>
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q8">평생 이용권과 연간 중 뭐가 유리한가요?</h3><p data-i18n="n.faq.a8">평생 이용권은 자동 갱신 없는 한 번 결제예요. 연간 기준 약 2.6년, 월간 기준 약 20개월이면 본전이라, 그보다 오래 쓰실 생각이면 평생 이용권이 더 저렴해요. Apple 가족 공유가 되는 요금제도 평생 이용권 하나뿐이고, 월간·연간 구독은 가족 공유 대상이 아닙니다.</p></div>
-<!-- Two questions the page had been leaving to the download: there is no
-     iCloud sync (no paid developer account), and there is no complication,
-     widget or Live Activity in this build (0 WidgetKit/ActivityKit imports in
-     the repo). Both are better answered before the install than after. -->
+<!-- A question the page had been leaving to the download: there is no iCloud
+     sync (no paid developer account). Better answered before the install than
+     after. (2026-10-03: the complication/widget answer beside it, the trial,
+     data and six-language answers were removed with the 3차 덜어내기 — the
+     price section, the privacy section and the store sheet already say them.) -->
 <div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q9">기기를 바꾸면 어떻게 되나요?</h3><p data-i18n="n.faq.a9">러닝 기록은 Apple 건강에 저장돼 있어서 새 기기의 건강 앱이 그대로 가져와요. 런비스 안에만 있던 값(프로필, 심박존, 신발 목록, 코치가 쌓은 기준선)은 설정 → 데이터 → '내 데이터 내보내기'로 파일 하나에 담아 두었다가, 새 기기에서 '백업에서 가져오기'로 되살리면 돼요. 이 파일은 직접 저장한 곳에만 남고, 런비스가 어디로도 보내지 않아요. 구독은 App Store의 '구매 복원'으로 되찾을 수 있습니다.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q10">워치 페이스 컴플리케이션이나 위젯이 있나요?</h3><p data-i18n="n.faq.a10">아직 없어요. 워치 페이스 컴플리케이션, 아이폰 홈 화면 위젯, 라이브 액티비티는 이번 버전에 들어 있지 않습니다. 넣을 계획은 있지만 시기는 아직 정하지 않았어요.</p></div>
 </div>
 </div>
 </section>
@@ -1560,49 +1470,17 @@
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.beta.eb">베타 신청</div>
 <h2 id="beta-h" class="reveal" data-i18n="n.beta.h2">베타로 먼저 써 보세요</h2>
-<!-- Trust block. The page had no signal that was not a self-description: no
-     reviews, no press, no ratings — an unshipped app cannot have them. Rather
-     than invent a number, every line below is counted straight out of the app
-     repository and can be re-counted by anyone with a checkout:
-       l1  unique `func test…` names in Tests/                        (a floor)
-       l2  distinct keys shared by all six Shared/Resources/*.lproj/
-           Localizable.strings (a floor), and the exact entry count of each
-           CoachTranslations+{ja,es,zh,de}.swift table
-       l3  `return Entry(` sites in Shared/Services/MetricGlossary.swift
-     The FIGURES are not repeated in this comment, on purpose. They were, and
-     the comment went stale in three consecutive rounds — the one paragraph on
-     the page whose whole value is that its numbers are counted rather than
-     invented was itself maintained by hand. The measurements live in
-     tools/app-facts.json, written by `node tools/app-facts.mjs` out of the app
-     checkout; check-content.mjs [9] fails if the six dictionaries and that
-     file disagree. Read the JSON, not this comment. -->
+<!-- 2026-10-03 3차 덜어내기: this block used to open with three counts out of
+     the app repository (tests, strings, glossary entries), bound to
+     tools/app-facts.json. They were the maker's numbers, not a reader's
+     reason to sign up, and the why section said the same three — both went.
+     What stays is the one human line: one person makes this, there are no
+     reviews yet, write to me. -->
 <div class="proof reveal">
-<!-- The heading used to open with "후기는 아직 없습니다" — the last thing a
-     reader met before the sign-up form was a sentence about what this page
-     cannot show. Same three facts, same admission, opposite order: the
-     countable evidence stands first and the missing reviews are the footnote
-     under it (n.trust.p, which said it already). Nothing was softened. -->
-<h3 data-i18n="n.trust.h">지금 바로 확인할 수 있는 것</h3>
-<ul>
-<li data-i18n="n.trust.l1">자동 테스트 827개가 빌드할 때마다 코치 문장, 무료·유료 경계, 플랜 계산을 검사해요.</li>
-<li data-i18n="n.trust.l2">화면 문구 2,366개가 6개 언어 모두 빠짐없이 짝을 이루고, 코치 음성 번역표 4개도 각각 396개 항목씩 맞춰져 있어요. 하나라도 어긋나면 테스트가 그 자리에서 실패합니다.</li>
-<li data-i18n="n.trust.l3">앱 안에 지표 설명 42개가 들어 있어요. 모르는 숫자를 누르면 뜻과 계산 근거, 내 평소 범위가 나와요.</li>
-</ul>
-<p data-i18n="n.trust.p">혼자 만드는 앱이에요. 출시 전이라 별점도, 기사도 아직 없습니다. 그래서 그럴듯한 숫자 대신, 앱 코드에서 직접 셀 수 있는 사실만 적었어요. 궁금한 점은 help@runvis.app 으로 보내 주세요. 답장은 제가 직접 씁니다.</p>
+<p data-i18n="n.trust.p">혼자 만드는 앱이에요. 출시 전이라 별점도, 기사도 아직 없습니다. 궁금한 점은 help@runvis.app 으로 보내 주세요. 답장은 제가 직접 씁니다.</p>
 </div>
 <div class="signup reveal">
 <p class="sub" data-i18n="n.beta.sub" style="margin:0 auto">이메일을 남겨 주시면 TestFlight 베타가 열릴 때 초대장을 한 통 보내 드려요. 여는 날짜가 정해지면 이곳에 먼저 적고, 신청하신 주소로도 알려 드립니다.</p>
-<!-- 2026-09-06 라운드 15 (-0.8 / -0.5): the page ended, at 90% of a 22,000-px
-     document, with an email field and nothing else — no date, and nothing a
-     reader could do today. The date is still not inventable, so the ABSENCE is
-     made checkable instead: this paragraph says it will BE the date when there
-     is one, which turns a missing fact into a signal a returning reader can
-     read in one glance. And it names the two things that are actually
-     available now — the queue (with what the beta build is worth: every coach
-     feature, free, for its duration, the same fact n.beta.s2 states on
-     how-it-works.html) and the demo, which is the only part of the product a
-     visitor can use before there is a build. -->
-<p class="sub" data-i18n="n.beta.window" style="margin:12px auto 0">여는 날짜는 아직 정해지지 않았어요. 정해지면 이 자리에 바로 적을게요. 그때까지 할 수 있는 건 두 가지예요. 지금 신청해서 순서를 잡아 두거나(베타 빌드에서는 베타 기간 내내 코치 기능이 전부 무료예요), <a href="run.html">5km 데모</a>를 달리며 코치가 언제 어떻게 말하는지 미리 들어 보는 것.</p>
 <!-- 2026-09-06 라운드 13 (-3): every control that decides what gets submitted
      is INSIDE the form now, in the order a reader fills it in — address,
      then what they want, then what they are consenting to, then the button.

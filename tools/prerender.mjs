@@ -64,14 +64,11 @@ import {
  *
  *   key → the fields its numbers state, in the order they appear in the value.
  */
-const FACT_NUMBERS = {
-  'n.why.s1v': ['glossary'],
-  'n.why.s2v': ['cueSites'],
-  'n.why.s3v': ['tests'],
-  'n.trust.l1': ['tests'],
-  'n.trust.l2': ['stringKeys', 'coachTable'],
-  'n.trust.l3': ['glossary'],
-};
+// Empty since 2026-10-03: the why-section tiles and the trust list — the only
+// copy that quoted these counts — left the landing page in the 3차 덜어내기.
+// The machinery stays. If a count comes back, add its key here and delete
+// tools/copy-facts.json so the first run re-seeds it from app-facts.json.
+const FACT_NUMBERS = {};
 const FACT_LOCALE = { ko: 'ko-KR', en: 'en-US', ja: 'ja-JP', es: 'es-ES', zh: 'zh-Hant', de: 'de-DE' };
 
 /** The two spellings a market may use for a whole number: bare digits, and

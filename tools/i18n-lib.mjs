@@ -187,13 +187,21 @@ export function spliceAll(html, edits) {
 }
 
 /** The FAQPage JSON-LD this page should be carrying, for one language. */
-export function faqLd(dict, code, count = 10) {
+// The numbers are keys, not positions: q4, q5, q7 and q10 were removed on
+// 2026-10-03 and the survivors kept their keys (renumbering would have
+// rewritten six dictionaries and every check that names one). So walk the
+// slots and take the ones that exist — a question without its answer, or the
+// reverse, is still an error. check-content [2] holds the six key sets equal,
+// so a slot cannot exist in one language and not another.
+export function faqLd(dict, code, max = 20) {
   const items = [];
-  for (let i = 1; i <= count; i++) {
+  for (let i = 1; i <= max; i++) {
     const q = dict['n.faq.q' + i], a = dict['n.faq.a' + i];
-    if (!q || !a) throw new Error(`FAQ ${code}: n.faq.q${i}/a${i} missing`);
+    if (!q && !a) continue;
+    if (!q || !a) throw new Error(`FAQ ${code}: n.faq.q${i}/a${i} — one without the other`);
     items.push({ '@type': 'Question', name: plain(q), acceptedAnswer: { '@type': 'Answer', text: plain(a) } });
   }
+  if (!items.length) throw new Error(`FAQ ${code}: no n.faq.q*/a* pairs`);
   return { '@context': 'https://schema.org', '@type': 'FAQPage', inLanguage: HTML_LANG[code], mainEntity: items };
 }
 
