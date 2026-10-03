@@ -362,6 +362,26 @@
     html{scroll-behavior:auto}
     .hud-top .dot,.scroll-cue{animation:none}
   }
+  /* ---- 디자인 A 단계 (2026-10-03, branch design/a1-a6) ----------------
+     One block on purpose: every rule here overrides an earlier one, so the
+     whole pass reverts by deleting this block. A1 tinted off-black instead of
+     #000 (+ tone rhythm instead of hairlines on the landing page) · A2 small
+     prose made readable (labels, chips and HUD chrome stay small on purpose) ·
+     A3 balanced/pretty wrapping · A4 color-scheme · A5 keyboard focus rings on
+     inputs · A6 press feedback. Baseline captures for the before/after:
+     ~/Developer/runvis-assets/design-baseline/2026-10-03/. */
+  :root{--bg:#060908;--dim:#a8b4ac;--dim2:#97a59c;color-scheme:dark}
+  h1,h2,h3{text-wrap:balance}
+  p,li{text-wrap:pretty}
+  .tier p{font-size:14.5px}
+  .tier .note{font-size:13px}
+  .voice .why{font-size:13px}
+  .dsign p{font-size:15px}
+  .dsign .consent{font-size:13px}
+  .footnote{font-size:13.5px}
+  .dsign input[type=email]:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+  .btn:active,button:active{transform:scale(.98)}
+  @media (prefers-reduced-motion:reduce){.btn:active,button:active{transform:none}}
 </style>
 <!-- Language boot — same script as index.html. Runs before the body is parsed
      so <html lang>, the canonical and og:locale are already right at first

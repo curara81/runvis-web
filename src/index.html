@@ -690,6 +690,39 @@
     .tilt{transform:none!important}
     html{scroll-behavior:auto}
   }
+  /* ---- 디자인 A 단계 (2026-10-03, branch design/a1-a6) ----------------
+     One block on purpose: every rule here overrides an earlier one, so the
+     whole pass reverts by deleting this block. A1 tinted off-black instead of
+     #000 (+ tone rhythm instead of hairlines on the landing page) · A2 small
+     prose made readable (labels, chips and HUD chrome stay small on purpose) ·
+     A3 balanced/pretty wrapping · A4 color-scheme · A5 keyboard focus rings on
+     inputs · A6 press feedback. Baseline captures for the before/after:
+     ~/Developer/runvis-assets/design-baseline/2026-10-03/. */
+  :root{--bg:#07090a;--bg1:#0c1012;--dim:#a7aeb5;--dim2:#959ca4;color-scheme:dark}
+  nav{background:rgba(7,9,10,.72)}
+  section+section{border-top:0}
+  #why,#live,#race,#faq{background:var(--bg1)}
+  h1,h2,h3{text-wrap:balance}
+  p,li,.sub{text-wrap:pretty}
+  .hero .note{font-size:15px;color:var(--dim);text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 24px rgba(0,0,0,.75)}
+  .tbadge span{font-size:13px}
+  .tbadge b{text-wrap:balance}
+  .watch-stack .wnote,.wspause{font-size:12.5px}
+  .sc-note{font-size:14px}
+  .mini .m small{font-size:13px;text-wrap:balance}
+  .vchip .sensor{font-size:12.5px;line-height:1.6}
+  .qtable th{font-size:13.5px}
+  .plan .storenote,.note{font-size:14px}
+  .plan .plisth{font-size:13.5px}
+  .plan .tiles li,.gate p,.plan .gatelist li,.order-note,.want{font-size:14.5px}
+  .plan .terms-link{font-size:13.5px}
+  .nextsteps p,.dolist li,.proof p,.paths span{font-size:15px}
+  .consent{font-size:14px}
+  .disclaimer{font-size:13.5px}
+  .btn:active{transform:scale(.98)}
+  .paths a:active{transform:translateY(0) scale(.99)}
+  a.tbadge:active{transform:scale(.98)}
+  @media (prefers-reduced-motion:reduce){.btn:active,.paths a:active,a.tbadge:active{transform:none}}
 </style>
 <!-- Language boot. Runs before the body is parsed, so <html lang>, the title,
      the og: tags and the hero copy are already right at first paint instead of

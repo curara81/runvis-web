@@ -67,6 +67,16 @@
   .langrow{margin-top:26px;display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;font-size:13.5px;color:var(--dim)}
   .langrow a{color:var(--dim);text-decoration:underline;text-underline-offset:3px}
   .langrow a:hover{color:var(--green)}
+  /* ---- 디자인 A 단계 (2026-10-03, branch design/a1-a6) ----------------
+     One block on purpose: every rule here overrides an earlier one, so the
+     whole pass reverts by deleting this block. A1 tinted off-black instead of
+     #000 (+ tone rhythm instead of hairlines on the landing page) · A2 small
+     prose made readable (labels, chips and HUD chrome stay small on purpose) ·
+     A3 balanced/pretty wrapping · A4 color-scheme · A5 keyboard focus rings on
+     inputs · A6 press feedback. Baseline captures for the before/after:
+     ~/Developer/runvis-assets/design-baseline/2026-10-03/. */
+  :root{--bg:#07090a;color-scheme:dark}
+  h1,h2,h3{text-wrap:balance}
 </style>
 <script>
 // The same language boot the five real pages run, minus two things.
