@@ -301,4 +301,64 @@
     <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/terms.html"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://runvis.app/de/terms.html"/>
   </url>
+  <url>
+    <loc>https://runvis.app/about.html</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/about.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://runvis.app/es/about.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/about.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://runvis.app/de/about.html"/>
+  </url>
+  <url>
+    <loc>https://runvis.app/en/about.html</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/about.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://runvis.app/es/about.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/about.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://runvis.app/de/about.html"/>
+  </url>
+  <url>
+    <loc>https://runvis.app/ja/about.html</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/about.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://runvis.app/es/about.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/about.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://runvis.app/de/about.html"/>
+  </url>
+  <url>
+    <loc>https://runvis.app/es/about.html</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/about.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://runvis.app/es/about.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/about.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://runvis.app/de/about.html"/>
+  </url>
+  <url>
+    <loc>https://runvis.app/zh/about.html</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/about.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://runvis.app/es/about.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/about.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://runvis.app/de/about.html"/>
+  </url>
+  <url>
+    <loc>https://runvis.app/de/about.html</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://runvis.app/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://runvis.app/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://runvis.app/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://runvis.app/ja/about.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://runvis.app/es/about.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/about.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://runvis.app/de/about.html"/>
+  </url>
 </urlset>

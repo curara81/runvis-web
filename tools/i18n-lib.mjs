@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const CODES = ['ko', 'en', 'ja', 'es', 'zh', 'de'];
-export const PAGES = ['index.html', 'run.html', 'how-it-works.html', 'privacy.html', 'terms.html'];
+export const PAGES = ['index.html', 'run.html', 'how-it-works.html', 'privacy.html', 'terms.html', 'about.html'];
 
 /** Where the five pages are AUTHORED. Until 2026-09-06 they were authored at
  *  the root and the root was also what Korean readers were served, so the one
@@ -265,6 +265,7 @@ export const PAGE_META = {
   'how-it-works.html': { title: 'hw.meta.title', desc: 'hw.meta.desc' },
   'privacy.html': { title: 'pv.meta.title', desc: 'pv.meta.desc' },
   'terms.html': { title: 'tm.meta.title', desc: 'tm.meta.desc' },
+  'about.html': { title: 'ab.meta.title', desc: 'ab.meta.desc' },
 };
 
 /**

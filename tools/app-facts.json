@@ -1,13 +1,13 @@
 {
-  "measuredAt": "2026-09-26",
+  "measuredAt": "2026-10-10",
   "appRepo": "SportsDashboard",
-  "tests": 827,
+  "tests": 914,
   "testFiles": 45,
-  "stringKeys": 2366,
-  "stringLines": 2366,
-  "coachTable": 396,
+  "stringKeys": 2378,
+  "stringLines": 2378,
+  "coachTable": 386,
   "glossary": 42,
-  "cueSites": 287,
+  "cueSites": 293,
   "notifyKinds": 9,
   "notifyIds": [
     "coachFirstWeek",
@@ -119,10 +119,10 @@
       "maxHRIsEstimated(manual: maxHR, observed: observedMaxHR, estimated: estimatedMaxHR)"
     ],
     "predicates": {
-      "maxHRIsEstimated": "if manual > 0 { return false } guard let estimated, estimated > 0 else { return true } return observed < estimated"
+      "maxHRIsEstimated": "if manual >= 101 { return false } guard let estimated, estimated > 0 else { return true } return observed < estimated"
     },
     "estimatedMaxHR": "208.0 - (0.7 * Double(age))",
-    "effectiveMaxHR": "max(maxHR > 0 ? maxHR : estimatedMaxHR, observedMaxHR)",
+    "effectiveMaxHR": "max(maxHR >= 101 ? maxHR : estimatedMaxHR, observedMaxHR)",
     "rows": {
       "neverMeasured": {
         "manual": 0,
