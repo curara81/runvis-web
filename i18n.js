@@ -388,7 +388,8 @@
     'run.html': { title: 'r1', desc: 'r2' },
     'how-it-works.html': { title: 'hw.meta.title', desc: 'hw.meta.desc' },
     'privacy.html': { title: 'pv.meta.title', desc: 'pv.meta.desc' },
-    'terms.html': { title: 'tm.meta.title', desc: 'tm.meta.desc' }
+    'terms.html': { title: 'tm.meta.title', desc: 'tm.meta.desc' },
+    'about.html': { title: 'ab.meta.title', desc: 'ab.meta.desc' }
   };
   function applyPageLd(code, dict) {
     var node = document.getElementById('pageld');

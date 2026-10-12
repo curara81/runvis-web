@@ -8,7 +8,7 @@
 # sitemap comes from, and check-content.mjs [11] compares it against the
 # sitemap. It was hand-counted until round 13 and still said 24 long after
 # how-it-works.html made it 30 — a number kept by hand is a number that rots.
-# Pages: 30 (5 root x 6 languages)
+# Pages: 36 (6 root x 6 languages)
 User-agent: *
 Allow: /
 
