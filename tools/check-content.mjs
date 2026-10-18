@@ -550,7 +550,7 @@ console.log('\n[13] coach constants in the copy == the app declaration');
 // they are stated here once and held against every dictionary.
 console.log('\n[14] the three prices are identical in all six dictionaries');
 {
-  const PRICE = { month: '1,900', year: '15,000', life: '39,000' };
+  const PRICE = { month: '3,900', year: '29,000', life: '59,000' };  // 가격 D안 (2026-10-18 확정)
   for (const [slot, amount] of Object.entries(PRICE)) {
     const bad = CODES.filter(c => dicts[c][`pr.${slot}`] !== `₩${amount}`);
     if (bad.length) fail(`pr.${slot} is not "₩${amount}" in ${bad.join(', ')}`);
@@ -559,8 +559,8 @@ console.log('\n[14] the three prices are identical in all six dictionaries');
   // Sentences that quote a price. Each must carry the amounts listed, so a
   // reworded translation cannot drop or change one.
   const IN_PROSE = [
-    ['n.price.year', ['15,000']],
-    ['n.price.life', ['39,000']],
+    ['n.price.year', ['29,000']],
+    ['n.price.life', ['59,000']],
   ];
   for (const [key, amounts] of IN_PROSE) {
     const bad = [];

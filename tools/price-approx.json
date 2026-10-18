@@ -22,40 +22,44 @@
     "here plus six sentences — not a hunt through six dictionaries.",
     "",
     "asOf is the month the estimates were struck. When it is more than a year",
-    "old, restrike them or delete the line from the copy."
+    "old, restrike them or delete the line from the copy.",
+    "",
+    "2026-10 restrike for 가격 D안 (₩3,900 / ₩29,000 / ₩59,000): the new sizes reuse",
+    "the ratios the 2026-09 figures implied (~0.00073 USD, ~0.11 JPY, ~0.00067 EUR,",
+    "~0.0238 TWD per won) rather than a fresh quote."
   ],
-  "asOf": "2026-09",
-  "krw": { "month": "1,900", "year": "15,000", "life": "39,000" },
+  "asOf": "2026-10",
+  "krw": { "month": "3,900", "year": "29,000", "life": "59,000" },
   "markets": {
     "ko": {
       "currency": "USD",
       "approxWords": ["약", "대략"],
-      "month": "US$1.4", "year": "US$11", "life": "US$28"
+      "month": "US$2.8", "year": "US$21", "life": "US$43"
     },
     "en": {
       "currency": "USD",
       "approxWords": ["about", "roughly", "around"],
-      "month": "US$1.40", "year": "US$11", "life": "US$28"
+      "month": "US$2.80", "year": "US$21", "life": "US$43"
     },
     "ja": {
       "currency": "JPY",
       "approxWords": ["約", "およそ"],
-      "month": "¥210", "year": "¥1,650", "life": "¥4,300"
+      "month": "¥430", "year": "¥3,200", "life": "¥6,500"
     },
     "es": {
       "currency": "EUR",
       "approxWords": ["unos", "aproximadamente", "alrededor"],
-      "month": "1,30 €", "year": "10 €", "life": "26 €"
+      "month": "2,60 €", "year": "19 €", "life": "39 €"
     },
     "zh": {
       "currency": "TWD",
       "approxWords": ["約", "大約"],
-      "month": "NT$45", "year": "NT$360", "life": "NT$930"
+      "month": "NT$95", "year": "NT$690", "life": "NT$1,400"
     },
     "de": {
       "currency": "EUR",
       "approxWords": ["rund", "etwa", "ungefähr"],
-      "month": "1,30 €", "year": "10 €", "life": "26 €"
+      "month": "2,60 €", "year": "19 €", "life": "39 €"
     }
   }
 }
