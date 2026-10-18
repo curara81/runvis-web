@@ -124,8 +124,8 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
   <div class="tablewrap"><table>
     <tr><th data-i18n="hw.vs.th1">指標</th><th data-i18n="hw.vs.th2">Runvis 的計算方式與公式名稱</th></tr>
     <tr><td data-i18n="hw.vs.r0a">還得另外買什麼</td><td data-i18n="hw.vs.r0b">Garmin Forerunner、COROS 賣的是錶本身。Runvis 用的是你已經戴在手上的 Apple Watch，要另外付費的只有教練訂閱。</td></tr>
-    <tr><td data-i18n="hw.vs.r1a">訓練負荷 · 狀態（TSB）</td><td data-i18n="hw.vs.r1b">把 Banister TRIMP 放進 Coggan 的 42 天、7 天指數移動平均（CTL、ATL），用昨天的 CTL 減掉昨天的 ATL 當作今天的 TSB（依 Coggan 的定義，今天的負荷不會改變今天的 TSB）。</td></tr>
-    <tr><td data-i18n="hw.vs.r2a">恢復時間</td><td data-i18n="hw.vs.r2b">用最後一趟跑步的 TRIMP、目前的 TSB 和 HRV 趨勢三項來推估。畫面上也會標明是推估值。</td></tr>
+    <tr><td data-i18n="hw.vs.r1a">訓練負荷 · 新鮮度（TSB）</td><td data-i18n="hw.vs.r1b">把 Banister TRIMP 放進 Coggan 的 42 天、7 天指數移動平均（CTL、ATL），用昨天的 CTL 減掉昨天的 ATL 當作今天的新鮮度（TSB）（依 Coggan 的定義，今天的負荷不會改變今天的新鮮度）。</td></tr>
+    <tr><td data-i18n="hw.vs.r2a">恢復時間</td><td data-i18n="hw.vs.r2b">用最後一趟跑步的心率負荷（TRIMP）、目前的新鮮度（TSB）和 HRV 趨勢三項來推估。畫面上也會標明是推估值。</td></tr>
     <tr><td data-i18n="hw.vs.r3a">乳酸閾值（估計）</td><td data-i18n="hw.vs.r3b">最近 90 天內，撐在最大心率 85% 以上的最佳 30 分鐘（或 20 分鐘）區段的配速和心率。這是從跑步紀錄推估出來的，不是實驗室抽血量的。</td></tr>
     <tr><td data-i18n="hw.vs.r4a">成績預測 · 分段配速計畫</td><td data-i18n="hw.vs.r4b">用 Riegel 公式和 Runvis 體能指數預測。匯入路線 GPX，就會依那條路線的高度，把配速分段排好。</td></tr>
     <tr><td data-i18n="hw.vs.r5a">坡度校正配速（GAP）</td><td data-i18n="hw.vs.r5b">採用 Minetti（2002）的跑步能量消耗曲線，上坡和下坡的負擔分開計算。</td></tr>
@@ -134,9 +134,9 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
     <tr><td data-i18n="hw.vs.r8a">坡度暴露</td><td data-i18n="hw.vs.r8b">只取最近 28 天內有上坡的跑步（至少 2 次），用總爬升 ÷ 總距離（m/km）計算。15 以上算起伏路線，40 以上就是坡很多的路線。這不是替跑者打分數，而是記下你跑過的地形。</td></tr>
     <tr><td data-i18n="hw.vs.r9a">熱暴露指數</td><td data-i18n="hw.vs.r9b">用 0～100 表示最近 4 週在氣溫超過 22°C（單位設為華氏時，就是同溫度的華氏值）的日子裡，戶外跑步累積了多少。熱天跑滿 3 次才會出現，停跑 3 天以上就會往下掉。它反映的是你在高溫下暴露了多少，而不是身體對熱適應了多少。</td></tr>
     <tr><td data-i18n="hw.vs.r10a">教練煞車</td><td data-i18n="hw.vs.r10b">這不是分數，是預算。用最近 4 週（以跑完的整週計算）的週跑量，抓出這週身體吃得下的距離，再依你跑後留下的疼痛回報往下調。剩下多少、因為疼痛扣掉多少，分開顯示，為什麼變少一看就懂。</td></tr>
-    <tr><td data-i18n="hw.vs.r11a">教練的紀錄雷達</td><td data-i18n="hw.vs.r11b">有 GPS 路線的跑步，會把整趟紀錄掃過一遍，找出最快的區段（最佳努力）；沒有路線的跑步，就用全程平均配速換算。每筆紀錄是用哪種方式抓到的，畫面上都會標出來。範圍是最近 90 天。</td></tr>
+    <tr><td data-i18n="hw.vs.r11a">教練的紀錄雷達</td><td data-i18n="hw.vs.r11b">有 GPS 路線的跑步，會把整趟紀錄掃過一遍，找出最快的區段（區段最快）；沒有路線的跑步，就用全程平均配速換算。每筆紀錄是用哪種方式抓到的，畫面上都會標出來。範圍是最近 90 天。</td></tr>
     <tr><td data-i18n="hw.vs.r12a">耐力訓練量</td><td data-i18n="hw.vs.r12b">從最近 28 天的紀錄取三個值，以 45 : 35 : 20 的比例合成 0～100：週跑量（每週 80 公里滿分）、最長一次跑步（30 公里滿分）、最近 4 週裡有跑步的週數。這不是替跑者打分數，而是呈現身體目前累積的訓練量。紀錄不夠時，不會編出分數，而是先放 0，並在畫面上告訴你缺什麼。</td></tr>
-    <tr><td data-i18n="hw.vs.r13a">腿部負荷</td><td data-i18n="hw.vs.r13b">把一趟跑步留在腿上的負荷，換算成「公里」來計。平地輕鬆跑 1 公里算 1.0；同樣的距離，跑得快、跑上坡或下坡，都會算得更多。算法是：一趟跑步 = 距離 × 強度倍率 × 坡度倍率。強度倍率看速度，不看心率（以你的輕鬆配速和閾值配速為準）：輕鬆或更慢 1.0、閾值 1.35，再快最高 1.6。坡度倍率在上坡是實際配速 ÷ 坡度校正配速（最高 1.6）；下坡則用 1 + 1.2 ×（1 − 該比值）算得更多（最高 2.0），因為下坡雖然比較省力，衝擊卻更大。短期值是以天為單位的指數加權移動平均（EWMA，時間常數 7 天），所以是每日平均的水準（穩定跑步時大約是週總和 ÷ 7）；每週值則是那一週的單純加總。它會顯示在報告面板和跑步詳細畫面（「訓練負荷 TRIMP」旁邊），和實際距離並排。跑步動態和走路區段目前還沒有納入。Garmin 沒有公開算式，上面的倍率是 Runvis 參考公開文獻訂出的參考值。</td></tr>
+    <tr><td data-i18n="hw.vs.r13a">腿部負荷</td><td data-i18n="hw.vs.r13b">把一趟跑步留在腿上的負荷，以「平地換算公里」來計。平地輕鬆跑 1 公里算 1.0；同樣的距離，跑得快、跑上坡或下坡，都會算得更多。算法是：一趟跑步 = 距離 × 強度倍率 × 坡度倍率。強度倍率看速度，不看心率（以你的輕鬆配速和閾值配速為準）：輕鬆或更慢 1.0、閾值 1.35，再快最高 1.6。坡度倍率在上坡是實際配速 ÷ 坡度校正配速（最高 1.6）；下坡則用 1 + 1.2 ×（1 − 該比值）算得更多（最高 2.0），因為下坡雖然比較省力，衝擊卻更大。短期值是以天為單位的指數加權移動平均（EWMA，時間常數 7 天），所以是每日平均的水準（穩定跑步時大約是週總和 ÷ 7）；每週值則是那一週的單純加總。它會顯示在報告面板和跑步詳細畫面（「訓練負荷」旁邊），和實際距離並排。跑步動態和走路區段目前還沒有納入。Garmin 沒有公開算式，上面的倍率是 Runvis 參考公開文獻訂出的參考值。</td></tr>
   </table></div>
   <div class="shots">
 <figure><picture><source srcset="/assets/framed-phone-detail.zh.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.zh.webp" type="image/webp"/><img alt="iPhone 指標詳細畫面：訓練負荷（CTL）7 天趨勢、你的 28 天範圍與指標說明" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.zh.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">上表第一列，在 App 裡長這樣：訓練負荷（CTL）的 7 天趨勢、你的 28 天範圍，還有這個指標的意思。</figcaption></figure>
@@ -144,11 +144,11 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
 </div>
   <p class="legalnote" data-i18n="sc.note.s">以繁體中文執行 App 拍下的實際畫面。</p>
   <p class="note" data-i18n="hw.vs.tm">Garmin、Forerunner、COROS 是各自公司的商標，Runvis 與這兩家公司沒有任何關係。這裡只寫公開的事實；兩家公司都沒有公開算式，所以我們不比較準確度。</p>
-  <p class="note" data-i18n="hw.vs.note">專用跑錶有、Runvis 還沒有的，也老實寫出來：錶面複雜功能、iPhone 主畫面小工具、即時動態，這個版本都沒有。以上所有數值都是參考資訊，不是醫療建議。</p>
+  <p class="note" data-i18n="hw.vs.note">和專用跑錶一樣，不打開 App 也看得到：錶面複雜功能（今日決定、跑步準備度、距離賽事）、iPhone 主畫面和鎖定畫面小工具（今日決定），以及只帶 iPhone 跑步時，在鎖定畫面和動態島顯示距離、時間、配速的即時動態。以上所有數值都是參考資訊，不是醫療建議。</p>
 
   <h2 id="zones" data-i18n="hz.h">現在就算算看：你的 5 個心率區間</h2>
   <p data-i18n="hz.p">這是 Runvis 教練語音使用的同一套 Karvonen（儲備心率）公式。App 會用「健康」App 裡 7 天的靜止心率和實際記錄到的最高心率持續更新，但算法就是下面這樣。</p>
-  <figure class="shot1"><picture><source srcset="/assets/framed-watch-hr.zh.avif" type="image/avif"/><source srcset="/assets/framed-watch-hr.zh.webp" type="image/webp"/><img alt="Apple Watch Ultra 上的 Runvis 心率區間弧線" data-i18n-attr="alt:alt.watch.zone" loading="lazy" src="/assets/framed-watch-hr.zh.png" data-shot="framed-watch-hr" width="480" height="768" decoding="async"/></picture><figcaption data-i18n="hz.cap">跟下面計算機算出的同一組區間，跑步時手錶上會這樣畫出來。</figcaption></figure>
+  <figure class="shot1"><picture><source srcset="/assets/framed-watch-hr.zh.avif" type="image/avif"/><source srcset="/assets/framed-watch-hr.zh.webp" type="image/webp"/><img alt="Apple Watch Ultra 上的 Runvis 跑步中的心率與心率區間" data-i18n-attr="alt:alt.watch.zone" loading="lazy" src="/assets/framed-watch-hr.zh.png" data-shot="framed-watch-hr" width="480" height="768" decoding="async"/></picture><figcaption data-i18n="hz.cap">跟下面計算機算出的同一組區間，跑步時手錶上會這樣畫出來。</figcaption></figure>
   <div class="hzcalc">
     <label><span data-i18n="hz.age">年齡</span><input id="hzAge" type="number" min="10" max="99" step="1" value="35" inputmode="numeric"/></label>
     <label><span data-i18n="hz.rest">靜止心率</span><input id="hzRest" type="number" min="30" max="110" step="1" value="60" inputmode="numeric"/></label>

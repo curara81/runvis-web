@@ -121,8 +121,8 @@
   <div class="tablewrap"><table>
     <tr><th data-i18n="hw.vs.th1">지표</th><th data-i18n="hw.vs.th2">런비스의 계산 방식과 공식 이름</th></tr>
     <tr><td data-i18n="hw.vs.r0a">무엇을 더 사야 하나요</td><td data-i18n="hw.vs.r0b">가민 포러너·코로스는 시계 자체가 상품이에요. 런비스는 이미 차고 있는 애플워치를 쓰고, 따로 결제하는 건 코치 구독뿐입니다.</td></tr>
-    <tr><td data-i18n="hw.vs.r1a">훈련 부하 · 컨디션(TSB)</td><td data-i18n="hw.vs.r1b">Banister TRIMP를 Coggan의 42일·7일 지수이동평균(CTL·ATL)에 넣고, 어제의 CTL에서 어제의 ATL을 뺀 값을 오늘의 TSB로 씁니다(Coggan의 정의대로, 오늘의 부하는 오늘 TSB를 바꾸지 않아요).</td></tr>
-    <tr><td data-i18n="hw.vs.r2a">회복 시간</td><td data-i18n="hw.vs.r2b">마지막 러닝의 TRIMP, 현재 TSB, HRV 흐름 세 가지로 추정해요. 화면에도 추정값이라고 표시합니다.</td></tr>
+    <tr><td data-i18n="hw.vs.r1a">훈련 부하 · 신선도(TSB)</td><td data-i18n="hw.vs.r1b">Banister TRIMP를 Coggan의 42일·7일 지수이동평균(CTL·ATL)에 넣고, 어제의 CTL에서 어제의 ATL을 뺀 값을 오늘의 신선도(TSB)로 씁니다(Coggan의 정의대로, 오늘의 부하는 오늘 신선도를 바꾸지 않아요).</td></tr>
+    <tr><td data-i18n="hw.vs.r2a">회복 시간</td><td data-i18n="hw.vs.r2b">마지막 러닝의 심박 부하(TRIMP), 현재 신선도(TSB), HRV 흐름 세 가지로 추정해요. 화면에도 추정값이라고 표시합니다.</td></tr>
     <tr><td data-i18n="hw.vs.r3a">젖산 역치(추정)</td><td data-i18n="hw.vs.r3b">최근 90일 동안 최대심박 85% 이상으로 버틴 30분(또는 20분) 최고 구간의 페이스와 심박이에요. 실험실 채혈이 아니라 러닝 기록에서 뽑은 추정치입니다.</td></tr>
     <tr><td data-i18n="hw.vs.r4a">레이스 예측 · 구간 페이스 플랜</td><td data-i18n="hw.vs.r4b">Riegel 공식과 런비스 체력 지수로 예측해요. 코스 GPX를 넣으면 그 코스의 고도에 맞춰 구간별 페이스를 나눠 줍니다.</td></tr>
     <tr><td data-i18n="hw.vs.r5a">언덕 보정 페이스(GAP)</td><td data-i18n="hw.vs.r5b">Minetti(2002)의 달리기 에너지 소비 곡선을 써요. 오르막과 내리막의 부담을 따로 계산합니다.</td></tr>
@@ -131,9 +131,9 @@
     <tr><td data-i18n="hw.vs.r8a">언덕 노출</td><td data-i18n="hw.vs.r8b">최근 28일 중 오르막이 있었던 러닝(2번 이상)만 모아 총 상승고도 ÷ 총 거리(m/km)로 계산해요. 15 이상이면 구릉, 40 이상이면 언덕이 많은 코스예요. 러너를 평가하는 점수가 아니라, 달린 지형을 기록하는 값입니다.</td></tr>
     <tr><td data-i18n="hw.vs.r9a">더위 노출 지수</td><td data-i18n="hw.vs.r9b">최근 4주 동안 22°C(화씨 설정이면 같은 온도의 화씨 값)를 넘는 날 달린 야외 러닝이 얼마나 쌓였는지를 0~100으로 나타내요. 더운 날 러닝이 3번 쌓이면 나오고, 3일 이상 쉬면 내려가요. 몸이 더위에 얼마나 적응했는지가 아니라, 더위에 얼마나 노출됐는지를 보여 주는 값입니다.</td></tr>
     <tr><td data-i18n="hw.vs.r10a">코치 브레이크</td><td data-i18n="hw.vs.r10b">점수가 아니라 예산이에요. 최근 4주(완료된 주 기준)의 주간 거리로 이번 주에 감당할 수 있는 거리를 잡고, 러닝 후 남긴 통증 기록만큼 줄여요. 남은 거리와 통증 때문에 줄어든 거리를 따로 보여 줘서, 왜 줄었는지 화면에서 바로 알 수 있어요.</td></tr>
-    <tr><td data-i18n="hw.vs.r11a">코치 기록 레이더</td><td data-i18n="hw.vs.r11b">GPS 경로가 있는 러닝은 기록 전체를 훑어 가장 빨랐던 구간(베스트 에포트)을 찾고, 경로가 없는 러닝은 전체 평균 페이스로 환산해요. 어느 방식으로 잡힌 기록인지 화면에 함께 표시하고, 최근 90일 기록을 기준으로 합니다.</td></tr>
+    <tr><td data-i18n="hw.vs.r11a">코치 기록 레이더</td><td data-i18n="hw.vs.r11b">GPS 경로가 있는 러닝은 기록 전체를 훑어 가장 빨랐던 구간(구간 최속)을 찾고, 경로가 없는 러닝은 전체 평균 페이스로 환산해요. 어느 방식으로 잡힌 기록인지 화면에 함께 표시하고, 최근 90일 기록을 기준으로 합니다.</td></tr>
     <tr><td data-i18n="hw.vs.r12a">지구력 훈련량</td><td data-i18n="hw.vs.r12b">최근 28일 기록에서 세 가지를 45 : 35 : 20 비율로 섞은 0~100 값이에요. 주간 거리(주 80km면 만점), 가장 긴 러닝(30km면 만점), 최근 4주 중 러닝한 주의 수. 러너를 평가하는 점수가 아니라, 지금 몸에 쌓인 훈련량을 보여 주는 값입니다. 기록이 부족하면 점수를 지어내지 않고 0으로 두고, 무엇이 부족한지 화면에 알려 줘요.</td></tr>
-    <tr><td data-i18n="hw.vs.r13a">다리 부하</td><td data-i18n="hw.vs.r13b">러닝이 다리에 남긴 부하를 'km 환산'으로 센 값이에요. 평지에서 편하게 달린 1km가 1.0이고, 같은 거리라도 빠르게·오르막·내리막으로 달리면 더 크게 셉니다. 계산은 러닝 1번 = 거리 × 강도 배율 × 경사 배율. 강도 배율은 심박이 아니라 속도로 정해요(내 이지·역치 페이스 기준): 이지 이하 1.0, 역치 1.35, 그보다 빠르면 최대 1.6. 경사 배율은 오르막이면 실제 페이스 ÷ 경사 보정 페이스(최대 1.6), 내리막이면 1 + 1.2 × (1 − 그 비율)로 더 크게 셉니다(최대 2.0). 내리막은 덜 힘들어도 충격은 더 크기 때문이에요. 단기 값은 하루 단위 지수 가중 이동평균(EWMA, 시정수 7일)이라 하루 평균 수준이고(꾸준히 달리면 대략 주간 합계 ÷ 7), 주간 값은 그 주의 단순 합계예요. 리포트 타일과 러닝 상세 화면('운동 부하 TRIMP' 옆)에 실제 거리와 나란히 표시됩니다. 러닝 다이내믹스와 걷기 구간은 아직 반영하지 않아요. 가민은 산식을 공개하지 않았고, 위 배율은 공개 문헌을 참고해 런비스가 정한 참고값입니다.</td></tr>
+    <tr><td data-i18n="hw.vs.r13a">다리 부하</td><td data-i18n="hw.vs.r13b">러닝이 다리에 남긴 부하를 '평지 환산 km'로 센 값이에요. 평지에서 편하게 달린 1km가 1.0이고, 같은 거리라도 빠르게·오르막·내리막으로 달리면 더 크게 셉니다. 계산은 러닝 1번 = 거리 × 강도 배율 × 경사 배율. 강도 배율은 심박이 아니라 속도로 정해요(내 이지·역치 페이스 기준): 이지 이하 1.0, 역치 1.35, 그보다 빠르면 최대 1.6. 경사 배율은 오르막이면 실제 페이스 ÷ 경사 보정 페이스(최대 1.6), 내리막이면 1 + 1.2 × (1 − 그 비율)로 더 크게 셉니다(최대 2.0). 내리막은 덜 힘들어도 충격은 더 크기 때문이에요. 단기 값은 하루 단위 지수 가중 이동평균(EWMA, 시정수 7일)이라 하루 평균 수준이고(꾸준히 달리면 대략 주간 합계 ÷ 7), 주간 값은 그 주의 단순 합계예요. 리포트 타일과 러닝 상세 화면('운동 부하' 옆)에 실제 거리와 나란히 표시됩니다. 러닝 다이내믹스와 걷기 구간은 아직 반영하지 않아요. 가민은 산식을 공개하지 않았고, 위 배율은 공개 문헌을 참고해 런비스가 정한 참고값입니다.</td></tr>
   </table></div>
   <div class="shots">
 <figure><picture><source srcset="assets/framed-phone-detail.avif" type="image/avif"/><source srcset="assets/framed-phone-detail.webp" type="image/webp"/><img alt="iPhone 지표 상세 — 훈련 부하(CTL) 7일 추세, 내 28일 범위, 지표 설명" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="assets/framed-phone-detail.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">위 표 첫 줄이 앱에서는 이렇게 보여요. 훈련 부하(CTL) 7일 추세와 내 28일 범위, 그리고 그 지표의 뜻까지.</figcaption></figure>
@@ -141,11 +141,11 @@
 </div>
   <p class="legalnote" data-i18n="sc.note.s">한국어로 띄워 찍은 실제 앱 화면이에요.</p>
   <p class="note" data-i18n="hw.vs.tm">가민(Garmin)·포러너(Forerunner)·코로스(COROS)는 각 회사의 상표이며, 런비스는 두 회사와 관계가 없습니다. 여기 적은 내용은 공개된 사실뿐이고, 두 회사의 계산식은 공개돼 있지 않아 정확도를 비교하지 않습니다.</p>
-  <p class="note" data-i18n="hw.vs.note">전용 시계에는 있고 런비스에는 아직 없는 것도 밝혀 둘게요. 워치 페이스 컴플리케이션, 아이폰 홈 화면 위젯, 라이브 액티비티는 이번 버전에 들어 있지 않아요. 위의 모든 값은 참고 정보이며 의학적 조언이 아닙니다.</p>
+  <p class="note" data-i18n="hw.vs.note">전용 시계처럼 앱을 열지 않고 보는 자리도 있어요. 워치 페이스 컴플리케이션(오늘의 결정·러닝 준비도·대회까지), 아이폰 홈 화면·잠금화면 위젯(오늘의 결정), 그리고 아이폰만 들고 달릴 때 잠금화면과 다이내믹 아일랜드에 거리·시간·페이스를 띄우는 라이브 액티비티예요. 위의 모든 값은 참고 정보이며 의학적 조언이 아닙니다.</p>
 
   <h2 id="zones" data-i18n="hz.h">지금 바로 계산해 보세요: 내 심박존 5개</h2>
   <p data-i18n="hz.p">런비스가 코치 음성에 쓰는 것과 같은 카르보넨(Karvonen) 공식이에요. 앱은 애플 건강의 7일 안정시 심박과 실제로 기록된 최고 심박으로 이 값을 계속 갱신하지만, 계산 방식은 아래와 같습니다.</p>
-  <figure class="shot1"><picture><source srcset="assets/framed-watch-hr.avif" type="image/avif"/><source srcset="assets/framed-watch-hr.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 심박존 아크" data-i18n-attr="alt:alt.watch.zone" loading="lazy" src="assets/framed-watch-hr.png" data-shot="framed-watch-hr" width="480" height="768" decoding="async"/></picture><figcaption data-i18n="hz.cap">아래 계산기와 같은 존을 워치가 달리는 동안 이렇게 그려요.</figcaption></figure>
+  <figure class="shot1"><picture><source srcset="assets/framed-watch-hr.avif" type="image/avif"/><source srcset="assets/framed-watch-hr.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 러닝 중 심박과 심박존" data-i18n-attr="alt:alt.watch.zone" loading="lazy" src="assets/framed-watch-hr.png" data-shot="framed-watch-hr" width="480" height="768" decoding="async"/></picture><figcaption data-i18n="hz.cap">아래 계산기와 같은 존을 워치가 달리는 동안 이렇게 그려요.</figcaption></figure>
   <div class="hzcalc">
     <label><span data-i18n="hz.age">나이</span><input id="hzAge" type="number" min="10" max="99" step="1" value="35" inputmode="numeric"/></label>
     <label><span data-i18n="hz.rest">안정시 심박</span><input id="hzRest" type="number" min="30" max="110" step="1" value="60" inputmode="numeric"/></label>

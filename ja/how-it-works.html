@@ -124,8 +124,8 @@ window.RunvisPageLang="ja";window.RunvisBase="/";
   <div class="tablewrap"><table>
     <tr><th data-i18n="hw.vs.th1">指標</th><th data-i18n="hw.vs.th2">Runvisの計算方法と、式の名前</th></tr>
     <tr><td data-i18n="hw.vs.r0a">買い足すものは？</td><td data-i18n="hw.vs.r0b">ガーミンのForerunnerやCOROSは、時計そのものが商品です。Runvisはいま着けているApple Watchを使うので、別に支払うのはコーチのサブスクだけです。</td></tr>
-    <tr><td data-i18n="hw.vs.r1a">トレーニング負荷 · コンディション（TSB）</td><td data-i18n="hw.vs.r1b">Banister TRIMPを、Cogganの42日・7日の指数移動平均（CTL・ATL）に入れ、昨日のCTLから昨日のATLを引いた値を今日のTSBとします（Cogganの定義どおり、今日の負荷は今日のTSBを変えません）。</td></tr>
-    <tr><td data-i18n="hw.vs.r2a">回復時間</td><td data-i18n="hw.vs.r2b">直近のランのTRIMP、現在のTSB、HRVトレンドの3つから推定します。画面にも推定値だと表示します。</td></tr>
+    <tr><td data-i18n="hw.vs.r1a">トレーニング負荷 · フレッシュ度（TSB）</td><td data-i18n="hw.vs.r1b">Banister TRIMPを、Cogganの42日・7日の指数移動平均（CTL・ATL）に入れ、昨日のCTLから昨日のATLを引いた値を今日のフレッシュ度（TSB）とします（Cogganの定義どおり、今日の負荷は今日のフレッシュ度を変えません）。</td></tr>
+    <tr><td data-i18n="hw.vs.r2a">回復時間</td><td data-i18n="hw.vs.r2b">直近のランの心拍負荷（TRIMP）、現在のフレッシュ度（TSB）、HRVトレンドの3つから推定します。画面にも推定値だと表示します。</td></tr>
     <tr><td data-i18n="hw.vs.r3a">乳酸性作業閾値（推定）</td><td data-i18n="hw.vs.r3b">直近90日間で、最大心拍の85%以上を保った30分（または20分）のベスト区間のペースと心拍です。ラボでの採血ではなく、ランの記録から出した推定値です。</td></tr>
     <tr><td data-i18n="hw.vs.r4a">レース予測 · 区間ペースプラン</td><td data-i18n="hw.vs.r4b">Riegelの式とRunvis フィットネス指数で予測します。コースのGPXを入れると、そのコースの高低差に合わせて区間ごとのペースを割り振ります。</td></tr>
     <tr><td data-i18n="hw.vs.r5a">勾配補正ペース（GAP）</td><td data-i18n="hw.vs.r5b">Minetti（2002）のランニングのエネルギー消費曲線を使います。上りと下りの負担は別々に計算します。</td></tr>
@@ -134,9 +134,9 @@ window.RunvisPageLang="ja";window.RunvisBase="/";
     <tr><td data-i18n="hw.vs.r8a">ヒル曝露</td><td data-i18n="hw.vs.r8b">直近28日のうち、上りのあったラン（2本以上）だけを集めて、総獲得標高 ÷ 総距離（m/km）で計算します。15以上ならアップダウンのあるコース、40以上なら坂の多いコースです。ランナーを採点するスコアではなく、走った地形を記録する値です。</td></tr>
     <tr><td data-i18n="hw.vs.r9a">暑熱曝露指数</td><td data-i18n="hw.vs.r9b">直近4週間に、22°C（華氏設定なら同じ温度の華氏の値）を超える日に走った屋外ランがどれだけ積み重なったかを、0〜100で表します。暑い日のランが3回たまると表示され、3日以上休むと下がります。体が暑さにどれだけ慣れたかではなく、暑さにどれだけさらされたかを示す値です。</td></tr>
     <tr><td data-i18n="hw.vs.r10a">コーチのブレーキ</td><td data-i18n="hw.vs.r10b">スコアではなく、予算です。すでに終わった直近4週間の週間距離から今週こなせる距離を決め、ラン後に記録した痛みのぶんだけ減らします。残りの距離と、痛みで減った距離を分けて表示するので、なぜ減ったのかが画面ですぐに分かります。</td></tr>
-    <tr><td data-i18n="hw.vs.r11a">コーチの記録レーダー</td><td data-i18n="hw.vs.r11b">GPSの経路があるランは、記録全体をたどっていちばん速かった区間（ベストエフォート）を探します。経路がないランは、全体の平均ペースから換算します。どちらの方法で求めた記録かを画面に一緒に表示し、対象は直近90日の記録です。</td></tr>
+    <tr><td data-i18n="hw.vs.r11a">コーチの記録レーダー</td><td data-i18n="hw.vs.r11b">GPSの経路があるランは、記録全体をたどっていちばん速かった区間（区間最速）を探します。経路がないランは、全体の平均ペースから換算します。どちらの方法で求めた記録かを画面に一緒に表示し、対象は直近90日の記録です。</td></tr>
     <tr><td data-i18n="hw.vs.r12a">持久力トレーニング量</td><td data-i18n="hw.vs.r12b">直近28日の記録から3つの要素を45 : 35 : 20の割合で組み合わせた、0〜100の値です。週間距離（週80kmで満点）、いちばん長いラン（30kmで満点）、直近4週間のうち走った週の数。ランナーを採点するスコアではなく、いま体に積み上がっている練習量を示す値です。記録が足りなければ数字を作らずに0のままにして、何が足りないかを画面に表示します。</td></tr>
-    <tr><td data-i18n="hw.vs.r13a">脚部負荷</td><td data-i18n="hw.vs.r13b">ランが脚に残した負荷を「km換算」で数えた値です。平地を楽に走った1kmが1.0で、同じ距離でも、速く・上りで・下りで走ると大きく数えます。計算は、ラン1本 = 距離 × 強度倍率 × 勾配倍率。強度倍率は心拍ではなくスピードで決めます（自分のイージー・閾値ペースが基準）：イージー以下1.0、閾値1.35、それより速ければ最大1.6。勾配倍率は、上りなら実際のペース ÷ 勾配補正ペース（最大1.6）、下りなら1 + 1.2 ×（1 − その比率）で大きく数えます（最大2.0）。下りは楽でも、衝撃は大きいからです。短期の値は1日単位の指数加重移動平均（EWMA、時定数7日）なので1日平均の水準になり（安定して走っていれば、およそ週間合計 ÷ 7）、週間の値はその週の単純な合計です。レポートのタイルと、ランの詳細画面（「トレーニング負荷（TRIMP）」の横）に、実際の距離と並べて表示します。ランニングダイナミクスと歩いた区間は、まだ反映していません。ガーミンは計算式を公開しておらず、上の倍率は公開文献を参考にRunvisが決めた参考値です。</td></tr>
+    <tr><td data-i18n="hw.vs.r13a">脚部負荷</td><td data-i18n="hw.vs.r13b">ランが脚に残した負荷を「平地換算km」で数えた値です。平地を楽に走った1kmが1.0で、同じ距離でも、速く・上りで・下りで走ると大きく数えます。計算は、ラン1本 = 距離 × 強度倍率 × 勾配倍率。強度倍率は心拍ではなくスピードで決めます（自分のイージー・閾値ペースが基準）：イージー以下1.0、閾値1.35、それより速ければ最大1.6。勾配倍率は、上りなら実際のペース ÷ 勾配補正ペース（最大1.6）、下りなら1 + 1.2 ×（1 − その比率）で大きく数えます（最大2.0）。下りは楽でも、衝撃は大きいからです。短期の値は1日単位の指数加重移動平均（EWMA、時定数7日）なので1日平均の水準になり（安定して走っていれば、およそ週間合計 ÷ 7）、週間の値はその週の単純な合計です。レポートのタイルと、ランの詳細画面（「トレーニング負荷」の横）に、実際の距離と並べて表示します。ランニングダイナミクスと歩いた区間は、まだ反映していません。ガーミンは計算式を公開しておらず、上の倍率は公開文献を参考にRunvisが決めた参考値です。</td></tr>
   </table></div>
   <div class="shots">
 <figure><picture><source srcset="/assets/framed-phone-detail.ja.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.ja.webp" type="image/webp"/><img alt="iPhoneの指標詳細 — トレーニング負荷（CTL）の7日間の推移、自分の28日範囲、指標の説明" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.ja.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">上の表の1行目は、アプリではこう表示されます。トレーニング負荷（CTL）の7日間の推移と自分の28日範囲、その指標の意味まで。</figcaption></figure>
@@ -144,11 +144,11 @@ window.RunvisPageLang="ja";window.RunvisBase="/";
 </div>
   <p class="legalnote" data-i18n="sc.note.s">日本語で動かして撮影した、実際のアプリ画面です。</p>
   <p class="note" data-i18n="hw.vs.tm">Garmin（ガーミン）、Forerunner、COROSは各社の商標です。Runvisは両社と関係ありません。ここに書いたのは公開されている事実だけです。両社の計算式は公開されていないため、精度の比較はしていません。</p>
-  <p class="note" data-i18n="hw.vs.note">専用ウォッチにはあって、Runvisにはまだないものも書いておきます。ウォッチフェイスのコンプリケーション、iPhoneのホーム画面ウィジェット、ライブアクティビティは、今回のバージョンには入っていません。上の値はすべて参考情報で、医学的なアドバイスではありません。</p>
+  <p class="note" data-i18n="hw.vs.note">専用ウォッチのように、アプリを開かずに見られる場所もあります。ウォッチフェイスのコンプリケーション（今日の判断・ランニング準備度・大会まで）、iPhoneのホーム画面・ロック画面ウィジェット（今日の判断）、そしてiPhoneだけで走るときに距離・時間・ペースをロック画面とDynamic Islandに表示するライブアクティビティです。上の値はすべて参考情報で、医学的なアドバイスではありません。</p>
 
   <h2 id="zones" data-i18n="hz.h">いますぐ計算できます：自分の心拍ゾーン5つ</h2>
   <p data-i18n="hz.p">Runvisがコーチ音声に使っているのと同じ、カルボーネン（Karvonen）法です。アプリではヘルスケアの7日間の安静時心拍と、実際に記録された最高心拍でこの値を更新し続けますが、計算方法は下のとおりです。</p>
-  <figure class="shot1"><picture><source srcset="/assets/framed-watch-hr.ja.avif" type="image/avif"/><source srcset="/assets/framed-watch-hr.ja.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvisの心拍ゾーンアーク" data-i18n-attr="alt:alt.watch.zone" loading="lazy" src="/assets/framed-watch-hr.ja.png" data-shot="framed-watch-hr" width="480" height="768" decoding="async"/></picture><figcaption data-i18n="hz.cap">下の計算機と同じゾーンを、ラン中のウォッチはこう表示します。</figcaption></figure>
+  <figure class="shot1"><picture><source srcset="/assets/framed-watch-hr.ja.avif" type="image/avif"/><source srcset="/assets/framed-watch-hr.ja.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvisのラン中の心拍と心拍ゾーン" data-i18n-attr="alt:alt.watch.zone" loading="lazy" src="/assets/framed-watch-hr.ja.png" data-shot="framed-watch-hr" width="480" height="768" decoding="async"/></picture><figcaption data-i18n="hz.cap">下の計算機と同じゾーンを、ラン中のウォッチはこう表示します。</figcaption></figure>
   <div class="hzcalc">
     <label><span data-i18n="hz.age">年齢</span><input id="hzAge" type="number" min="10" max="99" step="1" value="35" inputmode="numeric"/></label>
     <label><span data-i18n="hz.rest">安静時心拍</span><input id="hzRest" type="number" min="30" max="110" step="1" value="60" inputmode="numeric"/></label>
