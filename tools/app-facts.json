@@ -1,10 +1,10 @@
 {
   "measuredAt": "2026-10-18",
   "appRepo": "SportsDashboard",
-  "tests": 1177,
+  "tests": 1181,
   "testFiles": 63,
-  "stringKeys": 2969,
-  "stringLines": 2969,
+  "stringKeys": 2972,
+  "stringLines": 2972,
   "coachTable": 393,
   "glossary": 43,
   "cueSites": 300,
@@ -162,5 +162,5 @@
       }
     }
   },
-  "screensCapturedAt": "2026-09-27"
+  "screensCapturedAt": "2026-10-19"
 }

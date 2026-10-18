@@ -277,7 +277,7 @@ python3 -m http.server 8000
 - [x] 실기기 스크린샷으로 SVG 목업 교체 (`assets/framed-phone-*.{,en,ja,es,zh,de}.png` 30장)
 - [ ] 히어로 15초 워치 구동 영상 삽입 (현재는 CSS 배경 + 실기기 캡처)
 - [ ] App Store 버튼 (출시 후)
-- [ ] **아이폰 캡처 30장 재촬영** — 지금 있는 30장은 2026-09-06 07:30 빌드다.
+- [x] **아이폰 캡처 30장 재촬영** — 2026-10-19 앱 v3(redesign/v3) 빌드로 다시 찍었다(절차: `tools/regenerate-screens.md` 맨 위). 아래는 그 전 기록이다. 옛 30장은 2026-09-06 07:30 빌드였다.
   그 뒤 `Shared/Views/RunvisDesignSystem.swift`의 상태 라벨에
   `.lineLimit(1).minimumScaleFactor(0.8)`이 들어가 줄바꿈 버그가 고쳐졌는데,
   독일어·스페인어 캡처에는 `Achtung` / `Atención`이 두 줄로 접힌 채 남아 있을 수 있다.
