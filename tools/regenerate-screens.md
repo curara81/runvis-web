@@ -3,6 +3,13 @@
 홈페이지의 기기 이미지(`assets/framed-*.png`)는 **Apple 공식 제품 베젤**에
 앱 화면을 합성한 것. 앱 화면 데이터/디자인이 바뀌면 아래 순서로 재생성.
 
+## ✅ 워치 재촬영 (2026-10-19 오후, 앱 v3.1 · 46mm 시뮬레이터)
+- 랜딩이 쓰는 워치 4종(hero·pace·hr·map)과 evidence 를 6개 언어로 다시 찍었다. 절차는 `tools/watch-capture.md`(전면 개정).
+  이제 심박 캡처도 앱과 같은 세로 존 기둥이고, `alt.watch.*` 6개 언어를 새 화면 설명으로 바꿨다.
+- 아이폰 30장은 그대로다. v3.1에서 바뀐 표시 이름(부하 증가 경고→부하 증가 속도 · 신선도→회복 여유 ·
+  운동 부하 단위 '심박 기준')이 30장 어디에도 보이지 않는다 — detail 시트의 지표 설명은 'CTL·ATL·TSB 정의'
+  첫 문단까지만 화면에 들어오고 '회복 여유 =' 줄은 화면 밖이다(6개 언어 확대 확인).
+
 ## ✅ 아이폰 30장 재촬영 (2026-10-19, 앱 v3 리디자인 · redesign/v3 빌드)
 v3에서 화면 구성과 이동 경로가 바뀌어 아래 옛 좌표 메모 대부분이 맞지 않는다. 이번 절차:
 - **준비**: `xcrun simctl status_bar <UDID> override --time 9:41 --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularMode notSupported`.

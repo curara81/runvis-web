@@ -17,6 +17,7 @@ agree on the same answer:
 
     iPhone  1206x2622 -> 560x1218 at (40, 64)   in the 640x1308 frame
     Watch    422x514  -> 325x396  at (79, 178)  in the 480x768  frame
+    (46 mm captures, 416x496, are cover-fitted into the same box — fit())
 
 The screen mask is a rounded rect, and the top band is re-lightened from the
 donor afterwards so the bezel's glass-reflection streak (drawn ON TOP of the
@@ -89,10 +90,34 @@ def donor_image(name):
     return _CACHE[name]
 
 
+def fit(shot, bw, bh):
+    """Scale a capture onto the donor's glass without distorting it.
+
+    The geometry above was solved for captures of the same device as the
+    bezel (Ultra 3 422x514, iPhone 17 1206x2622), where a plain resize is
+    exact. Since 2026-10-19 the watch captures come from the 46 mm simulator
+    (416x496, aspect 0.839 against the glass's 0.821) — the only watchOS
+    simulator on the machine — and a plain resize would squeeze every page
+    2 % narrower. Cover-fit instead: scale to the glass height and trim the
+    ~4 source pixels each side loses; every watch page keeps its content
+    inside a margin wider than that, and the rounded mask clips the corners
+    anyway. Same-aspect captures still take the exact old path, so the
+    iPhone frames are byte-identical to before.
+    """
+    sw, sh = shot.size
+    if abs(sw / sh - bw / bh) <= 0.005:
+        return shot.resize((bw, bh), Image.LANCZOS)
+    s = max(bw / sw, bh / sh)
+    fw, fh = round(sw * s), round(sh * s)
+    big = shot.resize((fw, fh), Image.LANCZOS)
+    x, y = (fw - bw) // 2, (fh - bh) // 2
+    return big.crop((x, y, x + bw, y + bh))
+
+
 def compose(shot_path, spec, out_path):
     donor = donor_image(spec["donor"])
     l, t, r, b = spec["box"]
-    shot = Image.open(shot_path).convert("RGBA").resize((r - l, b - t), Image.LANCZOS)
+    shot = fit(Image.open(shot_path).convert("RGBA"), r - l, b - t)
     canvas = Image.new("RGBA", donor.size, (0, 0, 0, 255))
     canvas.paste(shot, (l, t))
     out = Image.composite(canvas, donor, rounded_mask(donor.size, (l, t, r - 1, b - 1),

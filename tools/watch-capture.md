@@ -1,91 +1,77 @@
-# 워치 스크린샷 캡처 절차 (2026-09-06 실행 검증 — 6개 언어 × 6장 완료)
+# 워치 스크린샷 캡처 절차 (2026-10-19 개정 — 46mm 시뮬레이터 · 앱 v3.1 · 4종 × 6개 언어)
 
-지난 두 라운드 동안 "watchOS 시뮬레이터가 합성 탭을 무시한다"고 보고됐지만 **사실이 아니다**.
-탭·스와이프 모두 정상 동작한다. 아래는 실제로 36장을 찍어 확인한 순서다.
+홈페이지가 쓰는 워치 화면은 **4종**이다: `hero`(오늘의 결정) · `pace` · `hr` · `map`
+(`tools/i18n-lib.mjs`·`i18n.js`의 `SHOTS`). `evidence`(오늘의 근거)·`start`(운동 시작)는
+2026-10-03에 랜딩에서 빠졌고 파일만 assets/ 에 남아 있다(2026-10-19에 evidence 만 같이 갱신).
 
-워치 UDID: `66D2DA4E-4021-46BF-A97E-1BE34B8D99D0` (아이폰 `886A3B8D-…`은 건드리지 말 것).
+워치 UDID: `3B58291D-E3A5-4B78-96C1-0B07BE09FAFF` (**Runvis Watch 46** — 이 맥의 유일한
+watchOS 시뮬레이터. Ultra 시뮬레이터는 없다). 화면 **208×248pt**, 스크린샷 **416×496px**.
+좌표는 전부 포인트다. 옛 Ultra 3(211×257pt, 422×514px)·옛 UDID `66D2DA4E-…` 메모는 폐기.
 
-## 0. 빌드는 새로 만들지 않는다
-`~/Library/Developer/Xcode/DerivedData/SportsDashboard-*/Build/Products/Debug-watchsimulator/SportsDashboard.app`
-가 최신이면 그대로 `xcrun simctl install <UDID> <path>` 한다. 디스크 여유가 빠듯하다.
+## 0. 빌드·설치
+    xcodebuild -scheme 'SportsDashboard Watch App' -destination 'id=<UDID>' -derivedDataPath /tmp/rv-dd build
+    xcrun simctl install <UDID> /tmp/rv-dd/Build/Products/Debug-watchsimulator/SportsDashboard.app
 
 ## 1. erase 는 쓰지 말 것
-`erase` 는 건강·위치 권한까지 지워서 시트를 다시 통과해야 한다. 시뮬이 이미
-권한을 통과한 상태라면 **erase 없이** 진행한다. 쌓인 알림이 문제면 `shutdown` →
-`boot` 로 충분하다(데이터·권한 유지).
+이 시뮬레이터에는 HealthKit 데이터(준비도 93)와 건강·위치 권한이 이미 들어 있다. 상태바의
+빨간 '아이폰 연결 끊김' 아이콘은 운동을 한 번 시작하면 박히는데, `shutdown` → `boot` 로 지워진다
+(데이터·권한 유지). 그래서 **정지 화면(hero·evidence)은 6개 언어 모두 재부팅 직후, 운동 전에 먼저**
+찍고, 러닝 화면은 그 뒤에 언어별로 찍는다. 러닝 화면의 아이콘은 피할 수 없다.
 
-## 2. 컨테이너 prefs 주입 — **쓰고 나면 cfprefsd 를 죽여야 한다**
-    C=$(xcrun simctl get_app_container <UDID> com.curara.SportsDashboard.watchkitapp data)
-    # <C>/Library/Preferences/com.curara.SportsDashboard.watchkitapp.plist 에
-    # didOnboardWatch=true, isDeveloperGodMode=true, planDaysPerWeek=3 을 plistlib 로 기록
-    xcrun simctl spawn <UDID> launchctl kill 9 system/com.apple.cfprefsd.xpc.daemon
+## 2. 컨테이너 prefs — 쓰고 나면 cfprefsd 를 죽인다
+`<container>/Library/Preferences/com.curara.SportsDashboard.watchkitapp.plist` 에
+`didOnboardWatch=true`, `isDeveloperGodMode=true`, `planDaysPerWeek=3`(월요일이면 결정이 '휴식').
+대회 카드가 필요할 때만 `goalRaceKm`·`goalRaceDateTS`. 쓰고 나서
+`xcrun simctl spawn <UDID> launchctl kill 9 system/com.apple.cfprefsd.xpc.daemon` —
+안 죽이면 앱이 캐시된 옛 값을 읽는다.
 
-**이 kill 이 이번 라운드의 핵심이었다.** plist 파일만 고치면 cfprefsd 가 캐시한 옛 값을
-계속 앱에 넘겨서, 파일에는 새 키가 있는데 화면은 안 바뀐다(주입이 "안 먹는다"고
-보고되던 증상). 죽이면 다음 실행 때 파일에서 다시 읽는다.
-
-## 3. 권한은 simctl 로 미리 준다
-    xcrun simctl privacy <UDID> grant location-always com.curara.SportsDashboard.watchkitapp
-건강(HealthKit)과 동작·피트니스는 `simctl privacy` 에 서비스가 없어 **탭으로 한 번**
-통과해야 한다. 시트에서 스크롤 → 버튼 탭이면 되고, 한 번 통과하면 계속 유지된다.
-
-## 4. 실행 — 환경변수는 반드시 SIMCTL_CHILD_ 접두사
+## 3. 실행
+    xcrun simctl terminate <UDID> com.curara.SportsDashboard.watchkitapp
     SIMCTL_CHILD_RUNVIS_SCREENSHOT=1 SIMCTL_CHILD_RUNVIS_DASH_PAGE=0 \
       xcrun simctl launch <UDID> com.curara.SportsDashboard.watchkitapp \
-      -AppleLanguages "(de)" -AppleLocale de_DE
-- `RUNVIS_SCREENSHOT=1` → 알림 권한 요청을 건너뛴다(DashboardViewModel).
-- `RUNVIS_DASH_PAGE=n` → 크라운 페이지 n 으로 바로 연다(DashboardView).
-  0=오늘의 결정 1=오늘의 근거 2=플랜 3=참고 4=더보기.
-- 실행 후 **12~15초** 기다린다(HealthKit 조회가 끝나야 숫자가 채워진다).
-- 로케일 코드: ko_KR · en_US · ja_JP · es_ES · zh_TW · de_DE.
-  `-AppleLanguages` 의 번체 코드는 **zh-Hant**(사이트 파일명은 `.zh`).
+      -AppleLanguages "(ko)" -AppleLocale ko_KR
+12~14초 기다린 뒤 `xcrun simctl io <UDID> screenshot w-hero.ko.png`.
+`DASH_PAGE=1` 이면 오늘의 근거(evidence). 둘 다 스와이프 없이 그대로 찍는다.
+로케일: `(ko) ko_KR` · `(en) en_US`(마일) · `(ja) ja_JP` · `(es) es_ES` · `(zh-Hant) zh_TW` · `(de) de_DE`.
+캡처 파일명은 앱 언어 코드(`w-hero.zh-Hant.png`), 합성 스크립트가 사이트 코드(`.zh`)로 바꾼다.
+상태바 시각 고정(`simctl status_bar`)은 watchOS 에서 지원되지 않는다 — 실제 시각이 찍힌다.
 
-## 5. 탭·스와이프는 Claude Code 의 iOS Simulator control 툴로
-좌표 단위는 **디바이스 포인트**(211×257). 스크린샷 픽셀(422×514)의 절반.
-- 히어로 프레이밍: 실행 직후 `swipe (105,180)→(105,140)` 한 번.
-  헤더 한 줄이 남고 카드 전체가 들어온다.
-- 운동 시작 화면: `swipe (105,220)→(105,30)` 로 바닥까지 → 초록 버튼 `tap (105,97)`.
-- 화면 캡처는 `xcrun simctl io <UDID> screenshot out.png` (422×514).
+## 4. 러닝 화면(pace·hr·map)
+탭·스와이프는 Claude Code 의 iOS Simulator control 툴(포인트 좌표).
+1. 위치: `xcrun simctl location <UDID> start --speed=3.2 --distance=10 <lat,lon> …`(5점 이상).
+   3.2 m/s = 5:13/km(en_US 8:23/mi). **지도는 그 언어의 나라에서 달린다** — Apple 지도 라벨은
+   앱 언어가 아니라 지역 표기를 따른다. 강·해자 위를 지나면 점이 물 위에 찍히니 땅 위 경로로.
+   2026-10-19에 쓴 경로:
+   - ko 여의도공원 `37.5295,126.9234 → 37.5225,126.9207`(남북 8점)
+   - en 하이드파크 Rotten Row `51.5028,-0.1560 → 51.5022,-0.1735`
+   - ja 황거외원 `35.6840,139.7610 → 35.6768,139.7536`(와다쿠라→사쿠라다몬)
+   - es 레티로 `40.4095,-3.6845 → 40.4165,-3.6815`
+   - zh 다안삼림공원 `25.0330,121.5330 → 25.0312,121.5372`
+   - de 티어가르텐 Straße des 17. Juni `52.5160,13.3730 → 52.5147,13.3550`
+2. `DASH_PAGE=0` 으로 실행 → `swipe (104,220)→(104,20)` **한 번**(결정 페이지 바닥까지. 두 번이면
+   다음 페이지로 넘어간다) → 바닥 칩 '러닝' `tap (38,162)` → 브리핑 없이 바로 시작.
+3. 크라운 페이지: **0 기본 · 1 페이스 · 2 심박(세로 존 기둥) · 3 존 · 4 지도 · 5 제어**.
+   `swipe (104,200)→(104,60)` 한 번이 한 페이지, 스와이프 사이 1초. 넘긴 직후 2~3초는 전환 블러가
+   남으니 **4초 뒤** 찍는다.
+4. 시작 후 **약 4분**(≈0.75km) 뒤에 찍는다. 그 사이 **60초마다 위아래로 한 번씩** 스와이프해
+   화면을 깨워 둔다(손을 안 대면 시계 화면으로 돌아간다).
 
-## 6. 러닝 중 화면(pace·hr·map)
-    xcrun simctl location <UDID> start --speed=3.2 --distance=10 <lat,lon> ... (5점 이상)
-`--speed=3.2` m/s = **5:12/km**(en_US 에서는 8:22/mi). 그 다음
-운동 시작 → 종목 `tap (105,143)` → 브리핑에서 `swipe (105,220)→(105,40)` 후
-"건너뛰고 바로 달리기" `tap (105,209)`.
+## 5. 운동 정리 — 저장하지 말고, 빠져나온 뒤 15초
+제어 페이지 '종료' `tap (104,120)` → 요약에서 휴지통 `tap (179,189)` → 2초 → '삭제' `tap (104,208)`
+→ 시작 화면이 뜨면 왼쪽 위 `tap (33,36)` 으로 빠져나오고 **15초** 기다린 뒤 다음 실행.
+2026-10-19에 삭제 후 12초 만에 terminate 했더니 다음 실행이 '중단된 운동을 복원했습니다' 배너가
+낀 러닝으로 들어갔다(제어 페이지의 '종료'를 배너가 덮는다 — 배너를 한 번 탭하면 사라진다).
+저장하면 HealthKit 주간 거리가 늘어 다음 언어의 결정·플랜이 바뀐다.
 
-크라운 페이지 순서(야외 자유 러닝 기본 루프 6장, `WorkoutScreenPrefs.defaultDisabled`):
-**0 기본 · 1 페이스 상세 · 2 심박수 · 3 심박존 · 4 지도 · 5 제어**.
-`swipe (105,200)→(105,60)` 한 번이 한 페이지다.
+## 6. 합성·인코딩
+    SHOTS_DIR=<캡처 폴더> python3 tools/composite_lang.py
+    python3 tools/encode_shots.py
+`composite_lang.py` 는 `tools/bezel-donors/` 의 Ultra 베젤 유리에 캡처를 칠한다. 46mm 캡처는
+화면비(0.839)가 유리(0.821)와 달라 **cover-fit**(높이 맞춤, 좌우 약 4px 잘림)으로 넣는다 —
+`fit()`. 같은 화면비인 아이폰 캡처는 예전 경로 그대로라 바이트가 같다.
+캡처 폴더에 폰 파일(`dash.ko.png` 등)이 있으면 폰 프레임도 다시 만드니, 워치만 만들 땐 `w-*.png` 만 둔다.
 
-- 약 **4분**(≈0.85km) 기다린 뒤 찍으면 아이폰 캡처와 자릿수가 맞는다.
-- **75초마다 스와이프 한 번**을 섞어라. 손을 대지 않으면 watchOS 가 운동 중에도
-  시계 화면으로 돌아가고, 다시 들어가면 "중단된 운동 복구" 배너가 낀 채로 찍힌다.
-- **지도는 그 언어의 나라에서 달려라.** Apple 지도 라벨은 앱 언어가 아니라 그 지역의
-  표기를 쓴다 — 서울을 ja 로 찍으면 지도만 한글로 남는다. 이번에 쓴 좌표:
-  ko 여의도 · en 런던 하이드파크 · ja 도쿄 황궁 · es 마드리드 레티로 ·
-  zh-Hant 타이베이 다안 · de 베를린 티어가르텐.
-
-## 7. 끝나면 운동을 반드시 정리한다
-제어 페이지 `tap (105,124)`(종료) → 요약에서 휴지통 `tap (182,194)` → `tap (105,216)`(폐기).
-**저장하면 안 된다** — HealthKit 주간 거리가 늘어 다음 언어의 플랜/결정이 바뀐다.
-폐기 뒤 `tap (35,38)` 로 빠져나오고 **10초 이상 기다린 뒤** terminate 한다. 바로 죽이면
-HKWorkoutSession 이 남아 다음 실행이 "중단된 운동 복구" 화면으로 들어간다.
-
-## 8. 상태바의 빨간 "아이폰 연결 끊김" 아이콘
-운동을 한 번 시작하면 워치–아이폰 링크가 끊겨 상태바에 빨간 아이콘이 박힌다.
-`shutdown` → `boot`(erase 아님) 하면 사라진다. **정지 화면 3장(hero·evidence·start)은
-재부팅 직후, 운동 전에** 찍어라. 러닝 3장은 아이콘을 피할 수 없다(기존 한국어
-캡처도 같다).
-
-## 9. 베젤 합성
-    python3 tools/composite_lang.py
-Apple 베젤 프레임을 도너로 유리 부분만 다시 칠한다. 도너는 **`tools/bezel-donors/`**
-에서 읽는다 — assets/ 의 프레임은 이 스크립트의 출력이기도 해서 거기서 읽으면
-PNG8 팔레트 오차가 실행할 때마다 한 세대씩 쌓인다(실측: 스크린 박스 밖 max diff
-43 → 55). 지금은 몇 번을 다시 돌려도 **바이트가 같다**(검증됨).
-입력은 `<scratchpad>/shots/w-<screen>.<locale>.png`. 폰 캡처(`<screen>.<locale>.png`)가
-같은 폴더에 있으면 폰 프레임까지 다시 만든다 — 워치만 만들려면 폰 파일을 치워라.
-
-## 10. 마지막
-`tools/i18n-lib.mjs` 의 `SHOTS` 와 `i18n.js` 의 `SHOTS` 는 **같이** 유지한다.
-그 뒤 `node tools/prerender.mjs && node tools/check-content.mjs`.
+## 7. 마지막
+화면 구성이 바뀌었으면 `t-*.js`의 `alt.watch.*` 6개 언어를 맞추고,
+`node tools/sync-inline.mjs && node tools/prerender.mjs && node tools/check-content.mjs`.
+`SHOTS`(i18n-lib.mjs)와 `i18n.js`의 `SHOTS` 는 같이 유지한다.
