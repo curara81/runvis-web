@@ -1248,6 +1248,12 @@
 <ul>
 <li data-i18n="n.race.l1">인터벌은 구간마다 코치가 이끌고, 끝나면 계획 대비 점수를 매깁니다</li>
 <li data-i18n="n.race.l2">컨디션이 나쁜 날엔 탭 한 번으로 강도를 낮춰 다시 짜요</li>
+<!-- v3.1 (2026-10-19): return-to-run prescription, WeeklyPlanEngine.ReturnPhase
+     + TodayDecisionEngine.returnRunMinutes. Numbers are the engine's: 14+ days
+     off -> 55% then 75% of the 4-week pre-break weekly average (28+ days:
+     45%/65%), first run 20 min, week 3 back to normal; the plan-change card's
+     "이번 주는 원래대로" undoes it for that week; display is planVisible (free). -->
+<li data-i18n="n.race.l4">14일 이상 쉬고 돌아오면 2주 동안 주간 거리를 공백 전 4주 평균의 55%→75%로 낮춰 다시 쌓아요(28일 이상이면 45%→65%). 첫 러닝은 20분이고 3주차부터 평소 플랜이에요. '이번 주는 원래대로'로 그 주만 끌 수 있고, 무료예요</li>
 <li data-i18n="n.race.l3">기록이 없어도 괜찮아요. 워치로 12분 측정 러닝을 한 번 하면 첫 플랜이 나와요</li>
 </ul>
 </div>
