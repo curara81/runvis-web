@@ -13,6 +13,9 @@
      and there was no manifest at all (2026-09-06 라운드 13, -0.4). Both are
      absolute paths on purpose — the prerendered copies under /en/ … are served
      from a subdirectory and there is one icon, at the root. -->
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/icon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/icon-192.png" sizes="192x192" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <!-- SOURCE FILE, Korean inline defaults, like src/index.html — six copies are
@@ -68,6 +71,12 @@
 <link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/how-it-works.html">
 <link rel="alternate" hreflang="de" href="https://runvis.app/de/how-it-works.html">
 <style>
+  /* 2026-10-25 (묶음 A 1-8): the button's accessible name is its visible label
+     plus a hidden "표시 언어" prefix (WCAG 2.5.3), and the globe and the
+     chevron are line icons, not emoji. */
+  .langsel button{display:inline-flex;align-items:center;gap:5px}
+  .langsel .lsi{width:1.05em;height:1.05em;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
   :root{
     --green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;
     /* --dim2 was #6a6f76 = 4.15:1 on black, under the 4.5:1 AA floor; the
@@ -263,7 +272,7 @@
   // the market page, which arrives with its own.
   if(code!==pageLang){
     var d=document.createElement("script");
-    d.src=BASE+"t-"+code+".js?v=20260927b"; d.async=false; document.head.appendChild(d);
+    d.src=BASE+"t-"+code+".js?v=20261025a"; d.async=false; document.head.appendChild(d);
     window.RunvisDictLoaded=code;                     // i18n.js: "one is already in flight"
   }
   function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
@@ -295,7 +304,7 @@
   meta("property","og:locale",OGL[code]);
 })();
 </script>
-<script defer src="i18n.js?v=20260927b"></script>
+<script defer src="i18n.js?v=20261025a"></script>
 <!-- WebPage + BreadcrumbList. This page used to ship no structured data at
      all in any of the six languages: a crawler got a title and nothing that
      said what site the page belongs to or where it sits in it. Built from the
@@ -310,7 +319,7 @@
   <div class="topbar">
     <a class="back" href="index.html" data-i18n="pv.back">← Runvis 홈으로</a>
     <div class="langsel" id="langsel">
-      <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="표시 언어">🌐 <span id="langlabel" data-i18n="a11y.langname">한국어</span> ▾</button>
+      <button type="button" id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu"><svg class="lsi" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3Z"/></svg><span class="sr-only" data-i18n="a11y.langmenu">표시 언어</span> <span id="langlabel" data-i18n="a11y.langname">한국어</span><svg class="lsi" viewBox="0 0 24 24" aria-hidden="true"><path d="m6.5 9.5 5.5 5.5 5.5-5.5"/></svg></button>
       <ul id="langmenu" role="menu" aria-labelledby="langbtn" tabindex="-1"></ul>
     </div>
   </div>
@@ -374,7 +383,7 @@
        as the good path, because this page's own standard is that an estimate
        says it is one. -->
   <h2 id="versus" data-i18n="hw.vs.h">가민 포러너·코로스 같은 전용 러닝 시계와 무엇이 같고 무엇이 다를까요</h2>
-  <p data-i18n="hw.vs.p">훈련 부하, 회복 시간, 젖산 역치 추정, 레이스 페이스 플랜. 가민 포러너나 코로스 같은 러닝 시계가 있어야 볼 수 있다고들 하는 값이에요. 이런 값을 자기 시계 안에서 계산하는 회사는 이미 있어요. 다만 애플워치에서 그 일을 하는 곳이 없었을 뿐이죠. 런비스는 같은 값을 애플워치가 이미 기록한 심박·GPS·고도로 계산합니다. 전용 시계의 계산식은 공개돼 있지 않아서 '같은 식'이라고 말하지는 않을게요. 대신 런비스가 쓰는 식은 모두 이름이 있는 공개 공식이고, 아래에 그 이름을 밝혀 두었어요. 앱에서는 지표마다 뜻과 계산 근거, 내 평소 범위를 눌러서 볼 수 있습니다.</p>
+  <p data-i18n="hw.vs.p">훈련 부하, 회복 시간, 젖산 역치 추정, 레이스 페이스 플랜. 가민 포러너나 코로스 같은 러닝 시계가 있어야 볼 수 있다고들 하는 값이에요. 이런 값을 자기 시계 안에서 계산하는 회사는 이미 있어요. 런비스는 같은 종류의 값을 애플워치가 이미 기록한 심박·GPS·고도로 계산합니다. 전용 시계의 계산식은 공개돼 있지 않아서 '같은 식'이라고 말하지는 않을게요. 대신 런비스가 쓰는 식은 모두 이름이 있는 공개 공식이고, 아래에 그 이름을 밝혀 두었어요. 앱에서는 지표마다 뜻과 계산 근거, 내 평소 범위를 눌러서 볼 수 있습니다.</p>
   <div class="tablewrap"><table>
     <tr><th data-i18n="hw.vs.th1">지표</th><th data-i18n="hw.vs.th2">런비스의 계산 방식과 공식 이름</th></tr>
     <tr><td data-i18n="hw.vs.r0a">무엇을 더 사야 하나요</td><td data-i18n="hw.vs.r0b">가민 포러너·코로스는 시계 자체가 상품이에요. 런비스는 이미 차고 있는 애플워치를 쓰고, 따로 결제하는 건 코치 구독뿐입니다.</td></tr>
@@ -441,7 +450,7 @@
   <h2 id="beta" data-i18n="n.beta.stepsh">신청하면 이렇게 진행돼요</h2>
   <ol>
     <li data-i18n="n.beta.s1">접수: 이메일 주소만 받아요. 계정을 만들 필요는 없습니다.</li>
-    <li data-i18n="n.beta.s2">TestFlight 초대: 베타가 열리면 신청 순서대로 초대 링크를 보내 드려요. 애플이 정한 외부 테스터 상한은 1만 명이고, 애플 계정만 있으면 됩니다. 결제는 없어요. 베타 빌드에서는 베타 기간 동안 코치 기능이 전부 무료입니다. 마케팅 수신에 동의하지 않으셨다면 이 초대 메일 외에는 아무것도 보내지 않아요.</li>
+    <li data-i18n="n.beta.s2">TestFlight 초대: 베타가 열리면 신청 순서대로 초대 링크를 보내 드려요. 애플 계정만 있으면 됩니다. 결제는 없어요. 베타 빌드에서는 베타 기간 동안 코치 기능이 전부 무료입니다. 마케팅 수신에 동의하지 않으셨다면 이 초대 메일 외에는 아무것도 보내지 않아요.</li>
     <li data-i18n="n.beta.s3">피드백: 앱 안에서 바로 의견을 보내거나 help@runvis.app 으로 보내 주세요.</li>
     <li data-i18n="n.beta.s4">출시: 베타가 끝난 뒤 출시 시점을 정해요. 대한민국 App Store에 먼저 나오고 다른 나라는 차례로 출시합니다.</li>
   </ol>

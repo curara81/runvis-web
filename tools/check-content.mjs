@@ -219,6 +219,8 @@ console.log('\n[5] prerendered copies match a fresh render');
 {
   const before = new Map();
   for (const { file, gen } of ALL) if (gen) before.set(file, fs.readFileSync(path.join(ROOT, file), 'utf8'));
+  // i18n.js is build output too since 2026-10-25 (src/i18n.js, comments stripped).
+  before.set('i18n.js', fs.readFileSync(path.join(ROOT, 'i18n.js'), 'utf8'));
   const tmp = fs.mkdtempSync(path.join(ROOT, '.prerender-check-'));
   try {
     // Re-run the generator into place, compare, then restore whatever was there.
@@ -697,7 +699,16 @@ console.log('\n[17] the icon files and manifest the pages link to');
       else ok(`site.webmanifest: ${manifest.icons.length} icon entries, all resolve`);
     }
   }
-  const want = ['rel="apple-touch-icon"', 'rel="manifest"'];
+  // 2026-10-25: the favicon is the app's mark (assets/favicon.svg + PNGs), not a
+  // data-URI emoji — every document links it and the files exist.
+  for (const f of ['assets/favicon.svg', 'assets/icon-32.png', 'assets/icon-192.png', 'assets/icon-512.png']) {
+    if (!fs.existsSync(path.join(ROOT, f))) fail(`${f} is linked as an icon and does not exist`);
+  }
+  for (const { file } of ALL_DOCS) {
+    const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+    if (/rel="icon"[^>]*data:|data:image[^"]*" rel="icon"/.test(html)) fail(`${file}: a data-URI favicon is back`);
+  }
+  const want = ['rel="apple-touch-icon"', 'rel="manifest"', 'href="/assets/favicon.svg"'];
   for (const { file } of ALL_DOCS) {
     const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
     const gone = want.filter(w => !html.includes(w));
@@ -1581,6 +1592,157 @@ console.log('\n[31] the Korean root is built like the other five, not shipped ra
   }
   if (bad.length) fail(bad.join('\n       '));
   else ok(`gzipped, ko vs en: ${rows.join(', ')} — all under ${LIMIT}×`);
+}
+
+// ======== 32–37: the performance & motion budget (2026-10-25, 묶음 A 1-9) =====
+// Lighthouse scored this site 100 while its first visit was 2.64 MB, 89 % of it
+// one hero video Lighthouse does not weigh, and while three blurred blobs and
+// a bezel float loop ran forever (점검 보고서 4-4, 7-2). These sections hold the
+// budget the review set, statically, from the files the site actually ships —
+// so the next "make it more impressive" round has to fit inside it or change
+// these numbers on purpose.
+const KB = 1024, MB = 1024 * 1024;
+const fmt = (n) => n >= MB ? (n / MB).toFixed(2) + ' MB' : (n / KB).toFixed(0) + ' KB';
+const fsize = (rel) => { try { return fs.statSync(path.join(ROOT, rel.replace(/^\//, ''))).size; } catch { return null; } };
+const zlibB = await import('node:zlib');
+const gzLen = (s) => zlibB.gzipSync(Buffer.from(s), { level: 9 }).length;
+const HERO_SUF = { ko: '', ja: '', zh: '', en: '.en', es: '.es', de: '.de' };
+const heroHaveOf = (html) => {
+  const m = /var HAVE=(\{[^;]*\});/.exec(html);
+  try { return m ? JSON.parse(m[1]) : null; } catch { return null; }
+};
+/** Body images the browser fetches without waiting: no loading="lazy". For a
+ *  <picture>, the first <source> is what an AVIF-capable browser takes. */
+function eagerImages(html) {
+  const body = html.slice(html.indexOf('<body'));
+  const out = [];
+  for (const m of body.matchAll(/(<picture>[\s\S]*?<\/picture>)|<img\b[^>]*>/g)) {
+    const chunk = m[0];
+    const img = /<img\b[^>]*>/.exec(chunk)?.[0] ?? '';
+    if (/loading="lazy"/.test(img)) continue;
+    const src = (/<source[^>]*srcset="([^"\s]+)/.exec(chunk) || /src="([^"]+)"/.exec(img) || [])[1];
+    if (src && !src.startsWith('data:')) out.push(src);
+  }
+  return out;
+}
+
+console.log('\n[32] first-visit transfer budget (index.html, six markets)');
+{
+  const i18n = fs.readFileSync(path.join(ROOT, 'i18n.js'), 'utf8');
+  const bad = [], rows = [];
+  for (const code of CODES) {
+    const file = code === 'ko' ? 'index.html' : `${code}/index.html`;
+    const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+    const have = heroHaveOf(html);
+    if (!have) { bad.push(`${file}: no HAVE object — tools/prerender.mjs 7a' did not run`); continue; }
+    const suf = HERO_SUF[code];
+    const posterD = fsize(`assets/hero-poster${suf}.avif`);
+    const posterM = have.vp ? fsize('assets/hero-poster-v.avif') : posterD;
+    if (posterD == null) { bad.push(`${file}: assets/hero-poster${suf}.avif missing — it is the LCP image`); continue; }
+    let imgs = 0;
+    for (const src of eagerImages(html)) {
+      const n = fsize(src);
+      if (n == null) bad.push(`${file}: eager image ${src} missing`); else imgs += n;
+    }
+    const base = gzLen(html) + gzLen(i18n) + imgs;
+    const screenD = base + posterD, screenM = base + posterM;
+    const vids = [`hero-loop${suf}.webm`, `hero-loop${suf}.mp4`].concat(have.hevc.includes(suf) ? [`hero-loop${suf}.hevc.mp4`] : [])
+      .map(f => fsize('assets/' + f) ?? 0);
+    const vidD = Math.max(...vids);
+    const vidM = have.v ? Math.max(fsize('assets/hero-loop-v.webm') ?? 0, fsize('assets/hero-loop-v.mp4') ?? 0) : 0;
+    const totalD = screenD + vidD, totalM = screenM + vidM;
+    if (posterM > 60 * KB) bad.push(`${file}: mobile LCP poster ${fmt(posterM)} > 60 KB`);
+    if (posterD > 120 * KB) bad.push(`${file}: desktop LCP poster ${fmt(posterD)} > 120 KB`);
+    if (screenM > 350 * KB) bad.push(`${file}: first screen on a phone ${fmt(screenM)} > 350 KB (video and lazy images excluded)`);
+    if (screenD > 500 * KB) bad.push(`${file}: first screen on a desktop ${fmt(screenD)} > 500 KB`);
+    if (totalM > 1.5 * MB) bad.push(`${file}: first visit on a phone ${fmt(totalM)} > 1.5 MB`);
+    if (totalD > 3 * MB) bad.push(`${file}: first visit on a desktop ${fmt(totalD)} > 3 MB`);
+    rows.push(`${code} ${fmt(screenM)}/${fmt(screenD)} screen, ${fmt(totalM)}/${fmt(totalD)} visit`);
+  }
+  if (bad.length) fail(bad.join('\n       '));
+  else ok(`phone/desktop — ${rows.join('; ')} (budgets 350 KB/500 KB, 1.5 MB/3 MB)`);
+}
+
+console.log('\n[33] hero video ≤ 1.9 MB (desktop) / ≤ 1.0 MB (vertical), motion assets ≤ 600 KB');
+{
+  const bad = [], seen = [];
+  const files = fs.readdirSync(path.join(ROOT, 'assets'));
+  for (const f of files.filter(f => /^hero-loop.*\.(webm|mp4)$/.test(f))) {
+    const n = fsize('assets/' + f), cap = /^hero-loop-v\./.test(f) ? 1.0 * MB : 1.9 * MB;
+    seen.push(`${f} ${fmt(n)}`);
+    if (n > cap) bad.push(`assets/${f} is ${fmt(n)} — over ${fmt(cap)}`);
+  }
+  // Anything that is motion and not the hero loop: scroll sequences, Lottie,
+  // Rive, GIFs. None exist today; the line is here before the first one does.
+  let motion = 0;
+  const walk = (dir) => { for (const f of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, f.name);
+    if (f.isDirectory()) walk(p);
+    else if (/\.(riv|lottie|gif)$/i.test(f.name) || p.includes(`${path.sep}motion${path.sep}`)) motion += fs.statSync(p).size;
+  } };
+  walk(path.join(ROOT, 'assets'));
+  if (motion > 600 * KB) bad.push(`motion assets total ${fmt(motion)} > 600 KB`);
+  if (!seen.length) bad.push('no hero-loop files found in assets/');
+  if (bad.length) fail(bad.join('\n       '));
+  else ok(`${seen.length} hero files within cap (${seen.join(', ')}); motion assets ${fmt(motion)}`);
+}
+
+console.log('\n[34] no fetchpriority="high" inside an element hidden on a phone');
+{
+  const bad = [];
+  for (const { file } of ALL_DOCS) {
+    const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+    const css = [...html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/g)].map(m => m[1]).join('\n');
+    // Class/id tokens a max-width media query sets to display:none.
+    const hidden = new Set();
+    for (const mq of css.matchAll(/@media[^{]*max-width[^{]*\{((?:[^{}]*\{[^{}]*\})*)[^{}]*\}/g)) {
+      for (const r of mq[1].matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+        if (!/display\s*:\s*none/.test(r[2])) continue;
+        for (const sel of r[1].split(',')) {
+          const last = sel.trim().split(/[\s>+~]+/).pop() || '';
+          for (const t of last.match(/[.#][\w-]+/g) || []) hidden.add(t);
+        }
+      }
+    }
+    const body = html.slice(html.indexOf('<body'));
+    const stack = [];
+    const VOIDT = /^(img|source|br|hr|input|link|meta|use|path|circle|rect|line|stop)$/i;
+    for (const m of body.matchAll(/<(\/?)([a-zA-Z][\w-]*)\b([^>]*?)(\/?)>/g)) {
+      const [, close, name, attrs, self] = m;
+      if (close) { const i = stack.map(s => s.name).lastIndexOf(name.toLowerCase()); if (i >= 0) stack.length = i; continue; }
+      const toks = [...((/\bclass="([^"]*)"/.exec(attrs) || [])[1] || '').split(/\s+/).filter(Boolean).map(c => '.' + c),
+                    ...((/\bid="([^"]*)"/.exec(attrs) || [])[1] ? ['#' + /\bid="([^"]*)"/.exec(attrs)[1]] : [])];
+      if (/fetchpriority="high"/.test(attrs)) {
+        const hit = [...stack.flatMap(s => s.toks), ...toks].find(t => hidden.has(t));
+        if (hit) bad.push(`${file}: <${name} fetchpriority="high"> sits inside ${hit}, which a phone layout hides`);
+      }
+      if (!self && !VOIDT.test(name) && !/^(script|style)$/i.test(name)) stack.push({ name: name.toLowerCase(), toks });
+    }
+  }
+  if (bad.length) fail(bad.join('\n       '));
+  else ok(`${ALL_DOCS.length} documents: every high-priority fetch is visible at phone width`);
+}
+
+console.log('\n[35] motion: loops can be stopped, nothing blurs over the video');
+{
+  const bad = [];
+  for (const { file } of ALL_DOCS) {
+    const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+    const css = [...html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/g)].map(m => m[1]).join('\n')
+      .replace(/@media\s*\(\s*prefers-reduced-motion\s*:\s*reduce\s*\)\s*\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}/g, '');
+    if (/\binfinite\b/.test(css)) bad.push(`${file}: an infinite CSS animation — no loop without a stop (WCAG 2.2.2)`);
+    if (/repeatCount="indefinite"/.test(html)) bad.push(`${file}: an indefinite SMIL animation`);
+    const video = /<video\b[^>]*>/.exec(html)?.[0];
+    if (video) {
+      if (/\bautoplay\b/.test(video)) bad.push(`${file}: <video autoplay> in the markup — sources are attached by script after load, behind the reduced-motion / Save-Data / slow-link guards`);
+      if (/<source\b/.test(html.slice(html.indexOf(video), html.indexOf('</video>', html.indexOf(video))))) bad.push(`${file}: <video> ships <source> in the markup — the download would start before the guards run`);
+      if (!/id="heroPause"/.test(html)) bad.push(`${file}: a looping video with no pause button (#heroPause)`);
+      if (/backdrop-filter/.test(css)) bad.push(`${file}: backdrop-filter on a page with a playing video — a blur over decoding video re-composites every frame`);
+    }
+    if (/id="watchStack"/.test(html) && !/id="wsPause"/.test(html)) bad.push(`${file}: the rotating watch frames have no stop button`);
+  }
+  if (bad.length) fail(bad.join('\n       '));
+  else ok(`${ALL_DOCS.length} documents: no unstoppable loop; the hero video is script-attached, pausable and unblurred`);
 }
 
 console.log(failures ? `\nFAILED — ${failures} problem(s)` : '\nPASS — no drift');

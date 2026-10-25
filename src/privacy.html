@@ -13,6 +13,9 @@
      and there was no manifest at all (2026-09-06 라운드 13, -0.4). Both are
      absolute paths on purpose — the prerendered copies under /en/ … are served
      from a subdirectory and there is one icon, at the root. -->
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/icon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/icon-192.png" sizes="192x192" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <!-- SOURCE FILE, Korean inline defaults, like src/index.html — six copies are
@@ -56,6 +59,12 @@
 <link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/privacy.html">
 <link rel="alternate" hreflang="de" href="https://runvis.app/de/privacy.html">
 <style>
+  /* 2026-10-25 (묶음 A 1-8): the button's accessible name is its visible label
+     plus a hidden "표시 언어" prefix (WCAG 2.5.3), and the globe and the
+     chevron are line icons, not emoji. */
+  .langsel button{display:inline-flex;align-items:center;gap:5px}
+  .langsel .lsi{width:1.05em;height:1.05em;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
   :root{
     --green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;
     /* --dim2 was #6a6f76 = 4.15:1 on black, under the 4.5:1 AA floor; the
@@ -213,7 +222,7 @@
   // the market page, which arrives with its own.
   if(code!==pageLang){
     var d=document.createElement("script");
-    d.src=BASE+"t-"+code+".js?v=20260927b"; d.async=false; document.head.appendChild(d);
+    d.src=BASE+"t-"+code+".js?v=20261025a"; d.async=false; document.head.appendChild(d);
     window.RunvisDictLoaded=code;                     // i18n.js: "one is already in flight"
   }
   function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
@@ -245,7 +254,7 @@
   meta("property","og:locale",OGL[code]);
 })();
 </script>
-<script defer src="i18n.js?v=20260927b"></script>
+<script defer src="i18n.js?v=20261025a"></script>
 <!-- WebPage + BreadcrumbList. This page used to ship no structured data at
      all in any of the six languages: a crawler got a title and nothing that
      said what site the page belongs to or where it sits in it. Built from the
@@ -262,7 +271,7 @@
   <div class="topbar">
     <a class="back" href="index.html" data-i18n="pv.back">← Runvis 홈으로</a>
     <div class="langsel" id="langsel">
-      <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="표시 언어">🌐 <span id="langlabel" data-i18n="a11y.langname">한국어</span> ▾</button>
+      <button type="button" id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu"><svg class="lsi" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3Z"/></svg><span class="sr-only" data-i18n="a11y.langmenu">표시 언어</span> <span id="langlabel" data-i18n="a11y.langname">한국어</span><svg class="lsi" viewBox="0 0 24 24" aria-hidden="true"><path d="m6.5 9.5 5.5 5.5 5.5-5.5"/></svg></button>
       <ul id="langmenu" role="menu" aria-labelledby="langbtn" tabindex="-1"></ul>
     </div>
   </div>
@@ -330,10 +339,10 @@
   <h2 data-i18n="pv.s6.h">6. 웹사이트(베타 신청)</h2>
   <p data-i18n="pv.s6.p">홈페이지(runvis.app)의 베타 신청 폼으로 이메일 주소를 제출하는 경우 아래와 같이 처리됩니다. 이 절은 웹사이트 폼에만 적용되며, 앱은 이메일을 포함해 어떤 계정 정보도 수집하지 않습니다.</p>
   <ul>
-    <li data-i18n="pv.s6.li1"><b>수집 항목</b>: 이메일 주소(신청자가 직접 입력한 것에 한함)</li>
-    <li data-i18n="pv.s6.li2"><b>수집 목적</b>: TestFlight 베타 초대장 발송과 베타 진행 관련 안내</li>
+    <li data-i18n="pv.s6.li1"><b>수집 항목</b>: 이메일 주소(신청자가 직접 입력한 것에 한함), 고른 신청 종류(베타 참여 또는 출시 알림), 신청서로 오기 전에 누른 버튼의 위치(예: 첫 화면·가격·하단 바·5km 데모)와 페이지 표시 언어. 뒤의 두 가지는 어느 안내가 신청으로 이어지는지 세어 보려는 것이고, 쿠키나 기기 식별자는 쓰지 않습니다</li>
+    <li data-i18n="pv.s6.li2"><b>수집 목적</b>: TestFlight 베타 초대장 발송과 베타 진행 관련 안내. '출시 알림만'을 고른 경우에는 출시 알림 1회 발송</li>
     <li data-i18n="pv.s6.li3"><b>처리 위탁·국외 이전</b>: 폼 전송·보관은 <b>Formspree, Inc.</b>(미국)의 폼 처리 서비스에 위탁되며, 제출한 이메일은 Formspree 서버(미국)에 전송·보관됩니다 — <a href="https://formspree.io/legal/privacy-policy/" rel="noopener">Formspree 개인정보 처리방침</a></li>
-    <li data-i18n="pv.s6.li4"><b>보관·파기</b>: 베타 초대 발송 등 수집 목적 달성 시 지체 없이 파기하며, 늦어도 수집일로부터 1년 이내 파기합니다. 삭제 요청: <a href="mailto:help@runvis.app">help@runvis.app</a></li>
+    <li data-i18n="pv.s6.li4"><b>보관·파기</b>: 베타 초대 발송 등 수집 목적 달성 시 지체 없이 파기하며, 늦어도 수집일로부터 1년 이내 파기합니다. 출시 알림만 신청하신 주소는 알림을 보낸 뒤 지체 없이 파기합니다. 삭제 요청: <a href="mailto:help@runvis.app">help@runvis.app</a></li>
   </ul>
 
   <h2 data-i18n="pv.s7.h">7. 데이터 삭제</h2>

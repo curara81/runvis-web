@@ -13,6 +13,9 @@
      and there was no manifest at all (2026-09-06 라운드 13, -0.4). Both are
      absolute paths on purpose — the prerendered copies under /en/ … are served
      from a subdirectory and there is one icon, at the root. -->
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/icon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/icon-192.png" sizes="192x192" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <!-- SOURCE FILE, Korean inline defaults, like src/index.html — six copies are
@@ -56,6 +59,12 @@
 <link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/about.html">
 <link rel="alternate" hreflang="de" href="https://runvis.app/de/about.html">
 <style>
+  /* 2026-10-25 (묶음 A 1-8): the button's accessible name is its visible label
+     plus a hidden "표시 언어" prefix (WCAG 2.5.3), and the globe and the
+     chevron are line icons, not emoji. */
+  .langsel button{display:inline-flex;align-items:center;gap:5px}
+  .langsel .lsi{width:1.05em;height:1.05em;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
   :root{
     --green:#3DDC84; --cyan:#4CCBD9; --bg:#000; --card:#16191e; --line:#24282e;
     /* --dim2 was #6a6f76 = 4.15:1 on black, under the 4.5:1 AA floor; the
@@ -215,7 +224,7 @@
   // the market page, which arrives with its own.
   if(code!==pageLang){
     var d=document.createElement("script");
-    d.src=BASE+"t-"+code+".js?v=20260927b"; d.async=false; document.head.appendChild(d);
+    d.src=BASE+"t-"+code+".js?v=20261025a"; d.async=false; document.head.appendChild(d);
     window.RunvisDictLoaded=code;                     // i18n.js: "one is already in flight"
   }
   function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
@@ -247,7 +256,7 @@
   meta("property","og:locale",OGL[code]);
 })();
 </script>
-<script defer src="i18n.js?v=20260927b"></script>
+<script defer src="i18n.js?v=20261025a"></script>
 <!-- WebPage + BreadcrumbList. This page used to ship no structured data at
      all in any of the six languages: a crawler got a title and nothing that
      said what site the page belongs to or where it sits in it. Built from the
@@ -264,7 +273,7 @@
   <div class="topbar">
     <a class="back" href="index.html" data-i18n="tm.back">← Runvis 홈으로</a>
     <div class="langsel" id="langsel">
-      <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="표시 언어">🌐 <span id="langlabel" data-i18n="a11y.langname">한국어</span> ▾</button>
+      <button type="button" id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu"><svg class="lsi" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3Z"/></svg><span class="sr-only" data-i18n="a11y.langmenu">표시 언어</span> <span id="langlabel" data-i18n="a11y.langname">한국어</span><svg class="lsi" viewBox="0 0 24 24" aria-hidden="true"><path d="m6.5 9.5 5.5 5.5 5.5-5.5"/></svg></button>
       <ul id="langmenu" role="menu" aria-labelledby="langbtn" tabindex="-1"></ul>
     </div>
   </div>

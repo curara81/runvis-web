@@ -258,6 +258,29 @@ node tools/app-facts.mjs      # 앱 리포에서 숫자를 다시 세어 tools/a
     비율만으로는 지나가 버린다). 바이트 상한이 아니라 비율인 이유는, 한국어 본문의
     압축률이 영어와 다르고 루트만 다섯 언어의 부트 객체를 싣기 때문이다. 막으려는
     것은 '무거운 페이지'가 아니라 '**빌드 방식 때문에** 무거운 페이지'다
+32. **첫 방문 전송량 예산**(2026-10-25 묶음 A). 실제로 배포되는 파일로 정적으로 잰다 —
+    gzip한 index·i18n.js + 지연 로딩이 아닌 이미지(AVIF) + 히어로 포스터. 첫 화면 휴대폰 ≤350 KB·
+    데스크톱 ≤500 KB, 첫 방문(영상 포함) 휴대폰 ≤1.5 MB·데스크톱 ≤3 MB, LCP 포스터 ≤60/120 KB.
+    Lighthouse는 히어로 영상을 재지 않아서 100점인 채로 2.64 MB였다
+33. **영상·모션 에셋 상한**: `hero-loop*` 가로 ≤1.9 MB, 세로(`hero-loop-v.*`) ≤1.0 MB,
+    Lottie·Rive·GIF·`assets/motion/` 합계 ≤600 KB
+34. **휴대폰에서 숨는 요소 안의 `fetchpriority="high"` 금지** — 보이지 않는 이미지가 LCP와 대역폭을 다퉜다
+35. **멈출 수 없는 루프 금지**: 무한 CSS 애니메이션·무한 SMIL 0개, `<video>`는 마크업에
+    `autoplay`·`<source>` 없이(스크립트가 load 후 가드를 통과하면 붙인다) `#heroPause`와 함께,
+    영상이 있는 페이지에 `backdrop-filter` 0개
+
+## 히어로 영상 배선 (2026-10-25)
+`<video>`에는 소스도 포스터도 없다. 머리말 부트 스크립트가 시장(en/es/de는 각자 러너)과 화면 모양으로
+포스터(`hero-poster<.code>.avif`)를 정해 preload(`fetchpriority=high`)하고, 페이지 끝 스크립트가 `load` 뒤
+idle에 소스를 붙인다 — 순서는 세로판(세로 화면만) → HEVC(`hvc1`) → WebM → MP4. 줄인 동작 선호·Save-Data·
+2G/3G면 포스터만, **세로 화면인데 세로판이 없어도 포스터만**(16:9를 폰으로 보면 가운데 1/6뿐이다).
+어떤 파일이 있는지는 `tools/prerender.mjs` 7a'가 디스크를 보고 `HAVE`에 써 넣는다. 그래서
+`assets/hero-loop-v.webm`+`hero-loop-v.mp4`(+`hero-poster-v.avif`)나 `hero-loop<.code>.hevc.mp4`를
+넣고 `node tools/prerender.mjs`만 돌리면 코드 수정 없이 연결된다.
+
+## i18n.js
+소스는 `src/i18n.js`다. 루트의 `i18n.js`는 `tools/prerender.mjs`가 주석을 걷어 내 만든 산출물이고
+(gzip 14.7 KB → 6.2 KB) [5]가 최신인지 본다. 손으로 고치지 말 것.
 
 ## 로컬 미리보기
 ```
@@ -300,8 +323,10 @@ python3 -m http.server 8000
   프리렌더는 마크업에 이미 해당 언어 파일명을 박아 넣는다.
 - **애플워치 프레임 36장**: 6화면 × 6언어. 아이폰과 같은 파이프라인이고
   프리렌더가 마크업에 해당 언어 파일명을 박아 넣는다.
-- **앱 아이콘 3장 + 매니페스트**: `apple-touch-icon.png`(180) · `assets/icon-192.png` ·
-  `assets/icon-512.png` · `site.webmanifest`. 파비콘이 data-URI SVG라 iOS가 무시했고
+- **앱 아이콘 + 매니페스트**: `apple-touch-icon.png`(180) · `assets/icon-32.png` · `assets/icon-192.png` ·
+  `assets/icon-512.png` · `assets/favicon.svg` · `site.webmanifest`. 2026-10-25부터 앱 아이콘
+  (`iOSApp/Assets.xcassets/AppIcon.appiconset/AppIcon.png`, S자 시그널 패스 + 코랄 ECG)을 줄인 것이다.
+  아래 🏃 글리프 설명은 그 전 기록이다. 파비콘이 data-URI SVG라 iOS가 무시했고
   매니페스트는 아예 없어서 '홈 화면에 추가'가 페이지 스크린샷을 저장했다(라운드 13 −0.4).
   세 장은 파비콘과 같은 🏃 글리프를 사이트 카드색 위에 얹은 것이고, 여섯 문서 전부가
   절대 경로로 건다 — 검사 17번이 링크와 파일을 함께 본다.

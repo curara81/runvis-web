@@ -329,6 +329,15 @@ function render(page, code) {
     }
   }
 
+  // ---- 7a'. which hero files exist (2026-10-25, 묶음 A 1-1) ----------------
+  // index.html's boot script builds the hero poster URL and the page script the
+  // video sources, so neither can 404 on a file that is not there: this writes
+  // what IS there, read off the disk at build time. Dropping the vertical cut
+  // (hero-loop-v.webm + hero-loop-v.mp4, poster hero-poster-v.avif) or an HEVC
+  // encode (hero-loop<.code>.hevc.mp4) into assets/ and rebuilding is the whole
+  // job — no code edit — and removing one un-wires it the same way.
+  html = html.replace(/\/\*hero-have\*\/[\s\S]*?\/\*\/hero-have\*\//, () => JSON.stringify(heroHave()));
+
   // ---- 7b. the page scripts' own inline fallbacks -------------------------
   // The form results and the demo's runtime strings are read as
   // RunvisT(key, fallback) from the page's own script, which the [data-i18n]
@@ -457,11 +466,36 @@ function render(page, code) {
 }
 
 function replaceAll(s, from, to) { return s.split(from).join(to); }
+function heroHave() {
+  const has = (f) => fs.existsSync(path.join(ROOT, 'assets', f));
+  const sufs = ['', ...[...HERO_LANGS].map(c => '.' + c)];
+  return {
+    hevc: sufs.filter(s => has(`hero-loop${s}.hevc.mp4`)),
+    v: has('hero-loop-v.webm') && has('hero-loop-v.mp4') ? 1 : 0,
+    vp: has('hero-poster-v.avif') ? 1 : 0,
+  };
+}
 function replaceOnce(s, from, to, altFrom, altTo) {
   if (s.includes(from)) return s.replace(from, to);
   if (altFrom && s.includes(altFrom)) return s.replace(altFrom, altTo);
   throw new Error('prerender: expected markup not found — ' + from);
 }
+
+// ---- i18n.js: the source is src/i18n.js, the site gets it without comments --
+// (2026-10-25, 묶음 A 1-8). Every page loads it and it was 40 KB raw / 14.7 KB
+// gzipped, two thirds of that the rationale in its comments. Same stripper and
+// the same three guards as the inline scripts in 9c: the literals walked past
+// must survive a second pass unchanged, and the result must parse.
+function buildI18nJs() {
+  const src = fs.readFileSync(path.join(SRC, 'i18n.js'), 'utf8');
+  const r = stripJs(src);
+  const again = stripJs(r.text);
+  if (!sameLiterals(r.literals, again.literals)) throw new Error('prerender: stripping i18n.js changed a literal');
+  try { new Function(r.text); } catch (e) { throw new Error('prerender: stripped i18n.js does not parse — ' + e.message); }
+  return '/* GENERATED FILE — built from src/i18n.js by tools/prerender.mjs. Do not edit. */\n' + r.text + '\n';
+}
+fs.writeFileSync(path.join(ROOT, 'i18n.js'), buildI18nJs());
+console.log('prerender: i18n.js (from src/i18n.js, comments stripped)');
 
 let written = 0;
 for (const code of OUT_CODES) {

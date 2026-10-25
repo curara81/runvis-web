@@ -628,7 +628,11 @@ export function measure(app = findAppRepo()) {
   //     decides whether the forecast is used at all; check-content [13] holds
   //     n.race.lb3 against it.
   const race = fs.readFileSync(path.join(app, 'WatchApp/Views/RacePredictionView.swift'), 'utf8');
-  const raceHorizon = /guard days >= 0, days <= (\d+) else/.exec(race);
+  // 2026-10: the guard reads a named constant now (`days <= Self.forecastHorizonDays`,
+  // `static let forecastHorizonDays = 15`), so the literal is taken from the
+  // constant — and still from the guard, if a later edit inlines it again.
+  const raceHorizon = /static let forecastHorizonDays = (\d+)/.exec(race)
+    || /guard days >= 0, days <= (\d+) else/.exec(race);
   if (!raceHorizon) throw new Error('RacePredictionView.swift: the forecast-horizon guard was reworded — the site quotes this number');
   const raceForecastHorizonDays = Number(raceHorizon[1]);
 

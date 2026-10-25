@@ -56,7 +56,9 @@
 <link rel="alternate" hreflang="es" href="https://runvis.app/es/run.html">
 <link rel="alternate" hreflang="zh-Hant" href="https://runvis.app/zh/run.html">
 <link rel="alternate" hreflang="de" href="https://runvis.app/de/run.html">
-<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🏃&lt;/text&gt;&lt;/svg&gt;" rel="icon">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/icon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/icon-192.png" sizes="192x192" type="image/png">
 <!-- "Add to Home Screen" used to save a screenshot of the page under a
      browser-generated name: the favicon is a data-URI SVG, which iOS ignores,
      and there was no manifest at all (2026-09-06 라운드 13, -0.4). Both are
@@ -65,6 +67,15 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <style>
+  /* 2026-10-25 (묶음 A 1-5): no looping decoration — the link dot pulses three
+     times and the scroll cue bobs four, then both hold still (WCAG 2.2.2; a
+     loop with no stop control is what check-content [35] refuses). */
+  /* 2026-10-25 (묶음 A 1-8): the button's accessible name is its visible label
+     plus a hidden "표시 언어" prefix (WCAG 2.5.3), and the globe and the
+     chevron are line icons, not emoji. */
+  .langsel button{display:inline-flex;align-items:center;gap:5px}
+  .langsel .lsi{width:1.05em;height:1.05em;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
   :root{
     --bg:#000; --panel:#0b0e0c; --line:rgba(61,220,132,.14); --line2:rgba(255,255,255,.08);
     --green:#3DDC84; --cyan:#4CCBD9; --orange:#FFA633; --red:#FF5B4D;
@@ -136,7 +147,7 @@
   .hud-top .brand{display:flex;align-items:center;gap:10px;color:var(--text);font-weight:700}
   .hud-top .brand .sq{width:18px;height:18px;border:1px solid var(--green);display:grid;place-items:center;color:var(--green);font-size:10px}
   .hud-top .status{display:flex;align-items:center;gap:8px}
-  .hud-top .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
+  .hud-top .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s 3}
   @keyframes pulse{50%{opacity:.35}}
   .hud-top .exit{border:1px solid var(--line2);padding:6px 14px;color:var(--dim);transition:.2s}
   .hud-top .exit:hover{border-color:var(--green);color:var(--green)}
@@ -274,8 +285,14 @@
      underneath stays clickable. */
   .scroll-cue{position:fixed;bottom:calc(var(--hud-h) + 26px);left:50%;transform:translateX(-50%);
     z-index:55;pointer-events:none;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
-    color:var(--dim2);animation:bob 2.2s infinite;transition:opacity .25s ease}
+    color:var(--dim2);animation:bob 2.2s 4;transition:opacity .25s ease}
   html.scrolled .scroll-cue{opacity:0}
+  /* 2026-10-25 (묶음 A 1-8): on one column the fixed cue landed on the drawn
+     watch's "런비스와 달리기" button (캡처 10) and read as a broken control. Below
+     900 px the cue is a line of text under the intro instead, in the flow, so
+     it can never sit on top of anything; the fixed one stays for two columns. */
+  .scroll-cue-inline{display:none;margin-top:26px;color:var(--green)!important;font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--dim2)}
+  @media(max-width:900px){.scroll-cue{display:none}.scroll-cue-inline{display:block}}
   @keyframes bob{50%{transform:translate(-50%,8px)}}
 
   /* watch mock in hero */
@@ -316,6 +333,7 @@
   .dsign h3{font-size:19px;letter-spacing:-.01em}
   .dsign p{font-size:13.5px;color:var(--dim);line-height:1.7;margin-top:8px}
   .dsign form{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .dsign .flabel{flex:0 0 100%;font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:-2px}
   .dsign input[type=email]{flex:1 1 220px;min-width:0;padding:14px 16px;font-size:15px;color:var(--text);
     background:#000;border:1px solid var(--line2);border-radius:2px;font-family:inherit}
   .dsign input[type=email]::placeholder{color:var(--dim2)}
@@ -473,7 +491,7 @@
   // the market page, which arrives with its own.
   if(code!==pageLang){
     var d=document.createElement("script");
-    d.src=BASE+"t-"+code+".js?v=20260927b"; d.async=false; document.head.appendChild(d);
+    d.src=BASE+"t-"+code+".js?v=20261025a"; d.async=false; document.head.appendChild(d);
     window.RunvisDictLoaded=code;                     // i18n.js: "one is already in flight"
   }
   function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
@@ -505,7 +523,7 @@
   meta("property","og:locale",OGL[code]);
 })();
 </script>
-<script defer src="i18n.js?v=20260927b"></script>
+<script defer src="i18n.js?v=20261025a"></script>
 <!-- WebPage + BreadcrumbList. This page used to ship no structured data at
      all in any of the six languages: a crawler got a title and nothing that
      said what site the page belongs to or where it sits in it. Built from the
@@ -517,7 +535,7 @@
 </script>
 </head>
 <body>
-<a class="skip" href="#s0" data-i18n="a11y.skip">본문 바로가기</a>
+<a class="skip" href="#main" data-i18n="a11y.skip">본문 바로가기</a>
 
 <div class="progress" id="prog"></div>
 
@@ -526,7 +544,7 @@
   <div class="status"><span class="dot"></span> COACH LINK CONNECTED</div>
   <div class="right">
     <div class="langsel" id="langsel">
-      <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="표시 언어">🌐 <span id="langlabel" data-i18n="a11y.langname">한국어</span> ▾</button>
+      <button type="button" id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu"><svg class="lsi" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3Z"/></svg><span class="sr-only" data-i18n="a11y.langmenu">표시 언어</span> <span id="langlabel" data-i18n="a11y.langname">한국어</span><svg class="lsi" viewBox="0 0 24 24" aria-hidden="true"><path d="m6.5 9.5 5.5 5.5 5.5-5.5"/></svg></button>
       <ul id="langmenu" role="menu" aria-labelledby="langbtn" tabindex="-1"></ul>
     </div>
     <a class="exit" href="index.html">EXIT ↗</a>
@@ -543,6 +561,9 @@
   <a href="#s6" data-s="s6"><span class="lbl" data-i18n="r9">피니시</span><span class="tick"></span></a>
 </nav>
 
+<!-- 2026-10-25 (묶음 A 1-8): the seven sections are the page's main content
+     and had no <main> around them; the skip link now lands on it. -->
+<main id="main">
 <!-- ============ 00 HERO ============ -->
 <section id="s0" data-km="0" data-pace="--:--" data-hr="62" data-z="—">
   <span class="corner c-tl"></span><span class="corner c-br"></span>
@@ -552,6 +573,7 @@
       <h1 class="rv" data-i18n="r11">오늘의 러닝,<br><span class="outline">코치와 함께</span> 달려요.</h1>
       <p class="lead rv" data-i18n="r12">지금부터는 <b>스크롤이 곧 러닝</b>이에요. 아래로 내리면 5km 러닝이 시작되고, 화면 아래의 거리·페이스·심박이 함께 움직입니다. 런비스가 <b>언제, 왜 코칭하는지</b>, 그리고 언제 조용히 있는지 직접 확인해 보세요.</p>
       <p class="footnote rv" data-i18n="r13">화면의 수치는 시연용 예시예요 · 실제 앱은 Apple Watch 센서로 동작합니다</p>
+      <p class="scroll-cue-inline" data-i18n="r.cue" aria-hidden="true">스크롤해서 출발 ▾</p>
     </div>
     <div class="rv">
       <svg class="heroWatch" viewBox="0 0 330 400" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Helvetica,sans-serif" role="img" aria-label="Apple Watch 화면 — 오늘의 목표 5.0킬로미터, 런비스와 달리기" data-i18n-attr="aria-label:r.alt.watch">
@@ -716,7 +738,7 @@
            Localizable.strings. The demo had a paraphrase here while the
            recovery cue two rows up was already exact. -->
         <span class="v" style="color:var(--green)" data-i18n="r58">후반에도 심박 효율이 유지됐습니다.</span></div>
-      <div class="row"><span class="k" data-i18n="r59">내보내기</span><span class="v" data-i18n="r60">✨ AI 분석용 · GPX</span></div>
+      <div class="row"><span class="k" data-i18n="r59">내보내기</span><span class="v" data-i18n="r60">AI 분석용 · GPX</span></div>
     </div>
     <div class="tier rv">
       <p><span class="pill free" data-i18n="n.pill.free">무료</span><span data-i18n="r.tier.free">GPS 기록·랩·Apple 건강 저장·모든 기록 열람 · 훈련 플랜 보기 · 운동 상세 리포트 · 준비운동 화면 · 워치로 달릴 때 km(또는 마일) 스플릿, 심박존, 페이스, 코스 언덕 예고, 경로 이탈 경보 음성 (아이폰만 들고 달리면 무료 음성은 스플릿과 입문 가이드 구령) · 입문 가이드 음성 3가지(달리기·걷기 전환 구령, 워치와 아이폰) · 러닝 후 팁 카드 · 레이스 모드와 고스트 표시</span></p>
@@ -731,7 +753,10 @@
       <h3 data-i18n="r.signup.h">5km를 끝까지 달리셨네요</h3>
       <p data-i18n="r.signup.p">방금 읽은 안내를 손목에서 직접 듣고 싶다면 여기서 바로 신청하세요. 여는 날짜가 정해지면 이 주소로 먼저 알려 드리고, 초대는 신청 순서대로 보내 드려요.</p>
       <form action="https://formspree.io/f/xnjeyalr" id="demoForm" method="POST">
-        <input name="email" placeholder="이메일 주소" data-i18n-attr="placeholder:ph.email" required type="email">
+        <label class="flabel" for="demoEmail" data-i18n="ph.email">이메일 주소</label>
+        <input id="demoEmail" name="email" autocomplete="email" inputmode="email" placeholder="name@example.com" required type="email">
+        <input type="hidden" name="entry" value="run">
+        <input type="hidden" name="lang" value="ko">
         <button class="btn" id="demoSubmit" type="submit" data-i18n="t160">베타 초대 받기</button>
       </form>
       <p id="demoStatus" role="status" aria-live="polite" style="display:none"></p>
@@ -750,6 +775,7 @@
     <p class="footnote rv" data-i18n="r63">이 페이지의 수치와 대사는 실제 앱 동작을 보여 드리기 위한 시연용 예시예요. 모든 지표와 안내는 일반적인 운동과학 공식에 기반한 참고 정보이며, 의학적 조언이 아닙니다.<br>문의: <a href="mailto:help@runvis.app" style="color:var(--dim)">help@runvis.app</a> · © 2026 Runvis · Apple Watch는 Apple Inc.의 상표입니다</p>
   </div>
 </section>
+</main>
 
 <footer style="height:56px"></footer>
 
@@ -912,12 +938,14 @@ if (demoForm) demoForm.addEventListener('submit', async e => {
     setTimeout(() => { status.textContent = msg; }, 50);
   };
   if (demoForm.action.includes('YOUR_FORM_ID')) { show(RunvisT('form.busy', '신청 접수를 준비하고 있어요. 잠시만 기다려 주세요.'), false); return; }
+  const lf = demoForm.querySelector('input[name="lang"]');
+  if (lf) lf.value = window.RunvisLang || document.documentElement.lang || 'ko';
   btn.disabled = true;
   const original = btn.textContent;
   btn.textContent = RunvisT('form.sending', '전송 중…');
   try {
     const res = await fetch(demoForm.action, { method: 'POST', body: new FormData(demoForm), headers: { Accept: 'application/json' } });
-    if (res.ok) { show(RunvisT('form.ok', '신청이 완료됐어요. 여는 날짜가 정해지면 이 주소로 알려 드리고, 베타가 열리면 신청 순서대로 초대장을 보내 드려요. 확인 메일은 따로 가지 않으니, 위에 보이는 주소가 맞는지 한 번만 확인해 주세요. 삭제를 원하시면 언제든 help@runvis.app 으로 알려 주세요. 기다리는 동안 5km 데모를 달려 보세요. 🏃'), true); demoForm.reset(); }
+    if (res.ok) { show(RunvisT('form.ok', '신청이 완료됐어요. 여는 날짜가 정해지면 이 주소로 알려 드리고, 베타가 열리면 신청 순서대로 초대장을 보내 드려요. 확인 메일은 따로 가지 않으니, 위에 보이는 주소가 맞는지 한 번만 확인해 주세요. 삭제를 원하시면 언제든 help@runvis.app 으로 알려 주세요. 기다리는 동안 5km 데모를 달려 보세요.'), true); demoForm.reset(); }
     else { const d = await res.json().catch(() => null); show(d?.errors?.[0]?.message || RunvisT('form.fail', '전송에 실패했어요. 잠시 후 다시 시도해 주세요.'), false); }
   } catch { show(RunvisT('form.neterr', '네트워크 오류예요. 잠시 후 다시 시도해 주세요.'), false); }
   finally { btn.disabled = false; btn.textContent = original; }

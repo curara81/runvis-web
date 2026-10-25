@@ -86,7 +86,14 @@
 <link href="https://runvis.app/es/" hreflang="es" rel="alternate"/>
 <link href="https://runvis.app/zh/" hreflang="zh-Hant" rel="alternate"/>
 <link href="https://runvis.app/de/" hreflang="de" rel="alternate"/>
-<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🏃&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<!-- 2026-10-25 (묶음 A 1-6): the tab, the home-screen tile and the manifest
+     carry the APP's mark now — the S-shaped signal path with the coral ECG,
+     resized from iOSApp/Assets.xcassets/AppIcon.appiconset/AppIcon.png. They
+     were a running-man emoji drawn by whichever emoji font the browser had,
+     which is Apple's artwork on Apple devices and nobody's brand anywhere. -->
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"/>
+<link rel="icon" href="/assets/icon-32.png" sizes="32x32" type="image/png"/>
+<link rel="icon" href="/assets/icon-192.png" sizes="192x192" type="image/png"/>
 <!-- "Add to Home Screen" used to save a screenshot of the page under a
      browser-generated name: the favicon is a data-URI SVG, which iOS ignores,
      and there was no manifest at all (2026-09-06 라운드 13, -0.4). Both are
@@ -101,6 +108,7 @@
     --bg:#000; --bg1:#0b0d10; --bg2:#14171c; --card:#16191e; --card2:#1b1f25;
     --line:#24282e; --line2:#2e333a; --text:#f2f3f5; --dim:#9aa0a6; --dim2:#878d95;
     --ease:cubic-bezier(.22,.61,.36,1);
+    --navh:60px;            /* nav height; the script below measures the real one */
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -148,6 +156,8 @@
   .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line2);box-shadow:none}
   .btn.ghost:hover{border-color:var(--green);box-shadow:0 0 0 4px rgba(61,220,132,.10)}
   .eyebrow{color:var(--green);font-weight:700;font-size:13.5px;letter-spacing:1.6px;text-transform:uppercase}
+  /* 1.6 px of tracking is for capitals; on Hangul it spelled '러 닝 코 치'. */
+  :lang(ko) .eyebrow,.eyebrow:lang(ko){letter-spacing:.02em}
   section{padding:88px 0;position:relative;scroll-margin-top:72px}
   section+section{border-top:1px solid var(--line)}
   h2{font-size:clamp(30px,4.6vw,44px);font-weight:800;letter-spacing:-.025em;line-height:1.18;margin-top:10px}
@@ -168,16 +178,16 @@
   .pill.free{background:rgba(255,255,255,.08);color:var(--dim)}
   .pill.pro{background:rgba(61,220,132,.16);color:var(--green)}
 
-  /* tilt cards */
-  .tilt{position:relative;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(0);
-    transition:transform .45s var(--ease),box-shadow .45s var(--ease),border-color .3s;transform-style:preserve-3d;will-change:transform}
-  .tilt::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .35s;
-    background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.16),rgba(255,255,255,0) 55%)}
-  .tilt.tilting{transition:transform .08s linear,box-shadow .45s var(--ease);box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(61,220,132,.25)}
-  .tilt.tilting::after{opacity:1}
   .card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:20px;padding:28px}
   .card:hover{border-color:rgba(61,220,132,.5)}
-  .card .ic{font-size:30px;margin-bottom:14px;line-height:1}
+  /* Line icons, one inline <symbol> sprite (top of <body>): 24 px grid,
+     1.75 px stroke, currentColor. They replace the emoji (⌚️📐🗣️📡🔊🌐), which
+     every platform draws in its own vendor art — on an Apple device that meant
+     an Apple Watch drawn by Apple on the card that says the sensors are on
+     your wrist (점검 보고서 1-7). */
+  .i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.14em}
+  .card .ic{display:block;width:30px;height:30px;margin-bottom:14px;color:var(--green)}
+  .card .ic .i{width:30px;height:30px}
   .card h3{font-size:20px;font-weight:800;margin-bottom:8px;letter-spacing:-.01em}
   .card p{color:var(--dim);font-size:15px}
   .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:44px}
@@ -204,7 +214,11 @@
   @media(max-width:820px){.cards{grid-template-columns:minmax(0,1fr)}}
 
   /* NAV */
-  nav{position:sticky;top:0;z-index:50;background:rgba(0,0,0,.66);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+  /* No backdrop-filter: the bar sits over the hero video for the first screen
+     of scrolling, and a blur over a decoding video re-composites every frame —
+     the costliest pairing on a low-end phone (점검 보고서 4-4). A near-opaque
+     fill reads the same at a glance. check-content [35] keeps it out. */
+  nav{position:sticky;top:0;z-index:50;background:rgba(7,9,10,.94);border-bottom:1px solid var(--line)}
   nav .wrap{display:flex;align-items:center;gap:18px;height:60px}
   .logo{font-weight:900;font-size:20px;letter-spacing:-.02em}
   .logo b{color:var(--green)}
@@ -252,6 +266,7 @@
      there is more. justify-content is flex-start, because a centred row cannot
      be scrolled back to its first item. */
   @media(max-width:700px){
+    :root{--navh:78px}
     nav .wrap{height:auto;padding-top:8px;padding-bottom:8px;flex-wrap:wrap;row-gap:6px}
     nav .links{order:3;width:100%;gap:18px;font-size:13.5px;justify-content:flex-start;margin-left:0;
       overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-snap-type:x proximity}
@@ -280,7 +295,7 @@
   .nav-cta:hover{box-shadow:0 8px 26px rgba(61,220,132,.35)}
   @media(max-width:820px){.nav-cta{display:none}}
   .langsel{position:relative;display:inline-block;margin-left:14px}
-  .langsel button{background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
+  .langsel button{display:inline-flex;align-items:center;gap:6px;background:rgba(22,25,30,.7);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
   .langsel button:hover{border-color:var(--green)}
   .langsel ul{position:absolute;right:0;top:calc(100% + 6px);background:#12161b;border:1px solid var(--line);border-radius:12px;padding:6px;margin:0;list-style:none;min-width:150px;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}
   .langsel.open ul{display:block}
@@ -296,106 +311,124 @@
   .langsel a[aria-checked="true"]{color:var(--green);font-weight:700}
   @media(max-width:700px){.langsel{margin-left:auto}.langsel button{padding:6px 9px;font-size:12px}}
 
-  /* HERO */
-  .hero{padding:104px 0 72px;text-align:center;position:relative;overflow:hidden}
-  .hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
-  .hero-bg .blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:drift 22s ease-in-out infinite alternate}
-  .hero-bg .b1{width:52vw;height:52vw;left:-12vw;top:-18vw;background:radial-gradient(circle,rgba(61,220,132,.28),transparent 62%)}
-  .hero-bg .b2{width:46vw;height:46vw;right:-10vw;top:-6vw;background:radial-gradient(circle,rgba(76,203,217,.24),transparent 62%);animation-delay:-8s}
-  .hero-bg .b3{width:60vw;height:30vw;left:20vw;bottom:-14vw;background:radial-gradient(ellipse,rgba(61,220,132,.16),transparent 65%);animation-delay:-14s}
-  .hero-bg .grid{position:absolute;inset:0;background:
-      linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px,
-      linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px;
-    mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 80%)}
-  @keyframes drift{from{transform:translate3d(-3%,-2%,0) scale(1)}to{transform:translate3d(4%,3%,0) scale(1.12)}}
-  /* Hero loop (2026-09-27): a muted, looping riverside run behind the headline.
-     The shade keeps the H1 at text contrast over the brightest frame (sunrise);
-     reduced-motion readers get the still poster instead. */
-  .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9}
-  .hero-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.42) 40%,rgba(0,0,0,.62) 75%,rgba(0,0,0,.92) 100%)}
-  .hero .tagline,.hero .sub,.hero .note,.hero .eyebrow{text-shadow:0 1px 18px rgba(0,0,0,.55)}
-  .hero .tagline{margin-top:10px;font-size:clamp(19px,2.6vw,26px);font-weight:600;color:#d9e4dd;letter-spacing:-.01em}
-  @media (prefers-reduced-motion:reduce){.hero-video{display:none}.hero-bg{background:url(assets/hero-poster.jpg) center/cover}}
-  .hero .wrap{position:relative;z-index:1}
-  .hero h1{font-size:clamp(36px,6.2vw,64px);font-weight:900;letter-spacing:-.035em;line-height:1.1;margin-top:14px}
-  .hero .sub{margin:22px auto 0;font-size:clamp(17px,2.3vw,21px)}
-  .hero .cta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-  .hero .note{margin-top:16px;font-size:13.5px;color:var(--dim2)}
-  .trust{margin:30px auto 0;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-  .tbadge{background:rgba(22,25,30,.6);border:1px solid var(--line);border-radius:12px;padding:10px 18px;min-width:110px;backdrop-filter:blur(6px)}
-  .tbadge b{display:block;font-size:19px;font-weight:900;background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .tbadge span{display:block;font-size:12px;color:var(--dim);margin-top:2px}
-  /* The trial badge is a link to the FAQ answer that states the condition,
-     so it needs a visible affordance where the other two badges have none. */
-  a.tbadge{display:block;transition:border-color .2s var(--ease)}
-  a.tbadge:hover{border-color:var(--green)}
-  a.tbadge span{text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
-
-  /* hero devices: Apple bezels are shown flat (Apple's guidelines forbid angled product images) — they float, they don't tilt */
-  .stage{margin:64px auto 0;position:relative;width:min(100%,680px)}
-  .profile{position:absolute;left:50%;bottom:0;width:min(1180px,100vw);transform:translateX(-50%);pointer-events:none;z-index:0}
-  .profile svg{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 0 18px rgba(61,220,132,.22))}
-  .profile .pl{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 2.6s var(--ease) .4s forwards}
+  /* HERO (2026-10-25, 묶음 A 1-1) ------------------------------------------
+     One scene, one screen tall, and the video is visible. The three blurred
+     blobs, the 48 px grid and the full-screen shade (55/42/62/92 %) are gone —
+     together they turned the most expensive asset on the page into grey fog
+     (점검 보고서 2-2 #1). What is left is a scrim behind the TEXT: a left-hand
+     fade on a wide screen, an ellipse behind the centred copy on a phone, plus
+     a fade into the page colour at the bottom edge so the scene ends instead of
+     being cut off. Hero text is near-white (not --dim) for the same reason:
+     over moving pictures the darkest frame is not the one that matters.
+     The <video> has no source in the markup. The script at the end of the page
+     attaches one after `load`, in an idle callback, unless the reader asked for
+     reduced motion, has Save-Data on, is on a 2G/3G link, or is on a portrait
+     screen with no vertical cut on disk — in all of those the poster is the
+     hero. That is what removed the ~2.4 MB that every first visit paid. */
+  .hero{position:relative;overflow:hidden;padding:0 0 56px}
+  .hero-bg{position:absolute;left:0;right:0;top:0;height:calc(100svh - var(--navh,60px));min-height:600px;z-index:0;pointer-events:none;background:#0b1012}
+  /* The poster is set from script (the language and the screen shape decide
+     which file). Without script there is no video either, so the still comes
+     from here — html.js is set before first paint, so a reader WITH script
+     never fetches this file. */
+  html:not(.js) .hero-bg{background:#0b1012 url(assets/hero-poster.jpg) center/cover}
+  .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero-scrim{position:absolute;inset:0;background:
+      linear-gradient(90deg,rgba(7,9,10,.84) 0%,rgba(7,9,10,.76) 40%,rgba(7,9,10,.55) 56%,rgba(7,9,10,0) 74%),
+      linear-gradient(180deg,rgba(7,9,10,0) 70%,var(--bg) 100%)}
+  .hero-scene{position:relative;z-index:1;min-height:calc(100svh - var(--navh,60px));display:grid;
+      grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);align-items:center;gap:36px;padding-top:40px;padding-bottom:76px}
+  .hero-copy{max-width:580px}
+  .hero h1{font-size:clamp(40px,5.8vw,76px);font-weight:900;letter-spacing:-.035em;line-height:1.05;margin-top:14px}
+  .hero .tagline{margin-top:14px;font-size:clamp(19px,2.2vw,25px);font-weight:700;color:#eef4f0;letter-spacing:-.01em;line-height:1.4}
+  .hero .sub{margin:18px 0 0;font-size:clamp(16.5px,1.6vw,19px);color:#e1e6ea;max-width:540px}
+  .hero .eyebrow,.hero .tagline,.hero .sub,.hero .perk{text-shadow:0 1px 2px rgba(0,0,0,.55)}
+  .hero .cta{margin-top:30px;display:flex;gap:12px;flex-wrap:wrap}
+  .hero .perk{margin-top:14px;font-size:14.5px;line-height:1.55;color:#dcf4e6;max-width:520px}
+  .hero .perk .i{color:var(--green);margin-right:7px}
+  /* Pause for everything in the hero that moves by itself — the video, the
+     watch frames and the caption (WCAG 2.2.2). It toggles html.anim-idle, the
+     class the off-screen observer already used, so one switch reaches all of
+     them. Over the video, but solid: no backdrop-filter. */
+  .hero-pause{position:absolute;right:20px;bottom:20px;z-index:2;display:inline-flex;align-items:center;gap:7px;
+      padding:7px 13px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(7,9,10,.78);
+      color:#e9edf0;font:inherit;font-size:13px;line-height:1.4;cursor:pointer}
+  .hero-pause:hover{border-color:var(--green)}
+  .hero-pause .i{width:14px;height:14px}
+  /* Apple's marketing guidelines: official product images are shown as they
+     are — no animation, no shadow, no tilt, no parallax. The float loop, the
+     drop-shadow and the mouse parallax that used to sit on these two frames
+     are gone (점검 보고서 2-2 #5); anything that moves here moves AROUND them. */
+  .hero-devices{display:flex;flex-direction:column;align-items:center;gap:16px;min-width:0}
+  .devices{display:flex;gap:28px;justify-content:center;align-items:flex-end}
+  .phone{width:210px;flex-shrink:0}
+  .watch-stack{position:relative;width:240px;max-width:100%}
+  .watch-stack img{width:100%;opacity:0;transition:opacity .9s ease}
+  .watch-stack img.on{opacity:1}
+  /* The three running screens overlap and cross-fade. The position moves to
+     the <picture>; the opacity stays on the img, where the .on class is. */
+  .watch-stack picture:not(:first-child){position:absolute;top:0;left:0}
+  /* WCAG 2.2.2 (Pause, Stop, Hide). The dots pick a frame AND stop the timer;
+     the button pauses and resumes and says which it will do. Each dot is a
+     24 px target (2.5.8) drawn as a 10 px disc. */
+  .wsctl{display:flex;justify-content:center;align-items:center;gap:2px;margin-top:10px}
+  .wsdot{width:24px;height:24px;padding:0;border:0;background:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;border-radius:50%}
+  .wsdot::before{content:"";width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(255,255,255,.6);box-sizing:border-box}
+  .wsdot[aria-current="true"]::before{background:var(--green);border-color:var(--green)}
+  .wsdot:focus-visible,.wspause:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+  .wspause{margin-left:6px;padding:3px 11px;border-radius:8px;border:1px solid var(--line2);background:rgba(7,9,10,.7);color:#c9ced3;font:inherit;font-size:12.5px;line-height:1.6;cursor:pointer}
+  .wspause:hover{color:var(--text);border-color:var(--green)}
+  .caption{margin:0;max-width:440px;width:100%;min-height:54px;background:rgba(12,15,18,.88);border:1px solid var(--line);border-radius:14px;padding:12px 16px;
+    font-size:14.5px;color:#e3e7ea;text-align:left;display:flex;align-items:center;gap:10px}
+  .caption .mic{color:var(--green);display:inline-flex;flex-shrink:0}
+  .caption .mic .i{width:18px;height:18px}
+  /* Below the scene: the course line, the requirement note and the price badge.
+     The line is a real climb (남산 정상 업힐, gpx/seoul-namsan-summit.gpx) and it
+     draws once, when it scrolls into view — not on load, out of sight. The dot
+     that used to run it on a 16 s SMIL loop is gone. */
+  .hero-after{position:relative;z-index:1;text-align:center}
+  .profile{width:100%;max-width:1080px;margin:0 auto;pointer-events:none}
+  .profile svg{display:block;width:100%;height:auto;overflow:visible}
+  .profile .pl{stroke-dasharray:1000;stroke-dashoffset:1000}
+  .profile.drawn .pl{animation:draw 2.4s var(--ease) forwards}
+  html:not(.js) .profile .pl{stroke-dashoffset:0}
   .profile .lbl{font-size:13px;font-weight:600;fill:#9aa0a6;letter-spacing:.01em}
   .profile .top{fill:#f2f3f5}
   @keyframes draw{to{stroke-dashoffset:0}}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .devices{position:relative;z-index:1;display:flex;gap:36px;justify-content:center;align-items:flex-end}
-  .phone{width:250px;flex-shrink:0;filter:drop-shadow(0 34px 60px rgba(0,0,0,.65));animation:float 7s ease-in-out infinite}
-  .watch-stack{position:relative;width:300px;max-width:100%;filter:drop-shadow(0 34px 60px rgba(0,0,0,.65));animation:float 7s ease-in-out -3.5s infinite}
-  .watch-stack img{width:100%;opacity:0;transition:opacity .9s ease}
-  .watch-stack img.on{opacity:1}
-  /* The three running screens overlap and cross-fade. The stacking used to be
-     '.watch-stack img:not(:first-child)', which stopped matching the moment each
-     <img> became the only child of its own <picture>: all three would have laid
-     out in flow, three watches tall. The position moves to the picture; the
-     opacity stays on the img, where the .on class is. */
-  .watch-stack picture:not(:first-child){position:absolute;top:0;left:0}
-  .watch-stack .wnote{margin-top:10px;font-size:11.5px;line-height:1.5;color:var(--dim2);text-align:center}
-  /* WCAG 2.2.2 (Pause, Stop, Hide). The three running screens cross-fade on a
-     3.8 s timer and the only escape used to be prefers-reduced-motion — an OS
-     setting, not a control, and one most readers with a reason to want the
-     motion stopped have not turned on (2026-09-06 라운드 15, -0.7). The dots
-     pick a frame AND stop the timer; the button pauses and resumes and says
-     which it will do. Hover and keyboard focus pause it too, so a reader
-     reading one screen is not interrupted mid-sentence. */
-  .wsctl{display:flex;justify-content:center;align-items:center;gap:9px;margin-top:14px}
-  .wsdot{width:10px;height:10px;padding:0;border-radius:50%;border:1px solid #4a5058;background:none;cursor:pointer}
-  .wsdot[aria-current="true"]{background:var(--green);border-color:var(--green)}
-  .wsdot:focus-visible,.wspause:focus-visible{outline:2px solid var(--green);outline-offset:3px}
-  .wspause{margin-left:6px;padding:3px 11px;border-radius:8px;border:1px solid var(--line2);background:none;color:var(--dim2);font:inherit;font-size:11.5px;line-height:1.6;cursor:pointer}
-  .wspause:hover{color:var(--text);border-color:var(--green)}
-  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-  @media(max-width:640px){.devices{flex-direction:column;align-items:center;gap:26px}.phone{width:220px}.profile{width:170vw}.profile .lbl{display:none}}
-  /* Phone hero was 3,018 px at 384 px wide — the argument the page is making
-     started three screens down. On desktop the watch stack sits BESIDE the
-     phone and pulls the eye across; stacked under it on a phone it costs ~500 px
-     for pictures that #today shows again, larger, a screen later. So below
-     768 px the hero is eyebrow + H1 + sub + two CTAs + one phone + the
-     caption, then the note and the three badges (디자인 B1 moved those two
-     below the stage), and the watch screens wait for #today. */
-  @media(max-width:768px){
-    .hero{padding:88px 0 52px}
-    .stage{margin-top:34px}
-    .hero .watch-stack{display:none}
-    .trust{gap:8px;margin-top:22px}
-    .tbadge{padding:8px 14px;min-width:0;flex:1 1 30%}
+  .hero .note{margin-top:22px;font-size:15px;color:var(--dim)}
+  .trust{margin:16px auto 0;display:flex;justify-content:center}
+  .tbadge{display:inline-flex;flex-direction:column;align-items:center;gap:2px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 22px;max-width:100%}
+  .tbadge b{display:block;font-size:18px;font-weight:900;background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;text-wrap:balance}
+  .tbadge span{display:block;font-size:14.5px;color:var(--text)}
+  .tbadge span.sm{font-size:13px;color:var(--dim);text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
+  a.tbadge{transition:border-color .2s var(--ease)}
+  a.tbadge:hover{border-color:var(--green)}
+  /* One column below 960 px. The copy fills the first screen on its own, over
+     the video, centred; the devices and the caption follow on the page colour,
+     so the video box never stretches to the height of everything in the hero. */
+  @media(max-width:960px){
+    .hero-scene{display:block;min-height:0;padding-top:0;padding-bottom:0}
+    .hero-copy{max-width:640px;margin:0 auto;min-height:calc(100svh - var(--navh,60px));display:flex;flex-direction:column;justify-content:center;
+      text-align:center;padding:36px 0 84px}
+    .hero .sub,.hero .perk{margin-left:auto;margin-right:auto}
+    .hero .cta{justify-content:center}
+    .hero-scrim{background:
+      radial-gradient(150% 80% at 50% 46%,rgba(7,9,10,.78) 0%,rgba(7,9,10,.70) 55%,rgba(7,9,10,.45) 82%,rgba(7,9,10,.2) 100%),
+      linear-gradient(180deg,rgba(7,9,10,0) 74%,var(--bg) 100%)}
+    .hero-pause{bottom:auto;top:calc(100svh - var(--navh,60px) - 58px);right:16px}
+    .hero-devices{margin-top:8px}
   }
-  /* Three badges across a 375 px phone leave ~75 px of content per badge, and
-     the value line is 19px/900 — "6 languages", "6 Sprachen" and "Free trial"
-     do not fit, so overflow-wrap broke them mid-word ("6 langua|ges") in the
-     first thing an English, German or Spanish reader sees. Two per row gives
-     each value ~127 px, which fits every language's badge, and the third badge
-     takes the second row on its own. */
-  @media(max-width:430px){
-    .tbadge{flex:1 1 44%}
-    .tbadge b{font-size:18px;overflow-wrap:normal}
+  @media(max-width:640px){
+    .devices{gap:14px}
+    .phone{width:min(150px,42vw)}
+    .watch-stack{width:min(176px,48vw)}
+    .profile{width:150vw;margin-left:-25vw}
+    .profile .lbl{display:none}
+    .hero .cta .btn{width:100%;max-width:340px;justify-content:center}
+    .wsctl{flex-wrap:wrap;row-gap:4px}
+    .wspause{font-size:11.5px;padding:2px 8px;margin-left:2px}
+    .hero-pause .lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
   }
-  .caption{margin:26px auto 0;max-width:420px;min-height:54px;background:rgba(22,25,30,.8);border:1px solid var(--line);border-radius:14px;padding:14px 18px;
-    font-size:15px;color:#dfe3e7;text-align:left;display:flex;align-items:center;gap:10px;backdrop-filter:blur(8px)}
-  .caption .mic{color:var(--green);font-size:18px;flex-shrink:0}
-  .caption .txt::after{content:"▌";color:var(--green);animation:blink 1s steps(1) infinite}
-  @keyframes blink{50%{opacity:0}}
   .sc-note{margin-top:12px;font-size:12.5px;color:var(--dim2)}
   .sc-note:empty{display:none}
 
@@ -407,7 +440,7 @@
   /* max-width, not just width: at 320 px (iPhone SE 1st gen) the .wrap content
      box is 272 px and a flat 280 px bezel pushed the document 8 px wider than
      the viewport, which overflow-x:clip then made unreachable. */
-  .frame{width:280px;max-width:100%;flex-shrink:0;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6))}
+  .frame{width:280px;max-width:100%;flex-shrink:0}
   .frame.watch{width:240px}
   .desc h3{font-size:24px;font-weight:800;margin-bottom:12px;letter-spacing:-.015em}
   .desc p{color:var(--dim);font-size:16px;margin-bottom:12px}
@@ -431,8 +464,7 @@
   .watch3{display:grid;grid-template-columns:minmax(0,340px);justify-content:center;gap:24px;margin-top:52px}
   @media(max-width:820px){.watch3{grid-template-columns:1fr;max-width:340px;margin-left:auto;margin-right:auto}}
   .w3{text-align:center}
-  .w3 .frame{width:230px;margin:0 auto;transition:transform .5s var(--ease)}
-  .w3:hover .frame{transform:translateY(-8px)}
+  .w3 .frame{width:230px;margin:0 auto}
   .w3 b{display:block;font-size:17px;font-weight:800;margin:16px 0 6px}
   .w3 span{display:block;color:var(--dim);font-size:14px;line-height:1.55;max-width:280px;margin:0 auto}
 
@@ -440,7 +472,12 @@
   .voice-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:40px}
   @media(max-width:1000px){.voice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media(max-width:560px){.voice-grid{grid-template-columns:minmax(0,1fr)}}
-  .vchip{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:16px;padding:20px;cursor:pointer;text-align:left}
+  .vchip{display:flex;flex-direction:column;justify-content:flex-start;align-items:stretch;width:100%;font:inherit;color:inherit;background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:16px;padding:20px;cursor:pointer;text-align:left}
+  .vchip>span{display:block}
+  .vchip .play{align-self:flex-start}
+  .vchip:hover{border-color:rgba(61,220,132,.5)}
+  .vchip .sensor{display:flex!important;gap:7px;align-items:flex-start}
+  .vchip .sensor .i{margin-top:3px;width:13px;height:13px}
   .vchip .sensor{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;color:var(--cyan);letter-spacing:.02em;line-height:1.5;padding-bottom:10px;margin-bottom:12px;border-bottom:1px dashed var(--line)}
   .vchip .play{display:inline-flex;align-items:center;gap:8px;color:var(--green);font-weight:700;font-size:14px;margin-bottom:10px}
   .vchip .play .pill{margin-left:2px}
@@ -580,7 +617,7 @@
      calculator, the thirteen GPX links and the four-step procedure that used
      to live here are on how-it-works.html, and their rules went with them. */
   .nextsteps{max-width:520px;margin:24px auto 0;text-align:left}
-  .nextsteps h4{font-size:14px;color:var(--dim);font-weight:700;letter-spacing:.02em}
+  .nextsteps h3{font-size:14px;color:var(--dim);font-weight:700;letter-spacing:.02em}
   .nextsteps p{margin-top:10px;font-size:13.5px;color:var(--dim);line-height:1.7}
   .nextsteps p a,.dolist a{color:var(--green);border-bottom:1px solid rgba(61,220,132,.4)}
   /* Five things a reader can do before there is anything to install. */
@@ -616,6 +653,9 @@
   .want label span,.consent label span{min-width:0;flex:1}
   .want input{margin-top:5px;flex:none}
   .signup form{display:flex;gap:12px;max-width:480px;margin:22px auto 0;flex-wrap:wrap;justify-content:center}
+  /* The address field has a visible label now (WCAG 3.3.2); a placeholder
+     disappears the moment the reader types. */
+  .signup .flabel{flex:0 0 100%;text-align:left;font-size:14px;font-weight:700;color:var(--text);margin-bottom:-4px}
   .signup input[type=email]{flex:1;min-width:220px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px 18px;color:var(--text);font-size:16px}
   /* :focus-visible only. The old `:focus{outline:none}` had specificity (0,2,1)
      and beat the global :focus-visible outline (0,1,0), so the page's one
@@ -628,35 +668,37 @@
   .consent input{margin-top:4px}
 
   footer{padding:48px 0;border-top:1px solid var(--line);text-align:center;color:var(--dim2);font-size:14px}
-  footer a{color:var(--dim)}
+  /* Links inside the footer's sentences are told apart by an underline, not by
+     colour alone (1.4.1), and nothing in it is dimmed with opacity any more —
+     the business line used to be --dim2 at 75 %, 4.42:1 (점검 보고서 4-4). */
+  footer a{color:var(--dim);text-decoration:underline;text-decoration-color:rgba(167,174,181,.45);text-underline-offset:3px}
+  footer a:hover{color:var(--text)}
   footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
   .disclaimer{max-width:640px;margin:20px auto 0;font-size:12px;color:var(--dim2);line-height:1.7}
 
   /* sticky CTA: the page is long and the only action used to sit at the very bottom */
   .sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;padding:10px 16px calc(10px + env(safe-area-inset-bottom));
-    background:rgba(0,0,0,.82);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
-  .sticky-cta a{display:block;text-align:center;flex:1 1 0;min-width:0;padding-left:12px;padding-right:12px;font-size:15.5px}
+    background:rgba(7,9,10,.96);border-top:1px solid var(--line)}
+  .sticky-cta a{display:flex;align-items:center;justify-content:center;text-align:center;min-width:0;padding:12px 10px;font-size:15.5px;line-height:1.25}
+  /* Primary : secondary = 2 : 1. Two equal halves told a phone reader the two
+     intents weighed the same; the beta is the ask, the launch notice the
+     fallback (점검 보고서 1-5). */
+  .sticky-cta a:first-child{flex:2 1 0}
+  .sticky-cta a+a{flex:1 1 0;font-size:12.5px;font-weight:700;padding-left:6px;padding-right:6px}
   /* Hidden until the script says otherwise: at scrollY=0 the hero's own CTA is
-     on screen, so the bar used to repeat the same words in the same colour
-     250px below it and take 64px of a 812px phone for nothing. The observer
-     below shows it only while BOTH the hero CTA and #beta are off screen; with
-     no JS it never appears and never covers the hero. */
+     on screen. The observer below shows it only while BOTH the hero CTA and
+     #beta are off screen; with no JS it never appears. */
   .sticky-cta.armed{display:flex;gap:10px}
   .sticky-cta.armed ~ footer{padding-bottom:96px}
-  /* …at EVERY width since 2026-09-06. The rule used to be
-     `@media(max-width:820px)`, so above 820 px the only persistent action was
-     the single nav button, and the second intent — "출시 알림 받기", for a
-     reader who does not want to test a beta and does want to be told when it
-     ships — existed nowhere except at the bottom of a 23,000 px document
-     (2026-09-06 라운드 16, -1 전환 설계). On a wide screen a full-width black
-     bar would be a banner, so it becomes a centred pill instead: same two
-     actions, ~560 px, clear of the content column. */
+  /* Wide screens: one small button in the bottom-right corner. The centred
+     560 px pill that stood here covered the card text of every section it
+     passed (캡처 03~06) and repeated the nav button; the launch notice is one
+     click away inside the form it leads to. */
   @media(min-width:821px){
-    .sticky-cta{left:50%;right:auto;transform:translateX(-50%);bottom:22px;
-      width:min(560px,calc(100vw - 48px));padding:10px 12px;border-radius:999px;
-      border:1px solid var(--line2);box-shadow:0 18px 44px rgba(0,0,0,.55)}
-    .sticky-cta a{font-size:15px;border-radius:999px}
-    .sticky-cta.armed ~ footer{padding-bottom:110px}
+    .sticky-cta{left:auto;right:22px;bottom:22px;padding:0;background:none;border:0}
+    .sticky-cta a{font-size:14.5px;padding:11px 18px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+    .sticky-cta a+a{display:none}
+    .sticky-cta.armed ~ footer{padding-bottom:48px}
   }
 
   /* Phones do not animate at all. A flick is the normal way to read here, the
@@ -666,29 +708,17 @@
     html.js .reveal{transform:none;transition:none}
   }
 
-  /* The decorative loops are infinite: the ring turns on a 40 s cycle, the
-     three blobs drift, the phone and the watch stack float. Outside
-     prefers-reduced-motion nothing stopped them, so a mid-range phone kept
-     compositing a rotating SVG and three blurred gradients while its reader
-     was ten screens down in the price table, and kept doing it in a background
-     tab (2026-09-06 라운드 16, 시각·인터랙션 완성도). `animation-play-state`
-     rather than `animation:none`: it freezes the current frame, so coming back
-     to the top resumes where it stopped instead of snapping to 0deg.
-     The class is set by script; with no JS the animations simply run, which is
-     the behaviour that was there before. */
-  html.anim-idle .hero-bg .blob,
-  html.anim-idle .profile .pl,
-  html.anim-idle .phone,
-  html.anim-idle .watch-stack,
-  html.anim-idle .caption .txt::after{animation-play-state:paused}
+  /* html.anim-idle: set by script while the hero is off screen, the tab is
+     hidden, or the reader pressed the hero's pause button. Since 2026-10-25
+     there is no infinite CSS loop left on this page (blobs, bezel float, SMIL
+     dot and the caption's blinking cursor are gone); the video, the watch
+     rotation and the caption loop read the class from script. */
+  html.anim-idle .profile .pl{animation-play-state:paused}
 
   @media(prefers-reduced-motion:reduce){
     .reveal{opacity:1!important;transform:none!important;transition:none}
-    .hero-bg .blob,.phone,.watch-stack{animation:none}
-    .profile .pl{animation:none;stroke-dashoffset:0}
-    .profile .dot{display:none}
-    .caption .txt::after{animation:none}
-    .tilt{transform:none!important}
+    .profile .pl{animation:none!important;stroke-dashoffset:0}
+    .watch-stack img{transition:none}
     html{scroll-behavior:auto}
   }
   /* ---- 디자인 A 단계 (2026-10-03, branch design/a1-a6) ----------------
@@ -700,15 +730,10 @@
      inputs · A6 press feedback. Baseline captures for the before/after:
      ~/Developer/runvis-assets/design-baseline/2026-10-03/. */
   :root{--bg:#07090a;--bg1:#0c1012;--dim:#a7aeb5;--dim2:#959ca4;color-scheme:dark}
-  nav{background:rgba(7,9,10,.72)}
   section+section{border-top:0}
   #why,#live,#race,#faq{background:var(--bg1)}
   h1,h2,h3{text-wrap:balance}
   p,li,.sub{text-wrap:pretty}
-  .hero .note{font-size:15px;color:var(--dim);text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 24px rgba(0,0,0,.75)}
-  .tbadge span{font-size:13px}
-  .tbadge b{text-wrap:balance}
-  .watch-stack .wnote,.wspause{font-size:12.5px}
   .sc-note{font-size:14px}
   .mini .m small{font-size:13px;text-wrap:balance}
   .vchip .sensor{font-size:12.5px;line-height:1.6}
@@ -732,9 +757,6 @@
      reaching back up is when they are looking for it. The script adds .tucked;
      focus inside the bar always brings it back, so a keyboard user never tabs
      onto a control that is off screen. Desktop's pill is small and unchanged. */
-  .hero .note{margin-top:30px}
-  .trust{margin-top:18px}
-  @media(max-width:768px){.hero .note{margin-top:24px}.trust{margin-top:16px}}
   @media(max-width:820px){
     .sticky-cta{transition:transform .28s var(--ease)}
     .sticky-cta.tucked{transform:translateY(calc(100% + 8px))}
@@ -841,7 +863,7 @@
   // the market page, which arrives with its own.
   if(code!==pageLang){
     var d=document.createElement("script");
-    d.src=BASE+"t-"+code+".js?v=20260927b"; d.async=false; document.head.appendChild(d);
+    d.src=BASE+"t-"+code+".js?v=20261025a"; d.async=false; document.head.appendChild(d);
     window.RunvisDictLoaded=code;                     // i18n.js: "one is already in flight"
   }
   // The eight strings the hero caption loop and the four voice chips read are
@@ -867,16 +889,25 @@
   // Published as a global too, so the script under the hero <img> can correct
   // the markup's src before the picture is painted rather than after.
   window.RunvisShotBase = BASE+"assets/framed-phone-dash"+(code==="ko"?"":"."+code);
-  // Preload the AVIF, not the PNG. The hero <picture> offers AVIF first, so a
-  // preload naming the PNG would have fetched a file the browser then did not
-  // use — 60 KB spent twice. type= is honoured by the preload scanner: a
-  // browser that cannot decode AVIF skips this link entirely and loads the
-  // WebP or PNG from the <picture> without a preload, which is the right
-  // trade at AVIF's coverage (Safari 16+, Chrome 85+, Firefox 93+). Preloading
-  // all three would download all three.
+  // The LCP element is the hero still — the video's poster — not the phone
+  // capture any more (2026-10-25, 묶음 A 1-1). The phone used to be preloaded
+  // here at fetchpriority=high, and on a phone it sits below the fold while the
+  // poster fills the screen, so the two fought for the first round-trips. This
+  // preloads exactly the file the hero will paint: this market's runner (en,
+  // es and de have their own — tools/i18n-lib.mjs HERO_LANGS) and, on a
+  // portrait screen, the vertical cut once it exists. What exists is not
+  // guessed: tools/prerender.mjs (7a) writes HAVE from the files on disk, so
+  // dropping hero-loop-v.{webm,mp4} / hero-poster-v.avif / *.hevc.mp4 into
+  // assets/ and rebuilding wires them with no change here. The inline script
+  // right after the <video> copies RunvisHero.poster onto it.
+  var HAVE=/*hero-have*/{"hevc":[],"v":0,"vp":0}/*/hero-have*/;
+  var HSUF={en:1,es:1,de:1}[code]?"."+code:"";
+  var portrait=!!(window.matchMedia&&window.matchMedia("(max-aspect-ratio: 4/5)").matches);
+  var hposter=BASE+"assets/hero-poster"+(portrait&&HAVE.vp?"-v":HSUF)+".avif";
+  window.RunvisHero={suf:HSUF,poster:hposter,have:HAVE,portrait:portrait};
   var pl=document.createElement("link");
   pl.rel="preload"; pl.as="image"; pl.type="image/avif"; pl.setAttribute("fetchpriority","high");
-  pl.href=window.RunvisShotBase+".avif"; document.head.appendChild(pl);
+  pl.href=hposter; document.head.appendChild(pl);
   function meta(a,k,v){ if(v==null) return; var e=document.querySelector("meta["+a+'="'+k+'"]'); if(e) e.setAttribute("content",v); }
   // The canonical follows the language ON SCREEN, not the spelling of the URL.
   // /?lang=de and /de/ show the same German page, so both have to name /de/ or
@@ -908,7 +939,7 @@
   // only text duplicated out of the dictionary, and it exists so the LCP heading
   // never changes language in place. RunvisCritical is applied by the small
   // script that sits directly under the hero markup.
-  var C={"en":{"h":{"n.hero.eb":"Running coach for Apple Watch","n.hero.h1":"You run.<br/><span class=\"grad\">We coach.</span>","n.hero.sub":"Run or rest? Open it in the morning and today’s answer is already there. Runvis picks your workout from the sleep and heart rate data on your Apple Watch, then speaks up on the run only when it counts.","n.hero.cta1":"Join the beta","n.hero.cta2":"Run the 5K demo"},"m":{"meta.title":"Runvis — You run. We coach. A running coach for Apple Watch","meta.desc":"No new running watch needed. The Apple Watch you already wear becomes your running coach. It reads your sleep and heart rate to pick today’s workout, then speaks up on the run only when it matters. No account. No server.","meta.ogtitle":"Runvis — Running coach for Apple Watch","meta.ogdesc":"The Apple Watch you already wear becomes your running coach. Today’s workout every morning, and the right word at the right moment on the run."}},"ja":{"h":{"n.hero.eb":"Apple Watchのランニングコーチ","n.hero.h1":"You run.<br/><span class=\"grad\">We coach.</span>","n.hero.sub":"今日は走るか、休むか。朝アプリを開けば、もう決まっています。Apple Watchが記録した睡眠と心拍から、Runvisが今日の練習を選び、走っている間は本当に必要なときだけ、声でコーチングします。","n.hero.cta1":"ベータに申し込む","n.hero.cta2":"5kmデモを走ってみる"},"m":{"meta.title":"Runvis — You run. We coach. Apple Watchのランニングコーチ","meta.desc":"新しいランニングウォッチはいりません。いま着けているApple Watchが、ランニングコーチになります。睡眠と心拍から今日の練習を決め、走っている間は必要なときだけ声でコーチングします。アカウントもサーバーもありません。","meta.ogtitle":"Runvis — Apple Watchのランニングコーチ","meta.ogdesc":"いま着けているApple Watchが、ランニングコーチになります。今日の練習は朝のうちに。必要なひと言は、走っている間に。"}},"es":{"h":{"n.hero.eb":"Entrenador de running para Apple Watch","n.hero.h1":"You run.<br/><span class=\"grad\">We coach.</span>","n.hero.sub":"¿Hoy toca correr o descansar? Abres la app por la mañana y ya está decidido. Runvis elige el entreno de hoy con el sueño y el pulso que registra tu Apple Watch, y mientras corres solo te habla cuando de verdad hace falta.","n.hero.cta1":"Apúntate a la beta","n.hero.cta2":"Corre la demo de 5 km"},"m":{"meta.title":"Runvis — You run. We coach. Entrenador de running para Apple Watch","meta.desc":"Sin comprar otro reloj: el Apple Watch que ya llevas se convierte en tu entrenador de running. Lee tu sueño y tu pulso para decidir el entreno de hoy, y mientras corres te habla solo cuando hace falta. Sin cuenta y sin servidores.","meta.ogtitle":"Runvis — entrenador de running para Apple Watch","meta.ogdesc":"El Apple Watch que ya llevas, convertido en tu entrenador de running. El entreno de hoy, por la mañana. La frase justa, mientras corres."}},"zh":{"h":{"n.hero.eb":"Apple Watch 跑步教練","n.hero.h1":"You run.<br/><span class=\"grad\">We coach.</span>","n.hero.sub":"今天該跑還是該休息，早上打開就已經決定好。Runvis 讀取 Apple Watch 記下的睡眠和心率，替你挑好今天的訓練；跑步時，只在需要的那一刻開口。","n.hero.cta1":"報名 Beta","n.hero.cta2":"試跑 5 公里示範"},"m":{"meta.title":"Runvis — You run. We coach. Apple Watch 跑步教練","meta.desc":"不用再買一支跑錶，你手上的 Apple Watch 就能當跑步教練。讀取你的睡眠和心率，決定今天練什麼；跑步時，只在需要的時候開口。沒有帳號，也沒有伺服器。","meta.ogtitle":"Runvis — Apple Watch 跑步教練","meta.ogdesc":"你手上的 Apple Watch，就是跑步教練。今天練什麼，早上就知道；該提醒的那一句，跑步時就聽得到。"}},"de":{"h":{"n.hero.eb":"Lauf-Coach für die Apple Watch","n.hero.h1":"You run.<br/><span class=\"grad\">We coach.</span>","n.hero.sub":"Laufen oder Pause? Wenn du morgens die App öffnest, steht es schon fest. Runvis wählt dein Training anhand der Schlaf- und Pulsdaten deiner Apple Watch. Und beim Laufen meldet sich der Coach per Stimme, aber nur dann, wenn es wirklich drauf ankommt.","n.hero.cta1":"Für die Beta anmelden","n.hero.cta2":"5-km-Demo laufen"},"m":{"meta.title":"Runvis – You run. We coach. Lauf-Coach für die Apple Watch","meta.desc":"Keine neue Laufuhr nötig: Die Apple Watch, die du schon trägst, wird zum Lauf-Coach. Runvis liest Schlaf und Puls, legt dein Training für heute fest und coacht dich beim Laufen per Stimme, aber nur, wenn es nötig ist. Kein Konto, kein Server.","meta.ogtitle":"Runvis – Lauf-Coach für die Apple Watch","meta.ogdesc":"Die Apple Watch an deinem Handgelenk wird zum Lauf-Coach. Morgens steht dein Training fest, beim Laufen sagt er nur, was du gerade brauchst."}}};
+  var C={"en":{"h":{"n.hero.eb":"Running coach app for Apple Watch","n.hero.h1":"You run.<br/><span class=\"grad\">We coach.</span>","n.hero.tag":"No new watch. Just the Apple Watch you already wear.","n.hero.sub":"Run or rest? Open it in the morning and today’s answer is already there. Runvis picks your workout from the sleep and heart rate data on your Apple Watch, then speaks up on the run only when it counts.","n.hero.cta1":"Get a beta invite","n.hero.cta2":"Run the 5K demo","n.hero.perk":"Every coach feature is free during the beta · all it takes is an email"},"m":{"meta.title":"Runvis — You run. We coach. A running coach for Apple Watch","meta.desc":"No new running watch needed. The Apple Watch you already wear becomes your running coach. It reads your sleep and heart rate to pick today’s workout, then speaks up on the run only when it matters. No account. No server.","meta.ogtitle":"Runvis — Running coach for Apple Watch","meta.ogdesc":"The Apple Watch you already wear becomes your running coach. Today’s workout every morning, and the right word at the right moment on the run."}},"ja":{"h":{"n.hero.eb":"Apple Watchのランニングコーチアプリ","n.hero.h1":"You run.<br/><span class=\"grad\">We coach.</span>","n.hero.tag":"新しい時計はいらない。いま着けているApple Watchで。","n.hero.sub":"今日は走るか、休むか。朝アプリを開けば、もう決まっています。Apple Watchが記録した睡眠と心拍から、Runvisが今日の練習を選び、走っている間は本当に必要なときだけ、声でコーチングします。","n.hero.cta1":"ベータの招待を受け取る","n.hero.cta2":"5kmデモを走ってみる","n.hero.perk":"ベータ期間中はコーチ機能まですべて無料 · メールアドレスだけでOK"},"m":{"meta.title":"Runvis — You run. We coach. Apple Watchのランニングコーチ","meta.desc":"新しいランニングウォッチはいりません。いま着けているApple Watchが、ランニングコーチになります。睡眠と心拍から今日の練習を決め、走っている間は必要なときだけ声でコーチングします。アカウントもサーバーもありません。","meta.ogtitle":"Runvis — Apple Watchのランニングコーチ","meta.ogdesc":"いま着けているApple Watchが、ランニングコーチになります。今日の練習は朝のうちに。必要なひと言は、走っている間に。"}},"es":{"h":{"n.hero.eb":"App de entrenador de running para Apple Watch","n.hero.h1":"You run.<br/><span class=\"grad\">We coach.</span>","n.hero.tag":"Sin reloj nuevo: con el Apple Watch que ya llevas.","n.hero.sub":"¿Hoy toca correr o descansar? Abres la app por la mañana y ya está decidido. Runvis elige el entreno de hoy con el sueño y el pulso que registra tu Apple Watch, y mientras corres solo te habla cuando de verdad hace falta.","n.hero.cta1":"Quiero la invitación a la beta","n.hero.cta2":"Corre la demo de 5 km","n.hero.perk":"Durante la beta, todo gratis, coach incluido · solo hace falta un email"},"m":{"meta.title":"Runvis — You run. We coach. Entrenador de running para Apple Watch","meta.desc":"Sin comprar otro reloj: el Apple Watch que ya llevas se convierte en tu entrenador de running. Lee tu sueño y tu pulso para decidir el entreno de hoy, y mientras corres te habla solo cuando hace falta. Sin cuenta y sin servidores.","meta.ogtitle":"Runvis — entrenador de running para Apple Watch","meta.ogdesc":"El Apple Watch que ya llevas, convertido en tu entrenador de running. El entreno de hoy, por la mañana. La frase justa, mientras corres."}},"zh":{"h":{"n.hero.eb":"Apple Watch 跑步教練 App","n.hero.h1":"You run.<br/><span class=\"grad\">We coach.</span>","n.hero.tag":"不用買新錶，就用你手上的 Apple Watch。","n.hero.sub":"今天該跑還是該休息，早上打開就已經決定好。Runvis 讀取 Apple Watch 記下的睡眠和心率，替你挑好今天的訓練；跑步時，只在需要的那一刻開口。","n.hero.cta1":"取得 Beta 邀請","n.hero.cta2":"試跑 5 公里示範","n.hero.perk":"Beta 期間連教練功能都全部免費 · 只要留個 Email"},"m":{"meta.title":"Runvis — You run. We coach. Apple Watch 跑步教練","meta.desc":"不用再買一支跑錶，你手上的 Apple Watch 就能當跑步教練。讀取你的睡眠和心率，決定今天練什麼；跑步時，只在需要的時候開口。沒有帳號，也沒有伺服器。","meta.ogtitle":"Runvis — Apple Watch 跑步教練","meta.ogdesc":"你手上的 Apple Watch，就是跑步教練。今天練什麼，早上就知道；該提醒的那一句，跑步時就聽得到。"}},"de":{"h":{"n.hero.eb":"Lauf-Coach-App für die Apple Watch","n.hero.h1":"You run.<br/><span class=\"grad\">We coach.</span>","n.hero.tag":"Keine neue Uhr. Nur die Apple Watch, die du schon trägst.","n.hero.sub":"Laufen oder Pause? Wenn du morgens die App öffnest, steht es schon fest. Runvis wählt dein Training anhand der Schlaf- und Pulsdaten deiner Apple Watch. Und beim Laufen meldet sich der Coach per Stimme, aber nur dann, wenn es wirklich drauf ankommt.","n.hero.cta1":"Einladung zur Beta anfordern","n.hero.cta2":"5-km-Demo laufen","n.hero.perk":"In der Beta ist alles gratis, auch der Coach · nur deine E-Mail-Adresse nötig"},"m":{"meta.title":"Runvis – You run. We coach. Lauf-Coach für die Apple Watch","meta.desc":"Keine neue Laufuhr nötig: Die Apple Watch, die du schon trägst, wird zum Lauf-Coach. Runvis liest Schlaf und Puls, legt dein Training für heute fest und coacht dich beim Laufen per Stimme, aber nur, wenn es nötig ist. Kein Konto, kein Server.","meta.ogtitle":"Runvis – Lauf-Coach für die Apple Watch","meta.ogdesc":"Die Apple Watch an deinem Handgelenk wird zum Lauf-Coach. Morgens steht dein Training fest, beim Laufen sagt er nur, was du gerade brauchst."}}};
   var d2=C[code]; if(!d2) return;
   document.title=d2.m["meta.title"];
   meta("name","description",d2.m["meta.desc"]);
@@ -917,7 +948,7 @@
   window.RunvisCritical=d2.h;
 })();
 </script>
-<script defer src="i18n.js?v=20260927b"></script>
+<script defer src="i18n.js?v=20261025a"></script>
 <!-- The FAQ rich result must carry the same questions the page shows. This is
      the Korean copy, word for word from the n.faq.* dictionary; i18n.js
      rewrites this node (and inLanguage) whenever the reader picks another
@@ -937,6 +968,20 @@
 </script>
 </head>
 <body>
+<!-- Line-icon sprite (묶음 A 1-7). Every icon on the page is a <use> of one of
+     these; nothing here is an Apple product drawing. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<symbol id="i-wrist" viewBox="0 0 24 24"><path d="M3 9.5h4.5M3 14.5h4.5M16.5 9.5H21M16.5 14.5H21"/><rect x="7.5" y="6.5" width="9" height="11" rx="2.5"/><path d="M9.5 12h1.4l.9-2 1.3 4 .9-2h.5"/></symbol>
+<symbol id="i-formula" viewBox="0 0 24 24"><path d="M4 19.5h16M4 19.5V4.5"/><path d="M6.5 16c2.5 0 3.2-8.5 6-8.5S16 13 19.5 13"/><path d="M14.5 4.5h5M17 2v5"/></symbol>
+<symbol id="i-voice" viewBox="0 0 24 24"><path d="M4.5 5.5h11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H10l-4 3.5v-3.5H4.5a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2Z"/><path d="M7 10.5h1M10 9v3M12.5 8v5M15 10.5h0"/><path d="M20 8.5c.9 1.2.9 4.8 0 6"/></symbol>
+<symbol id="i-pulse" viewBox="0 0 24 24"><path d="M2.5 12h4l2-5 3.5 10 2.5-6 1.5 3h5.5"/></symbol>
+<symbol id="i-speaker" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6M18.2 6.5a8 8 0 0 1 0 11"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3Z"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="m6.5 9.5 5.5 5.5 5.5-5.5"/></symbol>
+<symbol id="i-pause" viewBox="0 0 24 24"><path d="M8.5 5.5v13M15.5 5.5v13"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M7.5 5v14l11-7z"/></symbol>
+<symbol id="i-gift" viewBox="0 0 24 24"><path d="M4 10h16v10H4zM2.5 6.5h19V10h-19zM12 6.5V20"/><path d="M12 6.5C10 3 6.5 3.5 7.5 6.5M12 6.5c2-3.5 5.5-3 4.5 0"/></symbol>
+</defs></svg>
 <a class="skip" href="#main" data-i18n="a11y.skip">본문 바로가기</a>
 <nav>
 <div class="wrap">
@@ -951,9 +996,9 @@
 <a data-i18n="n.nav.faq" href="#faq">FAQ</a>
 <a data-i18n="n.nav.demo" href="run.html" style="color:var(--green)">5km 데모</a>
 </div>
-<a class="btn nav-cta" data-i18n="n.nav.cta" href="#beta">베타 신청</a>
+<a class="btn nav-cta" data-i18n="n.nav.cta" href="#beta" data-entry="nav">베타 신청</a>
 <div class="langsel" id="langsel">
-  <button id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu" data-i18n-attr="aria-label:a11y.langmenu" aria-label="표시 언어">🌐 <span id="langlabel" data-i18n="a11y.langname">한국어</span> ▾</button>
+  <button type="button" id="langbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langmenu"><svg class="i" aria-hidden="true"><use href="#i-globe"/></svg><span class="sr-only" data-i18n="a11y.langmenu">표시 언어</span> <span id="langlabel" data-i18n="a11y.langname">한국어</span><svg class="i" aria-hidden="true"><use href="#i-down"/></svg></button>
   <ul id="langmenu" role="menu" aria-labelledby="langbtn" tabindex="-1"></ul>
 </div>
 </div>
@@ -968,53 +1013,45 @@
 
 <!-- HERO -->
 <header class="hero" id="hero">
-<div class="hero-bg"><video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg" aria-hidden="true" tabindex="-1"><source src="assets/hero-loop.webm" type="video/webm"><source src="assets/hero-loop.mp4" type="video/mp4"></video><div class="hero-shade"></div><div class="grid"></div><div class="blob b1" data-depth="-.4"></div><div class="blob b2" data-depth=".5"></div><div class="blob b3" data-depth=".25"></div></div>
-<div class="wrap">
-<!-- Deliberately NOT .reveal. The rule no longer touches opacity — it slides
-     only (see the .reveal block in the stylesheet and the measurement above
-     it) — but it still starts 28 px down and waits for an IntersectionObserver
-     that runs after the deferred i18n.js, so a cold load would show the
-     largest text on the page sitting displaced until that script arrived.
-     Above the fold is painted where it belongs from the first frame; the
-     reveal cascade starts at #why, below the fold. -->
-<div class="eyebrow" data-i18n="n.hero.eb">Apple Watch 러닝 코치</div>
-<h1 data-i18n="n.hero.h1">You run.<br/><span class="grad">We coach.</span></h1>
-<p class="tagline" data-i18n="n.hero.tag">Already on your wrist.</p>
+<!-- 2026-10-25 묶음 A 1-1 — see the HERO block in the stylesheet. The <video>
+     carries no source and no poster in the markup on purpose: the boot script
+     resolved which poster this reader gets (market, screen shape) and the
+     script below copies it on before the element can fetch anything; the
+     sources are attached after `load` by the hero script at the end of the
+     page, and never for reduced motion, Save-Data or a slow link. -->
+<div class="hero-bg"><video class="hero-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" disablepictureinpicture></video><div class="hero-scrim"></div></div>
+<script>(function(){var h=window.RunvisHero,v=document.querySelector('.hero-video');if(h&&v)v.setAttribute('poster',h.poster);})();</script>
+<div class="wrap hero-scene">
+<!-- Deliberately NOT .reveal: above the fold is painted where it belongs from
+     the first frame; the reveal cascade starts at #why, below the fold. -->
+<div class="hero-copy">
+<div class="eyebrow" data-i18n="n.hero.eb">애플워치 러닝 코치 앱</div>
+<!-- The heading stays English in every market (점검 보고서 2-3: the OG cards,
+     the boot object and six prerenders all carry it), so it is marked as
+     English for screen readers and hyphenation on the five pages that are not. -->
+<h1 lang="en" data-i18n="n.hero.h1">You run.<br/><span class="grad">We coach.</span></h1>
+<p class="tagline" data-i18n="n.hero.tag">새 시계 없이, 지금 차고 있는 애플워치로</p>
 <p class="sub" data-i18n="n.hero.sub">오늘 뛸지 쉴지, 아침에 열면 이미 정해져 있어요. 런비스가 애플워치의 수면·심박 기록으로 오늘 훈련을 고르고, 달리는 동안엔 꼭 필요한 순간에만 목소리로 코칭합니다.</p>
 <div class="cta">
-<a class="btn" data-i18n="n.hero.cta1" href="#beta">베타 신청</a>
+<a class="btn" data-i18n="n.hero.cta1" href="#beta" data-entry="hero">베타 초대 받기</a>
 <a class="btn ghost" data-i18n="n.hero.cta2" href="run.html">5km 데모 달려 보기</a>
 </div>
-<!-- The eyebrow, the H1, the sub and the two CTAs are parsed by now, so the
-     five strings the boot script inlined go in before the first paint. Without
-     this the largest text on the page was Korean until the dictionary landed
-     and then changed under the reader. -->
+<!-- What the beta costs, said where the decision is made: nothing, and an
+     address. It used to be at the very bottom (n.beta.do4), while the first
+     figure a visitor met was the monthly price (점검 보고서 1-3). -->
+<p class="perk"><svg class="i" aria-hidden="true"><use href="#i-gift"/></svg><span data-i18n="n.hero.perk">베타 기간엔 코치 기능까지 전부 무료 · 이메일 하나면 돼요</span></p>
+</div>
+<!-- The five strings the boot script inlined go in before the first paint, so
+     the largest text on the page never changes language under the reader. -->
 <script>(function(){var h=window.RunvisCritical; if(!h) return;
   for(var k in h){ var e=document.querySelector('[data-i18n="'+k+'"]'); if(e) e.innerHTML=h[k]; }
 })();</script>
-<!-- Also not .reveal: the phone bezel below is the LCP element, and the reveal
-     holds it 28 px off its final position until the deferred script gets round
-     to the observer — a layout shift on the largest element on the page, at
-     the moment it is being measured. The reveal cascade starts at #why, below
-     the fold. -->
-<div class="stage">
-<!-- 2026-09-27: the old decoration here was a spinning ring that meant nothing — readers
-     asked what it was. It is now a real course: 남산 정상 업힐 (gpx/seoul-namsan-summit.gpx,
-     the same file the course library ships), resampled to 101 points by distance. The dot
-     runs the climb and the descent — the thing the watch's GAP / 경사 screen and the
-     hill-preview voice are about. Regenerate the path from the GPX if that file changes. -->
-<div class="profile" aria-hidden="true" data-depth="-.15"><svg viewBox="0 0 1000 200" preserveAspectRatio="xMidYMax meet"><defs><linearGradient id="pg" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#3DDC84"/><stop offset="1" stop-color="#4CCBD9"/></linearGradient><linearGradient id="pf" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="rgba(61,220,132,.26)"/><stop offset="1" stop-color="rgba(61,220,132,0)"/></linearGradient></defs>
-<path d="M20.0 176.5 L29.6 175.4 L39.2 174.5 L48.8 172.9 L58.4 171.2 L68.0 169.5 L77.6 167.8 L87.2 166.1 L96.8 164.1 L106.4 162.1 L116.0 160.0 L125.6 158.2 L135.2 156.3 L144.8 154.3 L154.4 152.3 L164.0 150.3 L173.6 148.3 L183.2 146.0 L192.8 143.8 L202.4 141.1 L212.0 138.4 L221.6 135.5 L231.2 133.0 L240.8 130.1 L250.4 127.6 L260.0 124.9 L269.6 122.1 L279.2 118.9 L288.8 115.8 L298.4 112.7 L308.0 109.3 L317.6 105.8 L327.2 102.7 L336.8 99.0 L346.4 94.8 L356.0 90.3 L365.6 85.7 L375.2 80.5 L384.8 75.4 L394.4 70.5 L404.0 65.7 L413.6 60.2 L423.2 55.6 L432.8 51.2 L442.4 47.2 L452.0 44.0 L461.6 42.0 L471.2 40.1 L480.8 38.7 L490.4 38.1 L500.0 38.0 L509.6 38.2 L519.2 39.0 L528.8 40.6 L538.4 42.5 L548.0 44.6 L557.6 47.9 L567.2 52.1 L576.8 56.5 L586.4 61.2 L596.0 66.5 L605.6 71.5 L615.2 76.1 L624.8 81.0 L634.4 86.2 L644.0 91.0 L653.6 95.3 L663.2 99.5 L672.8 103.3 L682.4 106.5 L692.0 109.5 L701.6 112.6 L711.2 115.5 L720.8 118.2 L730.4 121.2 L740.0 124.0 L749.6 126.8 L759.2 129.3 L768.8 132.2 L778.4 135.2 L788.0 138.1 L797.6 140.7 L807.2 143.4 L816.8 145.7 L826.4 147.6 L836.0 149.8 L845.6 151.8 L855.2 153.8 L864.8 155.7 L874.4 157.6 L884.0 159.5 L893.6 161.8 L903.2 163.9 L912.8 166.3 L922.4 168.4 L932.0 170.5 L941.6 172.4 L951.2 174.4 L960.8 176.0 L970.4 176.9 L980.0 178.0 L980 200 L20 200 Z" fill="url(#pf)"/><path id="pline" class="pl" pathLength="1000" d="M20.0 176.5 L29.6 175.4 L39.2 174.5 L48.8 172.9 L58.4 171.2 L68.0 169.5 L77.6 167.8 L87.2 166.1 L96.8 164.1 L106.4 162.1 L116.0 160.0 L125.6 158.2 L135.2 156.3 L144.8 154.3 L154.4 152.3 L164.0 150.3 L173.6 148.3 L183.2 146.0 L192.8 143.8 L202.4 141.1 L212.0 138.4 L221.6 135.5 L231.2 133.0 L240.8 130.1 L250.4 127.6 L260.0 124.9 L269.6 122.1 L279.2 118.9 L288.8 115.8 L298.4 112.7 L308.0 109.3 L317.6 105.8 L327.2 102.7 L336.8 99.0 L346.4 94.8 L356.0 90.3 L365.6 85.7 L375.2 80.5 L384.8 75.4 L394.4 70.5 L404.0 65.7 L413.6 60.2 L423.2 55.6 L432.8 51.2 L442.4 47.2 L452.0 44.0 L461.6 42.0 L471.2 40.1 L480.8 38.7 L490.4 38.1 L500.0 38.0 L509.6 38.2 L519.2 39.0 L528.8 40.6 L538.4 42.5 L548.0 44.6 L557.6 47.9 L567.2 52.1 L576.8 56.5 L586.4 61.2 L596.0 66.5 L605.6 71.5 L615.2 76.1 L624.8 81.0 L634.4 86.2 L644.0 91.0 L653.6 95.3 L663.2 99.5 L672.8 103.3 L682.4 106.5 L692.0 109.5 L701.6 112.6 L711.2 115.5 L720.8 118.2 L730.4 121.2 L740.0 124.0 L749.6 126.8 L759.2 129.3 L768.8 132.2 L778.4 135.2 L788.0 138.1 L797.6 140.7 L807.2 143.4 L816.8 145.7 L826.4 147.6 L836.0 149.8 L845.6 151.8 L855.2 153.8 L864.8 155.7 L874.4 157.6 L884.0 159.5 L893.6 161.8 L903.2 163.9 L912.8 166.3 L922.4 168.4 L932.0 170.5 L941.6 172.4 L951.2 174.4 L960.8 176.0 L970.4 176.9 L980.0 178.0" fill="none" stroke="url(#pg)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-<line x1="500.0" y1="32.0" x2="500.0" y2="16.0" stroke="rgba(255,255,255,.35)" stroke-width="1"/><text class="lbl top" x="500.0" y="10.0" text-anchor="middle">247 m</text>
-<text class="lbl" x="20" y="150" data-i18n="gpx.namsan.summit">남산 정상 업힐</text><text class="lbl" x="980" y="150" text-anchor="end">4.0 km · ↑177 m</text>
-<g class="dot"><circle r="13" fill="rgba(61,220,132,.28)"/><circle r="5.5" fill="#3DDC84" stroke="#0b0d10" stroke-width="2"/><animateMotion dur="16s" repeatCount="indefinite" rotate="0"><mpath href="#pline"/></animateMotion></g></svg></div>
-<div class="devices" data-depth=".35">
-<div class="phone"><picture><source srcset="assets/framed-phone-dash.avif" type="image/avif"/><source srcset="assets/framed-phone-dash.webp" type="image/webp"/><img alt="iPhone 홈 — 오늘의 결정 '오늘은 쉬어요'(몸 92점, 10K 대회 D-41)와 그 아래 오늘의 근거" data-i18n-attr="alt:alt.phone.hero" src="assets/framed-phone-dash.png" data-shot="framed-phone-dash" width="640" height="1308" fetchpriority="high" decoding="sync"/></picture></div>
-<!-- The LCP picture, corrected to the resolved language the instant the tag is
-     parsed — i18n.js only gets to it after DOMContentLoaded, which is late
-     enough that five languages saw the Korean home screen paint and then
-     change. The markup keeps the Korean src so a crawler and a no-JS reader
-     still get a picture; on /en/ … the prerender writes the right one in. -->
+<div class="hero-devices">
+<div class="devices">
+<div class="phone"><picture><source srcset="assets/framed-phone-dash.avif" type="image/avif"/><source srcset="assets/framed-phone-dash.webp" type="image/webp"/><img alt="iPhone 홈 — 오늘의 결정 '오늘은 쉬어요'(몸 92점, 10K 대회 D-41)와 그 아래 오늘의 근거" data-i18n-attr="alt:alt.phone.hero" src="assets/framed-phone-dash.png" data-shot="framed-phone-dash" width="640" height="1308" decoding="async"/></picture></div>
+<!-- The LCP picture used to be this one; it is still corrected to the resolved
+     language the instant the tag is parsed, so no market sees the Korean home
+     screen paint and then change. -->
 <script>(function(){var b=window.RunvisShotBase; if(!b) return;
   var i=document.querySelector('img[data-shot="framed-phone-dash"]');
   if(!i) return;
@@ -1027,27 +1064,12 @@
     if(so.getAttribute("srcset")!==b+ext) so.setAttribute("srcset",b+ext);
   });
 })();</script>
-<!-- Running screens only. The decision, the evidence and the start card live in
-     #today and used to be repeated here, so the first scroll rewound instead of
-     moving on; the two duplicates are gone and the phone above already carries
-     the morning decision. Only the visible frame is fetched eagerly. -->
-<!-- The three frames swap on a timer with nothing but a CSS class, so assistive
-     tech met three images and no way to tell which one is on screen. The group
-     names itself, and the rotation below moves aria-current with .on. -->
+<!-- Running screens only. Frame 1 is fetched with the page; frames 2 and 3 are
+     lazy, so a phone that never shows them does not pay for them. -->
 <div class="watch-stack" id="watchStack" role="group" data-i18n-attr="aria-label:a11y.watchstack" aria-label="러닝 중 애플워치 화면 3장이 번갈아 나옵니다">
-<picture><source srcset="assets/framed-watch-pace.avif" type="image/avif"/><source srcset="assets/framed-watch-pace.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 러닝 중 페이스 화면: 현재 페이스와 평균·속도·GAP·경사" data-i18n-attr="alt:alt.watch.pace" class="on" src="assets/framed-watch-pace.png" data-shot="framed-watch-pace" width="480" height="768" fetchpriority="high" decoding="sync"/></picture>
-<picture><source srcset="assets/framed-watch-hr.avif" type="image/avif"/><source srcset="assets/framed-watch-hr.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 러닝 중 심박 화면: 심박 숫자와 현재 존, 오른쪽 세로 존 기둥, 평균 심박" data-i18n-attr="alt:alt.watch.zone" src="assets/framed-watch-hr.png" data-shot="framed-watch-hr" width="480" height="768" fetchpriority="low" decoding="async"/></picture>
-<picture><source srcset="assets/framed-watch-map.avif" type="image/avif"/><source srcset="assets/framed-watch-map.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 러닝 중 지도 화면: 달린 경로와 현재 위치, 아래 띠에 거리와 페이스" data-i18n-attr="alt:alt.watch.map" src="assets/framed-watch-map.png" data-shot="framed-watch-map" width="480" height="768" fetchpriority="low" decoding="async"/></picture>
-<!-- These three used to be the Korean capture in every language and this
-     comment said so. They are not any more: assets/framed-watch-{pace,hr,map}
-     exist in six languages, i18n.js SHOTS lists them and the prerender writes
-     this market's file into the markup, so /de/ ships the German watch. The
-     provenance line the reader sees is sc.note, under the first screenshot
-     block. -->
-<!-- The stop control the rotation below needs. The dot labels are the frames'
-     own alt text, read off the <img> at runtime, so they are already in this
-     market's language and there is no fourth copy of those three sentences to
-     keep in step. -->
+<picture><source srcset="assets/framed-watch-pace.avif" type="image/avif"/><source srcset="assets/framed-watch-pace.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 러닝 중 페이스 화면: 현재 페이스와 평균·속도·GAP·경사" data-i18n-attr="alt:alt.watch.pace" class="on" src="assets/framed-watch-pace.png" data-shot="framed-watch-pace" width="480" height="768" decoding="async"/></picture>
+<picture><source srcset="assets/framed-watch-hr.avif" type="image/avif"/><source srcset="assets/framed-watch-hr.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 러닝 중 심박 화면: 심박 숫자와 현재 존, 오른쪽 세로 존 기둥, 평균 심박" data-i18n-attr="alt:alt.watch.zone" src="assets/framed-watch-hr.png" data-shot="framed-watch-hr" width="480" height="768" loading="lazy" decoding="async"/></picture>
+<picture><source srcset="assets/framed-watch-map.avif" type="image/avif"/><source srcset="assets/framed-watch-map.webp" type="image/webp"/><img alt="Apple Watch Ultra — Runvis 러닝 중 지도 화면: 달린 경로와 현재 위치, 아래 띠에 거리와 페이스" data-i18n-attr="alt:alt.watch.map" src="assets/framed-watch-map.png" data-shot="framed-watch-map" width="480" height="768" loading="lazy" decoding="async"/></picture>
 <div class="wsctl">
 <button class="wsdot" type="button" data-frame="0" aria-current="true"></button>
 <button class="wsdot" type="button" data-frame="1" aria-current="false"></button>
@@ -1056,39 +1078,23 @@
 </div>
 </div>
 </div>
-<div class="caption"><span class="mic">🔊</span><span class="txt" id="heroCaption"></span></div>
+<div class="caption"><span class="mic" aria-hidden="true"><svg class="i"><use href="#i-speaker"/></svg></span><span class="txt" id="heroCaption"></span></div>
 </div>
-<!-- 2026-10-03 디자인 B1: the note and the three badges used to sit between the
-     CTAs and the devices, which made the first screen nine things deep (title,
-     tag line, sentence, two buttons, note, three badges, devices, profile,
-     caption). They now follow the stage, so the first screen reads title →
-     sentence → buttons → devices, and the price badge is the first thing the
-     first scroll shows. It is still inside the hero, and the nav's 가격 link
-     is on every screen. -->
-<!-- This sentence states no amount, and check-content [14] FAILS if a ₩
-     figure comes back into it: it is the same line in six languages, and one
-     translator retyping a number here is how a price gets misstated to a
-     market. The amounts live in the badge below and in the price table, both
-     of which pair every KRW figure with that market's own size estimate
-     (pr.approxref, tools/price-approx.json), which is the thing round 13 could
-     not see a safe way to do and round 15 charged -1.5 for not having done
-     (five markets could read three KRW figures and evaluate none of them).
-     What this line keeps is the launch-region clause, which used to sit in the
-     most prominent badge on the first screen and read "not in your country
-     yet" to five of the six markets it was shown to. -->
+<button class="hero-pause" id="heroPause" type="button" hidden><svg class="i" aria-hidden="true"><use href="#i-pause"/></svg><span class="lbl">움직임 멈춤</span></button>
+</div>
+<div class="wrap hero-after">
+<div class="profile" aria-hidden="true"><svg viewBox="0 0 1000 200" preserveAspectRatio="xMidYMax meet"><defs><linearGradient id="pg" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#3DDC84"/><stop offset="1" stop-color="#4CCBD9"/></linearGradient><linearGradient id="pf" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="rgba(61,220,132,.26)"/><stop offset="1" stop-color="rgba(61,220,132,0)"/></linearGradient></defs>
+<path d="M20.0 176.5 L29.6 175.4 L39.2 174.5 L48.8 172.9 L58.4 171.2 L68.0 169.5 L77.6 167.8 L87.2 166.1 L96.8 164.1 L106.4 162.1 L116.0 160.0 L125.6 158.2 L135.2 156.3 L144.8 154.3 L154.4 152.3 L164.0 150.3 L173.6 148.3 L183.2 146.0 L192.8 143.8 L202.4 141.1 L212.0 138.4 L221.6 135.5 L231.2 133.0 L240.8 130.1 L250.4 127.6 L260.0 124.9 L269.6 122.1 L279.2 118.9 L288.8 115.8 L298.4 112.7 L308.0 109.3 L317.6 105.8 L327.2 102.7 L336.8 99.0 L346.4 94.8 L356.0 90.3 L365.6 85.7 L375.2 80.5 L384.8 75.4 L394.4 70.5 L404.0 65.7 L413.6 60.2 L423.2 55.6 L432.8 51.2 L442.4 47.2 L452.0 44.0 L461.6 42.0 L471.2 40.1 L480.8 38.7 L490.4 38.1 L500.0 38.0 L509.6 38.2 L519.2 39.0 L528.8 40.6 L538.4 42.5 L548.0 44.6 L557.6 47.9 L567.2 52.1 L576.8 56.5 L586.4 61.2 L596.0 66.5 L605.6 71.5 L615.2 76.1 L624.8 81.0 L634.4 86.2 L644.0 91.0 L653.6 95.3 L663.2 99.5 L672.8 103.3 L682.4 106.5 L692.0 109.5 L701.6 112.6 L711.2 115.5 L720.8 118.2 L730.4 121.2 L740.0 124.0 L749.6 126.8 L759.2 129.3 L768.8 132.2 L778.4 135.2 L788.0 138.1 L797.6 140.7 L807.2 143.4 L816.8 145.7 L826.4 147.6 L836.0 149.8 L845.6 151.8 L855.2 153.8 L864.8 155.7 L874.4 157.6 L884.0 159.5 L893.6 161.8 L903.2 163.9 L912.8 166.3 L922.4 168.4 L932.0 170.5 L941.6 172.4 L951.2 174.4 L960.8 176.0 L970.4 176.9 L980.0 178.0 L980 200 L20 200 Z" fill="url(#pf)"/><path id="pline" class="pl" pathLength="1000" d="M20.0 176.5 L29.6 175.4 L39.2 174.5 L48.8 172.9 L58.4 171.2 L68.0 169.5 L77.6 167.8 L87.2 166.1 L96.8 164.1 L106.4 162.1 L116.0 160.0 L125.6 158.2 L135.2 156.3 L144.8 154.3 L154.4 152.3 L164.0 150.3 L173.6 148.3 L183.2 146.0 L192.8 143.8 L202.4 141.1 L212.0 138.4 L221.6 135.5 L231.2 133.0 L240.8 130.1 L250.4 127.6 L260.0 124.9 L269.6 122.1 L279.2 118.9 L288.8 115.8 L298.4 112.7 L308.0 109.3 L317.6 105.8 L327.2 102.7 L336.8 99.0 L346.4 94.8 L356.0 90.3 L365.6 85.7 L375.2 80.5 L384.8 75.4 L394.4 70.5 L404.0 65.7 L413.6 60.2 L423.2 55.6 L432.8 51.2 L442.4 47.2 L452.0 44.0 L461.6 42.0 L471.2 40.1 L480.8 38.7 L490.4 38.1 L500.0 38.0 L509.6 38.2 L519.2 39.0 L528.8 40.6 L538.4 42.5 L548.0 44.6 L557.6 47.9 L567.2 52.1 L576.8 56.5 L586.4 61.2 L596.0 66.5 L605.6 71.5 L615.2 76.1 L624.8 81.0 L634.4 86.2 L644.0 91.0 L653.6 95.3 L663.2 99.5 L672.8 103.3 L682.4 106.5 L692.0 109.5 L701.6 112.6 L711.2 115.5 L720.8 118.2 L730.4 121.2 L740.0 124.0 L749.6 126.8 L759.2 129.3 L768.8 132.2 L778.4 135.2 L788.0 138.1 L797.6 140.7 L807.2 143.4 L816.8 145.7 L826.4 147.6 L836.0 149.8 L845.6 151.8 L855.2 153.8 L864.8 155.7 L874.4 157.6 L884.0 159.5 L893.6 161.8 L903.2 163.9 L912.8 166.3 L922.4 168.4 L932.0 170.5 L941.6 172.4 L951.2 174.4 L960.8 176.0 L970.4 176.9 L980.0 178.0" fill="none" stroke="url(#pg)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="500.0" y1="32.0" x2="500.0" y2="16.0" stroke="rgba(255,255,255,.35)" stroke-width="1"/><text class="lbl top" x="500.0" y="10.0" text-anchor="middle">247 m</text>
+<text class="lbl" x="20" y="150" data-i18n="gpx.namsan.summit">남산 정상 업힐</text><text class="lbl" x="980" y="150" text-anchor="end">4.0 km · ↑177 m</text>
+</svg></div>
+<!-- States no amount — check-content [14] fails if a ₩ figure comes back. -->
 <p class="note" data-i18n="n.hero.note">애플워치 Series 4 이상과 아이폰이면 충분해요. 기록은 무료, 코치만 구독이에요. 대한민국 App Store에 먼저 나오고, 다른 나라는 차례로 출시합니다.</p>
 <div class="trust">
-<!-- 2026-10-03: two badges left this row — "계정도 서버도 없음" and "오늘 뭘 뛸지".
-     The second repeated the sentence directly above the CTAs, and the first is
-     a reassurance rather than a reason to choose; the page already says it in
-     the privacy section (n.priv.big), the runner-type link and FAQ a4. What is
-     left is the one thing a reader decides on: the price.
-     The second line carries this market's own size estimate rather than a
-     second KRW figure — a reader in Berlin can act on "rund 1,30 €" and cannot
-     act on ₩1,900 — with the estimate itself written once in
-     tools/price-approx.json and held to that market's currency by
-     check-content [22]. -->
-<a class="tbadge" href="#price"><b data-i18n="n.hero.b5n">월 ₩3,900</b><span data-i18n="n.hero.b5">기록은 무료 · 가격 자세히</span></a>
+<!-- 묶음 A 1-3: the first figure is what is free; the price follows it, with
+     this market's own size beside the KRW amount (tools/price-approx.json,
+     check-content [22]). -->
+<a class="tbadge" href="#price"><b data-i18n="n.hero.b5f">기록·오늘의 결정 무료</b><span data-i18n="n.hero.b5n">코치는 출시 후 월 ₩3,900</span><span class="sm" data-i18n="n.hero.b5">가격 자세히</span></a>
 </div>
 </div>
 </header>
@@ -1110,7 +1116,7 @@
 <div class="pathjump">
 <a href="#price" data-i18n="n.paths.j1">가격부터 볼게요</a>
 <a href="#privacy" data-i18n="n.paths.j2">내 데이터가 어디로 가는지부터</a>
-<a href="#beta" data-i18n="n.hero.cta1">베타 신청</a>
+<a href="#beta" data-i18n="n.hero.cta1">베타 초대 받기</a>
 </div>
 </div>
 </section>
@@ -1122,9 +1128,9 @@
 <h2 id="why-h" class="reveal" data-i18n="n.why.h2">러닝 시계를<br/>또 살 필요는 없어요</h2>
 <p class="sub reveal" data-i18n="n.why.sub">훈련 부하나 회복 시간을 보려면 가민, 코로스 같은 전용 시계가 있어야 한다고들 하죠. 그런데 그 계산에 필요한 센서는 이미 손목 위 애플워치에 다 들어 있어요.</p>
 <div class="cards">
-<div class="card tilt reveal" data-tilt="8"><div class="ic">⌚️</div><h3 data-i18n="n.why.c1h">센서는 이미 손목에</h3><p data-i18n="n.why.c1p">심박, GPS, 케이던스, 고도. 최근 모델은 접지 시간과 수직 진폭까지 잽니다.</p></div>
-<div class="card tilt reveal" data-tilt="8"><div class="ic">📐</div><h3 data-i18n="n.why.c2h">계산식은 공개돼 있고</h3><p data-i18n="n.why.c2p">훈련 부하, 회복 시간, 역치 추정은 스포츠과학에서 널리 쓰는 공개 공식이에요. 런비스는 그 공식을 워치와 아이폰 안에서 돌립니다.</p></div>
-<div class="card tilt reveal" data-tilt="8"><div class="ic">🗣️</div><h3 data-i18n="n.why.c3h">빠져 있던 건 코치였어요</h3><p data-i18n="n.why.c3p">숫자를 읽고, 오늘 할 일을 정하고, 달리는 동안 옆에서 말해 주는 사람. 런비스가 그 자리를 채웁니다.</p></div>
+<div class="card reveal"><span class="ic"><svg class="i" aria-hidden="true"><use href="#i-wrist"/></svg></span><h3 data-i18n="n.why.c1h">센서는 이미 손목에</h3><p data-i18n="n.why.c1p">심박, GPS, 케이던스, 고도. 최근 모델은 접지 시간과 수직 진폭까지 잽니다.</p></div>
+<div class="card reveal"><span class="ic"><svg class="i" aria-hidden="true"><use href="#i-formula"/></svg></span><h3 data-i18n="n.why.c2h">계산식은 공개돼 있고</h3><p data-i18n="n.why.c2p">훈련 부하, 회복 시간, 역치 추정은 스포츠과학에서 널리 쓰는 공개 공식이에요. 런비스는 그 공식을 워치와 아이폰 안에서 돌립니다.</p></div>
+<div class="card reveal"><span class="ic"><svg class="i" aria-hidden="true"><use href="#i-voice"/></svg></span><h3 data-i18n="n.why.c3h">빠져 있던 건 코치였어요</h3><p data-i18n="n.why.c3p">숫자를 읽고, 오늘 할 일을 정하고, 달리는 동안 옆에서 말해 주는 사람. 런비스가 그 자리를 채웁니다.</p></div>
 </div>
 </div>
 </section>
@@ -1181,18 +1187,18 @@
 <p class="sub reveal" data-i18n="n.live.sub">코치의 말에는 모두 센서가 잡은 이유가 있어요. 눌러서 실제 안내를 들어 보세요.</p>
 <p class="honest reveal" data-i18n="n.live.siri">"시리야, 런비스에서 러닝 시작"이라고 말하면 러닝 시작 화면이 바로 열려요. 6개 언어 모두 됩니다.</p>
 <div class="voice-grid reveal">
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 페이스 안내 (무료)" data-i18n-attr="aria-label:n.vc1.aria" data-say="목표보다 25초 빠릅니다"><div class="sensor" data-i18n="n.vc1.sensor">📡 목표보다 20초 이상 벗어난 상태가 20초 넘게 이어질 때</div><div class="play"><span data-i18n="n.vc1.play">페이스</span><span class="pill free" data-i18n="n.pill.free">무료</span></div><div class="line" data-i18n="n.vc1.line">"목표보다 25초 빠릅니다"</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 언덕 예고 (무료)" data-i18n-attr="aria-label:n.vc2.aria" data-say="300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><div class="sensor" data-i18n="n.vc2.sensor">📡 코스의 고도를 미리 읽어요. 자주 달리는 길이면 500m쯤 달렸을 때 알아보고 언덕을 예고합니다</div><div class="play"><span data-i18n="n.vc2.play">언덕 예고</span><span class="pill free" data-i18n="n.pill.free">무료</span></div><div class="line" data-i18n="n.vc2.line">"300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 보폭 안내 (구독)" data-i18n-attr="aria-label:n.vc3.aria" data-say="케이던스가 기준보다 5퍼센트 낮아요 — 보폭을 조금 줄여볼까요."><div class="sensor" data-i18n="n.vc3.sensor">📡 보폭 안내 · 평지에서 일정한 페이스로 달릴 때만 봐요. 케이던스가 분당 130~160보이면서 내 평소보다 5% 낮은 상태가 30초 이어지면 말하고, 접지 시간이 300ms를 넘거나 수직 진폭이 커져도 같은 안내를 해요(이 둘은 케이던스 범위와 무관). 출발 6분 뒤부터, 러닝 한 번에 2번까지. 설정의 ‘자세’ 항목 하나로 이 안내와 폼 안내를 함께 켜고 끕니다.</div><div class="play"><span data-i18n="n.vc3.play">보폭</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></div><div class="line" data-i18n="n.vc3.line">"케이던스가 기준보다 5퍼센트 낮아요 — 보폭을 조금 줄여볼까요."</div></div>
-<div class="vchip tilt" data-tilt="6" role="button" tabindex="0" aria-pressed="false" aria-label="예시 음성 재생: 회복 안내 (구독)" data-i18n-attr="aria-label:n.vc4.aria" data-say="심박이 존 쓰리까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><div class="sensor" data-i18n="n.vc4.sensor">📡 걸으며 회복하는 동안 심박존이 한 칸 내려올 때 · 화면엔 '존 3', 워치는 '존 쓰리'로 읽어요. 한국어 음성이 '존 일'과 '존 이'를 헷갈리게 들려서 숫자만 영어로 말합니다</div><div class="play"><span data-i18n="n.vc4.play">회복</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></div><div class="line" data-i18n="n.vc4.line">"심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."</div></div>
+<button class="vchip" type="button" aria-pressed="false" data-say="목표보다 25초 빠릅니다"><span class="sensor"><svg class="i" aria-hidden="true"><use href="#i-pulse"/></svg><span id="vc1s" data-i18n="n.vc1.sensor">목표보다 20초 이상 벗어난 상태가 20초 넘게 이어질 때</span></span><span class="play" id="vc1p"><span data-i18n="n.vc1.play">페이스</span> <span class="pill free" data-i18n="n.pill.free">무료</span></span><span class="line" id="vc1l" data-i18n="n.vc1.line">"목표보다 25초 빠릅니다"</span></button>
+<button class="vchip" type="button" aria-pressed="false" data-say="300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."><span class="sensor"><svg class="i" aria-hidden="true"><use href="#i-pulse"/></svg><span id="vc2s" data-i18n="n.vc2.sensor">코스의 고도를 미리 읽어요. 자주 달리는 길이면 500m쯤 달렸을 때 알아보고 언덕을 예고합니다</span></span><span class="play" id="vc2p"><span data-i18n="n.vc2.play">언덕 예고</span> <span class="pill free" data-i18n="n.pill.free">무료</span></span><span class="line" id="vc2l" data-i18n="n.vc2.line">"300미터 앞, 800미터 오르막이 시작됩니다. 평균 경사 4퍼센트. 보폭을 줄이고 리듬을 유지하세요."</span></button>
+<button class="vchip" type="button" aria-pressed="false" data-say="케이던스가 기준보다 5퍼센트 낮아요 — 보폭을 조금 줄여볼까요."><span class="sensor"><svg class="i" aria-hidden="true"><use href="#i-pulse"/></svg><span id="vc3s" data-i18n="n.vc3.sensor">보폭 안내 · 평지에서 일정한 페이스로 달릴 때만 봐요. 케이던스가 분당 130~160보이면서 내 평소보다 5% 낮은 상태가 30초 이어지면 말하고, 접지 시간이 300ms를 넘거나 수직 진폭이 커져도 같은 안내를 해요(이 둘은 케이던스 범위와 무관). 출발 6분 뒤부터, 러닝 한 번에 2번까지. 설정의 ‘자세’ 항목 하나로 이 안내와 폼 안내를 함께 켜고 끕니다.</span></span><span class="play" id="vc3p"><span data-i18n="n.vc3.play">보폭</span> <span class="pill pro" data-i18n="n.pill.pro">구독</span></span><span class="line" id="vc3l" data-i18n="n.vc3.line">"케이던스가 기준보다 5퍼센트 낮아요 — 보폭을 조금 줄여볼까요."</span></button>
+<button class="vchip" type="button" aria-pressed="false" data-say="심박이 존 쓰리까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."><span class="sensor"><svg class="i" aria-hidden="true"><use href="#i-pulse"/></svg><span id="vc4s" data-i18n="n.vc4.sensor">걸으며 회복하는 동안 심박존이 한 칸 내려올 때 · 화면엔 '존 3', 워치는 '존 쓰리'로 읽어요. 한국어 음성이 '존 일'과 '존 이'를 헷갈리게 들려서 숫자만 영어로 말합니다</span></span><span class="play" id="vc4p"><span data-i18n="n.vc4.play">회복</span> <span class="pill pro" data-i18n="n.pill.pro">구독</span></span><span class="line" id="vc4l" data-i18n="n.vc4.line">"심박이 존 3까지 내려왔어요. 잘 회복되고 있습니다. 조금만 더요."</span></button>
 </div>
 <p class="sr-only" id="voiceStatus" role="status" aria-live="polite"></p>
 <h3 class="steps-h reveal"><span data-i18n="n.steps.h">출발 버튼은 한 번이면 돼요</span><span class="pill free" data-i18n="n.pill.free">무료</span></h3>
 <p class="honest reveal" style="margin-top:8px" data-i18n="n.steps.note">화면, 타이머, 자동 시작은 무료예요. 코치가 목소리로 함께 진행하는 부분이 구독입니다.</p>
 <div class="steps reveal">
-<div class="step tilt" data-tilt="5"><div class="sn">1</div><h4 data-i18n="n.step1h">날씨 브리핑</h4><p class="q" data-i18n="n.step1q">"현재 기온 26도, 습도 78퍼센트입니다. 덥고 습해서 땀 증발이 잘 안 되는 날이에요."</p><p data-i18n="n.step1p">지금 있는 동네의 실시간 날씨로 알려 드려요.</p></div>
-<div class="step tilt" data-tilt="5"><div class="sn">2</div><h4 data-i18n="n.step2h">준비운동</h4><p class="q" data-i18n="n.step2q">"목 돌리기, 20초. 반대 방향으로. 셋, 둘, 하나."</p><p data-i18n="n.step2p">단계별 타이머가 이끌고, 코치를 켜면 목소리로 함께 세어 줘요.</p></div>
-<div class="step tilt" data-tilt="5"><div class="sn">3</div><h4 data-i18n="n.step3h">그냥 달리세요</h4><p class="q" data-i18n="n.step3q">"달리기 시작하셨네요. 기록 시작합니다."</p><p data-i18n="n.step3p">손목에서 달리기 리듬이 잡히면 알아서 기록을 시작해요.</p></div>
+<div class="step"><div class="sn">1</div><h4 data-i18n="n.step1h">날씨 브리핑</h4><p class="q" data-i18n="n.step1q">"현재 기온 26도, 습도 78퍼센트입니다. 덥고 습해서 땀 증발이 잘 안 되는 날이에요."</p><p data-i18n="n.step1p">지금 있는 동네의 실시간 날씨로 알려 드려요.</p></div>
+<div class="step"><div class="sn">2</div><h4 data-i18n="n.step2h">준비운동</h4><p class="q" data-i18n="n.step2q">"목 돌리기, 20초. 반대 방향으로. 셋, 둘, 하나."</p><p data-i18n="n.step2p">단계별 타이머가 이끌고, 코치를 켜면 목소리로 함께 세어 줘요.</p></div>
+<div class="step"><div class="sn">3</div><h4 data-i18n="n.step3h">그냥 달리세요</h4><p class="q" data-i18n="n.step3q">"달리기 시작하셨네요. 기록 시작합니다."</p><p data-i18n="n.step3p">손목에서 달리기 리듬이 잡히면 알아서 기록을 시작해요.</p></div>
 </div>
 <p class="reveal" style="text-align:center;margin-top:34px"><a class="btn ghost" data-i18n="n.live.demo" href="run.html">5km 데모에서 코치가 언제 말하고 언제 조용한지 들어 보기</a></p>
 </div>
@@ -1205,18 +1211,18 @@
 <h2 id="after-h" class="reveal" data-i18n="n.after.h2">달리고 나면<br/>숫자보다 이유가 보여요</h2>
 <p class="sub reveal" data-i18n="n.after.sub">구간 기록, 심박존, 러닝 다이내믹스, 한 줄 코칭은 무료예요. 구독하면 러닝 도중 가장 빨랐던 구간을 찾아 주는 코치 기록 레이더, 젖산 역치 추정, 이번 주 거리 예산까지 볼 수 있어요.</p>
 <div class="tiles">
-<div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t1">운동 상세 리포트</span><span class="pill free" data-i18n="n.pill.free">무료</span></h3><p data-i18n="n.after.t1p">구간별 페이스, 심박존 분포, 케이던스와 접지 시간 평균, 그리고 이번 러닝에 대한 코치의 한 줄.</p></div>
-<div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t2">몸 리포트</span><span class="pill free" data-i18n="n.pill.free">무료</span></h3><p data-i18n="n.after.t2p">준비도, 수면, HRV, 안정시 심박, VO₂max. 누르면 추세 차트와 내 28일 평소 범위가 펼쳐져요.</p></div>
-<div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t3">코치 기록 레이더 (구간 최속 · PR 북)</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></h3><p data-i18n="n.after.t3p">완주 기록이 아니라, 러닝 도중 가장 빨랐던 1K·5K·10K·하프 구간을 최근 90일 기록에서 골라냅니다. 지난 기록과 얼마나 차이 나는지도 함께 보여 줘요.</p></div>
+<div class="tile reveal"><h3><span data-i18n="n.after.t1">운동 상세 리포트</span><span class="pill free" data-i18n="n.pill.free">무료</span></h3><p data-i18n="n.after.t1p">구간별 페이스, 심박존 분포, 케이던스와 접지 시간 평균, 그리고 이번 러닝에 대한 코치의 한 줄.</p></div>
+<div class="tile reveal"><h3><span data-i18n="n.after.t2">몸 리포트</span><span class="pill free" data-i18n="n.pill.free">무료</span></h3><p data-i18n="n.after.t2p">준비도, 수면, HRV, 안정시 심박, VO₂max. 누르면 추세 차트와 내 28일 평소 범위가 펼쳐져요.</p></div>
+<div class="tile reveal"><h3><span data-i18n="n.after.t3">코치 기록 레이더 (구간 최속 · PR 북)</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></h3><p data-i18n="n.after.t3p">완주 기록이 아니라, 러닝 도중 가장 빨랐던 1K·5K·10K·하프 구간을 최근 90일 기록에서 골라냅니다. 지난 기록과 얼마나 차이 나는지도 함께 보여 줘요.</p></div>
 <!-- The fallback chain (30 min → 20 min → three whole runs) is a spec, not
      landing copy: five sibling tiles run one or two sentences and this one ran
      a four-clause, three-branch conditional. Folded behind the same <details
      class="gate"> the price card already uses for exactly this kind of text —
      a closed <details> is still in the DOM for crawlers and for Ctrl+F. -->
-<div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t4">젖산 역치 추정</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></h3><p data-i18n="n.after.t4p">최근 90일 러닝에서 30분 최고 구간을 2번 이상 찾아 역치 페이스와 심박을 추정해요. 최대심박을 입력해 두면 그 85% 이상으로 버틴 구간만 계산에 씁니다.</p>
+<div class="tile reveal"><h3><span data-i18n="n.after.t4">젖산 역치 추정</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></h3><p data-i18n="n.after.t4p">최근 90일 러닝에서 30분 최고 구간을 2번 이상 찾아 역치 페이스와 심박을 추정해요. 최대심박을 입력해 두면 그 85% 이상으로 버틴 구간만 계산에 씁니다.</p>
 <details class="gate"><summary data-i18n="n.after.t4h">30분 구간이 없으면요?</summary><p data-i18n="n.after.t4g">30분 구간이 없으면 20분 구간으로 계산해요. 그것도 없으면 최대심박 85% 이상으로 20분 이상 달린 러닝 세 번의 평균으로 추정하는데, 이 방법은 최대심박을 입력해 둬야 쓸 수 있어요. 어느 방법으로 계산했는지는 화면에 항상 표시됩니다.</p></details></div>
-<div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t5">코치 브레이크</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></h3><p data-i18n="n.after.t5p">최근 4주 훈련량으로 이번 주 거리 예산을 잡아요. 통증이 있다고 답하면 그 예산을 줄입니다.</p></div>
-<div class="tile tilt reveal" data-tilt="7"><h3><span data-i18n="n.after.t6">런비스 체력 지수</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></h3><p data-i18n="n.after.t6p">구간 최속에서 거꾸로 계산한 체력 지수로 거리별 기록을 예측해요. 애플워치의 VO₂max와 나란히 비교해 볼 수 있습니다.</p></div>
+<div class="tile reveal"><h3><span data-i18n="n.after.t5">코치 브레이크</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></h3><p data-i18n="n.after.t5p">최근 4주 훈련량으로 이번 주 거리 예산을 잡아요. 통증이 있다고 답하면 그 예산을 줄입니다.</p></div>
+<div class="tile reveal"><h3><span data-i18n="n.after.t6">런비스 체력 지수</span><span class="pill pro" data-i18n="n.pill.pro">구독</span></h3><p data-i18n="n.after.t6p">구간 최속에서 거꾸로 계산한 체력 지수로 거리별 기록을 예측해요. 애플워치의 VO₂max와 나란히 비교해 볼 수 있습니다.</p></div>
 </div>
 <p class="honest reveal" data-i18n="n.after.honest"><b>추정값은 '추정'이라고 밝힙니다.</b> 근거가 부족하면 "학습 중"으로 남겨 둬요. 확신할 수 없는 지표는 처음부터 넣지 않았습니다.</p>
 <div class="row flip reveal">
@@ -1271,7 +1277,7 @@
      D-16 the target hour is not in the array and the card comes back empty
      while still reporting itself in range. The page states the day the card
      actually fills. -->
-<li data-i18n="n.race.lb3">대회 16일 전부터는 대회 날 예보까지 반영한 예상 기록</li>
+<li data-i18n="n.race.lb3">대회 15일 전부터는 대회 날 예보까지 반영한 예상 기록</li>
 </ul>
 </div>
 </div>
@@ -1295,7 +1301,7 @@
 <h2 id="price-h" class="reveal" data-i18n="n.price.h2">기록은 무료,<br/>코치는 월 ₩3,900</h2>
 <p class="sub reveal" data-i18n="n.price.sub">기록, 플랜 보기, 리포트는 무료예요. 코치가 직접 말하고 분석해 주는 기능이 구독입니다. App Store가 체험 대상으로 판단한 계정은 첫 1개월을 무료로 써 볼 수 있고, 월간이든 연간이든 무료 기간은 똑같이 1개월이에요.</p>
 <div class="price">
-<div class="plan tilt reveal" data-tilt="5">
+<div class="plan reveal">
 <div class="name" data-i18n="n.price.freeName">기본</div>
 <div class="amt" data-i18n="pr.free">₩0</div>
 <ul>
@@ -1324,7 +1330,7 @@
      which. Ghost button, so it does not compete with the beta CTA below. -->
 <a class="btn ghost" href="run.html" style="margin-top:18px" data-i18n="n.price.freecta">무료로 어디까지 되는지 5km 데모로 확인하기</a>
 </div>
-<div class="plan pro tilt reveal" data-tilt="5">
+<div class="plan pro reveal">
 <span class="ribbon" data-i18n="pl.ribbon">체험 대상 계정은 1개월 무료</span>
 <div class="name" data-i18n="pl.coach">런비스 코치</div>
 <!-- The ribbon used to promise the trial in the indicative ("첫 구독이면 무료
@@ -1444,7 +1450,7 @@
      region note now lives only on the card — the place a buyer is actually
      looking — and the launch and cancellation lines share one paragraph. -->
 <p class="note"><span data-i18n="pr.launch">런비스는 대한민국 App Store에 먼저 나오고, 다른 나라는 차례로 출시합니다. 출시 시점은 TestFlight 베타가 끝난 뒤에 정해지고, 정해지면 이 페이지에서 가장 먼저 알려 드릴게요.</span> <span data-i18n="n.price.cancel">구독은 App Store 계정 설정에서 언제든 해지할 수 있어요. 해지해도 남은 기간은 그대로 쓰고, 그다음부터 자동 갱신이 멈춥니다. 환불은 Apple의 환불 정책을 따릅니다.</span></p>
-<div class="reveal" style="text-align:center;margin-top:26px"><a class="btn" href="#beta" data-i18n="n.price.cta">베타로 먼저 써 보거나, 출시 알림만 받기</a></div>
+<div class="reveal" style="text-align:center;margin-top:26px"><a class="btn" href="#beta" data-entry="price" data-i18n="n.price.cta">베타로 먼저 써 보거나, 출시 알림만 받기</a></div>
 </div>
 </section>
 
@@ -1454,7 +1460,7 @@
 <div class="eyebrow reveal" data-i18n="n.faq.eb">자주 묻는 질문</div>
 <h2 id="faq-h" class="reveal" data-i18n="n.faq.h2">시작하기 전에 궁금한 것들</h2>
 <div class="tiles">
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q1">워치가 없어도 되나요?</h3><!-- The old answer promised heart-rate zone calls on the phone with a
+<div class="tile reveal"><h3 data-i18n="n.faq.q1">워치가 없어도 되나요?</h3><!-- The old answer promised heart-rate zone calls on the phone with a
      subscription and stopped there. The iPhone has no heart-rate sensor:
      PhoneWorkoutManager reads HR only from HeartRateBandManager (Bluetooth
      Heart Rate Service 0x180D), and PhoneCoachPlan.zoneCue returns nil the
@@ -1462,20 +1468,20 @@
      matter what the subscriber paid. Pace cues need no strap; they run off
      GPS. Both facts are in the answer now. -->
 <p data-i18n="n.faq.a1">네. 아이폰만으로도 GPS로 기록하고, 1km(마일 설정이면 1마일)마다 구간 페이스 안내를 받을 수 있어요. 구독 없이 아이폰만 들고 달리면 들리는 음성은 이 구간 안내와, 입문 가이드(3가지)로 달릴 때 나오는 달리기·걷기 전환 구령이에요. 구독하면 아이폰에서도 페이스 안내가 나오고, 심박존 안내는 아이폰에 심박 센서가 없어서 블루투스 심박 밴드(폴라 H10, 와후 TICKR 같은 표준 BLE 심박 스트랩)를 연결했을 때만 나와요. 자세 코칭, 언덕 예고, 경로 이탈 경보는 워치로 달릴 때만 됩니다.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q2">어떤 애플워치가 필요한가요?</h3><!-- "Any model with heart rate and GPS" was not the real requirement:
+<div class="tile reveal"><h3 data-i18n="n.faq.q2">어떤 애플워치가 필요한가요?</h3><!-- "Any model with heart rate and GPS" was not the real requirement:
      project.yml sets the deployment targets to watchOS 10.0 and iOS 17.0, and
      a Series 3 has both sensors but stops at watchOS 8. The OS floor goes
      first because it is the line that excludes a device. -->
 <p data-i18n="n.faq.a2">watchOS 10 이상(Apple Watch Series 4 이상)과 iOS 17 이상이면 돼요. 심박과 GPS만 있으면 충분하고, 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 세밀해져요. 이 두 값을 못 재는 모델에서는 케이던스를 기준으로 코칭합니다.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q3">해지하면 기록은 어떻게 되나요?</h3><p data-i18n="n.faq.a3">기록은 Apple 건강에 그대로 남아요. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 쓸 수 있어요.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q6">기록이 하나도 없어도 쓸 수 있나요?</h3><p data-i18n="n.faq.a6">네. 워치로 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 바로 나와요. 이 측정은 워치에서만 할 수 있어요. 아이폰만 있다면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기를 쓸 수 있고, 플랜은 최근 주간 거리를 기준으로 시작해요. 건강 앱에 이미 기록이 있다면, 건강 앱을 연결한 바로 다음 화면에서 지난 90일의 주간 거리·가장 빠른 러닝·HRV 범위를 실제 값으로 보여 주고, 지난 HRV와 4주치 운동이 충분하면 준비도와 부하 증가 속도도 첫날부터 나와요. 기록이 없다면 준비도는 워치를 차고 잔 밤이 쌓여야 해서 보통 2주쯤, 부하 증가 속도(ACWR)는 4주쯤 걸려요. 기준 대비 효율은 최대심박을 입력한 뒤, 심박이 기록된 10분 넘는 러닝을 같은 강도(이지·중간·고강도)로 3번 채우면 나옵니다. 처음 몇 번은 강도나 측정 시점을 아직 가려내지 못한 기준선과 비교되는데, 그 사실도 화면에 함께 표시해요.</p></div>
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q8">평생 이용권과 연간 중 뭐가 유리한가요?</h3><p data-i18n="n.faq.a8">평생 이용권은 자동 갱신 없는 한 번 결제예요. 연간 기준 약 2년, 월간 기준 약 15개월이면 본전이라, 그보다 오래 쓰실 생각이면 평생 이용권이 더 저렴해요. Apple 가족 공유가 되는 요금제도 평생 이용권 하나뿐이고, 월간·연간 구독은 가족 공유 대상이 아닙니다.</p></div>
+<div class="tile reveal"><h3 data-i18n="n.faq.q3">해지하면 기록은 어떻게 되나요?</h3><p data-i18n="n.faq.a3">기록은 Apple 건강에 그대로 남아요. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 쓸 수 있어요.</p></div>
+<div class="tile reveal"><h3 data-i18n="n.faq.q6">기록이 하나도 없어도 쓸 수 있나요?</h3><p data-i18n="n.faq.a6">네. 워치로 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 바로 나와요. 이 측정은 워치에서만 할 수 있어요. 아이폰만 있다면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기를 쓸 수 있고, 플랜은 최근 주간 거리를 기준으로 시작해요. 건강 앱에 이미 기록이 있다면, 건강 앱을 연결한 바로 다음 화면에서 지난 90일의 주간 거리·가장 빠른 러닝·HRV 범위를 실제 값으로 보여 주고, 지난 HRV와 4주치 운동이 충분하면 준비도와 부하 증가 속도도 첫날부터 나와요. 기록이 없다면 준비도는 워치를 차고 잔 밤이 쌓여야 해서 보통 2주쯤, 부하 증가 속도(ACWR)는 4주쯤 걸려요. 기준 대비 효율은 최대심박을 입력한 뒤, 심박이 기록된 10분 넘는 러닝을 같은 강도(이지·중간·고강도)로 3번 채우면 나옵니다. 처음 몇 번은 강도나 측정 시점을 아직 가려내지 못한 기준선과 비교되는데, 그 사실도 화면에 함께 표시해요.</p></div>
+<div class="tile reveal"><h3 data-i18n="n.faq.q8">평생 이용권과 연간 중 뭐가 유리한가요?</h3><p data-i18n="n.faq.a8">평생 이용권은 자동 갱신 없는 한 번 결제예요. 연간 기준 약 2년, 월간 기준 약 15개월이면 본전이라, 그보다 오래 쓰실 생각이면 평생 이용권이 더 저렴해요. Apple 가족 공유가 되는 요금제도 평생 이용권 하나뿐이고, 월간·연간 구독은 가족 공유 대상이 아닙니다.</p></div>
 <!-- A question the page had been leaving to the download: there is no iCloud
      sync (no paid developer account). Better answered before the install than
      after. (2026-10-03: the complication/widget answer beside it, the trial,
      data and six-language answers were removed with the 3차 덜어내기 — the
      price section, the privacy section and the store sheet already say them.) -->
-<div class="tile tilt reveal" data-tilt="6"><h3 data-i18n="n.faq.q9">기기를 바꾸면 어떻게 되나요?</h3><p data-i18n="n.faq.a9">러닝 기록은 Apple 건강에 저장돼 있어서 새 기기의 건강 앱이 그대로 가져와요. 런비스 안에만 있던 값(프로필, 심박존, 신발 목록, 코치가 쌓은 기준선)은 설정 → 데이터 → '내 데이터 내보내기'로 파일 하나에 담아 두었다가, 새 기기에서 '백업에서 가져오기'로 되살리면 돼요. 이 파일은 직접 저장한 곳에만 남고, 런비스가 어디로도 보내지 않아요. 구독은 App Store의 '구매 복원'으로 되찾을 수 있습니다.</p></div>
+<div class="tile reveal"><h3 data-i18n="n.faq.q9">기기를 바꾸면 어떻게 되나요?</h3><p data-i18n="n.faq.a9">러닝 기록은 Apple 건강에 저장돼 있어서 새 기기의 건강 앱이 그대로 가져와요. 런비스 안에만 있던 값(프로필, 심박존, 신발 목록, 코치가 쌓은 기준선)은 설정 → 데이터 → '내 데이터 내보내기'로 파일 하나에 담아 두었다가, 새 기기에서 '백업에서 가져오기'로 되살리면 돼요. 이 파일은 직접 저장한 곳에만 남고, 런비스가 어디로도 보내지 않아요. 구독은 App Store의 '구매 복원'으로 되찾을 수 있습니다.</p></div>
 </div>
 </div>
 </section>
@@ -1509,14 +1515,21 @@
 <!-- placeholder was the only accessible name this field had, and a placeholder
      stops existing the moment the reader types (WCAG 3.3.2). aria-label carries
      the same dictionary key, so no new translation was needed. -->
-<input name="email" placeholder="이메일 주소" aria-label="이메일 주소" data-i18n-attr="placeholder:ph.email,aria-label:ph.email" required="" type="email"/>
+<label class="flabel" for="betaEmail" data-i18n="ph.email">이메일 주소</label>
+<input id="betaEmail" name="email" autocomplete="email" inputmode="email" placeholder="name@example.com" required="" type="email"/>
+<!-- Measurement without a server or a cookie (묶음 A 1-4 ⑥): which button
+     brought the reader to this form, and the language the page was shown in.
+     Both are filled in by the page script at submit time and are listed in
+     privacy.html §6 (pv.s6.li1). -->
+<input type="hidden" name="entry" value="direct"/>
+<input type="hidden" name="lang" value="ko"/>
 <fieldset class="want">
 <legend data-i18n="n.beta.want">무엇을 받고 싶으세요?</legend>
 <label><input name="want" type="radio" value="beta" checked=""/> <span data-i18n="n.beta.want1">베타 참여: TestFlight 초대를 받을게요</span></label>
 <label><input name="want" type="radio" value="launch"/> <span data-i18n="n.beta.want2">출시 알림만: 나오면 한 번만 알려 주세요</span></label>
 </fieldset>
 <div class="consent">
-<div>· <b data-i18n="t161">수집 목적</b><span data-i18n="cs.purpose">: TestFlight 베타 초대장 발송</span></div>
+<div>· <b data-i18n="t161">수집 목적</b><span id="csPurpose" data-i18n="cs.purpose">: TestFlight 베타 초대장 발송</span></div>
 <!-- The consent screen is the notice that binds, so it has to state the same
      period the policy does. It used to say "베타 종료 또는 수신 동의 철회 시까지"
      while privacy.html §6 said "목적 달성 시 지체 없이, 늦어도 1년". Same
@@ -1525,8 +1538,8 @@
      wrapped there, the newlines around it collapsed into one space and the
      line rendered as "보관 기간 : 베타…" while the "수집 목적" line one row up
      rendered without the gap (2026-09-06 라운드 13, -0.5). -->
-<div>· <b data-i18n="t162">보관 기간</b><span data-i18n="cs.retain">: 베타 초대 발송 등 수집 목적 달성 시 지체 없이 파기 · 늦어도 수집일로부터 1년 이내</span></div>
-<label><input name="privacy_consent" type="checkbox" value="yes" required=""/> <span data-i18n="n.beta.required">(필수) 베타 초대장 발송을 위한 이메일 수집·이용에 동의합니다.</span></label>
+<div>· <b data-i18n="t162">보관 기간</b><span id="csRetain" data-i18n="cs.retain">: 베타 초대 발송 등 수집 목적 달성 시 지체 없이 파기 · 늦어도 수집일로부터 1년 이내</span></div>
+<label><input name="privacy_consent" type="checkbox" value="yes" required=""/> <span id="csRequired" data-i18n="n.beta.required">(필수) 베타 초대장 발송을 위한 이메일 수집·이용에 동의합니다.</span></label>
 <label><input name="marketing_consent" type="checkbox" value="yes"/> <span data-i18n="cs.marketing">(선택) 출시 소식·업데이트 등 마케팅 정보 수신에 동의합니다.</span></label>
 <!-- run.html has carried this line next to its identical consent block all
      along; index.html only linked the policy much further down. The document
@@ -1546,7 +1559,7 @@
      thing being queued for — Apple caps TestFlight external testers at 10,000
      — and n.beta.s2 on how-it-works.html has stated it all along. It moves to
      where the decision is made. Still no invented figure, and still no date. -->
-<p class="order-note" data-i18n="n.beta.order">여는 날짜는 아직 없어요. 초대는 신청하신 순서대로 나가요. 애플이 정한 TestFlight 외부 테스터 상한은 1만 명이라, 먼저 신청하실수록 먼저 초대받아요.</p>
+<p class="order-note" id="betaOrder" data-i18n="n.beta.order">여는 날짜는 아직 없어요. 초대는 신청하신 순서대로 나가요. TestFlight는 애플이 만든 무료 베타 설치 앱이에요.</p>
 <!-- The binding STAYS, so the prerendered copies and a no-JS reader get this
      label in their own language. The script at the bottom of the page then
      swaps it for 출시 알림 받기 when the second radio is picked, and re-runs
@@ -1576,7 +1589,7 @@
      invitation. Every item points at something that exists in this repository
      today: the demo page, the calculator, the thirteen GPX files, the four
      beta steps, the privacy policy. -->
-<h4 data-i18n="n.beta.nowh">기다리는 동안 해 볼 수 있는 것</h4>
+<h3 data-i18n="n.beta.nowh">기다리는 동안 해 볼 수 있는 것</h3>
 <ul class="dolist">
 <li data-i18n="n.beta.do1"><a href="run.html">5km 데모</a>: 코치가 언제 말하고 언제 조용한지, 무료 음성과 구독 음성이 어디서 갈리는지 직접 들어 보세요.</li>
 <li data-i18n="n.beta.do2"><a href="how-it-works.html#zones">심박존 계산기</a>: 앱이 코치 음성에 쓰는 것과 같은 카르보넨 공식으로 내 심박존 5개를 계산해 보세요. 나이와 안정시 심박만 있으면 돼요.</li>
@@ -1596,7 +1609,7 @@
      tell me when it ships" had no route except scrolling to the bottom and
      finding a radio button. Two buttons now; the second one preselects that
      radio on the way to the form. -->
-<div class="sticky-cta" id="stickyCta"><a class="btn" href="#beta" data-i18n="n.hero.cta1">베타 신청</a><a class="btn ghost" id="stickyLaunch" href="#beta" data-i18n="n.beta.cta2">출시 알림 받기</a></div>
+<div class="sticky-cta" id="stickyCta"><a class="btn" href="#beta" data-entry="sticky" data-i18n="n.nav.cta">베타 신청</a><a class="btn ghost" id="stickyLaunch" href="#beta" data-entry="sticky" data-i18n="n.beta.cta2">출시 알림 받기</a></div>
 <footer>
 <div class="wrap">
 <div class="links">
@@ -1608,146 +1621,124 @@
 </div>
 <div class="logo" style="font-size:16px">Run<b>vis</b></div>
 <p class="disclaimer" data-i18n="t166">Runvis의 모든 지표와 안내는 일반적인 운동과학 공식에 기반한 참고 정보이며, 의학적 조언이 아니고 건강 상태를 판정하지 않습니다. 흉통·어지럼 등 이상 증상이 있으면 운동을 중단하고 전문가와 상담하세요. Apple Watch는 Apple Inc.의 상표입니다. Runvis는 Apple과 제휴하지 않은 독립 앱입니다.</p>
-<p class="biz" style="margin-top:16px;font-size:12px;opacity:.75" data-i18n="ft.biz">쿠라라 스튜디오 · 대표 정동호 · 사업자등록번호: 267-25-02206 · 서울특별시 서초구 · <a href="mailto:help@runvis.app">help@runvis.app</a></p>
+<p class="biz" style="margin-top:16px;font-size:13px" data-i18n="ft.biz">쿠라라 스튜디오 · 대표 정동호 · 사업자등록번호: 267-25-02206 · 서울특별시 서초구 · <a href="mailto:help@runvis.app">help@runvis.app</a></p>
 <p style="margin-top:8px" data-i18n="ft.copy">© 2026 쿠라라 스튜디오 · 런비스</p>
 </div>
 </footer>
 
 <script>
-// --- nav overflow affordance ------------------------------------------------
-// Between 701 and 920 px the link row scrolls with its scrollbar hidden, and a
-// hidden scrollbar on a row that overflows is a row whose last items simply do
-// not exist as far as the reader is concerned. Fade whichever end still has
-// something past it — and nothing at all when the row fits.
+// --- nav height → --navh -----------------------------------------------------
+// The hero is one screen tall minus the bar above it, and the bar is one row on
+// a wide screen and two on a phone (more in German). A ResizeObserver reports
+// the height after layout, so reading it costs no forced reflow — unlike the
+// scrollWidth read that used to run here synchronously while the page was
+// still being parsed (~70 ms on a mid-range phone, 점검 보고서 1-8).
 (function () {
-  const row = document.querySelector('nav .links');
-  if (!row) return;
-  function fade() {
-    const over = row.scrollWidth - row.clientWidth;
-    if (over <= 1) { row.style.maskImage = row.style.webkitMaskImage = ''; return; }
-    const stops = [];
-    stops.push(row.scrollLeft > 2 ? 'transparent 0, #000 26px' : '#000 0');
-    stops.push(row.scrollLeft < over - 2 ? '#000 calc(100% - 26px), transparent 100%' : '#000 100%');
-    const g = 'linear-gradient(to right,' + stops.join(',') + ')';
-    row.style.maskImage = g; row.style.webkitMaskImage = g;
-  }
-  row.addEventListener('scroll', fade, { passive: true });
-  addEventListener('resize', fade);
-  // The row's width changes with the language, so redo it when one lands.
-  addEventListener('runvis:lang', () => setTimeout(fade, 0));
-  fade();
+  const nav = document.querySelector('nav');
+  if (!nav || !('ResizeObserver' in window)) return;
+  new ResizeObserver(es => {
+    const h = Math.round(es[es.length - 1].borderBoxSize?.[0]?.blockSize ?? nav.offsetHeight);
+    if (h) document.documentElement.style.setProperty('--navh', h + 'px');
+  }).observe(nav);
 })();
 
-// --- motion layer: tilt cards, glare, float, magnetic buttons, scroll depth ---
-// Everything here is decoration. Reduced-motion users get a static page, and
-// the Apple device bezels are never rotated (Apple's marketing guidelines
-// forbid angled or perspective-altered product images) — they only float.
+// --- hero: pause control, video attach, course line --------------------------
+// 2026-10-25 (묶음 A 1-1·1-5). What used to live here was decoration: card tilt
+// with a glare, magnetic buttons, mouse parallax on the device group, and the
+// float loop on the Apple bezels. All of it is gone — the bezels may not move
+// (Apple marketing guidelines), the rest was the "AI template" signal the
+// review named, and none of it said anything about the product.
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
-
-  // 1) Tilt + glare on [data-tilt]. Pointer position → rotateX/rotateY, a
-  //    radial highlight follows the cursor through --gx/--gy.
-  if (!reduce && fine) {
-    document.querySelectorAll('[data-tilt]').forEach(el => {
-      const max = parseFloat(el.dataset.tilt) || 7;
-      let raf = 0, rx = 0, ry = 0, gx = 50, gy = 50, hovering = false;
-      const paint = () => {
-        raf = 0;
-        el.style.setProperty('--rx', rx.toFixed(2) + 'deg');
-        el.style.setProperty('--ry', ry.toFixed(2) + 'deg');
-        el.style.setProperty('--gx', gx.toFixed(1) + '%');
-        el.style.setProperty('--gy', gy.toFixed(1) + '%');
-      };
-      el.addEventListener('pointerenter', () => { hovering = true; el.classList.add('tilting'); });
-      el.addEventListener('pointermove', e => {
-        if (!hovering) return;
-        const r = el.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
-        ry = (px - .5) * 2 * max; rx = (.5 - py) * 2 * max; gx = px * 100; gy = py * 100;
-        if (!raf) raf = requestAnimationFrame(paint);
-      });
-      el.addEventListener('pointerleave', () => {
-        hovering = false; rx = ry = 0; gx = gy = 50; el.classList.remove('tilting');
-        if (!raf) raf = requestAnimationFrame(paint);
-      });
-    });
-  }
-
-  // 2) Magnetic buttons: the button leans a few px toward the cursor.
-  if (!reduce && fine) {
-    document.querySelectorAll('.btn').forEach(b => {
-      // Same rAF coalescing as the tilt and hero-depth handlers above: a
-      // pointermove can fire several times per frame and each write to
-      // `style.transform` forces its own style recalculation. This one used
-      // to write straight from the event — the only handler on the page that
-      // did — so a fast cursor across the two hero buttons cost 2-3× the
-      // layout work of everything else moving.
-      let raf = 0, dx = 0, dy = 0;
-      const paint = () => { raf = 0; b.style.transform = `translate(${(dx * 6).toFixed(1)}px, ${(dy * 6).toFixed(1)}px)`; };
-      b.addEventListener('pointermove', e => {
-        const r = b.getBoundingClientRect();
-        dx = (e.clientX - r.left - r.width / 2) / r.width; dy = (e.clientY - r.top - r.height / 2) / r.height;
-        if (!raf) raf = requestAnimationFrame(paint);
-      });
-      b.addEventListener('pointerleave', () => {
-        dx = dy = 0;
-        if (raf) { cancelAnimationFrame(raf); raf = 0; }
-        b.style.transform = '';
-      });
-    });
-  }
-
-  // 3) Hero depth: the device group and glow drift slightly against the
-  //    cursor (parallax by translate only — no rotation on the bezels).
+  const root = document.documentElement;
   const hero = document.getElementById('hero');
-  if (hero && !reduce && fine) {
-    const layers = hero.querySelectorAll('[data-depth]');
-    let raf = 0, mx = 0, my = 0;
-    const paint = () => {
-      raf = 0;
-      layers.forEach(l => {
-        const d = parseFloat(l.dataset.depth) || 0;
-        l.style.transform = `translate3d(${(mx * d).toFixed(1)}px, ${(my * d).toFixed(1)}px, 0)`;
-      });
-    };
-    hero.addEventListener('pointermove', e => {
-      const r = hero.getBoundingClientRect();
-      mx = ((e.clientX - r.left) / r.width - .5) * 30; my = ((e.clientY - r.top) / r.height - .5) * 30;
-      if (!raf) raf = requestAnimationFrame(paint);
-    });
-    hero.addEventListener('pointerleave', () => { mx = my = 0; if (!raf) raf = requestAnimationFrame(paint); });
-  }
+  const vid = document.querySelector('.hero-video');
+  const btn = document.getElementById('heroPause');
+  const RunvisT = (k, f) => (window.RunvisT ? window.RunvisT(k, f) : f);
+  const H = window.RunvisHero || { suf: '', poster: '', have: {}, portrait: false };
+  H.have = H.have || {};
+  let onScreen = true, userPaused = false, attached = false;
 
-  // 3b) …and the loops that run with no pointer at all. The tilt, the magnetic
-  //     buttons and the parallax above are all gated on (hover:hover) and a
-  //     fine pointer, so a phone never runs them; the CSS animations on the
-  //     ring, the blobs and the two device frames had no such gate and ran for
-  //     as long as the tab was open. They are stopped whenever the hero is off
-  //     screen or the tab is hidden — which, on this page, is nearly all of the
-  //     time a reader spends on it. Reduced-motion readers already have them
-  //     off entirely, so this observer is not even created for them.
-  if (reduce) { const v = document.querySelector('.hero-video'); if (v) { v.pause(); v.removeAttribute('autoplay'); v.preload = 'none'; } }
+  // One switch for everything in the hero that moves by itself. html.anim-idle
+  // is what the caption loop, the watch rotation and the course line already
+  // read; the off-screen observer and the hidden-tab check set it too.
+  const sync = () => {
+    const idle = userPaused || !onScreen || document.hidden;
+    root.classList.toggle('anim-idle', idle);
+    if (vid && attached) { if (idle) vid.pause(); else { const p = vid.play(); if (p && p.catch) p.catch(() => {}); } }
+  };
+  const face = () => {
+    if (!btn) return;
+    const lbl = btn.querySelector('.lbl'), use = btn.querySelector('use');
+    if (lbl) lbl.textContent = userPaused ? RunvisT('a11y.heroplay', '움직임 재생') : RunvisT('a11y.heropause', '움직임 멈춤');
+    if (use) use.setAttribute('href', userPaused ? '#i-play' : '#i-pause');
+  };
   if (hero && !reduce) {
-    const root = document.documentElement;
-    let onScreen = true;
-    const vid = document.querySelector('.hero-video');
-    const prof = document.querySelector('.profile svg');
-    const sync = () => {
-      const idle = !onScreen || document.hidden;
-      root.classList.toggle('anim-idle', idle);
-      // The hero loop follows the same rule: decoding video off screen is the
-      // single most expensive thing this page could do to a reader's battery.
-      if (vid) { if (idle) vid.pause(); else vid.play().catch(() => {}); }
-      // The course dot is SMIL, which CSS play-state cannot reach.
-      if (prof && prof.pauseAnimations) { if (idle) prof.pauseAnimations(); else prof.unpauseAnimations(); }
-    };
-    new IntersectionObserver(es => { onScreen = es[es.length - 1].isIntersecting; sync(); },
-                             { threshold: 0 }).observe(hero);
+    new IntersectionObserver(es => { onScreen = es[es.length - 1].isIntersecting; sync(); }, { threshold: 0 }).observe(hero);
     document.addEventListener('visibilitychange', sync);
+    if (btn) {
+      btn.hidden = false;
+      btn.addEventListener('click', () => { userPaused = !userPaused; face(); sync(); });
+      addEventListener('runvis:lang', () => setTimeout(face, 0));
+      face();
+    }
     sync();
   }
 
+  // The video's sources, in the order a browser should try them: the vertical
+  // cut on a portrait screen (only if it is on disk — RunvisHero.have comes
+  // from the build), then HEVC tagged hvc1 for Safari, then WebM, then H.264.
+  // A portrait screen with NO vertical cut gets the poster only: a 16:9 loop
+  // shown through a phone is its middle sixth, at full download size.
+  const sources = () => {
+    const a = (window.RunvisBase || '') + 'assets/hero-loop', list = [];
+    if (H.portrait) {
+      if (!H.have.v) return list;
+      list.push([a + '-v.webm', 'video/webm'], [a + '-v.mp4', 'video/mp4']);
+      return list;
+    }
+    if ((H.have.hevc || []).indexOf(H.suf) >= 0) list.push([a + H.suf + '.hevc.mp4', 'video/mp4; codecs="hvc1"']);
+    list.push([a + H.suf + '.webm', 'video/webm'], [a + H.suf + '.mp4', 'video/mp4']);
+    return list;
+  };
+  const attach = () => {
+    if (!vid) return;
+    const list = sources();
+    vid.textContent = '';
+    if (!list.length) { attached = false; return; }
+    list.forEach(([src, type]) => { const s = document.createElement('source'); s.src = src; s.type = type; vid.appendChild(s); });
+    vid.preload = 'auto'; attached = true; vid.load(); sync();
+  };
+  // i18n.js calls this when the reader switches market in place (root page,
+  // ?lang=): the poster and — only if they were already attached — the sources
+  // move to the new runner. Before this, a <source> swap on an element that had
+  // already started downloading the Korean loop meant two downloads.
+  window.RunvisHeroSet = (suf) => {
+    if (suf === H.suf) return;
+    H.suf = suf;
+    H.poster = (window.RunvisBase || '') + 'assets/hero-poster' + (H.portrait && H.have.vp ? '-v' : suf) + '.avif';
+    if (vid) vid.setAttribute('poster', H.poster);
+    if (attached) attach();
+  };
+  const c = navigator.connection || {};
+  const slow = !!c.saveData || /(^|-)(slow-2g|2g|3g)$/.test(c.effectiveType || '');
+  if (vid && !reduce && !slow) {
+    const go = () => ('requestIdleCallback' in window) ? requestIdleCallback(attach, { timeout: 2500 }) : setTimeout(attach, 400);
+    if (document.readyState === 'complete') go(); else addEventListener('load', go, { once: true });
+  }
+
+  // The course line draws once, when it is on screen. Reduced motion and no-JS
+  // get the finished line from the stylesheet.
+  const prof = document.querySelector('.profile');
+  if (prof && !reduce && 'IntersectionObserver' in window) {
+    const pio = new IntersectionObserver(es => es.forEach(en => {
+      if (en.isIntersecting) { prof.classList.add('drawn'); pio.disconnect(); }
+    }), { threshold: .35 });
+    pio.observe(prof);
+  } else if (prof) prof.classList.add('drawn');
+})();
+
+(() => {
   // 4) Scroll reveal with staggered depth (translateZ via perspective wrapper).
   //    Three things went wrong at threshold .12 with a negative bottom margin,
   //    and a flick on a 375x812 phone reproduced all three at once — 62 of 68
@@ -1768,11 +1759,14 @@
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (e.isIntersecting || e.boundingClientRect.bottom < 0) show(e.target);
   }), { threshold: 0, rootMargin: '0px 0px 15% 0px' });
-  document.querySelectorAll('.reveal').forEach((el, i) => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // In a frame, not while the parser is still running: measuring 60-odd blocks
+  // here forced a layout of the half-built page.
+  requestAnimationFrame(() => document.querySelectorAll('.reveal').forEach((el, i) => {
     el.style.setProperty('--d', ((i % 4) * 70) + 'ms');
     if (el.getBoundingClientRect().height > innerHeight * 0.9) { el.classList.add('in'); return; }
     pending.add(el); io.observe(el);
-  });
+  }));
   // The safety net the observer cannot be: with threshold 0, an element that
   // goes from "below the viewport" to "above the viewport" between two frames
   // never CHANGES intersection state, so no callback is ever delivered for it
@@ -1885,7 +1879,8 @@ window.renderDynamicI18n=heroRestart;
 
   const still = slides.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches;
   let timer = null, paused = still;
-  const tick = () => show((i + 1) % slides.length);
+  // html.anim-idle covers the hero pause button, off screen and a hidden tab.
+  const tick = () => { if (!document.documentElement.classList.contains('anim-idle')) show((i + 1) % slides.length); };
   function start() { if (still || timer !== null) return; timer = setInterval(tick, 3800); face(); }
   function stop() { if (timer !== null) { clearInterval(timer); timer = null; } paused = true; face(); }
   function face() {
@@ -1999,9 +1994,6 @@ const Voice=(()=>{
 })();
 
 document.querySelectorAll('.vchip').forEach((c,idx)=>{
-  c.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); c.click(); }
-  });
   c.addEventListener('click',()=>{
     if(!('speechSynthesis' in window)){
       // The site speaks six languages; this warning used to speak only English.
@@ -2043,9 +2035,19 @@ document.addEventListener('visibilitychange', ()=>{ if(document.hidden) Voice.st
   // ship Korean to the five prerendered copies and nothing would notice. Same
   // reason run.html's form helper was renamed.
   const RunvisT = (k, f) => (window.RunvisT ? window.RunvisT(k, f) : f);
+  // 묶음 A 1-4 ①: the button was the ONLY thing the radio changed, so a reader
+  // who asked for a single launch notice consented to "베타 초대장 발송" and was
+  // told the address would be kept until the beta invitation went out. The
+  // purpose, the consent line, the retention line and the timing note now say
+  // what this choice actually does, in both directions.
+  const set = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
   const sync = () => {
     const launch = document.querySelector('input[name="want"]:checked')?.value === 'launch';
     btn.textContent = launch ? RunvisT('n.beta.cta2', '출시 알림 받기') : RunvisT('t160', '베타 초대 받기');
+    set('csPurpose', launch ? RunvisT('cs.purpose.l', ': 출시 알림 1회 발송') : RunvisT('cs.purpose', ': TestFlight 베타 초대장 발송'));
+    set('csRetain', launch ? RunvisT('cs.retain.l', ': 출시 알림 발송 후 지체 없이 파기 · 늦어도 수집일로부터 1년 이내') : RunvisT('cs.retain', ': 베타 초대 발송 등 수집 목적 달성 시 지체 없이 파기 · 늦어도 수집일로부터 1년 이내'));
+    set('csRequired', launch ? RunvisT('n.beta.required.l', '(필수) 출시 알림 1회 발송을 위한 이메일 수집·이용에 동의합니다.') : RunvisT('n.beta.required', '(필수) 베타 초대장 발송을 위한 이메일 수집·이용에 동의합니다.'));
+    set('betaOrder', launch ? RunvisT('n.beta.order.l', '출시일이 정해지면 알림을 한 번만 보내 드리고, 보낸 뒤에는 주소를 지체 없이 파기해요.') : RunvisT('n.beta.order', '여는 날짜는 아직 없어요. 초대는 신청하신 순서대로 나가요. TestFlight는 애플이 만든 무료 베타 설치 앱이에요.'));
   };
   radios.forEach(r => r.addEventListener('change', sync));
   addEventListener('runvis:lang', () => setTimeout(sync, 0));
@@ -2063,6 +2065,17 @@ document.addEventListener('visibilitychange', ()=>{ if(document.hidden) Voice.st
     const r = document.querySelector('input[name="want"][value="launch"]');
     if (r && !r.checked) { r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); }
   });
+})();
+
+// --- where the reader came from (묶음 A 1-4 ⑥) ---------------------------------
+// Every button that leads to #beta carries data-entry; the last one pressed is
+// what the hidden `entry` field submits. No cookie, no storage, nothing sent
+// anywhere but with the form the reader chooses to send — and it is listed in
+// the privacy policy (pv.s6.li1).
+(() => {
+  const field = document.querySelector('#betaForm input[name="entry"]');
+  if (!field) return;
+  document.querySelectorAll('[data-entry]').forEach(a => a.addEventListener('click', () => { field.value = a.dataset.entry; }));
 })();
 
 // The heart-rate zone calculator's script left with its markup — it lives in
@@ -2096,6 +2109,9 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
     }, 50);
   };
   if (betaForm.action.includes('YOUR_FORM_ID')) { show(window.RunvisT('form.busy', '신청 접수를 준비하고 있어요. 잠시만 기다려 주세요.'), false); return; }
+  const langField = betaForm.querySelector('input[name="lang"]');
+  if (langField) langField.value = window.RunvisLang || document.documentElement.lang || 'ko';
+  const launchOnly = betaForm.querySelector('input[name="want"]:checked')?.value === 'launch';
   btn.disabled = true;
   const original = btn.textContent;
   btn.textContent = window.RunvisT('form.sending', '전송 중…');
@@ -2115,7 +2131,9 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
       // check that can be made without a server, and it happens while the
       // reader is still looking at the form.
       const typed = (new FormData(betaForm).get('email') || '').toString();
-      show(window.RunvisT('form.ok', '신청이 완료됐어요. 여는 날짜가 정해지면 이 주소로 알려 드리고, 베타가 열리면 신청 순서대로 초대장을 보내 드려요. 확인 메일은 따로 가지 않으니, 위에 보이는 주소가 맞는지 한 번만 확인해 주세요. 삭제를 원하시면 언제든 help@runvis.app 으로 알려 주세요. 기다리는 동안 5km 데모를 달려 보세요. 🏃'), true);
+      show(launchOnly
+        ? window.RunvisT('form.ok.l', '신청이 완료됐어요. 출시되면 이 주소로 알림을 한 번만 보내 드리고, 보낸 뒤에는 주소를 지체 없이 파기해요. 확인 메일은 따로 가지 않으니, 위에 보이는 주소가 맞는지 한 번만 확인해 주세요. 삭제를 원하시면 언제든 help@runvis.app 으로 알려 주세요.')
+        : window.RunvisT('form.ok', '신청이 완료됐어요. 여는 날짜가 정해지면 이 주소로 알려 드리고, 베타가 열리면 신청 순서대로 초대장을 보내 드려요. 확인 메일은 따로 가지 않으니, 위에 보이는 주소가 맞는지 한 번만 확인해 주세요. 삭제를 원하시면 언제든 help@runvis.app 으로 알려 주세요. 기다리는 동안 5km 데모를 달려 보세요.'), true);
       if (typed) setTimeout(() => {
         const p = document.createElement('span');
         p.style.cssText = 'display:block;margin-top:6px;font-weight:600;color:var(--dim)';
@@ -2123,6 +2141,7 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
         status.appendChild(p);
       }, 60);
       betaForm.reset();
+      betaForm.querySelector('input[name="want"]')?.dispatchEvent(new Event('change', { bubbles: true }));
       // The signup used to end in an inbox. Hand the reader the one thing they
       // can actually do next while they wait — and only now, because until the
       // POST succeeded this link sat between the button and the consent
@@ -2160,7 +2179,10 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
   // anchoring answers by moving scrollY 20-44 px with nobody touching
   // anything, and without this gate the bar popped in and out on its own
   // every 3-4 s (measured 2026-10-03). Such a scroll moves the baseline only.
-  let lastY = scrollY, ticking = false, lastInput = -1e9;
+  // scrollY is read in a frame: read here, while the parser is still running,
+  // it forced a layout of the half-built page (Lighthouse forced-reflow, 43 ms).
+  let lastY = 0, ticking = false, lastInput = -1e9;
+  requestAnimationFrame(() => { lastY = scrollY; });
   const touched = () => { lastInput = performance.now(); };
   ['wheel', 'touchstart', 'touchmove', 'pointerdown', 'keydown'].forEach(t => addEventListener(t, touched, { passive: true }));
   const tuck = () => {
@@ -2191,12 +2213,16 @@ if (betaForm) betaForm.addEventListener('submit', async e => {
     row.classList.toggle('fade-l', over > 2 && row.scrollLeft > 1);
   };
   row.addEventListener('scroll', paint, { passive: true });
-  addEventListener('resize', paint);
+  // A ResizeObserver callback runs after layout, so the first measurement no
+  // longer forces one while the document is still being parsed (it used to be
+  // a bare paint() here, plus a second, inline-style copy of this whole block
+  // at the top of the script — both read scrollWidth synchronously).
+  if ('ResizeObserver' in window) new ResizeObserver(() => paint()).observe(row);
+  else { addEventListener('resize', paint); requestAnimationFrame(paint); }
   // Web fonts and a language switch both change how wide these labels are.
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(paint);
   const prevRender = window.renderDynamicI18n;
-  window.renderDynamicI18n = function () { if (prevRender) prevRender(); paint(); };
-  paint();
+  window.renderDynamicI18n = function () { if (prevRender) prevRender(); requestAnimationFrame(paint); };
 })();
 
 // --- in-page anchor navigation ---
