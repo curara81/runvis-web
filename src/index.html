@@ -442,6 +442,7 @@
      the viewport, which overflow-x:clip then made unreachable. */
   .frame{width:280px;max-width:100%;flex-shrink:0}
   .frame.watch{width:240px}
+  .frame.duo{width:560px}   /* 가로로 활짝 편 듀오(1180×848) — 실제 기본 방향. 높이 ≈ 400px */
   .desc h3{font-size:24px;font-weight:800;margin-bottom:12px;letter-spacing:-.015em}
   .desc p{color:var(--dim);font-size:16px;margin-bottom:12px}
   .desc ul{list-style:none;margin-top:14px}
@@ -1234,6 +1235,21 @@
 <li data-i18n="n.after.l1">훈련 부하, 부하 증가 속도(ACWR), 회복 시간은 공개된 공식으로 계산해요</li>
 <li data-i18n="n.after.l2">운동 상세에서 AI 분석용 리포트를 내보내, 평소 쓰는 AI에 붙여 넣을 수 있어요</li>
 <li data-i18n="n.after.l3">GPX 내보내기와 달린 경로의 3D 플라이오버 영상</li>
+</ul>
+</div>
+</div>
+<!-- iPhone Duo (2026-10-25, 캡처 2026-10-26): 안쪽 화면을 펼친 두 칸 배치. 캡처는 시뮬레이터에서 실제로 가로로
+     활짝 편 안쪽 화면(951×669pt — 펼쳤을 때 기본 방향)이다 — tools/frame_duo.py 머리말. 베젤은 애플 공식이 아니라
+     직접 그린 윤곽이고, 접힘선은 실제 위치(화면 가운데 세로선)에 그렸다. -->
+<div class="row reveal">
+<div class="frame duo"><picture><source srcset="assets/framed-duo-detail.avif" type="image/avif"/><source srcset="assets/framed-duo-detail.webp" type="image/webp"/><img alt="아이폰 듀오 안쪽 화면의 러닝 상세 — 왼쪽은 경로 지도와 '구간 따라 보기' 페이스 그래프(커서가 놓인 지점이 지도에 표시), 오른쪽은 거리·시간·평균 페이스와 지표 카드" data-i18n-attr="alt:alt.duo.detail" loading="lazy" src="assets/framed-duo-detail.png" data-shot="framed-duo-detail" width="1180" height="848" decoding="async"/></picture></div>
+<div class="desc">
+<h3 data-i18n="n.after.duo.h3">아이폰 듀오를 펼치면 지도와 그래프가 함께</h3>
+<p data-i18n="n.after.duo.p">안쪽 화면을 펼치면 러닝 상세가 두 칸으로 나뉘어요. 왼쪽 '구간 따라 보기' 그래프를 손가락으로 끌면 지도에 그 지점이 표시돼서, 언덕 어디쯤에서 심박이 올랐는지 한 화면에서 짚어 볼 수 있어요.</p>
+<ul>
+<li data-i18n="n.after.duo.l1">그래프는 페이스·심박·고도 중에서 골라 볼 수 있어요</li>
+<li data-i18n="n.after.duo.l2">기록 탭은 왼쪽 목록, 오른쪽 러닝 상세로 나뉘어요</li>
+<li data-i18n="n.after.duo.l3">아이폰만 들고 달릴 때는 왼쪽에 숫자, 오른쪽에 지도와 최근 심박·페이스 흐름</li>
 </ul>
 </div>
 </div>

@@ -150,7 +150,8 @@
     'framed-phone-dash': 1, 'framed-phone-detail': 1, 'framed-phone-glance': 1,
     'framed-phone-plan': 1, 'framed-phone-race': 1,
     'framed-watch-hero': 1,
-    'framed-watch-pace': 1, 'framed-watch-hr': 1, 'framed-watch-map': 1
+    'framed-watch-pace': 1, 'framed-watch-hr': 1, 'framed-watch-map': 1,
+    'framed-duo-detail': 1
   };
   function applyShots(code) {
     document.querySelectorAll('img[data-shot]').forEach(function (img) {
