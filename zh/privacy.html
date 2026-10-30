@@ -118,6 +118,7 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
   <ul>
     <li data-i18n="pv.s1.li1"><b>運動資料</b>: 心率、配速、距離、GPS 路線、高度、步頻、跑步功率、步幅、觸地時間、垂直振幅（支援的裝置）、熱量 — 透過 Apple HealthKit 讀取與儲存</li>
     <li data-i18n="pv.s1.li2"><b>健康資料</b>: 睡眠（時間與階段）、心率變異性（HRV）、安靜心率、VO₂max，以及（選用時）月經週期 — 用於跑步準備度與恢復分析</li>
+    <li data-i18n="pv.s1.li2b"><b>身體組成</b>: 體重、體脂率、除脂體重 — 從「健康」讀取，用於卡路里等估算；在設定中自行輸入的值會儲存到 Apple HealthKit</li>
     <li data-i18n="pv.s1.li3"><b>動作資料</b>: 手腕加速度（自動偵測開始跑步）、（配戴時）AirPods 的頭部動作 — 作為跑姿訊號的參考</li>
     <li data-i18n="pv.s1.li4"><b>個人資料輸入值</b>: 出生年、性別、安靜心率、最大心率 — 由你在初次設定畫面自行輸入，僅作為心率區間與依年齡推估的基準</li>
     <li data-i18n="pv.s1.li5"><b>其他輸入資料</b>: 目標賽事與目標成績、教練風格、跑鞋資訊、運動後回報（強度、疼痛、補水）</li>
@@ -140,8 +141,8 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
     <tr><td data-i18n="pv.s3.r1a">天氣（首頁卡片、簡報、高溫紀錄、路線與賽事當天預報）</td><td data-i18n="pv.s3.r1b">四捨五入到約 1 公里的粗略座標（社區等級精度）與時間 — 僅在請求當下，不儲存、無識別碼</td><td data-i18n="pv.s3.r1c">Apple 天氣（WeatherKit）</td></tr>
     <tr><td data-i18n="pv.s3.r7a">天氣資料來源標示</td><td data-i18n="pv.s3.r7b"><b>不傳送任何資料</b> — 為了在顯示天氣的畫面標上 Apple Weather 標誌與法律聲明，只是下載這些資訊與標誌圖片（與瀏覽網站相同，連線 IP 會被對方看到）</td><td data-i18n="pv.s3.r7c">Apple 天氣（WeatherKit）</td></tr>
     <tr><td data-i18n="pv.s3.r2a">訂閱付款</td><td data-i18n="pv.s3.r2b">整個付款流程 — Runvis 看不到也無法儲存卡片或付款資訊</td><td data-i18n="pv.s3.r2c">Apple App Store</td></tr>
-    <tr><td data-i18n="pv.s3.r3a">自動產生路線</td><td data-i18n="pv.s3.r3b">用於計算路線的目前座標 — 僅在你要求產生路線的當下，且未經四捨五入</td><td data-i18n="pv.s3.r3c">Apple 地圖（MapKit）</td></tr>
-    <tr><td data-i18n="pv.s3.r4a">地區名稱與路線當地時間</td><td data-i18n="pv.s3.r4b">為了在天氣簡報與運動紀錄標上地區名稱所需的目前座標 — 僅在查詢當下，且未經四捨五入。結果會快取在裝置上，同一地點不會再查詢第二次。為了讓路線預報與賽事當天早晨預報的「上午 9 點」對上該路線的當地時間，也會用路線起點座標（四捨五入到約 1 公里）查詢當地時區 — 只在 App 執行期間記住</td><td data-i18n="pv.s3.r4c">Apple 定位服務（CLGeocoder）</td></tr>
+    <tr><td data-i18n="pv.s3.r3a">自動產生路線</td><td data-i18n="pv.s3.r3b">用於計算路線的目前座標 — 僅在你要求產生路線的當下，且未經四捨五入。產生的路線僅供本次跑步使用，不會儲存在 iPhone 上，手錶會在跑完後或 24 小時後刪除</td><td data-i18n="pv.s3.r3c">Apple 地圖（MapKit）</td></tr>
+    <tr><td data-i18n="pv.s3.r4a">地區名稱與路線當地時間</td><td data-i18n="pv.s3.r4b">在天氣簡報與首頁天氣卡片標上地區名稱時，使用目前座標（僅在查詢當下，且未經四捨五入）；在運動紀錄列表標上地區名稱時，使用已儲存跑步（包含過去紀錄）的起點座標，四捨五入到約 100 公尺。紀錄列表的地區名稱會快取在裝置上，同一地點不會再查詢第二次。為了讓路線預報與賽事當天早晨預報的「上午 9 點」對上該路線的當地時間，也會用路線起點座標（四捨五入到約 1 公里）查詢當地時區 — 只在 App 執行期間記住</td><td data-i18n="pv.s3.r4c">Apple 定位服務（CLGeocoder）</td></tr>
     <tr><td data-i18n="pv.s3.r5a">下載路線與跑鞋清單</td><td data-i18n="pv.s3.r5b"><b>不傳送任何資料</b> — 只是每天一次匿名下載公開檔案（與瀏覽網站相同，連線 IP 會被對方看到）</td><td data-i18n="pv.s3.r5c">GitHub Pages（靜態檔案代管）</td></tr>
     <tr><td data-i18n="pv.s3.r6a">開啟跑鞋搜尋</td><td data-i18n="pv.s3.r6b"><b>不送出任何資料</b> — 只有你在手錶或 iPhone 的跑鞋畫面自己按下按鈕時，才會以含有搜尋字「跑鞋」的網址開啟外部瀏覽器。運動、健康或跑鞋資料都不會一起送出</td><td data-i18n="pv.s3.r6c">外部購物網站（目前是韓國電商 Coupang 的搜尋頁）</td></tr>
   </table>
@@ -153,7 +154,7 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
     <li data-i18n="pv.s4.li1"><b>健康 (HealthKit)</b>: 儲存運動紀錄、分析過往紀錄</li>
     <li data-i18n="pv.s4.li2"><b>定位</b>: 記錄跑步路線、天氣簡報、路線導引</li>
     <li data-i18n="pv.s4.li3"><b>動作</b>: 自動偵測開始跑步、熱身引導</li>
-    <li data-i18n="pv.s4.li4"><b>通知</b>（選用，共 9 種）: 訓練計畫的當日提醒、傍晚簡報、週日的每週教練摘要、久未跑步的回歸提醒、訂閱後第一週的說明、免費體驗或教練模式結束前兩天的提醒、取消一週後的重新訂閱邀請（屬於行銷）、錶上的恢復完成通知、錶上的休息提醒 — 通知內容在裝置內產生，不會傳送到伺服器</li>
+    <li data-i18n="pv.s4.li4"><b>通知</b>（選用，共 9 種）: 訓練計畫的當日提醒、傍晚簡報、週日的每週教練摘要、久未跑步的回歸提醒、訂閱後第一週的說明、免費體驗或教練模式結束前兩天的提醒、訂閱結束一週後的重新訂閱邀請（屬於行銷，只有在「設定 → 通知」中自行開啟「教練重新訂閱提醒」時才會發送，預設為關閉）、錶上的恢復完成通知、錶上的休息提醒 — 通知內容在裝置內產生，不會傳送到伺服器</li>
     <li data-i18n="pv.s4.li5"><b>藍牙</b>: 連接外部感測器（心率帶、功率計）</li>
     <li data-i18n="pv.s4.li6"><b>行事曆</b>（選用）: 將訓練計畫加入行程</li>
     <li data-i18n="pv.s4.li7"><b>照片</b>（選用）: 儲存路線飛越影片</li>
