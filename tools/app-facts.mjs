@@ -626,7 +626,8 @@ export function measure(app = findAppRepo()) {
   //     product and its page stating different numbers is the drift, whichever
   //     way it leans. Measured off the guard, because that is the value that
   //     decides whether the forecast is used at all; check-content [13] holds
-  //     n.race.lb3 against it.
+  //     n.race.lb3 against it. 2026-10-30: 15 → 9 with the switch from
+  //     Open-Meteo (16 forecast days) to WeatherKit (~240 h of hourly forecast).
   const race = fs.readFileSync(path.join(app, 'WatchApp/Views/RacePredictionView.swift'), 'utf8');
   // 2026-10: the guard reads a named constant now (`days <= Self.forecastHorizonDays`,
   // `static let forecastHorizonDays = 15`), so the literal is taken from the

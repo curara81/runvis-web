@@ -137,10 +137,11 @@ window.RunvisPageLang="ja";window.RunvisBase="/";
   <div class="tablewrap">
   <table>
     <tr><th data-i18n="pv.s3.th1">例外</th><th data-i18n="pv.s3.th2">送信されるもの</th><th data-i18n="pv.s3.th3">送信先</th></tr>
-    <tr><td data-i18n="pv.s3.r1a">天気ブリーフィング</td><td data-i18n="pv.s3.r1b">約1km単位に丸めたおおよその座標（町レベルの精度）と時刻 — リクエストの瞬間のみ、保存・識別子なし</td><td data-i18n="pv.s3.r1c">Open-Meteo（無料の気象API）</td></tr>
+    <tr><td data-i18n="pv.s3.r1a">天気（ホームカード・ブリーフィング・暑さの履歴・コースと大会当日の予報）</td><td data-i18n="pv.s3.r1b">約1km単位に丸めたおおよその座標（町レベルの精度）と時刻 — リクエストの瞬間のみ、保存・識別子なし</td><td data-i18n="pv.s3.r1c">Apple天気（WeatherKit）</td></tr>
+    <tr><td data-i18n="pv.s3.r7a">天気データの出典表示</td><td data-i18n="pv.s3.r7b"><b>送信するデータなし</b> — 天気を表示する画面にApple Weatherのマークと法的表示を付けるため、その情報とマーク画像を受け取るだけです（ウェブサイトの閲覧と同じく、接続IPは相手に見えます）</td><td data-i18n="pv.s3.r7c">Apple天気（WeatherKit）</td></tr>
     <tr><td data-i18n="pv.s3.r2a">サブスクの決済</td><td data-i18n="pv.s3.r2b">決済処理のすべて — Runvisはカード・決済情報を見ることも保存することもできません</td><td data-i18n="pv.s3.r2c">Apple App Store</td></tr>
     <tr><td data-i18n="pv.s3.r3a">コースの自動生成</td><td data-i18n="pv.s3.r3b">経路計算用の現在の座標 — 生成をリクエストした瞬間のみ（丸めていない値）</td><td data-i18n="pv.s3.r3c">Appleの地図（MapKit）</td></tr>
-    <tr><td data-i18n="pv.s3.r4a">地名の表示</td><td data-i18n="pv.s3.r4b">天気ブリーフィングやワークアウト記録に「駅三洞」のような地名を付けるための現在の座標 — 照会の瞬間のみ、丸めていない値。結果は端末にキャッシュされ、同じ場所を再度照会することはありません</td><td data-i18n="pv.s3.r4c">Appleの位置情報サービス（CLGeocoder）</td></tr>
+    <tr><td data-i18n="pv.s3.r4a">地名・コースの現地時刻</td><td data-i18n="pv.s3.r4b">天気ブリーフィングやワークアウト記録に「駅三洞」のような地名を付けるための現在の座標 — 照会の瞬間のみ、丸めていない値。結果は端末にキャッシュされ、同じ場所を再度照会することはありません。コース予報と大会当日朝の予報の「午前9時」をそのコースの現地時刻に合わせるため、コースのスタート地点の座標（約1km単位に丸めた値）でその場所のタイムゾーンも照会します — アプリの起動中だけ記憶</td><td data-i18n="pv.s3.r4c">Appleの位置情報サービス（CLGeocoder）</td></tr>
     <tr><td data-i18n="pv.s3.r5a">コース・シューズ一覧のダウンロード</td><td data-i18n="pv.s3.r5b"><b>送信するデータなし</b> — 公開されたファイルを1日1回、匿名でダウンロードするだけです（ウェブサイトの閲覧と同じく、接続IPは相手に見えます）</td><td data-i18n="pv.s3.r5c">GitHub Pages（静的ファイルホスティング）</td></tr>
     <tr><td data-i18n="pv.s3.r6a">ランニングシューズ検索を開く</td><td data-i18n="pv.s3.r6b"><b>送信するデータなし</b> — ウォッチまたはiPhoneのシューズ画面でユーザーが自分でボタンを押したときにだけ、検索語「ランニングシューズ」を含むアドレスで外部ブラウザが開きます。運動・健康データやシューズの記録は一緒に出ていきません</td><td data-i18n="pv.s3.r6c">外部のショッピングサイト（現在は韓国の通販サイト Coupang の検索ページ）</td></tr>
   </table>

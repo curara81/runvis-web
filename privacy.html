@@ -134,10 +134,11 @@
   <div class="tablewrap">
   <table>
     <tr><th data-i18n="pv.s3.th1">예외</th><th data-i18n="pv.s3.th2">전송되는 것</th><th data-i18n="pv.s3.th3">받는 곳</th></tr>
-    <tr><td data-i18n="pv.s3.r1a">날씨 브리핑</td><td data-i18n="pv.s3.r1b">약 1km 단위로 반올림한 대략적 좌표(동네 수준 정밀도)와 시각 — 요청 순간에만, 저장·식별자 없음</td><td data-i18n="pv.s3.r1c">Open-Meteo(무료 기상 API)</td></tr>
+    <tr><td data-i18n="pv.s3.r1a">날씨(홈 카드·브리핑·더위 이력·코스와 대회 예보)</td><td data-i18n="pv.s3.r1b">약 1km 단위로 반올림한 대략적 좌표(동네 수준 정밀도)와 시각 — 요청 순간에만, 저장·식별자 없음</td><td data-i18n="pv.s3.r1c">Apple 날씨(WeatherKit)</td></tr>
+    <tr><td data-i18n="pv.s3.r7a">날씨 출처 표기</td><td data-i18n="pv.s3.r7b"><b>보내는 데이터 없음</b> — 날씨를 보여 주는 화면에 Apple Weather 마크와 법적 고지를 붙이려고 그 정보와 마크 이미지를 받아 오기만 합니다(웹사이트 방문과 동일하게 접속 IP는 노출)</td><td data-i18n="pv.s3.r7c">Apple 날씨(WeatherKit)</td></tr>
     <tr><td data-i18n="pv.s3.r2a">구독 결제</td><td data-i18n="pv.s3.r2b">결제 처리 전부 — Runvis는 카드·결제 정보를 보지도, 저장하지도 못합니다</td><td data-i18n="pv.s3.r2c">Apple App Store</td></tr>
     <tr><td data-i18n="pv.s3.r3a">코스 자동 생성</td><td data-i18n="pv.s3.r3b">경로 계산용 현재 좌표 — 생성 요청 순간에만(반올림하지 않은 값)</td><td data-i18n="pv.s3.r3c">Apple 지도(MapKit)</td></tr>
-    <tr><td data-i18n="pv.s3.r4a">동네 이름 표시</td><td data-i18n="pv.s3.r4b">날씨 브리핑과 운동 기록에 "역삼동" 같은 동네 이름을 붙이기 위한 현재 좌표 — 조회 순간에만, 반올림하지 않은 값. 결과는 기기에 캐시되어 같은 장소는 다시 조회하지 않습니다</td><td data-i18n="pv.s3.r4c">Apple 위치 서비스(CLGeocoder)</td></tr>
+    <tr><td data-i18n="pv.s3.r4a">동네 이름·코스 현지 시간</td><td data-i18n="pv.s3.r4b">날씨 브리핑과 운동 기록에 "역삼동" 같은 동네 이름을 붙이기 위한 현재 좌표 — 조회 순간에만, 반올림하지 않은 값. 결과는 기기에 캐시되어 같은 장소는 다시 조회하지 않습니다. 코스 예보와 대회 아침 예보의 '오전 9시'를 그 코스의 현지 시각으로 맞추려고, 코스 출발점 좌표(약 1km 반올림)로 그곳의 시간대도 조회합니다 — 앱이 켜져 있는 동안만 기억</td><td data-i18n="pv.s3.r4c">Apple 위치 서비스(CLGeocoder)</td></tr>
     <tr><td data-i18n="pv.s3.r5a">코스·신발 목록 내려받기</td><td data-i18n="pv.s3.r5b"><b>보내는 데이터 없음</b> — 공개된 파일을 하루 한 번 익명으로 내려받기만 합니다(웹사이트 방문과 동일하게 접속 IP는 노출)</td><td data-i18n="pv.s3.r5c">GitHub Pages(정적 파일 호스팅)</td></tr>
     <tr><td data-i18n="pv.s3.r6a">새 러닝화 검색 열기</td><td data-i18n="pv.s3.r6b"><b>보내는 데이터 없음</b> — 워치와 아이폰의 신발 화면에서 사용자가 버튼을 직접 눌렀을 때만, 검색어 "러닝화"가 들어간 주소로 외부 브라우저가 열립니다. 운동·건강 데이터나 신발 기록은 함께 나가지 않습니다</td><td data-i18n="pv.s3.r6c">외부 쇼핑몰(현재는 한국 쇼핑몰 쿠팡의 검색 페이지)</td></tr>
   </table>

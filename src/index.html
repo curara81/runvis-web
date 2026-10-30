@@ -1288,12 +1288,13 @@
 <ul>
 <li data-i18n="n.race.lb1">최근 기록 하나로 5K, 10K, 하프, 풀코스 예상 기록과 목표 페이스까지</li>
 <li data-i18n="n.race.lb2">같은 코스를 다시 달리면 내 최고 기록이 고스트가 되어 얼마나 앞섰는지, 뒤처졌는지 알려 줘요</li>
-<!-- 15, not 16. RacePredictionView asks Open-Meteo for forecast_days =
-     min(daysAhead + 1, 16), so the last hourly slot it can receive is D+15; at
-     D-16 the target hour is not in the array and the card comes back empty
-     while still reporting itself in range. The page states the day the card
-     actually fills. -->
-<li data-i18n="n.race.lb3">대회 15일 전부터는 대회 날 예보까지 반영한 예상 기록</li>
+<!-- 9 (2026-10-30, Open-Meteo → WeatherKit). RacePredictionView asks
+     WeatherKit for an hourly window around race-morning 09:00; WeatherKit
+     forecasts reach ~240 h, so D+9 is the last day always inside it (D+10
+     09:00 is out of reach before 9 a.m.). The page states the day the card
+     actually fills — check-content [13] holds this number to the app's
+     forecastHorizonDays. -->
+<li data-i18n="n.race.lb3">대회 9일 전부터는 대회 날 예보까지 반영한 예상 기록</li>
 </ul>
 </div>
 </div>

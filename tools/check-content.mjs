@@ -512,7 +512,7 @@ console.log('\n[13] coach constants in the copy == the app declaration');
       // request and on its own screen (2026-09-06 라운드 16, -0.5). The number
       // is the app's; the sentence around it is the translator's.
       { key: 'n.race.lb3', field: 'raceForecastHorizonDays',
-        why: 'RacePredictionView `guard days >= 0, days <= N` — the Open-Meteo horizon the screen prints as D-N' },
+        why: 'RacePredictionView `guard days >= 0, days <= N` — the WeatherKit horizon (~240 h) the screen prints as D-N' },
       // The hero now states the requirement on the first screen, so the FAQ
       // answer it points at has to be the app's real deployment target and not
       // a number someone remembered.
