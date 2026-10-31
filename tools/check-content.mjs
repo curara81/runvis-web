@@ -419,12 +419,25 @@ console.log('\n[12] claims that carry a condition');
          + 'saying it "arrives on the phone with a subscription" without that '
          + 'condition sells a cue the subscriber may never hear',
     },
+    // The running-shoe search link (ShoesView.shoeShopURL in the app repo) is
+    // gated on the APP'S UI LANGUAGE — `Bundle.main.preferredLocalizations.first`
+    // starting with "ko" — and drawn only inside `#if os(iOS)`. Until
+    // 2026-10-31 this check required "Korean App Store" instead, so it forced
+    // the storefront wording that the code never implemented (a Korean-store
+    // user with an English UI never sees the link; a Korean UI abroad does).
     {
       key: 'n.priv.p',
-      need: ['대한민국 App Store', 'Korean App Store', '韓国App Store', 'App Store de Corea', '韓國 App Store', 'koreanischen App Store'],
-      why: 'the same clause in the privacy summary on the landing page — same '
-         + 'reason, and this is the paragraph that claims to list every exception '
-         + 'without leaving one out',
+      need: ['한국어', 'Korean', '韓国語', 'coreano', '韓文', '韓語', 'Koreanisch'],
+      ban: ['대한민국 App Store', 'Korean App Store', '韓国App Store', 'App Store de Corea', '韓國 App Store', 'koreanischen App Store'],
+      why: 'the shoe-link condition in the landing page privacy paragraph is the app '
+         + 'language being Korean (ShoesView.shoeShopURL), not the App Store country',
+    },
+    {
+      key: 'pv.s3.r6b',
+      need: ['한국어', 'Korean', '韓国語', 'coreano', '韓文', '韓語', 'Koreanisch'],
+      ban: ['대한민국 App Store', 'Korean App Store', '韓国App Store', 'App Store de Corea', '韓國 App Store', 'koreanischen App Store'],
+      why: 'the policy row for the shoe link — same condition as n.priv.p, and this is '
+         + 'the table whose heading says it lists every exception',
     },
     {
       key: 'r20',
