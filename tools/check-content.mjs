@@ -416,8 +416,8 @@ console.log('\n[12] claims that carry a condition');
       why: 'an iPhone has no heart-rate sensor. PhoneWorkoutManager takes HR only '
          + 'from HeartRateBandManager (BLE 0x180D) and PhoneCoachPlan.zoneCue returns '
          + 'nil when heartRate is 0, so the phone zone cue REQUIRES a chest strap — '
-         + 'saying it "arrives on the phone with a subscription" without that '
-         + 'condition sells a cue the subscriber may never hear',
+         + 'saying it arrives on the phone (free since 2026-10-31 — PhoneCoach.mayS) '
+         + 'without that condition sells a cue the runner may never hear',
     },
     // The running-shoe search link (ShoesView.shoeShopURL in the app repo) is
     // gated on the APP'S UI LANGUAGE — `Bundle.main.preferredLocalizations.first`
