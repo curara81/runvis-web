@@ -528,6 +528,17 @@
      Nothing nests inside a tile, so h3 is the honest level. Size unchanged. */
   .tile h3{font-size:17px;font-weight:800;display:flex;align-items:center;flex-wrap:wrap;gap:4px}
   .tile p{color:var(--dim);font-size:14px;margin-top:8px}
+  /* FAQ — 질문 목록, 누르면 답(2026-11-02, #faq 머리 주석). +는 펼치면 ×로 돈다. */
+  .faq{max-width:760px;margin-top:32px;border-top:1px solid var(--line)}
+  .faq-item{border-bottom:1px solid var(--line)}
+  .faq-item summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 2px}
+  .faq-item summary::-webkit-details-marker{display:none}
+  .faq-item summary h3{font-size:17px;font-weight:800;margin:0;letter-spacing:-.01em}
+  .faq-item summary::after{content:"+";flex:none;color:var(--green);font-size:24px;font-weight:500;line-height:1;transition:transform .2s var(--ease)}
+  .faq-item[open] summary::after{transform:rotate(45deg)}
+  .faq-item summary:hover h3{color:var(--green)}
+  .faq-item p{color:var(--dim);font-size:15px;line-height:1.75;margin:0 0 22px;max-width:68ch;padding-right:40px}
+  @media(prefers-reduced-motion:reduce){.faq-item summary::after{transition:none}}
   .honest{margin-top:26px;color:var(--dim2);font-size:14px;max-width:700px}
   .honest b{color:var(--dim)}
 
@@ -1476,29 +1487,33 @@
 <div class="wrap">
 <div class="eyebrow reveal" data-i18n="n.faq.eb">자주 묻는 질문</div>
 <h2 id="faq-h" class="reveal" data-i18n="n.faq.h2">시작하기 전에 궁금한 것들</h2>
-<div class="tiles">
-<div class="tile reveal"><h3 data-i18n="n.faq.q1">워치가 없어도 되나요?</h3><!-- The old answer promised heart-rate zone calls on the phone with a
+<!-- 2026-11-02 (동호님): 질문을 먼저, 누르면 답. 예전 3열 카드는 답 길이가 2~15줄이라
+     높이가 들쭉날쭉했고, 자기 질문을 찾으려면 답 덩어리를 다 훑어야 했다. 가격·플랜의
+     details.gate 와 같은 기본 접기(JS 없음, 키보드·VoiceOver 기본)라 한 열 목록이다.
+     검색 노출은 faqld(FAQPage JSON-LD)가 질문·답 전문을 그대로 싣고 있어 접어도 같다. -->
+<div class="faq">
+<details class="faq-item reveal"><summary><h3 data-i18n="n.faq.q1">워치가 없어도 되나요?</h3></summary><!-- The old answer promised heart-rate zone calls on the phone with a
      subscription and stopped there. The iPhone has no heart-rate sensor:
      PhoneWorkoutManager reads HR only from HeartRateBandManager (Bluetooth
      Heart Rate Service 0x180D), and PhoneCoachPlan.zoneCue returns nil the
      moment heartRate is 0 — so without a strap that cue can never fire, no
      matter what the subscriber paid. Pace cues need no strap; they run off
      GPS. Both facts are in the answer now. -->
-<p data-i18n="n.faq.a1">네. 아이폰만으로도 GPS로 기록하고, 1km(마일 설정이면 1마일)마다 구간 페이스 안내를 받을 수 있어요. 구독 없이 아이폰만 들고 달려도 이 구간 안내와, 입문 가이드(3가지)로 달릴 때 나오는 달리기·걷기 전환 구령이 나와요. 심박이 4존 이상에 1분 넘게 머물 때의 심박존 경고도 무료인데, 아이폰에는 심박 센서가 없어서 블루투스 심박 밴드(폴라 H10, 와후 TICKR 같은 표준 BLE 심박 스트랩)를 연결했을 때만 나와요. 구독하면 아이폰에서도 페이스 안내가 나와요. 자세 코칭, 언덕 예고, 경로 이탈 경보는 워치로 달릴 때만 됩니다.</p></div>
-<div class="tile reveal"><h3 data-i18n="n.faq.q2">어떤 애플워치가 필요한가요?</h3><!-- "Any model with heart rate and GPS" was not the real requirement:
+<p data-i18n="n.faq.a1">네. 아이폰만으로도 GPS로 기록하고, 1km(마일 설정이면 1마일)마다 구간 페이스 안내를 받을 수 있어요. 구독 없이 아이폰만 들고 달려도 이 구간 안내와, 입문 가이드(3가지)로 달릴 때 나오는 달리기·걷기 전환 구령이 나와요. 심박이 4존 이상에 1분 넘게 머물 때의 심박존 경고도 무료인데, 아이폰에는 심박 센서가 없어서 블루투스 심박 밴드(폴라 H10, 와후 TICKR 같은 표준 BLE 심박 스트랩)를 연결했을 때만 나와요. 구독하면 아이폰에서도 페이스 안내가 나와요. 자세 코칭, 언덕 예고, 경로 이탈 경보는 워치로 달릴 때만 됩니다.</p></details>
+<details class="faq-item reveal"><summary><h3 data-i18n="n.faq.q2">어떤 애플워치가 필요한가요?</h3></summary><!-- "Any model with heart rate and GPS" was not the real requirement:
      project.yml sets the deployment targets to watchOS 10.0 and iOS 17.0, and
      a Series 3 has both sensors but stops at watchOS 8. The OS floor goes
      first because it is the line that excludes a device. -->
-<p data-i18n="n.faq.a2">watchOS 10 이상(Apple Watch Series 4 이상)과 iOS 17 이상이면 돼요. 심박과 GPS만 있으면 충분하고, 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 세밀해져요. 이 두 값을 못 재는 모델에서는 케이던스를 기준으로 코칭합니다.</p></div>
-<div class="tile reveal"><h3 data-i18n="n.faq.q3">해지하면 기록은 어떻게 되나요?</h3><p data-i18n="n.faq.a3">기록은 Apple 건강에 그대로 남아요. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 쓸 수 있어요.</p></div>
-<div class="tile reveal"><h3 data-i18n="n.faq.q6">기록이 하나도 없어도 쓸 수 있나요?</h3><p data-i18n="n.faq.a6">네. 워치로 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 바로 나와요. 이 측정은 워치에서만 할 수 있어요. 아이폰만 있다면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기를 쓸 수 있고, 플랜은 최근 주간 거리를 기준으로 시작해요. 건강 앱에 이미 기록이 있다면, 건강 앱을 연결한 바로 다음 화면에서 지난 90일의 주간 거리·가장 빠른 러닝·HRV 범위를 실제 값으로 보여 주고, 지난 HRV와 4주치 운동이 충분하면 준비도와 부하 증가 속도도 첫날부터 나와요. 기록이 없다면 준비도는 워치를 차고 잔 밤이 쌓여야 해서 보통 2주쯤, 부하 증가 속도(ACWR)는 4주쯤 걸려요. 기준 대비 효율은 최대심박을 입력한 뒤, 심박이 기록된 10분 넘는 러닝을 같은 강도(이지·중간·고강도)로 3번 채우면 나옵니다. 처음 몇 번은 강도나 측정 시점을 아직 가려내지 못한 기준선과 비교되는데, 그 사실도 화면에 함께 표시해요.</p></div>
-<div class="tile reveal"><h3 data-i18n="n.faq.q8">평생 이용권과 연간 중 뭐가 유리한가요?</h3><p data-i18n="n.faq.a8">평생 이용권은 자동 갱신 없는 한 번 결제예요. 연간 기준 약 2년, 월간 기준 약 15개월이면 본전이라, 그보다 오래 쓰실 생각이면 평생 이용권이 더 저렴해요. Apple 가족 공유가 되는 요금제도 평생 이용권 하나뿐이고, 월간·연간 구독은 가족 공유 대상이 아닙니다.</p></div>
+<p data-i18n="n.faq.a2">watchOS 10 이상(Apple Watch Series 4 이상)과 iOS 17 이상이면 돼요. 심박과 GPS만 있으면 충분하고, 접지 시간과 수직 진폭을 재는 최신 모델에서는 자세 코칭이 더 세밀해져요. 이 두 값을 못 재는 모델에서는 케이던스를 기준으로 코칭합니다.</p></details>
+<details class="faq-item reveal"><summary><h3 data-i18n="n.faq.q3">해지하면 기록은 어떻게 되나요?</h3></summary><p data-i18n="n.faq.a3">기록은 Apple 건강에 그대로 남아요. 해지해도 기록, 플랜 보기, 운동 상세 리포트는 계속 무료로 쓸 수 있어요.</p></details>
+<details class="faq-item reveal"><summary><h3 data-i18n="n.faq.q6">기록이 하나도 없어도 쓸 수 있나요?</h3></summary><p data-i18n="n.faq.a6">네. 워치로 12분 측정 러닝을 한 번 하면 예상 5K·10K 기록과 첫 플랜이 그날 바로 나와요. 이 측정은 워치에서만 할 수 있어요. 아이폰만 있다면 첫날부터 GPS 기록, 구간 페이스 음성, 훈련 플랜 보기를 쓸 수 있고, 플랜은 최근 주간 거리를 기준으로 시작해요. 건강 앱에 이미 기록이 있다면, 건강 앱을 연결한 바로 다음 화면에서 지난 90일의 주간 거리·가장 빠른 러닝·HRV 범위를 실제 값으로 보여 주고, 지난 HRV와 4주치 운동이 충분하면 준비도와 부하 증가 속도도 첫날부터 나와요. 기록이 없다면 준비도는 워치를 차고 잔 밤이 쌓여야 해서 보통 2주쯤, 부하 증가 속도(ACWR)는 4주쯤 걸려요. 기준 대비 효율은 최대심박을 입력한 뒤, 심박이 기록된 10분 넘는 러닝을 같은 강도(이지·중간·고강도)로 3번 채우면 나옵니다. 처음 몇 번은 강도나 측정 시점을 아직 가려내지 못한 기준선과 비교되는데, 그 사실도 화면에 함께 표시해요.</p></details>
+<details class="faq-item reveal"><summary><h3 data-i18n="n.faq.q8">평생 이용권과 연간 중 뭐가 유리한가요?</h3></summary><p data-i18n="n.faq.a8">평생 이용권은 자동 갱신 없는 한 번 결제예요. 연간 기준 약 2년, 월간 기준 약 15개월이면 본전이라, 그보다 오래 쓰실 생각이면 평생 이용권이 더 저렴해요. Apple 가족 공유가 되는 요금제도 평생 이용권 하나뿐이고, 월간·연간 구독은 가족 공유 대상이 아닙니다.</p></details>
 <!-- A question the page had been leaving to the download: there is no iCloud
      sync (no paid developer account). Better answered before the install than
      after. (2026-10-03: the complication/widget answer beside it, the trial,
      data and six-language answers were removed with the 3차 덜어내기 — the
      price section, the privacy section and the store sheet already say them.) -->
-<div class="tile reveal"><h3 data-i18n="n.faq.q9">기기를 바꾸면 어떻게 되나요?</h3><p data-i18n="n.faq.a9">러닝 기록은 Apple 건강에 저장돼 있어서 새 기기의 건강 앱이 그대로 가져와요. 런비스 안에만 있던 값(프로필, 심박존, 신발 목록, 코치가 쌓은 기준선)은 설정 → 데이터 → '내 데이터 내보내기'로 파일 하나에 담아 두었다가, 새 기기에서 '백업에서 가져오기'로 되살리면 돼요. 이 파일은 직접 저장한 곳에만 남고, 런비스가 어디로도 보내지 않아요. 구독은 App Store의 '구매 복원'으로 되찾을 수 있습니다.</p></div>
+<details class="faq-item reveal"><summary><h3 data-i18n="n.faq.q9">기기를 바꾸면 어떻게 되나요?</h3></summary><p data-i18n="n.faq.a9">러닝 기록은 Apple 건강에 저장돼 있어서 새 기기의 건강 앱이 그대로 가져와요. 런비스 안에만 있던 값(프로필, 심박존, 신발 목록, 코치가 쌓은 기준선)은 설정 → 데이터 → '내 데이터 내보내기'로 파일 하나에 담아 두었다가, 새 기기에서 '백업에서 가져오기'로 되살리면 돼요. 이 파일은 직접 저장한 곳에만 남고, 런비스가 어디로도 보내지 않아요. 구독은 App Store의 '구매 복원'으로 되찾을 수 있습니다.</p></details>
 </div>
 </div>
 </section>
