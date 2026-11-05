@@ -441,9 +441,13 @@ console.log('\n[12] claims that carry a condition');
     },
     {
       key: 'r20',
-      ban: ['2.5', '2,5', '二・五', '二點五', '二点五'],
+      ban: ['2.5', '2,5', '二・五', '二點五', '二点五',
+            '브리핑은 여기까지', 'That’s the briefing', 'ブリーフィングはここまで',
+            'Fin del resumen', '簡報到這裡', 'So weit das Briefing'],
       why: 'the demo quotes the coach verbatim and CoachEngine says "약 3킬로미터마다" '
-         + '(distanceSpoken(meters: 3000)) — there is no 2.5 km in any hydration line',
+         + '(distanceSpoken(meters: 3000)) — there is no 2.5 km in any hydration line; '
+         + 'and since 2026-11-05 the briefing ends on WarmupView\'s one-line "준비운동 시작을 '
+         + '눌러 주세요." — the old long sign-off was removed from the app and its coach tables',
     },
   ];
   // Two keys that must name the SAME thing in every language. The hero now
