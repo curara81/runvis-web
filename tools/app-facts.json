@@ -1,13 +1,13 @@
 {
   "measuredAt": "2026-11-06",
   "appRepo": "SportsDashboard",
-  "tests": 1395,
+  "tests": 1396,
   "testFiles": 79,
-  "stringKeys": 3045,
-  "stringLines": 3045,
-  "coachTable": 408,
+  "stringKeys": 3044,
+  "stringLines": 3044,
+  "coachTable": 410,
   "glossary": 43,
-  "cueSites": 315,
+  "cueSites": 317,
   "notifyKinds": 9,
   "notifyIds": [
     "coachFirstWeek",

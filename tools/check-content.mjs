@@ -449,6 +449,15 @@ console.log('\n[12] claims that carry a condition');
          + 'and since 2026-11-05 the briefing ends on WarmupView\'s one-line "준비운동 시작을 '
          + '눌러 주세요." — the old long sign-off was removed from the app and its coach tables',
     },
+    {
+      key: 'sc.note',
+      ban: ['실제로 달리면서', '실제 러닝에서', 'actual run', 'on a real run', '実際に走りながら',
+            '真實跑步', 'carrera de verdad', 'echten Lauf'],
+      why: 'the mid-run watch frames (framed-watch-pace/hr/map) are simulator captures — '
+         + 'tools/watch-capture.md §4 feeds `simctl location --speed=3.2` and taps 러닝; no shipped '
+         + 'capture came from an actual run (last swap 7c4c2b4, 2026-11-06 전문가 검토), so the note '
+         + 'may say the APP is real but not the run',
+    },
   ];
   // Two keys that must name the SAME thing in every language. The hero now
   // states the hardware requirement on the first screen and the FAQ answer it
