@@ -303,16 +303,18 @@
   // The FAQ rich result has to carry the same questions the page shows, in the
   // language the page is showing them in. Rebuilding it from the same
   // dictionary the tiles read is the only way the two cannot drift apart.
-  // Ten tiles: the two pricing questions, plus 기기 교체 (there is no iCloud
-  // sync, so the answer is the manual backup file) and 컴플리케이션/위젯
-  // (there is none in this build — say so before the install, not after).
-  var FAQ_COUNT = 10;
+  // Same walk as tools/i18n-lib.mjs faqLd: the numbering has gaps (q1·2·3·6·8·9
+  // — four tiles were cut over the rounds), so a gap is skipped, not a stop.
+  // Until 2026-11-07 this returned at the first gap and never rewrote #faqld
+  // on an in-place language switch (2026-11-06 전문가 검토).
+  var FAQ_MAX = 20;
   function applyFaqLd(code, dict) {
     var node = document.getElementById('faqld');
     if (!node) return;
     var items = [];
-    for (var i = 1; i <= FAQ_COUNT; i++) {
+    for (var i = 1; i <= FAQ_MAX; i++) {
       var q = dict['n.faq.q' + i], a = dict['n.faq.a' + i];
+      if (!q && !a) continue;
       if (!q || !a) return;                       // never publish a partial FAQ
       items.push({
         '@type': 'Question',
@@ -320,6 +322,7 @@
         acceptedAnswer: { '@type': 'Answer', text: plain(a) }
       });
     }
+    if (!items.length) return;
     node.textContent = JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -328,19 +331,15 @@
     });
   }
 
-  // The app itself, with the three prices the page already quotes. Prices stay
-  // in KRW because that is what the Korean App Store charges, and each Offer
-  // now carries eligibleRegion KR so a German-language page is not telling a
-  // search engine that a Berlin reader pays ₩1,900. No converted figure goes
-  // in structured data; the other stores get their own Offers when App Store
-  // Connect has them. Keep this in step with tools/i18n-lib.mjs appLd — check
-  // [4] compares the static markup against that one, and a reader with
-  // JavaScript gets this one.
-  var OFFERS = [
-    { name: 'Runvis Coach Monthly',  price: '1900',  category: 'subscription' },
-    { name: 'Runvis Coach Yearly',   price: '15000', category: 'subscription' },
-    { name: 'Runvis Coach Lifetime', price: '39000', category: 'one-time' }
-  ];
+  // The app itself — the same shape as tools/i18n-lib.mjs appLd, which writes
+  // the static markup that check [4] verifies; a reader with JavaScript who
+  // switches language in place gets this one. No Offers: nothing is orderable
+  // yet (TestFlight beta, no App Store link), and check [29] in
+  // check-content.mjs refuses an "offers" block on a page without one. Until
+  // 2026-11-07 this function still injected three Offers at the prices of the
+  // abandoned 2026-08 plan (₩1,900 / ₩15,000 / ₩39,000) — the only place on
+  // the site those numbers survived (2026-11-06 전문가 검토). The url is each
+  // language's OWN home, like rel=canonical and og:url two lines above.
   function applyAppLd(code, dict) {
     var node = document.getElementById('appld');
     if (!node) return;
@@ -351,22 +350,13 @@
       applicationCategory: 'HealthApplication',
       operatingSystem: 'watchOS, iOS',
       inLanguage: code === 'zh' ? 'zh-Hant' : code,
-      url: 'https://runvis.app/',
+      url: 'https://runvis.app' + (code === 'ko' ? '/' : '/' + code + '/'),
       description: plain(dict['meta.desc'] || ''),
       // Six cards, one per market — tools/og_cards.py. Suffixed exactly like
       // the screenshot below it, and exactly like tools/i18n-lib.mjs appLd.
       image: 'https://runvis.app/assets/og-card' + (code === 'ko' ? '' : '.' + code) + '.png',
       screenshot: 'https://runvis.app/assets/framed-phone-dash' + (code === 'ko' ? '' : '.' + code) + '.png',
-      author: { '@type': 'Organization', name: 'Runvis', url: 'https://runvis.app/' },
-      offers: OFFERS.map(function (o) {
-        return {
-          '@type': 'Offer', name: o.name, price: o.price, priceCurrency: 'KRW', category: o.category,
-          // Nothing is purchasable yet — TestFlight beta, release date not set.
-          // Three prices with no availability read as "on sale now".
-          availability: 'https://schema.org/PreOrder',
-          eligibleRegion: { '@type': 'Country', name: 'KR' }
-        };
-      })
+      author: { '@type': 'Organization', name: 'Runvis', url: 'https://runvis.app/' }
     });
   }
 

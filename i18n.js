@@ -152,13 +152,14 @@
     }
     setMeta('property', 'og:locale', OG_LOCALE[code] || 'ko_KR');
   }
-  var FAQ_COUNT = 10;
+  var FAQ_MAX = 20;
   function applyFaqLd(code, dict) {
     var node = document.getElementById('faqld');
     if (!node) return;
     var items = [];
-    for (var i = 1; i <= FAQ_COUNT; i++) {
+    for (var i = 1; i <= FAQ_MAX; i++) {
       var q = dict['n.faq.q' + i], a = dict['n.faq.a' + i];
+      if (!q && !a) continue;
       if (!q || !a) return;
       items.push({
         '@type': 'Question',
@@ -166,6 +167,7 @@
         acceptedAnswer: { '@type': 'Answer', text: plain(a) }
       });
     }
+    if (!items.length) return;
     node.textContent = JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -173,11 +175,6 @@
       mainEntity: items
     });
   }
-  var OFFERS = [
-    { name: 'Runvis Coach Monthly',  price: '1900',  category: 'subscription' },
-    { name: 'Runvis Coach Yearly',   price: '15000', category: 'subscription' },
-    { name: 'Runvis Coach Lifetime', price: '39000', category: 'one-time' }
-  ];
   function applyAppLd(code, dict) {
     var node = document.getElementById('appld');
     if (!node) return;
@@ -188,18 +185,11 @@
       applicationCategory: 'HealthApplication',
       operatingSystem: 'watchOS, iOS',
       inLanguage: code === 'zh' ? 'zh-Hant' : code,
-      url: 'https://runvis.app/',
+      url: 'https://runvis.app' + (code === 'ko' ? '/' : '/' + code + '/'),
       description: plain(dict['meta.desc'] || ''),
       image: 'https://runvis.app/assets/og-card' + (code === 'ko' ? '' : '.' + code) + '.png',
       screenshot: 'https://runvis.app/assets/framed-phone-dash' + (code === 'ko' ? '' : '.' + code) + '.png',
-      author: { '@type': 'Organization', name: 'Runvis', url: 'https://runvis.app/' },
-      offers: OFFERS.map(function (o) {
-        return {
-          '@type': 'Offer', name: o.name, price: o.price, priceCurrency: 'KRW', category: o.category,
-          availability: 'https://schema.org/PreOrder',
-          eligibleRegion: { '@type': 'Country', name: 'KR' }
-        };
-      })
+      author: { '@type': 'Organization', name: 'Runvis', url: 'https://runvis.app/' }
     });
   }
   var PAGE_META = {
