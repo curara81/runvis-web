@@ -123,12 +123,12 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
   </ul>
 
   <h2 id="versus" data-i18n="hw.vs.h">和 Garmin Forerunner、COROS 這類專用跑錶，哪裡一樣、哪裡不同？</h2>
-  <p data-i18n="hw.vs.p">訓練負荷、恢復時間、乳酸閾值推估、比賽配速計畫。大家常說，這些數字要有 Garmin Forerunner 或 COROS 這類跑錶才看得到。在自家手錶裡算這些的公司早就有了。Runvis 用 Apple Watch 已經記錄的心率、GPS 和高度，算出同一類的數值。專用跑錶的算式沒有公開，所以我們不會說「用的是同一條公式」。相對地，Runvis 用的每一條都是有名字的公開公式，名字就寫在下面。在 App 裡，每個指標點開，都能看到意思、計算依據和你的平常範圍。</p>
+  <p data-i18n="hw.vs.p">訓練負荷、恢復時間、乳酸閾值推估、比賽配速計畫。大家常說，這些數字要有 Garmin Forerunner 或 COROS 這類跑錶才看得到。能算出這些數值的手錶和 App，早就不少。Runvis 用 Apple Watch 已經記錄的心率、GPS 和高度，算出同一類的數值。專用跑錶的算式沒有公開，所以我們不會說「用的是同一條公式」。相對地，下面會寫出每個指標怎麼算：用到有名字的公開公式，就寫出公式名稱；Runvis 自己訂的規則，也說明算法。在 App 裡，每個指標點開，都能看到意思、計算依據和你的平常範圍。</p>
   <div class="tablewrap"><table>
-    <tr><th data-i18n="hw.vs.th1">指標</th><th data-i18n="hw.vs.th2">Runvis 的計算方式與公式名稱</th></tr>
-    <tr><td data-i18n="hw.vs.r0a">還得另外買什麼</td><td data-i18n="hw.vs.r0b">Garmin Forerunner、COROS 賣的是錶本身。Runvis 用的是你已經戴在手上的 Apple Watch，要另外付費的只有教練訂閱。</td></tr>
-    <tr><td data-i18n="hw.vs.r1a">訓練負荷 · 恢復餘裕（TSB）</td><td data-i18n="hw.vs.r1b">把 Banister TRIMP 放進 Coggan 的 42 天、7 天指數移動平均（CTL、ATL），用昨天的 CTL 減掉昨天的 ATL 當作今天的恢復餘裕（TSB）（依 Coggan 的定義，今天的負荷不會改變今天的恢復餘裕）。</td></tr>
-    <tr><td data-i18n="hw.vs.r2a">恢復時間</td><td data-i18n="hw.vs.r2b">用最後一趟跑步以心率計的負荷（TRIMP）、目前的恢復餘裕（TSB）和 HRV 趨勢三項來推估。畫面上也會標明是推估值。</td></tr>
+    <tr><th data-i18n="hw.vs.th1">指標</th><th data-i18n="hw.vs.th2">Runvis 的計算方式</th></tr>
+    <tr><td data-i18n="hw.vs.r0a">還得另外買什麼</td><td data-i18n="hw.vs.r0b">Garmin Forerunner、COROS 賣的是錶本身。Runvis 用的是你已經戴在手上的 Apple Watch，要另外付費的只有教練功能（訂閱或永久使用權）。</td></tr>
+    <tr><td data-i18n="hw.vs.r1a">訓練負荷 · 恢復餘裕（TSB）</td><td data-i18n="hw.vs.r1b">把 Banister TRIMP 放進 Coggan 的 42 天、7 天指數移動平均。體能（CTL）只算跑步和走路；疲勞（ATL）則算進所有有心率紀錄的運動，包括自行車和肌力訓練。今天的恢復餘裕（TSB）是昨天的 42 天平均（所有運動）減掉昨天的疲勞（依 Coggan 的定義，今天的負荷不會改變今天的恢復餘裕）。</td></tr>
+    <tr><td data-i18n="hw.vs.r2a">恢復時間</td><td data-i18n="hw.vs.r2b">這是 Runvis 的規則：用最後一次跑步那天的運動負荷（以心率計的 TRIMP，當天其他運動也一起加總）定出 12～72 小時的基本值，再依目前的恢復餘裕（TSB）和 HRV 趨勢增減。時間從最後一趟跑步結束時起算，畫面上也會標明是推估值。</td></tr>
     <tr><td data-i18n="hw.vs.r3a">乳酸閾值（估計）</td><td data-i18n="hw.vs.r3b">最近 90 天內，撐在最大心率 85% 以上的最佳 30 分鐘（或 20 分鐘）區段的配速和心率。這是從跑步紀錄推估出來的，不是實驗室抽血量的。</td></tr>
     <tr><td data-i18n="hw.vs.r4a">成績預測 · 分段配速計畫</td><td data-i18n="hw.vs.r4b">用 Riegel 公式和 Runvis 體能指數預測。匯入路線 GPX，就會依那條路線的高度，把配速分段排好。</td></tr>
     <tr><td data-i18n="hw.vs.r5a">坡度校正配速（GAP）</td><td data-i18n="hw.vs.r5b">採用 Minetti（2002）的跑步能量消耗曲線，上坡和下坡的負擔分開計算。</td></tr>
@@ -139,11 +139,11 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
     <tr><td data-i18n="hw.vs.r10a">教練煞車</td><td data-i18n="hw.vs.r10b">這不是分數，是預算。用最近 4 週（以跑完的整週計算）的週跑量，抓出這週身體吃得下的距離，再依你跑後留下的疼痛回報往下調。剩下多少、因為疼痛扣掉多少，分開顯示，為什麼變少一看就懂。</td></tr>
     <tr><td data-i18n="hw.vs.r11a">教練的紀錄雷達</td><td data-i18n="hw.vs.r11b">有 GPS 路線的跑步，會把整趟紀錄掃過一遍，找出最快的區段（區段最快）；沒有路線的跑步，就用全程平均配速換算。每筆紀錄是用哪種方式抓到的，畫面上都會標出來。範圍是最近 90 天。</td></tr>
     <tr><td data-i18n="hw.vs.r12a">耐力訓練量</td><td data-i18n="hw.vs.r12b">從最近 28 天的紀錄取三個值，以 45 : 35 : 20 的比例合成 0～100：週跑量（每週 80 公里滿分）、最長一次跑步（30 公里滿分）、最近 4 週裡有跑步的週數。這不是替跑者打分數，而是呈現身體目前累積的訓練量。紀錄不夠時，不會編出分數，而是先放 0，並在畫面上告訴你缺什麼。</td></tr>
-    <tr><td data-i18n="hw.vs.r13a">腿部負荷</td><td data-i18n="hw.vs.r13b">把一趟跑步留在腿上的負荷，以「平地換算公里」來計。平地輕鬆跑 1 公里算 1.0；同樣的距離，跑得快、跑上坡或下坡，都會算得更多。算法是：一趟跑步 = 距離 × 強度倍率 × 坡度倍率。強度倍率看速度，不看心率（以你的輕鬆配速和閾值配速為準）：輕鬆或更慢 1.0、閾值 1.35，再快最高 1.6。坡度倍率在上坡是實際配速 ÷ 坡度校正配速（最高 1.6）；下坡則用 1 + 1.2 ×（1 − 該比值）算得更多（最高 2.0），因為下坡雖然比較省力，衝擊卻更大。短期值是以天為單位的指數加權移動平均（EWMA，時間常數 7 天），所以是每日平均的水準（穩定跑步時大約是週總和 ÷ 7）；每週值則是那一週的單純加總。它會顯示在報告面板和跑步詳細畫面（「訓練負荷」旁邊），和實際距離並排。跑步動態和走路區段目前還沒有納入。Garmin 沒有公開算式，上面的倍率是 Runvis 參考公開文獻訂出的參考值。</td></tr>
+    <tr><td data-i18n="hw.vs.r13a">腿部負荷</td><td data-i18n="hw.vs.r13b">把一趟跑步留在腿上的負荷，以「平地換算公里」來計。平地輕鬆跑 1 公里算 1.0；同樣的距離，跑得快、跑上坡或下坡，都會算得更多。算法是：一趟跑步 = 距離 × 強度倍率 × 坡度倍率。強度倍率先看速度、再看心率（以你的輕鬆配速和閾值配速為準，還沒有這兩個配速時才用心率）：輕鬆或更慢 1.0、閾值 1.35，再快最高 1.6。坡度倍率在上坡是實際配速 ÷ 坡度校正配速（最高 1.6）；下坡則用 1 + 1.2 ×（1 − 該比值）算得更多（最高 2.0），因為下坡雖然比較省力，衝擊卻更大。短期值是以天為單位的指數加權移動平均（EWMA，時間常數 7 天），所以是每日平均的水準（穩定跑步時大約是週總和 ÷ 7）；每週值則是那一週的單純加總。它會顯示在報告面板和跑步詳細畫面（「訓練負荷」旁邊），和實際距離並排。跑步動態和走路區段目前還沒有納入。上面的倍率是 Runvis 參考公開文獻訂出的參考值。</td></tr>
   </table></div>
   <div class="shots">
-<figure><picture><source srcset="/assets/framed-phone-detail.zh.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.zh.webp" type="image/webp"/><img alt="iPhone 指標詳細畫面：體能趨勢（CTL）7 天、你的 28 天範圍與指標說明" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.zh.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">上表第一列，在 App 裡長這樣：體能趨勢（CTL）的 7 天走勢、你的 28 天範圍，還有這個指標的意思。</figcaption></figure>
-<figure><picture><source srcset="/assets/framed-phone-race.zh.avif" type="image/avif"/><source srcset="/assets/framed-phone-race.zh.webp" type="image/webp"/><img alt="iPhone 成績預測畫面：10K 目標 55:00 的每公里配速計畫，以及 5K、10K、半馬預估成績" data-i18n-attr="alt:alt.phone.race" loading="lazy" src="/assets/framed-phone-race.zh.png" data-shot="framed-phone-race" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap2">第四列長這樣：成績預測與分段配速計畫。</figcaption></figure>
+<figure><picture><source srcset="/assets/framed-phone-detail.zh.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.zh.webp" type="image/webp"/><img alt="iPhone 指標詳細畫面：體能趨勢（CTL）7 天、你的 28 天範圍與指標說明" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.zh.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">上表的「訓練負荷」那一列，在 App 裡長這樣：體能趨勢（CTL）的 7 天走勢、你的 28 天範圍，還有這個指標的意思。</figcaption></figure>
+<figure><picture><source srcset="/assets/framed-phone-race.zh.avif" type="image/avif"/><source srcset="/assets/framed-phone-race.zh.webp" type="image/webp"/><img alt="iPhone 成績預測畫面：10K 目標 55:00 的每公里配速計畫，以及 5K、10K、半馬預估成績" data-i18n-attr="alt:alt.phone.race" loading="lazy" src="/assets/framed-phone-race.zh.png" data-shot="framed-phone-race" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap2">「成績預測」那一列長這樣：分段配速計畫與各距離的預估成績。</figcaption></figure>
 </div>
   <p class="legalnote" data-i18n="sc.note.s">實際的 App 畫面。</p>
   <p class="note" data-i18n="hw.vs.tm">Garmin、Forerunner、COROS 是各自公司的商標，Runvis 與這兩家公司沒有任何關係。這裡只寫公開的事實；兩家公司都沒有公開算式，所以我們不比較準確度。</p>
@@ -168,7 +168,7 @@ window.RunvisPageLang="zh";window.RunvisBase="/";
   <h2 id="beta" data-i18n="n.beta.stepsh">報名之後的流程</h2>
   <ol>
     <li data-i18n="n.beta.s1">報名：只需要電子郵件地址，不用註冊帳號。</li>
-    <li data-i18n="n.beta.s2">TestFlight 邀請：Beta 開放後，照報名順序寄出邀請連結。你只要有 Apple 帳號就行，不用付費。Beta 版在 Beta 期間，教練功能全部免費。如果你沒有同意接收行銷訊息，除了這封邀請信，我們什麼都不會寄。</li>
+    <li data-i18n="n.beta.s2">TestFlight 邀請：Beta 開放後，照報名順序寄出邀請連結。你只要有 Apple 帳號就行，不用付費。Beta 版在 Beta 期間，教練功能全部免費。如果你沒有同意接收行銷訊息，我們只會寄 Beta 相關通知（開放日期和這封邀請信）。</li>
     <li data-i18n="n.beta.s3">意見回饋：可以直接在 App 內傳送，或寄到 help@runvis.app。</li>
     <li data-i18n="n.beta.s4">上市：Beta 結束後才決定上市時間。先在韓國 App Store 推出，其他地區再陸續上架。</li>
   </ol>

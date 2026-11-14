@@ -118,17 +118,17 @@ window.RunvisPageLang="ja";window.RunvisBase="/";
   <ul>
     <li data-i18n="n.live.q.n1">案内と案内の間は、最低45秒あけます。安全の案内や練習のステップ切り替えといった大事な案内とスプリットは、待たずにすぐ流れます。下の項目も例外です。</li>
     <li data-i18n="n.live.q.n2">スプリット、坂の予告、自動一時停止・再開の案内は、それぞれ別のルールで動くため、30分あたりの上限には数えません。歩き・走りの切り替えの案内と呼吸の号令は、そのタイミングで流れてこそ意味があるので、45秒の間隔も待ちません。前に走ったコースだと気づいたときの最初のひと言も同じです。</li>
-    <li data-i18n="n.live.q.n3">iPhoneだけで走るときは、ルールが違います。案内の種類が少ないので、案内の間隔は20秒。ペースの案内は3分に1回、心拍ゾーンの案内は5分に1回までにして、30分あたりの上限は設けていません。</li>
+    <li data-i18n="n.live.q.n3">iPhoneだけで走るときは、ルールが違います。案内の種類が少ないので、案内と案内の間は最低20秒。ペースの案内は3分に1回、心拍ゾーンの案内は5分に1回までにして、30分あたりの上限は設けていません。</li>
     <li data-i18n="n.live.q.n4">オン・オフできる項目は8つです。ペース、心拍ゾーン、フォーム、坂、励まし・スクリプト、ランニング豆知識カード、水分・補給、一時停止・再開の音声。スプリットはオン・オフではなく、間隔を選びます（オフ・0.5・1、kmまたはマイル）。安全の案内と練習のステップの案内は切れません。音楽は、案内が流れている間だけ少し小さくなります。</li>
   </ul>
 
   <h2 id="versus" data-i18n="hw.vs.h">ガーミンのForerunnerやCOROSのような専用ランニングウォッチと、何が同じで、何が違うのか</h2>
-  <p data-i18n="hw.vs.p">トレーニング負荷、回復時間、乳酸性作業閾値の推定、レースのペースプラン。ガーミンのForerunnerやCOROSのようなランニングウォッチがないと見られない、と言われる値です。こうした値を自社の時計の中で計算している会社は、すでにあります。Runvisは同じ種類の値を、Apple Watchがすでに記録している心拍・GPS・高度から計算します。専用ウォッチの計算式は公開されていないので、「同じ式です」とは言いません。そのかわり、Runvisが使う式はすべて名前のある公開された計算式で、下にその名前を書いています。アプリでは、指標ごとに意味と計算の根拠、自分のふだんの範囲をタップして確認できます。</p>
+  <p data-i18n="hw.vs.p">トレーニング負荷、回復時間、乳酸性作業閾値の推定、レースのペースプラン。ガーミンのForerunnerやCOROSのようなランニングウォッチがないと見られない、と言われる値です。こうした値を計算してくれる時計やアプリは、すでにいくつもあります。Runvisは同じ種類の値を、Apple Watchがすでに記録している心拍・GPS・高度から計算します。専用ウォッチの計算式は公開されていないので、「同じ式です」とは言いません。そのかわり、公開された式を使う指標はその式の名前を、Runvisが決めた基準はその数字を、下にそのまま書いています。アプリでは、指標ごとに意味と計算の根拠、自分のふだんの範囲をタップして確認できます。</p>
   <div class="tablewrap"><table>
-    <tr><th data-i18n="hw.vs.th1">指標</th><th data-i18n="hw.vs.th2">Runvisの計算方法と、式の名前</th></tr>
-    <tr><td data-i18n="hw.vs.r0a">買い足すものは？</td><td data-i18n="hw.vs.r0b">ガーミンのForerunnerやCOROSは、時計そのものが商品です。Runvisはいま着けているApple Watchを使うので、別に支払うのはコーチのサブスクだけです。</td></tr>
-    <tr><td data-i18n="hw.vs.r1a">トレーニング負荷 · 回復の余裕（TSB）</td><td data-i18n="hw.vs.r1b">Banister TRIMPを、Cogganの42日・7日の指数移動平均（CTL・ATL）に入れ、昨日のCTLから昨日のATLを引いた値を今日の回復の余裕（TSB）とします（Cogganの定義どおり、今日の負荷は今日の回復の余裕を変えません）。</td></tr>
-    <tr><td data-i18n="hw.vs.r2a">回復時間</td><td data-i18n="hw.vs.r2b">直近のランの心拍ベースの負荷（TRIMP）、現在の回復の余裕（TSB）、HRVトレンドの3つから推定します。画面にも推定値だと表示します。</td></tr>
+    <tr><th data-i18n="hw.vs.th1">指標</th><th data-i18n="hw.vs.th2">Runvisの計算方法</th></tr>
+    <tr><td data-i18n="hw.vs.r0a">買い足すものは？</td><td data-i18n="hw.vs.r0b">ガーミンのForerunnerやCOROSは、時計そのものが商品です。Runvisはいま着けているApple Watchを使うので、別に支払うのはコーチ機能（サブスクまたは買い切り）だけです。</td></tr>
+    <tr><td data-i18n="hw.vs.r1a">トレーニング負荷 · 回復の余裕（TSB）</td><td data-i18n="hw.vs.r1b">Banister TRIMPを、Cogganの42日・7日の指数移動平均に入れます。体力（CTL）はランとウォーキングだけ、疲労（ATL）はサイクリングや筋トレも含めて心拍が記録されたすべての運動で計算し、今日の回復の余裕（TSB）は昨日の42日平均（すべての運動）から昨日の疲労を引いた値です（Cogganの定義どおり、今日の負荷は今日の回復の余裕を変えません）。</td></tr>
+    <tr><td data-i18n="hw.vs.r2a">回復時間</td><td data-i18n="hw.vs.r2b">最後に走った日の運動負荷（心拍ベースのTRIMP、その日のほかの運動も合算）で基本12〜72時間を決め、現在の回復の余裕（TSB）とHRVトレンドで増減させるRunvisのルールです。時間は最後のランが終わった時点から数え、画面にも推定値だと表示します。</td></tr>
     <tr><td data-i18n="hw.vs.r3a">乳酸性作業閾値（推定）</td><td data-i18n="hw.vs.r3b">直近90日間で、最大心拍の85%以上を保った30分（または20分）のベスト区間のペースと心拍です。ラボでの採血ではなく、ランの記録から出した推定値です。</td></tr>
     <tr><td data-i18n="hw.vs.r4a">レース予測 · 区間ペースプラン</td><td data-i18n="hw.vs.r4b">Riegelの式とRunvis フィットネス指数で予測します。コースのGPXを入れると、そのコースの高低差に合わせて区間ごとのペースを割り振ります。</td></tr>
     <tr><td data-i18n="hw.vs.r5a">勾配補正ペース（GAP）</td><td data-i18n="hw.vs.r5b">Minetti（2002）のランニングのエネルギー消費曲線を使います。上りと下りの負担は別々に計算します。</td></tr>
@@ -137,13 +137,13 @@ window.RunvisPageLang="ja";window.RunvisBase="/";
     <tr><td data-i18n="hw.vs.r8a">ヒル曝露</td><td data-i18n="hw.vs.r8b">直近28日のうち、上りのあったラン（2本以上）だけを集めて、総獲得標高 ÷ 総距離（m/km）で計算します。15以上ならアップダウンのあるコース、40以上なら坂の多いコースです。ランナーを採点するスコアではなく、走った地形を記録する値です。</td></tr>
     <tr><td data-i18n="hw.vs.r9a">暑熱曝露指数</td><td data-i18n="hw.vs.r9b">直近4週間に、22°C（華氏設定なら同じ温度の華氏の値）を超える日に走った屋外ランがどれだけ積み重なったかを、0〜100で表します。暑い日のランが3回たまると表示され、3日以上休むと下がります。体が暑さにどれだけ慣れたかではなく、暑さにどれだけさらされたかを示す値です。</td></tr>
     <tr><td data-i18n="hw.vs.r10a">コーチのブレーキ</td><td data-i18n="hw.vs.r10b">スコアではなく、予算です。すでに終わった直近4週間の週間距離から今週こなせる距離を決め、ラン後に記録した痛みのぶんだけ減らします。残りの距離と、痛みで減った距離を分けて表示するので、なぜ減ったのかが画面ですぐに分かります。</td></tr>
-    <tr><td data-i18n="hw.vs.r11a">コーチの記録レーダー</td><td data-i18n="hw.vs.r11b">GPSの経路があるランは、記録全体をたどっていちばん速かった区間（区間最速）を探します。経路がないランは、全体の平均ペースから換算します。どちらの方法で求めた記録かを画面に一緒に表示し、対象は直近90日の記録です。</td></tr>
-    <tr><td data-i18n="hw.vs.r12a">持久力トレーニング量</td><td data-i18n="hw.vs.r12b">直近28日の記録から3つの要素を45 : 35 : 20の割合で組み合わせた、0〜100の値です。週間距離（週80kmで満点）、いちばん長いラン（30kmで満点）、直近4週間のうち走った週の数。ランナーを採点するスコアではなく、いま体に積み上がっている練習量を示す値です。記録が足りなければ数字を作らずに0のままにして、何が足りないかを画面に表示します。</td></tr>
-    <tr><td data-i18n="hw.vs.r13a">脚部負荷</td><td data-i18n="hw.vs.r13b">ランが脚に残した負荷を「平地換算km」で数えた値です。平地を楽に走った1kmが1.0で、同じ距離でも、速く・上りで・下りで走ると大きく数えます。計算は、ラン1本 = 距離 × 強度倍率 × 勾配倍率。強度倍率は心拍ではなくスピードで決めます（自分のイージー・閾値ペースが基準）：イージー以下1.0、閾値1.35、それより速ければ最大1.6。勾配倍率は、上りなら実際のペース ÷ 勾配補正ペース（最大1.6）、下りなら1 + 1.2 ×（1 − その比率）で大きく数えます（最大2.0）。下りは楽でも、衝撃は大きいからです。短期の値は1日単位の指数加重移動平均（EWMA、時定数7日）なので1日平均の水準になり（安定して走っていれば、およそ週間合計 ÷ 7）、週間の値はその週の単純な合計です。レポートのタイルと、ランの詳細画面（「トレーニング負荷」の横）に、実際の距離と並べて表示します。ランニングダイナミクスと歩いた区間は、まだ反映していません。ガーミンは計算式を公開しておらず、上の倍率は公開文献を参考にRunvisが決めた参考値です。</td></tr>
+    <tr><td data-i18n="hw.vs.r11a">コーチの記録レーダー</td><td data-i18n="hw.vs.r11b">GPSの経路があるランは、記録全体をたどっていちばん速かった区間（区間最速）を探します。経路がないランは、全体の平均ペースから換算します。どちらの方法で求めた記録かも画面に表示します。対象は直近90日の記録です。</td></tr>
+    <tr><td data-i18n="hw.vs.r12a">持久力トレーニング量</td><td data-i18n="hw.vs.r12b">直近28日の記録から3つの要素を45 : 35 : 20の割合で組み合わせた、0〜100の値です。週間距離（週80kmで満点）、いちばん長いラン（30kmで満点）、直近4週間のうち走った週の数。いま体に積み上がっている練習量を示す値で、ランナーを採点するものではありません。記録が足りなければ数字を作らずに0のままにして、何が足りないかを画面に表示します。</td></tr>
+    <tr><td data-i18n="hw.vs.r13a">脚部負荷</td><td data-i18n="hw.vs.r13b">ランが脚に残した負荷を「平地換算km」で数えた値です。平地を楽に走った1kmが1.0で、同じ距離でも、速く・上りで・下りで走ると大きく数えます。計算は、ラン1本 = 距離 × 強度倍率 × 勾配倍率。強度倍率は心拍よりスピードを先に見ます（自分のイージー・閾値ペースが基準で、そのペースがまだないときだけ心拍で）：イージー以下1.0、閾値1.35、それより速ければ最大1.6。勾配倍率は、上りなら実際のペース ÷ 勾配補正ペース（最大1.6）、下りなら1 + 1.2 ×（1 − その比率）で大きく数えます（最大2.0）。下りは楽でも、衝撃は大きいからです。短期の値は1日単位の指数加重移動平均（EWMA、時定数7日）なので1日平均の水準になり（安定して走っていれば、およそ週間合計 ÷ 7）、週間の値はその週の単純な合計です。レポートのタイルと、ランの詳細画面（「トレーニング負荷」の横）に、実際の距離と並べて表示します。ランニングダイナミクスと歩いた区間は、まだ反映していません。上の倍率は公開文献を参考にRunvisが決めた参考値です。</td></tr>
   </table></div>
   <div class="shots">
-<figure><picture><source srcset="/assets/framed-phone-detail.ja.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.ja.webp" type="image/webp"/><img alt="iPhoneの指標詳細 — 体力の推移（CTL）の7日間、自分の28日範囲、指標の説明" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.ja.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">上の表の1行目は、アプリではこう表示されます。体力の推移（CTL）の7日間と自分の28日範囲、その指標の意味まで。</figcaption></figure>
-<figure><picture><source srcset="/assets/framed-phone-race.ja.avif" type="image/avif"/><source srcset="/assets/framed-phone-race.ja.webp" type="image/webp"/><img alt="iPhoneのレース予測 — 10K 55:00目標の1kmごとのペースプランと、5K・10K・ハーフの予想タイム" data-i18n-attr="alt:alt.phone.race" loading="lazy" src="/assets/framed-phone-race.ja.png" data-shot="framed-phone-race" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap2">4行目は、こう表示されます。レース予測と区間ペースプラン。</figcaption></figure>
+<figure><picture><source srcset="/assets/framed-phone-detail.ja.avif" type="image/avif"/><source srcset="/assets/framed-phone-detail.ja.webp" type="image/webp"/><img alt="iPhoneの指標詳細 — 体力の推移（CTL）の7日間、自分の28日範囲、指標の説明" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="/assets/framed-phone-detail.ja.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">上の表の「トレーニング負荷」の行は、アプリではこう表示されます。体力の推移（CTL）の7日間と自分の28日範囲、その指標の意味まで。</figcaption></figure>
+<figure><picture><source srcset="/assets/framed-phone-race.ja.avif" type="image/avif"/><source srcset="/assets/framed-phone-race.ja.webp" type="image/webp"/><img alt="iPhoneのレース予測 — 10K 55:00目標の1kmごとのペースプランと、5K・10K・ハーフの予想タイム" data-i18n-attr="alt:alt.phone.race" loading="lazy" src="/assets/framed-phone-race.ja.png" data-shot="framed-phone-race" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap2">「レース予測」の行は、こう表示されます。区間ペースプランと距離ごとの予想タイム。</figcaption></figure>
 </div>
   <p class="legalnote" data-i18n="sc.note.s">実際のアプリ画面です。</p>
   <p class="note" data-i18n="hw.vs.tm">Garmin（ガーミン）、Forerunner、COROSは各社の商標です。Runvisは両社と関係ありません。ここに書いたのは公開されている事実だけです。両社の計算式は公開されていないため、精度の比較はしていません。</p>
@@ -168,7 +168,7 @@ window.RunvisPageLang="ja";window.RunvisBase="/";
   <h2 id="beta" data-i18n="n.beta.stepsh">申し込むと、こう進みます</h2>
   <ol>
     <li data-i18n="n.beta.s1">受付：いただくのはメールアドレスだけです。アカウントを作る必要はありません。</li>
-    <li data-i18n="n.beta.s2">TestFlightの招待：ベータが始まったら、申し込み順に招待リンクをお送りします。Appleアカウントがあれば参加できます。支払いはありません。ベータ版では、ベータ期間中はコーチ機能がすべて無料です。お知らせの受け取りに同意していなければ、この招待メール以外は何も送りません。</li>
+    <li data-i18n="n.beta.s2">TestFlightの招待：ベータが始まったら、申し込み順に招待リンクをお送りします。Appleアカウントがあれば参加できます。支払いはありません。ベータ版では、ベータ期間中はコーチ機能がすべて無料です。お知らせの受け取りに同意していなければ、ベータに関するご連絡（開始日のお知らせとこの招待メール）以外は何も送りません。</li>
     <li data-i18n="n.beta.s3">フィードバック：アプリの中からそのまま送れます。help@runvis.app 宛てでも受け付けています。</li>
     <li data-i18n="n.beta.s4">リリース：ベータが終わってから、リリースの時期を決めます。まず韓国App Storeで公開し、ほかの国や地域には順番に広げていきます。</li>
   </ol>
@@ -188,7 +188,7 @@ window.RunvisPageLang="ja";window.RunvisBase="/";
     const estimated = Math.round(208 - 0.7 * a);
     const max = typed >= 120 && typed <= 230 ? typed : estimated;
     if (max - r < 20) { out.textContent = RunvisT('hz.bad', '安静時心拍が最大心拍に近すぎるため、ゾーンを分けられません。'); return; }
-    const names = [RunvisT('hz.z1', 'Z1 リカバリー'), RunvisT('hz.z2', 'Z2 有酸素'), RunvisT('hz.z3', 'Z3 テンポ'), RunvisT('hz.z4', 'Z4 VO2max'), RunvisT('hz.z5', 'Z5 無酸素')];
+    const names = [RunvisT('hz.z1', 'Z1 リカバリー'), RunvisT('hz.z2', 'Z2 有酸素'), RunvisT('hz.z3', 'Z3 テンポ'), RunvisT('hz.z4', 'Z4 VO₂max'), RunvisT('hz.z5', 'Z5 無酸素')];
     const lower = [.5, .6, .7, .8, .9].map(p => Math.round((max - r) * p + r));
     const rows = names.map((n, i) => {
       const hi = i === 4 ? max : lower[i + 1] - 1;

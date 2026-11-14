@@ -1,180 +1,1481 @@
 {
- "version": 2,
- "updated": "2026-07-11",
+ "version": 3,
+ "updated": "2026-11-15",
  "brands": [
   {
    "name": "나이키",
+   "nameEn": "Nike",
    "models": [
-    "페가수스 41",
-    "페가수스 40",
-    "페가수스 플러스",
+    "알파플라이 4",
+    "페가수스 플러스 2",
+    "ACG 제가마 트레일",
+    "페가수스 42",
+    "ACG 페가수스 트레일",
+    "스트럭처 플러스",
+    "ACG 울트라플라이 트레일",
+    "보메로 프리미엄",
+    "보메로 플러스",
+    "스트릭플라이 2",
+    "스트럭처 26",
     "보메로 18",
-    "보메로 17",
-    "인빈서블 3",
-    "인피니티 RN 4",
-    "스트럭처 25",
-    "줌 플라이 6",
-    "줌 플라이 5",
-    "베이퍼플라이 3",
-    "알파플라이 3",
-    "리액트 인피니티",
-    "윈플로 11",
-    "윈플로 12",
+    "베이퍼플라이 4",
     "페가수스 프리미엄",
-    "보메로 플러스"
+    "줌 플라이 6",
+    "페가수스 플러스",
+    "페가수스 41",
+    "알파플라이 3"
+   ],
+   "items": [
+    {
+     "ko": "알파플라이 4",
+     "en": "Alphafly 4",
+     "kind": "race"
+    },
+    {
+     "ko": "페가수스 플러스 2",
+     "en": "Pegasus Plus 2",
+     "kind": "daily"
+    },
+    {
+     "ko": "ACG 제가마 트레일",
+     "en": "ACG Zegama Trail",
+     "kind": "trail"
+    },
+    {
+     "ko": "페가수스 42",
+     "en": "Pegasus 42",
+     "kind": "daily"
+    },
+    {
+     "ko": "ACG 페가수스 트레일",
+     "en": "ACG Pegasus Trail",
+     "kind": "trail"
+    },
+    {
+     "ko": "스트럭처 플러스",
+     "en": "Structure Plus",
+     "kind": "stability"
+    },
+    {
+     "ko": "ACG 울트라플라이 트레일",
+     "en": "ACG Ultrafly Trail",
+     "kind": "trail"
+    },
+    {
+     "ko": "보메로 프리미엄",
+     "en": "Vomero Premium",
+     "kind": "max"
+    },
+    {
+     "ko": "보메로 플러스",
+     "en": "Vomero Plus",
+     "kind": "max"
+    },
+    {
+     "ko": "스트릭플라이 2",
+     "en": "Streakfly 2",
+     "kind": "race"
+    },
+    {
+     "ko": "스트럭처 26",
+     "en": "Structure 26",
+     "kind": "stability"
+    },
+    {
+     "ko": "보메로 18",
+     "en": "Vomero 18",
+     "kind": "max"
+    },
+    {
+     "ko": "베이퍼플라이 4",
+     "en": "Vaporfly 4",
+     "kind": "race"
+    },
+    {
+     "ko": "페가수스 프리미엄",
+     "en": "Pegasus Premium",
+     "kind": "tempo"
+    },
+    {
+     "ko": "줌 플라이 6",
+     "en": "Zoom Fly 6",
+     "kind": "tempo"
+    },
+    {
+     "ko": "페가수스 플러스",
+     "en": "Pegasus Plus",
+     "kind": "daily"
+    },
+    {
+     "ko": "페가수스 41",
+     "en": "Pegasus 41",
+     "kind": "daily"
+    },
+    {
+     "ko": "알파플라이 3",
+     "en": "Alphafly 3",
+     "kind": "race"
+    }
    ]
   },
   {
    "name": "아디다스",
+   "nameEn": "adidas",
    "models": [
-    "아디제로 SL2",
-    "아디제로 보스턴 12",
-    "아디제로 아디오스 8",
-    "아디제로 아디오스 프로 3",
-    "아디제로 아디오스 프로 에보 1",
-    "울트라부스트 라이트",
-    "울트라부스트 5",
-    "수퍼노바 라이즈",
-    "수퍼노바 솔루션",
-    "듀라모 스피드",
-    "아디제로 에보 SL",
-    "수퍼노바 라이즈 2"
+    "아디제로 아디오스 프로 5",
+    "슈퍼노바 프리마 3",
+    "하이퍼부스트 런",
+    "아디제로 아디오스 프로 EVO 3",
+    "하이퍼부스트 엣지",
+    "테렉스 아그라빅 스피드 2",
+    "슈퍼노바 라이즈 3",
+    "테렉스 아그라빅 스피드 울트라 2",
+    "아디제로 타쿠미 센 11",
+    "아디제로 아디오스 9",
+    "아디제로 보스턴 13",
+    "아디제로 EVO SL",
+    "슈퍼노바 라이즈 2",
+    "아디제로 아디오스 프로 4"
+   ],
+   "items": [
+    {
+     "ko": "아디제로 아디오스 프로 5",
+     "en": "Adizero Adios Pro 5",
+     "kind": "race"
+    },
+    {
+     "ko": "슈퍼노바 프리마 3",
+     "en": "Supernova Prima 3",
+     "kind": "daily"
+    },
+    {
+     "ko": "하이퍼부스트 런",
+     "en": "Hyperboost Run",
+     "kind": "daily"
+    },
+    {
+     "ko": "아디제로 아디오스 프로 EVO 3",
+     "en": "Adizero Adios Pro Evo 3",
+     "kind": "race"
+    },
+    {
+     "ko": "하이퍼부스트 엣지",
+     "en": "Hyperboost Edge",
+     "kind": "tempo"
+    },
+    {
+     "ko": "테렉스 아그라빅 스피드 2",
+     "en": "Terrex Agravic Speed 2",
+     "kind": "trail"
+    },
+    {
+     "ko": "슈퍼노바 라이즈 3",
+     "en": "Supernova Rise 3",
+     "kind": "daily"
+    },
+    {
+     "ko": "테렉스 아그라빅 스피드 울트라 2",
+     "en": "Terrex Agravic Speed Ultra 2",
+     "kind": "trail"
+    },
+    {
+     "ko": "아디제로 타쿠미 센 11",
+     "en": "Adizero Takumi Sen 11",
+     "kind": "race"
+    },
+    {
+     "ko": "아디제로 아디오스 9",
+     "en": "Adizero Adios 9",
+     "kind": "tempo"
+    },
+    {
+     "ko": "아디제로 보스턴 13",
+     "en": "Adizero Boston 13",
+     "kind": "tempo"
+    },
+    {
+     "ko": "아디제로 EVO SL",
+     "en": "Adizero Evo SL",
+     "kind": "tempo"
+    },
+    {
+     "ko": "슈퍼노바 라이즈 2",
+     "en": "Supernova Rise 2",
+     "kind": "daily"
+    },
+    {
+     "ko": "아디제로 아디오스 프로 4",
+     "en": "Adizero Adios Pro 4",
+     "kind": "race"
+    }
    ]
   },
   {
    "name": "아식스",
+   "nameEn": "ASICS",
    "models": [
-    "젤 카야노 31",
-    "젤 카야노 30",
-    "젤 님버스 26",
-    "젤 님버스 25",
-    "젤 컴벌러스 26",
-    "노바블라스트 4",
-    "노바블라스트 5",
-    "슈퍼블라스트 2",
-    "매직스피드 4",
-    "메타스피드 스카이 파리",
-    "메타스피드 엣지 파리",
-    "GT-2000 12",
-    "젤 펄스 15",
-    "젤 님버스 27"
+    "소닉블라스트 2",
+    "메타슬릭",
+    "GT-2000 15",
+    "노바블라스트 6",
+    "젤 카야노 33",
+    "슈퍼블라스트 3",
+    "트라부코 14",
+    "젤 큐뮬러스 28",
+    "젤 님버스 28",
+    "트라부코 맥스 5",
+    "메가블라스트",
+    "메타스피드 레이",
+    "메타스피드 스카이 도쿄",
+    "메타스피드 엣지 도쿄",
+    "매직 스피드 5",
+    "GT-2000 14",
+    "젤 카야노 32",
+    "젤 큐뮬러스 27",
+    "젤 님버스 27",
+    "노바블라스트 5"
+   ],
+   "items": [
+    {
+     "ko": "소닉블라스트 2",
+     "en": "SONICBLAST 2",
+     "kind": "tempo"
+    },
+    {
+     "ko": "메타슬릭",
+     "en": "METASLEEK",
+     "kind": "race"
+    },
+    {
+     "ko": "GT-2000 15",
+     "en": "GT-2000 15",
+     "kind": "stability"
+    },
+    {
+     "ko": "노바블라스트 6",
+     "en": "NOVABLAST 6",
+     "kind": "daily"
+    },
+    {
+     "ko": "젤 카야노 33",
+     "en": "GEL-KAYANO 33",
+     "kind": "stability"
+    },
+    {
+     "ko": "슈퍼블라스트 3",
+     "en": "SUPERBLAST 3",
+     "kind": "tempo"
+    },
+    {
+     "ko": "트라부코 14",
+     "en": "TRABUCO 14",
+     "kind": "trail"
+    },
+    {
+     "ko": "젤 큐뮬러스 28",
+     "en": "GEL-CUMULUS 28",
+     "kind": "daily"
+    },
+    {
+     "ko": "젤 님버스 28",
+     "en": "GEL-NIMBUS 28",
+     "kind": "max"
+    },
+    {
+     "ko": "트라부코 맥스 5",
+     "en": "TRABUCO MAX 5",
+     "kind": "trail"
+    },
+    {
+     "ko": "메가블라스트",
+     "en": "MEGABLAST",
+     "kind": "tempo"
+    },
+    {
+     "ko": "메타스피드 레이",
+     "en": "METASPEED RAY",
+     "kind": "race"
+    },
+    {
+     "ko": "메타스피드 스카이 도쿄",
+     "en": "METASPEED SKY TOKYO",
+     "kind": "race"
+    },
+    {
+     "ko": "메타스피드 엣지 도쿄",
+     "en": "METASPEED EDGE TOKYO",
+     "kind": "race"
+    },
+    {
+     "ko": "매직 스피드 5",
+     "en": "MAGIC SPEED 5",
+     "kind": "tempo"
+    },
+    {
+     "ko": "GT-2000 14",
+     "en": "GT-2000 14",
+     "kind": "stability"
+    },
+    {
+     "ko": "젤 카야노 32",
+     "en": "GEL-KAYANO 32",
+     "kind": "stability"
+    },
+    {
+     "ko": "젤 큐뮬러스 27",
+     "en": "GEL-CUMULUS 27",
+     "kind": "daily"
+    },
+    {
+     "ko": "젤 님버스 27",
+     "en": "GEL-NIMBUS 27",
+     "kind": "max"
+    },
+    {
+     "ko": "노바블라스트 5",
+     "en": "NOVABLAST 5",
+     "kind": "daily"
+    }
    ]
   },
   {
    "name": "호카",
+   "nameEn": "HOKA",
    "models": [
-    "클리프튼 9",
-    "클리프튼 10",
-    "본디 8",
+    "텍톤 X 4",
+    "클리프톤 프로",
+    "클리프톤 11",
+    "아라히 9",
+    "링컨 5",
+    "스카이워드 X 2",
+    "마하 7",
+    "스피드고트 7",
+    "씨엘로 X1 3.0",
+    "가비오타 6",
+    "마하 X 3",
+    "아라히 8",
+    "챌린저 8",
+    "로켓 X 3",
+    "클리프톤 10",
     "본디 9",
-    "마하 6",
-    "마하 X",
-    "아라히 7",
-    "스카이워드 X",
-    "로켓 X2",
-    "시엘로 X1",
-    "챌린저 7",
     "스피드고트 6",
-    "마하 7"
+    "마하 6"
+   ],
+   "items": [
+    {
+     "ko": "텍톤 X 4",
+     "en": "Tecton X 4",
+     "kind": "trail"
+    },
+    {
+     "ko": "클리프톤 프로",
+     "en": "Clifton PRO",
+     "kind": "daily"
+    },
+    {
+     "ko": "클리프톤 11",
+     "en": "Clifton 11",
+     "kind": "daily"
+    },
+    {
+     "ko": "아라히 9",
+     "en": "Arahi 9",
+     "kind": "stability"
+    },
+    {
+     "ko": "링컨 5",
+     "en": "Rincon 5",
+     "kind": "daily"
+    },
+    {
+     "ko": "스카이워드 X 2",
+     "en": "Skyward X 2",
+     "kind": "max"
+    },
+    {
+     "ko": "마하 7",
+     "en": "Mach 7",
+     "kind": "tempo"
+    },
+    {
+     "ko": "스피드고트 7",
+     "en": "Speedgoat 7",
+     "kind": "trail"
+    },
+    {
+     "ko": "씨엘로 X1 3.0",
+     "en": "Cielo X1 3.0",
+     "kind": "race"
+    },
+    {
+     "ko": "가비오타 6",
+     "en": "Gaviota 6",
+     "kind": "stability"
+    },
+    {
+     "ko": "마하 X 3",
+     "en": "Mach X 3",
+     "kind": "tempo"
+    },
+    {
+     "ko": "아라히 8",
+     "en": "Arahi 8",
+     "kind": "stability"
+    },
+    {
+     "ko": "챌린저 8",
+     "en": "Challenger 8",
+     "kind": "trail"
+    },
+    {
+     "ko": "로켓 X 3",
+     "en": "Rocket X 3",
+     "kind": "race"
+    },
+    {
+     "ko": "클리프톤 10",
+     "en": "Clifton 10",
+     "kind": "daily"
+    },
+    {
+     "ko": "본디 9",
+     "en": "Bondi 9",
+     "kind": "max"
+    },
+    {
+     "ko": "스피드고트 6",
+     "en": "Speedgoat 6",
+     "kind": "trail"
+    },
+    {
+     "ko": "마하 6",
+     "en": "Mach 6",
+     "kind": "tempo"
+    }
    ]
   },
   {
    "name": "뉴발란스",
+   "nameEn": "New Balance",
    "models": [
-    "프레시폼 1080 v13",
-    "프레시폼 1080 v14",
-    "프레시폼 880 v14",
-    "프레시폼 모어 v5",
-    "리벨 v4",
-    "프로펠 v5",
-    "퓨얼셀 슈퍼콤프 엘리트 v4",
-    "퓨얼셀 레블",
-    "860 v14",
-    "리벨 v5"
+    "SC 엘리트 V6",
+    "SC 레벨 V1",
+    "퓨얼셀 레벨 트레일",
+    "860 V15",
+    "엘립스 V1",
+    "SC 트레일 V2",
+    "1080 V15",
+    "모어 V6",
+    "레벨 V5",
+    "880 V15",
+    "SC 엘리트 V5",
+    "SC 트레이너 V3",
+    "1080 V14"
+   ],
+   "items": [
+    {
+     "ko": "SC 엘리트 V6",
+     "en": "SuperComp Elite v6",
+     "kind": "race"
+    },
+    {
+     "ko": "SC 레벨 V1",
+     "en": "SuperComp Rebel",
+     "kind": "tempo"
+    },
+    {
+     "ko": "퓨얼셀 레벨 트레일",
+     "en": "FuelCell Rebel Trail",
+     "kind": "trail"
+    },
+    {
+     "ko": "860 V15",
+     "en": "Fresh Foam X 860v15",
+     "kind": "stability"
+    },
+    {
+     "ko": "엘립스 V1",
+     "en": "Ellipse v1",
+     "kind": "daily"
+    },
+    {
+     "ko": "SC 트레일 V2",
+     "en": "FuelCell SuperComp Trail v2",
+     "kind": "trail"
+    },
+    {
+     "ko": "1080 V15",
+     "en": "1080v15",
+     "kind": "max"
+    },
+    {
+     "ko": "모어 V6",
+     "en": "Fresh Foam X More v6",
+     "kind": "max"
+    },
+    {
+     "ko": "레벨 V5",
+     "en": "FuelCell Rebel v5",
+     "kind": "daily"
+    },
+    {
+     "ko": "880 V15",
+     "en": "Fresh Foam X 880v15",
+     "kind": "daily"
+    },
+    {
+     "ko": "SC 엘리트 V5",
+     "en": "FuelCell SuperComp Elite v5",
+     "kind": "race"
+    },
+    {
+     "ko": "SC 트레이너 V3",
+     "en": "FuelCell SuperComp Trainer v3",
+     "kind": "tempo"
+    },
+    {
+     "ko": "1080 V14",
+     "en": "Fresh Foam X 1080v14",
+     "kind": "max"
+    }
    ]
   },
   {
    "name": "써코니",
+   "nameEn": "Saucony",
    "models": [
-    "라이드 17",
-    "가이드 17",
-    "트라이엄프 22",
-    "킨바라 15",
-    "엔돌핀 스피드 4",
-    "엔돌핀 프로 4",
-    "엔돌핀 엘리트",
-    "템퍼스",
-    "허리케인 24",
+    "엔돌핀 스피드 6",
+    "파라마운트 맥스",
+    "허리케인 26",
+    "트라이엄프 24",
+    "엔돌핀 엘리트 3",
+    "가이드 19",
+    "엔돌핀 프로 5",
+    "엔돌핀 아주라",
+    "라이드 19",
+    "페레그린 16",
+    "킨바라 16",
+    "엔돌핀 트레이너",
+    "허리케인 25",
+    "엔돌핀 스피드 5",
+    "트라이엄프 23",
+    "가이드 18",
     "라이드 18",
-    "엔돌핀 스피드 5"
+    "엔돌핀 엘리트 2"
+   ],
+   "items": [
+    {
+     "ko": "엔돌핀 스피드 6",
+     "en": "Endorphin Speed 6",
+     "kind": "tempo"
+    },
+    {
+     "ko": "파라마운트 맥스",
+     "en": "Paramount Max",
+     "kind": "max"
+    },
+    {
+     "ko": "허리케인 26",
+     "en": "Hurricane 26",
+     "kind": "stability"
+    },
+    {
+     "ko": "트라이엄프 24",
+     "en": "Triumph 24",
+     "kind": "max"
+    },
+    {
+     "ko": "엔돌핀 엘리트 3",
+     "en": "Endorphin Elite 3",
+     "kind": "race"
+    },
+    {
+     "ko": "가이드 19",
+     "en": "Guide 19",
+     "kind": "stability"
+    },
+    {
+     "ko": "엔돌핀 프로 5",
+     "en": "Endorphin Pro 5",
+     "kind": "race"
+    },
+    {
+     "ko": "엔돌핀 아주라",
+     "en": "Endorphin Azura",
+     "kind": "tempo"
+    },
+    {
+     "ko": "라이드 19",
+     "en": "Ride 19",
+     "kind": "daily"
+    },
+    {
+     "ko": "페레그린 16",
+     "en": "Peregrine 16",
+     "kind": "trail"
+    },
+    {
+     "ko": "킨바라 16",
+     "en": "Kinvara 16",
+     "kind": "daily"
+    },
+    {
+     "ko": "엔돌핀 트레이너",
+     "en": "Endorphin Trainer",
+     "kind": "tempo"
+    },
+    {
+     "ko": "허리케인 25",
+     "en": "Hurricane 25",
+     "kind": "stability"
+    },
+    {
+     "ko": "엔돌핀 스피드 5",
+     "en": "Endorphin Speed 5",
+     "kind": "tempo"
+    },
+    {
+     "ko": "트라이엄프 23",
+     "en": "Triumph 23",
+     "kind": "max"
+    },
+    {
+     "ko": "가이드 18",
+     "en": "Guide 18",
+     "kind": "stability"
+    },
+    {
+     "ko": "라이드 18",
+     "en": "Ride 18",
+     "kind": "daily"
+    },
+    {
+     "ko": "엔돌핀 엘리트 2",
+     "en": "Endorphin Elite 2",
+     "kind": "race"
+    }
    ]
   },
   {
    "name": "브룩스",
+   "nameEn": "Brooks",
    "models": [
-    "고스트 16",
-    "고스트 맥스 2",
-    "글리세린 21",
-    "아드레날린 GTS 24",
-    "런치 10",
-    "하이페리온 맥스 2",
-    "하이페리온 엘리트 4",
+    "하이페리온 엘리트 6",
+    "고스트 맥스 4",
+    "고스트 AMP",
+    "하이페리온 맥스 4",
+    "캐스케디아 20",
+    "고스트 18",
+    "글리세린 23",
+    "글리세린 GTS 23",
+    "런치 12",
+    "글리세린 맥스 2",
+    "아드레날린 GTS 25",
+    "하이페리온 3",
+    "고스트 맥스 3",
+    "하이페리온 맥스 3",
+    "하이페리온 엘리트 5",
     "고스트 17",
     "글리세린 22"
+   ],
+   "items": [
+    {
+     "ko": "하이페리온 엘리트 6",
+     "en": "Hyperion Elite 6",
+     "kind": "race"
+    },
+    {
+     "ko": "고스트 맥스 4",
+     "en": "Ghost Max 4",
+     "kind": "max"
+    },
+    {
+     "ko": "고스트 AMP",
+     "en": "Ghost AMP",
+     "kind": "daily"
+    },
+    {
+     "ko": "하이페리온 맥스 4",
+     "en": "Hyperion Max 4",
+     "kind": "tempo"
+    },
+    {
+     "ko": "캐스케디아 20",
+     "en": "Cascadia 20",
+     "kind": "trail"
+    },
+    {
+     "ko": "고스트 18",
+     "en": "Ghost 18",
+     "kind": "daily"
+    },
+    {
+     "ko": "글리세린 23",
+     "en": "Glycerin 23",
+     "kind": "max"
+    },
+    {
+     "ko": "글리세린 GTS 23",
+     "en": "Glycerin GTS 23",
+     "kind": "stability"
+    },
+    {
+     "ko": "런치 12",
+     "en": "Launch 12",
+     "kind": "daily"
+    },
+    {
+     "ko": "글리세린 맥스 2",
+     "en": "Glycerin Max 2",
+     "kind": "max"
+    },
+    {
+     "ko": "아드레날린 GTS 25",
+     "en": "Adrenaline GTS 25",
+     "kind": "stability"
+    },
+    {
+     "ko": "하이페리온 3",
+     "en": "Hyperion 3",
+     "kind": "tempo"
+    },
+    {
+     "ko": "고스트 맥스 3",
+     "en": "Ghost Max 3",
+     "kind": "max"
+    },
+    {
+     "ko": "하이페리온 맥스 3",
+     "en": "Hyperion Max 3",
+     "kind": "tempo"
+    },
+    {
+     "ko": "하이페리온 엘리트 5",
+     "en": "Hyperion Elite 5",
+     "kind": "race"
+    },
+    {
+     "ko": "고스트 17",
+     "en": "Ghost 17",
+     "kind": "daily"
+    },
+    {
+     "ko": "글리세린 22",
+     "en": "Glycerin 22",
+     "kind": "max"
+    }
    ]
   },
   {
    "name": "미즈노",
+   "nameEn": "Mizuno",
    "models": [
-    "웨이브 라이더 28",
-    "웨이브 라이더 27",
-    "웨이브 인스파이어 20",
-    "웨이브 스카이 8",
-    "웨이브 리벨리온 프로 2",
-    "웨이브 리벨리온 플래시 2",
-    "웨이브 듀엘 프로"
+    "하이퍼워프 퓨어 2",
+    "하이퍼워프 엘리트 2",
+    "웨이브 라이더 30",
+    "네오 비스타 3",
+    "네오 아세라",
+    "웨이브 호라이즌 9",
+    "웨이브 다이치 9",
+    "웨이브 인스파이어 22",
+    "네오 젠 2",
+    "웨이브 스카이 9",
+    "웨이브 리벨리온 플래시 3",
+    "하이퍼워프 퓨어",
+    "하이퍼워프 엘리트",
+    "웨이브 라이더 29",
+    "네오 비스타 2",
+    "웨이브 호라이즌 8"
+   ],
+   "items": [
+    {
+     "ko": "하이퍼워프 퓨어 2",
+     "en": "Hyperwarp Pure 2",
+     "kind": "race"
+    },
+    {
+     "ko": "하이퍼워프 엘리트 2",
+     "en": "Hyperwarp Elite 2",
+     "kind": "race"
+    },
+    {
+     "ko": "웨이브 라이더 30",
+     "en": "Wave Rider 30",
+     "kind": "daily"
+    },
+    {
+     "ko": "네오 비스타 3",
+     "en": "Neo Vista 3",
+     "kind": "tempo"
+    },
+    {
+     "ko": "네오 아세라",
+     "en": "Neo Accera",
+     "kind": "trail"
+    },
+    {
+     "ko": "웨이브 호라이즌 9",
+     "en": "Wave Horizon 9",
+     "kind": "stability"
+    },
+    {
+     "ko": "웨이브 다이치 9",
+     "en": "Wave Daichi 9",
+     "kind": "trail"
+    },
+    {
+     "ko": "웨이브 인스파이어 22",
+     "en": "Wave Inspire 22",
+     "kind": "stability"
+    },
+    {
+     "ko": "네오 젠 2",
+     "en": "Neo Zen 2",
+     "kind": "max"
+    },
+    {
+     "ko": "웨이브 스카이 9",
+     "en": "Wave Sky 9",
+     "kind": "max"
+    },
+    {
+     "ko": "웨이브 리벨리온 플래시 3",
+     "en": "Wave Rebellion Flash 3",
+     "kind": "tempo"
+    },
+    {
+     "ko": "하이퍼워프 퓨어",
+     "en": "Hyperwarp Pure",
+     "kind": "race"
+    },
+    {
+     "ko": "하이퍼워프 엘리트",
+     "en": "Hyperwarp Elite",
+     "kind": "race"
+    },
+    {
+     "ko": "웨이브 라이더 29",
+     "en": "Wave Rider 29",
+     "kind": "daily"
+    },
+    {
+     "ko": "네오 비스타 2",
+     "en": "Neo Vista 2",
+     "kind": "tempo"
+    },
+    {
+     "ko": "웨이브 호라이즌 8",
+     "en": "Wave Horizon 8",
+     "kind": "stability"
+    }
    ]
   },
   {
    "name": "온러닝",
+   "nameEn": "On",
    "models": [
-    "클라우드몬스터 2",
-    "클라우드서퍼 7",
-    "클라우드플로우 4",
-    "클라우드이클립스",
-    "클라우드붐 에코 3",
+    "클라우드서퍼 3",
+    "클라우드붐 스트라이크 2",
+    "클라우드몬스터 3",
+    "클라우드몬스터 3 하이퍼",
+    "클라우드러너 3",
+    "클라우드서퍼 맥스",
+    "클라우드울트라 3",
+    "클라우드플로우 5",
     "클라우드붐 스트라이크",
-    "클라우드고 5"
+    "클라우드서퍼 2",
+    "클라우드몬스터 하이퍼",
+    "클라우드몬스터 2",
+    "클라우드러너 2"
+   ],
+   "items": [
+    {
+     "ko": "클라우드서퍼 3",
+     "en": "Cloudsurfer 3",
+     "kind": "daily"
+    },
+    {
+     "ko": "클라우드붐 스트라이크 2",
+     "en": "Cloudboom Strike 2",
+     "kind": "race"
+    },
+    {
+     "ko": "클라우드몬스터 3",
+     "en": "Cloudmonster 3",
+     "kind": "max"
+    },
+    {
+     "ko": "클라우드몬스터 3 하이퍼",
+     "en": "Cloudmonster 3 Hyper",
+     "kind": "tempo"
+    },
+    {
+     "ko": "클라우드러너 3",
+     "en": "Cloudrunner 3",
+     "kind": "stability"
+    },
+    {
+     "ko": "클라우드서퍼 맥스",
+     "en": "Cloudsurfer Max",
+     "kind": "max"
+    },
+    {
+     "ko": "클라우드울트라 3",
+     "en": "Cloudultra 3",
+     "kind": "trail"
+    },
+    {
+     "ko": "클라우드플로우 5",
+     "en": "Cloudflow 5",
+     "kind": "tempo"
+    },
+    {
+     "ko": "클라우드붐 스트라이크",
+     "en": "Cloudboom Strike",
+     "kind": "race"
+    },
+    {
+     "ko": "클라우드서퍼 2",
+     "en": "Cloudsurfer 2",
+     "kind": "daily"
+    },
+    {
+     "ko": "클라우드몬스터 하이퍼",
+     "en": "Cloudmonster Hyper",
+     "kind": "tempo"
+    },
+    {
+     "ko": "클라우드몬스터 2",
+     "en": "Cloudmonster 2",
+     "kind": "max"
+    },
+    {
+     "ko": "클라우드러너 2",
+     "en": "Cloudrunner 2",
+     "kind": "stability"
+    }
    ]
   },
   {
    "name": "푸마",
+   "nameEn": "PUMA",
    "models": [
-    "디비에이트 니트로 3",
-    "벨로시티 니트로 3",
-    "매그니파이 니트로 2",
-    "패스트-R 니트로 엘리트 2",
-    "리버레이트 니트로 2"
+    "포에버런 나이트로 3",
+    "벨로시티 나이트로 5",
+    "패스트 포워드 나이트로 엘리트 2",
+    "디비에이트 나이트로 퓨어",
+    "디비에이트 나이트로 엘리트 4",
+    "디비에이트 나이트로 4",
+    "매그맥스 나이트로 2",
+    "패스트 트랙 나이트로 4",
+    "패스트알 나이트로 엘리트 3",
+    "디비에이트 나이트로 3"
+   ],
+   "items": [
+    {
+     "ko": "포에버런 나이트로 3",
+     "en": "ForeverRun NITRO 3",
+     "kind": "stability"
+    },
+    {
+     "ko": "벨로시티 나이트로 5",
+     "en": "Velocity NITRO 5",
+     "kind": "daily"
+    },
+    {
+     "ko": "패스트 포워드 나이트로 엘리트 2",
+     "en": "Fast-FWD NITRO Elite 2",
+     "kind": "race"
+    },
+    {
+     "ko": "디비에이트 나이트로 퓨어",
+     "en": "Deviate Pure NITRO",
+     "kind": "tempo"
+    },
+    {
+     "ko": "디비에이트 나이트로 엘리트 4",
+     "en": "Deviate NITRO Elite 4",
+     "kind": "race"
+    },
+    {
+     "ko": "디비에이트 나이트로 4",
+     "en": "Deviate NITRO 4",
+     "kind": "tempo"
+    },
+    {
+     "ko": "매그맥스 나이트로 2",
+     "en": "MagMax NITRO 2",
+     "kind": "max"
+    },
+    {
+     "ko": "패스트 트랙 나이트로 4",
+     "en": "Fast-Trac NITRO 4",
+     "kind": "trail"
+    },
+    {
+     "ko": "패스트알 나이트로 엘리트 3",
+     "en": "FAST-R NITRO Elite 3",
+     "kind": "race"
+    },
+    {
+     "ko": "디비에이트 나이트로 3",
+     "en": "Deviate NITRO 3",
+     "kind": "tempo"
+    }
    ]
   },
   {
-   "name": "킵런(데카트론)",
+   "name": "언더아머",
+   "nameEn": "Under Armour",
    "models": [
-    "KS900",
-    "KS500 2",
-    "KD900X LD+",
-    "KD800"
+    "벨로시티 디스턴스",
+    "벨로시티 엘리트 3",
+    "벨로시티 프로 2",
+    "벨로시티 SPD",
+    "인피니트 프로 2",
+    "인피니트 엘리트 2"
+   ],
+   "items": [
+    {
+     "ko": "벨로시티 디스턴스",
+     "en": "Velociti Distance",
+     "kind": "max"
+    },
+    {
+     "ko": "벨로시티 엘리트 3",
+     "en": "Velociti Elite 3",
+     "kind": "race"
+    },
+    {
+     "ko": "벨로시티 프로 2",
+     "en": "Velociti Pro 2",
+     "kind": "tempo"
+    },
+    {
+     "ko": "벨로시티 SPD",
+     "en": "Velociti SPD",
+     "kind": "daily"
+    },
+    {
+     "ko": "인피니트 프로 2",
+     "en": "Infinite Pro 2",
+     "kind": "daily"
+    },
+    {
+     "ko": "인피니트 엘리트 2",
+     "en": "Infinite Elite 2",
+     "kind": "max"
+    }
    ]
   },
   {
-   "name": "리복/기타",
+   "name": "알트라",
+   "nameEn": "Altra",
    "models": [
-    "플로트라이드 에너지 5",
-    "언더아머 인피니트 엘리트",
-    "알트라 토린 7",
-    "알트라 론 피크 8",
-    "살로몬 에어로 글라이드",
-    "이노브8 파크클로 260"
+    "올림푸스 7",
+    "배니시 펄스",
+    "토린 9",
+    "에스칼란테 5",
+    "익스피리언스 플로우 3",
+    "론피크 9+"
+   ],
+   "items": [
+    {
+     "ko": "올림푸스 7",
+     "en": "Olympus 7",
+     "kind": "trail"
+    },
+    {
+     "ko": "배니시 펄스",
+     "en": "Vanish Pulse",
+     "kind": "race"
+    },
+    {
+     "ko": "토린 9",
+     "en": "Torin 9",
+     "kind": "daily"
+    },
+    {
+     "ko": "에스칼란테 5",
+     "en": "Escalante 5",
+     "kind": "daily"
+    },
+    {
+     "ko": "익스피리언스 플로우 3",
+     "en": "Experience Flow 3",
+     "kind": "daily"
+    },
+    {
+     "ko": "론피크 9+",
+     "en": "Lone Peak 9+",
+     "kind": "trail"
+    }
+   ]
+  },
+  {
+   "name": "살로몬",
+   "nameEn": "Salomon",
+   "models": [
+    "제네시스 2",
+    "S/LAB 제네시스 2",
+    "에어로 블레이즈 4",
+    "에어로 글라이드 4",
+    "울트라 글라이드 4",
+    "S/LAB 판타즘 3",
+    "에어로 글라이드 3",
+    "스피드크로스 6"
+   ],
+   "items": [
+    {
+     "ko": "제네시스 2",
+     "en": "Genesis 2",
+     "kind": "trail"
+    },
+    {
+     "ko": "S/LAB 제네시스 2",
+     "en": "S/LAB Genesis 2",
+     "kind": "trail"
+    },
+    {
+     "ko": "에어로 블레이즈 4",
+     "en": "Aero Blaze 4",
+     "kind": "daily"
+    },
+    {
+     "ko": "에어로 글라이드 4",
+     "en": "Aero Glide 4",
+     "kind": "daily"
+    },
+    {
+     "ko": "울트라 글라이드 4",
+     "en": "Ultra Glide 4",
+     "kind": "trail"
+    },
+    {
+     "ko": "S/LAB 판타즘 3",
+     "en": "S/LAB Phantasm 3",
+     "kind": "race"
+    },
+    {
+     "ko": "에어로 글라이드 3",
+     "en": "Aero Glide 3",
+     "kind": "daily"
+    },
+    {
+     "ko": "스피드크로스 6",
+     "en": "Speedcross 6",
+     "kind": "trail"
+    }
+   ]
+  },
+  {
+   "name": "토포 애슬레틱",
+   "nameEn": "Topo Athletic",
+   "models": [
+    "스펙터 3",
+    "울트라벤처 5",
+    "아트모스 2",
+    "팬텀 4",
+    "사이클론 3"
+   ],
+   "items": [
+    {
+     "ko": "스펙터 3",
+     "en": "Specter 3",
+     "kind": "tempo"
+    },
+    {
+     "ko": "울트라벤처 5",
+     "en": "Ultraventure 5",
+     "kind": "trail"
+    },
+    {
+     "ko": "아트모스 2",
+     "en": "Atmos 2",
+     "kind": "max"
+    },
+    {
+     "ko": "팬텀 4",
+     "en": "Phantom 4",
+     "kind": "daily"
+    },
+    {
+     "ko": "사이클론 3",
+     "en": "Cyclone 3",
+     "kind": "tempo"
+    }
+   ]
+  },
+  {
+   "name": "디아도라",
+   "nameEn": "Diadora",
+   "models": [
+    "코르사",
+    "가라 카본 3",
+    "셀룰라 2"
+   ],
+   "items": [
+    {
+     "ko": "코르사",
+     "en": "Corsa",
+     "kind": "daily"
+    },
+    {
+     "ko": "가라 카본 3",
+     "en": "Gara Carbon 3",
+     "kind": "race"
+    },
+    {
+     "ko": "셀룰라 2",
+     "en": "Cellula 2",
+     "kind": "daily"
+    }
+   ]
+  },
+  {
+   "name": "킵런",
+   "nameEn": "Kiprun",
+   "models": [
+    "킵스톰 템포",
+    "킵스톰 엘리트",
+    "킵서밋 맥스",
+    "킵라이드 맥스",
+    "KD900X LD+"
+   ],
+   "items": [
+    {
+     "ko": "킵스톰 템포",
+     "en": "Kipstorm Tempo",
+     "kind": "tempo"
+    },
+    {
+     "ko": "킵스톰 엘리트",
+     "en": "Kipstorm Elite",
+     "kind": "race"
+    },
+    {
+     "ko": "킵서밋 맥스",
+     "en": "Kipsummit Max",
+     "kind": "trail"
+    },
+    {
+     "ko": "킵라이드 맥스",
+     "en": "Kipride Max",
+     "kind": "max"
+    },
+    {
+     "ko": "KD900X LD+",
+     "en": "KD900X LD+",
+     "kind": "race"
+    }
+   ]
+  },
+  {
+   "name": "리닝",
+   "nameEn": "Li-Ning",
+   "models": [
+    "위에잉 6 프로",
+    "위에잉 6",
+    "페이디엔 6 엘리트",
+    "페이디엔 6 챌린저",
+    "페이디엔 6 울트라",
+    "레드 헤어 9 울트라",
+    "레드 헤어 9 프로"
+   ],
+   "items": [
+    {
+     "ko": "위에잉 6 프로",
+     "en": "Yueying 6 Pro",
+     "kind": "daily"
+    },
+    {
+     "ko": "위에잉 6",
+     "en": "Yueying 6",
+     "kind": "daily"
+    },
+    {
+     "ko": "페이디엔 6 엘리트",
+     "en": "Feidian 6 Elite",
+     "kind": "race"
+    },
+    {
+     "ko": "페이디엔 6 챌린저",
+     "en": "Feidian 6 Challenger",
+     "kind": "tempo"
+    },
+    {
+     "ko": "페이디엔 6 울트라",
+     "en": "Feidian 6 Ultra",
+     "kind": "race"
+    },
+    {
+     "ko": "레드 헤어 9 울트라",
+     "en": "Red Hare 9 Ultra",
+     "kind": "max"
+    },
+    {
+     "ko": "레드 헤어 9 프로",
+     "en": "Red Hare 9 Pro",
+     "kind": "tempo"
+    }
+   ]
+  },
+  {
+   "name": "안타",
+   "nameEn": "Anta",
+   "models": [
+    "존 2 90",
+    "마하 6 프로",
+    "C202 7",
+    "C10 프로 2",
+    "C202 6 프로",
+    "C202 6"
+   ],
+   "items": [
+    {
+     "ko": "존 2 90",
+     "en": "Zone 2 90",
+     "kind": "daily"
+    },
+    {
+     "ko": "마하 6 프로",
+     "en": "Mach 6 Pro",
+     "kind": "tempo"
+    },
+    {
+     "ko": "C202 7",
+     "en": "C202 7",
+     "kind": "tempo"
+    },
+    {
+     "ko": "C10 프로 2",
+     "en": "C10 Pro 2",
+     "kind": "race"
+    },
+    {
+     "ko": "C202 6 프로",
+     "en": "C202 6 Pro",
+     "kind": "race"
+    },
+    {
+     "ko": "C202 6",
+     "en": "C202 6",
+     "kind": "tempo"
+    }
+   ]
+  },
+  {
+   "name": "엑스텝",
+   "nameEn": "Xtep",
+   "models": [
+    "160X 8.0 울트라",
+    "160X 8.0 프로",
+    "160X 8.0",
+    "360X 3.0",
+    "2000KM 5.0",
+    "160X 7.0 프로"
+   ],
+   "items": [
+    {
+     "ko": "160X 8.0 울트라",
+     "en": "160X 8.0 Ultra",
+     "kind": "race"
+    },
+    {
+     "ko": "160X 8.0 프로",
+     "en": "160X 8.0 Pro",
+     "kind": "race"
+    },
+    {
+     "ko": "160X 8.0",
+     "en": "160X 8.0",
+     "kind": "race"
+    },
+    {
+     "ko": "360X 3.0",
+     "en": "360X 3.0",
+     "kind": "tempo"
+    },
+    {
+     "ko": "2000KM 5.0",
+     "en": "2000KM 5.0",
+     "kind": "daily"
+    },
+    {
+     "ko": "160X 7.0 프로",
+     "en": "160X 7.0 Pro",
+     "kind": "race"
+    }
+   ]
+  },
+  {
+   "name": "361도",
+   "nameEn": "361°",
+   "models": [
+    "카이로스 4",
+    "미로 누드 ST",
+    "플레임 5",
+    "미로 누드 2",
+    "퓨리어스 퓨처 2",
+    "센타우리 3",
+    "플레임 4"
+   ],
+   "items": [
+    {
+     "ko": "카이로스 4",
+     "en": "Kairos 4",
+     "kind": "stability"
+    },
+    {
+     "ko": "미로 누드 ST",
+     "en": "Miro Nude ST",
+     "kind": "tempo"
+    },
+    {
+     "ko": "플레임 5",
+     "en": "Flame 5",
+     "kind": "race"
+    },
+    {
+     "ko": "미로 누드 2",
+     "en": "Miro Nude 2",
+     "kind": "race"
+    },
+    {
+     "ko": "퓨리어스 퓨처 2",
+     "en": "Furious Future 2",
+     "kind": "race"
+    },
+    {
+     "ko": "센타우리 3",
+     "en": "Centauri 3",
+     "kind": "daily"
+    },
+    {
+     "ko": "플레임 4",
+     "en": "Flame 4",
+     "kind": "race"
+    }
+   ]
+  },
+  {
+   "name": "리복",
+   "nameEn": "Reebok",
+   "models": [
+    "플로트지그 2",
+    "플로트라이드 에너지 6"
+   ],
+   "items": [
+    {
+     "ko": "플로트지그 2",
+     "en": "FloatZig 2",
+     "kind": "daily"
+    },
+    {
+     "ko": "플로트라이드 에너지 6",
+     "en": "Floatride Energy 6",
+     "kind": "daily"
+    }
    ]
   }
  ]

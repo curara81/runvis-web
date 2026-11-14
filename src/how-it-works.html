@@ -383,18 +383,18 @@
        as the good path, because this page's own standard is that an estimate
        says it is one. -->
   <h2 id="versus" data-i18n="hw.vs.h">가민 포러너·코로스 같은 전용 러닝 시계와 무엇이 같고 무엇이 다를까요</h2>
-  <p data-i18n="hw.vs.p">훈련 부하, 회복 시간, 젖산 역치 추정, 레이스 페이스 플랜. 가민 포러너나 코로스 같은 러닝 시계가 있어야 볼 수 있다고들 하는 값이에요. 이런 값을 자기 시계 안에서 계산하는 회사는 이미 있어요. 런비스는 같은 종류의 값을 애플워치가 이미 기록한 심박·GPS·고도로 계산합니다. 전용 시계의 계산식은 공개돼 있지 않아서 '같은 식'이라고 말하지는 않을게요. 대신 런비스가 쓰는 식은 모두 이름이 있는 공개 공식이고, 아래에 그 이름을 밝혀 두었어요. 앱에서는 지표마다 뜻과 계산 근거, 내 평소 범위를 눌러서 볼 수 있습니다.</p>
+  <p data-i18n="hw.vs.p">훈련 부하, 회복 시간, 젖산 역치 추정, 레이스 페이스 플랜. 가민 포러너나 코로스 같은 러닝 시계가 있어야 볼 수 있다고들 하는 값이에요. 이런 값을 계산해 주는 시계와 앱은 이미 여럿 있어요. 런비스는 같은 종류의 값을 애플워치가 이미 기록한 심박·GPS·고도로 계산합니다. 전용 시계의 계산식은 공개돼 있지 않아서 '같은 식'이라고 말하지는 않을게요. 대신 공개 공식을 쓴 지표는 그 공식 이름을, 런비스가 정한 기준은 그 숫자를 아래에 그대로 밝혀 두었어요. 앱에서는 지표마다 뜻과 계산 근거, 내 평소 범위를 눌러서 볼 수 있습니다.</p>
   <div class="tablewrap"><table>
-    <tr><th data-i18n="hw.vs.th1">지표</th><th data-i18n="hw.vs.th2">런비스의 계산 방식과 공식 이름</th></tr>
-    <tr><td data-i18n="hw.vs.r0a">무엇을 더 사야 하나요</td><td data-i18n="hw.vs.r0b">가민 포러너·코로스는 시계 자체가 상품이에요. 런비스는 이미 차고 있는 애플워치를 쓰고, 따로 결제하는 건 코치 구독뿐입니다.</td></tr>
-    <tr><td data-i18n="hw.vs.r1a">훈련 부하 · 회복 여유(TSB)</td><td data-i18n="hw.vs.r1b">Banister TRIMP를 Coggan의 42일·7일 지수이동평균(CTL·ATL)에 넣고, 어제의 CTL에서 어제의 ATL을 뺀 값을 오늘의 회복 여유(TSB)로 씁니다(Coggan의 정의대로, 오늘의 부하는 오늘 회복 여유를 바꾸지 않아요).</td></tr>
-    <tr><td data-i18n="hw.vs.r2a">회복 시간</td><td data-i18n="hw.vs.r2b">마지막 러닝의 심박 기준 부하(TRIMP), 현재 회복 여유(TSB), HRV 흐름 세 가지로 추정해요. 화면에도 추정값이라고 표시합니다.</td></tr>
+    <tr><th data-i18n="hw.vs.th1">지표</th><th data-i18n="hw.vs.th2">런비스의 계산 방식</th></tr>
+    <tr><td data-i18n="hw.vs.r0a">무엇을 더 사야 하나요</td><td data-i18n="hw.vs.r0b">가민 포러너·코로스는 시계 자체가 상품이에요. 런비스는 이미 차고 있는 애플워치를 쓰고, 따로 결제하는 건 코치 기능(구독 또는 평생 이용권)뿐입니다.</td></tr>
+    <tr><td data-i18n="hw.vs.r1a">훈련 부하 · 회복 여유(TSB)</td><td data-i18n="hw.vs.r1b">Banister TRIMP를 Coggan의 42일·7일 지수이동평균에 넣어요. 체력(CTL)은 러닝·걷기만, 피로(ATL)는 사이클·근력까지 심박이 기록된 모든 운동으로 계산하고, 오늘의 회복 여유(TSB)는 어제의 42일 평균(모든 운동)에서 어제의 피로를 뺀 값이에요(Coggan의 정의대로, 오늘의 부하는 오늘 회복 여유를 바꾸지 않아요).</td></tr>
+    <tr><td data-i18n="hw.vs.r2a">회복 시간</td><td data-i18n="hw.vs.r2b">마지막으로 달린 날의 운동 부하(심박 기준 TRIMP — 그날 한 다른 운동도 합산)로 기본 12~72시간을 잡고, 현재 회복 여유(TSB)와 HRV 흐름으로 가감하는 런비스 규칙이에요. 시간은 마지막 러닝이 끝난 때부터 세고, 화면에도 추정값이라고 표시합니다.</td></tr>
     <tr><td data-i18n="hw.vs.r3a">젖산 역치(추정)</td><td data-i18n="hw.vs.r3b">최근 90일 동안 최대심박 85% 이상으로 버틴 30분(또는 20분) 최고 구간의 페이스와 심박이에요. 실험실 채혈이 아니라 러닝 기록에서 뽑은 추정치입니다.</td></tr>
     <tr><td data-i18n="hw.vs.r4a">레이스 예측 · 구간 페이스 플랜</td><td data-i18n="hw.vs.r4b">Riegel 공식과 런비스 체력 지수로 예측해요. 코스 GPX를 넣으면 그 코스의 고도에 맞춰 구간별 페이스를 나눠 줍니다.</td></tr>
     <tr><td data-i18n="hw.vs.r5a">언덕 보정 페이스(GAP)</td><td data-i18n="hw.vs.r5b">Minetti(2002)의 달리기 에너지 소비 곡선을 써요. 오르막과 내리막의 부담을 따로 계산합니다.</td></tr>
     <tr><td data-i18n="hw.vs.r6a">심박존 5개</td><td data-i18n="hw.vs.r6b">Karvonen(심박예비량) 방식이고, 최대심박을 모르면 208 − 0.7 × 나이로 추정해요. 아래 계산기도 같은 식입니다.</td></tr>
     <tr><td data-i18n="hw.vs.r7a">강도 분포</td><td data-i18n="hw.vs.r7b">러닝의 심박 기록이 있고 최대심박이 실제로 측정된 값이면, 러닝 시간을 최대심박의 78%와 88%를 경계로 이지·중간·고강도 세 구간에 나눠 담아요. 심박 기록이 없거나 최대심박이 나이 공식으로 추정한 값뿐이면 그 러닝의 평균 심박 하나로 구간을 정하는데, 이때 인터벌 러닝은 중간 강도로 뭉뚱그려질 수 있어요. 어느 방식으로 계산했는지는 화면에 표시합니다.</td></tr>
-    <tr><td data-i18n="hw.vs.r8a">언덕 노출</td><td data-i18n="hw.vs.r8b">최근 28일 중 오르막이 있었던 러닝(2번 이상)만 모아 총 상승고도 ÷ 총 거리(m/km)로 계산해요. 15 이상이면 구릉, 40 이상이면 언덕이 많은 코스예요. 러너를 평가하는 점수가 아니라, 달린 지형을 기록하는 값입니다.</td></tr>
+    <tr><td data-i18n="hw.vs.r8a">언덕 노출</td><td data-i18n="hw.vs.r8b">최근 28일 중 오르막이 있었던 러닝(2번 이상)만 모아 총 상승고도 ÷ 총 거리(m/km)로 계산해요. 15 이상이면 구릉, 40 이상이면 언덕이 많은 코스예요. 달린 길이 얼마나 오르내렸는지 적어 두는 값이고, 러너를 평가하지는 않아요.</td></tr>
     <tr><td data-i18n="hw.vs.r9a">더위 노출 지수</td><td data-i18n="hw.vs.r9b">최근 4주 동안 22°C(화씨 설정이면 같은 온도의 화씨 값)를 넘는 날 달린 야외 러닝이 얼마나 쌓였는지를 0~100으로 나타내요. 더운 날 러닝이 3번 쌓이면 나오고, 3일 이상 쉬면 내려가요. 몸이 더위에 얼마나 적응했는지가 아니라, 더위에 얼마나 노출됐는지를 보여 주는 값입니다.</td></tr>
     <tr><td data-i18n="hw.vs.r10a">코치 브레이크</td><td data-i18n="hw.vs.r10b">점수가 아니라 예산이에요. 최근 4주(완료된 주 기준)의 주간 거리로 이번 주에 감당할 수 있는 거리를 잡고, 러닝 후 남긴 통증 기록만큼 줄여요. 남은 거리와 통증 때문에 줄어든 거리를 따로 보여 줘서, 왜 줄었는지 화면에서 바로 알 수 있어요.</td></tr>
     <tr><td data-i18n="hw.vs.r11a">코치 기록 레이더</td><td data-i18n="hw.vs.r11b">GPS 경로가 있는 러닝은 기록 전체를 훑어 가장 빨랐던 구간(구간 최속)을 찾고, 경로가 없는 러닝은 전체 평균 페이스로 환산해요. 어느 방식으로 잡힌 기록인지 화면에 함께 표시하고, 최근 90일 기록을 기준으로 합니다.</td></tr>
@@ -403,7 +403,7 @@
          tiles printed their arithmetic here and this one did not. Every figure
          in the row is measured out of PerformanceScores.enduranceScore by
          tools/app-facts.mjs and held to it by check-content [13]. -->
-    <tr><td data-i18n="hw.vs.r12a">지구력 훈련량</td><td data-i18n="hw.vs.r12b">최근 28일 기록에서 세 가지를 45 : 35 : 20 비율로 섞은 0~100 값이에요. 주간 거리(주 80km면 만점), 가장 긴 러닝(30km면 만점), 최근 4주 중 러닝한 주의 수. 러너를 평가하는 점수가 아니라, 지금 몸에 쌓인 훈련량을 보여 주는 값입니다. 기록이 부족하면 점수를 지어내지 않고 0으로 두고, 무엇이 부족한지 화면에 알려 줘요.</td></tr>
+    <tr><td data-i18n="hw.vs.r12a">지구력 훈련량</td><td data-i18n="hw.vs.r12b">최근 28일 기록에서 세 가지를 45 : 35 : 20 비율로 섞은 0~100 값이에요. 주간 거리(주 80km면 만점), 가장 긴 러닝(30km면 만점), 최근 4주 중 러닝한 주의 수. 지금 몸에 쌓인 훈련량을 보여 줄 뿐, 실력을 매기는 점수는 아니에요. 기록이 부족하면 점수를 지어내지 않고 0으로 두고, 무엇이 부족한지 화면에 알려 줘요.</td></tr>
     <!-- 다리 부하 — the eighth paid tile (MetricIdentity.impactLoad). The
          method is what MetricGlossary says for "다리 부하", nothing beyond it:
          distance × intensity × grade in km-equivalents, downhill counted
@@ -412,11 +412,11 @@
          and the factors are Runvis's own reference values set with public
          literature in mind, not values derived from it (app calculation audit
          2026-09-26, D1). -->
-    <tr><td data-i18n="hw.vs.r13a">다리 부하</td><td data-i18n="hw.vs.r13b">러닝이 다리에 남긴 부하를 '평지 환산 km'로 센 값이에요. 평지에서 편하게 달린 1km가 1.0이고, 같은 거리라도 빠르게·오르막·내리막으로 달리면 더 크게 셉니다. 계산은 러닝 1번 = 거리 × 강도 배율 × 경사 배율. 강도 배율은 심박이 아니라 속도로 정해요(내 이지·역치 페이스 기준): 이지 이하 1.0, 역치 1.35, 그보다 빠르면 최대 1.6. 경사 배율은 오르막이면 실제 페이스 ÷ 경사 보정 페이스(최대 1.6), 내리막이면 1 + 1.2 × (1 − 그 비율)로 더 크게 셉니다(최대 2.0). 내리막은 덜 힘들어도 충격은 더 크기 때문이에요. 단기 값은 하루 단위 지수 가중 이동평균(EWMA, 시정수 7일)이라 하루 평균 수준이고(꾸준히 달리면 대략 주간 합계 ÷ 7), 주간 값은 그 주의 단순 합계예요. 리포트 타일과 러닝 상세 화면('운동 부하' 옆)에 실제 거리와 나란히 표시됩니다. 러닝 다이내믹스와 걷기 구간은 아직 반영하지 않아요. 가민은 산식을 공개하지 않았고, 위 배율은 공개 문헌을 참고해 런비스가 정한 참고값입니다.</td></tr>
+    <tr><td data-i18n="hw.vs.r13a">다리 부하</td><td data-i18n="hw.vs.r13b">러닝이 다리에 남긴 부하를 '평지 환산 km'로 센 값이에요. 평지에서 편하게 달린 1km가 1.0이고, 같은 거리라도 빠르게·오르막·내리막으로 달리면 더 크게 셉니다. 계산은 러닝 1번 = 거리 × 강도 배율 × 경사 배율. 강도 배율은 심박보다 속도를 먼저 봐요(내 이지·역치 페이스 기준이고, 그 페이스가 아직 없을 때만 심박으로): 이지 이하 1.0, 역치 1.35, 그보다 빠르면 최대 1.6. 경사 배율은 오르막이면 실제 페이스 ÷ 경사 보정 페이스(최대 1.6), 내리막이면 1 + 1.2 × (1 − 그 비율)로 더 크게 셉니다(최대 2.0). 내리막은 덜 힘들어도 충격은 더 크기 때문이에요. 단기 값은 하루 단위 지수 가중 이동평균(EWMA, 시정수 7일)이라 하루 평균 수준이고(꾸준히 달리면 대략 주간 합계 ÷ 7), 주간 값은 그 주의 단순 합계예요. 리포트 타일과 러닝 상세 화면('운동 부하' 옆)에 실제 거리와 나란히 표시됩니다. 러닝 다이내믹스와 걷기 구간은 아직 반영하지 않아요. 위 배율은 공개 문헌을 참고해 런비스가 정한 참고값입니다.</td></tr>
   </table></div>
   <div class="shots">
-<figure><picture><source srcset="assets/framed-phone-detail.avif" type="image/avif"/><source srcset="assets/framed-phone-detail.webp" type="image/webp"/><img alt="iPhone 지표 상세 — 체력 흐름(CTL) 7일 추세, 내 28일 범위, 지표 설명" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="assets/framed-phone-detail.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">위 표 첫 줄이 앱에서는 이렇게 보여요. 체력 흐름(CTL) 7일 추세와 내 28일 범위, 그리고 그 지표의 뜻까지.</figcaption></figure>
-<figure><picture><source srcset="assets/framed-phone-race.avif" type="image/avif"/><source srcset="assets/framed-phone-race.webp" type="image/webp"/><img alt="iPhone 레이스 예측 — 10K 55:00 목표의 1km 구간 페이스 플랜과 5K·10K·하프 예상 기록" data-i18n-attr="alt:alt.phone.race" loading="lazy" src="assets/framed-phone-race.png" data-shot="framed-phone-race" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap2">넷째 줄은 이렇게 보여요. 레이스 예측과 구간 페이스 플랜.</figcaption></figure>
+<figure><picture><source srcset="assets/framed-phone-detail.avif" type="image/avif"/><source srcset="assets/framed-phone-detail.webp" type="image/webp"/><img alt="iPhone 지표 상세 — 체력 흐름(CTL) 7일 추세, 내 28일 범위, 지표 설명" data-i18n-attr="alt:alt.phone.detail" loading="lazy" src="assets/framed-phone-detail.png" data-shot="framed-phone-detail" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap1">위 표의 '훈련 부하' 줄이 앱에서는 이렇게 보여요. 체력 흐름(CTL) 7일 추세와 내 28일 범위, 그리고 그 지표의 뜻까지.</figcaption></figure>
+<figure><picture><source srcset="assets/framed-phone-race.avif" type="image/avif"/><source srcset="assets/framed-phone-race.webp" type="image/webp"/><img alt="iPhone 레이스 예측 — 10K 55:00 목표의 1km 구간 페이스 플랜과 5K·10K·하프 예상 기록" data-i18n-attr="alt:alt.phone.race" loading="lazy" src="assets/framed-phone-race.png" data-shot="framed-phone-race" width="640" height="1308" decoding="async"/></picture><figcaption data-i18n="hw.vs.cap2">'레이스 예측' 줄은 이렇게 보여요. 구간 페이스 플랜과 거리별 예상 기록.</figcaption></figure>
 </div>
   <p class="legalnote" data-i18n="sc.note.s">실제 앱 화면이에요.</p>
   <p class="note" data-i18n="hw.vs.tm">가민(Garmin)·포러너(Forerunner)·코로스(COROS)는 각 회사의 상표이며, 런비스는 두 회사와 관계가 없습니다. 여기 적은 내용은 공개된 사실뿐이고, 두 회사의 계산식은 공개돼 있지 않아 정확도를 비교하지 않습니다.</p>
@@ -450,7 +450,7 @@
   <h2 id="beta" data-i18n="n.beta.stepsh">신청하면 이렇게 진행돼요</h2>
   <ol>
     <li data-i18n="n.beta.s1">접수: 이메일 주소만 받아요. 계정을 만들 필요는 없습니다.</li>
-    <li data-i18n="n.beta.s2">TestFlight 초대: 베타가 열리면 신청 순서대로 초대 링크를 보내 드려요. 애플 계정만 있으면 됩니다. 결제는 없어요. 베타 빌드에서는 베타 기간 동안 코치 기능이 전부 무료입니다. 마케팅 수신에 동의하지 않으셨다면 이 초대 메일 외에는 아무것도 보내지 않아요.</li>
+    <li data-i18n="n.beta.s2">TestFlight 초대: 베타가 열리면 신청 순서대로 초대 링크를 보내 드려요. 애플 계정만 있으면 됩니다. 결제는 없어요. 베타 빌드에서는 베타 기간 동안 코치 기능이 전부 무료입니다. 마케팅 수신에 동의하지 않으셨다면 베타 소식(여는 날짜 안내와 이 초대 메일) 외에는 아무것도 보내지 않아요.</li>
     <li data-i18n="n.beta.s3">피드백: 앱 안에서 바로 의견을 보내거나 help@runvis.app 으로 보내 주세요.</li>
     <li data-i18n="n.beta.s4">출시: 베타가 끝난 뒤 출시 시점을 정해요. 대한민국 App Store에 먼저 나오고 다른 나라는 차례로 출시합니다.</li>
   </ol>
