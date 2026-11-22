@@ -46,23 +46,11 @@
   .wrap{max-width:560px}
   .logo{font-weight:900;font-size:22px;letter-spacing:-.02em}
   .logo b{color:var(--green)}
-  .code{margin-top:26px;font-size:64px;font-weight:900;letter-spacing:-.03em;line-height:1;
-    background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
-  /* The glyphs themselves are transparent, so anything that drops the gradient
-     drops the word — and on this page the word is the only thing that says
-     WHICH error it is. Same two fallbacks index.html and run.html carry for
-     .grad; this was the third site of that pattern and the one nobody
-     mentioned. */
-  @supports not ((background-clip:text) or (-webkit-background-clip:text)){
-    .code{background:none;color:var(--green);-webkit-text-fill-color:currentColor}
-  }
-  @media (forced-colors: active){
-    .code{background:none;color:CanvasText;-webkit-text-fill-color:CanvasText;forced-color-adjust:none}
-  }
+  .code{margin-top:26px;font-size:64px;font-weight:900;letter-spacing:-.03em;line-height:1;color:var(--green)}
   h1{margin-top:14px;font-size:clamp(22px,5vw,30px);font-weight:800;letter-spacing:-.02em;line-height:1.25}
   p{margin-top:14px;color:var(--dim);font-size:15.5px}
   .links{margin-top:30px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
-  .btn{display:inline-flex;align-items:center;background:linear-gradient(120deg,var(--green),var(--cyan));
+  .btn{display:inline-flex;align-items:center;background:var(--green);
     color:#04120c;font-weight:800;font-size:16px;padding:13px 24px;border-radius:14px}
   .btn.ghost{background:none;color:var(--text);border:1px solid var(--line2)}
   .btn.ghost:hover{border-color:var(--green)}
