@@ -333,8 +333,11 @@
      never fetches this file. */
   html:not(.js) .hero-bg{background:#0b1012 url(assets/hero-poster.jpg) center/cover}
   .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  /* Left stops raised .84/.76/.55 → .90/.86/.62 (2026-11-23 점검 #1): the green
+     eyebrow (13.5px bold) fell to 3.5:1 over the brightest sunset frames of
+     hero-loop.webm at 1440px; WCAG AA for that size is 4.5:1. */
   .hero-scrim{position:absolute;inset:0;background:
-      linear-gradient(90deg,rgba(7,9,10,.84) 0%,rgba(7,9,10,.76) 40%,rgba(7,9,10,.55) 56%,rgba(7,9,10,0) 74%),
+      linear-gradient(90deg,rgba(7,9,10,.90) 0%,rgba(7,9,10,.86) 40%,rgba(7,9,10,.62) 56%,rgba(7,9,10,0) 74%),
       linear-gradient(180deg,rgba(7,9,10,0) 70%,var(--bg) 100%)}
   .hero-scene{position:relative;z-index:1;min-height:calc(100svh - var(--navh,60px));display:grid;
       grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);align-items:center;gap:36px;padding-top:40px;padding-bottom:76px}
@@ -675,6 +678,9 @@
      and beat the global :focus-visible outline (0,1,0), so the page's one
      conversion control lost its keyboard focus ring. Mouse focus still gets the
      green border and no ring; keyboard focus keeps the ring. */
+  /* Placeholder was the UA default #757575 on --bg2, 3.9:1 (2026-11-23 점검 #6);
+     #8b929a is 5.7:1 and still reads lighter than typed text. */
+  .signup input[type=email]::placeholder{color:#8b929a;opacity:1}
   .signup input[type=email]:focus{border-color:var(--green)}
   .signup input[type=email]:focus:not(:focus-visible){outline:none}
   .consent{margin-top:18px;font-size:13px;color:var(--dim2);max-width:520px;margin-left:auto;margin-right:auto;text-align:left;line-height:1.7}

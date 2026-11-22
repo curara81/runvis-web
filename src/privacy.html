@@ -78,6 +78,10 @@
     line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
   .wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}
   a{color:var(--green);text-decoration:none}
+  /* Links inside running text are underlined, not colour-only (WCAG 1.4.1,
+     Lighthouse link-in-text-block). Nav, the back link and the language menu
+     sit outside p/li/td and keep the plain style. */
+  .wrap p a,.wrap li a,.wrap td a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
   :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
   img{max-width:100%;height:auto;display:block}
   body{overflow-wrap:break-word;word-break:normal;line-break:normal}
@@ -267,7 +271,7 @@
 </head>
 <body>
 <a class="skip" href="#main" data-i18n="a11y.skip">본문 바로가기</a>
-<div class="wrap">
+<main class="wrap">
   <div class="topbar">
     <a class="back" href="index.html" data-i18n="pv.back">← Runvis 홈으로</a>
     <div class="langsel" id="langsel">
@@ -359,7 +363,7 @@
 
   <h2 data-i18n="pv.s10.h">10. 변경 및 문의</h2>
   <p data-i18n="pv.s10.p">개인정보 처리자: 쿠라라 스튜디오(대표 정동호). 방침이 바뀌면 이 페이지의 시행일을 갱신합니다. 이용약관은 <a href="terms.html">이용약관</a>을 참고하세요. 문의: <a href="mailto:help@runvis.app">help@runvis.app</a></p>
-</div>
+</main>
 <!-- No renderDynamicI18n hook here any more. It existed to repair a title
      that i18n.js used to hard-code to the homepage's meta.title on every
      language switch; i18n.js stopped doing that, and this page's own

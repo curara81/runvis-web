@@ -90,6 +90,10 @@
     line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
   .wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}
   a{color:var(--green);text-decoration:none}
+  /* Links inside running text are underlined, not colour-only (WCAG 1.4.1,
+     Lighthouse link-in-text-block). Nav, the back link and the language menu
+     sit outside p/li/td and keep the plain style. */
+  .wrap p a,.wrap li a,.wrap td a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
   :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
   img{max-width:100%;height:auto;display:block}
   body{overflow-wrap:break-word;word-break:keep-all;line-break:normal}
@@ -110,6 +114,18 @@
   table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:520px}
   th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--dim)}
   th{color:var(--text);font-weight:600}
+  /* Below 600 px the two-column tables stack: each row becomes a label line and
+     its value under it, instead of a 520 px table scrolling sideways inside a
+     342 px box with nothing to say it scrolls (2026-11-23 점검 #4 — words were
+     cut mid-way at the right edge in all six languages). */
+  @media(max-width:600px){
+    table{min-width:0}
+    table,tbody,tr,th,td{display:block}
+    tr{padding:10px 0;border-bottom:1px solid var(--line)}
+    th,td{padding:2px 0;border-bottom:0}
+    tr:first-child th:last-child{font-weight:400;color:var(--dim2);font-size:.85rem}
+    td:first-child{color:var(--text);font-weight:600}
+  }
   .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
   .back{color:var(--dim);font-size:.9rem}
   .legalnote{color:var(--dim2);font-size:.8rem;margin-bottom:22px}
@@ -315,7 +331,7 @@
 </head>
 <body>
 <a class="skip" href="#main" data-i18n="a11y.skip">본문 바로가기</a>
-<div class="wrap">
+<main class="wrap">
   <div class="topbar">
     <a class="back" href="index.html" data-i18n="pv.back">← Runvis 홈으로</a>
     <div class="langsel" id="langsel">
@@ -455,7 +471,7 @@
     <li data-i18n="n.beta.s4">출시: 베타가 끝난 뒤 출시 시점을 정해요. 대한민국 App Store에 먼저 나오고 다른 나라는 차례로 출시합니다.</li>
   </ol>
   <p class="backhome"><a href="index.html#beta" data-i18n="n.price.cta">베타로 먼저 써 보거나, 출시 알림만 받기</a></p>
-</div>
+</main>
 <script>
 // --- heart-rate zones, worked out here, with no address and no install -------
 // The same arithmetic the app runs: UserProfile.karvonenZoneLowerBounds maps
