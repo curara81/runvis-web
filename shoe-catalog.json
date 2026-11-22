@@ -1,5 +1,5 @@
 {
- "version": 3,
+ "version": 4,
  "updated": "2026-11-15",
  "brands": [
   {
@@ -29,92 +29,145 @@
     {
      "ko": "알파플라이 4",
      "en": "Alphafly 4",
-     "kind": "race"
+     "kind": "race",
+     "g": 188,
+     "gSize": "M8.5",
+     "plate": "carbon"
     },
     {
      "ko": "페가수스 플러스 2",
      "en": "Pegasus Plus 2",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 265,
+     "gSize": "M10",
+     "plate": "none"
     },
     {
      "ko": "ACG 제가마 트레일",
      "en": "ACG Zegama Trail",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 338,
+     "gSize": "M10",
+     "plate": "none"
     },
     {
      "ko": "페가수스 42",
      "en": "Pegasus 42",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 300,
+     "gSize": "M10",
+     "plate": "none"
     },
     {
      "ko": "ACG 페가수스 트레일",
      "en": "ACG Pegasus Trail",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 305,
+     "gSize": "M10",
+     "plate": "none"
     },
     {
      "ko": "스트럭처 플러스",
      "en": "Structure Plus",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 309,
+     "gSize": "M10",
+     "plate": "none"
     },
     {
      "ko": "ACG 울트라플라이 트레일",
      "en": "ACG Ultrafly Trail",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 287,
+     "gSize": "M10",
+     "plate": "carbon"
     },
     {
      "ko": "보메로 프리미엄",
      "en": "Vomero Premium",
-     "kind": "max"
+     "kind": "max",
+     "g": 351,
+     "gSize": "M10",
+     "plate": "none"
     },
     {
      "ko": "보메로 플러스",
      "en": "Vomero Plus",
-     "kind": "max"
+     "kind": "max",
+     "g": 292,
+     "gSize": "M10",
+     "plate": "none"
     },
     {
      "ko": "스트릭플라이 2",
      "en": "Streakfly 2",
-     "kind": "race"
+     "kind": "race",
+     "g": 145,
+     "gSize": "M10",
+     "plate": "carbon"
     },
     {
      "ko": "스트럭처 26",
      "en": "Structure 26",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 321,
+     "gSize": "M10",
+     "plate": "none"
     },
     {
      "ko": "보메로 18",
      "en": "Vomero 18",
-     "kind": "max"
+     "kind": "max",
+     "g": 325,
+     "gSize": "M10",
+     "plate": "none"
     },
     {
      "ko": "베이퍼플라이 4",
      "en": "Vaporfly 4",
-     "kind": "race"
+     "kind": "race",
+     "g": 190,
+     "gSize": "M10",
+     "plate": "carbon"
     },
     {
      "ko": "페가수스 프리미엄",
      "en": "Pegasus Premium",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 325,
+     "gSize": "M10",
+     "plate": "none"
     },
     {
      "ko": "줌 플라이 6",
      "en": "Zoom Fly 6",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 265,
+     "gSize": "M10",
+     "plate": "carbon"
     },
     {
      "ko": "페가수스 플러스",
      "en": "Pegasus Plus",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 245,
+     "plate": "none"
     },
     {
      "ko": "페가수스 41",
      "en": "Pegasus 41",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 297,
+     "gSize": "UK 9",
+     "plate": "none"
     },
     {
      "ko": "알파플라이 3",
      "en": "Alphafly 3",
-     "kind": "race"
+     "kind": "race",
+     "g": 218,
+     "gSize": "UK 9",
+     "plate": "carbon"
     }
    ]
   },
@@ -141,72 +194,108 @@
     {
      "ko": "아디제로 아디오스 프로 5",
      "en": "Adizero Adios Pro 5",
-     "kind": "race"
+     "kind": "race",
+     "g": 177,
+     "gSize": "UK 8.5",
+     "plate": "carbon"
     },
     {
      "ko": "슈퍼노바 프리마 3",
      "en": "Supernova Prima 3",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 294,
+     "gSize": "UK 8.5"
     },
     {
      "ko": "하이퍼부스트 런",
      "en": "Hyperboost Run",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 248,
+     "gSize": "UK 8.5",
+     "plate": "none"
     },
     {
      "ko": "아디제로 아디오스 프로 EVO 3",
      "en": "Adizero Adios Pro Evo 3",
-     "kind": "race"
+     "kind": "race",
+     "g": 97,
+     "gSize": "UK 8.5",
+     "plate": "carbon"
     },
     {
      "ko": "하이퍼부스트 엣지",
      "en": "Hyperboost Edge",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 258,
+     "gSize": "UK 8.5",
+     "plate": "none"
     },
     {
      "ko": "테렉스 아그라빅 스피드 2",
      "en": "Terrex Agravic Speed 2",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 221,
+     "plate": "none"
     },
     {
      "ko": "슈퍼노바 라이즈 3",
      "en": "Supernova Rise 3",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 272,
+     "plate": "none"
     },
     {
      "ko": "테렉스 아그라빅 스피드 울트라 2",
      "en": "Terrex Agravic Speed Ultra 2",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 226,
+     "plate": "plate"
     },
     {
      "ko": "아디제로 타쿠미 센 11",
      "en": "Adizero Takumi Sen 11",
-     "kind": "race"
+     "kind": "race",
+     "g": 188,
+     "plate": "none"
     },
     {
      "ko": "아디제로 아디오스 9",
      "en": "Adizero Adios 9",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 176,
+     "gSize": "UK 8.5",
+     "plate": "plate"
     },
     {
      "ko": "아디제로 보스턴 13",
      "en": "Adizero Boston 13",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 260,
+     "plate": "plate"
     },
     {
      "ko": "아디제로 EVO SL",
      "en": "Adizero Evo SL",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 224,
+     "gSize": "UK 8.5",
+     "plate": "none"
     },
     {
      "ko": "슈퍼노바 라이즈 2",
      "en": "Supernova Rise 2",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 275,
+     "gSize": "UK 8.5",
+     "plate": "plate"
     },
     {
      "ko": "아디제로 아디오스 프로 4",
      "en": "Adizero Adios Pro 4",
-     "kind": "race"
+     "kind": "race",
+     "g": 200,
+     "gSize": "UK 8.5",
+     "plate": "carbon"
     }
    ]
   },
@@ -239,102 +328,150 @@
     {
      "ko": "소닉블라스트 2",
      "en": "SONICBLAST 2",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 242,
+     "gSize": "M9",
+     "plate": "plate"
     },
     {
      "ko": "메타슬릭",
      "en": "METASLEEK",
-     "kind": "race"
+     "kind": "race",
+     "plate": "none"
     },
     {
      "ko": "GT-2000 15",
      "en": "GT-2000 15",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 252,
+     "gSize": "M9",
+     "plate": "none"
     },
     {
      "ko": "노바블라스트 6",
      "en": "NOVABLAST 6",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 253,
+     "gSize": "M9",
+     "plate": "none"
     },
     {
      "ko": "젤 카야노 33",
      "en": "GEL-KAYANO 33",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 298,
+     "plate": "none"
     },
     {
      "ko": "슈퍼블라스트 3",
      "en": "SUPERBLAST 3",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 239,
+     "gSize": "M9",
+     "plate": "none"
     },
     {
      "ko": "트라부코 14",
      "en": "TRABUCO 14",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 281,
+     "plate": "plate"
     },
     {
      "ko": "젤 큐뮬러스 28",
      "en": "GEL-CUMULUS 28",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 259,
+     "plate": "none"
     },
     {
      "ko": "젤 님버스 28",
      "en": "GEL-NIMBUS 28",
-     "kind": "max"
+     "kind": "max",
+     "g": 281,
+     "plate": "none"
     },
     {
      "ko": "트라부코 맥스 5",
      "en": "TRABUCO MAX 5",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 302,
+     "plate": "none"
     },
     {
      "ko": "메가블라스트",
      "en": "MEGABLAST",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 230,
+     "gSize": "M9",
+     "plate": "none"
     },
     {
      "ko": "메타스피드 레이",
      "en": "METASPEED RAY",
-     "kind": "race"
+     "kind": "race",
+     "g": 129,
+     "gSize": "M9",
+     "plate": "carbon"
     },
     {
      "ko": "메타스피드 스카이 도쿄",
      "en": "METASPEED SKY TOKYO",
-     "kind": "race"
+     "kind": "race",
+     "g": 170,
+     "gSize": "M9",
+     "plate": "carbon"
     },
     {
      "ko": "메타스피드 엣지 도쿄",
      "en": "METASPEED EDGE TOKYO",
-     "kind": "race"
+     "kind": "race",
+     "g": 170,
+     "gSize": "M9",
+     "plate": "carbon"
     },
     {
      "ko": "매직 스피드 5",
      "en": "MAGIC SPEED 5",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 196,
+     "plate": "carbon"
     },
     {
      "ko": "GT-2000 14",
      "en": "GT-2000 14",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 270,
+     "plate": "none"
     },
     {
      "ko": "젤 카야노 32",
      "en": "GEL-KAYANO 32",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 300,
+     "plate": "none"
     },
     {
      "ko": "젤 큐뮬러스 27",
      "en": "GEL-CUMULUS 27",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 265,
+     "plate": "none"
     },
     {
      "ko": "젤 님버스 27",
      "en": "GEL-NIMBUS 27",
-     "kind": "max"
+     "kind": "max",
+     "g": 305,
+     "gSize": "M9",
+     "plate": "none"
     },
     {
      "ko": "노바블라스트 5",
      "en": "NOVABLAST 5",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 255,
+     "plate": "none"
     }
    ]
   },
@@ -365,92 +502,132 @@
     {
      "ko": "텍톤 X 4",
      "en": "Tecton X 4",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 275,
+     "plate": "carbon"
     },
     {
      "ko": "클리프톤 프로",
      "en": "Clifton PRO",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 296,
+     "gSize": "M10",
+     "plate": "none"
     },
     {
      "ko": "클리프톤 11",
      "en": "Clifton 11",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 283,
+     "gSize": "M10",
+     "plate": "none"
     },
     {
      "ko": "아라히 9",
      "en": "Arahi 9",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 284,
+     "plate": "none"
     },
     {
      "ko": "링컨 5",
      "en": "Rincon 5",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 275,
+     "plate": "none"
     },
     {
      "ko": "스카이워드 X 2",
      "en": "Skyward X 2",
-     "kind": "max"
+     "kind": "max",
+     "g": 312,
+     "plate": "carbon"
     },
     {
      "ko": "마하 7",
      "en": "Mach 7",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 237,
+     "plate": "none"
     },
     {
      "ko": "스피드고트 7",
      "en": "Speedgoat 7",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 275,
+     "plate": "none"
     },
     {
      "ko": "씨엘로 X1 3.0",
      "en": "Cielo X1 3.0",
-     "kind": "race"
+     "kind": "race",
+     "g": 213,
+     "gSize": "M10",
+     "plate": "carbon"
     },
     {
      "ko": "가비오타 6",
      "en": "Gaviota 6",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 291,
+     "plate": "none"
     },
     {
      "ko": "마하 X 3",
      "en": "Mach X 3",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 288,
+     "gSize": "M10",
+     "plate": "plate"
     },
     {
      "ko": "아라히 8",
      "en": "Arahi 8",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 278,
+     "plate": "none"
     },
     {
      "ko": "챌린저 8",
      "en": "Challenger 8",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 275
     },
     {
      "ko": "로켓 X 3",
      "en": "Rocket X 3",
-     "kind": "race"
+     "kind": "race",
+     "g": 226,
+     "gSize": "M10",
+     "plate": "carbon"
     },
     {
      "ko": "클리프톤 10",
      "en": "Clifton 10",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 278,
+     "plate": "none"
     },
     {
      "ko": "본디 9",
      "en": "Bondi 9",
-     "kind": "max"
+     "kind": "max",
+     "g": 298,
+     "plate": "none"
     },
     {
      "ko": "스피드고트 6",
      "en": "Speedgoat 6",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 278,
+     "plate": "none"
     },
     {
      "ko": "마하 6",
      "en": "Mach 6",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 232,
+     "plate": "none"
     }
    ]
   },
@@ -476,57 +653,81 @@
     {
      "ko": "SC 엘리트 V6",
      "en": "SuperComp Elite v6",
-     "kind": "race"
+     "kind": "race",
+     "g": 198,
+     "gSize": "M9.5",
+     "plate": "carbon"
     },
     {
      "ko": "SC 레벨 V1",
      "en": "SuperComp Rebel",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 222,
+     "gSize": "M9.5",
+     "plate": "plate"
     },
     {
      "ko": "퓨얼셀 레벨 트레일",
      "en": "FuelCell Rebel Trail",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 303,
+     "plate": "none"
     },
     {
      "ko": "860 V15",
      "en": "Fresh Foam X 860v15",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 331,
+     "plate": "none"
     },
     {
      "ko": "엘립스 V1",
      "en": "Ellipse v1",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 273,
+     "plate": "none"
     },
     {
      "ko": "SC 트레일 V2",
      "en": "FuelCell SuperComp Trail v2",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 277,
+     "plate": "carbon"
     },
     {
      "ko": "1080 V15",
      "en": "1080v15",
-     "kind": "max"
+     "kind": "max",
+     "g": 261,
+     "plate": "none"
     },
     {
      "ko": "모어 V6",
      "en": "Fresh Foam X More v6",
-     "kind": "max"
+     "kind": "max",
+     "g": 306,
+     "plate": "none"
     },
     {
      "ko": "레벨 V5",
      "en": "FuelCell Rebel v5",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 225,
+     "gSize": "M9.5",
+     "plate": "none"
     },
     {
      "ko": "880 V15",
      "en": "Fresh Foam X 880v15",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 299,
+     "plate": "none"
     },
     {
      "ko": "SC 엘리트 V5",
      "en": "FuelCell SuperComp Elite v5",
-     "kind": "race"
+     "kind": "race",
+     "plate": "carbon"
     },
     {
      "ko": "SC 트레이너 V3",
@@ -567,72 +768,100 @@
     {
      "ko": "엔돌핀 스피드 6",
      "en": "Endorphin Speed 6",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 233,
+     "plate": "plate"
     },
     {
      "ko": "파라마운트 맥스",
      "en": "Paramount Max",
-     "kind": "max"
+     "kind": "max",
+     "g": 302,
+     "plate": "none"
     },
     {
      "ko": "허리케인 26",
      "en": "Hurricane 26",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 262,
+     "plate": "none"
     },
     {
      "ko": "트라이엄프 24",
      "en": "Triumph 24",
-     "kind": "max"
+     "kind": "max",
+     "g": 250,
+     "plate": "none"
     },
     {
      "ko": "엔돌핀 엘리트 3",
      "en": "Endorphin Elite 3",
-     "kind": "race"
+     "kind": "race",
+     "g": 204,
+     "plate": "carbon"
     },
     {
      "ko": "가이드 19",
      "en": "Guide 19",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 275,
+     "plate": "none"
     },
     {
      "ko": "엔돌핀 프로 5",
      "en": "Endorphin Pro 5",
-     "kind": "race"
+     "kind": "race",
+     "g": 206,
+     "plate": "carbon"
     },
     {
      "ko": "엔돌핀 아주라",
      "en": "Endorphin Azura",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 240,
+     "plate": "none"
     },
     {
      "ko": "라이드 19",
      "en": "Ride 19",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 255,
+     "plate": "none"
     },
     {
      "ko": "페레그린 16",
      "en": "Peregrine 16",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 271,
+     "plate": "none"
     },
     {
      "ko": "킨바라 16",
      "en": "Kinvara 16",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 206,
+     "plate": "none"
     },
     {
      "ko": "엔돌핀 트레이너",
      "en": "Endorphin Trainer",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 280,
+     "plate": "carbon"
     },
     {
      "ko": "허리케인 25",
      "en": "Hurricane 25",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 285,
+     "plate": "none"
     },
     {
      "ko": "엔돌핀 스피드 5",
      "en": "Endorphin Speed 5",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 237,
+     "plate": "plate"
     },
     {
      "ko": "트라이엄프 23",
@@ -642,17 +871,23 @@
     {
      "ko": "가이드 18",
      "en": "Guide 18",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 272,
+     "plate": "none"
     },
     {
      "ko": "라이드 18",
      "en": "Ride 18",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 259,
+     "plate": "none"
     },
     {
      "ko": "엔돌핀 엘리트 2",
      "en": "Endorphin Elite 2",
-     "kind": "race"
+     "kind": "race",
+     "g": 199,
+     "plate": "carbon"
     }
    ]
   },
@@ -682,87 +917,121 @@
     {
      "ko": "하이페리온 엘리트 6",
      "en": "Hyperion Elite 6",
-     "kind": "race"
+     "kind": "race",
+     "g": 193,
+     "plate": "carbon"
     },
     {
      "ko": "고스트 맥스 4",
      "en": "Ghost Max 4",
-     "kind": "max"
+     "kind": "max",
+     "g": 292,
+     "plate": "none"
     },
     {
      "ko": "고스트 AMP",
      "en": "Ghost AMP",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 255,
+     "plate": "none"
     },
     {
      "ko": "하이페리온 맥스 4",
      "en": "Hyperion Max 4",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 286,
+     "plate": "plate"
     },
     {
      "ko": "캐스케디아 20",
      "en": "Cascadia 20",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 306,
+     "plate": "none"
     },
     {
      "ko": "고스트 18",
      "en": "Ghost 18",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 289,
+     "plate": "none"
     },
     {
      "ko": "글리세린 23",
      "en": "Glycerin 23",
-     "kind": "max"
+     "kind": "max",
+     "g": 301,
+     "plate": "none"
     },
     {
      "ko": "글리세린 GTS 23",
      "en": "Glycerin GTS 23",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 312,
+     "plate": "none"
     },
     {
      "ko": "런치 12",
      "en": "Launch 12",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 252,
+     "plate": "none"
     },
     {
      "ko": "글리세린 맥스 2",
      "en": "Glycerin Max 2",
-     "kind": "max"
+     "kind": "max",
+     "g": 320,
+     "plate": "none"
     },
     {
      "ko": "아드레날린 GTS 25",
      "en": "Adrenaline GTS 25",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 301,
+     "plate": "none"
     },
     {
      "ko": "하이페리온 3",
      "en": "Hyperion 3",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 233,
+     "plate": "none"
     },
     {
      "ko": "고스트 맥스 3",
      "en": "Ghost Max 3",
-     "kind": "max"
+     "kind": "max",
+     "g": 318,
+     "plate": "none"
     },
     {
      "ko": "하이페리온 맥스 3",
      "en": "Hyperion Max 3",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 281,
+     "plate": "plate"
     },
     {
      "ko": "하이페리온 엘리트 5",
      "en": "Hyperion Elite 5",
-     "kind": "race"
+     "kind": "race",
+     "g": 196,
+     "plate": "carbon"
     },
     {
      "ko": "고스트 17",
      "en": "Ghost 17",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 286,
+     "plate": "none"
     },
     {
      "ko": "글리세린 22",
      "en": "Glycerin 22",
-     "kind": "max"
+     "kind": "max",
+     "g": 289,
+     "plate": "none"
     }
    ]
   },
@@ -791,82 +1060,128 @@
     {
      "ko": "하이퍼워프 퓨어 2",
      "en": "Hyperwarp Pure 2",
-     "kind": "race"
+     "kind": "race",
+     "g": 135,
+     "gSize": "270mm",
+     "plate": "carbon"
     },
     {
      "ko": "하이퍼워프 엘리트 2",
      "en": "Hyperwarp Elite 2",
-     "kind": "race"
+     "kind": "race",
+     "g": 160,
+     "gSize": "270mm",
+     "plate": "carbon"
     },
     {
      "ko": "웨이브 라이더 30",
      "en": "Wave Rider 30",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 266,
+     "gSize": "M9",
+     "plate": "plate"
     },
     {
      "ko": "네오 비스타 3",
      "en": "Neo Vista 3",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 266,
+     "gSize": "M9",
+     "plate": "plate"
     },
     {
      "ko": "네오 아세라",
      "en": "Neo Accera",
-     "kind": "trail"
+     "kind": "trail",
+     "plate": "plate"
     },
     {
      "ko": "웨이브 호라이즌 9",
      "en": "Wave Horizon 9",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 320,
+     "gSize": "M9",
+     "plate": "none"
     },
     {
      "ko": "웨이브 다이치 9",
      "en": "Wave Daichi 9",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 306,
+     "gSize": "M9",
+     "plate": "plate"
     },
     {
      "ko": "웨이브 인스파이어 22",
      "en": "Wave Inspire 22",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 295,
+     "gSize": "M9",
+     "plate": "plate"
     },
     {
      "ko": "네오 젠 2",
      "en": "Neo Zen 2",
-     "kind": "max"
+     "kind": "max",
+     "g": 244,
+     "gSize": "M9",
+     "plate": "none"
     },
     {
      "ko": "웨이브 스카이 9",
      "en": "Wave Sky 9",
-     "kind": "max"
+     "kind": "max",
+     "g": 289,
+     "gSize": "M9",
+     "plate": "none"
     },
     {
      "ko": "웨이브 리벨리온 플래시 3",
      "en": "Wave Rebellion Flash 3",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 244,
+     "gSize": "M9",
+     "plate": "plate"
     },
     {
      "ko": "하이퍼워프 퓨어",
      "en": "Hyperwarp Pure",
-     "kind": "race"
+     "kind": "race",
+     "g": 137,
+     "gSize": "270mm",
+     "plate": "carbon"
     },
     {
      "ko": "하이퍼워프 엘리트",
      "en": "Hyperwarp Elite",
-     "kind": "race"
+     "kind": "race",
+     "g": 170,
+     "gSize": "270mm",
+     "plate": "carbon"
     },
     {
      "ko": "웨이브 라이더 29",
      "en": "Wave Rider 29",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 264,
+     "gSize": "M9",
+     "plate": "plate"
     },
     {
      "ko": "네오 비스타 2",
      "en": "Neo Vista 2",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 272,
+     "gSize": "M9",
+     "plate": "plate"
     },
     {
      "ko": "웨이브 호라이즌 8",
      "en": "Wave Horizon 8",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 320,
+     "gSize": "M9",
+     "plate": "none"
     }
    ]
   },
@@ -892,67 +1207,92 @@
     {
      "ko": "클라우드서퍼 3",
      "en": "Cloudsurfer 3",
-     "kind": "daily"
+     "kind": "daily",
+     "plate": "none"
     },
     {
      "ko": "클라우드붐 스트라이크 2",
      "en": "Cloudboom Strike 2",
-     "kind": "race"
+     "kind": "race",
+     "g": 191,
+     "plate": "carbon"
     },
     {
      "ko": "클라우드몬스터 3",
      "en": "Cloudmonster 3",
-     "kind": "max"
+     "kind": "max",
+     "g": 295,
+     "plate": "plate"
     },
     {
      "ko": "클라우드몬스터 3 하이퍼",
      "en": "Cloudmonster 3 Hyper",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 253,
+     "plate": "none"
     },
     {
      "ko": "클라우드러너 3",
      "en": "Cloudrunner 3",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 311,
+     "plate": "none"
     },
     {
      "ko": "클라우드서퍼 맥스",
      "en": "Cloudsurfer Max",
-     "kind": "max"
+     "kind": "max",
+     "g": 292,
+     "plate": "none"
     },
     {
      "ko": "클라우드울트라 3",
      "en": "Cloudultra 3",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 295,
+     "plate": "plate"
     },
     {
      "ko": "클라우드플로우 5",
      "en": "Cloudflow 5",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 278,
+     "plate": "plate"
     },
     {
      "ko": "클라우드붐 스트라이크",
      "en": "Cloudboom Strike",
-     "kind": "race"
+     "kind": "race",
+     "g": 210,
+     "plate": "carbon"
     },
     {
      "ko": "클라우드서퍼 2",
      "en": "Cloudsurfer 2",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 261,
+     "plate": "none"
     },
     {
      "ko": "클라우드몬스터 하이퍼",
      "en": "Cloudmonster Hyper",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 265,
+     "plate": "none"
     },
     {
      "ko": "클라우드몬스터 2",
      "en": "Cloudmonster 2",
-     "kind": "max"
+     "kind": "max",
+     "g": 300,
+     "plate": "plate"
     },
     {
      "ko": "클라우드러너 2",
      "en": "Cloudrunner 2",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 277,
+     "plate": "none"
     }
    ]
   },
@@ -975,52 +1315,77 @@
     {
      "ko": "포에버런 나이트로 3",
      "en": "ForeverRun NITRO 3",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 290,
+     "plate": "none"
     },
     {
      "ko": "벨로시티 나이트로 5",
      "en": "Velocity NITRO 5",
-     "kind": "daily"
+     "kind": "daily",
+     "plate": "none"
     },
     {
      "ko": "패스트 포워드 나이트로 엘리트 2",
      "en": "Fast-FWD NITRO Elite 2",
-     "kind": "race"
+     "kind": "race",
+     "plate": "carbon"
     },
     {
      "ko": "디비에이트 나이트로 퓨어",
      "en": "Deviate Pure NITRO",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 220,
+     "gSize": "UK 8",
+     "plate": "none"
     },
     {
      "ko": "디비에이트 나이트로 엘리트 4",
      "en": "Deviate NITRO Elite 4",
-     "kind": "race"
+     "kind": "race",
+     "g": 170,
+     "gSize": "UK 8",
+     "plate": "carbon"
     },
     {
      "ko": "디비에이트 나이트로 4",
      "en": "Deviate NITRO 4",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 250,
+     "gSize": "UK 8",
+     "plate": "carbon"
     },
     {
      "ko": "매그맥스 나이트로 2",
      "en": "MagMax NITRO 2",
-     "kind": "max"
+     "kind": "max",
+     "g": 275,
+     "gSize": "UK 8",
+     "plate": "none"
     },
     {
      "ko": "패스트 트랙 나이트로 4",
      "en": "Fast-Trac NITRO 4",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 286,
+     "gSize": "UK 8",
+     "plate": "none"
     },
     {
      "ko": "패스트알 나이트로 엘리트 3",
      "en": "FAST-R NITRO Elite 3",
-     "kind": "race"
+     "kind": "race",
+     "g": 170,
+     "gSize": "UK 8",
+     "plate": "carbon"
     },
     {
      "ko": "디비에이트 나이트로 3",
      "en": "Deviate NITRO 3",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 250,
+     "gSize": "UK 8",
+     "plate": "carbon"
     }
    ]
   },
@@ -1039,17 +1404,23 @@
     {
      "ko": "벨로시티 디스턴스",
      "en": "Velociti Distance",
-     "kind": "max"
+     "kind": "max",
+     "g": 298,
+     "plate": "none"
     },
     {
      "ko": "벨로시티 엘리트 3",
      "en": "Velociti Elite 3",
-     "kind": "race"
+     "kind": "race",
+     "g": 221,
+     "plate": "carbon"
     },
     {
      "ko": "벨로시티 프로 2",
      "en": "Velociti Pro 2",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 249,
+     "plate": "plate"
     },
     {
      "ko": "벨로시티 SPD",
@@ -1059,12 +1430,16 @@
     {
      "ko": "인피니트 프로 2",
      "en": "Infinite Pro 2",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 306,
+     "plate": "none"
     },
     {
      "ko": "인피니트 엘리트 2",
      "en": "Infinite Elite 2",
-     "kind": "max"
+     "kind": "max",
+     "g": 289,
+     "plate": "none"
     }
    ]
   },
@@ -1083,32 +1458,44 @@
     {
      "ko": "올림푸스 7",
      "en": "Olympus 7",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 325,
+     "plate": "none"
     },
     {
      "ko": "배니시 펄스",
      "en": "Vanish Pulse",
-     "kind": "race"
+     "kind": "race",
+     "g": 238,
+     "plate": "none"
     },
     {
      "ko": "토린 9",
      "en": "Torin 9",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 269,
+     "plate": "none"
     },
     {
      "ko": "에스칼란테 5",
      "en": "Escalante 5",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 255,
+     "plate": "none"
     },
     {
      "ko": "익스피리언스 플로우 3",
      "en": "Experience Flow 3",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 255,
+     "plate": "none"
     },
     {
      "ko": "론피크 9+",
      "en": "Lone Peak 9+",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 327,
+     "plate": "plate"
     }
    ]
   },
@@ -1129,42 +1516,58 @@
     {
      "ko": "제네시스 2",
      "en": "Genesis 2",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 281,
+     "plate": "none"
     },
     {
      "ko": "S/LAB 제네시스 2",
      "en": "S/LAB Genesis 2",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 272,
+     "plate": "none"
     },
     {
      "ko": "에어로 블레이즈 4",
      "en": "Aero Blaze 4",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 240,
+     "plate": "none"
     },
     {
      "ko": "에어로 글라이드 4",
      "en": "Aero Glide 4",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 250,
+     "plate": "none"
     },
     {
      "ko": "울트라 글라이드 4",
      "en": "Ultra Glide 4",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 285,
+     "plate": "none"
     },
     {
      "ko": "S/LAB 판타즘 3",
      "en": "S/LAB Phantasm 3",
-     "kind": "race"
+     "kind": "race",
+     "g": 199,
+     "plate": "carbon"
     },
     {
      "ko": "에어로 글라이드 3",
      "en": "Aero Glide 3",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 245,
+     "plate": "none"
     },
     {
      "ko": "스피드크로스 6",
      "en": "Speedcross 6",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 298,
+     "plate": "none"
     }
    ]
   },
@@ -1182,27 +1585,42 @@
     {
      "ko": "스펙터 3",
      "en": "Specter 3",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 218,
+     "gSize": "M9",
+     "plate": "none"
     },
     {
      "ko": "울트라벤처 5",
      "en": "Ultraventure 5",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 303,
+     "gSize": "M9",
+     "plate": "none"
     },
     {
      "ko": "아트모스 2",
      "en": "Atmos 2",
-     "kind": "max"
+     "kind": "max",
+     "g": 281,
+     "gSize": "M9",
+     "plate": "none"
     },
     {
      "ko": "팬텀 4",
      "en": "Phantom 4",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 264,
+     "gSize": "M9",
+     "plate": "none"
     },
     {
      "ko": "사이클론 3",
      "en": "Cyclone 3",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 196,
+     "gSize": "M9",
+     "plate": "none"
     }
    ]
   },
@@ -1218,17 +1636,26 @@
     {
      "ko": "코르사",
      "en": "Corsa",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 230,
+     "gSize": "UK 9",
+     "plate": "none"
     },
     {
      "ko": "가라 카본 3",
      "en": "Gara Carbon 3",
-     "kind": "race"
+     "kind": "race",
+     "g": 205,
+     "gSize": "M10",
+     "plate": "carbon"
     },
     {
      "ko": "셀룰라 2",
      "en": "Cellula 2",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 305,
+     "gSize": "M10",
+     "plate": "none"
     }
    ]
   },
@@ -1246,27 +1673,42 @@
     {
      "ko": "킵스톰 템포",
      "en": "Kipstorm Tempo",
-     "kind": "tempo"
+     "kind": "tempo",
+     "g": 225,
+     "gSize": "UK 8",
+     "plate": "none"
     },
     {
      "ko": "킵스톰 엘리트",
      "en": "Kipstorm Elite",
-     "kind": "race"
+     "kind": "race",
+     "g": 215,
+     "gSize": "UK 8",
+     "plate": "carbon"
     },
     {
      "ko": "킵서밋 맥스",
      "en": "Kipsummit Max",
-     "kind": "trail"
+     "kind": "trail",
+     "g": 268,
+     "gSize": "UK 8",
+     "plate": "none"
     },
     {
      "ko": "킵라이드 맥스",
      "en": "Kipride Max",
-     "kind": "max"
+     "kind": "max",
+     "g": 271,
+     "gSize": "UK 8",
+     "plate": "none"
     },
     {
      "ko": "KD900X LD+",
      "en": "KD900X LD+",
-     "kind": "race"
+     "kind": "race",
+     "g": 219,
+     "gSize": "UK 8",
+     "plate": "carbon"
     }
    ]
   },
@@ -1335,7 +1777,9 @@
     {
      "ko": "존 2 90",
      "en": "Zone 2 90",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 184,
+     "plate": "none"
     },
     {
      "ko": "마하 6 프로",
@@ -1345,7 +1789,8 @@
     {
      "ko": "C202 7",
      "en": "C202 7",
-     "kind": "tempo"
+     "kind": "tempo",
+     "plate": "carbon"
     },
     {
      "ko": "C10 프로 2",
@@ -1355,12 +1800,14 @@
     {
      "ko": "C202 6 프로",
      "en": "C202 6 Pro",
-     "kind": "race"
+     "kind": "race",
+     "plate": "carbon"
     },
     {
      "ko": "C202 6",
      "en": "C202 6",
-     "kind": "tempo"
+     "kind": "tempo",
+     "plate": "carbon"
     }
    ]
   },
@@ -1379,22 +1826,26 @@
     {
      "ko": "160X 8.0 울트라",
      "en": "160X 8.0 Ultra",
-     "kind": "race"
+     "kind": "race",
+     "plate": "carbon"
     },
     {
      "ko": "160X 8.0 프로",
      "en": "160X 8.0 Pro",
-     "kind": "race"
+     "kind": "race",
+     "g": 179
     },
     {
      "ko": "160X 8.0",
      "en": "160X 8.0",
-     "kind": "race"
+     "kind": "race",
+     "plate": "carbon"
     },
     {
      "ko": "360X 3.0",
      "en": "360X 3.0",
-     "kind": "tempo"
+     "kind": "tempo",
+     "plate": "carbon"
     },
     {
      "ko": "2000KM 5.0",
@@ -1404,7 +1855,8 @@
     {
      "ko": "160X 7.0 프로",
      "en": "160X 7.0 Pro",
-     "kind": "race"
+     "kind": "race",
+     "plate": "carbon"
     }
    ]
   },
@@ -1424,37 +1876,51 @@
     {
      "ko": "카이로스 4",
      "en": "Kairos 4",
-     "kind": "stability"
+     "kind": "stability",
+     "g": 283,
+     "plate": "none"
     },
     {
      "ko": "미로 누드 ST",
      "en": "Miro Nude ST",
-     "kind": "tempo"
+     "kind": "tempo",
+     "plate": "plate"
     },
     {
      "ko": "플레임 5",
      "en": "Flame 5",
-     "kind": "race"
+     "kind": "race",
+     "g": 252,
+     "gSize": "M10",
+     "plate": "carbon"
     },
     {
      "ko": "미로 누드 2",
      "en": "Miro Nude 2",
-     "kind": "race"
+     "kind": "race",
+     "g": 138,
+     "gSize": "M8",
+     "plate": "carbon"
     },
     {
      "ko": "퓨리어스 퓨처 2",
      "en": "Furious Future 2",
-     "kind": "race"
+     "kind": "race",
+     "g": 200,
+     "plate": "carbon"
     },
     {
      "ko": "센타우리 3",
      "en": "Centauri 3",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 256,
+     "plate": "none"
     },
     {
      "ko": "플레임 4",
      "en": "Flame 4",
-     "kind": "race"
+     "kind": "race",
+     "plate": "carbon"
     }
    ]
   },
@@ -1469,7 +1935,10 @@
     {
      "ko": "플로트지그 2",
      "en": "FloatZig 2",
-     "kind": "daily"
+     "kind": "daily",
+     "g": 306,
+     "gSize": "M9",
+     "plate": "none"
     },
     {
      "ko": "플로트라이드 에너지 6",
